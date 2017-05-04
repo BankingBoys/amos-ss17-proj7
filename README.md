@@ -1,1 +1,2 @@
-# amos-ss17-proj5
+# amos-ss17-proj7
+Virtual Ledger
