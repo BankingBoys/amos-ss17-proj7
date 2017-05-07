@@ -14,7 +14,6 @@ after_script:
  - cd build
  - cd libs
  - ls -l
- - ls -a
 
  before_deploy:
  - eval "$(ssh-agent -s)"
