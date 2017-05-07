@@ -4,7 +4,7 @@ jdk:
   - oraclejdk8
 
 after_script:
- - cd server
+ - cd android
  - cd build
  - ls -l
  - ls -a
