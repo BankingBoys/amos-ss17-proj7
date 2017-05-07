@@ -17,6 +17,6 @@ after_script:
  - eval "$(ssh-agent -s)"
  - chmod 400 /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh
  - ssh-add /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh
- - scp -i /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh /home/travis/build/ramimahfoud/amos-ss17-proj7/server/build/libs/server-1.0-SNAPSHOT.war ubuntu@52.57.200.243:/home/ubuntu
+ - scp -rp -i /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh /home/travis/build/ramimahfoud/amos-ss17-proj7/server/build/libs/server-1.0-SNAPSHOT.war ubuntu@52.57.200.243:/home/ubuntu/glassfish4/glassfish/domains/domain1/autodeploy
 
 
