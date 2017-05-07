@@ -3,9 +3,19 @@ language: java
 jdk:
   - oraclejdk8
 
+before_script:
+ -pwd
+
+addons:
+  ssh_known_hosts: <deploy-host>
+
+
 after_script:
  - cd server
  - cd build
  - cd libs
  - ls -l
  - ls -a
+
+
+
