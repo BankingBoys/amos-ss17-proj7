@@ -14,9 +14,8 @@ addons:
   ssh_known_hosts: "52.57.200.243"
 
 after_script:
- - cd server
+ - cd andriod
  - cd build
- - cd libs
  - ls -l
  - eval "$(ssh-agent -s)"
  - chmod 400 /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh
