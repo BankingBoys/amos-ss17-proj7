@@ -14,16 +14,9 @@ after_script:
  - cd build
  - cd libs
  - ls -l
-
-before_deploy:
  - eval "$(ssh-agent -s)"
  - chmod 600 /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh
  - ssh-add /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh
+ - scp -i /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh /home/travis/build/ramimahfoud/amos-ss17-proj7/server/build/libs/server-1.0-SNAPSHOT.war ubuntu@52.57.200.243:/home/ubuntu
 
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: scp -i /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh /home/travis/build/ramimahfoud/amos-ss17-proj7/server/build/libs/server-1.0-SNAPSHOT.war ubuntu@52.57.200.243:/home/ubuntu
-  on:
-    branch: master
 
