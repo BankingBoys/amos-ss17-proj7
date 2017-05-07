@@ -18,4 +18,12 @@ after_script:
  - ls -a
 
 
+ before_deploy:
+ - eval "$(ssh-agent -s)"
+ - chmod 600 /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh
+ - ssh-add /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh
+ - ssh ubuntu@52.57.200.243
+
+
+
 
