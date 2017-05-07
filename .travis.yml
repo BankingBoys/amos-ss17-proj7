@@ -1,0 +1,10 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+
+after_script:
+ - cd build
+ - ls -l
+ - ls -a
