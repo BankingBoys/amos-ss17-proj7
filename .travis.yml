@@ -9,14 +9,12 @@ before_script:
 addons:
   ssh_known_hosts: <deploy-host>
 
-
 after_script:
  - cd server
  - cd build
  - cd libs
  - ls -l
  - ls -a
-
 
  before_deploy:
  - eval "$(ssh-agent -s)"
