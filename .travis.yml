@@ -7,7 +7,7 @@ before_script:
  - pwd
 
 addons:
-  ssh_known_hosts: 52.57.200.243
+  ssh_known_hosts: "52.57.200.243"
 
 after_script:
  - cd server
