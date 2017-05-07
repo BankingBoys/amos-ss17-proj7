@@ -7,12 +7,11 @@ branches:
   only:
    - master
 
-before-script:
- - pwd
 addons:
   ssh_known_hosts: "52.57.200.243"
 
 after_script:
+ - pwd
  - cd server
  - cd build
  - cd libs
