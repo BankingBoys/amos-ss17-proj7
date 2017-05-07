@@ -1,0 +1,24 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+branches:
+  only:
+   - master
+
+
+addons:
+  ssh_known_hosts: "52.57.200.243"
+
+after_script:
+ - cd server
+ - cd build
+ - cd libs
+ - ls -l
+ - eval "$(ssh-agent -s)"
+ - chmod 400 /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh
+ - ssh-add /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh
+ - scp -rp -i /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh /home/travis/build/ramimahfoud/amos-ss17-proj7/server/build/libs/server-1.0-SNAPSHOT.war ubuntu@52.57.200.243:/home/ubuntu/glassfish4/glassfish/domains/domain1/autodeploy
+
+
