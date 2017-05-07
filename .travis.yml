@@ -17,7 +17,7 @@ after_script:
  - cd android
  - cd build
  - cd libs
- - ls -l
+ - ls -l -a
  - eval "$(ssh-agent -s)"
  - chmod 400 /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh
  - ssh-add /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh
