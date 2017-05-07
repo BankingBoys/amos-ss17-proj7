@@ -9,7 +9,6 @@ public class TestRestProvider {
 
     @GET
     public Response helloWorld() {
-        return Response.ok("Hello World With Travis CI").build();
+        return Response.ok("Hello World").build();
     }
 }
- 
