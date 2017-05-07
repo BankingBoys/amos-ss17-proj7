@@ -4,6 +4,6 @@ jdk:
   - oraclejdk8
 
 after_script:
- - cd build
+ - cd server
  - ls -l
  - ls -a
