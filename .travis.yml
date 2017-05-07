@@ -4,7 +4,7 @@ jdk:
   - oraclejdk8
 
 before_script:
- -pwd
+ - pwd
 
 addons:
   ssh_known_hosts: <deploy-host>
