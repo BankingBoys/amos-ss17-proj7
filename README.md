@@ -1,6 +1,7 @@
+[![Build Status](https://travis-ci.org/BankingBoys/amos-ss17-proj7.svg?branch=master)](https://travis-ci.org/BankingBoys/amos-ss17-proj7)
+
 # amos-ss17-proj7
 Virtual Ledger
-
 
 ## Install workspace for eclipse
 
