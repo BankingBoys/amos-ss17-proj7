@@ -2,6 +2,8 @@ package de.fau.amos.virtualledger.server.api;
 
 import de.fau.amos.virtualledger.server.model.UserCredential;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -24,6 +26,12 @@ public class AuthController {
         { // if not null, matches the pattern -> specified in model class
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+
+        EntityManager entityManager = Persistence.createEntityManagerFactory("auth-db").createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(credential);
+        entityManager.getTransaction().commit();
+        entityManager.close();
 
         // TODO call bean that inserts the credential into the database if email isn't used yet
         return Response.ok("You were registered! " + credential.getEmail()).build();

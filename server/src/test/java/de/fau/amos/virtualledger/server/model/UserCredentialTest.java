@@ -12,7 +12,7 @@ public class UserCredentialTest {
     public void setEmail_correctInput_noException()
     {
         //arrange
-        UserCredential credential = new UserCredential("test@gmail.com", "abc123");
+        UserCredential credential = new UserCredential();
         String[] validCredentials = new String[] { "mkyong@yahoo.com",
                 "mkyong-100@yahoo.com", "mkyong.100@yahoo.com",
                 "mkyong111@mkyong.com", "mkyong-100@mkyong.net",
@@ -36,7 +36,7 @@ public class UserCredentialTest {
     public void setEmail_incorrectInput_Exception()
     {
         //arrange
-        UserCredential credential = new UserCredential("test@gmail.com", "abc123");
+        UserCredential credential = new UserCredential();
         String[] validCredentials = new String[] { "mkyong", "mkyong@.com.my",
                 "mkyong123@gmail.a", "mkyong123@.com", "mkyong123@.com.com",
                 ".mkyong@mkyong.com", "mkyong()*@gmail.com", "mkyong@%*.com",

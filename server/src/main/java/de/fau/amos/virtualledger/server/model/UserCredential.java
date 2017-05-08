@@ -2,7 +2,12 @@ package de.fau.amos.virtualledger.server.model;
 
 
 import jdk.nashorn.internal.objects.annotations.Setter;
+import org.eclipse.persistence.annotations.PrimaryKey;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.regex.Matcher;
@@ -12,6 +17,8 @@ import java.util.regex.Pattern;
  * Created by Georg on 07.05.2017.
  */
 @XmlRootElement
+@Entity
+@Table(name = "Users")
 public class UserCredential {
 
     public String getEmail() {
@@ -40,6 +47,18 @@ public class UserCredential {
             throw new IllegalArgumentException("Password must not be empty!");
         }
         this.password = password;
+    }
+
+    @javax.persistence.Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     private String email;
