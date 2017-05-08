@@ -16,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data android:name="net.hockeyapp.android.appIdentifier" android:value="f95435551f3d4aa2bf065de4fccc08f5" />
     </application>
 
 </manifest>
