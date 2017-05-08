@@ -15,6 +15,7 @@ addons:
 
 after_script:
  - cd android
+ - cd app
  - cd build
  - ls -l -a
  - eval "$(ssh-agent -s)"
