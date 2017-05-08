@@ -11,7 +11,7 @@ addons:
   ssh_known_hosts: "52.57.200.243"
 
 after_script:
- - cd andrioid
+ - cd android
  - cd app
  - cd build
  - ls -l
