@@ -7,12 +7,14 @@ jdk:
 branches:
   only:
    - master
+   
+before_script:
+ - cd android
 
 addons:
   ssh_known_hosts: "52.57.200.243"
 
 after_script:
- - cd android
  - cd app
  - cd build
  - ls -l -a
