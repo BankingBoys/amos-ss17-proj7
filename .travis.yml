@@ -1,11 +1,5 @@
-language: android
+language: java
 
-android:
-  components:
-    # Update Android SDK Tools
-    - tools
-    - build-tools-25.0.1
-    - android-25
 
 jdk:
   - oraclejdk8
@@ -26,5 +20,3 @@ after_script:
  - chmod 400 /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh
  - ssh-add /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh
  - scp -rp -i /home/travis/build/ramimahfoud/amos-ss17-proj7/keyssh /home/travis/build/ramimahfoud/amos-ss17-proj7/server/build/libs/server-1.0-SNAPSHOT.war ubuntu@52.57.200.243:/home/ubuntu/glassfish4/glassfish/domains/domain1/autodeploy
-
-
