@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration);
         ((App) getApplication()).getNetComponent().inject(this);
-/*
+
         Button button_register = (Button) findViewById(R.id.button_register);
 
         button_register.setOnClickListener(
@@ -41,11 +41,12 @@ public class MainActivity extends AppCompatActivity {
                         setContentView(R.layout.register_succ);
                     }
                 }
-        );*/
+        );
 
         //Create textview and findViewByID
         //textView = (TextView) findViewById(R.id.textView2);
-        //Create a retrofit call object
+        // Create a retrofit call object
+        // Create a retrofit call object
         retrofit2.Call<String> responseMessage = retrofit.create(Restapi.class).register(new UserCredential("testuser@abc.de", "testpassword"));
 
         //Enque the call
@@ -53,15 +54,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(retrofit2.Call<String> call, Response<String> response) {
                 //Set the response to the textview
-                //textView.setText(response.body());
-                Log.d("Success:", response.body());
+               // textView.setText(response.body());
             }
 
             @Override
             public void onFailure(retrofit2.Call<String> call, Throwable t) {
                 //Set the error to the textview
                 //textView.setText(t.toString());
-                Log.d("Failure:", t.getMessage());
             }
         });
     }
