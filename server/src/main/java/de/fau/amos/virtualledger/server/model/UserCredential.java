@@ -21,6 +21,22 @@ import java.util.regex.Pattern;
 @Table(name = "Users")
 public class UserCredential {
 
+    private String email;
+    private String password;
+    private String firstName;
+    private String lastName;
+
+    @javax.persistence.Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    public UserCredential() {}
+
+    /**
+     *
+     * @return
+     * @methodtype getter
+     */
     public String getEmail() {
         return email;
     }
@@ -35,10 +51,20 @@ public class UserCredential {
         this.email = email;
     }
 
+    /**
+     *
+     * @return password
+     * @methodtype getter
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     *
+     * @param password
+     * @methodtype setter
+     */
     @XmlElement(name="password")
     public void setPassword(String password) {
 
@@ -49,23 +75,78 @@ public class UserCredential {
         this.password = password;
     }
 
-    @javax.persistence.Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    /**
+     *
+     * @param firstName
+     * @methodtype setter
+     */
+    @XmlElement(name="firstName")
+    public void setFirstName(String firstName) {
 
+        if(firstName == null || ! this.isFirstNamePatternValid(firstName))
+        {
+            throw new IllegalArgumentException("First name must not be empty!");
+        }
+        this.firstName = firstName;
+    }
+
+    /**
+     *
+     * @return
+     * @methodtype getter
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     *
+     * @param lastName
+     * @methodtype setter
+     */
+    @XmlElement(name="lastName")
+    public void setLastName(String lastName) {
+
+        if(lastName == null || ! this.isLastNamePatternValid(lastName))
+        {
+            throw new IllegalArgumentException("Last name must not be empty!");
+        }
+        this.lastName = lastName;
+    }
+
+    /**
+     *
+     * @return lastName
+     * @methodtype getter
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     *
+     * @return id
+     * @methodtype getter
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     * @methodtype setter
+     */
     public void setId(int id) {
         this.id = id;
     }
 
-    private String email;
-    private String password;
-
-    public UserCredential() {}
-
+    /**
+     *
+     * @param email
+     * @return boolean
+     * @methodtype assertion
+     */
     private boolean isEmailPatternValid(String email)
     {
         Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -74,8 +155,36 @@ public class UserCredential {
         return matcher.matches();
     }
 
+    /**
+     *
+     * @param password
+     * @return boolean
+     * @methodtype assertion
+     */
     private boolean isPasswordPatternValid(String password)
     {
         return ! password.isEmpty();
+    }
+
+    /**
+     *
+     * @param firstName
+     * @return boolean
+     * @methodtype assertion
+     */
+    private boolean isFirstNamePatternValid(String firstName)
+    {
+        return ! firstName.isEmpty();
+    }
+
+    /**
+     *
+     * @param lastName
+     * @return boolean
+     * @methodtype assertion
+     */
+    private boolean isLastNamePatternValid(String lastName)
+    {
+        return ! lastName.isEmpty();
     }
 }

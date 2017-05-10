@@ -27,7 +27,7 @@ public class AuthController {
     @Path("/register")
     public Response register(UserCredential credential) {
 
-        if(credential == null || credential.getEmail() == null || credential.getPassword() == null)
+        if(credential == null || credential.getEmail() == null || credential.getPassword() == null || credential.getFirstName() == null || credential.getLastName() == null)
         { // if not null, matches the pattern -> specified in model class
             return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserts! At least one was not formatted correctly!").build();
         }

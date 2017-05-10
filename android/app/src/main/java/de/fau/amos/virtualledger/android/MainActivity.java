@@ -30,10 +30,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.registration);
+        setContentView(R.layout.testfile);
         ((App) getApplication()).getNetComponent().inject(this);
 
-        Button button_register = (Button) findViewById(R.id.button_register);
+/*        Button button_register = (Button) findViewById(R.id.button_register);
 
         button_register.setOnClickListener(
                 new Button.OnClickListener() {
@@ -41,26 +41,26 @@ public class MainActivity extends AppCompatActivity {
                         setContentView(R.layout.register_succ);
                     }
                 }
-        );
+        );*/
 
         //Create textview and findViewByID
-        //textView = (TextView) findViewById(R.id.textView2);
+        textView = (TextView) findViewById(R.id.txt);
         // Create a retrofit call object
         // Create a retrofit call object
-        retrofit2.Call<String> responseMessage = retrofit.create(Restapi.class).register(new UserCredential("testuser@abc.de", "testpassword"));
+        retrofit2.Call<String> responseMessage = retrofit.create(Restapi.class).register(new UserCredential("testuser@abc.de", "testpassword", "test", "test2"));
 
         //Enque the call
         responseMessage.enqueue(new Callback<String>() {
             @Override
             public void onResponse(retrofit2.Call<String> call, Response<String> response) {
                 //Set the response to the textview
-               // textView.setText(response.body());
+                textView.setText(response.body());
             }
 
             @Override
             public void onFailure(retrofit2.Call<String> call, Throwable t) {
                 //Set the error to the textview
-                //textView.setText(t.toString());
+                textView.setText(t.toString());
             }
         });
     }
