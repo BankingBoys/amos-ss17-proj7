@@ -15,7 +15,7 @@ import retrofit2.http.POST;
 
 public interface Restapi {
 
-    @GET("/api/test")
-    Call<List<Post>> getPosts();
+    @POST("/api/auth/register")
+    Call<String> register(UserCredential credential);
 
 }
