@@ -24,7 +24,7 @@ public class login extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                System.out.println("//TODO: LOGIN");
+                System.out.println("//TODO: LOGINc");
             }
         });
     }
