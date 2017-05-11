@@ -2,6 +2,7 @@ package de.fau.amos.virtualledger.android.dagger;
 
 import java.util.List;
 
+import de.fau.amos.virtualledger.android.api.model.StringApiModel;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.FormUrlEncoded;
@@ -17,6 +18,6 @@ import retrofit2.http.POST;
 public interface Restapi {
 
     @POST("/api/auth/register")
-    Call<String> register(@Body UserCredential credential);
+    Call<StringApiModel> register(@Body UserCredential credential);
 
 }
