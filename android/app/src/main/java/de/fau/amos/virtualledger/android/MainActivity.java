@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // !!! das habe ich geändert - weiß nicht, ob ich das darf?!
         setContentView(R.layout.registration);
         ((App) getApplication()).getNetComponent().inject(this);
 
@@ -54,10 +53,8 @@ public class MainActivity extends AppCompatActivity {
         String lastname = ((EditText) findViewById(R.id.LastName)).getText().toString();
         retrofit2.Call<StringApiModel> responseMessage = retrofit.create(Restapi.class).register(new UserCredential(email, password, firstname, lastname));
 
-        // !!! das funktioniert natürlich jetzt nicht, weil ich auf dem falschen View bin
-        // wie kann ich den View wechseln?!?!
-        textView = (TextView) findViewById(R.id.txt);
-        
+        textView = (TextView) findViewById(R.id.registration_feedback);
+
         responseMessage.enqueue(new Callback<StringApiModel>() {
             @Override
             public void onResponse(retrofit2.Call<StringApiModel> call, Response<StringApiModel> response) {

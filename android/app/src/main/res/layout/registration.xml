@@ -4,6 +4,7 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <TextView
         android:id="@+id/RegistrationView"
         android:layout_width="fill_parent"
@@ -21,6 +22,12 @@
 
         <TextView
             android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/registration_feedback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
