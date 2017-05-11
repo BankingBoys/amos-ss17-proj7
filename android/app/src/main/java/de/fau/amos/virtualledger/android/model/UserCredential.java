@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.dagger;
+package de.fau.amos.virtualledger.android.model;
 
 /**
  * Created by Georg on 10.05.2017.
