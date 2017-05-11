@@ -8,14 +8,23 @@ import javax.inject.Inject;
 import javax.naming.AuthenticationException;
 
 /**
- * Created by Georg on 11.05.2017.
+ * Controller / Service class for authentication
  */
 @RequestScoped
 public class AuthenticationController {
 
+    /**
+     *
+     */
     @Inject
     UserCredentialRepository userCredentialRepository;
 
+    /**
+     * register a new user, if attributes are null or don't follow the specific pattern, an exception is thrown
+     * @param credential
+     * @return
+     * @throws VirtualLedgerAuthenticationException
+     */
     public String register(UserCredential credential) throws VirtualLedgerAuthenticationException {
         if (credential == null || credential.getEmail() == null || credential.getPassword() == null || credential.getFirstName() == null || credential.getLastName() == null) { // if not null, matches the pattern -> specified in model class
             throw new VirtualLedgerAuthenticationException("Please check your inserts! At least one was not formatted correctly!");

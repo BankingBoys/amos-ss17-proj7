@@ -16,5 +16,9 @@ import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 @Component(modules = {AppModule.class, NetModule.class})
 public interface NetComponent {
 
+    /**
+     *
+     * @param activity
+     */
     void inject(MainActivity activity);
 }

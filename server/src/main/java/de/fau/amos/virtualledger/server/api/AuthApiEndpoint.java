@@ -19,16 +19,28 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * Created by Georg on 07.05.2017.
+ * Endpoints for authentication / authorization
  */
 @Path("/auth")
 public class AuthApiEndpoint {
 
+    /**
+     *
+     */
     @Inject
     AuthenticationController authenticationController;
+
+    /**
+     *
+     */
     @Inject
     StringApiModelFactory stringApiModelFactory;
 
+    /**
+     * Endpoint for registering a new user.
+     * @param credential
+     * @return
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

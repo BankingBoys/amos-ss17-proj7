@@ -1,7 +1,7 @@
 package de.fau.amos.virtualledger.server.auth;
 
 /**
- * Created by Georg on 11.05.2017.
+ * Exception class for Authentication errors
  */
 public class VirtualLedgerAuthenticationException extends Exception {
 

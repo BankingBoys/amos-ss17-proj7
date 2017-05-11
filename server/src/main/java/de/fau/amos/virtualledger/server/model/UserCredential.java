@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by Georg on 07.05.2017.
+ * Class that represents user credentials.
  */
 @XmlRootElement
 @Entity
@@ -142,7 +142,7 @@ public class UserCredential {
     }
 
     /**
-     *
+     * validates the pattern of an email address
      * @param email
      * @return boolean
      * @methodtype assertion
@@ -156,7 +156,7 @@ public class UserCredential {
     }
 
     /**
-     *
+     * validates the pattern of a password
      * @param password
      * @return boolean
      * @methodtype assertion

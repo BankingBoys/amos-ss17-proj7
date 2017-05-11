@@ -13,6 +13,11 @@ import retrofit2.http.POST;
 
 public interface Restapi {
 
+    /**
+     * Endpoint for registering a new user by UserCredential
+     * @param credential
+     * @return
+     */
     @POST("/api/auth/register")
     Call<StringApiModel> register(@Body UserCredential credential);
 

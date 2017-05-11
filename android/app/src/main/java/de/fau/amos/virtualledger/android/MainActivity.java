@@ -20,13 +20,25 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+/**
+ *
+ */
 public class MainActivity extends AppCompatActivity {
-
+    /**
+     *
+     */
     @Inject
     Retrofit retrofit;
+
+    /**
+     *
+     */
     TextView textView;
 
-
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    /**
+     * reads data out of form and performs a REST call to server for registering a new server
+     */
     private void register() {
 
         String email = ((EditText) findViewById(R.id.Email)).getText().toString();

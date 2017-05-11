@@ -14,8 +14,14 @@ import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 
 public class App extends Application{
 
+    /**
+     *
+     */
     private NetComponent netComponent;
 
+    /**
+     *
+     */
     @Override
     public void onCreate() {
         super.onCreate();
@@ -26,6 +32,10 @@ public class App extends Application{
                 .build();
     }
 
+    /**
+     *
+     * @return
+     */
     public NetComponent getNetComponent() {
         return netComponent;
     }

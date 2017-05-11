@@ -25,6 +25,10 @@ public class AppModule {
         this.virtualLedger = virtualLedger;
     }
 
+    /**
+     *
+     * @return
+     */
     @Provides
     @Singleton
     Application provideApplication() {
