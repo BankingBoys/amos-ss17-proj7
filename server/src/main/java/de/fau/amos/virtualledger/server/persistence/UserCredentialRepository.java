@@ -9,13 +9,21 @@ import javax.persistence.metamodel.Metamodel;
 import java.util.Map;
 
 /**
- * Created by Georg on 08.05.2017.
+ * Repository class that allows CRUD operations on the databasse for UserCredentials
  */
 @ApplicationScoped
 public class UserCredentialRepository {
 
+    /**
+     *
+     */
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("auth-db");
 
+    /**
+     * looks up, if an user exists with a specific email address
+     * @param email
+     * @return
+     */
     public boolean existsUserCredentialEmail(String email)
     {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -34,6 +42,10 @@ public class UserCredentialRepository {
         return countUserCredentials != 0;
     }
 
+    /**
+     * creates a new UserCredential in the database
+     * @param credential
+     */
     public void createUserCredential(UserCredential credential)
     {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
