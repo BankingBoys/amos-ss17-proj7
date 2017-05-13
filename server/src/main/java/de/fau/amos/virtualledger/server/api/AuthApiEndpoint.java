@@ -1,20 +1,19 @@
 package de.fau.amos.virtualledger.server.api;
 
+import de.fau.amos.virtualledger.dtos.LoginData;
+import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.server.api.model.StringApiModel;
 import de.fau.amos.virtualledger.server.api.modelFactories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.auth.AuthenticationController;
+import de.fau.amos.virtualledger.server.auth.InvalidCredentialsException;
 import de.fau.amos.virtualledger.server.auth.VirtualLedgerAuthenticationException;
 import de.fau.amos.virtualledger.server.model.UserCredential;
-import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -57,5 +56,14 @@ public class AuthApiEndpoint {
         }
         StringApiModel responseObj = stringApiModelFactory.createStringApiModel(responseMsg);
         return Response.ok(responseObj).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/login")
+    public Response login(final LoginData loginData) throws InvalidCredentialsException {
+        final SessionData sessionData = authenticationController.login(loginData);
+
+        return Response.ok(sessionData).build();
     }
 }
