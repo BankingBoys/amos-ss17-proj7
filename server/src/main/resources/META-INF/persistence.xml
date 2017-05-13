@@ -5,6 +5,7 @@
     <persistence-unit name="auth-db" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>de.fau.amos.virtualledger.server.model.UserCredential</class>
+        <class>de.fau.amos.virtualledger.server.model.Session</class>
         <class>de.fau.amos.virtualledger.server.api.model.StringApiModel</class>
     <properties>
         <property name="javax.persistence.jdbc.url" value="jdbc:mysql://amos5.cgmcpwc3rxk0.eu-central-1.rds.amazonaws.com:3306/amos5db"/>

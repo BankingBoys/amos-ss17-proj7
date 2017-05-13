@@ -1,2 +1,4 @@
 rootProject.name = 'virtual-ledger-server'
 
+include ':dtos'
+project(':dtos').projectDir = new File('../dtos')

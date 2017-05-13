@@ -1,11 +1,12 @@
 package de.fau.amos.virtualledger.server.auth;
 
+import de.fau.amos.virtualledger.dtos.LoginData;
+import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.naming.AuthenticationException;
 
 /**
  * Controller / Service class for authentication
@@ -18,6 +19,9 @@ public class AuthenticationController {
      */
     @Inject
     UserCredentialRepository userCredentialRepository;
+
+    @Inject
+    private SessionIdGenerator sessionIdGenerator;
 
     /**
      * register a new user, if attributes are null or don't follow the specific pattern, an exception is thrown
@@ -36,5 +40,19 @@ public class AuthenticationController {
         this.userCredentialRepository.createUserCredential(credential);
 
         return "You were registered! " + credential.getEmail();
+    }
+
+    public SessionData login(final LoginData loginData) throws InvalidCredentialsException {
+        final boolean valid = userCredentialRepository.checkLogin(loginData);
+        if(!valid) {
+            throw new InvalidCredentialsException();
+        }
+        final String sessionId = sessionIdGenerator.generate();
+        userCredentialRepository.persistSessionId(loginData.email, sessionId);
+
+        final SessionData result = new SessionData();
+        result.email = loginData.email;
+        result.sessionId = sessionId;
+        return result;
     }
 }
