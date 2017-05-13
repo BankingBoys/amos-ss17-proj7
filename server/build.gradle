@@ -3,6 +3,7 @@ version '1.0-SNAPSHOT'
 description "Backend for the Virtual Ledger Android app"
 
 apply plugin: 'war'
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 sourceCompatibility = 1.8
 
@@ -12,6 +13,7 @@ repositories {
         url 'http://download.eclipse.org/rt/eclipselink/maven.repo'
     }
 }
+
 
 dependencies {
     providedCompile group: 'javax', name: 'javaee-api', version:'7.0'
