@@ -1,5 +1,9 @@
 package de.fau.amos.virtualledger.android;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -75,10 +79,15 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(retrofit2.Call<StringApiModel> call, Response<StringApiModel> response) {
                 if(response.isSuccessful()) {
+                    textView.setTextColor(Color.GREEN);
                     textView.setText(response.body().getData());
+                    Intent intent = new Intent(RegisterActivity.this, MainActivity_Menu.class);
+                    startActivity(intent);
+
                 } else if(response.code() == 400)
                 { // code for sent data were wrong
                     try {
+                        textView.setTextColor(Color.RED);
                         textView.setText(response.errorBody().string());
                     } catch(IOException ex)
                     {
@@ -89,6 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.v("Error Connection", "The communication to the server failed!");
                 }
             }
+
 
             @Override
             public void onFailure(retrofit2.Call<StringApiModel> call, Throwable t) {

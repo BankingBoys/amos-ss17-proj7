@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.android;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +26,6 @@ import retrofit2.Retrofit;
  */
 public class MainActivity extends AppCompatActivity {
 
-
     /**
      *
      * @param savedInstanceState
@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.testfile);
+        Intent intent = new Intent(this, MainActivity_Menu.class);
+        startActivity(intent);
+        /*setContentView(R.layout.testfile);*/
     }
 }
