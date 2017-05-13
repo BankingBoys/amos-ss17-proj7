@@ -17,20 +17,3 @@ Go to eclipse
 4. select "Search for nested projects"
 5. select all projects
 6. click "Finish"
-
-## Use Jetty-Server
-
-Open Terminal in server-workspace.
-
-Run the command
-
-	gradle jettyRunWar
-
-you build the server-war-file and run it on an embedded jetty server. Changes on the Java-files automatically triggers the server reload (typically < 1 sec).
-
-If you only want to run the server (no war-file build) use:
-
-	gradle jettyRun
-
-
-Test url: http://localhost:8080/virtual-ledger-server/TestServlet
