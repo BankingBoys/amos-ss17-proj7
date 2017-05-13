@@ -5,6 +5,7 @@
     <string name="firstname">First Name</string>
     <string name="lastname">Last Name</string>
     <string name="registration">Registration</string>
+    <string name="registration_feedback"> </string>
     <string name="register">Register</string>
     <string name="terms_and_conditions">By joining virtual ledger, you agree to the terms and conditions</string>
     <string name="title_activity_login">login</string>

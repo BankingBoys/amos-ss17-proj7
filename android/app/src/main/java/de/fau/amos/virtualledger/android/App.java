@@ -14,18 +14,28 @@ import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 
 public class App extends Application{
 
+    /**
+     *
+     */
     private NetComponent netComponent;
 
+    /**
+     *
+     */
     @Override
     public void onCreate() {
         super.onCreate();
 
         netComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
-                .netModule(new NetModule("http://10.0.2.2:8080"))
+                .netModule(new NetModule("http://192.168.178.21:8080"))
                 .build();
     }
 
+    /**
+     *
+     * @return
+     */
     public NetComponent getNetComponent() {
         return netComponent;
     }

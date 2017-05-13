@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import de.fau.amos.virtualledger.android.MainActivity;
+import de.fau.amos.virtualledger.android.RegisterActivity;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 
@@ -15,5 +16,10 @@ import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 @Singleton
 @Component(modules = {AppModule.class, NetModule.class})
 public interface NetComponent {
-    void inject(MainActivity activity);
+
+    /**
+     *
+     * @param activity
+     */
+    void inject(RegisterActivity activity);
 }
