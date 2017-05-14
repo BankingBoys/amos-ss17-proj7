@@ -6,12 +6,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/bankingboys"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".android.MainActivity">
+        android:theme="@style/AppTheme"
+        android:name="de.fau.amos.virtualledger.android.App">
+        <activity android:name=".android.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,6 +23,17 @@
             android:name=".android.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".android.RegisterActivity"
+            android:label="Register"
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".android.RegisterActivity">
+        </activity>
+        <activity
+            android:name=".android.MainActivity_Menu"
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".android.MainActivity_Menu">
+            ></activity>
 
     </application>
 
