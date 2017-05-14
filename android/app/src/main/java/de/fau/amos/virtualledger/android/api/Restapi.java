@@ -1,7 +1,7 @@
 package de.fau.amos.virtualledger.android.api;
 
-import de.fau.amos.virtualledger.android.api.model.LogoutApiModel;
-import de.fau.amos.virtualledger.android.api.model.StringApiModel;
+import de.fau.amos.virtualledger.dtos.LogoutApiModel;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import de.fau.amos.virtualledger.android.model.UserCredential;
 import retrofit2.Call;
 import retrofit2.http.Body;

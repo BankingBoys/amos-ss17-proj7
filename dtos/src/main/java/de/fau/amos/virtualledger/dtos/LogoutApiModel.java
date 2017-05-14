@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.api.model;
+package de.fau.amos.virtualledger.dtos;
 
 /**
  * Created by Simon on 14.05.2017.
