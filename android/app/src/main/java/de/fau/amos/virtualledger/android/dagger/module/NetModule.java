@@ -98,15 +98,4 @@ public class NetModule {
                 .build();
     }
 
-    /**
-     *
-     * @param retrofit
-     * @return
-     */
-    @Provides
-    @Singleton
-    LoginProvider provideLoginProvider(Retrofit retrofit)
-    {
-        return new MockedLoginProvider();
-    }
 }

@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.android.dagger.component;
 
 import android.app.Activity;
+import android.util.Log;
 
 import javax.inject.Singleton;
 
@@ -10,6 +11,7 @@ import de.fau.amos.virtualledger.android.MainActivity;
 import de.fau.amos.virtualledger.android.MainActivity_Menu;
 import de.fau.amos.virtualledger.android.RegisterActivity;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
+import de.fau.amos.virtualledger.android.dagger.module.LoginModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 
 /**
@@ -18,7 +20,7 @@ import de.fau.amos.virtualledger.android.dagger.module.NetModule;
  */
 
 @Singleton
-@Component(modules = {AppModule.class, NetModule.class})
+@Component(modules = {AppModule.class, NetModule.class, LoginModule.class})
 public interface NetComponent {
 
     /**
