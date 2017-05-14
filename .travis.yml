@@ -6,6 +6,7 @@ jdk:
 
 
 before_script:
+  - echo $test
   - cd /home/travis/build/BankingBoys/
   - which gradle
   - sudo rm -rf /usr/local/gradle/bin/gradle
