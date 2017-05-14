@@ -10,6 +10,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import de.fau.amos.virtualledger.android.auth.login.LoginProvider;
+import de.fau.amos.virtualledger.android.auth.login.MockedLoginProvider;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -95,6 +97,5 @@ public class NetModule {
                 .client(okHttpClient)
                 .build();
     }
-
 
 }
