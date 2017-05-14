@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
 import de.fau.amos.virtualledger.android.dagger.module.login.LoginProvider;
+import de.fau.amos.virtualledger.android.dagger.module.login.MockedLoginProvider;
 
 /**
  * Created by sebastian on 14.05.17.
@@ -24,16 +27,29 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.loginProvider = new MockedLoginProvider();//Quick Fix // FIXME: 14.05.17
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
 
         Button button_register = (Button) findViewById(R.id.loginButton);
+
+        final TextView textview = (TextView) findViewById(R.id.loginTextView);
+
+        final String userID = ((EditText) findViewById(R.id.userIDField)).getText().toString();
+        final String password = ((EditText) findViewById(R.id.SecretField)).getText().toString();
+
         button_register.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
                         System.out.println("Token:"+loginProvider.getToken());
+                        loginProvider.login(userID,password);
+                        if(loginProvider.isLoggedIn()){
+                            textview.setText(" Hello "+userID+".");
+                        }else{
+                            textview.setText("Login Failed");
+                        }
                     }
                 }
         );
