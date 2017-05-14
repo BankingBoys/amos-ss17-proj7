@@ -1,7 +1,5 @@
 package de.fau.amos.virtualledger.android;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,7 +16,7 @@ import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.Restapi;
-import de.fau.amos.virtualledger.android.api.model.StringApiModel;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import de.fau.amos.virtualledger.android.model.UserCredential;
 import retrofit2.Callback;
 import retrofit2.Response;

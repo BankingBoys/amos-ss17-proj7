@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +24,10 @@ import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.Restapi;
-import de.fau.amos.virtualledger.android.api.model.LogoutApiModel;
-import de.fau.amos.virtualledger.android.api.model.StringApiModel;
+import de.fau.amos.virtualledger.dtos.LogoutApiModel;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
-import de.fau.amos.virtualledger.android.model.UserCredential;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;

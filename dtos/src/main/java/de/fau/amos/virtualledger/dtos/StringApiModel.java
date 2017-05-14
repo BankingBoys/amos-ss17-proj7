@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.api.model;
+package de.fau.amos.virtualledger.dtos;
 
 /**
  * Class that holds a string, required for JSON parsing
