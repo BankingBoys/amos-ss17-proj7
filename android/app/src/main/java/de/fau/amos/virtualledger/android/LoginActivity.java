@@ -44,6 +44,9 @@ public class LoginActivity extends AppCompatActivity {
                 new Button.OnClickListener() {
                     public void onClick(View v) {
                         System.out.println("Token:"+loginProvider.getToken());
+
+
+
                         loginProvider.login(userID,password);
                         if(loginProvider.isLoggedIn()){
                             textview.setText(" Hello "+userID+".");
