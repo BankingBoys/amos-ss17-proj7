@@ -8,6 +8,7 @@ jdk:
 before_script:
   - cd /home/travis/build/BankingBoys/
   - which gradle
+  - sudo rm -rf /usr/local/gradle/bin/gradle
   - sudo apt-get remove gradle
   - wget https://services.gradle.org/distributions/gradle-3.5-bin.zip
   - mkdir /opt/gradle
