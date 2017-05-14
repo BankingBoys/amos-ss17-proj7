@@ -2,21 +2,10 @@ package de.fau.amos.virtualledger.android;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-
-import java.util.List;
-
-import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.dagger.Post;
-import de.fau.amos.virtualledger.android.dagger.Restapi;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 /*
@@ -37,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         button_register.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        setContentView(R.layout.register_succ);
+                        setContentView(R.layout.login);
                     }
                 }
         );
