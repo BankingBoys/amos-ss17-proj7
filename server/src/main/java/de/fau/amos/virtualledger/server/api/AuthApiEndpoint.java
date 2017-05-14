@@ -66,4 +66,13 @@ public class AuthApiEndpoint {
 
         return Response.ok(sessionData).build();
     }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/logout")
+    public Response logout()
+    {
+        // TODO: implement
+        return Response.ok(stringApiModelFactory.createStringApiModel("You were logged out! " + "")).build();
+    }
 }
