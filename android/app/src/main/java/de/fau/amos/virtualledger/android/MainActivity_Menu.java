@@ -13,21 +13,40 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.android.api.Restapi;
+import de.fau.amos.virtualledger.android.api.model.LogoutApiModel;
+import de.fau.amos.virtualledger.android.api.model.StringApiModel;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
+import de.fau.amos.virtualledger.android.model.UserCredential;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import android.util.Log;
 
 /**
  * Created by Simon on 13.05.2017.
  */
 
 public class MainActivity_Menu extends AppCompatActivity {
+
+    /**
+     *
+     */
+    @Inject
+    Retrofit retrofit;
+
 
     private List<ItemSlidingMenu> slidingItems;
     private MenuAdapter menuAdapter;
@@ -202,8 +221,40 @@ public class MainActivity_Menu extends AppCompatActivity {
      *
      */
     public void executeNextActivity(){
+        logout();
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     *
+     */
+    public void logout() {
+        String email = ((EditText) findViewById(R.id.Email)).getText().toString();
+        retrofit2.Call<StringApiModel> responseMessage = retrofit.create(Restapi.class).logout(new LogoutApiModel(email));
+
+
+        responseMessage.enqueue(new Callback<StringApiModel>() {
+            @Override
+            public void onResponse(retrofit2.Call<StringApiModel> call, Response<StringApiModel> response) {
+                if(response.isSuccessful()) {
+                    //Todo: change to Login Screen
+                    /*Intent intent = new Intent(RegisterActivity.this, MainActivity_Menu.class);
+                    startActivity(intent);*/
+
+                } else if(response.code() == 400)
+                { // code for sent data were wrong
+                    Log.v("Error!","Logout not successful, wrong data sent");
+                }
+            }
+
+
+            @Override
+            public void onFailure(retrofit2.Call<StringApiModel> call, Throwable t) {
+
+                Log.v("Error!","Can't connect to Endpoint");
+            }
+        });
     }
 
 }
