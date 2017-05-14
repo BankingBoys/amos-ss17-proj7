@@ -111,12 +111,16 @@ public class UserCredentialRepository {
     public void deleteSessionIdsByEmail(final String email)
     {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<Session> sessions = this.getSessionsByEmail(email);
 
         try{
             final EntityTransaction entityTransaction = entityManager.getTransaction();
             try {
                 entityTransaction.begin();
+
+                Query query = entityManager.createQuery("Select s FROM Session s WHERE s.email = :email");
+                query.setParameter("email", email);
+                List<Session> sessions = query.getResultList();
+
                 for(int i = 0; i < sessions.size(); ++i)
                 {
                     Session session = sessions.get(i);
@@ -129,22 +133,6 @@ public class UserCredentialRepository {
             }
         }
         finally {
-            entityManager.close();
-        }
-    }
-
-    public List<Session> getSessionsByEmail(String email)
-    {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            Query query = entityManager.createQuery("Select s FROM Session s WHERE s.email = :email");
-            query.setParameter("email", email);
-            return query.getResultList();
-        } catch (Exception ex)
-        {
-            throw ex;
-        } finally
-        {
             entityManager.close();
         }
     }

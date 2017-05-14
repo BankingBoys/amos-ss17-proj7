@@ -7,6 +7,13 @@ package de.fau.amos.virtualledger.dtos;
 public class LogoutApiModel {
     private String email;
 
+
+    /**
+     *
+     * @methodtype constructor
+     */
+    public LogoutApiModel() { }
+
     /**
      *
      * @param email
@@ -21,7 +28,7 @@ public class LogoutApiModel {
      * @return email
      * @methodtype getter
      */
-    public String getemail() {
+    public String getEmail() {
         return email;
     }
 
@@ -30,7 +37,7 @@ public class LogoutApiModel {
      * @param email
      * @methodtype setter
      */
-    public void setemail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 }

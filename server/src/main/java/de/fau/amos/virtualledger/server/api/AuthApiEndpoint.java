@@ -74,6 +74,6 @@ public class AuthApiEndpoint {
     public Response logout(LogoutApiModel logoutApiModel)
     {
         authenticationController.logout(logoutApiModel);
-        return Response.ok(stringApiModelFactory.createStringApiModel("You were logged out! " + logoutApiModel.getemail())).build();
+        return Response.ok(stringApiModelFactory.createStringApiModel("You were logged out! " + logoutApiModel.getEmail())).build();
     }
 }

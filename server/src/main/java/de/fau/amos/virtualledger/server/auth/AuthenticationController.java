@@ -59,6 +59,6 @@ public class AuthenticationController {
 
     public void logout(final LogoutApiModel logoutApiModel)
     {
-        userCredentialRepository.deleteSessionIdsByEmail(logoutApiModel.getemail());
+        userCredentialRepository.deleteSessionIdsByEmail(logoutApiModel.getEmail());
     }
 }
