@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.content.Intent;
 
 import de.fau.amos.virtualledger.R;
 
@@ -17,16 +18,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration);
 
         Button button_register = (Button) findViewById(R.id.button_register);
-
+        final MainActivity _this = this;
         button_register.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        setContentView(R.layout.login);
+
+                        Intent intent = new Intent(_this, LoginActivity.class);
+                        startActivity(intent);
                     }
                 }
         );
