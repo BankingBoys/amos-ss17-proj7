@@ -1,31 +1,28 @@
-package de.fau.amos.virtualledger.android.dagger.module.login;
+package de.fau.amos.virtualledger.android.auth.login;
 
 /**
  * Created by sebastian on 14.05.17.
  */
 
-public class MockedLoginProvider implements LoginProvider {
-
-    private String token = "";
-
+public class HTTPLoginProvider implements LoginProvider {
     @Override
     public void login(String username, String password) {
-        this.token = username+"_"+password;
+
     }
 
     @Override
     public void logout() {
-        this.token = "";
+
     }
 
     @Override
     public boolean isLoggedIn() {
-        return this.token.length()==0;
+        return false;
     }
 
     @Override
     public String getToken() {
-        return this.token;
+        return null;
     }
 
     @Override

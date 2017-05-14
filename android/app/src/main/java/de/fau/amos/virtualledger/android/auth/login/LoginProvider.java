@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.dagger.module.login;
+package de.fau.amos.virtualledger.android.auth.login;
 
 /**
  * Created by sebastian on 14.05.17.

@@ -12,9 +12,8 @@ import android.widget.TextView;
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.android.auth.login.LoginProvider;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
-import de.fau.amos.virtualledger.android.dagger.module.login.LoginProvider;
-import de.fau.amos.virtualledger.android.dagger.module.login.MockedLoginProvider;
 
 /**
  * Created by sebastian on 14.05.17.
@@ -27,9 +26,10 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        this.loginProvider = new MockedLoginProvider();//Quick Fix // FIXME: 14.05.17
 
         super.onCreate(savedInstanceState);
+        init();
+
         setContentView(R.layout.login);
 
 

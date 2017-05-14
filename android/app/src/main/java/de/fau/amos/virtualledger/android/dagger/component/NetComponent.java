@@ -5,11 +5,11 @@ import android.app.Activity;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import de.fau.amos.virtualledger.android.LoginActivity;
 import de.fau.amos.virtualledger.android.MainActivity;
 import de.fau.amos.virtualledger.android.MainActivity_Menu;
 import de.fau.amos.virtualledger.android.RegisterActivity;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
-import de.fau.amos.virtualledger.android.dagger.module.LoginModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 
 /**
@@ -18,14 +18,14 @@ import de.fau.amos.virtualledger.android.dagger.module.NetModule;
  */
 
 @Singleton
-@Component(modules = {AppModule.class, NetModule.class, LoginModule.class})
+@Component(modules = {AppModule.class, NetModule.class})
 public interface NetComponent {
 
-    void inject(Activity activity);
     /**
      *
      * @param activity
      */
     void inject(RegisterActivity activity);
     void inject(MainActivity_Menu activity);
+    void inject(LoginActivity activity);
 }
