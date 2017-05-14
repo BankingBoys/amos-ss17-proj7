@@ -1,7 +1,7 @@
   #!/bin/bash
 
    cd /home/travis/build/BankingBoys/amos-ss17-proj7/android
-   gradlew assembleRelease
+   gradle assembleRelease
    cd app
    cd build
    cd outputs
