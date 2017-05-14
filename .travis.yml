@@ -3,10 +3,21 @@ language: java
 jdk:
   - oraclejdk8
 
-branches:
-  only:
-   - master
 
+
+before_script:
+  - cd /home/travis/build/BankingBoys/
+  - sudo apt install unzip
+  - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
+  - unzip tools
+  - export ANDROID_HOME=/home/ubuntu
+  -  export PATH=$PATH:/home/ubuntu/tools
+  - export PATH=$PATH:/home/ubuntu/platform-tools
+  - cd tools
+  - echo y | ./android update sdk --no-ui --all --filter "build-tools-25.0.0"
+  - echo y | ./android update sdk --no-ui --all --filter "tool,extra-android-m2repository,extra-android-support,extra-google-google_play_services,extra-google-m2repository"
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
+  - cd /home/travis/build/BankingBoys/amos-ss17-proj7/
 addons:
   ssh_known_hosts: "52.57.200.243"
 
@@ -19,3 +30,23 @@ after_script:
  - chmod 400 /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh
  - ssh-add /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh
  - scp -rp -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh /home/travis/build/BankingBoys/amos-ss17-proj7/server/build/libs/server-1.0-SNAPSHOT.war ubuntu@52.57.200.243:/home/ubuntu/glassfish4/glassfish/domains/domain1/autodeploy
+
+deploy:
+  provider: script
+  script:
+  -  cd /home/travis/build/BankingBoys/amos-ss17-proj7/android
+  -  gradle assembleReleas
+  -  cd app
+  -  cd build
+  - cd outputs
+  - cd apk
+  - curl \
+      -F "status=2" \
+      -F "notify=1" \
+      -F "notes=auto deploy.” \
+      -F "notes_type=0" \
+      -F "ipa=@app-release-unsigned.apk" \
+      -H "X-HockeyAppToken: 788d6d4924ae4144a20601938fb9354e" \
+      https://rink.hockeyapp.net/api/2/apps/fbff9b3e55e142f89d51718ea3b4e6e4//app_versions/upload
+
+
