@@ -40,7 +40,7 @@ public class HTTPLoginProvider implements LoginProvider {
                 }
             }   @Override
             public void onFailure(retrofit2.Call<StringApiModel> call, Throwable t) {
-                
+
             }
         }
 

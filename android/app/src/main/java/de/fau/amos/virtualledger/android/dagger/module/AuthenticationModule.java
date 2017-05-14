@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import de.fau.amos.virtualledger.android.auth.login.HTTPLoginProvider;
 import de.fau.amos.virtualledger.android.auth.login.LoginProvider;
 import de.fau.amos.virtualledger.android.auth.login.MockedLoginProvider;
 import retrofit2.Retrofit;
@@ -25,6 +26,6 @@ public class AuthenticationModule {
     @Singleton
     LoginProvider provideLoginProvider(Retrofit retrofit)
     {
-        return new MockedLoginProvider();
+        return new HTTPLoginProvider(retrofit);
     }
 }
