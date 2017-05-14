@@ -5,6 +5,7 @@ import android.app.Application;
 import de.fau.amos.virtualledger.android.dagger.component.DaggerNetComponent;
 import de.fau.amos.virtualledger.android.dagger.component.NetComponent;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
+import de.fau.amos.virtualledger.android.dagger.module.LoginModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 
 /**
@@ -23,6 +24,7 @@ public class App extends Application{
         netComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
                 .netModule(new NetModule("http://10.0.2.2:8080"))
+                .loginModule(new LoginModule())
                 .build();
     }
 
