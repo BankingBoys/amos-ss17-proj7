@@ -62,6 +62,7 @@ public class MainActivity_Menu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
 
+
         //init
         init();
 
@@ -80,7 +81,7 @@ public class MainActivity_Menu extends AppCompatActivity {
         //Close sliding menu
         drawerLayout.closeDrawer(listView);
 
-        //starting fragment -- todo: if necessary add the start fragment here
+        //starting fragment -- if necessary add the start fragment here
         //replaceFragment(0);
 
         //click on items
@@ -130,6 +131,7 @@ public class MainActivity_Menu extends AppCompatActivity {
      *@methodtype initialization
      */
     private void init() {
+        ((App) getApplication()).getNetComponent().inject(this);
         listView = (ListView) findViewById(R.id.sliding_menu);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         content = (RelativeLayout)findViewById(R.id.content);
@@ -228,8 +230,9 @@ public class MainActivity_Menu extends AppCompatActivity {
      *
      */
     public void logout() {
-        String email = ((EditText) findViewById(R.id.Email)).getText().toString();
-        retrofit2.Call<StringApiModel> responseMessage = retrofit.create(Restapi.class).logout(new LogoutApiModel(email));
+        /*String email = ((EditText) findViewById(R.id.Email)).getText().toString();*/
+        //Todo: get the email address from login
+        retrofit2.Call<StringApiModel> responseMessage = retrofit.create(Restapi.class).logout(new LogoutApiModel("s@s.de"));
 
 
         responseMessage.enqueue(new Callback<StringApiModel>() {
