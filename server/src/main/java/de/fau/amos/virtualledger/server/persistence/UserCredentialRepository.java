@@ -107,4 +107,33 @@ public class UserCredentialRepository {
             entityManager.close();
         }
     }
+
+    public void deleteSessionIdsByEmail(final String email)
+    {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try{
+            final EntityTransaction entityTransaction = entityManager.getTransaction();
+            try {
+                entityTransaction.begin();
+
+                Query query = entityManager.createQuery("Select s FROM Session s WHERE s.email = :email");
+                query.setParameter("email", email);
+                List<Session> sessions = query.getResultList();
+
+                for(int i = 0; i < sessions.size(); ++i)
+                {
+                    Session session = sessions.get(i);
+                    entityManager.remove(session);
+                }
+                entityTransaction.commit();
+            } catch(final Exception e) {
+                entityTransaction.rollback();
+                throw e;
+            }
+        }
+        finally {
+            entityManager.close();
+        }
+    }
 }

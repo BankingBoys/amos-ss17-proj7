@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.server.auth;
 
 import de.fau.amos.virtualledger.dtos.LoginData;
+import de.fau.amos.virtualledger.dtos.LogoutApiModel;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
@@ -54,5 +55,10 @@ public class AuthenticationController {
         result.email = loginData.email;
         result.sessionId = sessionId;
         return result;
+    }
+
+    public void logout(final LogoutApiModel logoutApiModel)
+    {
+        userCredentialRepository.deleteSessionIdsByEmail(logoutApiModel.getEmail());
     }
 }

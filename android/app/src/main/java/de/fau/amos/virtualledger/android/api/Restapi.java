@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.android.api;
 
-import de.fau.amos.virtualledger.android.api.model.StringApiModel;
+import de.fau.amos.virtualledger.dtos.LogoutApiModel;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import de.fau.amos.virtualledger.android.model.UserCredential;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,5 +21,8 @@ public interface Restapi {
      */
     @POST("/api/auth/register")
     Call<StringApiModel> register(@Body UserCredential credential);
+
+    @POST("/api/auth/logout")
+    Call<StringApiModel> logout(@Body LogoutApiModel email);
 
 }

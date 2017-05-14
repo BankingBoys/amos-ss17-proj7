@@ -1,14 +1,10 @@
-package de.fau.amos.virtualledger.server.api.model;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
+package de.fau.amos.virtualledger.dtos;
 
 /**
- * Class that holds a string value and is required for JSON parsing
+ * Class that holds a string, required for JSON parsing
  */
-@XmlRootElement
 public class StringApiModel {
+
     /**
      *
      */
@@ -17,7 +13,6 @@ public class StringApiModel {
     /**
      *
      * @return
-     * @methodtype getter
      */
     public String getData()
     {
@@ -27,9 +22,7 @@ public class StringApiModel {
     /**
      *
      * @param data
-     * @methodtype setter
      */
-    @XmlElement
     public void setData(String data)
     {
         this.data = data;

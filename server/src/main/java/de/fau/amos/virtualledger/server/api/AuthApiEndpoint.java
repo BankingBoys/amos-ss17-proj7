@@ -1,8 +1,9 @@
 package de.fau.amos.virtualledger.server.api;
 
 import de.fau.amos.virtualledger.dtos.LoginData;
+import de.fau.amos.virtualledger.dtos.LogoutApiModel;
 import de.fau.amos.virtualledger.dtos.SessionData;
-import de.fau.amos.virtualledger.server.api.model.StringApiModel;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import de.fau.amos.virtualledger.server.api.modelFactories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.auth.AuthenticationController;
 import de.fau.amos.virtualledger.server.auth.InvalidCredentialsException;
@@ -65,5 +66,14 @@ public class AuthApiEndpoint {
         final SessionData sessionData = authenticationController.login(loginData);
 
         return Response.ok(sessionData).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/logout")
+    public Response logout(LogoutApiModel logoutApiModel)
+    {
+        authenticationController.logout(logoutApiModel);
+        return Response.ok(stringApiModelFactory.createStringApiModel("You were logged out! " + logoutApiModel.getEmail())).build();
     }
 }

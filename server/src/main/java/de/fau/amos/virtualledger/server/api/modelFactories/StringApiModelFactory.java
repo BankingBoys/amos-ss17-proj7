@@ -1,6 +1,6 @@
 package de.fau.amos.virtualledger.server.api.modelFactories;
 
-import de.fau.amos.virtualledger.server.api.model.StringApiModel;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 
 import javax.enterprise.context.RequestScoped;
 
