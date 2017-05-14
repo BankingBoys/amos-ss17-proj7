@@ -13,6 +13,6 @@
       -F "notes_type=0" \
       -F "ipa=@app-release-unsigned.apk" \
       -H "X-HockeyAppToken: 788d6d4924ae4144a20601938fb9354e" \
-      https://rink.hockeyapp.net/api/2/apps/fbff9b3e55e142f89d51718ea3b4e6e4//app_versions/upload
+      https://rink.hockeyapp.net/api/2/apps/4adac746746644d8ad6c94939495c7ff//app_versions/upload
 
 
