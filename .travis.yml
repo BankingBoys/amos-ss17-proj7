@@ -9,8 +9,8 @@ before_script:
   - cd /home/travis/build/BankingBoys/
   - sudo apt install unzip
   - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
+  - unzip tools_r25.2.3-linux.zip
   - ls
-  - unzip tools
   - export ANDROID_HOME=/home/ubuntu
   -  export PATH=$PATH:/home/ubuntu/tools
   - export PATH=$PATH:/home/ubuntu/platform-tools
