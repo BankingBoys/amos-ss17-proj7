@@ -45,6 +45,9 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.1'
    // compile 'com.android.support.constraint:constraint-layout:+'
     compile 'com.android.support:design:25.3.1'
+
+    compile project(':dtos')
+
     testCompile 'junit:junit:4.12'
     apt 'com.google.dagger:dagger-compiler:2.2'
     provided 'javax.annotation:jsr250-api:1.0'
