@@ -1,8 +1,9 @@
   #!/bin/bash
- cd /home/travis/build/BankingBoys/amos-ss17-proj7/android
-   gradle assembleReleas
-    cd app
-    cd build
+
+   cd /home/travis/build/BankingBoys/amos-ss17-proj7/android
+   gradlew assembleRelease
+   cd app
+   cd build
    cd outputs
    cd apk
    curl \
