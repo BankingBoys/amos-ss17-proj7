@@ -11,9 +11,9 @@ before_script:
   - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
   - unzip tools_r25.2.3-linux.zip
   - ls
-  - export ANDROID_HOME=/home/ubuntu
-  -  export PATH=$PATH:/home/ubuntu/tools
-  - export PATH=$PATH:/home/ubuntu/platform-tools
+  - export ANDROID_HOME=/home/travis/build/BankingBoys/
+  -  export PATH=$PATH:/home/travis/build/BankingBoys/ools
+  - export PATH=$PATH://home/travis/build/BankingBoys/platform-tools
   - cd tools
   - echo y | ./android update sdk --no-ui --all --filter "build-tools-25.0.0"
   - echo y | ./android update sdk --no-ui --all --filter "build-tools-25.0.5"
