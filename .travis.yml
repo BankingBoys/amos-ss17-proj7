@@ -7,6 +7,12 @@ jdk:
 
 before_script:
   - cd /home/travis/build/BankingBoys/
+  - sudo apt-get remove gradle
+  - wget https://services.gradle.org/distributions/gradle-3.5-bin.zip
+  - mkdir /opt/gradle
+  - unzip -d /opt/gradle gradle-3.5-bin.zip
+  -  ls /opt/gradle/gradle-3.5
+  - export PATH=$PATH:/opt/gradle/gradle-3.5/bin
   - sudo apt install unzip
   - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
   - unzip tools_r25.2.3-linux.zip
