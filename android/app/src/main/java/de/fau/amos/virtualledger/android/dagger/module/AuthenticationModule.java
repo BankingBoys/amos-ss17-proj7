@@ -13,7 +13,7 @@ import retrofit2.Retrofit;
  */
 
 @Module(includes = {NetModule.class})
-public class LoginModule {
+public class AuthenticationModule {
 
 
     /**
