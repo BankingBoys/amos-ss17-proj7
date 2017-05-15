@@ -9,6 +9,7 @@ before_install:
   - unzip -P $zippass k.zip
   - cd /home/travis/build/BankingBoys/amos-ss17-proj7/server/src/main/resources/META-INF
   - unzip -P $zippass p.zip
+  - ls
 
 before_script:
   - cd /home/travis/build/BankingBoys/
