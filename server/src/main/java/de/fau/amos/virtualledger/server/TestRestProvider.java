@@ -19,7 +19,7 @@ public class TestRestProvider {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response helloWorld() {
-        return Response.ok("hallo!").build();
+        return Response.ok("hallo2!").build();
     }
 
 }
