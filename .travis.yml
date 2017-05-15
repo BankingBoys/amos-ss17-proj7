@@ -46,7 +46,7 @@ after_script:
  - ssh-add /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh
  - scp -rp -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh /home/travis/build/BankingBoys/amos-ss17-proj7/server/build/libs/server-1.0-SNAPSHOT.war ubuntu@52.29.107.190:/home/ubuntu/
  - ssh -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh ubuntu@52.29.107.190 /home/ubuntu/pay/payara41/bin/asadmin redeploy  --name server-1.0-SNAPSHOT server-1.0-SNAPSHOT.war
- - ssh -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh ubuntu@52.29.107.190 mv /home/ubuntu/persistence2.xml /home/ubuntu/pay/payara41/glassfish/domains/domain1/applications/server-1.0-SNAPSHOT/WEB-INF/classes/META-INF
+ - ssh -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh ubuntu@52.29.107.190 mv /home/ubuntu/persistence.xml /home/ubuntu/pay/payara41/glassfish/domains/domain1/applications/server-1.0-SNAPSHOT/WEB-INF/classes/META-INF
  -  cd /home/travis/build/BankingBoys/amos-ss17-proj7/
  -  chmod 777 upload_script.sh
  -  ./upload_script.sh
