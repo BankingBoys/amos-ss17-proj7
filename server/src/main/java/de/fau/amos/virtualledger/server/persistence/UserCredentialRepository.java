@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.server.persistence;
 
 import de.fau.amos.virtualledger.dtos.LoginData;
+import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.server.model.Session;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 
@@ -135,5 +136,21 @@ public class UserCredentialRepository {
         finally {
             entityManager.close();
         }
+    }
+
+    public boolean checkSession(final SessionData sessionData) {
+            final EntityManager entityManager = entityManagerFactory.createEntityManager();
+            try {
+                final Query query = entityManager.createQuery("Select s FROM Session s WHERE s.sessionId = :sessionId");
+                query.setParameter("sessionId", sessionData.sessionId);
+                final List resultList = query.getResultList();
+                if(resultList.size() == 0) {
+                    return false;
+                }
+                final Session session = (Session) resultList.get(0);
+                return Objects.equals(session.email, session.email);
+            } finally {
+                entityManager.close();
+            }
     }
 }

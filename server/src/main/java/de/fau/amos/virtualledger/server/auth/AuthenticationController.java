@@ -57,6 +57,13 @@ public class AuthenticationController {
         return result;
     }
 
+    public void verifySession(final SessionData sessionData) throws InvalidCredentialsException {
+        final boolean valid = userCredentialRepository.checkSession(sessionData);
+        if(!valid) {
+            throw new InvalidCredentialsException();
+        }
+    }
+
     public void logout(final LogoutApiModel logoutApiModel)
     {
         userCredentialRepository.deleteSessionIdsByEmail(logoutApiModel.getEmail());
