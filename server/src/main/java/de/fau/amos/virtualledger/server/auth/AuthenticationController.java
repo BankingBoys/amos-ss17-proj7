@@ -1,7 +1,6 @@
 package de.fau.amos.virtualledger.server.auth;
 
 import de.fau.amos.virtualledger.dtos.LoginData;
-import de.fau.amos.virtualledger.dtos.LogoutApiModel;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
@@ -52,13 +51,13 @@ public class AuthenticationController {
         userCredentialRepository.persistSessionId(loginData.email, sessionId);
 
         final SessionData result = new SessionData();
-        result.email = loginData.email;
-        result.sessionId = sessionId;
+        result.setEmail(loginData.email);
+        result.setSessionid(sessionId);
         return result;
     }
 
-    public void logout(final LogoutApiModel logoutApiModel)
+    public void logout(final String email)
     {
-        userCredentialRepository.deleteSessionIdsByEmail(logoutApiModel.getEmail());
+        userCredentialRepository.deleteSessionIdsByEmail(email);
     }
 }

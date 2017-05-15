@@ -1,12 +1,12 @@
 package de.fau.amos.virtualledger.server.api;
 
 import de.fau.amos.virtualledger.dtos.LoginData;
-import de.fau.amos.virtualledger.dtos.LogoutApiModel;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
 import de.fau.amos.virtualledger.server.api.modelFactories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.auth.AuthenticationController;
 import de.fau.amos.virtualledger.server.auth.InvalidCredentialsException;
+import de.fau.amos.virtualledger.server.auth.Secured;
 import de.fau.amos.virtualledger.server.auth.VirtualLedgerAuthenticationException;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 
@@ -15,8 +15,10 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 /**
  * Endpoints for authentication / authorization
@@ -69,11 +71,13 @@ public class AuthApiEndpoint {
     }
 
     @POST
+    @Secured
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/logout")
-    public Response logout(LogoutApiModel logoutApiModel)
+    public Response logout(@Context SecurityContext securityContext)
     {
-        authenticationController.logout(logoutApiModel);
-        return Response.ok(stringApiModelFactory.createStringApiModel("You were logged out! " + logoutApiModel.getEmail())).build();
+        final String email = securityContext.getUserPrincipal().getName();
+        authenticationController.logout(email);
+        return Response.ok(stringApiModelFactory.createStringApiModel("You were logged out! " + email)).build();
     }
 }

@@ -37,17 +37,13 @@ public class LoginActivity extends AppCompatActivity {
 
         final TextView textview = (TextView) findViewById(R.id.loginTextView);
 
-        final String userID = ((EditText) findViewById(R.id.userIDField)).getText().toString();
-        final String password = ((EditText) findViewById(R.id.SecretField)).getText().toString();
-
         button_register.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        System.out.println("Token:"+loginProvider.getToken());
+                        final String userID = ((EditText) findViewById(R.id.userIDField)).getText().toString();
+                        final String password = ((EditText) findViewById(R.id.SecretField)).getText().toString();
 
-
-
-                        loginProvider.login(userID,password);
+                        loginProvider.login(userID, password);
                         if(loginProvider.isLoggedIn()){
                             textview.setText(" Hello "+userID+".");
                         }else{

@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.server.persistence;
 
 import de.fau.amos.virtualledger.dtos.LoginData;
+import de.fau.amos.virtualledger.server.auth.InvalidCredentialsException;
 import de.fau.amos.virtualledger.server.model.Session;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 
@@ -135,5 +136,21 @@ public class UserCredentialRepository {
         finally {
             entityManager.close();
         }
+    }
+
+    public String getEmailForSessionId(final String sessionId) throws InvalidCredentialsException {
+            final EntityManager entityManager = entityManagerFactory.createEntityManager();
+            try {
+                final Query query = entityManager.createQuery("Select s FROM Session s WHERE s.sessionId = :sessionId");
+                query.setParameter("sessionId", sessionId);
+                final List resultList = query.getResultList();
+                if(resultList.size() == 0) {
+                    throw new InvalidCredentialsException();
+                }
+                final Session session = (Session) resultList.get(0);
+                return session.email;
+            } finally {
+                entityManager.close();
+            }
     }
 }
