@@ -6,7 +6,7 @@ jdk:
 
 
 before_script:
-  - cd /home/travis/build/BankingBoys/
+  - cd /home/travis/build/BankingBoys/amos-ss17-proj7
   - unzip -P $zippass k.zip
   - cd /home/travis/build/BankingBoys/amos-ss17-proj7/server/src/main/resources/
   - unzip -P $zippass p.zip
