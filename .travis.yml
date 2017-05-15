@@ -29,7 +29,7 @@ before_script:
   - echo y | $ANDROID_HOME/tools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
   - cd /home/travis/build/BankingBoys/amos-ss17-proj7/
 addons:
-  ssh_known_hosts: "'52.29.107.190"
+  ssh_known_hosts: "52.29.107.190"
 
 after_script:
  - cd android
