@@ -4,12 +4,13 @@ jdk:
   - oraclejdk8
 
 
-
-before_script:
+before_install:
   - cd /home/travis/build/BankingBoys/amos-ss17-proj7
   - unzip -P $zippass k.zip
   - cd /home/travis/build/BankingBoys/amos-ss17-proj7/server/src/main/resources/META-INF
   - unzip -P $zippass p.zip
+
+before_script:
   - cd /home/travis/build/BankingBoys/
   - which gradle
   - sudo rm -rf /usr/local/gradle/bin/gradle
