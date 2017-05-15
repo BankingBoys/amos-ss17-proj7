@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.android.auth.login;
 
 import android.content.Intent;
+import android.content.pm.PackageInstaller;
 import android.graphics.Color;
 import android.util.Log;
 
@@ -12,6 +13,7 @@ import de.fau.amos.virtualledger.android.api.Restapi;
 import de.fau.amos.virtualledger.android.model.UserCredential;
 import de.fau.amos.virtualledger.dtos.LoginData;
 import de.fau.amos.virtualledger.dtos.LogoutApiModel;
+import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,21 +37,21 @@ public class HTTPLoginProvider implements LoginProvider {
 
     @Override
     public void login(final String username, String password) {
-        retrofit2.Call<StringApiModel> responseMessage = retrofit.create(Restapi.class).login(new LoginData(username,password));
+        retrofit2.Call<SessionData> responseMessage = retrofit.create(Restapi.class).login(new LoginData(username,password));
 
-        responseMessage.enqueue(new Callback<StringApiModel>() {
+        responseMessage.enqueue(new Callback<SessionData>() {
             @Override
-            public void onResponse(retrofit2.Call<StringApiModel> call, Response<StringApiModel> response) {
+            public void onResponse(retrofit2.Call<SessionData> call, Response<SessionData> response) {
                 if(response.isSuccessful()) {
                     email = username;
-                    token = response.body().getData();
+                    token = response.body().getSessionid();
                 } else
                 {
                     Log.e(TAG, "Login was not successful!");
                 }
             }
             @Override
-            public void onFailure(retrofit2.Call<StringApiModel> call, Throwable t) {
+            public void onFailure(retrofit2.Call<SessionData> call, Throwable t) {
                 Log.e(TAG, "Login failed!");
             }
         }
