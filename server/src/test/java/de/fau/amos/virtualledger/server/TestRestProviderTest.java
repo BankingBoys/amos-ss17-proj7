@@ -23,6 +23,6 @@ public class TestRestProviderTest {
         //act
         final Response result = testRestProvider.helloWorld();
         //assert
-        Assert.assertEquals("hallo2!", result.getEntity());
+        Assert.assertEquals("hallo Leute!", result.getEntity());
     }
 }
