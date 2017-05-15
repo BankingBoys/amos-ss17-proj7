@@ -1,19 +1,17 @@
 package de.fau.amos.virtualledger.android;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -23,16 +21,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.api.Restapi;
 import de.fau.amos.virtualledger.android.auth.login.LoginProvider;
-import de.fau.amos.virtualledger.dtos.LogoutApiModel;
-import de.fau.amos.virtualledger.dtos.StringApiModel;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
-import android.util.Log;
 
 /**
  * Created by Simon on 13.05.2017.

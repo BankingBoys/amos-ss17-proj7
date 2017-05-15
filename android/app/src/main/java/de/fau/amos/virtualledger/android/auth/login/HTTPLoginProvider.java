@@ -1,18 +1,9 @@
 package de.fau.amos.virtualledger.android.auth.login;
 
-import android.content.Intent;
-import android.content.pm.PackageInstaller;
-import android.graphics.Color;
 import android.util.Log;
 
-import java.io.IOException;
-
-import de.fau.amos.virtualledger.android.MainActivity_Menu;
-import de.fau.amos.virtualledger.android.RegisterActivity;
 import de.fau.amos.virtualledger.android.api.Restapi;
-import de.fau.amos.virtualledger.android.model.UserCredential;
 import de.fau.amos.virtualledger.dtos.LoginData;
-import de.fau.amos.virtualledger.dtos.LogoutApiModel;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
 import retrofit2.Callback;
@@ -62,7 +53,7 @@ public class HTTPLoginProvider implements LoginProvider {
     @Override
     public void logout() {
 
-        retrofit2.Call<StringApiModel> responseMessage = retrofit.create(Restapi.class).logout(new LogoutApiModel(email));
+        retrofit2.Call<StringApiModel> responseMessage = retrofit.create(Restapi.class).logout(token);
 
         responseMessage.enqueue(new Callback<StringApiModel>() {
             @Override
