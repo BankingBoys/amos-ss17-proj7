@@ -1,16 +1,34 @@
 package de.fau.amos.virtualledger.dtos;
 
+/**
+ *
+ */
 public class LoginData {
 
+    /**
+     *
+     */
     public String email;
+    /**
+     *
+     */
     public String password;
 
-    public LoginData() {
-    }
+    /**
+     *
+     * @methodtype constructor
+     */
+    public LoginData() {}
 
-    public LoginData(String email, String password) {
+    /**
+     *
+     * @methodtype constructor
+     * @param email
+     * @param password
+     */
+    public LoginData(String email, String password){
         this.email = email;
         this.password = password;
-    }
+	}
 
 }

@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.android.api;
 
+import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.android.model.UserCredential;
 import de.fau.amos.virtualledger.dtos.LoginData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
@@ -27,6 +28,6 @@ public interface Restapi {
     Call<StringApiModel> logout(@Header("Authorization") String token);
 
     @POST("/api/auth/login")
-    Call<StringApiModel> login(@Body LoginData loginData);
+    Call<SessionData> login(@Body LoginData loginData);
 
 }

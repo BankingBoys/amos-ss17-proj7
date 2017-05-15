@@ -51,8 +51,8 @@ public class AuthenticationController {
         userCredentialRepository.persistSessionId(loginData.email, sessionId);
 
         final SessionData result = new SessionData();
-        result.email = loginData.email;
-        result.sessionId = sessionId;
+        result.setEmail(loginData.email);
+        result.setSessionid(sessionId);
         return result;
     }
 
