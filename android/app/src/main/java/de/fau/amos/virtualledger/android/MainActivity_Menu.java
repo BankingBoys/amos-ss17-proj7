@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.Restapi;
+import de.fau.amos.virtualledger.android.auth.login.LoginProvider;
 import de.fau.amos.virtualledger.dtos.LogoutApiModel;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
@@ -38,6 +39,10 @@ import android.util.Log;
  */
 
 public class MainActivity_Menu extends AppCompatActivity {
+
+
+    @Inject
+    LoginProvider loginProvider;
 
     /**
      *
@@ -240,32 +245,7 @@ public class MainActivity_Menu extends AppCompatActivity {
      *
      */
     public void logout() {
-        /*String email = ((EditText) findViewById(R.id.Email)).getText().toString();*/
-        //Todo: get the email address from login
-        retrofit2.Call<StringApiModel> responseMessage = retrofit.create(Restapi.class).logout(new LogoutApiModel("s@s.de"));
-
-
-        responseMessage.enqueue(new Callback<StringApiModel>() {
-            @Override
-            public void onResponse(retrofit2.Call<StringApiModel> call, Response<StringApiModel> response) {
-                if(response.isSuccessful()) {
-                    //Todo: change to Login Screen
-                    /*Intent intent = new Intent(RegisterActivity.this, MainActivity_Menu.class);
-                    startActivity(intent);*/
-
-                } else if(response.code() == 400)
-                { // code for sent data were wrong
-                    Log.v("Error!","Logout not successful, wrong data sent");
-                }
-            }
-
-
-            @Override
-            public void onFailure(retrofit2.Call<StringApiModel> call, Throwable t) {
-
-                Log.v("Error!","Can't connect to Endpoint");
-            }
-        });
+        loginProvider.logout();
     }
 
 }
