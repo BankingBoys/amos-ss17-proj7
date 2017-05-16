@@ -4,9 +4,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import de.fau.amos.virtualledger.android.auth.login.HTTPLoginProvider;
-import de.fau.amos.virtualledger.android.auth.login.LoginProvider;
-import de.fau.amos.virtualledger.android.auth.login.MockedLoginProvider;
+import de.fau.amos.virtualledger.android.auth.AuthenticationProvider;
+import de.fau.amos.virtualledger.android.auth.HTTPAuthenticationProvider;
 import retrofit2.Retrofit;
 
 /**
@@ -24,8 +23,8 @@ public class AuthenticationModule {
      */
     @Provides
     @Singleton
-    LoginProvider provideLoginProvider(Retrofit retrofit)
+    AuthenticationProvider provideLoginProvider(Retrofit retrofit)
     {
-        return new HTTPLoginProvider(retrofit);
+        return new HTTPAuthenticationProvider(retrofit);
     }
 }

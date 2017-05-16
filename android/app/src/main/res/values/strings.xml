@@ -1,14 +1,19 @@
 <resources>
     <string name="app_name">Virtual ledger</string>
     <string name="password">Password</string>
-    <string name="EMail">E-Mail address</string>
+    <string name="EMail">E-Mail</string>
     <string name="firstname">First Name</string>
     <string name="lastname">Last Name</string>
     <string name="registration">Registration</string>
     <string name="registration_feedback"> </string>
     <string name="register">Register</string>
-    <string name="terms_and_conditions">By joining virtual ledger, you agree to the terms and conditions</string>
+    <string name="terms_and_conditions">By joining virtual ledger, you agree to the <u> terms and conditions </u></string>
     <string name="title_activity_login">login</string>
     <string name="drawer_opened">open</string>
     <string name="drawer_closed">closed</string>
+    <string name="LoginTextView">Login</string>
+    <string name="loginButtonText">Login</string>
+    <string name="register_first"><u>Register first</u></string>
+    <string name="textLogin_permanent">Stay logged in</string> />
+    />
 </resources>

@@ -1,9 +1,11 @@
 package de.fau.amos.virtualledger.dtos;
 
+import java.io.Serializable;
+
 /**
  *
  */
-public class SessionData {
+public class SessionData implements Serializable{
     /**
      *
      */
@@ -17,6 +19,17 @@ public class SessionData {
      *
      */
     public SessionData() { }
+
+    /**
+     *
+     * @param email
+     * @param token
+     */
+    public SessionData(String email, String token)
+    {
+        this.email = email;
+        this.sessionid = token;
+    }
 
     /**
      *

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +22,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.auth.login.LoginProvider;
+import de.fau.amos.virtualledger.android.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
 import retrofit2.Retrofit;
@@ -32,9 +33,10 @@ import retrofit2.Retrofit;
 
 public class MainActivity_Menu extends AppCompatActivity {
 
+    LoginActivity loginContext = new LoginActivity();
 
     @Inject
-    LoginProvider loginProvider;
+    AuthenticationProvider authenticationProvider;
 
     /**
      *
@@ -58,7 +60,6 @@ public class MainActivity_Menu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
-
 
         //init
         init();
@@ -122,6 +123,7 @@ public class MainActivity_Menu extends AppCompatActivity {
         };
         // add the Toggle as Listener
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
     }
 
     /**
@@ -140,7 +142,7 @@ public class MainActivity_Menu extends AppCompatActivity {
      */
     private void configureItemsForMenu() {
         slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Logout"));
-        slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Login"));
+/*        slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Login"));*/
         menuAdapter = new MenuAdapter(this, slidingItems);
         listView.setAdapter(menuAdapter);
     }
@@ -190,8 +192,6 @@ public class MainActivity_Menu extends AppCompatActivity {
                 executeNextActivity();
                 break;
             //new Fragments can be added her
-            case 1:
-                startLogin();
             default:
                 fragment = new Fragment();
                 openFragment(fragment);
@@ -215,29 +215,31 @@ public class MainActivity_Menu extends AppCompatActivity {
     }
 
 
-    /**
+/*    *//**
      *
      *
-     */
+     *//*
     private void startLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-    }
+    }*/
 
     /**
      *
      */
     public void executeNextActivity(){
         logout();
-        Intent intent = new Intent(this, RegisterActivity.class);
+        authenticationProvider.deleteSavedLoginData(this);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     /**
      *
      */
     public void logout() {
-        loginProvider.logout();
+        authenticationProvider.logout();
     }
 
 }
