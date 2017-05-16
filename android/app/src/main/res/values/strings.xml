@@ -11,4 +11,7 @@
     <string name="title_activity_login">login</string>
     <string name="drawer_opened">open</string>
     <string name="drawer_closed">closed</string>
+    <string name="LoginTextView">Login</string>
+    <string name="loginButtonText">Login</string>
+    />
 </resources>

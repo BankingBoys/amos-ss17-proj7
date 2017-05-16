@@ -1,44 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <TextView
-            android:id="@+id/loginTextView"
+            android:id="@+id/textViewLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.28"
+            android:layout_marginTop="20dp"
+            android:layout_weight="0.3"
             android:gravity="center_horizontal|center"
-            android:text="Please enter your credentials for login." />
+            android:text="@string/LoginTextView"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="30sp" />
 
         <EditText
             android:id="@+id/userIDField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.28"
+            android:layout_weight="0.2"
             android:ems="10"
+            android:gravity="bottom"
             android:hint="Email"
-            android:inputType="textPersonName" />
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/SecretField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.28"
+            android:layout_weight="0.2"
             android:ems="10"
+            android:gravity="bottom"
             android:hint="Password"
             android:inputType="textPassword" />
 
-        <Button
-            android:id="@+id/loginButton"
+        <TextView
+            android:id="@+id/textViewFailLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.28"
-            android:text="Login" />
+            android:layout_weight="0.03"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.3"
+            android:background="@android:color/holo_blue_light"
+            android:text="@string/loginButtonText"
+            android:textColor="@android:color/background_light" />/>
     </LinearLayout>
 </RelativeLayout>

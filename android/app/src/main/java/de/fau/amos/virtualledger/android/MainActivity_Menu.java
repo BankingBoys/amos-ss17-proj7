@@ -140,7 +140,7 @@ public class MainActivity_Menu extends AppCompatActivity {
      */
     private void configureItemsForMenu() {
         slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Logout"));
-        slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Login"));
+/*        slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Login"));*/
         menuAdapter = new MenuAdapter(this, slidingItems);
         listView.setAdapter(menuAdapter);
     }
@@ -190,8 +190,6 @@ public class MainActivity_Menu extends AppCompatActivity {
                 executeNextActivity();
                 break;
             //new Fragments can be added her
-            case 1:
-                startLogin();
             default:
                 fragment = new Fragment();
                 openFragment(fragment);
@@ -215,21 +213,21 @@ public class MainActivity_Menu extends AppCompatActivity {
     }
 
 
-    /**
+/*    *//**
      *
      *
-     */
+     *//*
     private void startLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-    }
+    }*/
 
     /**
      *
      */
     public void executeNextActivity(){
         logout();
-        Intent intent = new Intent(this, RegisterActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 

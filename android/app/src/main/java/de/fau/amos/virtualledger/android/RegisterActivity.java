@@ -79,9 +79,8 @@ public class RegisterActivity extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     textView.setTextColor(Color.GREEN);
                     textView.setText(response.body().getData());
-                    Intent intent = new Intent(RegisterActivity.this, MainActivity_Menu.class);
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(intent);
-
                 } else if(response.code() == 400)
                 { // code for sent data were wrong
                     try {

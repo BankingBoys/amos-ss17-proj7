@@ -2,6 +2,7 @@ package de.fau.amos.virtualledger.android;
 
 import android.app.Application;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Button button_register = (Button) findViewById(R.id.loginButton);
 
-        final TextView textview = (TextView) findViewById(R.id.loginTextView);
+        final TextView textview = (TextView) findViewById(R.id.textViewFailLogin);
 
         button_register.setOnClickListener(
                 new Button.OnClickListener() {
@@ -45,9 +46,10 @@ public class LoginActivity extends AppCompatActivity {
 
                         loginProvider.login(userID, password);
                         if(loginProvider.isLoggedIn()){
-                            textview.setText(" Hello "+userID+".");
+                            executeNextActivityMenu();
                         }else{
-                            textview.setText("Login Failed");
+                            textview.setTextColor(Color.RED);
+                            textview.setText("Login failed!");
                         }
                     }
                 }
@@ -55,5 +57,10 @@ public class LoginActivity extends AppCompatActivity {
     }
     private void init() {
         ((App) getApplication()).getNetComponent().inject(this);
+    }
+
+    private void executeNextActivityMenu() {
+        Intent intent = new Intent(this, MainActivity_Menu.class);
+        startActivity(intent);
     }
 }
