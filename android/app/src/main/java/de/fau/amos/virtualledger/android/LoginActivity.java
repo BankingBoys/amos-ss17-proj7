@@ -125,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
     private void executeNextActivityMenu() {
         Intent intent = new Intent(this, MainActivity_Menu.class);
         startActivity(intent);
+        finish();
     }
 
     public Context getContext() {

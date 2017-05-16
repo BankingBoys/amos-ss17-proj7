@@ -232,6 +232,7 @@ public class MainActivity_Menu extends AppCompatActivity {
         authenticationProvider.deleteSavedLoginData(this);
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     /**

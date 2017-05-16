@@ -7,7 +7,7 @@
     <string name="registration">Registration</string>
     <string name="registration_feedback"> </string>
     <string name="register">Register</string>
-    <string name="terms_and_conditions">By joining virtual ledger, you agree to the terms and conditions</string>
+    <string name="terms_and_conditions">By joining virtual ledger, you agree to the <u> terms and conditions </u></string>
     <string name="title_activity_login">login</string>
     <string name="drawer_opened">open</string>
     <string name="drawer_closed">closed</string>
