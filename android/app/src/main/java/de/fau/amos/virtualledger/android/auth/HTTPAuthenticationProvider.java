@@ -1,10 +1,17 @@
 package de.fau.amos.virtualledger.android.auth;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInstaller;
 import android.graphics.Color;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import de.fau.amos.virtualledger.android.MainActivity_Menu;
 import de.fau.amos.virtualledger.android.RegisterActivity;
@@ -26,6 +33,7 @@ import retrofit2.Retrofit;
 public class HTTPAuthenticationProvider implements AuthenticationProvider {
 
     private static final String TAG = "HTTPAuthenticatProvider";
+    private static final String FILENAME = "login.save";
 
     private Retrofit retrofit;
     private String token =  "";
@@ -109,6 +117,7 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
             public void onResponse(retrofit2.Call<StringApiModel> call, Response<StringApiModel> response) {
                 if(response.isSuccessful()) {
                     token = "";
+                    deleteSavedLoginData();
                     observable.onNext("Logout was successful!");
                 } else
                 {
@@ -140,18 +149,52 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public void save() {
-        // TODO implement
+    public void persistLoginData(Context context) {
+        deleteSavedLoginData();
+        File file = new File(FILENAME);
+
+        try {
+            FileOutputStream fileOutputStream = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(new SessionData(email, token));
+            objectOutputStream.close();
+            fileOutputStream.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Error in persisting login data: " + e.getMessage());
+        }
     }
 
     @Override
-    public boolean isTokenSaved() {
-        // TODO implement
-        return false;
+    public void deleteSavedLoginData() {
+        File file = new File(FILENAME);
+        if(file.exists())
+        {
+            file.delete();
+        }
     }
 
     @Override
-    public void loadFromStorage() {
-        // TODO implement
+    public void tryLoadLoginData(Context context) {
+        File file = new File(FILENAME);
+        try {
+            FileInputStream fileInputStream = context.openFileInput(FILENAME);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            SessionData savedSession = (SessionData) objectInputStream.readObject();
+            objectInputStream.close();
+            fileInputStream.close();
+
+            if(savedSession.getEmail() == null || savedSession.getEmail().isEmpty() || savedSession.getSessionid() == null || savedSession.getSessionid().isEmpty())
+            {
+                throw new ClassNotFoundException("One of the loaded parameters was null or empty!");
+            }
+
+            this.email = savedSession.getEmail();
+            this.token = savedSession.getSessionid();
+        } catch (IOException e) {
+            Log.e(TAG, "Error in reading persisted login data: " + e.getMessage());
+        }
+        catch (ClassNotFoundException e) {
+            Log.e(TAG, "Error in reading persisted login data: " + e.getMessage());
+        }
     }
 }

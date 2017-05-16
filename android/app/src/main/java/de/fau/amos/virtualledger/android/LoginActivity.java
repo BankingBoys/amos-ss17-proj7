@@ -36,12 +36,20 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         init();
 
+
+        authenticationProvider.tryLoadLoginData(this);
+        if(authenticationProvider.isLoggedIn())
+        {
+            // TODO logic here
+        }
+
         setContentView(R.layout.login);
 
 
         Button button_register = (Button) findViewById(R.id.loginButton);
 
         final TextView textview = (TextView) findViewById(R.id.loginTextView);
+        final AppCompatActivity context = this;
 
         button_register.setOnClickListener(
                 new Button.OnClickListener() {
@@ -64,7 +72,11 @@ public class LoginActivity extends AppCompatActivity {
                                     public void onNext(@NonNull String s) {
                                         if(authenticationProvider.isLoggedIn()){
                                             textview.setText(s);
-                                        }else{
+                                            // TODO if user made cross on UI for perma login
+                                            if(true) {
+                                                authenticationProvider.persistLoginData(context);
+                                            }
+                                        } else{
                                             textview.setText(s);
                                         }
                                     }

@@ -1,5 +1,7 @@
 package de.fau.amos.virtualledger.android.auth;
 
+import android.content.Context;
+
 import io.reactivex.Observable;
 
 /**
@@ -18,9 +20,13 @@ public interface AuthenticationProvider {
 
     String getToken();
 
-    void save();
+    void persistLoginData(Context context);
 
-    boolean isTokenSaved();
+    void deleteSavedLoginData();
 
-    void loadFromStorage();
+    /**
+     * tries to load the login data from storage
+     * check afterwards with isLoggedIn() if it worked
+     */
+    void tryLoadLoginData(Context context);
 }

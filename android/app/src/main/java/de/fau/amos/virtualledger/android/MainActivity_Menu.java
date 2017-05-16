@@ -59,7 +59,6 @@ public class MainActivity_Menu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
 
-
         //init
         init();
 
@@ -122,6 +121,7 @@ public class MainActivity_Menu extends AppCompatActivity {
         };
         // add the Toggle as Listener
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
     }
 
     /**

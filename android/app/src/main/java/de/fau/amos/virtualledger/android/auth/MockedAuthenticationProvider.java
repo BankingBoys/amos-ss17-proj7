@@ -1,5 +1,7 @@
 package de.fau.amos.virtualledger.android.auth;
 
+import android.content.Context;
+
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -46,17 +48,18 @@ public class MockedAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public void save() {
+    public void persistLoginData(Context context) {
 
     }
 
     @Override
-    public boolean isTokenSaved() {
-        return false;
+    public void deleteSavedLoginData() {
+
     }
 
     @Override
-    public void loadFromStorage() {
+    public void tryLoadLoginData(Context context) {
 
     }
+
 }
