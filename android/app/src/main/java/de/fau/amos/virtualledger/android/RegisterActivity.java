@@ -16,8 +16,14 @@ import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.Restapi;
+import de.fau.amos.virtualledger.android.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
 import de.fau.amos.virtualledger.android.model.UserCredential;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -27,16 +33,15 @@ import retrofit2.Retrofit;
  */
 
 public class RegisterActivity extends AppCompatActivity {
-    /**
-     *
-     */
-    @Inject
-    Retrofit retrofit;
+
+    private static final String TAG = "RegisterActivity";
 
     /**
      *
      */
-    TextView textView;
+    @Inject
+    AuthenticationProvider authenticationProvider;
+
 
     /**
      *
@@ -69,39 +74,38 @@ public class RegisterActivity extends AppCompatActivity {
         String password = ((EditText) findViewById(R.id.Password)).getText().toString();
         String firstname = ((EditText) findViewById(R.id.FirstName)).getText().toString();
         String lastname = ((EditText) findViewById(R.id.LastName)).getText().toString();
-        retrofit2.Call<StringApiModel> responseMessage = retrofit.create(Restapi.class).register(new UserCredential(email, password, firstname, lastname));
 
-        textView = (TextView) findViewById(R.id.registration_feedback);
+        final TextView textView = (TextView) findViewById(R.id.registration_feedback);
 
-        responseMessage.enqueue(new Callback<StringApiModel>() {
-            @Override
-            public void onResponse(retrofit2.Call<StringApiModel> call, Response<StringApiModel> response) {
-                if(response.isSuccessful()) {
-                    textView.setTextColor(Color.GREEN);
-                    textView.setText(response.body().getData());
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                } else if(response.code() == 400)
-                { // code for sent data were wrong
-                    try {
-                        textView.setTextColor(Color.RED);
-                        textView.setText(response.errorBody().string());
-                    } catch(IOException ex)
-                    {
-                        Log.v("Exception thrown: ", ex.getMessage());
+        authenticationProvider.register(email, password, firstname, lastname)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
                     }
-                } else
-                {
-                    Log.v("Error Connection", "The communication to the server failed!");
-                }
-            }
 
+                    @Override
+                    public void onNext(@NonNull String s) {
+                        textView.setTextColor(Color.GREEN);
+                        textView.setText(s);
+                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
 
-            @Override
-            public void onFailure(retrofit2.Call<StringApiModel> call, Throwable t) {
-                //Set the error to the textview
-                textView.setText(t.getMessage());
-            }
-        });
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.e(TAG, "Error occured in Observable from register.");
+                        textView.setTextColor(Color.RED);
+                        textView.setText(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

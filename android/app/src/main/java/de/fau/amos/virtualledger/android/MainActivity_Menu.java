@@ -21,7 +21,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.auth.login.LoginProvider;
+import de.fau.amos.virtualledger.android.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
 import retrofit2.Retrofit;
@@ -34,7 +34,7 @@ public class MainActivity_Menu extends AppCompatActivity {
 
 
     @Inject
-    LoginProvider loginProvider;
+    AuthenticationProvider authenticationProvider;
 
     /**
      *
@@ -235,7 +235,7 @@ public class MainActivity_Menu extends AppCompatActivity {
      *
      */
     public void logout() {
-        loginProvider.logout();
+        authenticationProvider.logout();
     }
 
 }
