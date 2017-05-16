@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+    <persistence-unit name="auth-db" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>de.fau.amos.virtualledger.server.model.UserCredential</class>
+        <class>de.fau.amos.virtualledger.server.model.Session</class>
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://amos555.cgmcpwc3rxk0.eu-central-1.rds.amazonaws.com:3306/amos5db"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="B47ud9j6MEdr"/>
+            <property name="javax.persistence.jdbc.database" value="amos5db"/>
+            <property name="eclipselink.logging.level" value="ALL"/>
+        </properties>
+    </persistence-unit>
+</persistence>
