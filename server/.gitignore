@@ -2,5 +2,4 @@
 .gradle
 build
 out
-persistence.xml
 /bin/

@@ -3,12 +3,36 @@ language: java
 jdk:
   - oraclejdk8
 
-branches:
-  only:
-   - master
 
+before_install:
+  - cd /home/travis/build/BankingBoys/amos-ss17-proj7
+  - unzip -P $zippass k.zip
+
+before_script:
+  - cd /home/travis/build/BankingBoys/
+  - which gradle
+  - sudo rm -rf /usr/local/gradle/bin/gradle
+  - sudo apt-get remove gradle
+  - wget https://services.gradle.org/distributions/gradle-3.5-bin.zip
+  - mkdir /opt/gradle
+  - unzip -d /opt/gradle gradle-3.5-bin.zip
+  -  ls /opt/gradle/gradle-3.5
+  - export PATH=$PATH:/opt/gradle/gradle-3.5/bin
+  - sudo apt install unzip
+  - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
+  - unzip tools_r25.2.3-linux.zip
+  - ls
+  - export ANDROID_HOME=/home/travis/build/BankingBoys/
+  -  export PATH=$PATH:/home/travis/build/BankingBoys/ools
+  - export PATH=$PATH://home/travis/build/BankingBoys/platform-tools
+  - cd tools
+  - echo y | ./android update sdk --no-ui --all --filter "build-tools-25.0.0"
+  - echo y | ./android update sdk --no-ui --all --filter "build-tools-25.0.5"
+  - echo y | ./android update sdk --no-ui --all --filter "tool,extra-android-m2repository,extra-android-support,extra-google-google_play_services,extra-google-m2repository"
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
+  - cd /home/travis/build/BankingBoys/amos-ss17-proj7/
 addons:
-  ssh_known_hosts: "52.57.200.243"
+  ssh_known_hosts: "52.29.107.190"
 
 after_script:
  - cd android
@@ -18,4 +42,9 @@ after_script:
  - eval "$(ssh-agent -s)"
  - chmod 400 /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh
  - ssh-add /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh
- - scp -rp -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh /home/travis/build/BankingBoys/amos-ss17-proj7/server/build/libs/server-1.0-SNAPSHOT.war ubuntu@52.57.200.243:/home/ubuntu/glassfish4/glassfish/domains/domain1/autodeploy
+ - scp -rp -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh /home/travis/build/BankingBoys/amos-ss17-proj7/server/build/libs/server-1.0-SNAPSHOT.war ubuntu@52.29.107.190:/home/ubuntu/
+ - ssh -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh ubuntu@52.29.107.190 /home/ubuntu/pay/payara41/bin/asadmin redeploy  --name server-1.0-SNAPSHOT server-1.0-SNAPSHOT.war
+ - ssh -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh ubuntu@52.29.107.190 cp /home/ubuntu/persistence.xml /home/ubuntu/pay/payara41/glassfish/domains/domain1/applications/server-1.0-SNAPSHOT/WEB-INF/classes/META-INF
+ -  cd /home/travis/build/BankingBoys/amos-ss17-proj7/
+ -  chmod 777 upload_script.sh
+ -  ./upload_script.sh

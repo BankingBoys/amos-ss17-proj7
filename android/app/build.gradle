@@ -27,15 +27,14 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //  compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    
+
 
     //Dagger (source: https://adityaladwa.wordpress.com/2016/05/09/dagger-2-with-retrofit-and-okhttp-and-gson/)
-    
     //Retrofit
-    
     //OkHttp
-    
     //Gson
+    //ReactJava
+    //ReactAndroid
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.google.dagger:dagger:2.2'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
@@ -43,8 +42,13 @@ dependencies {
     compile 'com.squareup.okio:okio:1.7.0'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.squareup.retrofit2:converter-gson:2.0.1'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
    // compile 'com.android.support.constraint:constraint-layout:+'
     compile 'com.android.support:design:25.3.1'
+
+    compile project(':dtos')
+
     testCompile 'junit:junit:4.12'
     apt 'com.google.dagger:dagger-compiler:2.2'
     provided 'javax.annotation:jsr250-api:1.0'
