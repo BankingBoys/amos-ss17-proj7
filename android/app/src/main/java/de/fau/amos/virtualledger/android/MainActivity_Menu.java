@@ -1,19 +1,17 @@
 package de.fau.amos.virtualledger.android;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -23,21 +21,20 @@ import java.util.List;
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.api.Restapi;
-import de.fau.amos.virtualledger.dtos.LogoutApiModel;
-import de.fau.amos.virtualledger.dtos.StringApiModel;
+import de.fau.amos.virtualledger.android.auth.login.LoginProvider;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
-import android.util.Log;
 
 /**
  * Created by Simon on 13.05.2017.
  */
 
 public class MainActivity_Menu extends AppCompatActivity {
+
+
+    @Inject
+    LoginProvider loginProvider;
 
     /**
      *
@@ -240,32 +237,7 @@ public class MainActivity_Menu extends AppCompatActivity {
      *
      */
     public void logout() {
-        /*String email = ((EditText) findViewById(R.id.Email)).getText().toString();*/
-        //Todo: get the email address from login
-        retrofit2.Call<StringApiModel> responseMessage = retrofit.create(Restapi.class).logout(new LogoutApiModel("s@s.de"));
-
-
-        responseMessage.enqueue(new Callback<StringApiModel>() {
-            @Override
-            public void onResponse(retrofit2.Call<StringApiModel> call, Response<StringApiModel> response) {
-                if(response.isSuccessful()) {
-                    //Todo: change to Login Screen
-                    /*Intent intent = new Intent(RegisterActivity.this, MainActivity_Menu.class);
-                    startActivity(intent);*/
-
-                } else if(response.code() == 400)
-                { // code for sent data were wrong
-                    Log.v("Error!","Logout not successful, wrong data sent");
-                }
-            }
-
-
-            @Override
-            public void onFailure(retrofit2.Call<StringApiModel> call, Throwable t) {
-
-                Log.v("Error!","Can't connect to Endpoint");
-            }
-        });
+        loginProvider.logout();
     }
 
 }

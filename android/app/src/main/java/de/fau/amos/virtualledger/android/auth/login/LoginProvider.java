@@ -16,7 +16,7 @@ public interface LoginProvider {
 
     void save();
 
-    boolean loginTokenSaved();
+    boolean isTokenSaved();
 
     void loadFromStorage();
 }

@@ -34,7 +34,7 @@ public class MockedLoginProvider implements LoginProvider {
     }
 
     @Override
-    public boolean loginTokenSaved() {
+    public boolean isTokenSaved() {
         return false;
     }
 
