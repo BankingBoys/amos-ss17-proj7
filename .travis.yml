@@ -12,6 +12,7 @@ before_install:
 
 before_script:
   - cd /home/travis/build/BankingBoys/
+  - echo $zippass
   - which gradle
   - sudo rm -rf /usr/local/gradle/bin/gradle
   - sudo apt-get remove gradle
