@@ -16,8 +16,8 @@
             android:id="@+id/textViewLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_weight="0.3"
+            android:layout_marginTop="40dp"
+            android:layout_weight="0.15"
             android:gravity="center_horizontal|center"
             android:text="@string/LoginTextView"
             android:textColor="@android:color/holo_blue_light"
@@ -27,10 +27,10 @@
             android:id="@+id/userIDField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"
+            android:layout_weight="0.15"
             android:ems="10"
             android:gravity="bottom"
-            android:hint="Email"
+            android:hint="@string/EMail"
             android:inputType="textEmailAddress" />
 
         <EditText
@@ -40,26 +40,48 @@
             android:layout_weight="0.2"
             android:ems="10"
             android:gravity="bottom"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword" />
 
         <TextView
             android:id="@+id/textViewFailLogin"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.03"
+            android:layout_weight="0.1"
             android:textSize="14sp" />
 
         <Button
             android:id="@+id/loginButton"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginBottom="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0.3"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="0.2"
             android:background="@android:color/holo_blue_light"
             android:text="@string/loginButtonText"
-            android:textColor="@android:color/background_light" />/>
+            android:textColor="@android:color/background_light" />
+
+        <CheckBox
+            android:id="@+id/loginCheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0.1"
+            android:text="@string/textLogin_permanent" />
+
+        <TextView
+            android:id="@+id/textViewLogin_RegisterFirst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="0.1"
+            android:autoLink="all"
+            android:clickable="true"
+            android:gravity="center_horizontal"
+            android:text="@string/register_first"
+            android:textSize="18sp" />
     </LinearLayout>
 </RelativeLayout>

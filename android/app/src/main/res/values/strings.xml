@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Virtual ledger</string>
     <string name="password">Password</string>
-    <string name="EMail">E-Mail address</string>
+    <string name="EMail">E-Mail</string>
     <string name="firstname">First Name</string>
     <string name="lastname">Last Name</string>
     <string name="registration">Registration</string>
@@ -13,5 +13,7 @@
     <string name="drawer_closed">closed</string>
     <string name="LoginTextView">Login</string>
     <string name="loginButtonText">Login</string>
+    <string name="register_first"><u>Register first</u></string>
+    <string name="textLogin_permanent">Stay logged in</string> />
     />
 </resources>

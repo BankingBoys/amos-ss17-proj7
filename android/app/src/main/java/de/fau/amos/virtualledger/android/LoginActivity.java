@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.android;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -39,14 +41,35 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         init();
 
+
+        authenticationProvider.tryLoadLoginData(this);
+        if(authenticationProvider.isLoggedIn())
+        {
+            executeNextActivityMenu();
+        }
+
         setContentView(R.layout.login);
 
 
-        Button button_register = (Button) findViewById(R.id.loginButton);
+        Button button_login = (Button) findViewById(R.id.loginButton);
 
-        final TextView textview = (TextView) findViewById(R.id.textViewFailLogin);
+        final TextView textviewLoginFail = (TextView) findViewById(R.id.textViewFailLogin);
+        textviewLoginFail.setTextColor(Color.RED);
+        final TextView textViewRegister = (TextView) findViewById(R.id.textViewLogin_RegisterFirst);
+        final CheckBox checkBoxStayLoggedIn = (CheckBox) findViewById(R.id.loginCheckBox);
+        final AppCompatActivity context = this;
 
-        button_register.setOnClickListener(
+        textViewRegister.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        executeNextActivityRegister();
+                    }
+
+                }
+        );
+
+        button_login.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
                         final String userID = ((EditText) findViewById(R.id.userIDField)).getText().toString();
@@ -67,15 +90,18 @@ public class LoginActivity extends AppCompatActivity {
                                     public void onNext(@NonNull String s) {
                                         if(authenticationProvider.isLoggedIn()){
                                             executeNextActivityMenu();
-                                        }else{
-                                            textview.setText(s);
+                                            if(checkBoxStayLoggedIn.isChecked()) {
+                                                authenticationProvider.persistLoginData(context);
+                                            }
+                                        } else{
+                                            textviewLoginFail.setText(s);
                                         }
                                     }
 
                                     @Override
                                     public void onError(@NonNull Throwable e) {
                                         Log.e(TAG, "Error occured in Observable from login.");
-                                        textview.setText(e.getMessage());
+                                        textviewLoginFail.setText(e.getMessage());
                                     }
 
                                     @Override
@@ -91,8 +117,17 @@ public class LoginActivity extends AppCompatActivity {
         ((App) getApplication()).getNetComponent().inject(this);
     }
 
+    private void executeNextActivityRegister() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
     private void executeNextActivityMenu() {
         Intent intent = new Intent(this, MainActivity_Menu.class);
         startActivity(intent);
+    }
+
+    public Context getContext() {
+        return this;
     }
 }

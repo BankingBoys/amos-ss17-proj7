@@ -1,11 +1,20 @@
 package de.fau.amos.virtualledger.android.auth;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.FeatureInfo;
+import android.content.pm.PackageInstaller;
 import android.graphics.Color;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
+import de.fau.amos.virtualledger.android.LoginActivity;
 import de.fau.amos.virtualledger.android.MainActivity_Menu;
 import de.fau.amos.virtualledger.android.RegisterActivity;
 import de.fau.amos.virtualledger.android.api.Restapi;
@@ -26,6 +35,7 @@ import retrofit2.Retrofit;
 public class HTTPAuthenticationProvider implements AuthenticationProvider {
 
     private static final String TAG = "HTTPAuthenticatProvider";
+    private static final String FILENAME = "login.save";
 
     private Retrofit retrofit;
     private String token =  "";
@@ -49,7 +59,7 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
                 } else if (response.code() == 400) { // code for sent data were wrong
                     try {
                         String responseMsg = response.errorBody().string();
-                        observable.onNext(responseMsg);
+                        observable.onError(new Throwable(responseMsg));
                     } catch (IOException ex) {
                         Log.e(TAG, "Could not parse error body in register");
                         observable.onError(new Throwable("Could not parse error body in register"));
@@ -109,6 +119,7 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
             public void onResponse(retrofit2.Call<StringApiModel> call, Response<StringApiModel> response) {
                 if(response.isSuccessful()) {
                     token = "";
+                    /*deleteSavedLoginData();*/
                     observable.onNext("Logout was successful!");
                 } else
                 {
@@ -140,18 +151,103 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public void save() {
-        // TODO implement
+    public void persistLoginData(Context context) {
+        /*deleteSavedLoginData(context);*/
+        File loginData = new File(FILENAME);
+        FileOutputStream fileOutputStream = null;
+        ObjectOutputStream objectOutputStream = null;
+        try {
+            fileOutputStream = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(new SessionData(email, token));
+            objectOutputStream.close();
+            fileOutputStream.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Error in persisting login data: " + e.getMessage());
+        } finally {
+              {
+                try{
+                    if(fileOutputStream != null) {
+                        fileOutputStream.close();
+                    }
+                    if(objectOutputStream != null) {
+                        objectOutputStream.close();
+                    }
+                } catch(IOException e) {
+                    Log.e(TAG, "Error while closing streams" + e.getMessage());
+                }
+
+
+            }
+        }
     }
 
     @Override
-    public boolean isTokenSaved() {
-        // TODO implement
-        return false;
+    public void deleteSavedLoginData(Context context) {
+        File loginData = new File(FILENAME);
+        FileOutputStream fileOutputStream = null;
+        ObjectOutputStream objectOutputStream = null;
+        try {
+            fileOutputStream = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(new SessionData("", ""));
+            objectOutputStream.close();
+            fileOutputStream.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Error in persisting login data: " + e.getMessage());
+        } finally {
+
+                try{
+                    if(fileOutputStream != null) {
+                        fileOutputStream.close();
+                    }
+                    if(objectOutputStream != null) {
+                        objectOutputStream.close();
+                    }
+                } catch(IOException e) {
+                    Log.e(TAG, "Error while closing streams" + e.getMessage());
+                }
+        }
+        this.email = "";
+        this.token = "";
+
     }
 
     @Override
-    public void loadFromStorage() {
-        // TODO implement
+    public void tryLoadLoginData(Context context) {
+        File file = new File(FILENAME);
+        FileInputStream fileInputStream = null;
+        ObjectInputStream objectInputStream = null;
+        try {
+            fileInputStream = context.openFileInput(FILENAME);
+            objectInputStream = new ObjectInputStream(fileInputStream);
+            SessionData savedSession = (SessionData) objectInputStream.readObject();
+            objectInputStream.close();
+            fileInputStream.close();
+
+            if(savedSession.getEmail() == null || savedSession.getEmail().isEmpty() || savedSession.getSessionid() == null || savedSession.getSessionid().isEmpty())
+            {
+                throw new ClassNotFoundException("One of the loaded parameters was null or empty!");
+            }
+
+            this.email = savedSession.getEmail();
+            this.token = savedSession.getSessionid();
+        } catch (IOException e) {
+            Log.e(TAG, "Error in reading persisted login data: " + e.getMessage());
+        }
+        catch (ClassNotFoundException e) {
+            Log.e(TAG, "Error in reading persisted login data: " + e.getMessage());
+        } finally {
+            try{
+                if(fileInputStream  != null) {
+                    fileInputStream.close();
+                }
+                if(objectInputStream != null) {
+                    objectInputStream.close();
+                }
+            } catch(IOException e) {
+                Log.e(TAG, "Error while closing streams" + e.getMessage());
+            }
+        }
     }
 }

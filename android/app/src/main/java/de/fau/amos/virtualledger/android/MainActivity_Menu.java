@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ import retrofit2.Retrofit;
 
 public class MainActivity_Menu extends AppCompatActivity {
 
+    LoginActivity loginContext = new LoginActivity();
 
     @Inject
     AuthenticationProvider authenticationProvider;
@@ -58,7 +60,6 @@ public class MainActivity_Menu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
-
 
         //init
         init();
@@ -122,6 +123,7 @@ public class MainActivity_Menu extends AppCompatActivity {
         };
         // add the Toggle as Listener
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
     }
 
     /**
@@ -227,6 +229,7 @@ public class MainActivity_Menu extends AppCompatActivity {
      */
     public void executeNextActivity(){
         logout();
+        authenticationProvider.deleteSavedLoginData(this);
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
