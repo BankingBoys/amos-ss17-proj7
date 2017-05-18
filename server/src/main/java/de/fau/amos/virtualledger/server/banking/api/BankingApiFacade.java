@@ -5,6 +5,8 @@ package de.fau.amos.virtualledger.server.banking.api;
  * Created by Georg on 18.05.2017.
  */
 
+import de.fau.amos.virtualledger.server.banking.api.testEndpoint.TestEndpoint;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -14,11 +16,18 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class BankingApiFacade {
 
-    @Inject
+
+    // injected by setter
     BankingApiBinder binder;
 
     public String getTest()
     {
-        return binder.getTestEndpoint().testEndpointMethod1();
+        TestEndpoint testEndpoint = binder.getTestEndpoint();
+        return testEndpoint.testEndpointMethod1();
+    }
+
+    @Inject
+    public void setBinder(BankingApiBinder binder) {
+        this.binder = binder;
     }
 }

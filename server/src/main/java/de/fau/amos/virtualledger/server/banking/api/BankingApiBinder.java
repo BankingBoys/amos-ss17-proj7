@@ -18,9 +18,11 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class BankingApiBinder {
 
-    @Inject
+
+    // injected by setter
     private BankingApiConfiguration configuration;
 
+    // injected by setter
     private TestEndpoint testEndpoint;
 
 
@@ -39,6 +41,11 @@ public class BankingApiBinder {
         {
             this.testEndpoint = httpEndpoint;
         }
+    }
+
+    @Inject
+    public void setConfiguration(BankingApiConfiguration configuration) {
+        this.configuration = configuration;
     }
 
 }
