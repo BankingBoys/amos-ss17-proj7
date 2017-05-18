@@ -44,8 +44,7 @@ public class BankingApiBinderTest {
         // SETUP
         when(bankingApiConfiguration.isUseUserEndpointDummy())
                 .thenReturn(true);
-        bankingApiBinder.setConfiguration(bankingApiConfiguration);
-        bankingApiBinder.setUserEndpoint(new DummyUserEndpoint(), new HttpUserEndpoint());
+        bankingApiBinder.setUserEndpoint(new DummyUserEndpoint(), new HttpUserEndpoint(), bankingApiConfiguration);
 
         // EXECUTE
         UserEndpoint endpoint = bankingApiBinder.getUserEndpoint();
@@ -64,8 +63,7 @@ public class BankingApiBinderTest {
         // SETUP
         when(bankingApiConfiguration.isUseUserEndpointDummy())
                 .thenReturn(false);
-        bankingApiBinder.setConfiguration(bankingApiConfiguration);
-        bankingApiBinder.setUserEndpoint(new DummyUserEndpoint(), new HttpUserEndpoint());
+        bankingApiBinder.setUserEndpoint(new DummyUserEndpoint(), new HttpUserEndpoint(), bankingApiConfiguration);
 
         // EXECUTE
         UserEndpoint endpoint = bankingApiBinder.getUserEndpoint();
@@ -83,8 +81,7 @@ public class BankingApiBinderTest {
         // SETUP
         when(bankingApiConfiguration.isUseBankAccountEndpointDummy())
                 .thenReturn(true);
-        bankingApiBinder.setConfiguration(bankingApiConfiguration);
-        bankingApiBinder.setBankAccountEndpoint(new DummyBankAccountEndpoint(), new HttpBankAccountEndpoint());
+        bankingApiBinder.setBankAccountEndpoint(new DummyBankAccountEndpoint(), new HttpBankAccountEndpoint(), bankingApiConfiguration);
 
         // EXECUTE
         BankAccountEndpoint endpoint = bankingApiBinder.getBankAccountEndpoint();
@@ -103,8 +100,7 @@ public class BankingApiBinderTest {
         // SETUP
         when(bankingApiConfiguration.isUseBankAccountEndpointDummy())
                 .thenReturn(false);
-        bankingApiBinder.setConfiguration(bankingApiConfiguration);
-        bankingApiBinder.setBankAccountEndpoint(new DummyBankAccountEndpoint(), new HttpBankAccountEndpoint());
+        bankingApiBinder.setBankAccountEndpoint(new DummyBankAccountEndpoint(), new HttpBankAccountEndpoint(), bankingApiConfiguration);
 
         // EXECUTE
         BankAccountEndpoint endpoint = bankingApiBinder.getBankAccountEndpoint();
@@ -122,8 +118,7 @@ public class BankingApiBinderTest {
         // SETUP
         when(bankingApiConfiguration.isUseBankAccessEndpointDummy())
                 .thenReturn(true);
-        bankingApiBinder.setConfiguration(bankingApiConfiguration);
-        bankingApiBinder.setBankAccessEndpoint(new DummyBankAccessEndpoint(), new HttpBankAccessEndpoint());
+        bankingApiBinder.setBankAccessEndpoint(new DummyBankAccessEndpoint(), new HttpBankAccessEndpoint(), bankingApiConfiguration);
 
         // EXECUTE
         BankAccessEndpoint endpoint = bankingApiBinder.getBankAccessEndpoint();
@@ -142,8 +137,7 @@ public class BankingApiBinderTest {
         // SETUP
         when(bankingApiConfiguration.isUseBankAccessEndpointDummy())
                 .thenReturn(false);
-        bankingApiBinder.setConfiguration(bankingApiConfiguration);
-        bankingApiBinder.setBankAccessEndpoint(new DummyBankAccessEndpoint(), new HttpBankAccessEndpoint());
+        bankingApiBinder.setBankAccessEndpoint(new DummyBankAccessEndpoint(), new HttpBankAccessEndpoint(), bankingApiConfiguration);
 
         // EXECUTE
         BankAccessEndpoint endpoint = bankingApiBinder.getBankAccessEndpoint();

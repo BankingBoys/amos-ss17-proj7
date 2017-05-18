@@ -10,7 +10,6 @@ import de.fau.amos.virtualledger.server.banking.api.userEndpoint.UserEndpoint;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 /**
@@ -20,9 +19,6 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class BankingApiBinder {
 
-
-    // injected by setter
-    private BankingApiConfiguration configuration;
 
     // all injected by setter
     private UserEndpoint userEndpoint;
@@ -35,8 +31,8 @@ public class BankingApiBinder {
     }
 
     @Inject
-    public void setUserEndpoint(@BankingApiDummy UserEndpoint dummyEndpoint, @Default UserEndpoint httpEndpoint) {
-        if(configuration.isUseUserEndpointDummy())
+    public void setUserEndpoint(@BankingApiDummy UserEndpoint dummyEndpoint, @Default UserEndpoint httpEndpoint, BankingApiConfiguration bankingApiConfiguration) {
+        if(bankingApiConfiguration.isUseUserEndpointDummy())
         {
             this.userEndpoint = dummyEndpoint;
         } else
@@ -50,8 +46,8 @@ public class BankingApiBinder {
     }
 
     @Inject
-    public void setBankAccountEndpoint(@BankingApiDummy BankAccountEndpoint dummyEndpoint, @Default BankAccountEndpoint httpEndpoint) {
-        if(configuration.isUseBankAccountEndpointDummy())
+    public void setBankAccountEndpoint(@BankingApiDummy BankAccountEndpoint dummyEndpoint, @Default BankAccountEndpoint httpEndpoint, BankingApiConfiguration bankingApiConfiguration) {
+        if(bankingApiConfiguration.isUseBankAccountEndpointDummy())
         {
             this.bankAccountEndpoint = dummyEndpoint;
         } else
@@ -65,20 +61,14 @@ public class BankingApiBinder {
     }
 
     @Inject
-    public void setBankAccessEndpoint(@BankingApiDummy BankAccessEndpoint dummyEndpoint, @Default BankAccessEndpoint httpEndpoint) {
-        if(configuration.isUseBankAccessEndpointDummy())
+    public void setBankAccessEndpoint(@BankingApiDummy BankAccessEndpoint dummyEndpoint, @Default BankAccessEndpoint httpEndpoint, BankingApiConfiguration bankingApiConfiguration) {
+        if(bankingApiConfiguration.isUseBankAccessEndpointDummy())
         {
             this.bankAccessEndpoint = dummyEndpoint;
         } else
         {
             this.bankAccessEndpoint = httpEndpoint;
         }
-    }
-
-
-    @Inject
-    public void setConfiguration(BankingApiConfiguration configuration) {
-        this.configuration = configuration;
     }
 
 }
