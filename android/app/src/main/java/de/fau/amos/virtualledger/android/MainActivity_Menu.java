@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -167,6 +166,12 @@ public class MainActivity_Menu extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(actionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true;
+        }
+        switch (item.getItemId()) {
+            case R.id.m_add_bank_access:
+                final Intent addBankAccessIntent = new Intent(this, AddBankAccessActivity.class);
+                startActivity(addBankAccessIntent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

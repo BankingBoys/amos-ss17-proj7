@@ -61,7 +61,7 @@
             android:layout_weight="0.2"
             android:background="@android:color/holo_blue_light"
             android:text="@string/loginButtonText"
-            android:textColor="@android:color/background_light" />
+            android:textColor="@android:color/background_light"/>
 
         <CheckBox
             android:id="@+id/loginCheckBox"
