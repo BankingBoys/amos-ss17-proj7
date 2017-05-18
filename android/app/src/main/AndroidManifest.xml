@@ -30,6 +30,9 @@
             android:theme="@style/AppTheme"
             android:parentActivityName=".android.MainActivity_Menu">
             ></activity>
+        <activity
+            android:name=".android.AddBankAccessActivity"
+            android:theme="@style/AppTheme"/>
 
     </application>
 

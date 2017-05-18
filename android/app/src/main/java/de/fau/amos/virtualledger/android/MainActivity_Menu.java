@@ -168,6 +168,12 @@ public class MainActivity_Menu extends AppCompatActivity {
         if(actionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+        switch (item.getItemId()) {
+            case R.id.m_add_bank_access:
+                final Intent addBankAccessIntent = new Intent(this, AddBankAccessActivity.class);
+                startActivity(addBankAccessIntent);
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
