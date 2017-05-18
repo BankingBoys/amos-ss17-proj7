@@ -26,6 +26,6 @@ public class TestRestProvider {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response helloWorld() {
-        return Response.ok(bankingFacade.getTest()).build();
+        return Response.ok("Hello world").build();
     }
 }
