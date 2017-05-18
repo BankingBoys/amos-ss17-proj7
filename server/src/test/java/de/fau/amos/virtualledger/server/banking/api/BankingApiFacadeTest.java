@@ -1,6 +1,6 @@
 package de.fau.amos.virtualledger.server.banking.api;
 
-import de.fau.amos.virtualledger.server.banking.api.testEndpoint.DummyTestEndpoint;
+import de.fau.amos.virtualledger.server.banking.api.userEndpoint.DummyUserEndpoint;
 import org.eclipse.persistence.jpa.jpql.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,10 +36,10 @@ public class BankingApiFacadeTest {
     {
         // SETUP
         String dummyResult = "test";
-        DummyTestEndpoint endpoint = mock(DummyTestEndpoint.class);
+        DummyUserEndpoint endpoint = mock(DummyUserEndpoint.class);
         when(endpoint.testEndpointMethod1())
                 .thenReturn(dummyResult);
-        when(bankingApiBinder.getTestEndpoint())
+        when(bankingApiBinder.getUserEndpoint())
                 .thenReturn(endpoint);
         bankingApiFacade.setBinder(bankingApiBinder);
 
@@ -49,6 +49,6 @@ public class BankingApiFacadeTest {
         // ASSERT
         Assert.isEqual(result, dummyResult, "Returned value was not as expected!");
         Mockito.verify(bankingApiBinder, times(1))
-                .getTestEndpoint();
+                .getUserEndpoint();
     }
 }

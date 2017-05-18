@@ -1,8 +1,14 @@
 package de.fau.amos.virtualledger.server.banking.api;
 
-import de.fau.amos.virtualledger.server.banking.api.testEndpoint.DummyTestEndpoint;
-import de.fau.amos.virtualledger.server.banking.api.testEndpoint.HttpTestEndpoint;
-import de.fau.amos.virtualledger.server.banking.api.testEndpoint.TestEndpoint;
+import de.fau.amos.virtualledger.server.banking.api.bankAccessEndpoint.BankAccessEndpoint;
+import de.fau.amos.virtualledger.server.banking.api.bankAccessEndpoint.DummyBankAccessEndpoint;
+import de.fau.amos.virtualledger.server.banking.api.bankAccessEndpoint.HttpBankAccessEndpoint;
+import de.fau.amos.virtualledger.server.banking.api.bankAccountEndpoint.BankAccountEndpoint;
+import de.fau.amos.virtualledger.server.banking.api.bankAccountEndpoint.DummyBankAccountEndpoint;
+import de.fau.amos.virtualledger.server.banking.api.bankAccountEndpoint.HttpBankAccountEndpoint;
+import de.fau.amos.virtualledger.server.banking.api.userEndpoint.DummyUserEndpoint;
+import de.fau.amos.virtualledger.server.banking.api.userEndpoint.HttpUserEndpoint;
+import de.fau.amos.virtualledger.server.banking.api.userEndpoint.UserEndpoint;
 import org.eclipse.persistence.jpa.jpql.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,42 +37,121 @@ public class BankingApiBinderTest {
         bankingApiBinder = new BankingApiBinder();
     }
 
+
     @Test
-    public void getTestEndpoint_dummy()
+    public void getUserEndpoint_dummy()
     {
         // SETUP
-        when(bankingApiConfiguration.isUseTestDummy())
+        when(bankingApiConfiguration.isUseUserEndpointDummy())
                 .thenReturn(true);
         bankingApiBinder.setConfiguration(bankingApiConfiguration);
-        bankingApiBinder.setTestEndpoint(new DummyTestEndpoint(), new HttpTestEndpoint());
+        bankingApiBinder.setUserEndpoint(new DummyUserEndpoint(), new HttpUserEndpoint());
 
         // EXECUTE
-        TestEndpoint testEndpoint = bankingApiBinder.getTestEndpoint();
+        UserEndpoint endpoint = bankingApiBinder.getUserEndpoint();
 
         // ASSERT
-        Assert.isNotNull(testEndpoint, "testEndpoint was null!");
-        Assert.isTrue(testEndpoint instanceof DummyTestEndpoint, "testEndpoint was not a DummyTestEndpoint!");
+        Assert.isNotNull(endpoint, "endpoint was null!");
+        Assert.isTrue(endpoint instanceof DummyUserEndpoint, "endpoint was not a dummy endpoint!");
         verify(bankingApiConfiguration, times(1))
-                .isUseTestDummy();
+                .isUseUserEndpointDummy();
     }
 
 
     @Test
-    public void getTestEndpoint_http()
+    public void getUserEndpoint_http()
     {
         // SETUP
-        when(bankingApiConfiguration.isUseTestDummy())
+        when(bankingApiConfiguration.isUseUserEndpointDummy())
                 .thenReturn(false);
         bankingApiBinder.setConfiguration(bankingApiConfiguration);
-        bankingApiBinder.setTestEndpoint(new DummyTestEndpoint(), new HttpTestEndpoint());
+        bankingApiBinder.setUserEndpoint(new DummyUserEndpoint(), new HttpUserEndpoint());
 
         // EXECUTE
-        TestEndpoint testEndpoint = bankingApiBinder.getTestEndpoint();
+        UserEndpoint endpoint = bankingApiBinder.getUserEndpoint();
 
         // ASSERT
-        Assert.isNotNull(testEndpoint, "testEndpoint was null!");
-        Assert.isTrue(testEndpoint instanceof HttpTestEndpoint, "testEndpoint was not a HttpTestEndpoint!");
+        Assert.isNotNull(endpoint, "endpoint was null!");
+        Assert.isTrue(endpoint instanceof HttpUserEndpoint, "endpoint was not a http endpoint!");
         verify(bankingApiConfiguration, times(1))
-                .isUseTestDummy();
+                .isUseUserEndpointDummy();
+    }
+
+    @Test
+    public void getBankAccountEndpoint_dummy()
+    {
+        // SETUP
+        when(bankingApiConfiguration.isUseBankAccountEndpointDummy())
+                .thenReturn(true);
+        bankingApiBinder.setConfiguration(bankingApiConfiguration);
+        bankingApiBinder.setBankAccountEndpoint(new DummyBankAccountEndpoint(), new HttpBankAccountEndpoint());
+
+        // EXECUTE
+        BankAccountEndpoint endpoint = bankingApiBinder.getBankAccountEndpoint();
+
+        // ASSERT
+        Assert.isNotNull(endpoint, "endpoint was null!");
+        Assert.isTrue(endpoint instanceof DummyBankAccountEndpoint, "endpoint was not a dummy endpoint!");
+        verify(bankingApiConfiguration, times(1))
+                .isUseBankAccountEndpointDummy();
+    }
+
+
+    @Test
+    public void getBankAccountEndpoint_http()
+    {
+        // SETUP
+        when(bankingApiConfiguration.isUseBankAccountEndpointDummy())
+                .thenReturn(false);
+        bankingApiBinder.setConfiguration(bankingApiConfiguration);
+        bankingApiBinder.setBankAccountEndpoint(new DummyBankAccountEndpoint(), new HttpBankAccountEndpoint());
+
+        // EXECUTE
+        BankAccountEndpoint endpoint = bankingApiBinder.getBankAccountEndpoint();
+
+        // ASSERT
+        Assert.isNotNull(endpoint, "endpoint was null!");
+        Assert.isTrue(endpoint instanceof HttpBankAccountEndpoint, "endpoint was not a http endpoint!");
+        verify(bankingApiConfiguration, times(1))
+                .isUseBankAccountEndpointDummy();
+    }
+
+    @Test
+    public void getBankAccessEndpoint_dummy()
+    {
+        // SETUP
+        when(bankingApiConfiguration.isUseBankAccessEndpointDummy())
+                .thenReturn(true);
+        bankingApiBinder.setConfiguration(bankingApiConfiguration);
+        bankingApiBinder.setBankAccessEndpoint(new DummyBankAccessEndpoint(), new HttpBankAccessEndpoint());
+
+        // EXECUTE
+        BankAccessEndpoint endpoint = bankingApiBinder.getBankAccessEndpoint();
+
+        // ASSERT
+        Assert.isNotNull(endpoint, "endpoint was null!");
+        Assert.isTrue(endpoint instanceof DummyBankAccessEndpoint, "endpoint was not a dummy endpoint!");
+        verify(bankingApiConfiguration, times(1))
+                .isUseBankAccessEndpointDummy();
+    }
+
+
+    @Test
+    public void getBankAccessEndpoint_http()
+    {
+        // SETUP
+        when(bankingApiConfiguration.isUseBankAccessEndpointDummy())
+                .thenReturn(false);
+        bankingApiBinder.setConfiguration(bankingApiConfiguration);
+        bankingApiBinder.setBankAccessEndpoint(new DummyBankAccessEndpoint(), new HttpBankAccessEndpoint());
+
+        // EXECUTE
+        BankAccessEndpoint endpoint = bankingApiBinder.getBankAccessEndpoint();
+
+        // ASSERT
+        Assert.isNotNull(endpoint, "endpoint was null!");
+        Assert.isTrue(endpoint instanceof HttpBankAccessEndpoint, "endpoint was not a http endpoint!");
+        verify(bankingApiConfiguration, times(1))
+                .isUseBankAccessEndpointDummy();
     }
 }

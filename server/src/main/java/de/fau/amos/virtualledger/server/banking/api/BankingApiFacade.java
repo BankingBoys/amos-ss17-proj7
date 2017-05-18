@@ -5,7 +5,7 @@ package de.fau.amos.virtualledger.server.banking.api;
  * Created by Georg on 18.05.2017.
  */
 
-import de.fau.amos.virtualledger.server.banking.api.testEndpoint.TestEndpoint;
+import de.fau.amos.virtualledger.server.banking.api.userEndpoint.UserEndpoint;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,8 +22,8 @@ public class BankingApiFacade {
 
     public String getTest()
     {
-        TestEndpoint testEndpoint = binder.getTestEndpoint();
-        return testEndpoint.testEndpointMethod1();
+        UserEndpoint endpoint = binder.getUserEndpoint();
+        return endpoint.testEndpointMethod1();
     }
 
     @Inject

@@ -14,16 +14,27 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class BankingApiConfiguration {
 
-    private final boolean useTestDummy = false;
+
     private final String bankingApiUrl = "https://multibanking-service.dev.adorsys.de/api/v1/";
 
+    private final boolean useUserEndpointDummy = true;
+    private final boolean useBankAccountEndpointDummy = true;
+    private final boolean useBankAccessEndpointDummy = true;
 
 
     public String getBankingApiUrl() {
         return bankingApiUrl;
     }
 
-    public boolean isUseTestDummy() {
-        return useTestDummy;
+    public boolean isUseUserEndpointDummy() {
+        return useUserEndpointDummy;
+    }
+
+    public boolean isUseBankAccountEndpointDummy() {
+        return useBankAccountEndpointDummy;
+    }
+
+    public boolean isUseBankAccessEndpointDummy() {
+        return useBankAccessEndpointDummy;
     }
 }
