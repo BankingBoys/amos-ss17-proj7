@@ -1,5 +1,8 @@
 package de.fau.amos.virtualledger.server;
 
+import de.fau.amos.virtualledger.server.banking.api.BankingApiFacade;
+
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -12,6 +15,10 @@ import javax.ws.rs.core.Response;
 @Path("test")
 public class TestRestProvider {
 
+    @Inject
+    BankingApiFacade bankingFacade;
+
+
     /**
      *
      * @return
@@ -19,8 +26,6 @@ public class TestRestProvider {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response helloWorld() {
-        return Response.ok("hallo Leute! mit Sicherheit!").build();
+        return Response.ok("Hello world").build();
     }
-
 }
- 
