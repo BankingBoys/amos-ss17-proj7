@@ -14,8 +14,14 @@
     <string name="LoginTextView">Login</string>
     <string name="loginButtonText">Login</string>
     <string name="register_first"><u>Register first</u></string>
-    <string name="textLogin_permanent">Stay logged in</string> />
-    <string name="noBankAccessesAvailable">You have not added any bank accesses</string> />
-    <string name="noBankAccessesButton">Add Bank Accesses</string> />
-    />
+    <string name="textLogin_permanent">Stay logged in</string>
+    <string name="noBankAccessesAvailable">You have not added any bank accesses</string>
+    <string name="noBankAccessesButton">Add Bank Accesses</string>
+    <string name="textLogin_permanent">Stay logged in</string>
+    <string name="add_bank_access">Add bank access</string>
+    <string name="hint_bic">BIC</string>
+    <string name="hint_bank_login_name">Login name</string>
+    <string name="hint_bank_password">Password</string>
+    <string name="add_bank_access_submit">Add Bank Access</string>
+    <string name="heading_add_bank_access">Add bank access</string>
 </resources>
