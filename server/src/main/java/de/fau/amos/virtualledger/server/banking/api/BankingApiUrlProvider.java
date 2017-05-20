@@ -24,13 +24,18 @@ public class BankingApiUrlProvider {
         return configuration.getBankingApiUrlAbsolute() + configuration.getUserApiUrlRelative();
     }
 
-    public String getBankAccessEndpointUrl()
+    public String getBankAccessEndpointUrl(String userId)
     {
-        return configuration.getBankingApiUrlAbsolute() + configuration.getBankAccessApiUrlRelative();
+        String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccessApiUrlRelative();
+        url = url.replaceAll("\\{userId\\}", userId);
+        return url;
     }
 
-    public String getBankAccountEndpointUrl()
+    public String getBankAccountEndpointUrl(String userId, String bankAccessId)
     {
-        return configuration.getBankingApiUrlAbsolute() + configuration.getBankAccountApiUrlRelative();
+        String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccountApiUrlRelative();
+        url = url.replaceAll("\\{userId\\}", userId);
+        url = url.replaceAll("\\{accessId\\}", bankAccessId);
+        return url;
     }
 }

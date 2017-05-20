@@ -1,13 +1,13 @@
-package de.fau.amos.virtualledger.server.banking.model;
+package de.fau.amos.virtualledger.server.banking.api.json;
 
 /**
  * Created by Georg on 20.05.2017.
  */
-public class CreateUserBankingModel {
+public class CreateUserJSONBankingModel {
 
     private String id;
 
-    public CreateUserBankingModel() {
+    public CreateUserJSONBankingModel() {
     }
 
     public String getId() {
