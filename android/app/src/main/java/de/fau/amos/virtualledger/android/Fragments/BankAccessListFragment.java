@@ -24,7 +24,7 @@ public class BankAccessListFragment extends ListFragment implements LoaderManage
 
 
     //For Test Purposes fake BankAccesses
-    BankAccess test = new BankAccess(0, "hallo", 0);
+    BankAccess test = new BankAccess(0, "hallo", 2000.3);
     BankAccess test2 = new BankAccess(0, "hallo2", 0);
     List<BankAccess> testList = new ArrayList<BankAccess>();
 
@@ -40,6 +40,7 @@ public class BankAccessListFragment extends ListFragment implements LoaderManage
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //Todo: get the real Bank Account information
+
         testList.add(test);
         testList.add(test2);
         bankAccessAdapter = new BankAccessListAdapter(getActivity(), testList);

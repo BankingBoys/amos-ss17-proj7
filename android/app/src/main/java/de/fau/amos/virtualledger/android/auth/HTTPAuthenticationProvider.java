@@ -250,4 +250,43 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
             }
         }
     }
+
+    @Override
+    public Observable<String> getBankAccess() {
+        /*retrofit2.Call<StringApiModel> responseMessage = retrofit.create(Restapi.class).register(new UserCredential(email, password, firstname, lastname));*/
+        /*final PublishSubject observable = PublishSubject.create();
+
+        responseMessage.enqueue(new Callback<StringApiModel>() {
+            @Override
+            public void onResponse(retrofit2.Call<StringApiModel> call, Response<StringApiModel> response) {
+                if (response.isSuccessful()) {
+                    String responseMsg = response.body().getData();
+                    observable.onNext(responseMsg);
+                } else if (response.code() == 400) { // code for sent data were wrong
+                    try {
+                        String responseMsg = response.errorBody().string();
+                        observable.onError(new Throwable(responseMsg));
+                    } catch (IOException ex) {
+                        Log.e(TAG, "Could not parse error body in register");
+                        observable.onError(new Throwable("Could not parse error body in register"));
+                    }
+                } else {
+                    Log.v(TAG, "The communication to the server failed at register!");
+                    observable.onError(new Throwable("The communication to the server failed at register!"));
+                }
+            }
+
+
+            @Override
+            public void onFailure(retrofit2.Call<StringApiModel> call, Throwable t) {
+                Log.v(TAG, "Register failed!");
+                observable.onError(new Throwable("Register failed!"));
+            }
+        });
+
+        return observable;
+        */
+        return null;
+    }
+
 }

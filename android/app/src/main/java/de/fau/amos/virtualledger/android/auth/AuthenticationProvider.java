@@ -16,6 +16,8 @@ public interface AuthenticationProvider {
 
     Observable<String> logout();
 
+    Observable<String> getBankAccess();
+
     boolean isLoggedIn();
 
     String getToken();

@@ -5,13 +5,15 @@
     android:layout_height="match_parent"
     android:id= "@+id/drawer_layout">
 
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
+        android:background="@drawable/nightview"
         android:id="@+id/content"
         ></RelativeLayout>
-    
+
     <ListView
         android:layout_width="150dp"
         android:layout_height="match_parent"
