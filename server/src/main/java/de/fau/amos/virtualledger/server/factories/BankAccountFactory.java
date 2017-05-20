@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.server.api.modelFactories;
+package de.fau.amos.virtualledger.server.factories;
 
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;

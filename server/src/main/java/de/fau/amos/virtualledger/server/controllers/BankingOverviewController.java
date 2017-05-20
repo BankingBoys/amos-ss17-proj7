@@ -2,8 +2,8 @@ package de.fau.amos.virtualledger.server.controllers;
 
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
-import de.fau.amos.virtualledger.server.api.modelFactories.BankAccessFactory;
-import de.fau.amos.virtualledger.server.api.modelFactories.BankAccountFactory;
+import de.fau.amos.virtualledger.server.factories.BankAccessFactory;
+import de.fau.amos.virtualledger.server.factories.BankAccountFactory;
 import de.fau.amos.virtualledger.server.banking.api.BankingApiFacade;
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
