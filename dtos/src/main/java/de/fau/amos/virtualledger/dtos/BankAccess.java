@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.dtos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,40 +9,43 @@ import java.util.List;
 
 public class BankAccess {
 
-    private int bankId;
-    private String bankAccessName;
-    private double balance;
-    private List<BankAccount> bankAccounts;
+    private String bankid;
+    private String bankname;
+    private List<BankAccount> bankaccounts = new ArrayList<BankAccount>();
 
     /**
      *
-     * @param bankId
-     * @param bankAccessName
-     * @param balance
      * @methodtype constructor
      */
-    public BankAccess(int bankId, String bankAccessName, double balance) {
-        this.bankId = bankId;
-        this.bankAccessName = bankAccessName;
-        this.balance = balance;
+    public BankAccess() { }
+
+    /**
+     *
+     * @param bankid
+     * @param bankname
+     * @methodtype constructor
+     */
+    public BankAccess(String bankid, String bankname) {
+        this.bankid = bankid;
+        this.bankname = bankname;
     }
 
     /**
      *
-     * @return bankId
+     * @return bankid
      * @methodtype getter
      */
-    public int getBankId() {
-        return bankId;
+    public String getBankid() {
+        return bankid;
     }
 
     /**
      *
-     * @param bankId
+     * @param bankid
      * @methodtype setter
      */
-    public void setBankId(int bankId) {
-        this.bankId = bankId;
+    public void setBankid(String bankid) {
+        this.bankid = bankid;
     }
 
     /**
@@ -49,17 +53,17 @@ public class BankAccess {
      * @return bank access name
      * @methodtype getter
      */
-    public String getBankAccessName() {
-        return bankAccessName;
+    public String getBankname() {
+        return bankname;
     }
 
     /**
      *
-     * @param bankAccessName
+     * @param bankname
      * @methodtype setter
      */
-    public void setBankAccessName(String bankAccessName) {
-        this.bankAccessName = bankAccessName;
+    public void setBankname(String bankname) {
+        this.bankname = bankname;
     }
 
     /**
@@ -68,33 +72,29 @@ public class BankAccess {
      * @methodtype getter
      */
     public double getBalance() {
+        double balance = 0;
+        for (BankAccount bankAccount: this.bankaccounts) {
+            balance += bankAccount.getBalance();
+        }
         return balance;
     }
 
-    /**
-     *
-     * @param balance
-     * @methodtype setter
-     */
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
 
     /**
      *
      * @return List with Bank Accounts of this access
      * @methodtype getter
      */
-    public List<BankAccount> getBankAccounts() {
-        return bankAccounts;
+    public List<BankAccount> getBankaccounts() {
+        return bankaccounts;
     }
 
     /**
      *
-     * @param bankAccounts
+     * @param bankaccounts
      * @methodtype setter
      */
-    public void setBankAccounts(List<BankAccount> bankAccounts) {
-        this.bankAccounts = bankAccounts;
+    public void setBankaccounts(List<BankAccount> bankaccounts) {
+        this.bankaccounts = bankaccounts;
     }
 }
