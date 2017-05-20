@@ -22,6 +22,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.android.Fragments.BankAccessListFragment;
 import de.fau.amos.virtualledger.android.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
@@ -142,7 +143,7 @@ public class MainActivity_Menu extends AppCompatActivity {
      */
     private void configureItemsForMenu() {
         slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Logout"));
-/*        slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Login"));*/
+        slidingItems.add(new ItemSlidingMenu(R.drawable.bank_accesses, "Bank Access"));
         menuAdapter = new MenuAdapter(this, slidingItems);
         listView.setAdapter(menuAdapter);
     }
@@ -190,6 +191,11 @@ public class MainActivity_Menu extends AppCompatActivity {
         switch (pos) {
             case 0:
                 executeNextActivity();
+                break;
+
+            case 1:
+                fragment = new BankAccessListFragment();
+                openFragment(fragment);
                 break;
             //new Fragments can be added her
             default:
