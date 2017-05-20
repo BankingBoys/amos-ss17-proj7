@@ -23,10 +23,11 @@ public class BankingApiFacade {
     // injected by setter
     BankingApiBinder binder;
 
-    public String getTest()
+
+
+    public void createUser(String userId)
     {
-        UserEndpoint endpoint = binder.getUserEndpoint();
-        return endpoint.testEndpointMethod1();
+        binder.getUserEndpoint().createUser(userId);
     }
 
     public List<BankAccessBankingModel> getBankAccesses(String userId)

@@ -17,10 +17,8 @@ public class HttpUserEndpoint implements UserEndpoint {
 
 
     @Override
-    public String testEndpointMethod1() {
-        // here speak to the real endpoint
-        String endpoint = urlProvider.getBankAccessEndpointUrl();
+    public void createUser(String userId) {
 
-        return "HttpBankAccessEndpoint";
     }
+
 }
