@@ -7,6 +7,7 @@ package de.fau.amos.virtualledger.server.banking.api;
 
 import de.fau.amos.virtualledger.server.banking.api.userEndpoint.UserEndpoint;
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -31,6 +32,11 @@ public class BankingApiFacade {
     public List<BankAccessBankingModel> getBankAccesses(String userId)
     {
         return binder.getBankAccessEndpoint().getBankAccesses(userId);
+    }
+
+    public List<BankAccountBankingModel> getBankAccounts(String userId, String bankAccessId)
+    {
+        return binder.getBankAccountEndpoint().getBankAccounts(userId, bankAccessId);
     }
 
 

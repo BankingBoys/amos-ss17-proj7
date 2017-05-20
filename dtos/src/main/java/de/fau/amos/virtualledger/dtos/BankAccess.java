@@ -9,8 +9,8 @@ import java.util.List;
 
 public class BankAccess {
 
-    private String bankid;
-    private String bankname;
+    private String id;
+    private String name;
     private List<BankAccount> bankaccounts = new ArrayList<BankAccount>();
 
     /**
@@ -21,31 +21,31 @@ public class BankAccess {
 
     /**
      *
-     * @param bankid
-     * @param bankname
+     * @param id
+     * @param name
      * @methodtype constructor
      */
-    public BankAccess(String bankid, String bankname) {
-        this.bankid = bankid;
-        this.bankname = bankname;
+    public BankAccess(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     /**
      *
-     * @return bankid
+     * @return id
      * @methodtype getter
      */
-    public String getBankid() {
-        return bankid;
+    public String getId() {
+        return id;
     }
 
     /**
      *
-     * @param bankid
+     * @param id
      * @methodtype setter
      */
-    public void setBankid(String bankid) {
-        this.bankid = bankid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     /**
@@ -53,17 +53,17 @@ public class BankAccess {
      * @return bank access name
      * @methodtype getter
      */
-    public String getBankname() {
-        return bankname;
+    public String getName() {
+        return name;
     }
 
     /**
      *
-     * @param bankname
+     * @param name
      * @methodtype setter
      */
-    public void setBankname(String bankname) {
-        this.bankname = bankname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
