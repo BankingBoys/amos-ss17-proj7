@@ -41,8 +41,8 @@ public class AuthenticationController {
             throw new VirtualLedgerAuthenticationException("There already exists an account with this Email address.");
         }
 
-        this.userCredentialRepository.createUserCredential(credential);
         this.bankingApiFacade.createUser(credential.getEmail());
+        this.userCredentialRepository.createUserCredential(credential);
 
         return "You were registered! " + credential.getEmail();
     }
