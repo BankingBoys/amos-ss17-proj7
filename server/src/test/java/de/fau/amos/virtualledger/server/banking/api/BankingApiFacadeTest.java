@@ -1,5 +1,7 @@
 package de.fau.amos.virtualledger.server.banking.api;
 
+import de.fau.amos.virtualledger.server.banking.api.bankAccessEndpoint.DummyBankAccessEndpoint;
+import de.fau.amos.virtualledger.server.banking.api.bankAccountEndpoint.DummyBankAccountEndpoint;
 import de.fau.amos.virtualledger.server.banking.api.userEndpoint.DummyUserEndpoint;
 import org.eclipse.persistence.jpa.jpql.Assert;
 import org.junit.Before;
@@ -31,23 +33,53 @@ public class BankingApiFacadeTest {
     }
 
     @Test
-    public void getTest_binderCalled()
+    public void createUser_binderCalled()
     {
         // SETUP
-        String dummyResult = "test";
         DummyUserEndpoint endpoint = mock(DummyUserEndpoint.class);
-        when(endpoint.testEndpointMethod1())
-                .thenReturn(dummyResult);
         when(bankingApiBinder.getUserEndpoint())
                 .thenReturn(endpoint);
         bankingApiFacade.setBinder(bankingApiBinder);
 
         // ACT
-        String result = bankingApiFacade.getTest();
+        bankingApiFacade.createUser("test");
 
         // ASSERT
-        Assert.isEqual(result, dummyResult, "Returned value was not as expected!");
         Mockito.verify(bankingApiBinder, times(1))
                 .getUserEndpoint();
+    }
+
+    @Test
+    public void getAccesses_binderCalled()
+    {
+        // SETUP
+        DummyBankAccessEndpoint endpoint = mock(DummyBankAccessEndpoint.class);
+        when(bankingApiBinder.getBankAccessEndpoint())
+                .thenReturn(endpoint);
+        bankingApiFacade.setBinder(bankingApiBinder);
+
+        // ACT
+        bankingApiFacade.getBankAccesses("test");
+
+        // ASSERT
+        Mockito.verify(bankingApiBinder, times(1))
+                .getBankAccessEndpoint();
+    }
+
+    @Test
+    public void getAccounts_binderCalled()
+    {
+        // SETUP
+        DummyBankAccountEndpoint endpoint = mock(DummyBankAccountEndpoint.class);
+        when(bankingApiBinder.getBankAccountEndpoint())
+                .thenReturn(endpoint);
+        bankingApiFacade.setBinder(bankingApiBinder);
+
+        // ACT
+        bankingApiFacade.getBankAccounts("test", "test");
+
+        // ASSERT
+        Mockito.verify(bankingApiBinder, times(1))
+                .getBankAccountEndpoint();
     }
 }

@@ -6,39 +6,46 @@ package de.fau.amos.virtualledger.dtos;
 
 public class BankAccount {
 
-    private int bankId;
-    private String bankAccountName;
+    private String bankid;
+    private String name;
     private double balance;
 
     /**
      *
-     * @param bankId
-     * @param bankAccountName
+     * @methodtype constructor
+     */
+    public BankAccount() {
+    }
+
+    /**
+     *
+     * @param bankid
+     * @param name
      * @param balance
      * @methodtype constructor
      */
-    public BankAccount(int bankId, String bankAccountName, double balance) {
-        this.bankId = bankId;
-        this.bankAccountName = bankAccountName;
+    public BankAccount(String bankid, String name, double balance) {
+        this.bankid = bankid;
+        this.name = name;
         this.balance = balance;
     }
 
     /**
      *
-     * @return bankId
+     * @return bankid
      * @methodtype getter
      */
-    public int getBankId() {
-        return bankId;
+    public String getBankid() {
+        return bankid;
     }
 
     /**
      *
-     * @param bankId
+     * @param bankid
      * @methodtype setter
      */
-    public void setBankId(int bankId) {
-        this.bankId = bankId;
+    public void setBankid(String bankid) {
+        this.bankid = bankid;
     }
 
     /**
@@ -46,17 +53,17 @@ public class BankAccount {
      * @return name of bank account
      * @methodtype getter
      */
-    public String getBankAccountName() {
-        return bankAccountName;
+    public String getName() {
+        return name;
     }
 
     /**
      *
-     * @param bankAccountName
+     * @param name
      * @methodtype setter
      */
-    public void setBankAccountName(String bankAccountName) {
-        this.bankAccountName = bankAccountName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**

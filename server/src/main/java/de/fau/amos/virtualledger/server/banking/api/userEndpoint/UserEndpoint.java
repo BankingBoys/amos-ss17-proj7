@@ -5,5 +5,6 @@ package de.fau.amos.virtualledger.server.banking.api.userEndpoint;
  */
 public interface UserEndpoint {
 
-    public String testEndpointMethod1();
+    public void createUser(String userId);
+
 }

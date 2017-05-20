@@ -15,7 +15,7 @@ import javax.enterprise.context.ApplicationScoped;
 public class BankingApiConfiguration {
 
 
-    private final String bankingApiUrlAbsolute = "https://multibanking-service.dev.adorsys.de/api/v1/";
+    private final String bankingApiUrlAbsolute = "https://multibanking-service.dev.adorsys.de:443/api/v1/";
     private final String userApiUrlRelative = "users";
     private final String bankAccessApiUrlRelative = "users/{userId}/bankaccesses";
     private final String bankAccountApiUrlRelative = "users/{userId}/bankaccesses/{accessId}/accounts";
