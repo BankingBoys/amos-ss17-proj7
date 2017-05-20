@@ -1,10 +1,19 @@
 package de.fau.amos.virtualledger.server.banking.api.bankAccountEndpoint;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 import de.fau.amos.virtualledger.server.banking.api.BankingApiUrlProvider;
+import de.fau.amos.virtualledger.server.banking.model.BankAccountBalanceBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Georg on 18.05.2017.
@@ -17,10 +26,9 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
 
 
     @Override
-    public String testEndpointMethod1() {
-        // here speak to the real endpoint
-        String endpoint = urlProvider.getBankAccessEndpointUrl();
+    public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId) {
 
-        return "HttpBankAccessEndpoint";
+
+        return new ArrayList<BankAccountBankingModel>();
     }
 }

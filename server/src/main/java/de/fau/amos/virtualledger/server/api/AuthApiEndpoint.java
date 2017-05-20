@@ -3,7 +3,7 @@ package de.fau.amos.virtualledger.server.api;
 import de.fau.amos.virtualledger.dtos.LoginData;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
-import de.fau.amos.virtualledger.server.api.modelFactories.StringApiModelFactory;
+import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.auth.AuthenticationController;
 import de.fau.amos.virtualledger.server.auth.InvalidCredentialsException;
 import de.fau.amos.virtualledger.server.auth.Secured;

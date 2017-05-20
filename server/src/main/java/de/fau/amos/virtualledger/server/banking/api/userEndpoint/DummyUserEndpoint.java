@@ -11,8 +11,7 @@ import javax.enterprise.context.RequestScoped;
 public class DummyUserEndpoint implements UserEndpoint {
 
     @Override
-    public String testEndpointMethod1() {
-        // do here the dummy logic
-        return "DummyBankAccessEndpoint";
+    public void createUser(String userId) {
+
     }
 }
