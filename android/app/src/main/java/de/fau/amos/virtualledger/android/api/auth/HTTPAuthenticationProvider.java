@@ -1,10 +1,6 @@
-package de.fau.amos.virtualledger.android.auth;
+package de.fau.amos.virtualledger.android.api.auth;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.FeatureInfo;
-import android.content.pm.PackageInstaller;
-import android.graphics.Color;
 import android.util.Log;
 
 import java.io.File;
@@ -15,9 +11,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
 
-import de.fau.amos.virtualledger.android.LoginActivity;
-import de.fau.amos.virtualledger.android.MainActivity_Menu;
-import de.fau.amos.virtualledger.android.RegisterActivity;
 import de.fau.amos.virtualledger.android.api.Restapi;
 import de.fau.amos.virtualledger.android.model.UserCredential;
 import de.fau.amos.virtualledger.dtos.BankAccess;
@@ -42,7 +35,6 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
     private Retrofit retrofit;
     private String token =  "";
     private String email = "";
-    private List<BankAccess> bankAccesses = null;
 
     public HTTPAuthenticationProvider(Retrofit retrofit){
         this.retrofit = retrofit;
@@ -105,7 +97,7 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
             @Override
             public void onFailure(retrofit2.Call<SessionData> call, Throwable t) {
                 Log.e(TAG, "Login failed!");
-                observable.onError(new Throwable("Logout failed!"));
+                observable.onError(new Throwable("Login failed!"));
             }
         });
         return observable;
@@ -253,38 +245,4 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
             }
         }
     }
-
-    @Override
-    public List<BankAccess> getBankAccess() {
-
-        final retrofit2.Call<List<BankAccess>> responseMessage = retrofit.create(Restapi.class).getBankAccess(token);
-        final PublishSubject observable = PublishSubject.create();
-
-        responseMessage.enqueue(new Callback<List<BankAccess>>() {
-            @Override
-            public void onResponse(retrofit2.Call<List<BankAccess>> call, Response<List<BankAccess>> response) {
-                if(response.isSuccessful()) {
-                    bankAccesses = response.body();
-                    Log.v(TAG,"Fetchin of bank accesses was successful " + response.code());
-                    /*deleteSavedLoginData();*/
-                    /*observable.onNext("Bank Accesses successful retrieved");*/
-                } else
-                {
-                    Log.e(TAG,"Fetchin of bank accesses was not successful! ERROR " + response.code());
-                    /*observable.onError(new Throwable("Fetchin of bank accesses was not successful!"));*/
-                }
-            }
-
-
-            @Override
-            public void onFailure(retrofit2.Call<List<BankAccess>> call, Throwable t) {
-
-                Log.e(TAG, "Fetchin of bank accesses was not successful!");
-                /*observable.onError(new Throwable("Fetchin of bank accesses was not successful!"));*/
-            }
-        });
-
-        return bankAccesses;
-    }
-
 }

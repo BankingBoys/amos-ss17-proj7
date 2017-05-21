@@ -4,8 +4,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import de.fau.amos.virtualledger.android.auth.AuthenticationProvider;
-import de.fau.amos.virtualledger.android.auth.HTTPAuthenticationProvider;
+import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
+import de.fau.amos.virtualledger.android.api.auth.HTTPAuthenticationProvider;
 import retrofit2.Retrofit;
 
 /**

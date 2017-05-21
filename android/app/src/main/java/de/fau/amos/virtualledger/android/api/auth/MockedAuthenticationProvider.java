@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.auth;
+package de.fau.amos.virtualledger.android.api.auth;
 
 import android.content.Context;
 
@@ -58,11 +58,6 @@ public class MockedAuthenticationProvider implements AuthenticationProvider {
     @Override
     public void deleteSavedLoginData(Context context) {
 
-    }
-
-    @Override
-    public List<BankAccess> getBankAccess() {
-        return null;
     }
 
     @Override

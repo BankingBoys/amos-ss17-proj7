@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.auth;
+package de.fau.amos.virtualledger.android.api.auth;
 
 import android.content.Context;
 
@@ -18,8 +18,6 @@ public interface AuthenticationProvider {
     Observable<String> login(String username, String password);
 
     Observable<String> logout();
-
-    List<BankAccess> getBankAccess();
 
     boolean isLoggedIn();
 

@@ -5,7 +5,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.app.LoaderManager;
-import android.content.Context;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,13 +15,16 @@ import java.util.List;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.App;
 import de.fau.amos.virtualledger.android.ListView.Adapter.BankAccessListAdapter;
-import de.fau.amos.virtualledger.android.MainActivity_Menu;
-import de.fau.amos.virtualledger.android.auth.AuthenticationProvider;
+import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.dtos.BankAccess;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.util.Log;
 
 import javax.inject.Inject;
 
@@ -32,32 +34,51 @@ import javax.inject.Inject;
 
 public class BankAccessListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String TAG = "BankAccessListFragment";
     /**
      *
      */
     @Inject
-    AuthenticationProvider authenticationProvider;
+    BankingProvider bankingProvider;
 
     BankAccessListAdapter bankAccessAdapter;
-
-    List<BankAccess> testList = new ArrayList<BankAccess>();
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
         //Todo: get the real Bank Account information
-        testList  = authenticationProvider.getBankAccess();
-        if(testList == null) {
-            testList  = authenticationProvider.getBankAccess();
-        }
-        if(testList == null) {
-            Fragment fragment = new NoBankingAccessesFragment();
-            openFragment(fragment);
-        }
-        bankAccessAdapter = new BankAccessListAdapter(getActivity(), testList);
-        setListAdapter(bankAccessAdapter);
 
+        bankingProvider.getBankingOverview()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<BankAccess>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull List<BankAccess> bankAccesses) {
+
+                        if(bankAccesses == null) {
+                            Fragment fragment = new NoBankingAccessesFragment();
+                            openFragment(fragment);
+                        }
+                        bankAccessAdapter = new BankAccessListAdapter(getActivity(), bankAccesses);
+                        setListAdapter(bankAccessAdapter);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.e(TAG, "Error occured in Observable from login.");
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     @Override

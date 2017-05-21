@@ -13,6 +13,7 @@ import de.fau.amos.virtualledger.android.MainActivity_Menu;
 import de.fau.amos.virtualledger.android.RegisterActivity;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
 import de.fau.amos.virtualledger.android.dagger.module.AuthenticationModule;
+import de.fau.amos.virtualledger.android.dagger.module.BankingModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 
 /**
@@ -21,7 +22,7 @@ import de.fau.amos.virtualledger.android.dagger.module.NetModule;
  */
 
 @Singleton
-@Component(modules = {AppModule.class, NetModule.class, AuthenticationModule.class})
+@Component(modules = {AppModule.class, NetModule.class, AuthenticationModule.class, BankingModule.class})
 public interface NetComponent {
 
     /**
