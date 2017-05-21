@@ -18,4 +18,7 @@ public class BankAccessJSONBankingModel {
         return _embedded;
     }
 
+    public void set_embedded(EmbeddedBankAccessJSONBankingModel _embedded) {
+        this._embedded = _embedded;
+    }
 }

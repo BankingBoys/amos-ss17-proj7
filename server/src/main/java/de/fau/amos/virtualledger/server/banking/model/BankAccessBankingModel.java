@@ -5,13 +5,13 @@ package de.fau.amos.virtualledger.server.banking.model;
  */
 public class BankAccessBankingModel {
 
-    private String bankName;
-    private String bankLogin;;
-    private String bankCode;
-    private String passportState;
-    private String id;
-    private String userId;
-    private String pin;
+    private String bankName = "";
+    private String bankLogin = "";
+    private String bankCode = "";
+    private String passportState = "";
+    private String id = "";
+    private String userId = "";
+    private String pin = "";
 
     public BankAccessBankingModel() {
     }

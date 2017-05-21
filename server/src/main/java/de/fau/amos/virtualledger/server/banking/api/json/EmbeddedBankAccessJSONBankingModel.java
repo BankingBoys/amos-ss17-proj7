@@ -9,16 +9,16 @@ import java.util.List;
  */
 public class EmbeddedBankAccessJSONBankingModel {
 
-    private List<BankAccessBankingModel> bankaccessentitylist;
+    private List<BankAccessBankingModel> bankAccessEntityList;
 
     public EmbeddedBankAccessJSONBankingModel() {
     }
 
     public List<BankAccessBankingModel> getBankAccessEntityList() {
-        return bankaccessentitylist;
+        return bankAccessEntityList;
     }
 
     public void setBankAccessEntityList(List<BankAccessBankingModel> bankAccessEntityList) {
-        this.bankaccessentitylist = bankAccessEntityList;
+        this.bankAccessEntityList = bankAccessEntityList;
     }
 }
