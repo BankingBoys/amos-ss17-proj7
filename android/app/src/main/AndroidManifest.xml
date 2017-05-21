@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name="de.fau.amos.virtualledger.android.App">
-        <activity android:name=".android.MainActivity_Menu" >
+        <activity android:name=".android.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +30,7 @@
             android:parentActivityName=".android.RegisterActivity">
         </activity>
         <activity
-            android:name=".android.LoginActivity"
+            android:name=".android.MainActivity_Menu"
             android:theme="@style/AppTheme"
             android:parentActivityName=".android.MainActivity_Menu">
             ></activity>

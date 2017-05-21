@@ -2,6 +2,9 @@ package de.fau.amos.virtualledger.android.auth;
 
 import android.content.Context;
 
+import java.util.List;
+
+import de.fau.amos.virtualledger.dtos.BankAccess;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -55,6 +58,11 @@ public class MockedAuthenticationProvider implements AuthenticationProvider {
     @Override
     public void deleteSavedLoginData(Context context) {
 
+    }
+
+    @Override
+    public List<BankAccess> getBankAccess() {
+        return null;
     }
 
     @Override

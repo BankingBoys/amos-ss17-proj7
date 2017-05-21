@@ -13,12 +13,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
 import de.fau.amos.virtualledger.android.LoginActivity;
 import de.fau.amos.virtualledger.android.MainActivity_Menu;
 import de.fau.amos.virtualledger.android.RegisterActivity;
 import de.fau.amos.virtualledger.android.api.Restapi;
 import de.fau.amos.virtualledger.android.model.UserCredential;
+import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.LoginData;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
@@ -40,6 +42,7 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
     private Retrofit retrofit;
     private String token =  "";
     private String email = "";
+    private List<BankAccess> bankAccesses = null;
 
     public HTTPAuthenticationProvider(Retrofit retrofit){
         this.retrofit = retrofit;
@@ -252,41 +255,36 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public Observable<String> getBankAccess() {
-        /*retrofit2.Call<StringApiModel> responseMessage = retrofit.create(Restapi.class).register(new UserCredential(email, password, firstname, lastname));*/
-        /*final PublishSubject observable = PublishSubject.create();
+    public List<BankAccess> getBankAccess() {
 
-        responseMessage.enqueue(new Callback<StringApiModel>() {
+        final retrofit2.Call<List<BankAccess>> responseMessage = retrofit.create(Restapi.class).getBankAccess(token);
+        final PublishSubject observable = PublishSubject.create();
+
+        responseMessage.enqueue(new Callback<List<BankAccess>>() {
             @Override
-            public void onResponse(retrofit2.Call<StringApiModel> call, Response<StringApiModel> response) {
-                if (response.isSuccessful()) {
-                    String responseMsg = response.body().getData();
-                    observable.onNext(responseMsg);
-                } else if (response.code() == 400) { // code for sent data were wrong
-                    try {
-                        String responseMsg = response.errorBody().string();
-                        observable.onError(new Throwable(responseMsg));
-                    } catch (IOException ex) {
-                        Log.e(TAG, "Could not parse error body in register");
-                        observable.onError(new Throwable("Could not parse error body in register"));
-                    }
-                } else {
-                    Log.v(TAG, "The communication to the server failed at register!");
-                    observable.onError(new Throwable("The communication to the server failed at register!"));
+            public void onResponse(retrofit2.Call<List<BankAccess>> call, Response<List<BankAccess>> response) {
+                if(response.isSuccessful()) {
+                    bankAccesses = response.body();
+                    Log.v(TAG,"Fetchin of bank accesses was successful " + response.code());
+                    /*deleteSavedLoginData();*/
+                    /*observable.onNext("Bank Accesses successful retrieved");*/
+                } else
+                {
+                    Log.e(TAG,"Fetchin of bank accesses was not successful! ERROR " + response.code());
+                    /*observable.onError(new Throwable("Fetchin of bank accesses was not successful!"));*/
                 }
             }
 
 
             @Override
-            public void onFailure(retrofit2.Call<StringApiModel> call, Throwable t) {
-                Log.v(TAG, "Register failed!");
-                observable.onError(new Throwable("Register failed!"));
+            public void onFailure(retrofit2.Call<List<BankAccess>> call, Throwable t) {
+
+                Log.e(TAG, "Fetchin of bank accesses was not successful!");
+                /*observable.onError(new Throwable("Fetchin of bank accesses was not successful!"));*/
             }
         });
 
-        return observable;
-        */
-        return null;
+        return bankAccesses;
     }
 
 }

@@ -41,7 +41,10 @@ public class BankAccessListAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return bankAccessList.size();
+        if(!isListNull()) {
+            return bankAccessList.size();
+        }
+            return 0;
     }
 
     /**
@@ -52,8 +55,11 @@ public class BankAccessListAdapter extends BaseAdapter {
      */
     @Override
     public Object getItem(int position) {
-        assertionOfValidPosition(position);
-        return bankAccessList.get(position);
+        assertValidPosition(position);
+        if(!isListNull()) {
+            return bankAccessList.get(position);
+        }
+            return null;
     }
 
     /**
@@ -82,7 +88,7 @@ public class BankAccessListAdapter extends BaseAdapter {
         View view = inflater.inflate(R.layout.list_item_bankaccess, parent, false);
         TextView textViewBankAccess = (TextView) view.findViewById(R.id.bankAccessNameView);
         TextView textViewBankBalance = (TextView) view.findViewById(R.id.bankAccessBalanceView);
-        textViewBankAccess.setText(bankAccessList.get(position).getBankAccessName());
+        textViewBankAccess.setText(bankAccessList.get(position).getName());
         textViewBankBalance.setText(String.valueOf(bankAccessList.get(position).getBalance()));
         return view;
     }
@@ -93,12 +99,24 @@ public class BankAccessListAdapter extends BaseAdapter {
      * @throws IllegalArgumentException
      *
      */
-    public void assertionOfValidPosition(int pos) throws IllegalArgumentException{
+    public void assertValidPosition(int pos) throws IllegalArgumentException{
         if((pos < 0) || (pos >= bankAccessList.size())) {
             String errorMsg = "Tried to access non existing list entry";
             Log.e(TAG, errorMsg);
             throw new IllegalArgumentException(errorMsg);
         }
+    }
+
+    /**
+     *
+     * @return boolean
+     * @methodtype assertion
+     */
+    public boolean isListNull () {
+        if(bankAccessList == null) {
+            return true;
+        }
+        return false;
     }
 
 }

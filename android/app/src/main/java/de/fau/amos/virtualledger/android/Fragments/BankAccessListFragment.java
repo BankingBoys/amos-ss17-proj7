@@ -1,7 +1,11 @@
 package de.fau.amos.virtualledger.android.Fragments;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -9,10 +13,18 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.android.App;
 import de.fau.amos.virtualledger.android.ListView.Adapter.BankAccessListAdapter;
+import de.fau.amos.virtualledger.android.MainActivity_Menu;
+import de.fau.amos.virtualledger.android.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+
+import javax.inject.Inject;
 
 /**
  * Created by Simon on 20.05.2017.
@@ -20,29 +32,29 @@ import android.support.annotation.Nullable;
 
 public class BankAccessListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    /**
+     *
+     */
+    @Inject
+    AuthenticationProvider authenticationProvider;
+
     BankAccessListAdapter bankAccessAdapter;
 
-
-    //For Test Purposes fake BankAccesses
-    BankAccess test = new BankAccess(0, "hallo", 2000.3);
-    BankAccess test2 = new BankAccess(0, "hallo2", 0);
     List<BankAccess> testList = new ArrayList<BankAccess>();
-
-
-
-   /* //TOdo: use the List of BankAccesses for the real List
-    String[] a = new String[] {"A", "B", "C", "D"};
-    ArrayAdapter<String> bankAccessAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_bankaccess, )*/
-
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ((App) getActivity().getApplication()).getNetComponent().inject(this);
         //Todo: get the real Bank Account information
-
-        testList.add(test);
-        testList.add(test2);
+        testList  = authenticationProvider.getBankAccess();
+        if(testList == null) {
+            testList  = authenticationProvider.getBankAccess();
+        }
+        if(testList == null) {
+            Fragment fragment = new NoBankingAccessesFragment();
+            openFragment(fragment);
+        }
         bankAccessAdapter = new BankAccessListAdapter(getActivity(), testList);
         setListAdapter(bankAccessAdapter);
 
@@ -62,5 +74,19 @@ public class BankAccessListFragment extends ListFragment implements LoaderManage
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    /**
+     *
+     * @param fragment
+     */
+    private void openFragment(Fragment fragment) {
+        if(null!=fragment) {
+            FragmentManager manager = getFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.content, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 }

@@ -2,6 +2,9 @@ package de.fau.amos.virtualledger.android.auth;
 
 import android.content.Context;
 
+import java.util.List;
+
+import de.fau.amos.virtualledger.dtos.BankAccess;
 import io.reactivex.Observable;
 
 /**
@@ -16,7 +19,7 @@ public interface AuthenticationProvider {
 
     Observable<String> logout();
 
-    Observable<String> getBankAccess();
+    List<BankAccess> getBankAccess();
 
     boolean isLoggedIn();
 

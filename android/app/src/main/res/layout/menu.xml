@@ -10,8 +10,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/nightview"
         android:id="@+id/content"
+        android:background="@drawable/nightview">
         ></RelativeLayout>
 
     <ListView

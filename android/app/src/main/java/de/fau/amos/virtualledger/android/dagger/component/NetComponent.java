@@ -6,6 +6,7 @@ import android.util.Log;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import de.fau.amos.virtualledger.android.Fragments.BankAccessListFragment;
 import de.fau.amos.virtualledger.android.LoginActivity;
 import de.fau.amos.virtualledger.android.MainActivity;
 import de.fau.amos.virtualledger.android.MainActivity_Menu;
@@ -30,4 +31,5 @@ public interface NetComponent {
     void inject(RegisterActivity activity);
     void inject(MainActivity_Menu activity);
     void inject(LoginActivity activity);
+    void inject(BankAccessListFragment bankAccessListFragment);
 }
