@@ -27,14 +27,22 @@ public class BankingApiUrlProvider {
     public String getBankAccessEndpointUrl(String userId)
     {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccessApiUrlRelative();
-        url = url.replaceAll("\\{userId\\}", userId);
+        if(configuration.isUseTestUser()) {
+            url = url.replaceAll("\\{userId\\}", "test");
+        } else {
+            url = url.replaceAll("\\{userId\\}", userId);
+        }
         return url;
     }
 
     public String getBankAccountEndpointUrl(String userId, String bankAccessId)
     {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccountApiUrlRelative();
-        url = url.replaceAll("\\{userId\\}", userId);
+        if(configuration.isUseTestUser()) {
+            url = url.replaceAll("\\{userId\\}", "test");
+        } else {
+            url = url.replaceAll("\\{userId\\}", userId);
+        }
         url = url.replaceAll("\\{accessId\\}", bankAccessId);
         return url;
     }
