@@ -28,7 +28,7 @@ public class BankingApiUrlProvider {
     {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccessApiUrlRelative();
         if(configuration.isUseTestUser()) {
-            url = url.replaceAll("\\{userId\\}", "test");
+            url = url.replaceAll("\\{userId\\}", configuration.getTestUserName());
         } else {
             url = url.replaceAll("\\{userId\\}", userId);
         }

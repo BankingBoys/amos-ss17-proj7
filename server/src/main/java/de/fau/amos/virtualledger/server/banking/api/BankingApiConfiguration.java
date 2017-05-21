@@ -23,7 +23,9 @@ public class BankingApiConfiguration {
     private final boolean useUserEndpointDummy = false;
     private final boolean useBankAccessEndpointDummy = false;
     private final boolean useBankAccountEndpointDummy = false;
+
     private final boolean useTestUser = true;
+    private final String testUserName = "test";
 
 
 
@@ -59,5 +61,9 @@ public class BankingApiConfiguration {
 
     public boolean isUseTestUser() {
         return useTestUser;
+    }
+
+    public String getTestUserName() {
+        return testUserName;
     }
 }
