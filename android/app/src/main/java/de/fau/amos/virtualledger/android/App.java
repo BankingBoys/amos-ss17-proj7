@@ -22,14 +22,12 @@ public class App extends Application{
 
         netComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
-                .netModule(new NetModule("http://52.29.107.190:8080 "))
+                .netModule(new NetModule("http://192.168.178.27:8080 "))
                 .build();
     }
 
     public NetComponent getNetComponent() {
         return netComponent;
     }
-
-
 
 }

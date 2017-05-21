@@ -14,7 +14,7 @@ import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.ExpandableList.Group;
+import de.fau.amos.virtualledger.android.ExpandableList.model.Group;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 
 public class ExpandableAdapterBanking extends BaseExpandableListAdapter {

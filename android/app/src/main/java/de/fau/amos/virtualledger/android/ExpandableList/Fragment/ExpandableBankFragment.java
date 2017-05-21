@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.ExpandableList;
+package de.fau.amos.virtualledger.android.ExpandableList.Fragment;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,6 +20,7 @@ import javax.inject.Inject;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.App;
 import de.fau.amos.virtualledger.android.ExpandableList.Adapter.ExpandableAdapterBanking;
+import de.fau.amos.virtualledger.android.ExpandableList.model.Group;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;

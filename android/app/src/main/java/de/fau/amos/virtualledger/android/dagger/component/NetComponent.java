@@ -3,7 +3,7 @@ package de.fau.amos.virtualledger.android.dagger.component;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import de.fau.amos.virtualledger.android.ExpandableList.ExpandableBankFragment;
+import de.fau.amos.virtualledger.android.ExpandableList.Fragment.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.LoginActivity;
 import de.fau.amos.virtualledger.android.MainActivity_Menu;
 import de.fau.amos.virtualledger.android.RegisterActivity;

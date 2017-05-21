@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.ExpandableList;
+package de.fau.amos.virtualledger.android.ExpandableList.Fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;

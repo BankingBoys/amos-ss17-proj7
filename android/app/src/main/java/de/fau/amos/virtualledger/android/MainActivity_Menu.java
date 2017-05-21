@@ -21,7 +21,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.ExpandableList.ExpandableBankFragment;
+import de.fau.amos.virtualledger.android.ExpandableList.Fragment.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;

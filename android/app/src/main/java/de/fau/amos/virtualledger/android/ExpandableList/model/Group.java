@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.ExpandableList;
+package de.fau.amos.virtualledger.android.ExpandableList.model;
 
 /**
  * Created by Simon on 21.05.2017.
