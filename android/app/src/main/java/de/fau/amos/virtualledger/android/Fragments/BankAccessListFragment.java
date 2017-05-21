@@ -6,9 +6,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,15 +45,7 @@ public class BankAccessListFragment extends ListFragment implements LoaderManage
         bankAccessAdapter = new BankAccessListAdapter(getActivity(), testList);
         setListAdapter(bankAccessAdapter);
 
-        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           int arg2, long arg3) {
-                Toast.makeText(getActivity(), "On long click listener", Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
+        getListView().setOnItemLongClickListener(new LongClickListener(this));
     }
 
     @Override
