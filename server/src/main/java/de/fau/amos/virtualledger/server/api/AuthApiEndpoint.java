@@ -20,6 +20,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import com.sun.istack.logging.Logger;
+
 /**
  * Endpoints for authentication / authorization
  */
@@ -48,7 +50,7 @@ public class AuthApiEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/register")
     public Response register(UserCredential credential) {
-
+    	Logger.getLogger(AuthApiEndpoint.class).info("Registration for "+credential+" was requested.");
         String responseMsg;
         try
         {

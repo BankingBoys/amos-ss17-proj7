@@ -1,9 +1,8 @@
 package de.fau.amos.virtualledger.server.banking.api.json;
 
-import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
-
-import java.util.ArrayList;
 import java.util.List;
+
+import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 
 /**
  * Created by Georg on 21.05.2017.
