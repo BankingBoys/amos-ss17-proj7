@@ -22,6 +22,9 @@ import de.fau.amos.virtualledger.android.App;
 import de.fau.amos.virtualledger.android.ExpandableList.Adapter.ExpandableAdapterBanking;
 import de.fau.amos.virtualledger.android.ExpandableList.model.Group;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
+import de.fau.amos.virtualledger.android.deleteaction.BankAccessNameExtractor;
+import de.fau.amos.virtualledger.android.deleteaction.DeleteAccessAction;
+import de.fau.amos.virtualledger.android.deleteaction.LongClickDeleteListener;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import io.reactivex.Observer;
@@ -56,6 +59,14 @@ public class ExpandableBankFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
+
+        listView.setOnItemLongClickListener(
+                new LongClickDeleteListener<BankAccess>(this.getActivity(),
+                        bankAccessList,
+                        new BankAccessNameExtractor(),
+                        new DeleteAccessAction(this.getActivity()))
+        );
+
         bankingProvider.getBankingOverview()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
