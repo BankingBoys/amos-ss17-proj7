@@ -8,6 +8,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import de.fau.amos.virtualledger.R;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -27,15 +30,18 @@ public class RegisterLoginTest {
 
     @Test
     public void registerAndLogin() throws InterruptedException {
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        final String email = "test@user" + sdf.format(new Date()) + ".com";
         onView(withId(R.id.textViewLogin_RegisterFirst)).perform(click());
         onView(withId(R.id.RegistrationView)).check(matches(isCompletelyDisplayed()));
         onView(withId(R.id.terms_and_conditions)).check(matches(isCompletelyDisplayed()));
         onView(withId(R.id.FirstName)).perform(typeText("Test")).perform(closeSoftKeyboard());
         onView(withId(R.id.LastName)).perform(typeText("User")).perform(closeSoftKeyboard());
-        onView(withId(R.id.Email)).perform(typeText("test@user.com")).perform(closeSoftKeyboard());
+        onView(withId(R.id.Email)).perform(typeText(email)).perform(closeSoftKeyboard());
         onView(withId(R.id.Password)).perform(typeText("testpassword")).perform(closeSoftKeyboard());
         onView(withId(R.id.button_register)).perform(click());
-        onView(withId(R.id.userIDField)).perform(typeText("test@user.com")).perform(closeSoftKeyboard());
+        Thread.sleep(3000);
+        onView(withId(R.id.userIDField)).perform(typeText(email)).perform(closeSoftKeyboard());
         onView(withId(R.id.SecretField)).perform(typeText("testpassword")).perform(closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
     }
