@@ -31,9 +31,9 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
 
     @Override
     public List<BankAccessBankingModel> getBankAccesses(String userId) {
-/*
+
         // Create Jersey client
-        ClientConfig clientConfig = new DefaultClientConfig(GensonJsonConverter.class);
+        ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
         Client client = Client.create(clientConfig);
 
@@ -51,7 +51,7 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
         { // no accesses found!
             return new ArrayList<BankAccessBankingModel>();
         }
-        List<BankAccessBankingModel> result = reponseModel.get_embedded().getBankAccessEntityList();*/
-        return new ArrayList<BankAccessBankingModel>();
+        List<BankAccessBankingModel> result = reponseModel.get_embedded().getBankAccessEntityList();
+        return result;
     }
 }

@@ -36,7 +36,6 @@ public class DummyBankAccessEndpoint implements BankAccessEndpoint {
         dummyModel.setPassportState("Dummy passport state " + id);
         dummyModel.setId("Dummy1 " + id);
         dummyModel.setUserId("DummyUser " + id);
-        dummyModel.setPin(null);
         return dummyModel;
     }
 
