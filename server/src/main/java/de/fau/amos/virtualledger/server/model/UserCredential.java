@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.sun.istack.logging.Logger;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,7 +21,10 @@ import java.util.regex.Pattern;
 @Table(name = "Users")
 public class UserCredential {
 
-    private String email;
+    private static final String LAST_NAME_MUST_NOT_BE_EMPTY = "Last name must not be empty!";
+	private static final String FIRST_NAME_MUST_NOT_BE_EMPTY = "First name must not be empty!";
+	private static final String PASSWORD_MUST_NOT_BE_EMPTY = "Password must not be empty!";
+	private String email;
     private String password;
     private String firstName;
     private String lastName;
@@ -67,7 +73,8 @@ public class UserCredential {
 
         if(password == null || ! isPasswordPatternValid(password))
         {
-            throw new IllegalArgumentException("Password must not be empty!");
+        	logger().warning(PASSWORD_MUST_NOT_BE_EMPTY);
+            throw new IllegalArgumentException(PASSWORD_MUST_NOT_BE_EMPTY);
         }
         this.password = password;
     }
@@ -82,10 +89,15 @@ public class UserCredential {
 
         if(firstName == null || ! this.isFirstNamePatternValid(firstName))
         {
-            throw new IllegalArgumentException("First name must not be empty!");
+        	logger().warning(FIRST_NAME_MUST_NOT_BE_EMPTY);
+            throw new IllegalArgumentException(FIRST_NAME_MUST_NOT_BE_EMPTY);
         }
         this.firstName = firstName;
     }
+
+	private Logger logger() {
+		return Logger.getLogger(UserCredential.class);
+	}
 
     /**
      *
@@ -106,7 +118,8 @@ public class UserCredential {
 
         if(lastName == null || ! this.isLastNamePatternValid(lastName))
         {
-            throw new IllegalArgumentException("Last name must not be empty!");
+        	logger().warning(LAST_NAME_MUST_NOT_BE_EMPTY);
+            throw new IllegalArgumentException(LAST_NAME_MUST_NOT_BE_EMPTY);
         }
         this.lastName = lastName;
     }

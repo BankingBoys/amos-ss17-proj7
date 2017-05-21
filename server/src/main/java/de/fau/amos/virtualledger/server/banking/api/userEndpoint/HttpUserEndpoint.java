@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.server.banking.api.userEndpoint;
 
+import com.sun.istack.logging.Logger;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -38,6 +39,7 @@ public class HttpUserEndpoint implements UserEndpoint {
         ClientResponse response = webResourcePOST.post(ClientResponse.class, postBody);
 
         if (response.getStatus() != 201) {
+        	Logger.getLogger(HttpUserEndpoint.class).warning("No connection to Adorsys Server!");
             throw new WebApplicationException("No connection to Adorsys Server!");
         }
     }

@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.server.banking.api.bankAccessEndpoint;
 
+import com.sun.istack.logging.Logger;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -46,7 +47,8 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
         }
         BankAccessJSONBankingModel reponseModel = response.getEntity(BankAccessJSONBankingModel.class);
         if(reponseModel == null || reponseModel.get_embedded() == null)
-        { // no accesses found!
+        {
+        	Logger.getLogger(HttpBankAccessEndpoint.class).info("No access found!");
             return new ArrayList<BankAccessBankingModel>();
         }
         List<BankAccessBankingModel> result = reponseModel.get_embedded().getBankAccessEntityList();
