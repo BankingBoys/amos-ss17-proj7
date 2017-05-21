@@ -1,9 +1,6 @@
 package de.fau.amos.virtualledger.server.model;
 
 
-import jdk.nashorn.internal.objects.annotations.Setter;
-import org.eclipse.persistence.annotations.PrimaryKey;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -186,5 +183,10 @@ public class UserCredential {
     private boolean isLastNamePatternValid(String lastName)
     {
         return ! lastName.isEmpty();
+    }
+    
+    @Override
+    public String toString() {
+    	return super.toString()+"{"+this.getFirstName()+", "+this.getLastName()+"}";
     }
 }

@@ -1,13 +1,13 @@
 package de.fau.amos.virtualledger.server.banking.api.bankAccountEndpoint;
 
-import de.fau.amos.virtualledger.server.banking.api.BankingApiDummy;
-import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankAccountBalanceBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
-
-import javax.enterprise.context.RequestScoped;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.enterprise.context.RequestScoped;
+
+import de.fau.amos.virtualledger.server.banking.api.BankingApiDummy;
+import de.fau.amos.virtualledger.server.banking.model.BankAccountBalanceBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 
 /**
  * Created by Georg on 18.05.2017.

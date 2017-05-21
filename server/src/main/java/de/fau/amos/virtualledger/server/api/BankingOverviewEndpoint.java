@@ -1,18 +1,19 @@
 package de.fau.amos.virtualledger.server.api;
 
-import de.fau.amos.virtualledger.dtos.BankAccess;
-import de.fau.amos.virtualledger.dtos.StringApiModel;
-import de.fau.amos.virtualledger.server.auth.Secured;
-import de.fau.amos.virtualledger.server.controllers.BankingOverviewController;
+import java.util.List;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+
+import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.server.auth.Secured;
+import de.fau.amos.virtualledger.server.controllers.BankingOverviewController;
 
 /**
  * Created by Georg on 20.05.2017.
