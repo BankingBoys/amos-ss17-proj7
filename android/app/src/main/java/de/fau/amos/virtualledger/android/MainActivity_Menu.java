@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +21,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.Fragments.BankAccessListFragment;
-import de.fau.amos.virtualledger.android.auth.AuthenticationProvider;
+import de.fau.amos.virtualledger.android.ExpandableList.Fragment.ExpandableBankFragment;
+import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
 import retrofit2.Retrofit;
@@ -81,7 +80,7 @@ public class MainActivity_Menu extends AppCompatActivity {
         drawerLayout.closeDrawer(listView);
 
         //starting fragment -- if necessary add the start fragment here
-        //replaceFragment(0);
+        replaceFragment(1);
 
         //click on items
         listView.setOnItemClickListener(
@@ -194,7 +193,7 @@ public class MainActivity_Menu extends AppCompatActivity {
                 break;
 
             case 1:
-                fragment = new BankAccessListFragment();
+                fragment = new ExpandableBankFragment();
                 openFragment(fragment);
                 break;
             //new Fragments can be added her

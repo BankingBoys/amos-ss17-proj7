@@ -1,11 +1,15 @@
 package de.fau.amos.virtualledger.android.api;
 
+import java.util.List;
+
+import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.android.model.UserCredential;
 import de.fau.amos.virtualledger.dtos.LoginData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
@@ -29,5 +33,8 @@ public interface Restapi {
 
     @POST("/api/auth/login")
     Call<SessionData> login(@Body LoginData loginData);
+
+    @GET ("/api/banking")
+    Call<List<BankAccess>> getBankAccess(@Header("Authorization") String token);
 
 }

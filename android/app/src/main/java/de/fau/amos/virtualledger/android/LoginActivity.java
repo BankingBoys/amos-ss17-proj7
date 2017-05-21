@@ -1,6 +1,5 @@
 package de.fau.amos.virtualledger.android;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,7 +12,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import de.fau.amos.virtualledger.android.auth.AuthenticationProvider;
+import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 

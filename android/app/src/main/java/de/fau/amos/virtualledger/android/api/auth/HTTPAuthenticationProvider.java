@@ -1,10 +1,6 @@
-package de.fau.amos.virtualledger.android.auth;
+package de.fau.amos.virtualledger.android.api.auth;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.FeatureInfo;
-import android.content.pm.PackageInstaller;
-import android.graphics.Color;
 import android.util.Log;
 
 import java.io.File;
@@ -13,12 +9,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
-import de.fau.amos.virtualledger.android.LoginActivity;
-import de.fau.amos.virtualledger.android.MainActivity_Menu;
-import de.fau.amos.virtualledger.android.RegisterActivity;
 import de.fau.amos.virtualledger.android.api.Restapi;
 import de.fau.amos.virtualledger.android.model.UserCredential;
+import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.LoginData;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
@@ -102,7 +97,7 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
             @Override
             public void onFailure(retrofit2.Call<SessionData> call, Throwable t) {
                 Log.e(TAG, "Login failed!");
-                observable.onError(new Throwable("Logout failed!"));
+                observable.onError(new Throwable("Login failed!"));
             }
         });
         return observable;

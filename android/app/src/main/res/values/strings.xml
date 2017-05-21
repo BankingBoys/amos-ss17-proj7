@@ -15,5 +15,7 @@
     <string name="loginButtonText">Login</string>
     <string name="register_first"><u>Register first</u></string>
     <string name="textLogin_permanent">Stay logged in</string> />
+    <string name="noBankAccessesAvailable">You have not added any bank accesses</string> />
+    <string name="noBankAccessesButton">Add Bank Accesses</string> />
     />
 </resources>

@@ -1,17 +1,15 @@
 package de.fau.amos.virtualledger.android.dagger.component;
 
-import android.app.Activity;
-import android.util.Log;
-
 import javax.inject.Singleton;
 
 import dagger.Component;
+import de.fau.amos.virtualledger.android.ExpandableList.Fragment.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.LoginActivity;
-import de.fau.amos.virtualledger.android.MainActivity;
 import de.fau.amos.virtualledger.android.MainActivity_Menu;
 import de.fau.amos.virtualledger.android.RegisterActivity;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
 import de.fau.amos.virtualledger.android.dagger.module.AuthenticationModule;
+import de.fau.amos.virtualledger.android.dagger.module.BankingModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 
 /**
@@ -20,7 +18,7 @@ import de.fau.amos.virtualledger.android.dagger.module.NetModule;
  */
 
 @Singleton
-@Component(modules = {AppModule.class, NetModule.class, AuthenticationModule.class})
+@Component(modules = {AppModule.class, NetModule.class, AuthenticationModule.class, BankingModule.class})
 public interface NetComponent {
 
     /**
@@ -30,4 +28,5 @@ public interface NetComponent {
     void inject(RegisterActivity activity);
     void inject(MainActivity_Menu activity);
     void inject(LoginActivity activity);
+    void inject(ExpandableBankFragment expandableBankFragment);
 }

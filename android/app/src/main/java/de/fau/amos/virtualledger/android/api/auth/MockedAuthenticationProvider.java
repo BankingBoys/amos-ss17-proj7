@@ -1,7 +1,10 @@
-package de.fau.amos.virtualledger.android.auth;
+package de.fau.amos.virtualledger.android.api.auth;
 
 import android.content.Context;
 
+import java.util.List;
+
+import de.fau.amos.virtualledger.dtos.BankAccess;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
