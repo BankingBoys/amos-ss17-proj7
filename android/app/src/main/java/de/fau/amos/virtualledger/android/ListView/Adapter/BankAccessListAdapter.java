@@ -82,7 +82,8 @@ public class BankAccessListAdapter extends BaseAdapter {
         View view = inflater.inflate(R.layout.list_item_bankaccess, parent, false);
         TextView textViewBankAccess = (TextView) view.findViewById(R.id.bankAccessNameView);
         TextView textViewBankBalance = (TextView) view.findViewById(R.id.bankAccessBalanceView);
-        textViewBankAccess.setText(bankAccessList.get(position).getBankAccessName());
+       // textViewBankAccess.setText(bankAccessList.get(position).getBankAccessName());
+
         textViewBankBalance.setText(String.valueOf(bankAccessList.get(position).getBalance()));
         return view;
     }

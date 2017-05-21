@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.fau.amos.virtualledger.android.ListView.Adapter.BankAccessListAdapter;
+import de.fau.amos.virtualledger.android.deleteaction.BankAccessNameExtractor;
+import de.fau.amos.virtualledger.android.deleteaction.DeleteAccessAction;
+import de.fau.amos.virtualledger.android.deleteaction.LongClickDeleteListener;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 
 /**
@@ -45,7 +48,12 @@ public class BankAccessListFragment extends ListFragment implements LoaderManage
         bankAccessAdapter = new BankAccessListAdapter(getActivity(), testList);
         setListAdapter(bankAccessAdapter);
 
-        getListView().setOnItemLongClickListener(new LongClickListener(this));
+        getListView().setOnItemLongClickListener(
+                new LongClickDeleteListener<BankAccess>(this,
+                        testList,
+                        new BankAccessNameExtractor(),
+                        new DeleteAccessAction(this.getActivity()))
+        );
     }
 
     @Override
