@@ -1,6 +1,6 @@
 package de.fau.amos.virtualledger.android.deleteaction;
 
-import android.app.ListFragment;
+import android.app.Activity;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -16,12 +16,12 @@ import de.fau.amos.virtualledger.android.functions.Function;
 
 public class LongClickDeleteListener<T> implements AdapterView.OnItemLongClickListener {
 
-    private final ListFragment listenedObject;
+    private final Activity listenedObject;
     private List<T> bankAccesses = new ArrayList<T>();
     private Function<T,String> getName;
     private Consumer<T> approvedAction;
 
-    public LongClickDeleteListener(ListFragment listenedObject, List<T> bankAccesses, Function<T,String> getName, Consumer<T> approvedAction) {
+    public LongClickDeleteListener(Activity listenedObject, List<T> bankAccesses, Function<T,String> getName, Consumer<T> approvedAction) {
         this.listenedObject = listenedObject;
         this.bankAccesses = bankAccesses;
         this.getName = getName;
