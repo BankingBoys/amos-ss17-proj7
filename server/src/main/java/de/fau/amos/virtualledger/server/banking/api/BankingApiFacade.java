@@ -5,7 +5,6 @@ package de.fau.amos.virtualledger.server.banking.api;
  * Created by Georg on 18.05.2017.
  */
 
-import de.fau.amos.virtualledger.server.banking.api.userEndpoint.UserEndpoint;
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 

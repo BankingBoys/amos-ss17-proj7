@@ -1,23 +1,24 @@
 package de.fau.amos.virtualledger.server.banking.api.bankAccountEndpoint;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.json.JSONConfiguration;
-import de.fau.amos.virtualledger.server.banking.api.BankingApiUrlProvider;
-import de.fau.amos.virtualledger.server.banking.api.json.BankAccountJSONBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankAccountBalanceBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.List;
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.api.json.JSONConfiguration;
+
+import de.fau.amos.virtualledger.server.banking.api.BankingApiUrlProvider;
+import de.fau.amos.virtualledger.server.banking.api.json.BankAccountJSONBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 
 /**
  * Created by Georg on 18.05.2017.

@@ -1,9 +1,9 @@
 package de.fau.amos.virtualledger.server.banking.api;
 
-import de.fau.amos.virtualledger.server.banking.api.bankAccessEndpoint.DummyBankAccessEndpoint;
-import de.fau.amos.virtualledger.server.banking.api.bankAccountEndpoint.DummyBankAccountEndpoint;
-import de.fau.amos.virtualledger.server.banking.api.userEndpoint.DummyUserEndpoint;
-import org.eclipse.persistence.jpa.jpql.Assert;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +11,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
+import de.fau.amos.virtualledger.server.banking.api.bankAccessEndpoint.DummyBankAccessEndpoint;
+import de.fau.amos.virtualledger.server.banking.api.bankAccountEndpoint.DummyBankAccountEndpoint;
+import de.fau.amos.virtualledger.server.banking.api.userEndpoint.DummyUserEndpoint;
 
 /**
  * Created by Georg on 18.05.2017.
