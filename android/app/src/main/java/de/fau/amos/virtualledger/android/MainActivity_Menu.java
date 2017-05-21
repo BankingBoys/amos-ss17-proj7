@@ -21,7 +21,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.Fragments.BankAccessListFragment;
+import de.fau.amos.virtualledger.android.ExpandableList.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
@@ -80,7 +80,7 @@ public class MainActivity_Menu extends AppCompatActivity {
         drawerLayout.closeDrawer(listView);
 
         //starting fragment -- if necessary add the start fragment here
-        //replaceFragment(0);
+        replaceFragment(1);
 
         //click on items
         listView.setOnItemClickListener(
@@ -193,7 +193,7 @@ public class MainActivity_Menu extends AppCompatActivity {
                 break;
 
             case 1:
-                fragment = new BankAccessListFragment();
+                fragment = new ExpandableBankFragment();
                 openFragment(fragment);
                 break;
             //new Fragments can be added her

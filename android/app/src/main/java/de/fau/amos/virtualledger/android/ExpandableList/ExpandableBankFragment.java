@@ -1,54 +1,61 @@
-package de.fau.amos.virtualledger.android.Fragments;
+package de.fau.amos.virtualledger.android.ExpandableList;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.ListFragment;
-import android.app.LoaderManager;
-import android.content.Loader;
-import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
+import android.util.SparseArray;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.App;
-import de.fau.amos.virtualledger.android.ListView.Adapter.BankAccessListAdapter;
+import de.fau.amos.virtualledger.android.ExpandableList.Adapter.ExpandableAdapterBanking;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccount;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-import android.support.annotation.Nullable;
-import android.util.Log;
-
-import javax.inject.Inject;
-
 /**
- * Created by Simon on 20.05.2017.
+ * Created by Simon on 21.05.2017.
  */
 
-public class BankAccessListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ExpandableBankFragment extends Fragment {
+
+    ExpandableListView listView;
 
     private static final String TAG = "BankAccessListFragment";
+
+    List<BankAccess> bankAccessList;
+
+    SparseArray<Group> groups = new SparseArray<Group>();
     /**
      *
      */
     @Inject
     BankingProvider bankingProvider;
 
-    BankAccessListAdapter bankAccessAdapter;
-
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
-        //Todo: get the real Bank Account information
-
         bankingProvider.getBankingOverview()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -60,13 +67,15 @@ public class BankAccessListFragment extends ListFragment implements LoaderManage
 
                     @Override
                     public void onNext(@NonNull List<BankAccess> bankAccesses) {
-
-                        if(bankAccesses == null) {
+                        bankAccessList = bankAccesses;
+                        if(bankAccessList == null) {
                             Fragment fragment = new NoBankingAccessesFragment();
                             openFragment(fragment);
                         }
-                        bankAccessAdapter = new BankAccessListAdapter(getActivity(), bankAccesses);
-                        setListAdapter(bankAccessAdapter);
+                        createData();
+                        ExpandableAdapterBanking adapter = new ExpandableAdapterBanking(getActivity(),
+                                groups);
+                        listView.setAdapter(adapter);
                     }
 
                     @Override
@@ -79,22 +88,36 @@ public class BankAccessListFragment extends ListFragment implements LoaderManage
 
                     }
                 });
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
-
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
     }
 
+    /**
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return Current View
+     */
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.expandable_view_main,container,false);
+        listView = (ExpandableListView)view.findViewById(R.id.expandableView);
+        return view;
+    }
 
+    /**
+     *
+     */
+    private void createData() {
+        int i = 0;
+        for(BankAccess access: bankAccessList) {
+            Group group = new Group(access);
+            for(BankAccount account: access.getBankaccounts()) {
+                group.children.add(account);
+            }
+            groups.append(i,group);
+            i++;
+        }
     }
 
     /**

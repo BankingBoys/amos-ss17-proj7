@@ -25,6 +25,11 @@ public class BankAccess {
      * @param name
      * @methodtype constructor
      */
+    public BankAccess(String id, String name,List<BankAccount> bankaccounts ) {
+        this(id, name);
+        this.bankaccounts = bankaccounts;
+    }
+
     public BankAccess(String id, String name) {
         this.id = id;
         this.name = name;

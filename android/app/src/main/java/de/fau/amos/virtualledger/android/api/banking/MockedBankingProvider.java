@@ -25,7 +25,7 @@ public class MockedBankingProvider implements BankingProvider {
         BankAccount account = new BankAccount("dummy account id", "dummy account name", 100);
         List<BankAccount> accountList = new ArrayList<BankAccount>();
         accountList.add(account);
-        BankAccess access = new BankAccess("dummy access id", "dummy access name");
+        BankAccess access = new BankAccess("dummy access id", "dummy access name", accountList);
         access.setBankaccounts(accountList);
 
         List<BankAccess> accessList = new ArrayList<BankAccess>();
