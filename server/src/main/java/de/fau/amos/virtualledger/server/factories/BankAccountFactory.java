@@ -15,7 +15,13 @@ public class BankAccountFactory {
 
     public BankAccount createBankAccount(BankAccountBankingModel bankingModel)
     {
-        BankAccount bankAccount = new BankAccount(bankingModel.getId(), bankingModel.getNameHbciAccount(), bankingModel.getBankAccountBalance().getAvailableHbciBalance());
+        double balance = 0;
+        if(bankingModel.getBankAccountBalance() != null)
+        {
+            balance = bankingModel.getBankAccountBalance().getReadyHbciBalance();
+        }
+
+        BankAccount bankAccount = new BankAccount(bankingModel.getId(), bankingModel.getNameHbciAccount(), balance);
         return bankAccount;
     }
 

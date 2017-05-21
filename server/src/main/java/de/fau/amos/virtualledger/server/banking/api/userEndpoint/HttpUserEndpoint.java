@@ -1,12 +1,14 @@
 package de.fau.amos.virtualledger.server.banking.api.userEndpoint;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 import de.fau.amos.virtualledger.server.banking.api.BankingApiUrlProvider;
-import de.fau.amos.virtualledger.server.banking.model.CreateUserBankingModel;
+import de.fau.amos.virtualledger.server.banking.api.json.CreateUserJSONBankingModel;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 
@@ -23,7 +25,7 @@ public class HttpUserEndpoint implements UserEndpoint {
     @Override
     public void createUser(String userId) {
 
-        /*CreateUserBankingModel postBody = new CreateUserBankingModel();
+        CreateUserJSONBankingModel postBody = new CreateUserJSONBankingModel();
         postBody.setId(userId);
 
         // Create Jersey client
@@ -37,7 +39,7 @@ public class HttpUserEndpoint implements UserEndpoint {
 
         if (response.getStatus() != 201) {
             throw new WebApplicationException("No connection to Adorsys Server!");
-        }*/
+        }
     }
 
 }
