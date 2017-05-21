@@ -7,8 +7,12 @@ import de.fau.amos.virtualledger.server.model.UserCredential;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.*;
+
+import com.sun.istack.logging.Logger;
+
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
 
 /**
  * Repository class that allows CRUD operations on the databasse for UserCredentials
@@ -36,6 +40,7 @@ public class UserCredentialRepository {
             countUserCredentials = query.getResultList().size();
         } catch (Exception ex)
         {
+        	logger().logException(ex, Level.WARNING);
             throw ex;
         } finally
         {
@@ -43,6 +48,10 @@ public class UserCredentialRepository {
         }
         return countUserCredentials != 0;
     }
+
+	private Logger logger() {
+		return Logger.getLogger(UserCredentialRepository.class);
+	}
 
     /**
      * creates a new UserCredential in the database
@@ -58,9 +67,11 @@ public class UserCredentialRepository {
                 entityManager.persist(credential);
                 entityTransaction.commit();
             } catch(EntityExistsException entityExistsException) {
+            	logger().info("Entity already exists: "+credential);
                 entityTransaction.rollback();
                 throw entityExistsException;
             } catch(IllegalArgumentException persistenceException) {
+            	logger().logException(persistenceException, Level.WARNING);
                 entityTransaction.rollback();
                 throw persistenceException;
             }
@@ -100,6 +111,7 @@ public class UserCredentialRepository {
                 entityManager.persist(session);
                 entityTransaction.commit();
             } catch(final Exception e) {
+            	logger().logException(e, Level.WARNING);
                 entityTransaction.rollback();
                 throw e;
             }
@@ -129,6 +141,7 @@ public class UserCredentialRepository {
                 }
                 entityTransaction.commit();
             } catch(final Exception e) {
+            	logger().logException(e, Level.WARNING);
                 entityTransaction.rollback();
                 throw e;
             }

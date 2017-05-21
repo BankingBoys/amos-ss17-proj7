@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 
+import com.sun.istack.logging.Logger;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -45,11 +46,13 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
         ClientResponse response = webResourceGET.get(ClientResponse.class);
 
         if (response.getStatus() != 200) {
+        	Logger.getLogger(HttpBankAccountEndpoint.class).warning("No connection to Adorsys Server!");
             throw new WebApplicationException("No connection to Adorsys Server!");
         }
         BankAccountJSONBankingModel reponseModel = response.getEntity(BankAccountJSONBankingModel.class);
         if(reponseModel == null || reponseModel.get_embedded() == null)
-        { // no accounts found!
+        { 
+        	Logger.getLogger(HttpBankAccountEndpoint.class).info("No accounts found");
             return new ArrayList<BankAccountBankingModel>();
         }
         List<BankAccountBankingModel> result = reponseModel.get_embedded().getBankAccountEntityList();

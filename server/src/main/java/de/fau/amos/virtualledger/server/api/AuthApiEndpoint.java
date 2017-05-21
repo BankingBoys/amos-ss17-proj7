@@ -59,7 +59,7 @@ public class AuthApiEndpoint {
             responseMsg = authenticationController.register(credential);
         } catch(VirtualLedgerAuthenticationException ex)
         {
-        	logger().logException(ex, Level.CONFIG);
+        	logger().logException(ex, Level.INFO);
         	return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
         StringApiModel responseObj = stringApiModelFactory.createStringApiModel(responseMsg);

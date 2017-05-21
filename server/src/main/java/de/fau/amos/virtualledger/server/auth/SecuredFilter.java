@@ -11,8 +11,12 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
+
+import com.sun.istack.logging.Logger;
+
 import java.io.IOException;
 import java.security.Principal;
+import java.util.logging.Level;
 
 @Secured
 @Provider
@@ -55,6 +59,7 @@ public class SecuredFilter implements ContainerRequestFilter {
             requestContext.setSecurityContext(newContext);
 
         } catch (InvalidCredentialsException e) {
+        	Logger.getLogger(SecuredFilter.class).logException(e, Level.INFO);
             requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).entity("Invalid Credentials").build());
         }
     }
