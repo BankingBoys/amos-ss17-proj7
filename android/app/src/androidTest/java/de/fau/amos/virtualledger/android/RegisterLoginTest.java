@@ -35,5 +35,8 @@ public class RegisterLoginTest {
         onView(withId(R.id.Email)).perform(typeText("test@user.com")).perform(closeSoftKeyboard());
         onView(withId(R.id.Password)).perform(typeText("testpassword")).perform(closeSoftKeyboard());
         onView(withId(R.id.button_register)).perform(click());
+        onView(withId(R.id.userIDField)).perform(typeText("test@user.com")).perform(closeSoftKeyboard());
+        onView(withId(R.id.SecretField)).perform(typeText("testpassword")).perform(closeSoftKeyboard());
+        onView(withId(R.id.loginButton)).perform(click());
     }
 }
