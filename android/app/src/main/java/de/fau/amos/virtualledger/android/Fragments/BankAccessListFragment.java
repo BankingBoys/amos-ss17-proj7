@@ -5,14 +5,13 @@ import android.app.LoaderManager;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.fau.amos.virtualledger.android.ListView.Adapter.BankAccessListAdapter;
 import de.fau.amos.virtualledger.dtos.BankAccess;
-
-import android.support.annotation.Nullable;
 
 /**
  * Created by Simon on 20.05.2017.
@@ -24,8 +23,9 @@ public class BankAccessListFragment extends ListFragment implements LoaderManage
 
 
     //For Test Purposes fake BankAccesses
-    BankAccess test = new BankAccess(0, "hallo", 0);
-    BankAccess test2 = new BankAccess(0, "hallo2", 0);
+
+    BankAccess test = new BankAccess("0", "hallo");
+    BankAccess test2 = new BankAccess("1", "hallo2");
     List<BankAccess> testList = new ArrayList<BankAccess>();
 
 
@@ -45,6 +45,7 @@ public class BankAccessListFragment extends ListFragment implements LoaderManage
         bankAccessAdapter = new BankAccessListAdapter(getActivity(), testList);
         setListAdapter(bankAccessAdapter);
 
+        getListView().setOnItemLongClickListener(new LongClickListener(this));
     }
 
     @Override
