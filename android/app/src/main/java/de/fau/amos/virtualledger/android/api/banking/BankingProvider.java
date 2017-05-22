@@ -1,10 +1,9 @@
 package de.fau.amos.virtualledger.android.api.banking;
 
-import android.content.Context;
-
 import java.util.List;
 
 import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import io.reactivex.Observable;
 
 /**
@@ -14,6 +13,8 @@ import io.reactivex.Observable;
 public interface BankingProvider {
 
     Observable<List<BankAccess>> getBankingOverview();
+
+    Observable<String> addBankAccess(BankAccessCredential bankAccessCredential);
 
     Observable<String> deleteBankAccess(String accessId);
 

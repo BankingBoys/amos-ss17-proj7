@@ -3,6 +3,7 @@ package de.fau.amos.virtualledger.android.api;
 import java.util.List;
 
 import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.android.model.UserCredential;
 import de.fau.amos.virtualledger.dtos.LoginData;
@@ -38,6 +39,9 @@ public interface Restapi {
 
     @GET ("/api/banking")
     Call<List<BankAccess>> getBankAccess(@Header("Authorization") String token);
+
+    @POST("/api/banking")
+    Call<Void> addBankAccess(@Header("Authorization") String token, @Body BankAccessCredential bankAccessCredential);
 
     @DELETE("/api/banking/{accessId}")
     Call<Void> deleteBankAccess(@Header("Authorization") String token, @Path("accessId") String accessId);
