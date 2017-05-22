@@ -39,7 +39,7 @@ public class LongClickDeleteListenerList<T> implements AdapterView.OnItemLongCli
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-        T clickedModelObject = bankAccesses.get((int) id);
+        T clickedModelObject = bankAccesses.get(position);
         DeleteDialog<T> tDeleteDialog = new DeleteDialog<>(listenedObject, clickedModelObject, getName, approvedAction);
         tDeleteDialog.show();
         return true;
