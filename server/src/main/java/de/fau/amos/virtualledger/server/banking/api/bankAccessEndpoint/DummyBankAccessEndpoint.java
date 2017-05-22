@@ -2,6 +2,7 @@ package de.fau.amos.virtualledger.server.banking.api.bankAccessEndpoint;
 
 import de.fau.amos.virtualledger.server.banking.api.BankingApiDummy;
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
 
 import javax.enterprise.context.RequestScoped;
 import java.util.ArrayList;
@@ -15,11 +16,16 @@ public class DummyBankAccessEndpoint implements BankAccessEndpoint {
 
 
     @Override
-    public List<BankAccessBankingModel> getBankAccesses(String userId) {
+    public List<BankAccessBankingModel> getBankAccesses(String userId) throws BankingException {
         List<BankAccessBankingModel> dummyData = new ArrayList<BankAccessBankingModel>();
         dummyData.add(this.generateDummyBankAccessModel(1));
         dummyData.add(this.generateDummyBankAccessModel(2));
         return dummyData;
+    }
+
+    @Override
+    public void addBankAccess(String userId, BankAccessBankingModel bankAccess)  throws BankingException {
+        return;
     }
 
     /**

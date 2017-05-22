@@ -1,7 +1,10 @@
 package de.fau.amos.virtualledger.server.controllers;
 
 import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccount;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import de.fau.amos.virtualledger.server.factories.BankAccessBankingModelFactory;
 import de.fau.amos.virtualledger.server.factories.BankAccessFactory;
 import de.fau.amos.virtualledger.server.factories.BankAccountFactory;
 import de.fau.amos.virtualledger.server.banking.api.BankingApiFacade;
@@ -25,10 +28,13 @@ public class BankingOverviewController {
     BankAccountFactory bankAccountFactory;
 
     @Inject
+    BankAccessBankingModelFactory bankAccessBankingModelFactory;
+
+    @Inject
     BankAccessFactory bankAccessFactory;
 
 
-    public List<BankAccess> getBankingOverview(String email)
+    public List<BankAccess> getBankingOverview(String email) throws BankingException
     {
         List<BankAccessBankingModel> bankingModelList = bankingApiFacade.getBankAccesses(email);
         List<BankAccess> bankAccessesList = bankAccessFactory.createBankAccesses(bankingModelList);
@@ -42,7 +48,14 @@ public class BankingOverviewController {
         return bankAccessesList;
     }
 
-    private List<BankAccount> getBankingAccounts(String email, String bankAccesId)
+    public void addBankAccess(String email, BankAccessCredential bankAccessCredential) throws BankingException
+    {
+        BankAccessBankingModel bankAccessBankingModel = bankAccessBankingModelFactory.createBankAccessBankingModel(email, bankAccessCredential);
+        bankingApiFacade.addBankAccess(email, bankAccessBankingModel);
+    }
+
+
+    private List<BankAccount> getBankingAccounts(String email, String bankAccesId) throws BankingException
     {
         List<BankAccountBankingModel> bankingModel = bankingApiFacade.getBankAccounts(email, bankAccesId);
         List<BankAccount> bankAccounts = bankAccountFactory.createBankAccounts(bankingModel);

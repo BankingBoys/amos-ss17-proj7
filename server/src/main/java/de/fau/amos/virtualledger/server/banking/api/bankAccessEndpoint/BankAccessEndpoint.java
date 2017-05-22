@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.server.banking.api.bankAccessEndpoint;
 
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
 
 import java.util.List;
 
@@ -9,5 +10,7 @@ import java.util.List;
  */
 public interface BankAccessEndpoint {
 
-    public List<BankAccessBankingModel> getBankAccesses(String userId);
+    public List<BankAccessBankingModel> getBankAccesses(String userId) throws BankingException;
+
+    public void addBankAccess(String userId, BankAccessBankingModel bankAccess) throws BankingException;
 }

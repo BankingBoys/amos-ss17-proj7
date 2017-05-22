@@ -8,6 +8,7 @@ import javax.enterprise.context.RequestScoped;
 import de.fau.amos.virtualledger.server.banking.api.BankingApiDummy;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBalanceBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
 
 /**
  * Created by Georg on 18.05.2017.
@@ -16,7 +17,7 @@ import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 public class DummyBankAccountEndpoint implements BankAccountEndpoint {
 
     @Override
-    public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId) {
+    public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId) throws BankingException {
         List<BankAccountBankingModel> dummyData = new ArrayList<BankAccountBankingModel>();
         dummyData.add(this.generateDummyBankAccountModel(1, bankingAccessId));
         dummyData.add(this.generateDummyBankAccountModel(2, bankingAccessId));

@@ -3,6 +3,7 @@ package de.fau.amos.virtualledger.server.auth;
 import de.fau.amos.virtualledger.dtos.LoginData;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.server.banking.api.BankingApiFacade;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
 
@@ -40,8 +41,12 @@ public class AuthenticationController {
         if (this.userCredentialRepository.existsUserCredentialEmail(credential.getEmail())) {
             throw new VirtualLedgerAuthenticationException("There already exists an account with this Email address.");
         }
-
-        this.bankingApiFacade.createUser(credential.getEmail());
+        try {
+            this.bankingApiFacade.createUser(credential.getEmail());
+        } catch(BankingException ex)
+        {
+            throw new VirtualLedgerAuthenticationException(ex.getMessage());
+        }
         this.userCredentialRepository.createUserCredential(credential);
 
         return "You were registered! " + credential.getEmail();
