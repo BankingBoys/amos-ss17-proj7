@@ -24,7 +24,7 @@ public class BankingApiConfiguration {
     private final boolean useBankAccessEndpointDummy = false;
     private final boolean useBankAccountEndpointDummy = false;
 
-    private final boolean useTestUser = true;
+    private final boolean useTestUser = false;
     private final String testUserName = "test";
 
 

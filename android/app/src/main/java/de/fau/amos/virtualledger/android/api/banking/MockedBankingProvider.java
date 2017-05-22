@@ -1,11 +1,10 @@
 package de.fau.amos.virtualledger.android.api.banking;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
@@ -59,6 +58,29 @@ public class MockedBankingProvider implements BankingProvider {
                 }
                 // publish accounts to subject
                 observable.onNext(accessList);
+                observable.onComplete();
+            }
+        });
+        th.start();
+
+        return observable;
+    }
+
+
+    @Override
+    public Observable<String> addBankAccess(BankAccessCredential bankAccessCredential) {
+        final PublishSubject observable = PublishSubject.create();
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    //Wait until subject is subscribed
+                    Thread.sleep(DELAY_TIME_MILLISECUNDS);}
+                catch (Exception e){
+
+                }
+                // publish accounts to subject
+                observable.onNext("BankAccess was added! DummyImplementation...");
                 observable.onComplete();
             }
         });

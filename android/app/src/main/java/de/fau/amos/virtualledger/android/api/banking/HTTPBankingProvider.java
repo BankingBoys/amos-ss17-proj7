@@ -1,23 +1,13 @@
 package de.fau.amos.virtualledger.android.api.banking;
 
-import android.content.Context;
 import android.util.Log;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.List;
 
 import de.fau.amos.virtualledger.android.api.Restapi;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
-import de.fau.amos.virtualledger.android.model.UserCredential;
 import de.fau.amos.virtualledger.dtos.BankAccess;
-import de.fau.amos.virtualledger.dtos.LoginData;
-import de.fau.amos.virtualledger.dtos.SessionData;
-import de.fau.amos.virtualledger.dtos.StringApiModel;
+import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Callback;
@@ -65,6 +55,37 @@ public class HTTPBankingProvider implements BankingProvider {
 
             @Override
             public void onFailure(retrofit2.Call<List<BankAccess>> call, Throwable t) {
+
+                Log.e(TAG, "No connection to server!");
+                observable.onError(new Throwable("No connection to server!"));
+            }
+        });
+
+        return observable;
+    }
+
+
+    @Override
+    public Observable<String> addBankAccess(BankAccessCredential bankAccessCredential) {
+        final retrofit2.Call<Void> responseMessage = retrofit.create(Restapi.class).addBankAccess(authenticationProvider.getToken(), bankAccessCredential);
+        final PublishSubject observable = PublishSubject.create();
+
+        responseMessage.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()) {
+                    Log.v(TAG,"Adding bank accesses was successful " + response.code());
+                    observable.onNext("Adding bank access was successful");
+                } else
+                {
+                    Log.e(TAG,"Adding bank accesses was not successful! ERROR " + response.code());
+                    observable.onError(new Throwable("Adding bank accesses was not successful!"));
+                }
+            }
+
+
+            @Override
+            public void onFailure(retrofit2.Call<Void> call, Throwable t) {
 
                 Log.e(TAG, "No connection to server!");
                 observable.onError(new Throwable("No connection to server!"));

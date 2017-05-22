@@ -3,6 +3,7 @@ package de.fau.amos.virtualledger.android.dagger.component;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import de.fau.amos.virtualledger.android.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.ExpandableList.Fragment.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.LoginActivity;
 import de.fau.amos.virtualledger.android.MainActivity_Menu;
@@ -11,8 +12,6 @@ import de.fau.amos.virtualledger.android.dagger.module.AppModule;
 import de.fau.amos.virtualledger.android.dagger.module.AuthenticationModule;
 import de.fau.amos.virtualledger.android.dagger.module.BankingModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
-import de.fau.amos.virtualledger.android.deleteaction.DeleteBankAccessAction;
-import de.fau.amos.virtualledger.android.deleteaction.DeleteBankAccountAction;
 
 /**
  * Created by Simon on 07.05.2017. taken from https://adityaladwa.wordpress.com/2016/05/09/
@@ -31,4 +30,5 @@ public interface NetComponent {
     void inject(MainActivity_Menu activity);
     void inject(LoginActivity activity);
     void inject(ExpandableBankFragment expandableBankFragment);
+    void inject(AddBankAccessActivity addBankAccessActivity);
 }
