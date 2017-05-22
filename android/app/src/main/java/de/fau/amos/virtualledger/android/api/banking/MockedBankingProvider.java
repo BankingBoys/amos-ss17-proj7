@@ -22,21 +22,36 @@ public class MockedBankingProvider implements BankingProvider {
     @Override
     public Observable<List<BankAccess>> getBankingOverview() {
 
-        BankAccount account = new BankAccount("dummy account id", "dummy account name", 100);
         List<BankAccount> accountList = new ArrayList<BankAccount>();
+        BankAccount account = new BankAccount("1.1dummy account id", "1.1 dummy account name1 ", 100);
         accountList.add(account);
-        BankAccess access = new BankAccess("dummy access id", "dummy access name", accountList);
+        account = new BankAccount("1.2dummy account id", "1.2 dummy account name1 ", 100);
+        accountList.add(account);
+
+        BankAccess access = new BankAccess("1dummy access id", " 1 dummy access name ", accountList);
         access.setBankaccounts(accountList);
 
         final List<BankAccess> accessList = new ArrayList<BankAccess>();
         accessList.add(access);
+
+
+        accountList = new ArrayList<BankAccount>();
+         account = new BankAccount("2.1dummy account id", "2.1 dummy account name1 ", 100);
+        accountList.add(account);
+        account = new BankAccount("2.2dummy account id", "2.2 dummy account name1 ", 100);
+        accountList.add(account);
+
+         access = new BankAccess("2dummy access id", " 2 dummy access name ", accountList);
+        access.setBankaccounts(accountList);
+        accessList.add(access);
+
 
         final PublishSubject observable = PublishSubject.create();
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
                 try{
-                Thread.sleep(500);}
+                Thread.sleep(300);}
                 catch (Exception e){
 
                 }
