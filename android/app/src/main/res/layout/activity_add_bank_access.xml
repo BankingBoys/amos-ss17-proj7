@@ -18,14 +18,14 @@
 
 
     <EditText
-        android:id="@+id/editText_addBankAccess_bic"
+        android:id="@+id/editText_addBankAccess_blz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.15"
         android:ems="10"
         android:gravity="bottom"
         android:inputType="text"
-        android:hint="@string/hint_bic"/>
+        android:hint="@string/hint_blz"/>
 
     <EditText
         android:id="@+id/editText_addBankAccess_loginName"
