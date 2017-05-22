@@ -10,7 +10,6 @@ import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
 import de.fau.amos.virtualledger.server.model.DeletedBankAccount;
-import de.fau.amos.virtualledger.server.persistence.BankAccessRepository;
 import de.fau.amos.virtualledger.server.persistence.DeletedBankAccessesRepository;
 import de.fau.amos.virtualledger.server.persistence.DeletedBankAccountsRepository;
 
