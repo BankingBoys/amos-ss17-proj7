@@ -74,4 +74,64 @@ public class HTTPBankingProvider implements BankingProvider {
         return observable;
     }
 
+    @Override
+    public Observable<String> deleteBankAccess(String accessId) {
+        final retrofit2.Call<Void> responseMessage = retrofit.create(Restapi.class).deleteBankAccess(authenticationProvider.getToken(), accessId);
+        final PublishSubject observable = PublishSubject.create();
+
+        responseMessage.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()) {
+                    Log.v(TAG,"Deleting bank accesses was successful " + response.code());
+                    observable.onNext("Deleting bank access was successful");
+                } else
+                {
+                    Log.e(TAG,"Deleting bank accesses was not successful! ERROR " + response.code());
+                    observable.onError(new Throwable("Deleting bank accesses was not successful!"));
+                }
+            }
+
+
+            @Override
+            public void onFailure(retrofit2.Call<Void> call, Throwable t) {
+
+                Log.e(TAG, "No connection to server!");
+                observable.onError(new Throwable("No connection to server!"));
+            }
+        });
+
+        return observable;
+    }
+
+    @Override
+    public Observable<String> deleteBankAccount(String accessId, String accountId) {
+        final retrofit2.Call<Void> responseMessage = retrofit.create(Restapi.class).deleteBankAccount(authenticationProvider.getToken(), accessId, accountId);
+        final PublishSubject observable = PublishSubject.create();
+
+        responseMessage.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()) {
+                    Log.v(TAG,"Deleting bank account was successful " + response.code());
+                    observable.onNext("Deleting bank account was successful");
+                } else
+                {
+                    Log.e(TAG,"Deleting bank account was not successful! ERROR " + response.code());
+                    observable.onError(new Throwable("Deleting bank account was not successful!"));
+                }
+            }
+
+
+            @Override
+            public void onFailure(retrofit2.Call<Void> call, Throwable t) {
+
+                Log.e(TAG, "No connection to server!");
+                observable.onError(new Throwable("No connection to server!"));
+            }
+        });
+
+        return observable;
+    }
+
 }

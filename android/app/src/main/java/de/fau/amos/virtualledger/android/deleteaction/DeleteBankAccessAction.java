@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.widget.Toast;
 
 
+import javax.inject.Inject;
+
+import de.fau.amos.virtualledger.android.App;
+import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.functions.Consumer;
 import de.fau.amos.virtualledger.android.functions.Function;
 import de.fau.amos.virtualledger.dtos.BankAccess;
@@ -15,20 +19,28 @@ import retrofit2.Retrofit;
  * Action for deletion of a BankAccess.
  */
 
-public class DeleteAccessAction implements Consumer<BankAccess>{
+public class DeleteBankAccessAction implements Consumer<BankAccess>{
+
+    // injected by setter
+    private BankingProvider bankingProvider;
 
     private Activity activity;
-    private Retrofit retrofit;
     private Function<BankAccess,String> getName;
 
-    public DeleteAccessAction(Activity activity, Function<BankAccess,String> getName){
+    public DeleteBankAccessAction(Activity activity, Function<BankAccess,String> getName){
         this.getName = getName;
         this.activity = activity;
     }
 
     @Override
     public void accept(BankAccess bankAccess) {
-        //TODO Delete Action
+        bankingProvider.deleteBankAccess(bankAccess.getId());
         Toast.makeText(activity, "Bank access deleted:\""+getName.apply(bankAccess)+"\"", Toast.LENGTH_LONG).show();
+    }
+
+    @Inject
+    public void setBankingProvider(BankingProvider bankingProvider)
+    {
+        this.bankingProvider = bankingProvider;
     }
 }

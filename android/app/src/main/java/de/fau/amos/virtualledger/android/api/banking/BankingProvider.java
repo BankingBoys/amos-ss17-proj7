@@ -14,4 +14,8 @@ import io.reactivex.Observable;
 public interface BankingProvider {
 
     Observable<List<BankAccess>> getBankingOverview();
+
+    Observable<String> deleteBankAccess(String accessId);
+
+    Observable<String> deleteBankAccount(String accessId, String accountId);
 }
