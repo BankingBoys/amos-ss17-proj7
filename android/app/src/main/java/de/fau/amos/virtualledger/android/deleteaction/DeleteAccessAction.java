@@ -10,6 +10,7 @@ import retrofit2.Retrofit;
 
 /**
  * Created by sebastian on 21.05.17.
+ * Action for deletion of a BankAccess.
  */
 
 public class DeleteAccessAction implements Consumer<BankAccess>{

@@ -9,6 +9,7 @@ import retrofit2.Retrofit;
 
 /**
  * Created by sebastian on 22.05.17.
+ * Action of deletion of an BankAccount
  */
 
 public class DeleteBankAccountAction implements Consumer<BankAccount> {
