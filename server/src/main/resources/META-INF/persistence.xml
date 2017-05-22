@@ -6,8 +6,6 @@
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>de.fau.amos.virtualledger.server.model.UserCredential</class>
         <class>de.fau.amos.virtualledger.server.model.Session</class>
-        <class>de.fau.amos.virtualledger.server.model.BankAccess</class>
-        <class>de.fau.amos.virtualledger.server.model.BankAccount</class>
         <class>de.fau.amos.virtualledger.server.model.DeletedBankAccess</class>
         <class>de.fau.amos.virtualledger.server.model.DeletedBankAccount</class>
         <properties>
