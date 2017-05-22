@@ -14,14 +14,14 @@ import de.fau.amos.virtualledger.android.functions.Function;
  * Created by sebastian on 21.05.17.
  */
 
-public class LongClickDeleteListener<T> implements AdapterView.OnItemLongClickListener {
+public class LongClickDeleteListenerList<T> implements AdapterView.OnItemLongClickListener {
 
     private final Activity listenedObject;
     private List<T> bankAccesses = new ArrayList<T>();
     private Function<T,String> getName;
     private Consumer<T> approvedAction;
 
-    public LongClickDeleteListener(Activity listenedObject, List<T> bankAccesses, Function<T,String> getName, Consumer<T> approvedAction) {
+    public LongClickDeleteListenerList(Activity listenedObject, List<T> bankAccesses, Function<T,String> getName, Consumer<T> approvedAction) {
         this.listenedObject = listenedObject;
         this.bankAccesses = bankAccesses;
         this.getName = getName;
