@@ -7,20 +7,24 @@ import android.widget.AdapterView;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.fau.amos.virtualledger.android.functions.BiConsumer;
 import de.fau.amos.virtualledger.android.functions.Consumer;
 import de.fau.amos.virtualledger.android.functions.Function;
+import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccount;
 
 /**
  * Long click lisntens to an single element
  * Created by sebastian on 21.05.17.
  */
 
-public class LongClickDeleteListenerSingleItem<T> implements View.OnLongClickListener {
+public class LongClickDeleteListenerSingleItem<R,T> implements View.OnLongClickListener {
 
     private final Activity listenedObject;
-    private T element;
+    private R element;
+    private T element2;
     private Function<T,String> getName;
-    private Consumer<T> approvedAction;
+    private BiConsumer<R,T>  approvedAction;
 
     /**
      * Long Click listens to an single element
@@ -29,9 +33,10 @@ public class LongClickDeleteListenerSingleItem<T> implements View.OnLongClickLis
      * @param getName = creates the name shown in the dialog out of a single model element
      * @param approvedAction = ction that is fired after user approves the shown delete dialog
      */
-    public LongClickDeleteListenerSingleItem(Activity listenedObject, T element, Function<T,String> getName, Consumer<T> approvedAction) {
+    public LongClickDeleteListenerSingleItem(Activity listenedObject, R element,T element2, Function<T,String> getName, BiConsumer<R,T> approvedAction) {
         this.listenedObject = listenedObject;
         this.element = element;
+        this.element2 = element2;
         this.getName = getName;
         this.approvedAction = approvedAction;
     }
@@ -39,7 +44,7 @@ public class LongClickDeleteListenerSingleItem<T> implements View.OnLongClickLis
 
     @Override
     public boolean onLongClick(View v) {
-        DeleteDialog<T> tDeleteDialog = new DeleteDialog<>(listenedObject, element, getName, approvedAction);
+        DeleteDialog<R,T> tDeleteDialog = new DeleteDialog<>(listenedObject,element, element2, getName, approvedAction);
         tDeleteDialog.show();
         return true;
     }

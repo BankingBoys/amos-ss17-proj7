@@ -67,5 +67,49 @@ public class MockedBankingProvider implements BankingProvider {
         return observable;
     }
 
+    @Override
+    public Observable<String> deleteBankAccess(String accessId) {
+        final PublishSubject observable = PublishSubject.create();
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    //Wait until subject is subscribed
+                    Thread.sleep(DELAY_TIME_MILLISECUNDS);}
+                catch (Exception e){
+
+                }
+                // publish accounts to subject
+                observable.onNext("BankAccess was deleted! DummyImplementation...");
+                observable.onComplete();
+            }
+        });
+        th.start();
+
+        return observable;
+    }
+
+    @Override
+    public Observable<String> deleteBankAccount(String accessId, String accountId) {
+        final PublishSubject observable = PublishSubject.create();
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    //Wait until subject is subscribed
+                    Thread.sleep(DELAY_TIME_MILLISECUNDS);}
+                catch (Exception e){
+
+                }
+                // publish accounts to subject
+                observable.onNext("BankAccount was deleted! DummyImplementation...");
+                observable.onComplete();
+            }
+        });
+        th.start();
+
+        return observable;
+    }
+
 
 }

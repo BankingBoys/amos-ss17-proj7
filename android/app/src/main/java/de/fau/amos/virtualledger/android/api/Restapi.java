@@ -9,9 +9,11 @@ import de.fau.amos.virtualledger.dtos.LoginData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * Created by Simon on 07.05.2017. taken from https://adityaladwa.wordpress.com/2016/05/09/
@@ -36,5 +38,11 @@ public interface Restapi {
 
     @GET ("/api/banking")
     Call<List<BankAccess>> getBankAccess(@Header("Authorization") String token);
+
+    @DELETE("/api/banking/{accessId}")
+    Call<Void> deleteBankAccess(@Header("Authorization") String token, @Path("accessId") String accessId);
+
+    @DELETE("/api/banking/{accessId}/{accountId}")
+    Call<Void> deleteBankAccount(@Header("Authorization") String token, @Path("accessId") String accessId, @Path("accountId") String accountId);
 
 }

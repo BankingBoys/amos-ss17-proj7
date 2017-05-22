@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
+import de.fau.amos.virtualledger.android.functions.BiConsumer;
 import de.fau.amos.virtualledger.android.functions.Consumer;
 import de.fau.amos.virtualledger.android.functions.Function;
+import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccount;
 
 /**
  * Created by sebastian on 21.05.17.
@@ -13,12 +16,14 @@ import de.fau.amos.virtualledger.android.functions.Function;
  * If the User approves the deletion, the approvedAction will be executed
  */
 
-public class DeleteDialog<T> {
+public class DeleteDialog<R,T> {
 
     private Activity listenedObject;
-    private T listenedModel;
+    private R listenedModel;
+    private T listenedModel2;
     private Function<T, String> getName;
-    private Consumer<T> approvedAction;
+    private BiConsumer<R,T> approvedAction;
+
 
     /**
      * Create a dialogue for deletion confirmatrion
@@ -28,9 +33,10 @@ public class DeleteDialog<T> {
      * @param getName = a function that creates the name that is presented on the dialog out of the modelobject
      * @param approvedAction = the action that is fired if the user approves
      */
-    public DeleteDialog(Activity listenedObject, T listenedModel, Function<T, String> getName, Consumer<T> approvedAction) {
+    public DeleteDialog(Activity listenedObject, R listenedModel,T listenedModel2, Function<T, String> getName, BiConsumer<R,T> approvedAction) {
         this.listenedObject = listenedObject;
         this.listenedModel = listenedModel;
+        this.listenedModel2 = listenedModel2;
         this.getName = getName;
         this.approvedAction = approvedAction;
     }
@@ -41,13 +47,13 @@ public class DeleteDialog<T> {
     public void show() {
         AlertDialog.Builder alert = new AlertDialog.Builder(listenedObject);
         alert.setTitle("DELETE CONFIRMATION");
-        alert.setMessage("Are you sure to delete " + this.getName.apply(listenedModel));
+        alert.setMessage("Are you sure to delete " + this.getName.apply(listenedModel2));
         alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                approvedAction.accept(listenedModel);
+                approvedAction.accept(listenedModel,listenedModel2);
 
             }
         });
