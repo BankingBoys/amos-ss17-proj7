@@ -11,10 +11,17 @@ import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 
 public class Group {
-
+    /**
+     *
+     */
     public BankAccess bankAccess;
     public final List<BankAccount> children = new ArrayList<BankAccount>();
 
+    /**
+     *
+     * @param bankAccess which are saved in the group
+     * @methodtype constructor
+     */
     public Group(BankAccess bankAccess) {
         this.bankAccess = bankAccess;
     }
