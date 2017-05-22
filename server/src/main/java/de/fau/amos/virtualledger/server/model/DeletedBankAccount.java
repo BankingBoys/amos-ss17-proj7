@@ -9,8 +9,8 @@ import javax.persistence.Table;
  * Created by Georg on 22.05.2017.
  */
 @Entity
-@Table(name = "DeletedBankAccesses")
-public class DeletedBankAccess {
+@Table(name = "DeletedBankAccounts")
+public class DeletedBankAccount {
 
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +20,9 @@ public class DeletedBankAccess {
 
     public String bankAccessId;
 
+    public String bankAccountId;
 
-    public DeletedBankAccess() {
+
+    public DeletedBankAccount() {
     }
-
 }

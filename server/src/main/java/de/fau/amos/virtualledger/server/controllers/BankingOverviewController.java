@@ -4,16 +4,15 @@ import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
-import de.fau.amos.virtualledger.server.factories.BankAccessBankingModelFactory;
-import de.fau.amos.virtualledger.server.factories.BankAccessFactory;
-import de.fau.amos.virtualledger.server.factories.BankAccountFactory;
+import de.fau.amos.virtualledger.server.factories.*;
 import de.fau.amos.virtualledger.server.banking.api.BankingApiFacade;
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
-import de.fau.amos.virtualledger.server.factories.DeletedBankAccessFactory;
 import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
+import de.fau.amos.virtualledger.server.model.DeletedBankAccount;
 import de.fau.amos.virtualledger.server.persistence.BankAccessRepository;
 import de.fau.amos.virtualledger.server.persistence.DeletedBankAccessesRepository;
+import de.fau.amos.virtualledger.server.persistence.DeletedBankAccountsRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -42,7 +41,13 @@ public class BankingOverviewController {
     DeletedBankAccessesRepository deletedBankAccessesRepository;
 
     @Inject
+    DeletedBankAccountsRepository deletedBankAccountRepository;
+
+    @Inject
     DeletedBankAccessFactory deletedBankAccessFactory;
+
+    @Inject
+    DeletedBankAccountFactory deletedBankAccountFactory;
 
 
     public List<BankAccess> getBankingOverview(String email) throws BankingException
@@ -55,6 +60,7 @@ public class BankingOverviewController {
         for(BankAccess bankAccess: bankAccessesList)
         {
             List<BankAccount> bankAccounts = this.getBankingAccounts(email, bankAccess.getId());
+            filterBankAccountsWithDeleted(email, bankAccess.getId(), bankAccounts);
             bankAccess.setBankaccounts(bankAccounts);
         }
 
@@ -71,6 +77,12 @@ public class BankingOverviewController {
     {
         DeletedBankAccess deletedBankAccess = deletedBankAccessFactory.createDeletedBankAccess(email, bankAccessId);
         deletedBankAccessesRepository.createDeletedBankAccess(deletedBankAccess);
+    }
+
+    public void deleteBankAccount(String email, String bankAccessId, String bankAccountId) throws BankingException
+    {
+        DeletedBankAccount deletedBankAccount = deletedBankAccountFactory.createDeletedBankAccount(email, bankAccessId, bankAccountId);
+        deletedBankAccountRepository.createDeletedBankAccount(deletedBankAccount);
     }
 
 
@@ -94,5 +106,20 @@ public class BankingOverviewController {
             }
         }
         bankAccessList.removeAll(foundBankAccesses);
+    }
+
+    private void filterBankAccountsWithDeleted(String email, String bankAccessId, List<BankAccount> bankAccountList)
+    {
+        List<DeletedBankAccount> deletedAccountList = deletedBankAccountRepository.getDeletedBankAccountIdsByEmailAndAccessId(email, bankAccessId);
+
+        List<BankAccount> foundBankAccounts = new ArrayList<BankAccount>();
+        for (DeletedBankAccount deletedAccount: deletedAccountList) {
+            for (BankAccount bankAccount: bankAccountList) {
+                if(bankAccount.getBankid().equals(deletedAccount.bankAccountId)) {
+                    foundBankAccounts.add(bankAccount);
+                }
+            }
+        }
+        bankAccountList.removeAll(foundBankAccounts);
     }
 }

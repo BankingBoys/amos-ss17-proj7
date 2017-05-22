@@ -80,6 +80,24 @@ public class BankingOverviewEndpoint {
         return Response.status(Response.Status.OK).build();
     }
 
+    @DELETE
+    @Path("/{bankAccessId}/{bankAccountId}")
+    @Secured
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteBankAccess(@Context SecurityContext securityContext, @PathParam("bankAccessId") String bankAccessId, @PathParam("bankAccountId") String bankAccountId)
+    {
+        final String email = securityContext.getUserPrincipal().getName();
+        try
+        {
+            bankingOverviewController.deleteBankAccount(email, bankAccessId, bankAccountId);
+        } catch (BankingException ex)
+        {
+            logger().logException(ex, Level.INFO);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.status(Response.Status.OK).build();
+    }
 
 
     private Logger logger() {
