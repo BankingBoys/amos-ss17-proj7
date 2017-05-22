@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -37,14 +39,16 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class ExpandableBankFragment extends Fragment {
-
+    /**
+     *
+     */
     ExpandableListView listView;
-
-    private static final String TAG = "BankAccessListFragment";
-
-    List<BankAccess> bankAccessList;
-
+    TextView bankBalanceOverviewText;
+    View seperator;
     SparseArray<Group> groups = new SparseArray<Group>();
+    List<BankAccess> bankAccessList;
+    private static final String TAG = "BankAccessListFragment";
+    double bankBalanceOverview;
     /**
      *
      */
@@ -53,7 +57,7 @@ public class ExpandableBankFragment extends Fragment {
 
     /**
      *
-     * @param savedInstanceState
+     * @param savedInstanceState - state of the instance
      */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -82,13 +86,16 @@ public class ExpandableBankFragment extends Fragment {
                         ExpandableAdapterBanking adapter = new ExpandableAdapterBanking(getActivity(),
                                 groups);
                         listView.setAdapter(adapter);
+                        String bankBalanceString = String.format(Locale.GERMAN, "%.2f",bankBalanceOverview);
+                        bankBalanceOverviewText.setText(bankBalanceString);
+                        seperator.setVisibility(View.VISIBLE);
                         BankAccessNameExtractor  getName = new BankAccessNameExtractor();
                         listView.setOnItemLongClickListener(
                                 new LongClickDeleteListenerList<BankAccess>(__self.getActivity(),
                                         bankAccessList,
                                         getName,
                                         new DeleteAccessAction(__self.getActivity(),getName
-                                                ))
+                                        ))
                         );
                     }
 
@@ -108,15 +115,17 @@ public class ExpandableBankFragment extends Fragment {
 
     /**
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
+     * @param inflater - to inflate the view
+     * @param container - Viewgroup
+     * @param savedInstanceState - state of the instance
      * @return Current View
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.expandable_view_main,container,false);
         listView = (ExpandableListView)view.findViewById(R.id.expandableView);
+        bankBalanceOverviewText = (TextView)view.findViewById(R.id.BankAccessBalanceOverview);
+        seperator = (View)view.findViewById(R.id.BankOverviewSeperator);
         return view;
     }
 
@@ -130,6 +139,7 @@ public class ExpandableBankFragment extends Fragment {
             for(BankAccount account: access.getBankaccounts()) {
                 group.children.add(account);
             }
+            bankBalanceOverview+=access.getBalance();
             groups.append(i,group);
             i++;
         }
@@ -137,7 +147,7 @@ public class ExpandableBankFragment extends Fragment {
 
     /**
      *
-     * @param fragment
+     * @param fragment which is opened
      */
     private void openFragment(Fragment fragment) {
         if(null!=fragment) {

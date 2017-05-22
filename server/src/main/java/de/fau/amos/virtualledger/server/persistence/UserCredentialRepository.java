@@ -6,6 +6,7 @@ import de.fau.amos.virtualledger.server.model.Session;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.*;
 
 import com.sun.istack.logging.Logger;
@@ -17,7 +18,7 @@ import java.util.logging.Level;
 /**
  * Repository class that allows CRUD operations on the databasse for UserCredentials
  */
-@ApplicationScoped
+@RequestScoped
 public class UserCredentialRepository {
 
     /**

@@ -14,6 +14,7 @@ import com.sun.istack.logging.Logger;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.server.auth.Secured;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
 import de.fau.amos.virtualledger.server.controllers.BankingOverviewController;
 
 /**
@@ -46,7 +47,6 @@ public class BankingOverviewEndpoint {
 
     @POST
     @Secured
-    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addBankAccess(@Context SecurityContext securityContext, BankAccessCredential bankAccessCredential)
     {
@@ -61,6 +61,43 @@ public class BankingOverviewEndpoint {
         return Response.status(Response.Status.CREATED).build();
     }
 
+    @DELETE
+    @Path("/{bankAccessId}")
+    @Secured
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteBankAccess(@Context SecurityContext securityContext, @PathParam("bankAccessId") String bankAccessId)
+    {
+        final String email = securityContext.getUserPrincipal().getName();
+        try
+        {
+            bankingOverviewController.deleteBankAccess(email, bankAccessId);
+        } catch (BankingException ex)
+        {
+            logger().logException(ex, Level.INFO);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @DELETE
+    @Path("/{bankAccessId}/{bankAccountId}")
+    @Secured
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteBankAccess(@Context SecurityContext securityContext, @PathParam("bankAccessId") String bankAccessId, @PathParam("bankAccountId") String bankAccountId)
+    {
+        final String email = securityContext.getUserPrincipal().getName();
+        try
+        {
+            bankingOverviewController.deleteBankAccount(email, bankAccessId, bankAccountId);
+        } catch (BankingException ex)
+        {
+            logger().logException(ex, Level.INFO);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.status(Response.Status.OK).build();
+    }
 
 
     private Logger logger() {

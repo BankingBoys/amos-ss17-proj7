@@ -1,9 +1,11 @@
 package de.fau.amos.virtualledger.server.banking.api;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,7 +44,11 @@ public class BankingApiFacadeTest {
         bankingApiFacade.setBinder(bankingApiBinder);
 
         // ACT
-        bankingApiFacade.createUser("test");
+        try {
+            bankingApiFacade.createUser("test");
+        } catch (BankingException ex) {
+            fail("An Banking Exception was thrown! " + ex.getMessage());
+        }
 
         // ASSERT
         Mockito.verify(bankingApiBinder, times(1))
@@ -59,7 +65,11 @@ public class BankingApiFacadeTest {
         bankingApiFacade.setBinder(bankingApiBinder);
 
         // ACT
-        bankingApiFacade.getBankAccesses("test");
+        try {
+            bankingApiFacade.getBankAccesses("test");
+        } catch (BankingException ex) {
+            fail("An Banking Exception was thrown! " + ex.getMessage());
+        }
 
         // ASSERT
         Mockito.verify(bankingApiBinder, times(1))
@@ -76,7 +86,11 @@ public class BankingApiFacadeTest {
         bankingApiFacade.setBinder(bankingApiBinder);
 
         // ACT
-        bankingApiFacade.getBankAccounts("test", "test");
+        try {
+            bankingApiFacade.getBankAccounts("test", "test");
+        } catch (BankingException ex) {
+            fail("An Banking Exception was thrown! " + ex.getMessage());
+        }
 
         // ASSERT
         Mockito.verify(bankingApiBinder, times(1))
