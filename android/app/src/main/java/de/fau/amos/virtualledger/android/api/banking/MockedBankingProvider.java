@@ -16,6 +16,7 @@ import io.reactivex.subjects.PublishSubject;
 
 public class MockedBankingProvider implements BankingProvider {
 
+    public static final int DELAY_TIME_MILLISECUNDS = 300;
     private String token = "";
 
 
@@ -51,10 +52,12 @@ public class MockedBankingProvider implements BankingProvider {
             @Override
             public void run() {
                 try{
-                Thread.sleep(300);}
+                    //Wait until subject is subscribed
+                    Thread.sleep(DELAY_TIME_MILLISECUNDS);}
                 catch (Exception e){
 
                 }
+                // publish accounts to subject
                 observable.onNext(accessList);
                 observable.onComplete();
             }
