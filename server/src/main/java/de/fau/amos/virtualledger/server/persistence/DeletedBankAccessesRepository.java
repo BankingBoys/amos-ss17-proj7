@@ -47,7 +47,7 @@ public class DeletedBankAccessesRepository {
         }
     }
 
-    public void deleteDeletedBankAccessByEmail(final String email)
+    public void deleteDeletedBankAccessByEmailAndId(final String email, final String accessId)
     {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
@@ -56,8 +56,9 @@ public class DeletedBankAccessesRepository {
             try {
                 entityTransaction.begin();
 
-                Query query = entityManager.createQuery("Select s FROM DeletedBankAccess s WHERE s.userEmail = :email");
+                Query query = entityManager.createQuery("Select s FROM DeletedBankAccess s WHERE s.userEmail = :email AND s.bankAccessId = :accessId");
                 query.setParameter("email", email);
+                query.setParameter("accessId", accessId);
                 List<Session> sessions = query.getResultList();
 
                 for(int i = 0; i < sessions.size(); ++i)
