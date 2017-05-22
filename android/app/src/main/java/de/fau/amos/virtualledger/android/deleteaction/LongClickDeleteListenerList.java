@@ -14,6 +14,7 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.functions.BiConsumer;
 import de.fau.amos.virtualledger.android.functions.Consumer;
 import de.fau.amos.virtualledger.android.functions.Function;
+import de.fau.amos.virtualledger.dtos.BankAccess;
 
 /**
  * LongClick lisntens to a list
@@ -43,16 +44,21 @@ public class LongClickDeleteListenerList<T> implements AdapterView.OnItemLongCli
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        TextView bankBalance = (TextView) parent.findViewById(R.id.bankAccessBalanceView);
-        Logger.getLogger("TEEEEEEEEEEEEEESSSSSSSSSSSSSSSSTTTTTTTTTTT").log(Level.SEVERE,bankBalance.getText().toString());
+        TextView bankBalance = (TextView) view.findViewById(R.id.bankAccessNameView);
+        T clickedModelObject = getAccessByName(this.bankAccesses, bankBalance.getText().toString());
 
-        if (position > bankAccesses.size()) {
-            return true; //TODO //FIXME Indicate real position
-        }
-        T clickedModelObject = bankAccesses.get(position);
 
         DeleteDialog<T,T> tDeleteDialog = new DeleteDialog<>(listenedObject, clickedModelObject,clickedModelObject, getName, approvedAction);
         tDeleteDialog.show();
         return true;
+    }
+
+
+    private T getAccessByName(List<T> list, String name){
+        for (T t: list) {
+            if (getName.apply(t).equals(name))
+                return t;
+        }
+        throw new IllegalArgumentException("No bank access found with name:"+name);
     }
 }
