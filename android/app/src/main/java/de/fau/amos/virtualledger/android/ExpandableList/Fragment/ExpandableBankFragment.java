@@ -82,11 +82,13 @@ public class ExpandableBankFragment extends Fragment {
                         ExpandableAdapterBanking adapter = new ExpandableAdapterBanking(getActivity(),
                                 groups);
                         listView.setAdapter(adapter);
+                        BankAccessNameExtractor  getName = new BankAccessNameExtractor();
                         listView.setOnItemLongClickListener(
                                 new LongClickDeleteListenerList<BankAccess>(__self.getActivity(),
                                         bankAccessList,
-                                        new BankAccessNameExtractor(),
-                                        new DeleteAccessAction(__self.getActivity()))
+                                        getName,
+                                        new DeleteAccessAction(__self.getActivity(),getName
+                                                ))
                         );
                     }
 

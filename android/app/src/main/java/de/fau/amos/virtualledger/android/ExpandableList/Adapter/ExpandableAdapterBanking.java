@@ -17,7 +17,6 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.ExpandableList.model.Group;
 import de.fau.amos.virtualledger.android.deleteaction.BankAccountNameExtractor;
 import de.fau.amos.virtualledger.android.deleteaction.DeleteBankAccountAction;
-import de.fau.amos.virtualledger.android.deleteaction.LongClickDeleteListenerList;
 import de.fau.amos.virtualledger.android.deleteaction.LongClickDeleteListenerSingleItem;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 
@@ -26,6 +25,8 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     private final SparseArray<Group> groups;
     public LayoutInflater inflater;
     public Activity activity;
+
+
 
     public ExpandableAdapterBanking(Activity act, SparseArray<Group> groups) {
         activity = act;
@@ -55,8 +56,9 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.expandablelistrow_detail, null);
         }
 
+        BankAccountNameExtractor getName = new BankAccountNameExtractor();
         convertView.setOnLongClickListener(
-                new LongClickDeleteListenerSingleItem<BankAccount>(activity, children,new BankAccountNameExtractor(),new DeleteBankAccountAction(activity)));
+                new LongClickDeleteListenerSingleItem<BankAccount>(activity, children, getName,new DeleteBankAccountAction(activity, getName)));
 
         textBankName = (TextView) convertView.findViewById(R.id.bankAccountNameView);
         textBankName.setText(bankName);
