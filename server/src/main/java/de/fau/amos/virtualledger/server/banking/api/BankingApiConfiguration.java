@@ -20,9 +20,9 @@ public class BankingApiConfiguration {
     private final String bankAccessApiUrlRelative = "users/{userId}/bankaccesses";
     private final String bankAccountApiUrlRelative = "users/{userId}/bankaccesses/{accessId}/accounts";
 
-    private final boolean useUserEndpointDummy = true;
-    private final boolean useBankAccessEndpointDummy = true;
-    private final boolean useBankAccountEndpointDummy = true;
+    private final boolean useUserEndpointDummy = false;
+    private final boolean useBankAccessEndpointDummy = false;
+    private final boolean useBankAccountEndpointDummy = false;
 
     private final boolean useTestUser = true;
     private final String testUserName = "test";

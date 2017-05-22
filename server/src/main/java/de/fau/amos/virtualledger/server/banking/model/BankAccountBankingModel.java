@@ -5,17 +5,17 @@ package de.fau.amos.virtualledger.server.banking.model;
  */
 public class BankAccountBankingModel {
 
-    private String bankAccessId = "";
+    private String bankAccessId = null;
     private BankAccountBalanceBankingModel bankAccountBalance = null;
-    private String bicHbciAccount = "";
-    private String blzHbciAccount = "";
-    private String countryHbciAccount = "";
-    private String currencyHbciAccount = "";
-    private String ibanHbciAccount = "";
-    private String id = "";
-    private String nameHbciAccount = "";
-    private String numberHbciAccount = "";
-    private String typeHbciAccount = "";
+    private String bicHbciAccount = null;
+    private String blzHbciAccount = null;
+    private String countryHbciAccount = null;
+    private String currencyHbciAccount = null;
+    private String ibanHbciAccount = null;
+    private String id = null;
+    private String nameHbciAccount = null;
+    private String numberHbciAccount = null;
+    private String typeHbciAccount = null;
 
     public BankAccountBankingModel() {
     }

@@ -20,6 +20,7 @@ import com.sun.jersey.api.json.JSONConfiguration;
 import de.fau.amos.virtualledger.server.banking.api.BankingApiUrlProvider;
 import de.fau.amos.virtualledger.server.banking.api.json.BankAccountJSONBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
 
 /**
  * Created by Georg on 18.05.2017.
@@ -32,7 +33,7 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
 
 
     @Override
-    public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId) {
+    public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId) throws BankingException {
 
         // Create Jersey client
         ClientConfig clientConfig = new DefaultClientConfig();
@@ -47,7 +48,7 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
 
         if (response.getStatus() != 200) {
         	Logger.getLogger(HttpBankAccountEndpoint.class).warning("No connection to Adorsys Server!");
-            throw new WebApplicationException("No connection to Adorsys Server!");
+            throw new BankingException("No connection to Adorsys Server!");
         }
         BankAccountJSONBankingModel reponseModel = response.getEntity(BankAccountJSONBankingModel.class);
         if(reponseModel == null || reponseModel.get_embedded() == null)
