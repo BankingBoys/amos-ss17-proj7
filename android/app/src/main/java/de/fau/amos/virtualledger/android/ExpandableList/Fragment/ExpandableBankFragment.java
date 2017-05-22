@@ -25,7 +25,7 @@ import de.fau.amos.virtualledger.android.ExpandableList.Adapter.ExpandableAdapte
 import de.fau.amos.virtualledger.android.ExpandableList.model.Group;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.deleteaction.BankAccessNameExtractor;
-import de.fau.amos.virtualledger.android.deleteaction.DeleteAccessAction;
+import de.fau.amos.virtualledger.android.deleteaction.DeleteBankAccessAction;
 import de.fau.amos.virtualledger.android.deleteaction.LongClickDeleteListenerList;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
@@ -94,7 +94,7 @@ public class ExpandableBankFragment extends Fragment {
                                 new LongClickDeleteListenerList<BankAccess>(__self.getActivity(),
                                         bankAccessList,
                                         getName,
-                                        new DeleteAccessAction(__self.getActivity(),getName
+                                        new DeleteBankAccessAction(__self.getActivity(),getName
                                         ))
                         );
                     }
