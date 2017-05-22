@@ -18,7 +18,6 @@ import java.util.Locale;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.ExpandableList.model.Group;
 import de.fau.amos.virtualledger.android.deleteaction.BankAccessNameExtractor;
-import de.fau.amos.virtualledger.android.deleteaction.DeleteAccessAction;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.android.deleteaction.BankAccountNameExtractor;
@@ -94,8 +93,9 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
 
         BankAccountNameExtractor getName = new BankAccountNameExtractor();
         convertView.setOnLongClickListener(
-                new LongClickDeleteListenerSingleItem<BankAccount>(
+                new LongClickDeleteListenerSingleItem<BankAccess,BankAccount>(
                         listActivity,
+                        groups.get(groupPosition).bankAccess,
                         children,
                         getName,
                         new DeleteBankAccountAction(listActivity, getName)
@@ -186,24 +186,10 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.expandablelistrow_group, null);
         }
 
-
         CheckedTextView checkedView = null;
         TextView bankBalance = null;
 
-
-
         checkedView = (CheckedTextView) convertView.findViewById(R.id.bankAccessNameView);
-
-       /* BankAccessNameExtractor getName = new BankAccessNameExtractor();
-        checkedView.setLongClickable(true);
-        checkedView.setOnLongClickListener(
-                new LongClickDeleteListenerSingleItem<BankAccess>(listActivity,
-                        group.bankAccess,
-                        getName,
-                        new DeleteAccessAction(listActivity,getName
-                        ))
-        );*/
-
 
         bankBalance = (TextView) convertView.findViewById(R.id.bankAccessBalanceView);
         checkedView.setText(group.bankAccess.getName());

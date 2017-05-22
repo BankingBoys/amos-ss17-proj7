@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.android.App;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
+import de.fau.amos.virtualledger.android.functions.BiConsumer;
 import de.fau.amos.virtualledger.android.functions.Consumer;
 import de.fau.amos.virtualledger.android.functions.Function;
 import de.fau.amos.virtualledger.dtos.BankAccess;
@@ -19,7 +20,7 @@ import retrofit2.Retrofit;
  * Action for deletion of a BankAccess.
  */
 
-public class DeleteBankAccessAction implements Consumer<BankAccess>{
+public class DeleteBankAccessAction implements Consumer<BankAccess>, BiConsumer<BankAccess,BankAccess>{
 
     // injected by setter
     private BankingProvider bankingProvider;
@@ -42,5 +43,13 @@ public class DeleteBankAccessAction implements Consumer<BankAccess>{
     public void setBankingProvider(BankingProvider bankingProvider)
     {
         this.bankingProvider = bankingProvider;
+    }
+
+    @Override
+    public void accept(BankAccess item1, BankAccess item2) {
+        this.accept(item1);
+        if (item1 != item2){
+            this.accept(item2);
+        }
     }
 }
