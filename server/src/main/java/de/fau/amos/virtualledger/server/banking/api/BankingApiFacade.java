@@ -7,6 +7,7 @@ package de.fau.amos.virtualledger.server.banking.api;
 
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -24,19 +25,24 @@ public class BankingApiFacade {
 
 
 
-    public void createUser(String userId)
+    public void createUser(String userId) throws BankingException
     {
         binder.getUserEndpoint().createUser(userId);
     }
 
-    public List<BankAccessBankingModel> getBankAccesses(String userId)
+    public List<BankAccessBankingModel> getBankAccesses(String userId) throws BankingException
     {
         return binder.getBankAccessEndpoint().getBankAccesses(userId);
     }
 
-    public List<BankAccountBankingModel> getBankAccounts(String userId, String bankAccessId)
+    public List<BankAccountBankingModel> getBankAccounts(String userId, String bankAccessId) throws BankingException
     {
         return binder.getBankAccountEndpoint().getBankAccounts(userId, bankAccessId);
+    }
+
+    public void addBankAccess(String userId, BankAccessBankingModel bankAccess) throws BankingException
+    {
+        binder.getBankAccessEndpoint().addBankAccess(userId, bankAccess);
     }
 
 
