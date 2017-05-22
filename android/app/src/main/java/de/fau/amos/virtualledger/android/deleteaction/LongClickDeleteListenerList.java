@@ -6,6 +6,8 @@ import android.widget.AdapterView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.android.functions.Consumer;
 import de.fau.amos.virtualledger.android.functions.Function;
@@ -38,8 +40,11 @@ public class LongClickDeleteListenerList<T> implements AdapterView.OnItemLongCli
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
+        if (position > bankAccesses.size()) {
+            return true; //TODO //FIXME Indicate real position
+        }
         T clickedModelObject = bankAccesses.get(position);
+
         DeleteDialog<T> tDeleteDialog = new DeleteDialog<>(listenedObject, clickedModelObject, getName, approvedAction);
         tDeleteDialog.show();
         return true;
