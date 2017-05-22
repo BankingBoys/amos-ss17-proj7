@@ -17,7 +17,13 @@ import java.util.Locale;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.ExpandableList.model.Group;
+import de.fau.amos.virtualledger.android.deleteaction.BankAccessNameExtractor;
+import de.fau.amos.virtualledger.android.deleteaction.DeleteAccessAction;
+import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
+import de.fau.amos.virtualledger.android.deleteaction.BankAccountNameExtractor;
+import de.fau.amos.virtualledger.android.deleteaction.DeleteBankAccountAction;
+import de.fau.amos.virtualledger.android.deleteaction.LongClickDeleteListenerSingleItem;
 
 public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
 
@@ -85,6 +91,16 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.expandablelistrow_detail, null);
         }
+
+        BankAccountNameExtractor getName = new BankAccountNameExtractor();
+        convertView.setOnLongClickListener(
+                new LongClickDeleteListenerSingleItem<BankAccount>(
+                        listActivity,
+                        children,
+                        getName,
+                        new DeleteBankAccountAction(listActivity, getName)
+                ));
+
         textBankName = (TextView) convertView.findViewById(R.id.bankAccountNameView);
         textBankName.setText(bankName);
         textBankBalance = (TextView) convertView.findViewById(R.id.bankAccountBalanceView);
@@ -169,9 +185,26 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.expandablelistrow_group, null);
         }
+
+
         CheckedTextView checkedView = null;
         TextView bankBalance = null;
+
+
+
         checkedView = (CheckedTextView) convertView.findViewById(R.id.bankAccessNameView);
+
+       /* BankAccessNameExtractor getName = new BankAccessNameExtractor();
+        checkedView.setLongClickable(true);
+        checkedView.setOnLongClickListener(
+                new LongClickDeleteListenerSingleItem<BankAccess>(listActivity,
+                        group.bankAccess,
+                        getName,
+                        new DeleteAccessAction(listActivity,getName
+                        ))
+        );*/
+
+
         bankBalance = (TextView) convertView.findViewById(R.id.bankAccessBalanceView);
         checkedView.setText(group.bankAccess.getName());
         double bankBalanceDouble = group.bankAccess.getBalance();
