@@ -28,11 +28,24 @@ public class MockedBankingProvider implements BankingProvider {
         BankAccess access = new BankAccess("dummy access id", "dummy access name", accountList);
         access.setBankaccounts(accountList);
 
-        List<BankAccess> accessList = new ArrayList<BankAccess>();
+        final List<BankAccess> accessList = new ArrayList<BankAccess>();
         accessList.add(access);
 
         final PublishSubject observable = PublishSubject.create();
-        observable.onNext(accessList);
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                Thread.sleep(500);}
+                catch (Exception e){
+
+                }
+                observable.onNext(accessList);
+                observable.onComplete();
+            }
+        });
+        th.start();
+
         return observable;
     }
 
