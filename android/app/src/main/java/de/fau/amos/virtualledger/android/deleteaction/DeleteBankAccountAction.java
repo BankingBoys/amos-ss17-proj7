@@ -5,13 +5,11 @@ import android.widget.Toast;
 
 import javax.inject.Inject;
 
-import de.fau.amos.virtualledger.android.App;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.functions.BiConsumer;
+import de.fau.amos.virtualledger.android.functions.BiFunction;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
-import de.fau.amos.virtualledger.android.functions.Function;
-import de.fau.amos.virtualledger.android.functions.Consumer;
 
 /**
  * Created by sebastian on 22.05.17.
@@ -24,9 +22,9 @@ public class DeleteBankAccountAction implements BiConsumer<BankAccess,BankAccoun
     private BankingProvider bankingProvider;
 
     private Activity activity;
-    private Function<BankAccount, String> getName;
+    private BiFunction<BankAccess,BankAccount, String>  getName;
 
-    public DeleteBankAccountAction(Activity activity, Function<BankAccount, String> getName, BankingProvider bankingProvider){
+    public DeleteBankAccountAction(Activity activity, BiFunction<BankAccess,BankAccount, String> getName, BankingProvider bankingProvider){
         this.getName = getName;
         this.activity = activity;
 
@@ -38,7 +36,7 @@ public class DeleteBankAccountAction implements BiConsumer<BankAccess,BankAccoun
     @Override
     public void accept(BankAccess bankAccess, BankAccount bankAccount) {
         bankingProvider.deleteBankAccount(bankAccess.getId(), bankAccount.getBankid());
-        Toast.makeText(activity, "Bank account deleted:\""+getName.apply(bankAccount)+"\"", Toast.LENGTH_LONG).show();
+        Toast.makeText(activity, "Bank account deleted:\""+getName.apply(bankAccess,bankAccount)+"\"", Toast.LENGTH_LONG).show();
     }
 
     @Inject
