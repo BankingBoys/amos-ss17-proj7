@@ -205,6 +205,10 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    public int getIndexForGroup(Group group){
+        return this.groups.indexOfValue(group);
+    }
+
     /**
      *
      * @return stable ids boolean

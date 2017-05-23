@@ -29,8 +29,8 @@ public class DeleteBankAccessAction implements BiConsumer<BankAccess,BankAccount
     }
 
     @Override
-    public void accept(BankAccess bankAccess, BankAccount item2) {
+    public void accept(BankAccess bankAccess, BankAccount bankAccount) {
         bankingProvider.deleteBankAccess(bankAccess.getId());
-        Toast.makeText(activity, "Bank access deleted:\""+getName.apply(bankAccess,null)+"\"", Toast.LENGTH_LONG).show();
+        Toast.makeText(activity, "Bank access deleted:\""+getName.apply(bankAccess,bankAccount)+"\"", Toast.LENGTH_LONG).show();
     }
 }

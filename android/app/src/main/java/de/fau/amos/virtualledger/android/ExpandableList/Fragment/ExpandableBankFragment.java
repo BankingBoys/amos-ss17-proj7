@@ -94,7 +94,7 @@ public class ExpandableBankFragment extends Fragment {
                         seperator.setVisibility(View.VISIBLE);
                         BankAccessNameExtractor  getName = new BankAccessNameExtractor();
                         listView.setOnItemLongClickListener(
-                                new LongClickDeleteListenerList(__self.getActivity(),
+                                new LongClickDeleteListenerList(adapter,__self.getActivity(),
                                         bankAccessList,
                                         getName,
                                         new DeleteBankAccessAction(__self.getActivity(), getName, bankingProvider)
