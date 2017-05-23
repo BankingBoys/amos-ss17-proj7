@@ -16,22 +16,23 @@ import de.fau.amos.virtualledger.dtos.BankAccount;
 public class LongClickDeleteListenerSingleItem implements View.OnLongClickListener {
 
     private final Activity listenedObject;
-    private BankAccess element;
-    private BankAccount element2;
+    private BankAccess bankAccess;
+    private BankAccount bankAccount;
     private BiFunction<BankAccess,BankAccount,String> getName;
     private BiConsumer<BankAccess,BankAccount>  approvedAction;
 
     /**
-     * Long Click listens to an single element
-     * @param listenedObject = the referenced activity
-     * @param element = the model object, that is presented in the view
-     * @param getName = creates the name shown in the dialog out of a single model element
-     * @param approvedAction = ction that is fired after user approves the shown delete dialog
+     *
+     * @param listenedObject the activity
+     * @param bankAccess the bank access for the bank account
+     * @param bankAccount the bank account that may be deleted
+     * @param getName generates the name out of the bank access and the bank account
+     * @param approvedAction the delete action that may be fired
      */
-    public LongClickDeleteListenerSingleItem(Activity listenedObject, BankAccess element,BankAccount element2, BiFunction<BankAccess,BankAccount,String> getName, BiConsumer<BankAccess,BankAccount> approvedAction) {
+    public LongClickDeleteListenerSingleItem(Activity listenedObject, BankAccess bankAccess,BankAccount bankAccount, BiFunction<BankAccess,BankAccount,String> getName, BiConsumer<BankAccess,BankAccount> approvedAction) {
         this.listenedObject = listenedObject;
-        this.element = element;
-        this.element2 = element2;
+        this.bankAccess = bankAccess;
+        this.bankAccount = bankAccount;
         this.getName = getName;
         this.approvedAction = approvedAction;
     }
@@ -39,7 +40,7 @@ public class LongClickDeleteListenerSingleItem implements View.OnLongClickListen
 
     @Override
     public boolean onLongClick(View v) {
-        DeleteDialog tDeleteDialog = new DeleteDialog(listenedObject,element, element2, getName, approvedAction);
+        DeleteDialog tDeleteDialog = new DeleteDialog(listenedObject,bankAccess, bankAccount, getName, approvedAction);
         tDeleteDialog.show();
         return true;
     }

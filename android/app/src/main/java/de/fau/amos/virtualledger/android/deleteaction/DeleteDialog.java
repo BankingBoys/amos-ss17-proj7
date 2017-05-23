@@ -25,12 +25,12 @@ public class DeleteDialog {
 
 
     /**
-     * Create a dialogue for deletion confirmatrion
-     * @param listenedObject = the referenced activity
-     * @param bankAccess = the model object which whould be deleted or not.
-     *                      The getName function extracts the shown name out of this object
-     * @param getName = a function that creates the name that is presented on the dialog out of the modelobject
-     * @param approvedAction = the action that is fired if the user approves
+     *
+     * @param listenedObject = the activity
+     * @param bankAccess = the bank access
+     * @param bankAccount = the bank account if neccessary
+     * @param getName = the name extractor to extract the name of the access and the account
+     * @param approvedAction = the action that is executed when the delete option is approved
      */
     public DeleteDialog(Activity listenedObject, BankAccess bankAccess, BankAccount bankAccount, BiFunction<BankAccess,BankAccount, String> getName, BiConsumer<BankAccess,BankAccount> approvedAction) {
         this.listenedObject = listenedObject;

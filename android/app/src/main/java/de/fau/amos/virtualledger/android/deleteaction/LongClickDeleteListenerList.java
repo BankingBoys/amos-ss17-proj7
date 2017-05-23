@@ -30,13 +30,14 @@ public class LongClickDeleteListenerList implements AdapterView.OnItemLongClickL
     private BiConsumer<BankAccess,BankAccount> approvedAction;
     private ExpandableAdapterBanking adapter;
 
+
     /**
-     * LongClick lisntens to a list
-     * @param listenedObject = the referenced activity
-     * @param elementList = the list of modelobject presented in the view
-     * @param getName = creates a name of a single model object out of the list
-     * @param approvedAction = executes the action after user confirms the delete dialog
      *
+     * @param adapter the adapter for getting the GroupNumber out of the absolute GroupIndex (is different when groups are exapnded)
+     * @param listenedObject the activity
+     * @param elementList the  list of accesses
+     * @param getName the naming function
+     * @param approvedAction the action if the delete dialog is approved
      */
     public LongClickDeleteListenerList(ExpandableAdapterBanking adapter,Activity listenedObject, List<BankAccess> elementList, BiFunction<BankAccess,BankAccount,String> getName, BiConsumer<BankAccess, BankAccount> approvedAction) {
         this.listenedObject = listenedObject;
@@ -57,14 +58,5 @@ public class LongClickDeleteListenerList implements AdapterView.OnItemLongClickL
         DeleteDialog tDeleteDialog = new DeleteDialog(listenedObject, this.bankAccesses.get(index),null, getName, approvedAction);
         tDeleteDialog.show();
         return true;
-    }
-
-
-    private BankAccess getAccessByName(List<BankAccess> list, String name){
-        for (BankAccess bankAccess: list) {
-            if (bankAccess.getName().equals(name))
-                return bankAccess;
-        }
-        throw new IllegalArgumentException("No bank access found with name:"+name);
     }
 }
