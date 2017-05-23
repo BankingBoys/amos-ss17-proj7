@@ -18,12 +18,10 @@ import java.util.Locale;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.ExpandableList.model.Group;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
-import de.fau.amos.virtualledger.android.deleteaction.BankAccessNameExtractor;
-import de.fau.amos.virtualledger.dtos.BankAccess;
-import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.android.deleteaction.BankAccountNameExtractor;
 import de.fau.amos.virtualledger.android.deleteaction.DeleteBankAccountAction;
 import de.fau.amos.virtualledger.android.deleteaction.LongClickDeleteListenerSingleItem;
+import de.fau.amos.virtualledger.dtos.BankAccount;
 
 public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
 
@@ -100,7 +98,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
 
         BankAccountNameExtractor getName = new BankAccountNameExtractor();
         convertView.setOnLongClickListener(
-                new LongClickDeleteListenerSingleItem<BankAccess,BankAccount>(
+                new LongClickDeleteListenerSingleItem(
                         listActivity,
                         groups.get(groupPosition).bankAccess,
                         children,

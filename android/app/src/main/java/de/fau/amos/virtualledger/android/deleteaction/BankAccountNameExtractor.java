@@ -1,6 +1,6 @@
 package de.fau.amos.virtualledger.android.deleteaction;
 
-import de.fau.amos.virtualledger.android.functions.Function;
+import de.fau.amos.virtualledger.android.functions.BiFunction;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 
@@ -10,9 +10,9 @@ import de.fau.amos.virtualledger.dtos.BankAccount;
  * Extracts the name out of a BankAccount
  */
 
-public class BankAccountNameExtractor implements Function<BankAccount,String>{
+public class BankAccountNameExtractor implements BiFunction<BankAccess,BankAccount,String>{
     @Override
-    public String apply(BankAccount item) {
-        return item.getName();
+    public String apply(BankAccess bankAccess,BankAccount bankAccount) {
+        return bankAccount.getName();
     }
 }
