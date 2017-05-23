@@ -35,6 +35,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
         BankAccountBankingModel bankAccountBankingModel = new BankAccountBankingModel();
         BankAccountBalanceBankingModel bankAccountBalanceBankingModel = new BankAccountBalanceBankingModel();
         bankAccountBalanceBankingModel.setAvailableHbciBalance(510.20);
+        bankAccountBalanceBankingModel.setReadyHbciBalance(510.20);
 
         bankAccountBankingModel.setBankAccountBalance(bankAccountBalanceBankingModel);
         bankAccountBankingModel.setCountryHbciAccount("DE");

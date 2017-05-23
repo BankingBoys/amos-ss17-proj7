@@ -26,9 +26,13 @@ public class DeleteBankAccountAction implements BiConsumer<BankAccess,BankAccoun
     private Activity activity;
     private Function<BankAccount, String> getName;
 
-    public DeleteBankAccountAction(Activity activity, Function<BankAccount, String> getName){
+    public DeleteBankAccountAction(Activity activity, Function<BankAccount, String> getName, BankingProvider bankingProvider){
         this.getName = getName;
         this.activity = activity;
+
+
+        // TODO refactor so inject works!!!
+        this.bankingProvider = bankingProvider;
     }
 
     @Override

@@ -17,6 +17,7 @@ import java.util.Locale;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.ExpandableList.model.Group;
+import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.deleteaction.BankAccessNameExtractor;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
@@ -32,6 +33,12 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     public Activity listActivity;
     private final SparseArray<Group> groups;
     private LayoutInflater inflater;
+
+    // TODO refavtor so dagger injects directly into deleteAction
+    private BankingProvider bankingProvider;
+    public void setBankingProvider(BankingProvider bankingProvider) {
+        this.bankingProvider = bankingProvider;
+    }
 
     /**
      *
@@ -98,7 +105,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
                         groups.get(groupPosition).bankAccess,
                         children,
                         getName,
-                        new DeleteBankAccountAction(listActivity, getName)
+                        new DeleteBankAccountAction(listActivity, getName, bankingProvider)
                 ));
 
         textBankName = (TextView) convertView.findViewById(R.id.bankAccountNameView);

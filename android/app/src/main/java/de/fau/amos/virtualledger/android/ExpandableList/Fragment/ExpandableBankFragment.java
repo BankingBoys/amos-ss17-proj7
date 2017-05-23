@@ -85,6 +85,9 @@ public class ExpandableBankFragment extends Fragment {
                         createData();
                         ExpandableAdapterBanking adapter = new ExpandableAdapterBanking(getActivity(),
                                 groups);
+                        // TODO delete when refactored to inject in deleteAction
+                        adapter.setBankingProvider(bankingProvider);
+
                         listView.setAdapter(adapter);
                         String bankBalanceString = String.format(Locale.GERMAN, "%.2f",bankBalanceOverview);
                         bankBalanceOverviewText.setText(bankBalanceString);
@@ -94,8 +97,8 @@ public class ExpandableBankFragment extends Fragment {
                                 new LongClickDeleteListenerList<BankAccess>(__self.getActivity(),
                                         bankAccessList,
                                         getName,
-                                        new DeleteBankAccessAction(__self.getActivity(),getName
-                                        ))
+                                        new DeleteBankAccessAction(__self.getActivity(), getName, bankingProvider)
+                                )
                         );
                     }
 

@@ -22,27 +22,22 @@ import retrofit2.Retrofit;
 
 public class DeleteBankAccessAction implements Consumer<BankAccess>, BiConsumer<BankAccess,BankAccess>{
 
-    // injected by setter
     private BankingProvider bankingProvider;
-
     private Activity activity;
     private Function<BankAccess,String> getName;
 
-    public DeleteBankAccessAction(Activity activity, Function<BankAccess,String> getName){
+    public DeleteBankAccessAction(Activity activity, Function<BankAccess,String> getName, BankingProvider bankingProvider){
         this.getName = getName;
         this.activity = activity;
+
+        // TODO refactor so inject works!!!
+        this.bankingProvider = bankingProvider;
     }
 
     @Override
     public void accept(BankAccess bankAccess) {
         bankingProvider.deleteBankAccess(bankAccess.getId());
         Toast.makeText(activity, "Bank access deleted:\""+getName.apply(bankAccess)+"\"", Toast.LENGTH_LONG).show();
-    }
-
-    @Inject
-    public void setBankingProvider(BankingProvider bankingProvider)
-    {
-        this.bankingProvider = bankingProvider;
     }
 
     @Override
