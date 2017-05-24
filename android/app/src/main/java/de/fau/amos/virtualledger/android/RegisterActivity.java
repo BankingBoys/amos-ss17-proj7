@@ -10,23 +10,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.IOException;
-
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.api.Restapi;
-import de.fau.amos.virtualledger.android.auth.AuthenticationProvider;
-import de.fau.amos.virtualledger.dtos.StringApiModel;
-import de.fau.amos.virtualledger.android.model.UserCredential;
+import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * Created by Georg on 13.05.2017.

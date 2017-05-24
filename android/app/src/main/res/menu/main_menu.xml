@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/m_item1" android:title="Menu item 1" />
-    <item android:id="@+id/m_item2" android:title="Menu item 2" />
-    <item android:id="@+id/m_item3" android:title="Menu item 3" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/m_add_bank_access" android:title="@string/add_bank_access" app:showAsAction="ifRoom" android:icon="@drawable/ic_add" />
 
 </menu>
