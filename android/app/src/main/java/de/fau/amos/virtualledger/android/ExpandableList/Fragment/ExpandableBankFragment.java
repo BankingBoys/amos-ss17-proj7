@@ -27,6 +27,7 @@ import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.deleteaction.BankAccessNameExtractor;
 import de.fau.amos.virtualledger.android.deleteaction.DeleteBankAccessAction;
 import de.fau.amos.virtualledger.android.deleteaction.LongClickDeleteListenerList;
+import de.fau.amos.virtualledger.android.functions.BiConsumer;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import io.reactivex.Observer;
@@ -92,13 +93,20 @@ public class ExpandableBankFragment extends Fragment {
                         String bankBalanceString = String.format(Locale.GERMAN, "%.2f",bankBalanceOverview);
                         bankBalanceOverviewText.setText(bankBalanceString);
                         seperator.setVisibility(View.VISIBLE);
-                        BankAccessNameExtractor  getName = new BankAccessNameExtractor();
+                        final BankAccessNameExtractor  getName = new BankAccessNameExtractor();
                         listView.setOnItemLongClickListener(
-                                new LongClickDeleteListenerList(adapter,__self.getActivity(),
+                                new LongClickDeleteListenerList(adapter, __self.getActivity(),
                                         bankAccessList,
                                         getName,
-                                        new DeleteBankAccessAction(__self.getActivity(), getName, bankingProvider)
+                                        new BiConsumer<BankAccess, BankAccount>() {
+                                            @Override
+                                            public void accept(BankAccess item1, BankAccount item2) {
+                                                new DeleteBankAccessAction(__self.getActivity(), getName, bankingProvider).accept(item1, item2);
+                                                openFragment(new ExpandableBankFragment());
+                                            }
+                                        }
                                 )
+
                         );
                     }
 
