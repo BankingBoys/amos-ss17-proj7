@@ -59,12 +59,12 @@ public class DeletedBankAccessesRepository {
                 Query query = entityManager.createQuery("Select s FROM DeletedBankAccess s WHERE s.userEmail = :email AND s.bankAccessId = :accessId");
                 query.setParameter("email", email);
                 query.setParameter("accessId", accessId);
-                List<Session> sessions = query.getResultList();
+                List<DeletedBankAccess> deletedBankAccessList = query.getResultList();
 
-                for(int i = 0; i < sessions.size(); ++i)
+                for(int i = 0; i < deletedBankAccessList.size(); ++i)
                 {
-                    Session session = sessions.get(i);
-                    entityManager.remove(session);
+                    DeletedBankAccess deletedBankAccess = deletedBankAccessList.get(i);
+                    entityManager.remove(deletedBankAccess);
                 }
                 entityTransaction.commit();
             } catch(final Exception e) {
