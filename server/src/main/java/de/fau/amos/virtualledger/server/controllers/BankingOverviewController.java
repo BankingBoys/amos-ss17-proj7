@@ -74,7 +74,7 @@ public class BankingOverviewController {
         List<BankAccessBankingModel> bankingModelList = bankingApiFacade.getBankAccesses(email);
         for(BankAccessBankingModel bankAccess: bankingModelList)
         { // delete in deletedBankingAccessTable
-            deletedBankAccessesRepository.deleteDeletedBankAccessByEmailAndId(email, bankAccess.getId());
+        //    deletedBankAccessesRepository.deleteDeletedBankAccessByEmailAndId(email, bankAccess.getId());
         }
 
         for(BankAccessBankingModel retrievedBankAccessBankingModel: bankingModelList)
@@ -82,7 +82,7 @@ public class BankingOverviewController {
             List<BankAccount> bankAccounts = this.getBankingAccounts(email, retrievedBankAccessBankingModel.getId());
             for(BankAccessBankingModel bankAccess: bankingModelList)
             { // delete in deletedBankingAccessTable
-                deletedBankAccountRepository.deleteDeletedBankAccountByEmailAndAccessId(email, bankAccess.getId());
+         //       deletedBankAccountRepository.deleteDeletedBankAccountByEmailAndAccessId(email, bankAccess.getId());
             }
         }
     }
