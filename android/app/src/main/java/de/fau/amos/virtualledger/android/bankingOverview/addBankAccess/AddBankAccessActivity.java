@@ -79,7 +79,7 @@ public class AddBankAccessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ((App) getApplication()).getNetComponent().inject(this);
 
-        setContentView(R.layout.banking_overview_add_bank_access);
+        setContentView(R.layout.banking_overview_activity_add_bank_access);
         ButterKnife.setDebug(true);
         ButterKnife.bind(this);
     }

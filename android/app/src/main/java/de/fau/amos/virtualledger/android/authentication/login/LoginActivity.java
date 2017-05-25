@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             executeNextActivityMenu();
         }
 
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.authentication_activity_login);
 
 
         Button button_login = (Button) findViewById(R.id.loginButton);
