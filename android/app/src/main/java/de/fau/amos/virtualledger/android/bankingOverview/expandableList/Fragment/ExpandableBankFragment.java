@@ -133,7 +133,7 @@ public class ExpandableBankFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.expandable_view_main,container,false);
+        View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view,container,false);
         listView = (ExpandableListView)view.findViewById(R.id.expandableView);
         bankBalanceOverviewText = (TextView)view.findViewById(R.id.BankAccessBalanceOverview);
         seperator = (View)view.findViewById(R.id.BankOverviewSeperator);

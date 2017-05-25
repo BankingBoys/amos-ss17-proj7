@@ -1,7 +1,6 @@
 package de.fau.amos.virtualledger.android.menu.adapter;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -76,7 +75,7 @@ public class MenuAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View view = View.inflate(context, R.layout.items_sliding_menu, null);
+        View view = View.inflate(context, R.layout.main_menu_sliding_items, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.item_icon);
         TextView textView = (TextView) view.findViewById(R.id.item_title);
         ItemSlidingMenu item = listItem.get(position);

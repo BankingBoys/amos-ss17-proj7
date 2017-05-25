@@ -23,7 +23,7 @@ public class NoBankingAccessesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.no_bank_accesses, container, false);
+        View view = inflater.inflate(R.layout.banking_overview_no_bank_accesses, container, false);
         return view;
     }
 }

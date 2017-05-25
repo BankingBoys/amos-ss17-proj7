@@ -93,7 +93,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
         TextView textBankName = null;
         TextView textBankBalance = null;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.expandablelistrow_detail, null);
+            convertView = inflater.inflate(R.layout.banking_overview_expandablelist_detail, null);
         }
 
         BankAccountNameExtractor getName = new BankAccountNameExtractor();
@@ -188,7 +188,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
 
         Group group = (Group) getGroup(groupPosition);
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.expandablelistrow_group, null);
+            convertView = inflater.inflate(R.layout.banking_overview_expandablelist_group, null);
         }
 
         CheckedTextView checkedView = null;
