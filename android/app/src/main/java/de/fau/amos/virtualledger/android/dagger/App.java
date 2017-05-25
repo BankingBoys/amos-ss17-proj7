@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android;
+package de.fau.amos.virtualledger.android.dagger;
 
 import android.app.Application;
 

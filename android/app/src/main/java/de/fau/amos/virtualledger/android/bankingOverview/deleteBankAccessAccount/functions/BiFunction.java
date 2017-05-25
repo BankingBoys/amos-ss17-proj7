@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.functions;
+package de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.functions;
 
 /**
  * Created by sebastian on 23.05.17.

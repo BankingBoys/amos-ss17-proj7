@@ -1,10 +1,10 @@
-package de.fau.amos.virtualledger.android.deleteaction;
+package de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount;
 
 import android.app.Activity;
 import android.view.View;
 
-import de.fau.amos.virtualledger.android.functions.BiConsumer;
-import de.fau.amos.virtualledger.android.functions.BiFunction;
+import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.functions.BiConsumer;
+import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.functions.BiFunction;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 

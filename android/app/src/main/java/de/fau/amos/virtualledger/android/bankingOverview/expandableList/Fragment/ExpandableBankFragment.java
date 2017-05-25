@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.ExpandableList.Fragment;
+package de.fau.amos.virtualledger.android.bankingOverview.expandableList.Fragment;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -20,14 +20,14 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.App;
-import de.fau.amos.virtualledger.android.ExpandableList.Adapter.ExpandableAdapterBanking;
-import de.fau.amos.virtualledger.android.ExpandableList.model.Group;
+import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Adapter.ExpandableAdapterBanking;
+import de.fau.amos.virtualledger.android.bankingOverview.expandableList.model.Group;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
-import de.fau.amos.virtualledger.android.deleteaction.BankAccessNameExtractor;
-import de.fau.amos.virtualledger.android.deleteaction.DeleteBankAccessAction;
-import de.fau.amos.virtualledger.android.deleteaction.LongClickDeleteListenerList;
-import de.fau.amos.virtualledger.android.functions.BiConsumer;
+import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.BankAccessNameExtractor;
+import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.DeleteBankAccessAction;
+import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.LongClickDeleteListenerList;
+import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.functions.BiConsumer;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import io.reactivex.Observer;

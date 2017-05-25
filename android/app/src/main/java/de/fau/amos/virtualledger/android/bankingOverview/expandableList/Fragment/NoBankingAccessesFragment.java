@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.ExpandableList.Fragment;
+package de.fau.amos.virtualledger.android.bankingOverview.expandableList.Fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;

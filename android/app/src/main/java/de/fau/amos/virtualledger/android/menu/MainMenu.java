@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android;
+package de.fau.amos.virtualledger.android.menu;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -21,8 +21,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.ExpandableList.Fragment.ExpandableBankFragment;
+import de.fau.amos.virtualledger.android.bankingOverview.addBankAccess.AddBankAccessActivity;
+import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
+import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
 import retrofit2.Retrofit;
@@ -31,7 +34,7 @@ import retrofit2.Retrofit;
  * Created by Simon on 13.05.2017.
  */
 
-public class MainActivity_Menu extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity {
 
     LoginActivity loginContext = new LoginActivity();
 

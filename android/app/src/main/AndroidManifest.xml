@@ -11,8 +11,8 @@
         android:roundIcon="@drawable/bankingboys"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="de.fau.amos.virtualledger.android.App">
-        <activity android:name=".android.LoginActivity" >
+        android:name="de.fau.amos.virtualledger.android.dagger.App">
+        <activity android:name=".android.authentication.login.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,18 +20,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".android.RegisterActivity"
+            android:name=".android.authentication.registration.RegisterActivity"
             android:label="Register"
             android:theme="@style/AppTheme"
-            android:parentActivityName=".android.RegisterActivity">
+            android:parentActivityName=".android.authentication.registration.RegisterActivity">
         </activity>
         <activity
-            android:name=".android.MainActivity_Menu"
+            android:name=".android.menu.MainMenu"
             android:theme="@style/AppTheme"
-            android:parentActivityName=".android.MainActivity_Menu">
+            android:parentActivityName=".android.menu.MainMenu">
             ></activity>
         <activity
-            android:name=".android.AddBankAccessActivity"
+            android:name=".android.bankingOverview.addBankAccess.AddBankAccessActivity"
             android:theme="@style/AppTheme"/>
 
     </application>

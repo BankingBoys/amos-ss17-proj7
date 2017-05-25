@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.ExpandableList.Adapter;
+package de.fau.amos.virtualledger.android.bankingOverview.expandableList.Adapter;
 
 /**
  * Created by Simon on 21.05.2017.
@@ -16,11 +16,11 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.ExpandableList.model.Group;
+import de.fau.amos.virtualledger.android.bankingOverview.expandableList.model.Group;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
-import de.fau.amos.virtualledger.android.deleteaction.BankAccountNameExtractor;
-import de.fau.amos.virtualledger.android.deleteaction.DeleteBankAccountAction;
-import de.fau.amos.virtualledger.android.deleteaction.LongClickDeleteListenerSingleItem;
+import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.BankAccountNameExtractor;
+import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.DeleteBankAccountAction;
+import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.LongClickDeleteListenerSingleItem;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 
 public class ExpandableAdapterBanking extends BaseExpandableListAdapter {

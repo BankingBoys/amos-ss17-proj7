@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android;
+package de.fau.amos.virtualledger.android.bankingOverview.addBankAccess;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
+import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;

@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.ExpandableList.model;
+package de.fau.amos.virtualledger.android.bankingOverview.expandableList.model;
 
 /**
  * Created by Simon on 21.05.2017.
