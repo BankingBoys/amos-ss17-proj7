@@ -25,7 +25,7 @@ public class MockedAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Observable<String> login(String username, String password) {
-        this.token = username+"_"+password;
+        this.token = username + "_" + password;
         final PublishSubject observable = PublishSubject.create();
         observable.onNext("Logged in (Dummy)");
         return observable;
@@ -42,7 +42,7 @@ public class MockedAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean isLoggedIn() {
-        return this.token.length()==0;
+        return this.token.length() == 0;
     }
 
     @Override

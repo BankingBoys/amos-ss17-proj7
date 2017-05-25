@@ -36,12 +36,12 @@ public class MockedBankingProvider implements BankingProvider {
 
 
         accountList = new ArrayList<BankAccount>();
-         account = new BankAccount("2.1dummy account id", "2.1 dummy account name1 ", 100);
+        account = new BankAccount("2.1dummy account id", "2.1 dummy account name1 ", 100);
         accountList.add(account);
         account = new BankAccount("2.2dummy account id", "2.2 dummy account name1 ", 100);
         accountList.add(account);
 
-         access = new BankAccess("2dummy access id", " 2 dummy access name ", accountList);
+        access = new BankAccess("2dummy access id", " 2 dummy access name ", accountList);
         access.setBankaccounts(accountList);
         accessList.add(access);
 
@@ -50,10 +50,10 @@ public class MockedBankingProvider implements BankingProvider {
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
+                try {
                     //Wait until subject is subscribed
-                    Thread.sleep(DELAY_TIME_MILLISECUNDS);}
-                catch (Exception e){
+                    Thread.sleep(DELAY_TIME_MILLISECUNDS);
+                } catch (Exception e) {
 
                 }
                 // publish accounts to subject
@@ -73,10 +73,10 @@ public class MockedBankingProvider implements BankingProvider {
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
+                try {
                     //Wait until subject is subscribed
-                    Thread.sleep(DELAY_TIME_MILLISECUNDS);}
-                catch (Exception e){
+                    Thread.sleep(DELAY_TIME_MILLISECUNDS);
+                } catch (Exception e) {
 
                 }
                 // publish accounts to subject
@@ -95,10 +95,10 @@ public class MockedBankingProvider implements BankingProvider {
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
+                try {
                     //Wait until subject is subscribed
-                    Thread.sleep(DELAY_TIME_MILLISECUNDS);}
-                catch (Exception e){
+                    Thread.sleep(DELAY_TIME_MILLISECUNDS);
+                } catch (Exception e) {
 
                 }
                 // publish accounts to subject
@@ -117,10 +117,10 @@ public class MockedBankingProvider implements BankingProvider {
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
+                try {
                     //Wait until subject is subscribed
-                    Thread.sleep(DELAY_TIME_MILLISECUNDS);}
-                catch (Exception e){
+                    Thread.sleep(DELAY_TIME_MILLISECUNDS);
+                } catch (Exception e) {
 
                 }
                 // publish accounts to subject

@@ -40,6 +40,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class ExpandableBankFragment extends Fragment {
+    private static final String TAG = "BankAccessListFragment";
     /**
      *
      */
@@ -48,7 +49,6 @@ public class ExpandableBankFragment extends Fragment {
     View seperator;
     SparseArray<Group> groups = new SparseArray<Group>();
     List<BankAccess> bankAccessList;
-    private static final String TAG = "BankAccessListFragment";
     double bankBalanceOverview;
     /**
      *
@@ -57,7 +57,6 @@ public class ExpandableBankFragment extends Fragment {
     BankingProvider bankingProvider;
 
     /**
-     *
      * @param savedInstanceState - state of the instance
      */
     @Override
@@ -79,7 +78,7 @@ public class ExpandableBankFragment extends Fragment {
                     @Override
                     public void onNext(@NonNull List<BankAccess> bankAccesses) {
                         bankAccessList = bankAccesses;
-                        if(bankAccessList == null) {
+                        if (bankAccessList == null) {
                             Fragment fragment = new NoBankingAccessesFragment();
                             openFragment(fragment);
                         }
@@ -90,10 +89,10 @@ public class ExpandableBankFragment extends Fragment {
                         adapter.setBankingProvider(bankingProvider);
 
                         listView.setAdapter(adapter);
-                        String bankBalanceString = String.format(Locale.GERMAN, "%.2f",bankBalanceOverview);
+                        String bankBalanceString = String.format(Locale.GERMAN, "%.2f", bankBalanceOverview);
                         bankBalanceOverviewText.setText(bankBalanceString);
                         seperator.setVisibility(View.VISIBLE);
-                        final BankAccessNameExtractor  getName = new BankAccessNameExtractor();
+                        final BankAccessNameExtractor getName = new BankAccessNameExtractor();
                         listView.setOnItemLongClickListener(
                                 new LongClickDeleteListenerList(adapter, __self.getActivity(),
                                         bankAccessList,
@@ -125,18 +124,17 @@ public class ExpandableBankFragment extends Fragment {
     }
 
     /**
-     *
-     * @param inflater - to inflate the view
-     * @param container - Viewgroup
+     * @param inflater           - to inflate the view
+     * @param container          - Viewgroup
      * @param savedInstanceState - state of the instance
      * @return Current View
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view,container,false);
-        listView = (ExpandableListView)view.findViewById(R.id.expandableView);
-        bankBalanceOverviewText = (TextView)view.findViewById(R.id.BankAccessBalanceOverview);
-        seperator = (View)view.findViewById(R.id.BankOverviewSeperator);
+        View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
+        listView = (ExpandableListView) view.findViewById(R.id.expandableView);
+        bankBalanceOverviewText = (TextView) view.findViewById(R.id.BankAccessBalanceOverview);
+        seperator = (View) view.findViewById(R.id.BankOverviewSeperator);
         return view;
     }
 
@@ -145,23 +143,22 @@ public class ExpandableBankFragment extends Fragment {
      */
     private void createData() {
         int i = 0;
-        for(BankAccess access: bankAccessList) {
+        for (BankAccess access : bankAccessList) {
             Group group = new Group(access);
-            for(BankAccount account: access.getBankaccounts()) {
+            for (BankAccount account : access.getBankaccounts()) {
                 group.children.add(account);
             }
-            bankBalanceOverview+=access.getBalance();
-            groups.append(i,group);
+            bankBalanceOverview += access.getBalance();
+            groups.append(i, group);
             i++;
         }
     }
 
     /**
-     *
      * @param fragment which is opened
      */
     private void openFragment(Fragment fragment) {
-        if(null!=fragment) {
+        if (null != fragment) {
             FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace(R.id.content, fragment);

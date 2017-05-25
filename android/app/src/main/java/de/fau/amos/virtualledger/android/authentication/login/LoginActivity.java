@@ -45,8 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         authenticationProvider.tryLoadLoginData(this);
-        if(authenticationProvider.isLoggedIn())
-        {
+        if (authenticationProvider.isLoggedIn()) {
             executeNextActivityMenu();
         }
 
@@ -90,12 +89,12 @@ public class LoginActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onNext(@NonNull String s) {
-                                        if(authenticationProvider.isLoggedIn()){
+                                        if (authenticationProvider.isLoggedIn()) {
                                             executeNextActivityMenu();
-                                            if(checkBoxStayLoggedIn.isChecked()) {
+                                            if (checkBoxStayLoggedIn.isChecked()) {
                                                 authenticationProvider.persistLoginData(context);
                                             }
-                                        } else{
+                                        } else {
                                             textviewLoginFail.setText(s);
                                         }
                                     }
@@ -115,6 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
         );
     }
+
     private void init() {
         ((App) getApplication()).getNetComponent().inject(this);
     }

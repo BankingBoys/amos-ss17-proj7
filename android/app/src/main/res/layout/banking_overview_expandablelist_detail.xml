@@ -2,47 +2,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="50dp"
+    android:layout_marginTop="5dp"
     android:clickable="true"
     android:orientation="vertical"
-    android:layout_marginTop="5dp"
-    android:paddingLeft="45dp"
-    android:paddingStart="45dp"
-    android:paddingRight="10dp"
     android:paddingEnd="10dp"
-    tools:context=".android.menu.MainMenu" >
+    android:paddingLeft="45dp"
+    android:paddingRight="10dp"
+    android:paddingStart="45dp"
+    tools:context=".android.menu.MainMenu">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
         <TextView
             android:id="@+id/bankAccountNameView"
-            android:fontFamily="sans-serif"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_weight="1"
+            android:fontFamily="sans-serif"
             android:gravity="start|bottom"
             android:textColor="@color/colorBankingOverview"
             android:textSize="@dimen/fontSizeExpandableDetail"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/bankAccountBalanceView"
-            android:fontFamily="sans-serif"
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:layout_weight="2"
+            android:fontFamily="sans-serif"
             android:gravity="end|bottom"
-            android:textSize="@dimen/fontSizeExpandableDetail"
-            android:textStyle="bold"
             android:textColor="@color/colorBankingOverview"
-            android:layout_weight="2" />
+            android:textSize="@dimen/fontSizeExpandableDetail"
+            android:textStyle="bold" />
 
     </LinearLayout>
+
     <View
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:background="@color/colorBankingOverview"
-        />
+        android:background="@color/colorBankingOverview" />
 
 
 </LinearLayout>

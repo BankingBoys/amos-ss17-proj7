@@ -29,66 +29,56 @@ public class NetModule {
     private String baseUrl;
 
     /**
-     *
      * @param baseUrl
      * @methodtype constructor
      */
-    public NetModule(String baseUrl)
-    {
+    public NetModule(String baseUrl) {
         this.baseUrl = baseUrl;
     }
 
     /**
-     *
      * @param application
      * @return cache
      */
     @Provides
     @Singleton
-    Cache provideHttpCache(Application application)
-    {
-        int cacheSize = 10*1024*1024;
+    Cache provideHttpCache(Application application) {
+        int cacheSize = 10 * 1024 * 1024;
         Cache cache = new Cache(application.getCacheDir(), cacheSize);
         return cache;
     }
 
     /**
-     *
      * @return Gson
      */
     @Provides
     @Singleton
-    Gson provideGson()
-    {
+    Gson provideGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
         return gsonBuilder.create();
     }
 
     /**
-     *
      * @param cache
      * @return OkHttpClient
      */
     @Provides
     @Singleton
-    OkHttpClient provideOkhttpClient(Cache cache)
-    {
+    OkHttpClient provideOkhttpClient(Cache cache) {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.cache(cache);
         return client.build();
     }
 
     /**
-     *
      * @param gson
      * @param okHttpClient
      * @return Retrofit
      */
     @Provides
     @Singleton
-    Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient)
-    {
+    Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .baseUrl(baseUrl)

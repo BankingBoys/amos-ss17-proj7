@@ -25,6 +25,7 @@ public interface Restapi {
 
     /**
      * Endpoint for registering a new user by UserCredential
+     *
      * @param credential
      * @return
      */
@@ -37,7 +38,7 @@ public interface Restapi {
     @POST("/api/auth/login")
     Call<SessionData> login(@Body LoginData loginData);
 
-    @GET ("/api/banking")
+    @GET("/api/banking")
     Call<List<BankAccess>> getBankAccess(@Header("Authorization") String token);
 
     @POST("/api/banking")

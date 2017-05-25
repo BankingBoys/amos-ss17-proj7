@@ -38,7 +38,6 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     /**
-     *
      * @param savedInstanceState
      */
     @Override

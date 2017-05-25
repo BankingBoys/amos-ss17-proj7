@@ -10,9 +10,9 @@ import de.fau.amos.virtualledger.dtos.BankAccount;
  * Extracts the name out of a BankAccount
  */
 
-public class BankAccountNameExtractor implements BiFunction<BankAccess,BankAccount,String>{
+public class BankAccountNameExtractor implements BiFunction<BankAccess, BankAccount, String> {
     @Override
-    public String apply(BankAccess bankAccess,BankAccount bankAccount) {
+    public String apply(BankAccess bankAccess, BankAccount bankAccount) {
         return bankAccount.getName();
     }
 }

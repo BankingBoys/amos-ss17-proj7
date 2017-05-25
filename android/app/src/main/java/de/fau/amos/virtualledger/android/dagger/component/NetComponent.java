@@ -23,12 +23,15 @@ import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 public interface NetComponent {
 
     /**
-     *
      * @param activity
      */
     void inject(RegisterActivity activity);
+
     void inject(MainMenu activity);
+
     void inject(LoginActivity activity);
+
     void inject(ExpandableBankFragment expandableBankFragment);
+
     void inject(AddBankAccessActivity addBankAccessActivity);
 }

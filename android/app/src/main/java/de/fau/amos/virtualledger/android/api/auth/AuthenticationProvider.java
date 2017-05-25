@@ -13,7 +13,7 @@ import io.reactivex.Observable;
 
 public interface AuthenticationProvider {
 
-    Observable<String> register(String email,String password,String firstname,String lastname);
+    Observable<String> register(String email, String password, String firstname, String lastname);
 
     Observable<String> login(String username, String password);
 

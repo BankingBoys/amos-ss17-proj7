@@ -56,7 +56,6 @@ public class MainMenu extends AppCompatActivity {
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
     /**
-     *
      * @param savedInstanceState
      */
     @Override
@@ -100,7 +99,7 @@ public class MainMenu extends AppCompatActivity {
                         //Close
                         drawerLayout.closeDrawer(listView);
                     }
-        });
+                });
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.main_menu_drawer_opened, R.string.main_menu_drawer_closed) {
 
@@ -130,18 +129,18 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     *@methodtype initialization
+     * @methodtype initialization
      */
     private void init() {
         ((App) getApplication()).getNetComponent().inject(this);
         listView = (ListView) findViewById(R.id.sliding_menu);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        content = (RelativeLayout)findViewById(R.id.content);
+        content = (RelativeLayout) findViewById(R.id.content);
         slidingItems = new ArrayList<>();
     }
 
     /**
-     *@methodtype initialization
+     * @methodtype initialization
      */
     private void configureItemsForMenu() {
         slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Logout"));
@@ -151,7 +150,6 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     *
      * @param menu
      * @return boolean
      */
@@ -162,13 +160,12 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     *
      * @param item
      * @return boolean
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(actionBarDrawerToggle.onOptionsItemSelected(item)) {
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         switch (item.getItemId()) {
@@ -181,7 +178,6 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     *
      * @param savedInstanceState
      */
     @Override
@@ -191,7 +187,6 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     *
      * @param pos
      */
     private void replaceFragment(int pos) {
@@ -215,11 +210,10 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     *
      * @param fragment
      */
     private void openFragment(Fragment fragment) {
-        if(null!=fragment) {
+        if (null != fragment) {
             FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace(R.id.content, fragment);
@@ -241,7 +235,7 @@ public class MainMenu extends AppCompatActivity {
     /**
      *
      */
-    public void executeNextActivity(){
+    public void executeNextActivity() {
         logout();
         authenticationProvider.deleteSavedLoginData(this);
         Intent intent = new Intent(this, LoginActivity.class);

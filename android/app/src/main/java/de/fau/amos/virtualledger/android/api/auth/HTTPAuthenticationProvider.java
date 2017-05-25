@@ -33,10 +33,10 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
     private static final String FILENAME = "login.save";
 
     private Retrofit retrofit;
-    private String token =  "";
+    private String token = "";
     private String email = "";
 
-    public HTTPAuthenticationProvider(Retrofit retrofit){
+    public HTTPAuthenticationProvider(Retrofit retrofit) {
         this.retrofit = retrofit;
     }
 
@@ -78,22 +78,22 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Observable<String> login(final String username, String password) {
-        retrofit2.Call<SessionData> responseMessage = retrofit.create(Restapi.class).login(new LoginData(username,password));
+        retrofit2.Call<SessionData> responseMessage = retrofit.create(Restapi.class).login(new LoginData(username, password));
         final PublishSubject observable = PublishSubject.create();
 
         responseMessage.enqueue(new Callback<SessionData>() {
             @Override
             public void onResponse(retrofit2.Call<SessionData> call, Response<SessionData> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     email = username;
                     token = response.body().getSessionid();
                     observable.onNext("Login was successful!");
-                } else
-                {
+                } else {
                     Log.e(TAG, "Login was not successful!");
                     observable.onError(new Throwable("Login was not successful!"));
                 }
             }
+
             @Override
             public void onFailure(retrofit2.Call<SessionData> call, Throwable t) {
                 Log.e(TAG, "Login failed!");
@@ -112,13 +112,12 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
         responseMessage.enqueue(new Callback<StringApiModel>() {
             @Override
             public void onResponse(retrofit2.Call<StringApiModel> call, Response<StringApiModel> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     token = "";
                     /*deleteSavedLoginData();*/
                     observable.onNext("Logout was successful!");
-                } else
-                {
-                    Log.e(TAG,"Logout was not successful! ERROR " + response.code());
+                } else {
+                    Log.e(TAG, "Logout was not successful! ERROR " + response.code());
                     observable.onError(new Throwable("Logout was not successful!"));
                 }
             }
@@ -160,15 +159,15 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
         } catch (IOException e) {
             Log.e(TAG, "Error in persisting login data: " + e.getMessage());
         } finally {
-              {
-                try{
-                    if(fileOutputStream != null) {
+            {
+                try {
+                    if (fileOutputStream != null) {
                         fileOutputStream.close();
                     }
-                    if(objectOutputStream != null) {
+                    if (objectOutputStream != null) {
                         objectOutputStream.close();
                     }
-                } catch(IOException e) {
+                } catch (IOException e) {
                     Log.e(TAG, "Error while closing streams" + e.getMessage());
                 }
 
@@ -192,16 +191,16 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
             Log.e(TAG, "Error in persisting login data: " + e.getMessage());
         } finally {
 
-                try{
-                    if(fileOutputStream != null) {
-                        fileOutputStream.close();
-                    }
-                    if(objectOutputStream != null) {
-                        objectOutputStream.close();
-                    }
-                } catch(IOException e) {
-                    Log.e(TAG, "Error while closing streams" + e.getMessage());
+            try {
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
                 }
+                if (objectOutputStream != null) {
+                    objectOutputStream.close();
+                }
+            } catch (IOException e) {
+                Log.e(TAG, "Error while closing streams" + e.getMessage());
+            }
         }
         this.email = "";
         this.token = "";
@@ -220,8 +219,7 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
             objectInputStream.close();
             fileInputStream.close();
 
-            if(savedSession.getEmail() == null || savedSession.getEmail().isEmpty() || savedSession.getSessionid() == null || savedSession.getSessionid().isEmpty())
-            {
+            if (savedSession.getEmail() == null || savedSession.getEmail().isEmpty() || savedSession.getSessionid() == null || savedSession.getSessionid().isEmpty()) {
                 throw new ClassNotFoundException("One of the loaded parameters was null or empty!");
             }
 
@@ -229,18 +227,17 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
             this.token = savedSession.getSessionid();
         } catch (IOException e) {
             Log.e(TAG, "Error in reading persisted login data: " + e.getMessage());
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             Log.e(TAG, "Error in reading persisted login data: " + e.getMessage());
         } finally {
-            try{
-                if(fileInputStream  != null) {
+            try {
+                if (fileInputStream != null) {
                     fileInputStream.close();
                 }
-                if(objectInputStream != null) {
+                if (objectInputStream != null) {
                     objectInputStream.close();
                 }
-            } catch(IOException e) {
+            } catch (IOException e) {
                 Log.e(TAG, "Error while closing streams" + e.getMessage());
             }
         }

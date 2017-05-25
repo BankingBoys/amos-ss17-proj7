@@ -22,7 +22,6 @@ public class MenuAdapter extends BaseAdapter {
     private List<ItemSlidingMenu> listItem;
 
     /**
-     *
      * @param context
      * @param listItem
      * @methodtype constructor
@@ -33,7 +32,6 @@ public class MenuAdapter extends BaseAdapter {
     }
 
     /**
-     *
      * @return size
      * @methodtype getter
      */
@@ -43,7 +41,6 @@ public class MenuAdapter extends BaseAdapter {
     }
 
     /**
-     *
      * @param position
      * @return item
      * @methodtype getter
@@ -54,7 +51,6 @@ public class MenuAdapter extends BaseAdapter {
     }
 
     /**
-     *
      * @param position
      * @return itemId
      * @methodtype getter
@@ -65,7 +61,6 @@ public class MenuAdapter extends BaseAdapter {
     }
 
     /**
-     *
      * @param position
      * @param convertView
      * @param parent

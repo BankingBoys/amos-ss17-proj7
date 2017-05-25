@@ -17,14 +17,12 @@ public class AuthenticationModule {
 
 
     /**
-     *
      * @param retrofit
      * @return
      */
     @Provides
     @Singleton
-    AuthenticationProvider provideLoginProvider(Retrofit retrofit)
-    {
+    AuthenticationProvider provideLoginProvider(Retrofit retrofit) {
         return new HTTPAuthenticationProvider(retrofit);
     }
 }

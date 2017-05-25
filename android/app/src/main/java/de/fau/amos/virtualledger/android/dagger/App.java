@@ -12,7 +12,7 @@ import de.fau.amos.virtualledger.android.dagger.module.NetModule;
  * dagger-2-with-retrofit-and-okhttp-and-gson/)
  */
 
-public class App extends Application{
+public class App extends Application {
 
     private NetComponent netComponent;
 

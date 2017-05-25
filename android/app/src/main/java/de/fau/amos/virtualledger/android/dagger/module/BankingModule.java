@@ -17,14 +17,12 @@ import retrofit2.Retrofit;
 public class BankingModule {
 
     /**
-     *
      * @param retrofit
      * @return
      */
     @Provides
     @Singleton
-    BankingProvider provideBankingProvider(Retrofit retrofit, AuthenticationProvider authenticationProvider)
-    {
+    BankingProvider provideBankingProvider(Retrofit retrofit, AuthenticationProvider authenticationProvider) {
         return new HTTPBankingProvider(retrofit, authenticationProvider);
     }
 }

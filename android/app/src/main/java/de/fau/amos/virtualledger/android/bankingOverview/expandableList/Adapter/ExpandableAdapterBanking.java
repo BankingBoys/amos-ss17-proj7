@@ -25,23 +25,19 @@ import de.fau.amos.virtualledger.dtos.BankAccount;
 
 public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
 
+    private final SparseArray<Group> groups;
     /**
      *
      */
     public Activity listActivity;
-    private final SparseArray<Group> groups;
     private LayoutInflater inflater;
 
     // TODO refavtor so dagger injects directly into deleteAction
     private BankingProvider bankingProvider;
-    public void setBankingProvider(BankingProvider bankingProvider) {
-        this.bankingProvider = bankingProvider;
-    }
 
     /**
-     *
      * @param activity from where the adapter is called
-     * @param groups which groups are used for the adapter
+     * @param groups   which groups are used for the adapter
      * @methodtype constructor
      */
     public ExpandableAdapterBanking(Activity activity, SparseArray<Group> groups) {
@@ -50,8 +46,11 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
         inflater = activity.getLayoutInflater();
     }
 
+    public void setBankingProvider(BankingProvider bankingProvider) {
+        this.bankingProvider = bankingProvider;
+    }
+
     /**
-     *
      * @param groupPosition - position of the group
      * @param childPosition - position of the children
      * @return child
@@ -63,7 +62,6 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition - position of the group
      * @param childPosition - position of the children
      * @return Id of child
@@ -75,12 +73,11 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition - position of the group
      * @param childPosition - position of the children
-     * @param isLastChild - checks if it's the last child
-     * @param convertView - view which needs to be called
-     * @param parent - parent of the View
+     * @param isLastChild   - checks if it's the last child
+     * @param convertView   - view which needs to be called
+     * @param parent        - parent of the View
      * @return child view
      * @methodtype getter
      */
@@ -114,7 +111,6 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition - position of the group
      * @return count of children
      * @methodtype getter
@@ -125,7 +121,6 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition - position of the group
      * @return Group
      * @methodtype getter
@@ -136,7 +131,6 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @return get count of group
      * @methodtype getter
      */
@@ -146,7 +140,6 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition - position of the group
      */
     @Override
@@ -155,7 +148,6 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition - position of the group
      */
     @Override
@@ -164,7 +156,6 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition - position of the group
      * @return Id of group
      */
@@ -174,11 +165,10 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition - position of the group
-     * @param isExpanded - if the group is expanded
-     * @param convertView - view which needs to be called
-     * @param parent - parent of the view
+     * @param isExpanded    - if the group is expanded
+     * @param convertView   - view which needs to be called
+     * @param parent        - parent of the view
      * @return group view
      * @methodtype getter
      */
@@ -199,18 +189,17 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
         bankBalance = (TextView) convertView.findViewById(R.id.bankAccessBalanceView);
         checkedView.setText(group.bankAccess.getName());
         double bankBalanceDouble = group.bankAccess.getBalance();
-        String bankBalanceString = String.format(Locale.GERMAN, "%.2f",bankBalanceDouble);
+        String bankBalanceString = String.format(Locale.GERMAN, "%.2f", bankBalanceDouble);
         bankBalance.setText(bankBalanceString);
         checkedView.setChecked(isExpanded);
         return convertView;
     }
 
-    public int getIndexForGroup(Group group){
+    public int getIndexForGroup(Group group) {
         return this.groups.indexOfValue(group);
     }
 
     /**
-     *
      * @return stable ids boolean
      */
     @Override
@@ -219,7 +208,6 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition - position of the group
      * @param childPosition - position of the children
      * @return boolean selectable child

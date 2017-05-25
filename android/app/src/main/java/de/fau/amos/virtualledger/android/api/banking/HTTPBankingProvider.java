@@ -25,11 +25,10 @@ public class HTTPBankingProvider implements BankingProvider {
     private Retrofit retrofit;
     private AuthenticationProvider authenticationProvider;
 
-    public HTTPBankingProvider(Retrofit retrofit, AuthenticationProvider authenticationProvider){
+    public HTTPBankingProvider(Retrofit retrofit, AuthenticationProvider authenticationProvider) {
         this.retrofit = retrofit;
         this.authenticationProvider = authenticationProvider;
     }
-
 
 
     @Override
@@ -41,13 +40,12 @@ public class HTTPBankingProvider implements BankingProvider {
         responseMessage.enqueue(new Callback<List<BankAccess>>() {
             @Override
             public void onResponse(retrofit2.Call<List<BankAccess>> call, Response<List<BankAccess>> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     List<BankAccess> bankAccesses = response.body();
-                    Log.v(TAG,"Fetching of bank accesses was successful " + response.code());
+                    Log.v(TAG, "Fetching of bank accesses was successful " + response.code());
                     observable.onNext(bankAccesses);
-                } else
-                {
-                    Log.e(TAG,"Fetchin of bank accesses was not successful! ERROR " + response.code());
+                } else {
+                    Log.e(TAG, "Fetchin of bank accesses was not successful! ERROR " + response.code());
                     observable.onError(new Throwable("Fetching of bank accesses was not successful!"));
                 }
             }
@@ -73,12 +71,11 @@ public class HTTPBankingProvider implements BankingProvider {
         responseMessage.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
-                if(response.isSuccessful()) {
-                    Log.v(TAG,"Adding bank accesses was successful " + response.code());
+                if (response.isSuccessful()) {
+                    Log.v(TAG, "Adding bank accesses was successful " + response.code());
                     observable.onNext("Adding bank access was successful");
-                } else
-                {
-                    Log.e(TAG,"Adding bank accesses was not successful! ERROR " + response.code());
+                } else {
+                    Log.e(TAG, "Adding bank accesses was not successful! ERROR " + response.code());
                     observable.onError(new Throwable("Adding bank accesses was not successful!"));
                 }
             }
@@ -103,12 +100,11 @@ public class HTTPBankingProvider implements BankingProvider {
         responseMessage.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
-                if(response.isSuccessful()) {
-                    Log.v(TAG,"Deleting bank accesses was successful " + response.code());
+                if (response.isSuccessful()) {
+                    Log.v(TAG, "Deleting bank accesses was successful " + response.code());
                     observable.onNext("Deleting bank access was successful");
-                } else
-                {
-                    Log.e(TAG,"Deleting bank accesses was not successful! ERROR " + response.code());
+                } else {
+                    Log.e(TAG, "Deleting bank accesses was not successful! ERROR " + response.code());
                     observable.onError(new Throwable("Deleting bank accesses was not successful!"));
                 }
             }
@@ -133,12 +129,11 @@ public class HTTPBankingProvider implements BankingProvider {
         responseMessage.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
-                if(response.isSuccessful()) {
-                    Log.v(TAG,"Deleting bank account was successful " + response.code());
+                if (response.isSuccessful()) {
+                    Log.v(TAG, "Deleting bank account was successful " + response.code());
                     observable.onNext("Deleting bank account was successful");
-                } else
-                {
-                    Log.e(TAG,"Deleting bank account was not successful! ERROR " + response.code());
+                } else {
+                    Log.e(TAG, "Deleting bank account was not successful! ERROR " + response.code());
                     observable.onError(new Throwable("Deleting bank account was not successful!"));
                 }
             }

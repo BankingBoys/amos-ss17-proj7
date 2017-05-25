@@ -16,15 +16,15 @@ import de.fau.amos.virtualledger.dtos.BankAccount;
  * Action of deletion of an BankAccount
  */
 
-public class DeleteBankAccountAction implements BiConsumer<BankAccess,BankAccount> {
+public class DeleteBankAccountAction implements BiConsumer<BankAccess, BankAccount> {
 
     // injected by setter
     private BankingProvider bankingProvider;
 
     private Activity activity;
-    private BiFunction<BankAccess,BankAccount, String>  getName;
+    private BiFunction<BankAccess, BankAccount, String> getName;
 
-    public DeleteBankAccountAction(Activity activity, BiFunction<BankAccess,BankAccount, String> getName, BankingProvider bankingProvider){
+    public DeleteBankAccountAction(Activity activity, BiFunction<BankAccess, BankAccount, String> getName, BankingProvider bankingProvider) {
         this.getName = getName;
         this.activity = activity;
 
@@ -36,12 +36,11 @@ public class DeleteBankAccountAction implements BiConsumer<BankAccess,BankAccoun
     @Override
     public void accept(BankAccess bankAccess, BankAccount bankAccount) {
         bankingProvider.deleteBankAccount(bankAccess.getId(), bankAccount.getBankid());
-        Toast.makeText(activity, "Bank account deleted:\""+getName.apply(bankAccess,bankAccount)+"\"", Toast.LENGTH_LONG).show();
+        Toast.makeText(activity, "Bank account deleted:\"" + getName.apply(bankAccess, bankAccount) + "\"", Toast.LENGTH_LONG).show();
     }
 
     @Inject
-    public void setBankingProvider(BankingProvider bankingProvider)
-    {
+    public void setBankingProvider(BankingProvider bankingProvider) {
         this.bankingProvider = bankingProvider;
     }
 }
