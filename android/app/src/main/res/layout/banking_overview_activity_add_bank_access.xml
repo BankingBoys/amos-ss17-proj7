@@ -12,7 +12,7 @@
         android:layout_marginTop="40dp"
         android:layout_weight="0.15"
         android:gravity="center"
-        android:text="@string/heading_add_bank_access"
+        android:text="@string/banking_overview_add_access_title"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="30sp" />
 
@@ -25,7 +25,7 @@
         android:ems="10"
         android:gravity="bottom"
         android:inputType="text"
-        android:hint="@string/hint_blz"/>
+        android:hint="@string/banking_overview_add_access_blz_hint"/>
 
     <EditText
         android:id="@+id/editText_addBankAccess_loginName"
@@ -35,7 +35,7 @@
         android:ems="10"
         android:gravity="bottom"
         android:inputType="text"
-        android:hint="@string/hint_bank_login_name"/>
+        android:hint="@string/banking_overview_add_access_name_hint"/>
 
     <EditText
         android:id="@+id/editText_addBankAccess_pin"
@@ -45,14 +45,14 @@
         android:ems="10"
         android:gravity="bottom"
         android:inputType="textPassword"
-        android:hint="@string/hint_bank_password"
+        android:hint="@string/banking_overview_add_access_password_hint"
         tools:ignore="TextFields"/>
 
     <Button
         android:id="@+id/button_addBankAccess_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_bank_access_submit"
+        android:text="@string/banking_overview_add_access_button_text"
         android:layout_gravity="center"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"

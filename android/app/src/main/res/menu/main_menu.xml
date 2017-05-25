@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/m_add_bank_access" android:title="@string/add_bank_access" app:showAsAction="ifRoom" android:icon="@drawable/ic_add" />
+    <item android:id="@+id/m_add_bank_access" android:title="@string/banking_overview_add_access_shortcut" app:showAsAction="ifRoom" android:icon="@drawable/ic_add" />
 
 </menu>

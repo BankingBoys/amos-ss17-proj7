@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical|center_horizontal"
         android:layout_weight="1"
-        android:text="@string/noBankAccessesAvailable"
+        android:text="@string/banking_overview_no_bank_access_text"
         android:textColor="@android:color/holo_blue_light"/>
 
     <Button
@@ -23,7 +23,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="30dp"
-        android:text="@string/noBankAccessesButton"
+        android:text="@string/banking_overview_no_bank_access_button_text"
         android:background="@android:color/holo_blue_light"
         android:textColor="@android:color/background_light"
         android:fontFamily="sans-serif"

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:gravity="center_horizontal"
-        android:text="@string/registration"
+        android:text="@string/authentication_register_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="30sp" />
@@ -37,7 +37,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:gravity="bottom"
-                android:hint="@string/firstname"
+                android:hint="@string/authentication_register_firstname_hint"
                 android:inputType="textPersonName" />
 
             <EditText
@@ -47,7 +47,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:gravity="bottom"
-                android:hint="@string/lastname"
+                android:hint="@string/authentication_register_lastname_hint"
                 android:inputType="textPersonName" />
         </LinearLayout>
 
@@ -58,7 +58,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:gravity="bottom"
-            android:hint="@string/EMail"
+            android:hint="@string/authentication_email_hint"
             android:inputType="textEmailAddress" />
 
         <EditText
@@ -68,7 +68,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:gravity="bottom"
-            android:hint="@string/password"
+            android:hint="@string/authentication_password_hint"
             android:inputType="textPassword" />
 
         <TextView
@@ -85,7 +85,7 @@
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_weight="1.5"
             android:background="@android:color/holo_blue_light"
-            android:text="@string/register"
+            android:text="@string/authentication_register_button_text"
             android:textColor="@android:color/background_light" />
 
         <TextView
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
-            android:text="@string/terms_and_conditions" />
+            android:text="@string/authentication_register_terms_and_conditions" />
 
     </LinearLayout>
 
