@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
+import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.android.model.UserCredential;
 import de.fau.amos.virtualledger.dtos.LoginData;
@@ -14,21 +15,11 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
-
-/**
- * Created by Simon on 07.05.2017. taken from https://adityaladwa.wordpress.com/2016/05/09/
- * dagger-2-with-retrofit-and-okhttp-and-gson/)
- */
 
 public interface Restapi {
 
-    /**
-     * Endpoint for registering a new user by UserCredential
-     *
-     * @param credential
-     * @return
-     */
     @POST("/api/auth/register")
     Call<StringApiModel> register(@Body UserCredential credential);
 
@@ -49,5 +40,8 @@ public interface Restapi {
 
     @DELETE("/api/banking/{accessId}/{accountId}")
     Call<Void> deleteBankAccount(@Header("Authorization") String token, @Path("accessId") String accessId, @Path("accountId") String accountId);
+
+    @PUT("/api/banking/sync")
+    Call<Void> syncBankAccounts(@Header("Authorization") String token, @Body List<BankAccountSync> bankAccountSyncList);
 
 }
