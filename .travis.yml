@@ -55,5 +55,6 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+    - $HOME/.android/
     - /home/travis/build/BankingBoys/tools/
 
