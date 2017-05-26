@@ -70,21 +70,6 @@ public class BankingOverviewController {
     {
         BankAccessBankingModel bankAccessBankingModel = bankAccessBankingModelFactory.createBankAccessBankingModel(email, bankAccessCredential);
         bankingApiFacade.addBankAccess(email, bankAccessBankingModel);
-
-        List<BankAccessBankingModel> bankingModelList = bankingApiFacade.getBankAccesses(email);
-        for(BankAccessBankingModel bankAccess: bankingModelList)
-        { // delete in deletedBankingAccessTable
-        //    deletedBankAccessesRepository.deleteDeletedBankAccessByEmailAndId(email, bankAccess.getId());
-        }
-
-        for(BankAccessBankingModel retrievedBankAccessBankingModel: bankingModelList)
-        {
-            List<BankAccount> bankAccounts = this.getBankingAccounts(email, retrievedBankAccessBankingModel.getId());
-            for(BankAccessBankingModel bankAccess: bankingModelList)
-            { // delete in deletedBankingAccessTable
-         //       deletedBankAccountRepository.deleteDeletedBankAccountByEmailAndAccessId(email, bankAccess.getId());
-            }
-        }
     }
 
     public void deleteBankAccess(String email, String bankAccessId) throws BankingException
