@@ -15,7 +15,7 @@ install:
   - unzip tools_r25.2.3-linux.zip
   - ls
   - export ANDROID_HOME=/home/travis/build/BankingBoys/
-  -  export PATH=$PATH:/home/travis/build/BankingBoys/ools
+  - export PATH=$PATH:/home/travis/build/BankingBoys/ools
   - export PATH=$PATH://home/travis/build/BankingBoys/platform-tools
   - cd tools
   - echo y | ./android update sdk --no-ui --all --filter "build-tools-25.0.0"
@@ -41,10 +41,9 @@ after_script:
  -  ./upload_script.sh
 
 notifications:
-    slack: amosteam5:WF2UyrAWwmuoSgjjtqPo8O1N
+    slack: amosteam5:$AMOS_SLACK
 
 after_success:
- - gradle -b wrapper.gradle wrapper
  - ./gradlew jacocoTestReport coveralls
  - bash <(curl -s https://codecov.io/bash) -t cf0de81b-58db-4ef3-ae21-7e98da69c415
 
