@@ -20,11 +20,29 @@ public class BankingApiConfiguration {
     private final String bankAccessApiUrlRelative = "users/{userId}/bankaccesses";
     private final String bankAccountApiUrlRelative = "users/{userId}/bankaccesses/{accessId}/accounts";
 
+    /**
+     * flag if dummy endpoint should be used instead of adressing api of adorsys for user management
+     */
     private final boolean useUserEndpointDummy = false;
+
+    /**
+     * flag if dummy endpoint should be used instead of adressing api of adorsys for bank accesses
+     */
     private final boolean useBankAccessEndpointDummy = false;
+
+    /**
+     * flag if dummy endpoint should be used instead of adressing api of adorsys for bank accounts
+     */
     private final boolean useBankAccountEndpointDummy = false;
 
+    /**
+     * flag if instead of real user on adorsys api, a specific test user with provided test data should be used
+     */
     private final boolean useTestUser = false;
+
+    /**
+     * username of the test user on adorsys api
+     */
     private final String testUserName = "test";
 
 
