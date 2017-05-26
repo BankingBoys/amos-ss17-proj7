@@ -39,10 +39,8 @@ after_script:
  - scp -rp -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh /home/travis/build/BankingBoys/amos-ss17-proj7/server/compiled/server-1.0-SNAPSHOT.war ubuntu@13.58.27.176:/home/ubuntu/
  - ssh -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh ubuntu@13.58.27.176 "/home/ubuntu/pay/payara41/bin/asadmin --user admin --passwordfile ~/payPW redeploy --name server-1.0-SNAPSHOT server-1.0-SNAPSHOT.war"
  -  cd /home/travis/build/BankingBoys/amos-ss17-proj7/
- - ./gradlew android:app:assemble
- - cd android/app/build/outputs/apk
- - curl --form "status=2" --form "notify=1" --form "notes=auto deploy." ---form "notes_type=0" --form "ipa=@app-debug.apk" -H "X-HockeyAppToken: $hockeyapptoken" https://rink.hockeyapp.net/api/2/apps/4adac746746644d8ad6c94939495c7ff//app_versions/upload
-
+ -  chmod 777 upload_script.sh
+ -  ./upload_script.sh
 
 notifications:
     slack: amosteam5:WF2UyrAWwmuoSgjjtqPo8O1N
