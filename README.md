@@ -57,7 +57,5 @@ E.g. for the serverproject in `server/build/jacocoHtml`
 
 ### Global test coverage
 
-Visit CodeCov:
-
-https://codecov.io/gh/BankingBoys/amos-ss17-proj7
+Visit [CodeCov](https://codecov.io/gh/BankingBoys/amos-ss17-proj7)
 	
