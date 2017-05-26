@@ -47,3 +47,11 @@ notifications:
 after_success:
  - gradlew jacocoTestReport coveralls
  - bash <(curl -s https://codecov.io/bash) -t cf0de81b-58db-4ef3-ae21-7e98da69c415
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
