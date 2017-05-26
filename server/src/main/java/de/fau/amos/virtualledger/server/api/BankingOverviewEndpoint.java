@@ -15,7 +15,7 @@ import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.server.auth.Secured;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
-import de.fau.amos.virtualledger.server.controllers.BankingOverviewController;
+import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
 
 /**
  * Created by Georg on 20.05.2017.

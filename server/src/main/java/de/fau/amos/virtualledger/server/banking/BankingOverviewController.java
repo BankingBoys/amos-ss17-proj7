@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.server.controllers;
+package de.fau.amos.virtualledger.server.banking;
 
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
