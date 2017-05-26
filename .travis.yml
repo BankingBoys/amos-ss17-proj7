@@ -8,16 +8,8 @@ before_install:
   - cd /home/travis/build/BankingBoys/amos-ss17-proj7
   - unzip -P $zippass k.zip
 
-before_script:
+install:
   - cd /home/travis/build/BankingBoys/
-  - which gradle
-  - sudo rm -rf /usr/local/gradle/bin/gradle
-  - sudo apt-get remove gradle
-  - wget https://services.gradle.org/distributions/gradle-3.5-bin.zip
-  - mkdir /opt/gradle
-  - unzip -d /opt/gradle gradle-3.5-bin.zip
-  -  ls /opt/gradle/gradle-3.5
-  - export PATH=$PATH:/opt/gradle/gradle-3.5/bin
   - sudo apt install unzip
   - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
   - unzip tools_r25.2.3-linux.zip
