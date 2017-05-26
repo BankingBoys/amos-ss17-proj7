@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/BankingBoys/amos-ss17-proj7.svg?branch=master)](https://travis-ci.org/BankingBoys/amos-ss17-proj7)
+<img src="readme_img/logo.png" alt="Logo" style="width: 200px;"/>
 
-[![codecov](https://codecov.io/gh/BankingBoys/amos-ss17-proj7/branch/dev/graph/badge.svg)](https://codecov.io/gh/BankingBoys/amos-ss17-proj7)
+# amos-ss17-proj7 Virtual Ledger
 
-# amos-ss17-proj7
-Virtual Ledger
+[![Build Status](https://travis-ci.org/BankingBoys/amos-ss17-proj7.svg?branch=master)](https://travis-ci.org/BankingBoys/amos-ss17-proj7) [![codecov](https://codecov.io/gh/BankingBoys/amos-ss17-proj7/branch/dev/graph/badge.svg)](https://codecov.io/gh/BankingBoys/amos-ss17-proj7)
+
 
 ## Installation general
 
@@ -26,7 +26,7 @@ Go to eclipse
 5. select all projects
 6. click "Finish"
 
-## Use Jetty-Server
+### Use Jetty-Server
 
 Open Terminal in server-workspace.
 
@@ -42,3 +42,22 @@ If you only want to run the server (no war-file build) use:
 
 
 Test url: http://localhost:8080/virtual-ledger-server/TestServlet
+
+## Use test coverage
+
+### Local test coverage 
+
+To compute the test coverage of all projects run:
+
+	gradle clean check
+	
+The html-testcoverage is in `$projectname/build/jacocoHtml`
+
+E.g. for the serverproject in `server/build/jacocoHtml`
+
+### Global test coverage
+
+Visit CodeCov:
+
+https://codecov.io/gh/BankingBoys/amos-ss17-proj7
+	
