@@ -55,4 +55,17 @@ public class BankingApiUrlProvider {
         url = url.replaceAll("\\{accessId\\}", bankAccessId);
         return url;
     }
+
+    public String getBankAccountSyncEndpointUrl(String userId, String bankAccessId, String bankAccountId)
+    {
+        String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccountSyncApiUrlRelative();
+        if(configuration.isUseTestUser()) {
+            url = url.replaceAll("\\{userId\\}", "test");
+        } else {
+            url = url.replaceAll("\\{userId\\}", userId);
+        }
+        url = url.replaceAll("\\{accessId\\}", bankAccessId);
+        url = url.replaceAll("\\{accountId\\}", bankAccountId);
+        return url;
+    }
 }
