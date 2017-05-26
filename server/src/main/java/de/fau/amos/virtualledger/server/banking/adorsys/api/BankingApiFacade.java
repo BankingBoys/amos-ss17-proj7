@@ -47,6 +47,11 @@ public class BankingApiFacade {
         return binder.getBankAccountEndpoint().getBankAccounts(userId, bankAccessId);
     }
 
+    public void syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException
+    {
+        binder.getBankAccountEndpoint().syncBankAccount(userId, bankAccessId, bankAccountId, pin);
+    }
+
     public void addBankAccess(String userId, BankAccessBankingModel bankAccess) throws BankingException
     {
         binder.getBankAccessEndpoint().addBankAccess(userId, bankAccess);

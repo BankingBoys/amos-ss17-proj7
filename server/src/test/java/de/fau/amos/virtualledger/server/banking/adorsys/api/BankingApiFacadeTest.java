@@ -88,4 +88,25 @@ public class BankingApiFacadeTest {
         Mockito.verify(bankingApiBinder, times(1))
                 .getBankAccountEndpoint();
     }
+
+    @Test
+    public void syncAccount_binderCalled()
+    {
+        // SETUP
+        DummyBankAccountEndpoint endpoint = mock(DummyBankAccountEndpoint.class);
+        when(bankingApiBinder.getBankAccountEndpoint())
+                .thenReturn(endpoint);
+        BankingApiFacade bankingApiFacade = new BankingApiFacade(bankingApiBinder);
+
+        // ACT
+        try {
+            bankingApiFacade.syncBankAccount("test", "test", "test", "test");
+        } catch (BankingException ex) {
+            fail("An Banking Exception was thrown! " + ex.getMessage());
+        }
+
+        // ASSERT
+        Mockito.verify(bankingApiBinder, times(1))
+                .getBankAccountEndpoint();
+    }
 }
