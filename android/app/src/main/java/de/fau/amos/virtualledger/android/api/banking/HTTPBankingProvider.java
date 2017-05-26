@@ -8,6 +8,7 @@ import de.fau.amos.virtualledger.android.api.Restapi;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
+import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Callback;
@@ -135,6 +136,35 @@ public class HTTPBankingProvider implements BankingProvider {
                 } else {
                     Log.e(TAG, "Deleting bank account was not successful! ERROR " + response.code());
                     observable.onError(new Throwable("Deleting bank account was not successful!"));
+                }
+            }
+
+
+            @Override
+            public void onFailure(retrofit2.Call<Void> call, Throwable t) {
+
+                Log.e(TAG, "No connection to server!");
+                observable.onError(new Throwable("No connection to server!"));
+            }
+        });
+
+        return observable;
+    }
+
+    @Override
+    public Observable<String> syncBankAccounts(List<BankAccountSync> bankAccountSyncList) {
+        final retrofit2.Call<Void> responseMessage = retrofit.create(Restapi.class).syncBankAccounts(authenticationProvider.getToken(), bankAccountSyncList);
+        final PublishSubject observable = PublishSubject.create();
+
+        responseMessage.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.v(TAG, "Synchronizing bank accounts was successful " + response.code());
+                    observable.onNext("Synchronizing bank accounts was successful");
+                } else {
+                    Log.e(TAG, "Synchronizing bank accounts was not successful! ERROR " + response.code());
+                    observable.onError(new Throwable("Synchronizing bank accounts was not successful!"));
                 }
             }
 
