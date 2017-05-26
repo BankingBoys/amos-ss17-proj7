@@ -13,6 +13,13 @@ repositories {
         url 'http://download.eclipse.org/rt/eclipselink/maven.repo'
     }
 }
+uploadArchives {
+	repositories {
+		flatDir {
+			dirs 'compiled'
+			}
+		}
+	}
 
 
 dependencies {

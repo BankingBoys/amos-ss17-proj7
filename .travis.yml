@@ -27,6 +27,7 @@ addons:
   ssh_known_hosts: "13.58.27.176"
 
 after_script:
+ - ./gradlew server:uploadArchives
  - cd android
  - cd app
  - cd build
