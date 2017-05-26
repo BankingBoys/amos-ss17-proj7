@@ -18,9 +18,13 @@ public class BankingApiUrlProvider {
 
 
     @Inject
-    public void setConfiguration(BankingApiConfiguration configuration)
+    public BankingApiUrlProvider(BankingApiConfiguration configuration)
     {
         this.configuration = configuration;
+    }
+    // protected empty constructor required for server to init it
+    protected BankingApiUrlProvider() {
+        this(null);
     }
 
 
