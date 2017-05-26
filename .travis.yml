@@ -46,7 +46,7 @@ notifications:
 
 after_success:
  - gradle -b wrapper.gradle wrapper
- - gradlew jacocoTestReport coveralls
+ - gradle jacocoTestReport coveralls
  - bash <(curl -s https://codecov.io/bash) -t cf0de81b-58db-4ef3-ae21-7e98da69c415
 
 before_cache:
