@@ -3,13 +3,13 @@
 # amos-ss17-proj7
 Virtual Ledger
 
-# Installation general
+## Installation general
 
 You need an environment variable called VIRTUAL_LEDGER_DB_PASSWORD that contains the password for the database.
 Restarting the computer/server may be required after setting it!
 
 
-## Install workspace for eclipse
+### Install workspace for eclipse
 
 Open terminal in the rootproject and type
 
