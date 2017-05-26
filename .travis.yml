@@ -11,8 +11,8 @@ before_install:
 install:
   - cd /home/travis/build/BankingBoys/
   - sudo apt install unzip   
-  - if [ ! -d ./tools ]; then wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip ; fi   
-  - if [ ! -d ./tools ]; then unzip tools_r25.2.3-linux.zip ; fi   
+  - if [ ! -d ./android ]; then wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip ; fi   
+  - if [ ! -d ./android ]; then unzip tools_r25.2.3-linux.zip ; fi   
   - ls
   - export ANDROID_HOME=/home/travis/build/BankingBoys/
   - export PATH=$PATH:/home/travis/build/BankingBoys/ools
@@ -55,5 +55,5 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-    - /home/travis/build/BankingBoys/tools
+    - /home/travis/build/BankingBoys/.android
 
