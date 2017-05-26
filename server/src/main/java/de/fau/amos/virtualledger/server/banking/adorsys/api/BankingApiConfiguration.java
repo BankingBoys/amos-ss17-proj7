@@ -19,6 +19,7 @@ public class BankingApiConfiguration {
     private final String userApiUrlRelative = "users";
     private final String bankAccessApiUrlRelative = "users/{userId}/bankaccesses";
     private final String bankAccountApiUrlRelative = "users/{userId}/bankaccesses/{accessId}/accounts";
+    private final String bankAccountSyncApiUrlRelative = "users/{userId}/bankaccesses/{accessId}/accounts/{accountId}/sync";
 
     /**
      * flag if dummy endpoint should be used instead of adressing api of adorsys for user management
@@ -63,7 +64,9 @@ public class BankingApiConfiguration {
         return bankAccountApiUrlRelative;
     }
 
-
+    public String getBankAccountSyncApiUrlRelative() {
+        return bankAccountSyncApiUrlRelative;
+    }
 
     public boolean isUseUserEndpointDummy() {
         return useUserEndpointDummy;
