@@ -5,32 +5,6 @@ description "Backend for the Virtual Ledger Android app"
 apply plugin: 'war'
 apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
-apply plugin: 'jacoco'
-
-jacocoTestReport {
-    reports {
-        xml.enabled false
-        csv.enabled false
-        html.destination "${buildDir}/jacocoHtml"
-    }
-}
-test {
-    jacoco {
-        append = false
-        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
-        classDumpFile = file("$buildDir/jacoco/classpathdumps")
-    }
-}
-
-jacocoTestReport {
-    afterEvaluate {
-        classDirectories = files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: 'META-INF/**')
-        })
-    }
-}
-
-
 sourceCompatibility = 1.8
 
 repositories {

@@ -10,40 +10,18 @@ project(':server'){
 	apply plugin: 'war'
 	apply plugin: 'java'
 	apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
-
 	apply plugin: 'java'
-	
 	apply plugin: 'jacoco'
-	jacocoTestReport {
-	    reports {
-		xml.enabled false
-		csv.enabled false
-		html.destination "${buildDir}/jacocoHtml"
-	    }
-	}
-	test {
-	    jacoco {
-		append = false
-		destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
-		classDumpFile = file("$buildDir/jacoco/classpathdumps")
-	    }
-	}
 
+	check.dependsOn {
+		project(':server').jacocoTestReport
+	}
 	jacocoTestReport {
 	    afterEvaluate {
 		classDirectories = files(classDirectories.files.collect {
 		    fileTree(dir: it, exclude: 'META-INF/**')
 		})
 	    }
-	}
-
-
-
-
-	dependencies {
-		compile project(':dtos')
-		testCompile group: 'org.assertj', name: 'assertj-core', version: '3.+'
-		testCompile group: 'junit', name: 'junit', version: '4.+'
 	}
 }
 
@@ -77,3 +55,5 @@ task codeCoverageReport(type: JacocoReport) {
 codeCoverageReport.dependsOn {
     subprojects*.test
 }
+
+
