@@ -17,11 +17,16 @@ project(':server'){
 		project(':server').jacocoTestReport
 	}
 	jacocoTestReport {
-	    afterEvaluate {
-		classDirectories = files(classDirectories.files.collect {
-		    fileTree(dir: it, exclude: 'META-INF/**')
-		})
-	    }
+		afterEvaluate {
+			classDirectories = files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: 'META-INF/**')
+			}
+		)}
+		reports {
+       			 xml.enabled true
+       			 csv.enabled false
+       			 html.destination "${buildDir}/jacocoHtml"
+   		 }
 	}
 }
 
@@ -55,5 +60,4 @@ task codeCoverageReport(type: JacocoReport) {
 codeCoverageReport.dependsOn {
     subprojects*.test
 }
-
 
