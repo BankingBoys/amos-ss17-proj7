@@ -45,4 +45,5 @@ notifications:
     slack: amosteam5:WF2UyrAWwmuoSgjjtqPo8O1N
 
 after_success:
+ - gradle jacocoTestReport coveralls
  - bash <(curl -s https://codecov.io/bash) -t cf0de81b-58db-4ef3-ae21-7e98da69c415
