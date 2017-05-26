@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
+import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import io.reactivex.Observable;
 
 /**
@@ -19,4 +20,6 @@ public interface BankingProvider {
     Observable<String> deleteBankAccess(String accessId);
 
     Observable<String> deleteBankAccount(String accessId, String accountId);
+
+    Observable<String> syncBankAccounts(List<BankAccountSync> bankAccountSyncList);
 }
