@@ -3,6 +3,7 @@ package de.fau.amos.virtualledger.server.banking;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccount;
+import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
 import de.fau.amos.virtualledger.server.factories.*;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiFacade;
@@ -109,6 +110,14 @@ public class BankingOverviewController {
     {
         DeletedBankAccount deletedBankAccount = deletedBankAccountFactory.createDeletedBankAccount(email, bankAccessId, bankAccountId);
         deletedBankAccountRepository.createDeletedBankAccount(deletedBankAccount);
+    }
+
+    public void syncBankAccounts(String email, List<BankAccountSync> bankAccountSyncList) throws BankingException
+    {
+        for(BankAccountSync bankAccountSync: bankAccountSyncList)
+        {
+            bankingApiFacade.syncBankAccount(email, bankAccountSync.getBankaccessid(), bankAccountSync.getBankaccountid(), bankAccountSync.getPin());
+        }
     }
 
     /**

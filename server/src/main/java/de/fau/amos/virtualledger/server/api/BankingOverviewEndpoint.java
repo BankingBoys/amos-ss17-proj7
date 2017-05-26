@@ -13,6 +13,7 @@ import javax.ws.rs.core.SecurityContext;
 import com.sun.istack.logging.Logger;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
+import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.server.auth.Secured;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
 import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
@@ -90,6 +91,25 @@ public class BankingOverviewEndpoint {
         try
         {
             bankingOverviewController.deleteBankAccount(email, bankAccessId, bankAccountId);
+        } catch (BankingException ex)
+        {
+            logger().logException(ex, Level.INFO);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @PUT
+    @Path("/sync")
+    @Secured
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response syncBankAccounts(@Context SecurityContext securityContext, List<BankAccountSync> bankAccountSyncList)
+    {
+        final String email = securityContext.getUserPrincipal().getName();
+        try
+        {
+            bankingOverviewController.syncBankAccounts(email, bankAccountSyncList);
         } catch (BankingException ex)
         {
             logger().logException(ex, Level.INFO);
