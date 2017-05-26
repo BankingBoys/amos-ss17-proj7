@@ -41,7 +41,7 @@ after_script:
  -  ./upload_script.sh
 
 notifications:
-    slack: amosteam5:$AMOS_SLACK
+    slack: $AMOS_SLACK
 
 after_success:
  - ./gradlew jacocoTestReport coveralls
