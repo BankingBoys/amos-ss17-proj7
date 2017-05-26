@@ -7,6 +7,7 @@ import de.fau.amos.virtualledger.server.model.Session;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -18,10 +19,13 @@ import java.util.logging.Level;
 @ApplicationScoped
 public class DeletedBankAccessesRepository {
 
-    /**
-     *
-     */
-    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("auth-db");
+    EntityManagerFactory entityManagerFactory;
+
+    @Inject
+    public DeletedBankAccessesRepository(EntityManagerFactoryProvider entityManagerFactoryProvider) {
+        this.entityManagerFactory = entityManagerFactoryProvider.getEntityManagerFactory();
+    }
+    protected DeletedBankAccessesRepository() { }
 
     public void createDeletedBankAccess(DeletedBankAccess deletedBankAccess)
     {

@@ -7,6 +7,7 @@ import de.fau.amos.virtualledger.server.model.UserCredential;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.persistence.*;
 
 import com.sun.istack.logging.Logger;
@@ -21,10 +22,13 @@ import java.util.logging.Level;
 @RequestScoped
 public class UserCredentialRepository {
 
-    /**
-     *
-     */
-    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("auth-db");
+    EntityManagerFactory entityManagerFactory;
+
+    @Inject
+    public UserCredentialRepository(EntityManagerFactoryProvider entityManagerFactoryProvider) {
+        this.entityManagerFactory = entityManagerFactoryProvider.getEntityManagerFactory();
+    }
+    protected UserCredentialRepository() { };
 
     /**
      * looks up, if an user exists with a specific email address
