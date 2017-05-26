@@ -11,4 +11,6 @@ import de.fau.amos.virtualledger.server.banking.model.BankingException;
 public interface BankAccountEndpoint {
 
     public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId) throws BankingException;
+
+    public void syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException;
 }
