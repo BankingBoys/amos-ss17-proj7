@@ -11,8 +11,8 @@ before_install:
 install:
   - cd /home/travis/build/BankingBoys/
   - sudo apt install unzip   
-  - if wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
-  - if unzip tools_r25.2.3-linux.zip
+  - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
+  - unzip tools_r25.2.3-linux.zip
   - ls
   - export ANDROID_HOME=/home/travis/build/BankingBoys/
   - export PATH=$PATH:/home/travis/build/BankingBoys/ools
