@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/BankingBoys/amos-ss17-proj7.svg?branch=master)](https://travis-ci.org/BankingBoys/amos-ss17-proj7)
 
+[![codecov](https://codecov.io/gh/BankingBoys/amos-ss17-proj7/branch/dev/graph/badge.svg)](https://codecov.io/gh/BankingBoys/amos-ss17-proj7)
+
 # amos-ss17-proj7
 Virtual Ledger
 
