@@ -20,8 +20,15 @@ import java.util.List;
 public class BankingApiFacade {
 
 
-    // injected by setter
     BankingApiBinder binder;
+
+    @Inject
+    public BankingApiFacade(BankingApiBinder binder) {
+        this.binder = binder;
+    }
+    // protected empty constructor required for server to init it
+    protected BankingApiFacade() { this(null); }
+
 
 
 
@@ -45,9 +52,4 @@ public class BankingApiFacade {
         binder.getBankAccessEndpoint().addBankAccess(userId, bankAccess);
     }
 
-
-    @Inject
-    public void setBinder(BankingApiBinder binder) {
-        this.binder = binder;
-    }
 }
