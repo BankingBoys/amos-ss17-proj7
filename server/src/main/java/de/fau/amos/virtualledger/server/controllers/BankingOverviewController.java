@@ -48,7 +48,13 @@ public class BankingOverviewController {
     @Inject
     DeletedBankAccountFactory deletedBankAccountFactory;
 
-
+    /**
+     * loads all the bank accesses and accounts embedded matching to the email from adorsys api (or from dummies, depending on configuration)
+     * also filters the received data to only return the not deleted ones
+     * @param email
+     * @return
+     * @throws BankingException
+     */
     public List<BankAccess> getBankingOverview(String email) throws BankingException
     {
         List<BankAccessBankingModel> bankingModelList = bankingApiFacade.getBankAccesses(email);
@@ -66,40 +72,53 @@ public class BankingOverviewController {
         return bankAccessesList;
     }
 
+    /**
+     * adds a bank access, uses adorsys api if configured to store on user with email as username
+     * @param email
+     * @param bankAccessCredential
+     * @throws BankingException
+     */
     public void addBankAccess(String email, BankAccessCredential bankAccessCredential) throws BankingException
     {
         BankAccessBankingModel bankAccessBankingModel = bankAccessBankingModelFactory.createBankAccessBankingModel(email, bankAccessCredential);
         bankingApiFacade.addBankAccess(email, bankAccessBankingModel);
-
-        List<BankAccessBankingModel> bankingModelList = bankingApiFacade.getBankAccesses(email);
-        for(BankAccessBankingModel bankAccess: bankingModelList)
-        { // delete in deletedBankingAccessTable
-        //    deletedBankAccessesRepository.deleteDeletedBankAccessByEmailAndId(email, bankAccess.getId());
-        }
-
-        for(BankAccessBankingModel retrievedBankAccessBankingModel: bankingModelList)
-        {
-            List<BankAccount> bankAccounts = this.getBankingAccounts(email, retrievedBankAccessBankingModel.getId());
-            for(BankAccessBankingModel bankAccess: bankingModelList)
-            { // delete in deletedBankingAccessTable
-         //       deletedBankAccountRepository.deleteDeletedBankAccountByEmailAndAccessId(email, bankAccess.getId());
-            }
-        }
     }
 
+    /**
+     * deletes a bank access.
+     * In fact, no real delete is done, but entries are made into db so that filtering works when getBankingOverview is called.
+     * @param email
+     * @param bankAccessId
+     * @throws BankingException
+     */
     public void deleteBankAccess(String email, String bankAccessId) throws BankingException
     {
         DeletedBankAccess deletedBankAccess = deletedBankAccessFactory.createDeletedBankAccess(email, bankAccessId);
         deletedBankAccessesRepository.createDeletedBankAccess(deletedBankAccess);
     }
 
+    /**
+     * deletes a bank account.
+     * In fact, no real delete is done, but entries are made into db so that filtering works when getBankingOverview is called.
+     * @param email
+     * @param bankAccessId
+     * @param bankAccountId
+     * @throws BankingException
+     */
     public void deleteBankAccount(String email, String bankAccessId, String bankAccountId) throws BankingException
     {
         DeletedBankAccount deletedBankAccount = deletedBankAccountFactory.createDeletedBankAccount(email, bankAccessId, bankAccountId);
         deletedBankAccountRepository.createDeletedBankAccount(deletedBankAccount);
     }
 
-
+    /**
+     * loads all the bank accounts matching to the email from adorsys api (or from dummies, depending on configuration)
+     * also filters the received data to only return the not deleted ones
+     * @param email
+     * @param bankAccesId
+     * @return
+     * @throws BankingException
+     */
     private List<BankAccount> getBankingAccounts(String email, String bankAccesId) throws BankingException
     {
         List<BankAccountBankingModel> bankingModel = bankingApiFacade.getBankAccounts(email, bankAccesId);
@@ -107,6 +126,11 @@ public class BankingOverviewController {
         return bankAccounts;
     }
 
+    /**
+     * filters a list of bank accesses with the ones in database that are marked as deleted
+     * @param email
+     * @param bankAccessList
+     */
     private void filterBankAccessWithDeleted(String email, List<BankAccess> bankAccessList)
     {
         List<DeletedBankAccess> deletedAccessList = deletedBankAccessesRepository.getDeletedBankAccessIdsByEmail(email);
@@ -122,6 +146,12 @@ public class BankingOverviewController {
         bankAccessList.removeAll(foundBankAccesses);
     }
 
+    /**
+     * filters a list of bank accounts with the ones in database that are marked as deleted
+     * @param email
+     * @param bankAccessId
+     * @param bankAccountList
+     */
     private void filterBankAccountsWithDeleted(String email, String bankAccessId, List<BankAccount> bankAccountList)
     {
         List<DeletedBankAccount> deletedAccountList = deletedBankAccountRepository.getDeletedBankAccountIdsByEmailAndAccessId(email, bankAccessId);
