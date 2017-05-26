@@ -1,7 +1,8 @@
   #!/bin/bash
 
    cd /home/travis/build/BankingBoys/amos-ss17-proj7/android
-   gradle assemble
+   gradle -b wrapper.gradle wrapper
+   ./gradlew assemble
    cd app
    cd build
    cd outputs
