@@ -1,3 +1,4 @@
 include ':server'
 include ':android'
+include ':android:app'
 include ':dtos'
