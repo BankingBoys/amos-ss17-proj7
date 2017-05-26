@@ -25,6 +25,11 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
 
     }
 
+    @Override
+    public void syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException {
+
+    }
+
     /**
      * generates a BankAccountBankingModel with dummy data
      * @param id that makes multiple dummies different via a postfix in every attribute

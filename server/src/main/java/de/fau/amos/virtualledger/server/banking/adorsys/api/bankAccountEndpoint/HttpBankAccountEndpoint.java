@@ -58,4 +58,26 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
         List<BankAccountBankingModel> result = reponseModel.get_embedded().getBankAccountEntityList();
         return result;
     }
+
+    @Override
+    public void syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException {
+
+        // Create Jersey client
+        ClientConfig clientConfig = new DefaultClientConfig();
+        clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+        Client client = Client.create(clientConfig);
+
+        String url = urlProvider.getBankAccountSyncEndpointUrl(userId, bankAccessId, bankAccountId);
+        WebResource.Builder webResourceGET = client.resource(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .type(MediaType.APPLICATION_JSON);
+        ClientResponse response = webResourceGET.put(ClientResponse.class, pin);
+
+        if (response.getStatus() != 200) {
+            Logger.getLogger(HttpBankAccountEndpoint.class).warning("No connection to Adorsys Server!");
+            throw new BankingException("No connection to Adorsys Server!");
+        }
+    }
+
+
 }
