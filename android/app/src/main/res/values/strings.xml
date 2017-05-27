@@ -14,7 +14,7 @@
     <string name="authentication_login_permanent_checkbox">Stay logged in</string>
     <string name="main_menu_drawer_opened">open</string>
     <string name="main_menu_drawer_closed">closed</string>
-    <string name="banking_overview_no_bank_access_text">You have not added any bank accesses</string>
+    <string name="banking_overview_no_bank_access_text">No bank accesses registered yet</string>
     />
     <string name="banking_overview_no_bank_access_button_text">Add Bank Accesses</string>
     />

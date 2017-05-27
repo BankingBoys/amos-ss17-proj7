@@ -1,5 +1,7 @@
 package de.fau.amos.virtualledger.dtos;
 
+import java.util.Comparator;
+
 /**
  * Created by Simon on 20.05.2017.
  */
@@ -83,4 +85,15 @@ public class BankAccount {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
+    /**
+     *
+     */
+    public static Comparator<BankAccount> sortBankAccountByName = new Comparator<BankAccount>(){
+        public int compare(BankAccount account1, BankAccount account2) {
+            String account1Name = account1.getName().toUpperCase();
+            String account2Name = account2.getName().toUpperCase();
+            return account1Name.compareTo(account2Name);
+        }
+    };
 }

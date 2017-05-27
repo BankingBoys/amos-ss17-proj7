@@ -25,20 +25,17 @@ import de.fau.amos.virtualledger.dtos.BankAccount;
 
 public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
 
-    private final SparseArray<Group> groups;
     /**
      *
      */
     public Activity listActivity;
     private LayoutInflater inflater;
-
+    private final SparseArray<Group> groups;
     // TODO refavtor so dagger injects directly into deleteAction
     private BankingProvider bankingProvider;
 
     /**
-     * @param activity from where the adapter is called
-     * @param groups   which groups are used for the adapter
-     * @methodtype constructor
+     *
      */
     public ExpandableAdapterBanking(Activity activity, SparseArray<Group> groups) {
         this.listActivity = activity;
@@ -46,15 +43,15 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
         inflater = activity.getLayoutInflater();
     }
 
+    /**
+     *
+     */
     public void setBankingProvider(BankingProvider bankingProvider) {
         this.bankingProvider = bankingProvider;
     }
 
     /**
-     * @param groupPosition - position of the group
-     * @param childPosition - position of the children
-     * @return child
-     * @methodtype getter
+     *
      */
     @Override
     public Object getChild(int groupPosition, int childPosition) {
@@ -62,10 +59,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     * @param groupPosition - position of the group
-     * @param childPosition - position of the children
-     * @return Id of child
-     * @methodtype getter
+     *
      */
     @Override
     public long getChildId(int groupPosition, int childPosition) {
@@ -73,13 +67,14 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     * @param groupPosition - position of the group
-     * @param childPosition - position of the children
-     * @param isLastChild   - checks if it's the last child
-     * @param convertView   - view which needs to be called
-     * @param parent        - parent of the View
-     * @return child view
-     * @methodtype getter
+     *
+     * @param groupPosition - position on the view where the group is located
+     * @param childPosition - position of the associated child
+     * @param isLastChild - flag if the current child on the childPosition is the last child
+     * @param convertView - associated view of the children
+     * @param parent - ViewGroup parent of the current view
+     * @return resulting view
+     * click listener for the children can be placed here
      */
     @Override
     public View getChildView(int groupPosition, final int childPosition,
@@ -111,9 +106,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     * @param groupPosition - position of the group
-     * @return count of children
-     * @methodtype getter
+     *
      */
     @Override
     public int getChildrenCount(int groupPosition) {
@@ -121,9 +114,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     * @param groupPosition - position of the group
-     * @return Group
-     * @methodtype getter
+     *
      */
     @Override
     public Object getGroup(int groupPosition) {
@@ -131,8 +122,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     * @return get count of group
-     * @methodtype getter
+     *
      */
     @Override
     public int getGroupCount() {
@@ -140,7 +130,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     * @param groupPosition - position of the group
+     *
      */
     @Override
     public void onGroupCollapsed(int groupPosition) {
@@ -148,7 +138,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     * @param groupPosition - position of the group
+     *
      */
     @Override
     public void onGroupExpanded(int groupPosition) {
@@ -156,8 +146,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     * @param groupPosition - position of the group
-     * @return Id of group
+     *
      */
     @Override
     public long getGroupId(int groupPosition) {
@@ -170,7 +159,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
      * @param convertView   - view which needs to be called
      * @param parent        - parent of the view
      * @return group view
-     * @methodtype getter
+     * click listener can be located here
      */
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
@@ -200,7 +189,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     * @return stable ids boolean
+     *
      */
     @Override
     public boolean hasStableIds() {
@@ -208,9 +197,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     /**
-     * @param groupPosition - position of the group
-     * @param childPosition - position of the children
-     * @return boolean selectable child
+     *
      */
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
