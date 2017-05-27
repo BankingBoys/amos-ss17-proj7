@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -147,8 +150,11 @@ public class ExpandableBankFragment extends Fragment {
      */
     private void createData() {
         int i = 0;
+        sortAccesses();
         for (BankAccess access : bankAccessList) {
             Group group = new Group(access);
+            List<BankAccount> accountList = sortAccounts(access.getBankaccounts());
+            access.setBankaccounts(accountList);
             for (BankAccount account : access.getBankaccounts()) {
                 group.children.add(account);
             }
@@ -156,6 +162,22 @@ public class ExpandableBankFragment extends Fragment {
             groups.append(i, group);
             i++;
         }
+
+    }
+
+    /**
+     *
+     */
+    private void sortAccesses() {
+        Collections.sort(bankAccessList, BankAccess.sortBankAccessByName);
+    }
+
+    /**
+     *
+     */
+    private List<BankAccount> sortAccounts(List<BankAccount> accounts) {
+        Collections.sort(accounts, BankAccount.sortBankAccountByName);
+        return accounts;
     }
 
     /**
