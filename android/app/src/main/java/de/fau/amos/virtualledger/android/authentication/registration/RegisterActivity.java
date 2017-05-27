@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     /**
-     * @param savedInstanceState
+     *
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

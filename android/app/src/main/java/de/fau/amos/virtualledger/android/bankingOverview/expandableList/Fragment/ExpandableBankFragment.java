@@ -41,15 +41,22 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ExpandableBankFragment extends Fragment {
     private static final String TAG = "BankAccessListFragment";
+
     /**
      *
      */
     ExpandableListView listView;
+
     TextView bankBalanceOverviewText;
-    View seperator;
+
+    View separator;
+
     SparseArray<Group> groups = new SparseArray<Group>();
+
     List<BankAccess> bankAccessList;
+
     double bankBalanceOverview;
+
     /**
      *
      */
@@ -57,7 +64,7 @@ public class ExpandableBankFragment extends Fragment {
     BankingProvider bankingProvider;
 
     /**
-     * @param savedInstanceState - state of the instance
+     *
      */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -91,7 +98,7 @@ public class ExpandableBankFragment extends Fragment {
                         listView.setAdapter(adapter);
                         String bankBalanceString = String.format(Locale.GERMAN, "%.2f", bankBalanceOverview);
                         bankBalanceOverviewText.setText(bankBalanceString);
-                        seperator.setVisibility(View.VISIBLE);
+                        separator.setVisibility(View.VISIBLE);
                         final BankAccessNameExtractor getName = new BankAccessNameExtractor();
                         listView.setOnItemLongClickListener(
                                 new LongClickDeleteListenerList(adapter, __self.getActivity(),
@@ -124,17 +131,14 @@ public class ExpandableBankFragment extends Fragment {
     }
 
     /**
-     * @param inflater           - to inflate the view
-     * @param container          - Viewgroup
-     * @param savedInstanceState - state of the instance
-     * @return Current View
+     *
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
         listView = (ExpandableListView) view.findViewById(R.id.expandableView);
         bankBalanceOverviewText = (TextView) view.findViewById(R.id.BankAccessBalanceOverview);
-        seperator = (View) view.findViewById(R.id.BankOverviewSeperator);
+        separator = (View) view.findViewById(R.id.BankOverviewSeperator);
         return view;
     }
 
@@ -155,7 +159,7 @@ public class ExpandableBankFragment extends Fragment {
     }
 
     /**
-     * @param fragment which is opened
+     * opens a fragment through replacing another fragment
      */
     private void openFragment(Fragment fragment) {
         if (null != fragment) {

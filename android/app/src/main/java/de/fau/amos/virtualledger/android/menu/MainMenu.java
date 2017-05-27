@@ -36,8 +36,6 @@ import retrofit2.Retrofit;
 
 public class MainMenu extends AppCompatActivity {
 
-    LoginActivity loginContext = new LoginActivity();
-
     @Inject
     AuthenticationProvider authenticationProvider;
 
@@ -47,7 +45,9 @@ public class MainMenu extends AppCompatActivity {
     @Inject
     Retrofit retrofit;
 
-
+    /**
+     *
+     */
     private List<ItemSlidingMenu> slidingItems;
     private MenuAdapter menuAdapter;
     private DrawerLayout drawerLayout;
@@ -56,7 +56,7 @@ public class MainMenu extends AppCompatActivity {
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
     /**
-     * @param savedInstanceState
+     *
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +105,6 @@ public class MainMenu extends AppCompatActivity {
 
             /**
              *
-             * @param drawerView
              */
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -115,7 +114,6 @@ public class MainMenu extends AppCompatActivity {
 
             /**
              *
-             * @param drawerView
              */
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -129,7 +127,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     * @methodtype initialization
+     *
      */
     private void init() {
         ((App) getApplication()).getNetComponent().inject(this);
@@ -140,7 +138,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     * @methodtype initialization
+     *
      */
     private void configureItemsForMenu() {
         slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Logout"));
@@ -150,8 +148,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     * @param menu
-     * @return boolean
+     *
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -160,8 +157,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     * @param item
-     * @return boolean
+     *
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -178,7 +174,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     * @param savedInstanceState
+     *
      */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -187,13 +183,13 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     * @param pos
+     * replaces the current fragment with chosen one from the user
      */
     private void replaceFragment(int pos) {
         Fragment fragment = null;
         switch (pos) {
             case 0:
-                executeNextActivity();
+                executeLogout();
                 break;
 
             case 1:
@@ -210,7 +206,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     * @param fragment
+     *
      */
     private void openFragment(Fragment fragment) {
         if (null != fragment) {
@@ -222,20 +218,10 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
-
-/*    *//**
-     *
-     *
-     *//*
-    private void startLogin() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }*/
-
     /**
      *
      */
-    public void executeNextActivity() {
+    public void executeLogout() {
         logout();
         authenticationProvider.deleteSavedLoginData(this);
         Intent intent = new Intent(this, LoginActivity.class);
