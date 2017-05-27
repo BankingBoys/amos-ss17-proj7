@@ -13,7 +13,7 @@
         android:layout_marginTop="10dp"
         android:fontFamily="sans-serif"
         android:gravity="center"
-        android:textColor="#52BF90"
+        android:textColor="@color/colorBankingOverviewLightGreen"
         android:textSize="@dimen/fontSizeOverviewBalance"
         android:textStyle="bold" />
 
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="2dp"
         android:layout_marginTop="5dp"
-        android:background="#52BF90"
+        android:background="@color/colorBankingOverviewLightGreen"
         android:visibility="gone">
 
     </View>

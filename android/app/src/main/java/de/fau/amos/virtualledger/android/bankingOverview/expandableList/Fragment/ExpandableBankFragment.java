@@ -88,7 +88,7 @@ public class ExpandableBankFragment extends Fragment {
                     @Override
                     public void onNext(@NonNull List<BankAccess> bankAccesses) {
                         bankAccessList = bankAccesses;
-                        if (bankAccessList == null) {
+                        if (bankAccessList == null || bankAccesses.size() == 0) {
                             Fragment fragment = new NoBankingAccessesFragment();
                             openFragment(fragment);
                         }
