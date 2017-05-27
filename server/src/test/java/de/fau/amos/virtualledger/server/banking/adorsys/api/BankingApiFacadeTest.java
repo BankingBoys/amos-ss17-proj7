@@ -9,7 +9,6 @@ import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.D
 import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.DummyBankAccountEndpoint;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.DummyUserEndpoint;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

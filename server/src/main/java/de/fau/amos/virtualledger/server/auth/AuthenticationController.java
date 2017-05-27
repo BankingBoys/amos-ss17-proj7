@@ -20,13 +20,13 @@ public class AuthenticationController {
      *
      */
     @Inject
-    private UserCredentialRepository userCredentialRepository;
+    UserCredentialRepository userCredentialRepository;
 
     @Inject
-    private SessionIdGenerator sessionIdGenerator;
+    SessionIdGenerator sessionIdGenerator;
 
     @Inject
-    private BankingApiFacade bankingApiFacade;
+    BankingApiFacade bankingApiFacade;
 
     /**
      * register a new user, if attributes are null or don't follow the specific pattern, an exception is thrown
