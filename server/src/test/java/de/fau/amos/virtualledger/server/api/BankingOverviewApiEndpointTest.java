@@ -161,7 +161,7 @@ public class BankingOverviewApiEndpointTest {
     }
 
     @Test
-    public void getBankingOverviewEndpoint_bankAccessCredentialBankCodeNull() throws BankingException {
+    public void addBankAccessEndpoint_bankAccessCredentialBankCodeNull() throws BankingException {
         // SETUP
         SecurityContext context = mock(SecurityContext.class);
         Principal principal = mock(Principal.class);
@@ -182,7 +182,7 @@ public class BankingOverviewApiEndpointTest {
     }
 
     @Test
-    public void getBankingOverviewEndpoint_bankAccessCredentialBankCodeEmpty() throws BankingException {
+    public void addBankAccessEndpoint_bankAccessCredentialBankCodeEmpty() throws BankingException {
         // SETUP
         SecurityContext context = mock(SecurityContext.class);
         Principal principal = mock(Principal.class);
@@ -203,7 +203,7 @@ public class BankingOverviewApiEndpointTest {
     }
 
     @Test
-    public void getBankingOverviewEndpoint_bankAccessCredentialLoginNameNull() throws BankingException {
+    public void addBankAccessEndpoint_bankAccessCredentialLoginNameNull() throws BankingException {
         // SETUP
         SecurityContext context = mock(SecurityContext.class);
         Principal principal = mock(Principal.class);
@@ -224,7 +224,7 @@ public class BankingOverviewApiEndpointTest {
     }
 
     @Test
-    public void getBankingOverviewEndpoint_bankAccessCredentialLoginNameEmpty() throws BankingException {
+    public void addBankAccessEndpoint_bankAccessCredentialLoginNameEmpty() throws BankingException {
         // SETUP
         SecurityContext context = mock(SecurityContext.class);
         Principal principal = mock(Principal.class);
@@ -245,7 +245,7 @@ public class BankingOverviewApiEndpointTest {
     }
 
     @Test
-    public void getBankingOverviewEndpoint_bankAccessCredentialPinNull() throws BankingException {
+    public void addBankAccessEndpoint_bankAccessCredentialPinNull() throws BankingException {
         // SETUP
         SecurityContext context = mock(SecurityContext.class);
         Principal principal = mock(Principal.class);
@@ -266,7 +266,7 @@ public class BankingOverviewApiEndpointTest {
     }
 
     @Test
-    public void getBankingOverviewEndpoint_bankAccessCredentialPinEmpty() throws BankingException {
+    public void addBankAccessEndpoint_bankAccessCredentialPinEmpty() throws BankingException {
         // SETUP
         SecurityContext context = mock(SecurityContext.class);
         Principal principal = mock(Principal.class);
