@@ -12,8 +12,8 @@ public class BankAccess {
 
     private String id;
     private String name;
-    private String bankCode;
-    private String bankLogin;
+    private String bankcode;
+    private String banklogin;
     private List<BankAccount> bankaccounts = new ArrayList<BankAccount>();
 
     /**
@@ -28,16 +28,16 @@ public class BankAccess {
      * @param name
      * @methodtype constructor
      */
-    public BankAccess(String id, String name, String bankCode, String bankLogin, List<BankAccount> bankaccounts ) {
-        this(id, name, bankCode, bankLogin);
+    public BankAccess(String id, String name, String bankcode, String banklogin, List<BankAccount> bankaccounts ) {
+        this(id, name, bankcode, banklogin);
         this.bankaccounts = bankaccounts;
     }
 
-    public BankAccess(String id, String name, String bankCode, String bankLogin) {
+    public BankAccess(String id, String name, String bankcode, String banklogin) {
         this.id = id;
         this.name = name;
-        this.bankCode = bankCode;
-        this.bankLogin = bankLogin;
+        this.bankcode = bankcode;
+        this.banklogin = banklogin;
     }
 
     /**
@@ -119,19 +119,19 @@ public class BankAccess {
         }
     };
 
-    public String getBankCode() {
-        return bankCode;
+    public String getBankcode() {
+        return bankcode;
     }
 
-    public void setBankCode(final String bankCode) {
-        this.bankCode = bankCode;
+    public void setBankcode(final String bankcode) {
+        this.bankcode = bankcode;
     }
 
-    public String getBankLogin() {
-        return bankLogin;
+    public String getBanklogin() {
+        return banklogin;
     }
 
-    public void setBankLogin(final String bankLogin) {
-        this.bankLogin = bankLogin;
+    public void setBanklogin(final String banklogin) {
+        this.banklogin = banklogin;
     }
 }
