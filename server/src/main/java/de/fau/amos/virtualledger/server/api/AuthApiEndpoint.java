@@ -23,6 +23,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import com.sun.istack.logging.Logger;
+import org.eclipse.persistence.sessions.Login;
 
 /**
  * Endpoints for authentication / authorization
@@ -39,6 +40,15 @@ public class AuthApiEndpoint {
         this.stringApiModelFactory = stringApiModelFactory;
     }
     protected AuthApiEndpoint() { }
+
+
+
+    private Logger logger() {
+        return Logger.getLogger(AuthApiEndpoint.class);
+    }
+
+
+
 
     /**
      * Endpoint for registering a new user. Parameters must not be null or empty, id has to be null or 0.
@@ -63,18 +73,23 @@ public class AuthApiEndpoint {
         return this.register(credential);
     }
 
-	private Logger logger() {
-		return Logger.getLogger(AuthApiEndpoint.class);
-	}
-
+    /**
+     * Endpoint for logging in. Parameters must not be null or empty.
+     * @param loginData
+     * @return
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/login")
-    public Response login(final LoginData loginData) throws InvalidCredentialsException {
-    	logger().info("Login of "+loginData+" was requested.");
-        final SessionData sessionData = authenticationController.login(loginData);
+    public Response loginEndpoint(final LoginData loginData) {
+    	logger().info("Login of "+ loginData.email +" was requested.");
+        if(loginData.email == null || loginData.email.isEmpty() ||
+                loginData.password == null || loginData.password.isEmpty())
+        {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
+        }
 
-        return Response.ok(sessionData).build();
+        return this.login(loginData);
     }
 
     @POST
@@ -109,5 +124,23 @@ public class AuthApiEndpoint {
         }
         StringApiModel responseObj = stringApiModelFactory.createStringApiModel(responseMsg);
         return Response.ok(responseObj).build();
+    }
+
+    /**
+     * Does the logic operation for logging in a user.
+     * Also does exception handling.
+     * @param loginData
+     * @return
+     */
+    private Response login(LoginData loginData)
+    {
+        final SessionData sessionData;
+        try {
+            sessionData = authenticationController.login(loginData);
+        } catch (InvalidCredentialsException ex) {
+            logger().logException(ex, Level.INFO);
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
+        return Response.ok(sessionData).build();
     }
 }
