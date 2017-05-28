@@ -24,8 +24,13 @@ import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
 @Path("/banking")
 public class BankingOverviewEndpoint {
 
+    private BankingOverviewController bankingOverviewController;
+
     @Inject
-    BankingOverviewController bankingOverviewController;
+    public BankingOverviewEndpoint(BankingOverviewController bankingOverviewController) {
+        this.bankingOverviewController = bankingOverviewController;
+    }
+    protected BankingOverviewEndpoint() { }
 
 
     @GET
