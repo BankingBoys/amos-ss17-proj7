@@ -12,6 +12,8 @@ public class BankAccess {
 
     private String id;
     private String name;
+    private String bankCode;
+    private String bankLogin;
     private List<BankAccount> bankaccounts = new ArrayList<BankAccount>();
 
     /**
@@ -26,14 +28,16 @@ public class BankAccess {
      * @param name
      * @methodtype constructor
      */
-    public BankAccess(String id, String name,List<BankAccount> bankaccounts ) {
-        this(id, name);
+    public BankAccess(String id, String name, String bankCode, String bankLogin, List<BankAccount> bankaccounts ) {
+        this(id, name, bankCode, bankLogin);
         this.bankaccounts = bankaccounts;
     }
 
-    public BankAccess(String id, String name) {
+    public BankAccess(String id, String name, String bankCode, String bankLogin) {
         this.id = id;
         this.name = name;
+        this.bankCode = bankCode;
+        this.bankLogin = bankLogin;
     }
 
     /**
