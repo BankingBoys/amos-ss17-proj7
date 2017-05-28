@@ -1,7 +1,10 @@
 package de.fau.amos.virtualledger.server.api;
 
+import de.fau.amos.virtualledger.dtos.LoginData;
+import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
 import de.fau.amos.virtualledger.server.auth.AuthenticationController;
+import de.fau.amos.virtualledger.server.auth.InvalidCredentialsException;
 import de.fau.amos.virtualledger.server.auth.VirtualLedgerAuthenticationException;
 import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.model.UserCredential;
@@ -10,11 +13,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.internal.verification.Times;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
-import javax.xml.registry.infomodel.User;
 
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -87,5 +88,105 @@ public class AuthApiEndpointTest {
         Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
         verify(authenticationController, times(1))
                 .register(any(UserCredential.class));
+    }
+
+    @Test
+    public void loginEndpoint_emailNull() throws InvalidCredentialsException {
+        // SETUP
+        SessionData sessionData = new SessionData("mock email", "mock token");
+        when(authenticationController.login(any(LoginData.class)))
+                .thenReturn(sessionData);
+        AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
+
+        LoginData loginData = new LoginData(null, "password");
+
+        // ACT
+        Response reponse = authApiEndpoint.loginEndpoint(loginData);
+
+        // ASSERT
+        int expectedStatusCode = 400;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(authenticationController, times(0))
+                .login(any(LoginData.class));
+    }
+
+    @Test
+    public void loginEndpoint_emailEmpty() throws InvalidCredentialsException {
+        // SETUP
+        SessionData sessionData = new SessionData("mock email", "mock token");
+        when(authenticationController.login(any(LoginData.class)))
+                .thenReturn(sessionData);
+        AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
+
+        LoginData loginData = new LoginData("", "password");
+
+        // ACT
+        Response reponse = authApiEndpoint.loginEndpoint(loginData);
+
+        // ASSERT
+        int expectedStatusCode = 400;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(authenticationController, times(0))
+                .login(any(LoginData.class));
+    }
+
+    @Test
+    public void loginEndpoint_passwordNull() throws InvalidCredentialsException {
+        // SETUP
+        SessionData sessionData = new SessionData("mock email", "mock token");
+        when(authenticationController.login(any(LoginData.class)))
+                .thenReturn(sessionData);
+        AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
+
+        LoginData loginData = new LoginData("email", null);
+
+        // ACT
+        Response reponse = authApiEndpoint.loginEndpoint(loginData);
+
+        // ASSERT
+        int expectedStatusCode = 400;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(authenticationController, times(0))
+                .login(any(LoginData.class));
+    }
+
+    @Test
+    public void loginEndpoint_passwordEmpty() throws InvalidCredentialsException {
+        // SETUP
+        SessionData sessionData = new SessionData("mock email", "mock token");
+        when(authenticationController.login(any(LoginData.class)))
+                .thenReturn(sessionData);
+        AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
+
+        LoginData loginData = new LoginData("email", "");
+
+        // ACT
+        Response reponse = authApiEndpoint.loginEndpoint(loginData);
+
+        // ASSERT
+        int expectedStatusCode = 400;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(authenticationController, times(0))
+                .login(any(LoginData.class));
+    }
+
+    @Test
+    public void loginEndpoint_validInput() throws InvalidCredentialsException {
+        // SETUP
+        SessionData sessionData = new SessionData("mock email", "mock token");
+        when(authenticationController.login(any(LoginData.class)))
+                .thenReturn(sessionData);
+        AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
+
+        LoginData loginData = new LoginData("email", "password");
+
+        // ACT
+        Response reponse = authApiEndpoint.loginEndpoint(loginData);
+
+        // ASSERT
+        int expectedStatusCode = 200;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(authenticationController, times(1))
+                .login(any(LoginData.class));
     }
 }
