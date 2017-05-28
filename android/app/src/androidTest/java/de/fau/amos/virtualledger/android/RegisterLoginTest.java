@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
@@ -31,7 +32,7 @@ public class RegisterLoginTest {
 
     @Test
     public void registerAndLogin() throws InterruptedException {
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.US);
         final String email = "test@user" + sdf.format(new Date()) + ".com";
         onView(withId(R.id.textViewLogin_RegisterFirst)).perform(click());
         onView(withId(R.id.RegistrationView)).check(matches(isCompletelyDisplayed()));
@@ -45,5 +46,6 @@ public class RegisterLoginTest {
         onView(withId(R.id.userIDField)).perform(typeText(email)).perform(closeSoftKeyboard());
         onView(withId(R.id.SecretField)).perform(typeText("testpassword")).perform(closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
+        onView(withId(R.id.banking_overview_no_bank_access_text_view)).check(matches(isCompletelyDisplayed()));
     }
 }
