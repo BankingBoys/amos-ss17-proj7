@@ -111,7 +111,6 @@ public class ExpandableBankFragment extends Fragment {
                                             @Override
                                             public void accept(BankAccess item1, BankAccount item2) {
                                                 new DeleteBankAccessAction(__self.getActivity(), getName, bankingProvider).accept(item1, item2);
-                                                openFragment(new ExpandableBankFragment());
                                             }
                                         }
                                 )

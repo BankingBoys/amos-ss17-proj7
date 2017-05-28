@@ -89,61 +89,95 @@ public class BankingOverviewApiEndpoint {
         return this.addBankAccess(email, bankAccessCredential);
     }
 
+    /**
+     * Endpoint for deleting a bank access. bankAccessId must not be null or empty.
+     * User must be authenticated.
+     * @param securityContext
+     * @param bankAccessId
+     * @return
+     */
     @DELETE
     @Path("/{bankAccessId}")
     @Secured
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteBankAccess(@Context SecurityContext securityContext, @PathParam("bankAccessId") String bankAccessId)
+    public Response deleteBankAccessEndpoint(@Context SecurityContext securityContext, @PathParam("bankAccessId") String bankAccessId)
     {
-        final String email = securityContext.getUserPrincipal().getName();
-        try
+        if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
         {
-            bankingOverviewController.deleteBankAccess(email, bankAccessId);
-        } catch (BankingException ex)
+            return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
+        } if(bankAccessId == null || bankAccessId.isEmpty())
         {
-            logger().logException(ex, Level.INFO);
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
         }
+        final String email = securityContext.getUserPrincipal().getName();
+        logger().info("deleteBankAccessEndpoint was requested by " + email);
 
-        return Response.status(Response.Status.OK).build();
+        return this.deleteBankAccess(email, bankAccessId);
     }
 
+    /**
+     * Endpoint for deleting a bank account. bankAccessId and bankAccountId must not be null or empty.
+     * User must be authenticated.
+     * @param securityContext
+     * @param bankAccessId
+     * @param bankAccountId
+     * @return
+     */
     @DELETE
     @Path("/{bankAccessId}/{bankAccountId}")
     @Secured
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteBankAccess(@Context SecurityContext securityContext, @PathParam("bankAccessId") String bankAccessId, @PathParam("bankAccountId") String bankAccountId)
+    public Response deleteBankAccountEndpoint(@Context SecurityContext securityContext, @PathParam("bankAccessId") String bankAccessId, @PathParam("bankAccountId") String bankAccountId)
     {
-        final String email = securityContext.getUserPrincipal().getName();
-        try
+        if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
         {
-            bankingOverviewController.deleteBankAccount(email, bankAccessId, bankAccountId);
-        } catch (BankingException ex)
+            return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
+        } if(bankAccessId == null || bankAccessId.isEmpty() ||
+            bankAccountId == null || bankAccountId.isEmpty())
         {
-            logger().logException(ex, Level.INFO);
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
         }
+        final String email = securityContext.getUserPrincipal().getName();
+        logger().info("deleteBankAccountEndpoint was requested by " + email);
 
-        return Response.status(Response.Status.OK).build();
+        return this.deleteBankAccount(email, bankAccessId, bankAccountId);
     }
 
+    /**
+     * Endpoint for synchronizing bank accounts. bankAccountSyncList must not be null, all BankAccountSync must contain parameters that are not null or empty.
+     * User must be authenticated.
+     * @param securityContext
+     * @param bankAccountSyncList
+     * @return
+     */
     @PUT
     @Path("/sync")
     @Secured
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response syncBankAccounts(@Context SecurityContext securityContext, List<BankAccountSync> bankAccountSyncList)
+    public Response syncBankAccountsEndpoint(@Context SecurityContext securityContext, List<BankAccountSync> bankAccountSyncList)
     {
-        final String email = securityContext.getUserPrincipal().getName();
-        try
+        if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
         {
-            bankingOverviewController.syncBankAccounts(email, bankAccountSyncList);
-        } catch (BankingException ex)
+            return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
+        } if(bankAccountSyncList == null)
         {
-            logger().logException(ex, Level.INFO);
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null.").build();
+        }
+        for(BankAccountSync bankAccountSync: bankAccountSyncList)
+        {
+            if(bankAccountSync == null ||
+                    bankAccountSync.getBankaccessid() == null || bankAccountSync.getBankaccessid().isEmpty()||
+                    bankAccountSync.getBankaccountid() == null || bankAccountSync.getBankaccountid().isEmpty()||
+                    bankAccountSync.getPin() == null || bankAccountSync.getPin().isEmpty())
+            {
+                return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
+            }
         }
 
-        return Response.status(Response.Status.OK).build();
+        final String email = securityContext.getUserPrincipal().getName();
+        logger().info("syncBankAccountsEndpoint was requested by " + email);
+
+        return this.syncBankAccounts(email, bankAccountSyncList);
     }
 
 
@@ -167,6 +201,13 @@ public class BankingOverviewApiEndpoint {
         return Response.ok(bankAccesses).build();
     }
 
+    /**
+     * Does the logic for adding a bank access.
+     * Handles exceptions and returns corresponding response codes.
+     * @param email
+     * @param bankAccessCredential
+     * @return
+     */
     private Response addBankAccess(String email, BankAccessCredential bankAccessCredential)
     {
         try {
@@ -177,5 +218,69 @@ public class BankingOverviewApiEndpoint {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         return Response.status(Response.Status.CREATED).build();
+    }
+
+    /**
+     * Does the logic for deleting a bank access.
+     * Handles exceptions and returns corresponding response codes.
+     * @param email
+     * @param bankAccessId
+     * @return
+     */
+    private Response deleteBankAccess(String email, String bankAccessId)
+    {
+        try
+        {
+            bankingOverviewController.deleteBankAccess(email, bankAccessId);
+        } catch (BankingException ex)
+        {
+            logger().logException(ex, Level.INFO);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.status(Response.Status.OK).build();
+    }
+
+    /**
+     * Does the logic for deleting a bank account.
+     * Handles exceptions and returns corresponding response codes.
+     * @param email
+     * @param bankAccessId
+     * @param bankAccountId
+     * @return
+     */
+    private Response deleteBankAccount(String email, String bankAccessId, String bankAccountId)
+    {
+        try
+        {
+            bankingOverviewController.deleteBankAccount(email, bankAccessId, bankAccountId);
+        } catch (BankingException ex)
+        {
+            logger().logException(ex, Level.INFO);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.status(Response.Status.OK).build();
+    }
+
+    /**
+     * Does the logic for synchronizing a list of bank accounts.
+     * Handles exceptions and returns corresponding response codes.
+     * @param email
+     * @param bankAccountSyncList
+     * @return
+     */
+    private Response syncBankAccounts(String email, List<BankAccountSync> bankAccountSyncList)
+    {
+        try
+        {
+            bankingOverviewController.syncBankAccounts(email, bankAccountSyncList);
+        } catch (BankingException ex)
+        {
+            logger().logException(ex, Level.INFO);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.status(Response.Status.OK).build();
     }
 }
