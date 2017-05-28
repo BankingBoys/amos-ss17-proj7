@@ -15,7 +15,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
+import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.menu.MainMenu;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
@@ -30,20 +32,26 @@ public class AddBankAccessActivity extends AppCompatActivity {
 
     @Inject
     BankingProvider bankingProvider;
+    @Inject
+    AuthenticationProvider authenticationProvider;
 
     @BindView(R.id.editText_addBankAccess_blz)
     EditText blzEditText;
     @BindView(R.id.editText_addBankAccess_loginName)
     EditText loginNameEditText;
+
     @BindView(R.id.editText_addBankAccess_pin)
     EditText pinEditText;
 
     @OnClick(R.id.button_addBankAccess_submit)
     void submit(View view) {
         final BankAccessCredential bankAccessCredential = new BankAccessCredential();
-        bankAccessCredential.setBankcode(blzEditText.getText().toString());
-        bankAccessCredential.setBanklogin(loginNameEditText.getText().toString());
-        bankAccessCredential.setPin(pinEditText.getText().toString());
+        final String bankCode = blzEditText.getText().toString();
+        final String bankLogin = loginNameEditText.getText().toString();
+        final String pin = pinEditText.getText().toString();
+        bankAccessCredential.setBankcode(bankCode);
+        bankAccessCredential.setBanklogin(bankLogin);
+        bankAccessCredential.setPin(pin);
 
         bankingProvider.addBankAccess(bankAccessCredential)
                 .subscribeOn(Schedulers.newThread())
@@ -56,8 +64,10 @@ public class AddBankAccessActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(@NonNull String message) {
-                        Toast.makeText(AddBankAccessActivity.this, "Access added successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(AddBankAccessActivity.this, MainMenu.class);
+                        final AddBankAccessActivity context = AddBankAccessActivity.this;
+                        Toast.makeText(context, "Access added successfully", Toast.LENGTH_SHORT).show();
+                        new BankAccessCredentialDB(context).persist(authenticationProvider.getEmail(), bankCode, pin);
+                        Intent intent = new Intent(context, MainMenu.class);
                         startActivity(intent);
                         finish();
                     }
