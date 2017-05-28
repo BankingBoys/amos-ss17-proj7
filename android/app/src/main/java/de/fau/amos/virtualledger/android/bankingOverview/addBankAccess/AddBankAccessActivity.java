@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.android.bankingOverview.addBankAccess;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.android.menu.MainMenu;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -55,6 +57,8 @@ public class AddBankAccessActivity extends AppCompatActivity {
                     @Override
                     public void onNext(@NonNull String message) {
                         Toast.makeText(AddBankAccessActivity.this, "Access added successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(AddBankAccessActivity.this, MainMenu.class);
+                        startActivity(intent);
                         finish();
                     }
 

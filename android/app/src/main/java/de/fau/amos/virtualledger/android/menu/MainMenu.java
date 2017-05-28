@@ -186,7 +186,7 @@ public class MainMenu extends AppCompatActivity {
      * replaces the current fragment with chosen one from the user
      */
     private void replaceFragment(int pos) {
-        Fragment fragment = null;
+        Fragment fragment;
         switch (pos) {
             case 0:
                 executeLogout();
@@ -198,7 +198,7 @@ public class MainMenu extends AppCompatActivity {
                 break;
             //new Fragments can be added her
             default:
-                fragment = new Fragment();
+                fragment = new ExpandableBankFragment();
                 openFragment(fragment);
                 break;
         }
