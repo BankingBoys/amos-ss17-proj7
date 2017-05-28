@@ -60,7 +60,6 @@ public class AuthApiEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/register")
     public Response registerEndpoint(UserCredential credential) {
-    	logger().info("Registration for " + credential.getEmail() + " was requested.");
     	if(credential.getEmail() == null || credential.getEmail().isEmpty() ||
                 credential.getPassword() == null || credential.getPassword().isEmpty() ||
                 credential.getFirstName() == null || credential.getFirstName().isEmpty() ||
@@ -69,6 +68,7 @@ public class AuthApiEndpoint {
         {
             return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty, id has to be 0.").build();
         }
+        logger().info("Registration for " + credential.getEmail() + " was requested.");
 
         return this.register(credential);
     }
@@ -82,26 +82,35 @@ public class AuthApiEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/login")
     public Response loginEndpoint(final LoginData loginData) {
-    	logger().info("Login of "+ loginData.email +" was requested.");
         if(loginData.email == null || loginData.email.isEmpty() ||
                 loginData.password == null || loginData.password.isEmpty())
         {
             return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
         }
+        logger().info("Login of "+ loginData.email +" was requested.");
 
         return this.login(loginData);
     }
 
+    /**
+     * Endpoint for logging out. User must be authenticated.
+     * @param securityContext
+     * @return
+     */
     @POST
     @Secured
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/logout")
-    public Response logout(@Context SecurityContext securityContext)
+    public Response logoutEndpoint(@Context SecurityContext securityContext)
     {
+        if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
+        {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("Authentication failed! Your email wasn't found.").build();
+        }
         final String email = securityContext.getUserPrincipal().getName();
-        logger().info("Logout of "+email+" was requested");
-        authenticationController.logout(email);
-        return Response.ok(stringApiModelFactory.createStringApiModel("You were logged out! " + email)).build();
+        logger().info("Logout of " + email + " was requested");
+
+        return this.logout(email);
     }
 
 
@@ -142,5 +151,16 @@ public class AuthApiEndpoint {
             return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
         return Response.ok(sessionData).build();
+    }
+
+    /**
+     * Does the logic operation for logging out a user
+     * @param email
+     * @return
+     */
+    private Response logout(String email)
+    {
+        authenticationController.logout(email);
+        return Response.ok(stringApiModelFactory.createStringApiModel("You were logged out! " + email)).build();
     }
 }
