@@ -105,7 +105,7 @@ public class AuthApiEndpoint {
     {
         if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
         {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("Authentication failed! Your email wasn't found.").build();
+            return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
         }
         final String email = securityContext.getUserPrincipal().getName();
         logger().info("Logout of " + email + " was requested");

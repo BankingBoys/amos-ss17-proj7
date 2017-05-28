@@ -252,7 +252,7 @@ public class AuthApiEndpointTest {
         Response reponse = authApiEndpoint.logoutEndpoint(context);
 
         // ASSERT
-        int expectedStatusCode = 401;
+        int expectedStatusCode = 403;
         Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
         verify(authenticationController, times(0))
                 .logout(any(String.class));
@@ -273,7 +273,7 @@ public class AuthApiEndpointTest {
         Response reponse = authApiEndpoint.logoutEndpoint(context);
 
         // ASSERT
-        int expectedStatusCode = 401;
+        int expectedStatusCode = 403;
         Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
         verify(authenticationController, times(0))
                 .logout(any(String.class));
