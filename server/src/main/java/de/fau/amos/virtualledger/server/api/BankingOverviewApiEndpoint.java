@@ -63,8 +63,8 @@ public class BankingOverviewApiEndpoint {
     }
 
     /**
-     * Endpoint for adding a bank access.
-     * User must be authenticated
+     * Endpoint for adding a bank access. Sent parameters must not be null or empty.
+     * User must be authenticated.
      * @param securityContext
      * @param bankAccessCredential
      * @return
@@ -76,7 +76,12 @@ public class BankingOverviewApiEndpoint {
     {
         if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
         {
-        return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
+            return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
+        } if(bankAccessCredential.getBankcode() == null || bankAccessCredential.getBankcode().isEmpty() ||
+            bankAccessCredential.getBanklogin() == null || bankAccessCredential.getBanklogin().isEmpty() ||
+            bankAccessCredential.getPin() == null || bankAccessCredential.getPin().isEmpty())
+        {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
         }
         final String email = securityContext.getUserPrincipal().getName();
         logger().info("addBankAccessEndpoint was requested by " + email);
