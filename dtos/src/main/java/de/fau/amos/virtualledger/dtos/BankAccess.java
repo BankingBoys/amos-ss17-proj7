@@ -118,4 +118,20 @@ public class BankAccess {
             return access1Name.compareTo(access2Name);
         }
     };
+
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(final String bankCode) {
+        this.bankCode = bankCode;
+    }
+
+    public String getBankLogin() {
+        return bankLogin;
+    }
+
+    public void setBankLogin(final String bankLogin) {
+        this.bankLogin = bankLogin;
+    }
 }
