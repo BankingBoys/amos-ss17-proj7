@@ -16,6 +16,9 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+
+import java.security.Principal;
 
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -188,5 +191,68 @@ public class AuthApiEndpointTest {
         Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
         verify(authenticationController, times(1))
                 .login(any(LoginData.class));
+    }
+
+    @Test
+    public void logoutEndpoint_securityContextPrincipalNameNull() {
+        // SETUP
+        SecurityContext context = mock(SecurityContext.class);
+        Principal principal = mock(Principal.class);
+        when(principal.getName())
+                .thenReturn(null);
+        when(context.getUserPrincipal())
+                .thenReturn(principal);
+        AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
+
+        // ACT
+        Response reponse = authApiEndpoint.logoutEndpoint(context);
+
+        // ASSERT
+        int expectedStatusCode = 401;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(authenticationController, times(0))
+                .logout(any(String.class));
+    }
+
+    @Test
+    public void logoutEndpoint_securityContextPrincipalNameEmpty() {
+        // SETUP
+        SecurityContext context = mock(SecurityContext.class);
+        Principal principal = mock(Principal.class);
+        when(principal.getName())
+                .thenReturn("");
+        when(context.getUserPrincipal())
+                .thenReturn(principal);
+        AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
+
+        // ACT
+        Response reponse = authApiEndpoint.logoutEndpoint(context);
+
+        // ASSERT
+        int expectedStatusCode = 401;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(authenticationController, times(0))
+                .logout(any(String.class));
+    }
+
+    @Test
+    public void logoutEndpoint_validInput() {
+        // SETUP
+        SecurityContext context = mock(SecurityContext.class);
+        Principal principal = mock(Principal.class);
+        when(principal.getName())
+                .thenReturn("testUser");
+        when(context.getUserPrincipal())
+                .thenReturn(principal);
+        AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
+
+        // ACT
+        Response reponse = authApiEndpoint.logoutEndpoint(context);
+
+        // ASSERT
+        int expectedStatusCode = 200;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(authenticationController, times(1))
+                .logout(any(String.class));
     }
 }
