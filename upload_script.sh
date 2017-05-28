@@ -1,12 +1,13 @@
   #!/bin/bash
+if [ "$TRAVIS_BRANCH" != "master" ]; then
+	echo "$TRAVIS_BRANCH is not master branch, no push into hockey app"
+	exit 0;
+fi
 
-   cd /home/travis/build/BankingBoys/amos-ss17-proj7/android
-   gradle assemble
-   cd app
-   cd build
-   cd outputs
-   cd apk
-   curl \
+cd /home/travis/build/BankingBoys/amos-ss17-proj7/
+./gradlew android:app:assemble
+cd android/app/build/outputs/apk
+curl \
       -F "status=2" \
       -F "notify=1" \
       -F "notes=auto deploy." \

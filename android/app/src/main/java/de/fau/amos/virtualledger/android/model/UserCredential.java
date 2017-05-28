@@ -23,14 +23,12 @@ public class UserCredential {
     private String lastname;
 
     /**
-     *
      * @param email
      * @param password
      * @param firstname
      * @param lastname
      */
-    public UserCredential(String email, String password, String firstname, String lastname)
-    {
+    public UserCredential(String email, String password, String firstname, String lastname) {
         this.email = email;
         this.password = password;
         this.firstname = firstname;
@@ -38,7 +36,6 @@ public class UserCredential {
     }
 
     /**
-     *
      * @return
      */
     public String getEmail() {
@@ -46,7 +43,6 @@ public class UserCredential {
     }
 
     /**
-     *
      * @param email
      */
     public void setEmail(String email) {
@@ -54,7 +50,6 @@ public class UserCredential {
     }
 
     /**
-     *
      * @return
      */
     public String getPassword() {
@@ -62,7 +57,6 @@ public class UserCredential {
     }
 
     /**
-     *
      * @param password
      */
     public void setPassword(String password) {
@@ -70,7 +64,6 @@ public class UserCredential {
     }
 
     /**
-     *
      * @return
      */
     public String getFirstname() {
@@ -78,7 +71,6 @@ public class UserCredential {
     }
 
     /**
-     *
      * @param firstname
      */
     public void setFirstname(String firstname) {
@@ -86,7 +78,6 @@ public class UserCredential {
     }
 
     /**
-     *
      * @return
      */
     public String getLastname() {
@@ -94,7 +85,6 @@ public class UserCredential {
     }
 
     /**
-     *
      * @param lastname
      */
     public void setLastname(String lastname) {

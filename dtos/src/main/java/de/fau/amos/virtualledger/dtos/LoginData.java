@@ -30,5 +30,10 @@ public class LoginData {
         this.email = email;
         this.password = password;
 	}
+    
+    @Override
+    public String toString() {
+    	return super.toString()+"{"+this.email+"}";
+    }
 
 }

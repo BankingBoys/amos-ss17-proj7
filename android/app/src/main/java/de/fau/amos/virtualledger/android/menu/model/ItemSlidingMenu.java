@@ -10,9 +10,6 @@ public class ItemSlidingMenu {
 
     /**
      *
-     * @param imageId
-     * @param imageTitle
-     * @methodtype constructor
      */
     public ItemSlidingMenu(int imageId, String imageTitle) {
         this.imageId = imageId;
@@ -21,8 +18,6 @@ public class ItemSlidingMenu {
 
     /**
      *
-     * @return imageId
-     * @methodtype getter
      */
     public int getImageId() {
         return imageId;
@@ -30,17 +25,6 @@ public class ItemSlidingMenu {
 
     /**
      *
-     * @return imageTitle
-     * @methodtype getter
-     */
-    public String getImageTitle() {
-        return imageTitle;
-    }
-
-    /**
-     *
-     * @param imageId
-     * @methodtype setter
      */
     public void setImageId(int imageId) {
         this.imageId = imageId;
@@ -48,8 +32,13 @@ public class ItemSlidingMenu {
 
     /**
      *
-     * @param imageTitle
-     * @methodtype setter
+     */
+    public String getImageTitle() {
+        return imageTitle;
+    }
+
+    /**
+     *
      */
     public void setImageTitle(String imageTitle) {
         this.imageTitle = imageTitle;

@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.dtos;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -25,6 +26,11 @@ public class BankAccess {
      * @param name
      * @methodtype constructor
      */
+    public BankAccess(String id, String name,List<BankAccount> bankaccounts ) {
+        this(id, name);
+        this.bankaccounts = bankaccounts;
+    }
+
     public BankAccess(String id, String name) {
         this.id = id;
         this.name = name;
@@ -97,4 +103,15 @@ public class BankAccess {
     public void setBankaccounts(List<BankAccount> bankaccounts) {
         this.bankaccounts = bankaccounts;
     }
+
+    /**
+     *
+     */
+    public static Comparator<BankAccess> sortBankAccessByName = new Comparator<BankAccess>(){
+        public int compare(BankAccess access1, BankAccess access2) {
+            String access1Name = access1.getName().toUpperCase();
+            String access2Name = access2.getName().toUpperCase();
+            return access1Name.compareTo(access2Name);
+        }
+    };
 }

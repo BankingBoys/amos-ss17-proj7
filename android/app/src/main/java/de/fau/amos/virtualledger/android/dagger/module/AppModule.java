@@ -16,17 +16,13 @@ public class AppModule {
     Application virtualLedger;
 
     /**
-     *
-     * @param virtualLedger
-     * constructor
+     * @param virtualLedger constructor
      */
-    public AppModule(Application virtualLedger)
-    {
+    public AppModule(Application virtualLedger) {
         this.virtualLedger = virtualLedger;
     }
 
     /**
-     *
      * @return
      */
     @Provides

@@ -1,6 +1,6 @@
 package de.fau.amos.virtualledger.server;
 
-import de.fau.amos.virtualledger.server.banking.api.BankingApiFacade;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiFacade;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;

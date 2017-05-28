@@ -1,7 +1,6 @@
 package de.fau.amos.virtualledger.android.menu.adapter;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,14 +18,15 @@ import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
 
 public class MenuAdapter extends BaseAdapter {
 
+    /**
+     *
+     */
     private Context context;
+
     private List<ItemSlidingMenu> listItem;
 
     /**
      *
-     * @param context
-     * @param listItem
-     * @methodtype constructor
      */
     public MenuAdapter(Context context, List<ItemSlidingMenu> listItem) {
         this.context = context;
@@ -35,8 +35,6 @@ public class MenuAdapter extends BaseAdapter {
 
     /**
      *
-     * @return size
-     * @methodtype getter
      */
     @Override
     public int getCount() {
@@ -45,9 +43,6 @@ public class MenuAdapter extends BaseAdapter {
 
     /**
      *
-     * @param position
-     * @return item
-     * @methodtype getter
      */
     @Override
     public Object getItem(int position) {
@@ -56,9 +51,6 @@ public class MenuAdapter extends BaseAdapter {
 
     /**
      *
-     * @param position
-     * @return itemId
-     * @methodtype getter
      */
     @Override
     public long getItemId(int position) {
@@ -66,17 +58,15 @@ public class MenuAdapter extends BaseAdapter {
     }
 
     /**
-     *
-     * @param position
-     * @param convertView
-     * @param parent
-     * @return view
-     * @methodtype getter
+     * @param position where the current element of the menu is shown
+     * @param convertView reference to the view from the calling instance
+     * @param parent of the View - type: ViewGroup
+     * @return view which was modified by the method
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View view = View.inflate(context, R.layout.items_sliding_menu, null);
+        View view = View.inflate(context, R.layout.main_menu_sliding_items, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.item_icon);
         TextView textView = (TextView) view.findViewById(R.id.item_title);
         ItemSlidingMenu item = listItem.get(position);
