@@ -26,18 +26,18 @@ import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
  * Endpoints for basic banking logic
  */
 @Path("/banking")
-public class BankingOverviewEndpoint {
+public class BankingOverviewApiEndpoint {
 
     private BankingOverviewController bankingOverviewController;
 
     @Inject
-    public BankingOverviewEndpoint(BankingOverviewController bankingOverviewController) {
+    public BankingOverviewApiEndpoint(BankingOverviewController bankingOverviewController) {
         this.bankingOverviewController = bankingOverviewController;
     }
-    protected BankingOverviewEndpoint() { }
+    protected BankingOverviewApiEndpoint() { }
 
     private Logger logger() {
-        return Logger.getLogger(BankingOverviewEndpoint.class);
+        return Logger.getLogger(BankingOverviewApiEndpoint.class);
     }
 
 
