@@ -21,6 +21,10 @@ import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
 /**
  * Created by Georg on 20.05.2017.
  */
+
+/**
+ * Endpoints for basic banking logic
+ */
 @Path("/banking")
 public class BankingOverviewEndpoint {
 
@@ -32,23 +36,30 @@ public class BankingOverviewEndpoint {
     }
     protected BankingOverviewEndpoint() { }
 
+    private Logger logger() {
+        return Logger.getLogger(BankingOverviewEndpoint.class);
+    }
 
+
+    /**
+     * Endpoint for getting banking overview data (bankaccesses + bankaccunts).
+     * User must be athenticated.
+     * @param securityContext
+     * @return
+     */
     @GET
     @Secured
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getBankingOverview(@Context SecurityContext securityContext)
+    public Response getBankingOverviewEndpoint(@Context SecurityContext securityContext)
     {
-        final String email = securityContext.getUserPrincipal().getName();
-        List<BankAccess> bankAccesses = null;
-        try
+        if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
         {
-            bankAccesses = bankingOverviewController.getBankingOverview(email);
-        } catch (Exception ex)
-        {
-            logger().logException(ex, Level.INFO);
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
         }
-        return Response.ok(bankAccesses).build();
+        final String email = securityContext.getUserPrincipal().getName();
+        logger().info("getBankingOverviewEndpoint of " + email + " was requested");
+
+        return this.getBankingOverview(email);
     }
 
     @POST
@@ -125,7 +136,23 @@ public class BankingOverviewEndpoint {
     }
 
 
-    private Logger logger() {
-        return Logger.getLogger(AuthApiEndpoint.class);
+    /**
+     * Does the logic for getting the banking overview data.
+     * Handles exceptions and returns corresponding response codes.
+     * @param email
+     * @return
+     */
+    private Response getBankingOverview(String email)
+    {
+        List<BankAccess> bankAccesses = null;
+        try
+        {
+            bankAccesses = bankingOverviewController.getBankingOverview(email);
+        } catch (BankingException ex)
+        {
+            logger().logException(ex, Level.INFO);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.ok(bankAccesses).build();
     }
 }
