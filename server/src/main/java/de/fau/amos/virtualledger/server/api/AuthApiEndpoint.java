@@ -30,20 +30,18 @@ import com.sun.istack.logging.Logger;
 @Path("/auth")
 public class AuthApiEndpoint {
 
-    /**
-     *
-     */
-    @Inject
     AuthenticationController authenticationController;
-
-    /**
-     *
-     */
-    @Inject
     StringApiModelFactory stringApiModelFactory;
 
+    @Inject
+    public AuthApiEndpoint(AuthenticationController authenticationController, StringApiModelFactory stringApiModelFactory) {
+        this.authenticationController = authenticationController;
+        this.stringApiModelFactory = stringApiModelFactory;
+    }
+    protected AuthApiEndpoint() { }
+
     /**
-     * Endpoint for registering a new user.
+     * Endpoint for registering a new user. Parameters must not be null or empty, id has to be null or 0.
      * @param credential
      * @return
      */
@@ -51,19 +49,18 @@ public class AuthApiEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/register")
-    public Response register(UserCredential credential) {
-    	logger().info("Registration for "+credential+" was requested.");
-        String responseMsg;
-        try
+    public Response registerEndpoint(UserCredential credential) {
+    	logger().info("Registration for " + credential.getEmail() + " was requested.");
+    	if(credential.getEmail() == null || credential.getEmail().isEmpty() ||
+                credential.getPassword() == null || credential.getPassword().isEmpty() ||
+                credential.getFirstName() == null || credential.getFirstName().isEmpty() ||
+                credential.getLastName() == null || credential.getLastName().isEmpty() ||
+                credential.getId() != 0)
         {
-            responseMsg = authenticationController.register(credential);
-        } catch(VirtualLedgerAuthenticationException ex)
-        {
-        	logger().logException(ex, Level.INFO);
-        	return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty, id has to be 0.").build();
         }
-        StringApiModel responseObj = stringApiModelFactory.createStringApiModel(responseMsg);
-        return Response.ok(responseObj).build();
+
+        return this.register(credential);
     }
 
 	private Logger logger() {
@@ -90,5 +87,27 @@ public class AuthApiEndpoint {
         logger().info("Logout of "+email+" was requested");
         authenticationController.logout(email);
         return Response.ok(stringApiModelFactory.createStringApiModel("You were logged out! " + email)).build();
+    }
+
+
+    /**
+     * Does the logic operation for registering the user.
+     * Also does exception handling.
+     * @param credential
+     * @return a response with status code depending on result
+     */
+    private Response register(UserCredential credential)
+    {
+        String responseMsg;
+        try
+        {
+            responseMsg = authenticationController.register(credential);
+        } catch(VirtualLedgerAuthenticationException ex)
+        {
+            logger().logException(ex, Level.INFO);
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
+        StringApiModel responseObj = stringApiModelFactory.createStringApiModel(responseMsg);
+        return Response.ok(responseObj).build();
     }
 }
