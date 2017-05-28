@@ -90,7 +90,7 @@ public class BankingOverviewApiEndpoint {
     }
 
     /**
-     * Endpoint for deleting a bank access. bankAccessId null or empty.
+     * Endpoint for deleting a bank access. bankAccessId must not be null or empty.
      * User must be authenticated.
      * @param securityContext
      * @param bankAccessId
@@ -115,23 +115,32 @@ public class BankingOverviewApiEndpoint {
         return this.deleteBankAccess(email, bankAccessId);
     }
 
+    /**
+     * Endpoint for deleting a bank account. bankAccessId and bankAccountId must not be null or empty.
+     * User must be authenticated.
+     * @param securityContext
+     * @param bankAccessId
+     * @param bankAccountId
+     * @return
+     */
     @DELETE
     @Path("/{bankAccessId}/{bankAccountId}")
     @Secured
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteBankAccess(@Context SecurityContext securityContext, @PathParam("bankAccessId") String bankAccessId, @PathParam("bankAccountId") String bankAccountId)
+    public Response deleteBankAccountEndpoint(@Context SecurityContext securityContext, @PathParam("bankAccessId") String bankAccessId, @PathParam("bankAccountId") String bankAccountId)
     {
-        final String email = securityContext.getUserPrincipal().getName();
-        try
+        if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
         {
-            bankingOverviewController.deleteBankAccount(email, bankAccessId, bankAccountId);
-        } catch (BankingException ex)
+            return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
+        } if(bankAccessId == null || bankAccessId.isEmpty() ||
+            bankAccountId == null || bankAccountId.isEmpty())
         {
-            logger().logException(ex, Level.INFO);
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
         }
+        final String email = securityContext.getUserPrincipal().getName();
+        logger().info("deleteBankAccountEndpoint was requested by " + email);
 
-        return Response.status(Response.Status.OK).build();
+        return this.deleteBankAccount(email, bankAccessId, bankAccountId);
     }
 
     @PUT
@@ -191,6 +200,20 @@ public class BankingOverviewApiEndpoint {
         try
         {
             bankingOverviewController.deleteBankAccess(email, bankAccessId);
+        } catch (BankingException ex)
+        {
+            logger().logException(ex, Level.INFO);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.status(Response.Status.OK).build();
+    }
+
+    private Response deleteBankAccount(String email, String bankAccessId, String bankAccountId)
+    {
+        try
+        {
+            bankingOverviewController.deleteBankAccount(email, bankAccessId, bankAccountId);
         } catch (BankingException ex)
         {
             logger().logException(ex, Level.INFO);

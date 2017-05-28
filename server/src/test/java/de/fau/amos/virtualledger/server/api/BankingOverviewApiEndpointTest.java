@@ -459,4 +459,178 @@ public class BankingOverviewApiEndpointTest {
         verify(bankingOverviewController, times(1))
                 .deleteBankAccess(any(String.class), any(String.class));
     }
+
+
+
+    @Test
+    public void deleteBankAccountEndpoint_securityContextPrincipalNameNull() throws BankingException {
+        // SETUP
+        SecurityContext context = mock(SecurityContext.class);
+        Principal principal = mock(Principal.class);
+        when(principal.getName())
+                .thenReturn(null);
+        when(context.getUserPrincipal())
+                .thenReturn(principal);
+        BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(bankingOverviewController);
+
+        // ACT
+        Response reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint(context, "mock access id", "mock account id");
+
+        // ASSERT
+        int expectedStatusCode = 403;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(bankingOverviewController, times(0))
+                .addBankAccess(any(String.class), any(BankAccessCredential.class));
+    }
+
+    @Test
+    public void deleteBankAccountEndpoint_securityContextPrincipalNameEmpty() throws BankingException {
+        // SETUP
+        SecurityContext context = mock(SecurityContext.class);
+        Principal principal = mock(Principal.class);
+        when(principal.getName())
+                .thenReturn("");
+        when(context.getUserPrincipal())
+                .thenReturn(principal);
+        BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(bankingOverviewController);
+
+        // ACT
+        Response reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint(context, "mock access id", "mock account id");
+
+        // ASSERT
+        int expectedStatusCode = 403;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(bankingOverviewController, times(0))
+                .addBankAccess(any(String.class), any(BankAccessCredential.class));
+    }
+
+    @Test
+    public void deleteBankAccountEndpoint_bankAccessIdEmpty() throws BankingException {
+        // SETUP
+        SecurityContext context = mock(SecurityContext.class);
+        Principal principal = mock(Principal.class);
+        when(principal.getName())
+                .thenReturn("mock");
+        when(context.getUserPrincipal())
+                .thenReturn(principal);
+        BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(bankingOverviewController);
+
+        // ACT
+        Response reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint(context, null, "mock account id");
+
+        // ASSERT
+        int expectedStatusCode = 400;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(bankingOverviewController, times(0))
+                .addBankAccess(any(String.class), any(BankAccessCredential.class));
+    }
+
+    @Test
+    public void deleteBankAccountEndpoint_bankAccessIdNull() throws BankingException {
+        // SETUP
+        SecurityContext context = mock(SecurityContext.class);
+        Principal principal = mock(Principal.class);
+        when(principal.getName())
+                .thenReturn("mock");
+        when(context.getUserPrincipal())
+                .thenReturn(principal);
+        BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(bankingOverviewController);
+
+        // ACT
+        Response reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint(context, "", "mock account id");
+
+        // ASSERT
+        int expectedStatusCode = 400;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(bankingOverviewController, times(0))
+                .addBankAccess(any(String.class), any(BankAccessCredential.class));
+    }
+
+    @Test
+    public void deleteBankAccountEndpoint_bankAccountIdEmpty() throws BankingException {
+        // SETUP
+        SecurityContext context = mock(SecurityContext.class);
+        Principal principal = mock(Principal.class);
+        when(principal.getName())
+                .thenReturn("mock");
+        when(context.getUserPrincipal())
+                .thenReturn(principal);
+        BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(bankingOverviewController);
+
+        // ACT
+        Response reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint(context, "mock access id", null);
+
+        // ASSERT
+        int expectedStatusCode = 400;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(bankingOverviewController, times(0))
+                .addBankAccess(any(String.class), any(BankAccessCredential.class));
+    }
+
+    @Test
+    public void deleteBankAccountEndpoint_bankAccountIdNull() throws BankingException {
+        // SETUP
+        SecurityContext context = mock(SecurityContext.class);
+        Principal principal = mock(Principal.class);
+        when(principal.getName())
+                .thenReturn("mock");
+        when(context.getUserPrincipal())
+                .thenReturn(principal);
+        BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(bankingOverviewController);
+
+        // ACT
+        Response reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint(context, "mock access id", "");
+
+        // ASSERT
+        int expectedStatusCode = 400;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(bankingOverviewController, times(0))
+                .addBankAccess(any(String.class), any(BankAccessCredential.class));
+    }
+
+
+    @Test
+    public void deleteBankAccountEndpoint_validInput() throws BankingException {
+        // SETUP
+        SecurityContext context = mock(SecurityContext.class);
+        Principal principal = mock(Principal.class);
+        when(principal.getName())
+                .thenReturn("mock");
+        when(context.getUserPrincipal())
+                .thenReturn(principal);
+        BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(bankingOverviewController);
+
+        // ACT
+        Response reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint(context, "mock access id", "mock account id");
+
+        // ASSERT
+        int expectedStatusCode = 200;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(bankingOverviewController, times(1))
+                .deleteBankAccount(any(String.class), any(String.class), any(String.class));
+    }
+
+
+    @Test
+    public void deleteBankAccountEndpoint_controllerThrows() throws BankingException {
+        // SETUP
+        SecurityContext context = mock(SecurityContext.class);
+        Principal principal = mock(Principal.class);
+        when(principal.getName())
+                .thenReturn("mock");
+        when(context.getUserPrincipal())
+                .thenReturn(principal);
+        doThrow(new BankingException("mock"))
+                .when(bankingOverviewController).deleteBankAccount(anyString(), anyString(), anyString());
+        BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(bankingOverviewController);
+
+        // ACT
+        Response reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint(context, "mock access id", "mock account id");
+
+        // ASSERT
+        int expectedStatusCode = 400;
+        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        verify(bankingOverviewController, times(1))
+                .deleteBankAccount(any(String.class), any(String.class), any(String.class));
+    }
 }
