@@ -14,17 +14,18 @@ public class BankAccessCredentialDB {
         database = dbHelper.getWritableDatabase();
     }
 
-    public void persist(final String user, final String accessId, final String pin) {
+    public void persist(final String user, final String bankCode, final String bankLogin, final String pin) {
         final ContentValues contentValues = new ContentValues();
         contentValues.put(BankAccessCredentialDBConstants.COLUMN_NAME_USER, user);
-        contentValues.put(BankAccessCredentialDBConstants.COLUMN_NAME_ACCESS_ID, accessId);
+        contentValues.put(BankAccessCredentialDBConstants.COLUMN_NAME_BANK_CODE, bankCode);
+        contentValues.put(BankAccessCredentialDBConstants.COLUMN_NAME_BANK_LOGIN, bankLogin);
         contentValues.put(BankAccessCredentialDBConstants.COLUMN_NAME_PIN, pin);
         database.insert(BankAccessCredentialDBConstants.TABLE_NAME, null, contentValues);
     }
 
-    public String getPin(final String user, final String accessId) {
+    public String getPin(final String user, final String bankCode, final String bankLogin) {
         final String[] columns = new String[] {BankAccessCredentialDBConstants.COLUMN_NAME_PIN};
-        final Cursor cursor = database.query(true, BankAccessCredentialDBConstants.TABLE_NAME, columns, BankAccessCredentialDBConstants.COLUMN_NAME_USER + " = \"" + user + "\" AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCESS_ID + " = \"" + accessId + "\"", null, null, null, null, null);
+        final Cursor cursor = database.query(true, BankAccessCredentialDBConstants.TABLE_NAME, columns, BankAccessCredentialDBConstants.COLUMN_NAME_USER + " = ?" + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_BANK_CODE + " = ?" + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_BANK_LOGIN + " = ?", new String[] {user, bankCode, bankLogin}, null, null, null, null);
         final boolean success = cursor.moveToFirst();
         if(!success) {
             return null;
