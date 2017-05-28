@@ -43,7 +43,7 @@ public class BankingOverviewApiEndpoint {
 
     /**
      * Endpoint for getting banking overview data (bankaccesses + bankaccunts).
-     * User must be athenticated.
+     * User must be authenticated.
      * @param securityContext
      * @return
      */
@@ -62,20 +62,26 @@ public class BankingOverviewApiEndpoint {
         return this.getBankingOverview(email);
     }
 
+    /**
+     * Endpoint for adding a bank access.
+     * User must be authenticated
+     * @param securityContext
+     * @param bankAccessCredential
+     * @return
+     */
     @POST
     @Secured
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addBankAccess(@Context SecurityContext securityContext, BankAccessCredential bankAccessCredential)
+    public Response addBankAccessEndpoint(@Context SecurityContext securityContext, BankAccessCredential bankAccessCredential)
     {
-        final String email = securityContext.getUserPrincipal().getName();
-        try {
-            bankingOverviewController.addBankAccess(email, bankAccessCredential);
-        } catch (Exception ex)
+        if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
         {
-            logger().logException(ex, Level.INFO);
-            return Response.status(Response.Status.BAD_REQUEST).build();
+        return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
         }
-        return Response.status(Response.Status.CREATED).build();
+        final String email = securityContext.getUserPrincipal().getName();
+        logger().info("addBankAccessEndpoint was requested by " + email);
+
+        return this.addBankAccess(email, bankAccessCredential);
     }
 
     @DELETE
@@ -154,5 +160,17 @@ public class BankingOverviewApiEndpoint {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         return Response.ok(bankAccesses).build();
+    }
+
+    private Response addBankAccess(String email, BankAccessCredential bankAccessCredential)
+    {
+        try {
+            bankingOverviewController.addBankAccess(email, bankAccessCredential);
+        } catch (BankingException ex)
+        {
+            logger().logException(ex, Level.INFO);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.status(Response.Status.CREATED).build();
     }
 }
