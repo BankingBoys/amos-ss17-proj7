@@ -14,25 +14,27 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Adapter.ExpandableAdapterBanking;
-import de.fau.amos.virtualledger.android.bankingOverview.expandableList.model.Group;
+import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.BankAccessNameExtractor;
 import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.DeleteBankAccessAction;
 import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.LongClickDeleteListenerList;
 import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.functions.BiConsumer;
+import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Adapter.ExpandableAdapterBanking;
+import de.fau.amos.virtualledger.android.bankingOverview.expandableList.model.Group;
+import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
+import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
+import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -65,6 +67,9 @@ public class ExpandableBankFragment extends Fragment {
      */
     @Inject
     BankingProvider bankingProvider;
+    @Inject
+    AuthenticationProvider authenticationProvider;
+
 
     /**
      *
@@ -88,34 +93,8 @@ public class ExpandableBankFragment extends Fragment {
                     @Override
                     public void onNext(@NonNull List<BankAccess> bankAccesses) {
                         bankAccessList = bankAccesses;
-                        if (bankAccessList == null || bankAccesses.size() == 0) {
-                            Fragment fragment = new NoBankingAccessesFragment();
-                            openFragment(fragment);
-                        }
-                        createData();
-                        ExpandableAdapterBanking adapter = new ExpandableAdapterBanking(getActivity(),
-                                groups);
-                        // TODO delete when refactored to inject in deleteAction
-                        adapter.setBankingProvider(bankingProvider);
-
-                        listView.setAdapter(adapter);
-                        String bankBalanceString = String.format(Locale.GERMAN, "%.2f", bankBalanceOverview);
-                        bankBalanceOverviewText.setText(bankBalanceString);
-                        separator.setVisibility(View.VISIBLE);
-                        final BankAccessNameExtractor getName = new BankAccessNameExtractor();
-                        listView.setOnItemLongClickListener(
-                                new LongClickDeleteListenerList(adapter, __self.getActivity(),
-                                        bankAccessList,
-                                        getName,
-                                        new BiConsumer<BankAccess, BankAccount>() {
-                                            @Override
-                                            public void accept(BankAccess item1, BankAccount item2) {
-                                                new DeleteBankAccessAction(__self.getActivity(), getName, bankingProvider).accept(item1, item2);
-                                            }
-                                        }
-                                )
-
-                        );
+                        onBankAccessesUpdated(bankAccesses);
+                        syncBankAccounts();
                     }
 
                     @Override
@@ -130,6 +109,101 @@ public class ExpandableBankFragment extends Fragment {
                 });
 
 
+    }
+
+    private void onBankAccessesUpdated(final @NonNull List<BankAccess> bankAccesses) {
+        if (bankAccessList == null || bankAccesses.size() == 0) {
+            Fragment fragment = new NoBankingAccessesFragment();
+            openFragment(fragment);
+        }
+        createData();
+        ExpandableAdapterBanking adapter = new ExpandableAdapterBanking(getActivity(),
+                groups);
+        // TODO delete when refactored to inject in deleteAction
+        adapter.setBankingProvider(bankingProvider);
+
+        listView.setAdapter(adapter);
+        String bankBalanceString = String.format(Locale.GERMAN, "%.2f", bankBalanceOverview);
+        bankBalanceOverviewText.setText(bankBalanceString);
+        separator.setVisibility(View.VISIBLE);
+        final BankAccessNameExtractor getName = new BankAccessNameExtractor();
+        listView.setOnItemLongClickListener(
+                new LongClickDeleteListenerList(adapter, getActivity(),
+                        bankAccessList,
+                        getName,
+                        new BiConsumer<BankAccess, BankAccount>() {
+                            @Override
+                            public void accept(BankAccess item1, BankAccount item2) {
+                                new DeleteBankAccessAction(getActivity(), getName, bankingProvider).accept(item1, item2);
+                            }
+                        }
+                )
+
+        );
+    }
+
+    private void syncBankAccounts() {
+        final BankAccessCredentialDB db = new BankAccessCredentialDB(getActivity());
+        final List<BankAccountSync> accountsToSync = new ArrayList<>();
+        for (final BankAccess bankAccess : bankAccessList) {
+            final String pin = db.getPin(authenticationProvider.getEmail(), bankAccess.getId());
+            if(pin == null) {
+                Log.w(TAG, "No pin found for bank access " + bankAccess.getId());
+                continue;
+            }
+            for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
+                accountsToSync.add(new BankAccountSync(bankAccess.getId(), bankAccount.getBankid(), pin));
+            }
+        }
+        bankingProvider.syncBankAccounts(accountsToSync)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull String string) {
+                        bankingProvider.getBankingOverview()
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Observer<List<BankAccess>>() {
+                                    @Override
+                                    public void onSubscribe(@NonNull Disposable d) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(@NonNull List<BankAccess> bankAccesses) {
+                                        bankAccessList = bankAccesses;
+                                        onBankAccessesUpdated(bankAccesses);
+                                    }
+
+                                    @Override
+                                    public void onError(@NonNull Throwable e) {
+                                        Log.e(TAG, "Error occured in Observable from login.");
+                                    }
+
+                                    @Override
+                                    public void onComplete() {
+
+                                    }
+                                });
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.e(TAG, "Failed to sync accounts.");
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     /**
