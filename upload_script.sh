@@ -14,7 +14,7 @@ curl \
       -F "notes_type=0" \
       -F "ipa=@app-debug.apk" \
       -H "X-HockeyAppToken: $hockeyapptoken" \
-      https://rink.hockeyapp.net/api/2/apps/upload
+      https://rink.hockeyapp.net/api/2/apps/f9b11667dbd643fe995b1261326a91ce//app_versions/upload
 
 
 
