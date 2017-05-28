@@ -9,11 +9,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.List;
 
 import de.fau.amos.virtualledger.android.api.Restapi;
 import de.fau.amos.virtualledger.android.model.UserCredential;
-import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.LoginData;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
@@ -142,6 +140,11 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
     @Override
     public String getToken() {
         return this.token;
+    }
+
+    @Override
+    public String getEmail() {
+        return this.email;
     }
 
     @Override

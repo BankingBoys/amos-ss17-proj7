@@ -2,9 +2,6 @@ package de.fau.amos.virtualledger.android.api.auth;
 
 import android.content.Context;
 
-import java.util.List;
-
-import de.fau.amos.virtualledger.dtos.BankAccess;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -15,6 +12,7 @@ import io.reactivex.subjects.PublishSubject;
 public class MockedAuthenticationProvider implements AuthenticationProvider {
 
     private String token = "";
+    private String email = "";
 
     @Override
     public Observable<String> register(String email, String password, String firstname, String lastname) {
@@ -26,6 +24,7 @@ public class MockedAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Observable<String> login(String username, String password) {
         this.token = username + "_" + password;
+        this.email = username;
         final PublishSubject observable = PublishSubject.create();
         observable.onNext("Logged in (Dummy)");
         return observable;
@@ -34,6 +33,7 @@ public class MockedAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Observable<String> logout() {
         this.token = "";
+        this.email = "";
 
         final PublishSubject observable = PublishSubject.create();
         observable.onNext("Logged out (Dummy)");
@@ -48,6 +48,11 @@ public class MockedAuthenticationProvider implements AuthenticationProvider {
     @Override
     public String getToken() {
         return this.token;
+    }
+
+    @Override
+    public String getEmail() {
+        return this.email;
     }
 
     @Override

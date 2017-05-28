@@ -2,9 +2,6 @@ package de.fau.amos.virtualledger.android.api.auth;
 
 import android.content.Context;
 
-import java.util.List;
-
-import de.fau.amos.virtualledger.dtos.BankAccess;
 import io.reactivex.Observable;
 
 /**
@@ -22,6 +19,8 @@ public interface AuthenticationProvider {
     boolean isLoggedIn();
 
     String getToken();
+
+    String getEmail();
 
     void persistLoginData(Context context);
 
