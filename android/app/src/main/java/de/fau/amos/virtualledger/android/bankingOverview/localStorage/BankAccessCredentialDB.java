@@ -24,8 +24,11 @@ public class BankAccessCredentialDB {
 
     public String getPin(final String user, final String accessId) {
         final String[] columns = new String[] {BankAccessCredentialDBConstants.COLUMN_NAME_PIN};
-        final Cursor cursor = database.query(true, BankAccessCredentialDBConstants.TABLE_NAME, columns, BankAccessCredentialDBConstants.COLUMN_NAME_USER + " = " + user + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCESS_ID + " = " + accessId, null, null, null, null, null);
-        cursor.moveToFirst();
+        final Cursor cursor = database.query(true, BankAccessCredentialDBConstants.TABLE_NAME, columns, BankAccessCredentialDBConstants.COLUMN_NAME_USER + " = \"" + user + "\" AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCESS_ID + " = \"" + accessId + "\"", null, null, null, null, null);
+        final boolean success = cursor.moveToFirst();
+        if(!success) {
+            return null;
+        }
         final String result = cursor.getString(0);
         cursor.close();
         return result;
