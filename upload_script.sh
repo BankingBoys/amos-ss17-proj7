@@ -1,7 +1,7 @@
   #!/bin/bash
 if [ "$TRAVIS_BRANCH" != "master" ]; then
 	echo "$TRAVIS_BRANCH is not master branch, no push into hockey app"
-	exit 0;
+	#exit 0;
 fi
 
 cd /home/travis/build/BankingBoys/amos-ss17-proj7/
