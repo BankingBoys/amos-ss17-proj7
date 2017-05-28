@@ -89,23 +89,30 @@ public class BankingOverviewApiEndpoint {
         return this.addBankAccess(email, bankAccessCredential);
     }
 
+    /**
+     * Endpoint for deleting a bank access. bankAccessId null or empty.
+     * User must be authenticated.
+     * @param securityContext
+     * @param bankAccessId
+     * @return
+     */
     @DELETE
     @Path("/{bankAccessId}")
     @Secured
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteBankAccess(@Context SecurityContext securityContext, @PathParam("bankAccessId") String bankAccessId)
+    public Response deleteBankAccessEndpoint(@Context SecurityContext securityContext, @PathParam("bankAccessId") String bankAccessId)
     {
-        final String email = securityContext.getUserPrincipal().getName();
-        try
+        if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
         {
-            bankingOverviewController.deleteBankAccess(email, bankAccessId);
-        } catch (BankingException ex)
+            return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
+        } if(bankAccessId == null || bankAccessId.isEmpty())
         {
-            logger().logException(ex, Level.INFO);
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
         }
+        final String email = securityContext.getUserPrincipal().getName();
+        logger().info("deleteBankAccessEndpoint was requested by " + email);
 
-        return Response.status(Response.Status.OK).build();
+        return this.deleteBankAccess(email, bankAccessId);
     }
 
     @DELETE
@@ -177,5 +184,19 @@ public class BankingOverviewApiEndpoint {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         return Response.status(Response.Status.CREATED).build();
+    }
+
+    private Response deleteBankAccess(String email, String bankAccessId)
+    {
+        try
+        {
+            bankingOverviewController.deleteBankAccess(email, bankAccessId);
+        } catch (BankingException ex)
+        {
+            logger().logException(ex, Level.INFO);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.status(Response.Status.OK).build();
     }
 }
