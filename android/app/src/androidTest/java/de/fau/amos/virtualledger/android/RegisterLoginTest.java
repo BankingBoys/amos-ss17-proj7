@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
