@@ -1,16 +1,17 @@
   #!/bin/bash
 if [ "$TRAVIS_BRANCH" != "master" ]; then
 	echo "$TRAVIS_BRANCH is not master branch, no push into hockey app"
-	#exit 0;
+	echo "No auto deploy of "$TRAVIS_COMMIT_MESSAGE
+	exit 0;
 fi
-
+echo "auto deploy of "$TRAVIS_COMMIT_MESSAGE
 cd /home/travis/build/BankingBoys/amos-ss17-proj7/
 ./gradlew android:app:assemble
 cd android/app/build/outputs/apk
 curl \
       -F "status=2" \
       -F "notify=1" \
-      -F "notes=auto deploy of "$TRAVIS_BRANCH \
+      -F "notes=auto deploy of "$TRAVIS_COMMIT_MESSAGE \
       -F "notes_type=0" \
       -F "ipa=@app-debug.apk" \
       -H "X-HockeyAppToken: $hockeyapptoken" \
