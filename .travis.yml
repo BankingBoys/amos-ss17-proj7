@@ -28,7 +28,6 @@ addons:
 
 after_script:
  - ./gradlew server:uploadArchives
- - cd android
  - cd app
  - cd build
  - ls -l

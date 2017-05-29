@@ -6,8 +6,8 @@ if [ "$TRAVIS_BRANCH" != "master" ]; then
 fi
 echo "auto deploy of "$TRAVIS_COMMIT_MESSAGE
 cd /home/travis/build/BankingBoys/amos-ss17-proj7/
-./gradlew android:app:assemble
-cd android/app/build/outputs/apk
+./gradlew app:assemble
+cd app/build/outputs/apk
 curl \
       -F "status=2" \
       -F "notify=1" \

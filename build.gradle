@@ -1,9 +1,9 @@
-plugins{
-	id 'com.github.kt3k.coveralls' version '2.6.3'
-}
-
 allprojects {
-	apply plugin: 'eclipse'
+    apply plugin: 'eclipse'
+    repositories {
+        mavenCentral()
+	jcenter()
+    }
 }
 
 project(':server'){
@@ -50,32 +50,5 @@ project(':dtos'){
        			 html.destination "${buildDir}/jacocoHtml"
    		 }
 	}
-}
-
-project(':android'){
-	apply plugin: 'java'
-}
-task codeCoverageReport(type: JacocoReport) {
-
-    // Gather execution data from all subprojects
-    // (change this if you e.g. want to calculate unit test/integration test coverage separately)
-    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
-
-    // Add all relevant sourcesets from the subprojects 
-    subprojects.each {
-       sourceSets it.sourceSets.main
-    }
-
-    reports {
-      xml.enabled true
-      html.enabled true
-      html.destination "${buildDir}/reports/jacoco"
-      csv.enabled false
-    }
-}
-
-// always run the tests before generating the report
-codeCoverageReport.dependsOn {
-    subprojects*.test
 }
 
