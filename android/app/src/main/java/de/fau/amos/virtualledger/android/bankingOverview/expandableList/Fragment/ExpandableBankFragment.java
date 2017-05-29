@@ -223,6 +223,7 @@ public class ExpandableBankFragment extends Fragment {
      */
     private void createData() {
         int i = 0;
+        bankBalanceOverview = 0;
         sortAccesses();
         for (BankAccess access : bankAccessList) {
             Group group = new Group(access);
