@@ -10,7 +10,6 @@ project(':server'){
 	apply plugin: 'war'
 	apply plugin: 'java'
 	apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
-	apply plugin: 'java'
 	apply plugin: 'jacoco'
 
 	check.dependsOn {
@@ -32,7 +31,6 @@ project(':server'){
 
 project(':dtos'){
 	apply plugin: 'java'
-
 	apply plugin: 'jacoco'
 
 	check.dependsOn {
