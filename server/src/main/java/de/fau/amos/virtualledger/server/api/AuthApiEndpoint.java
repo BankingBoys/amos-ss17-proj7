@@ -23,6 +23,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import com.sun.istack.logging.Logger;
+import org.eclipse.persistence.sessions.Login;
 
 /**
  * Endpoints for authentication / authorization
@@ -30,20 +31,27 @@ import com.sun.istack.logging.Logger;
 @Path("/auth")
 public class AuthApiEndpoint {
 
-    /**
-     *
-     */
-    @Inject
     AuthenticationController authenticationController;
-
-    /**
-     *
-     */
-    @Inject
     StringApiModelFactory stringApiModelFactory;
 
+    @Inject
+    public AuthApiEndpoint(AuthenticationController authenticationController, StringApiModelFactory stringApiModelFactory) {
+        this.authenticationController = authenticationController;
+        this.stringApiModelFactory = stringApiModelFactory;
+    }
+    protected AuthApiEndpoint() { }
+
+
+
+    private Logger logger() {
+        return Logger.getLogger(AuthApiEndpoint.class);
+    }
+
+
+
+
     /**
-     * Endpoint for registering a new user.
+     * Endpoint for registering a new user. Parameters must not be null or empty, id has to be null or 0.
      * @param credential
      * @return
      */
@@ -51,43 +59,107 @@ public class AuthApiEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/register")
-    public Response register(UserCredential credential) {
-    	logger().info("Registration for "+credential+" was requested.");
+    public Response registerEndpoint(UserCredential credential) {
+    	if(credential.getEmail() == null || credential.getEmail().isEmpty() ||
+                credential.getPassword() == null || credential.getPassword().isEmpty() ||
+                credential.getFirstName() == null || credential.getFirstName().isEmpty() ||
+                credential.getLastName() == null || credential.getLastName().isEmpty() ||
+                credential.getId() != 0)
+        {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty, id has to be 0.").build();
+        }
+        logger().info("Registration for " + credential.getEmail() + " was requested.");
+
+        return this.register(credential);
+    }
+
+    /**
+     * Endpoint for logging in. Parameters must not be null or empty.
+     * @param loginData
+     * @return
+     */
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/login")
+    public Response loginEndpoint(final LoginData loginData) {
+        if(loginData.email == null || loginData.email.isEmpty() ||
+                loginData.password == null || loginData.password.isEmpty())
+        {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
+        }
+        logger().info("Login of "+ loginData.email +" was requested.");
+
+        return this.login(loginData);
+    }
+
+    /**
+     * Endpoint for logging out. User must be authenticated.
+     * @param securityContext
+     * @return
+     */
+    @POST
+    @Secured
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/logout")
+    public Response logoutEndpoint(@Context SecurityContext securityContext)
+    {
+        if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
+        {
+            return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
+        }
+        final String email = securityContext.getUserPrincipal().getName();
+        logger().info("Logout of " + email + " was requested");
+
+        return this.logout(email);
+    }
+
+
+    /**
+     * Does the logic operation for registering the user.
+     * Also does exception handling.
+     * @param credential
+     * @return a response with status code depending on result
+     */
+    private Response register(UserCredential credential)
+    {
         String responseMsg;
         try
         {
             responseMsg = authenticationController.register(credential);
         } catch(VirtualLedgerAuthenticationException ex)
         {
-        	logger().logException(ex, Level.INFO);
-        	return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+            logger().logException(ex, Level.INFO);
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
         StringApiModel responseObj = stringApiModelFactory.createStringApiModel(responseMsg);
         return Response.ok(responseObj).build();
     }
 
-	private Logger logger() {
-		return Logger.getLogger(AuthApiEndpoint.class);
-	}
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/login")
-    public Response login(final LoginData loginData) throws InvalidCredentialsException {
-    	logger().info("Login of "+loginData+" was requested.");
-        final SessionData sessionData = authenticationController.login(loginData);
-
+    /**
+     * Does the logic operation for logging in a user.
+     * Also does exception handling.
+     * @param loginData
+     * @return
+     */
+    private Response login(LoginData loginData)
+    {
+        final SessionData sessionData;
+        try {
+            sessionData = authenticationController.login(loginData);
+        } catch (InvalidCredentialsException ex) {
+            logger().logException(ex, Level.INFO);
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
         return Response.ok(sessionData).build();
     }
 
-    @POST
-    @Secured
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/logout")
-    public Response logout(@Context SecurityContext securityContext)
+    /**
+     * Does the logic operation for logging out a user
+     * @param email
+     * @return
+     */
+    private Response logout(String email)
     {
-        final String email = securityContext.getUserPrincipal().getName();
-        logger().info("Logout of "+email+" was requested");
         authenticationController.logout(email);
         return Response.ok(stringApiModelFactory.createStringApiModel("You were logged out! " + email)).build();
     }

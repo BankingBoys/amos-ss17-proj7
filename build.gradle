@@ -1,11 +1,52 @@
 allprojects {
-	apply plugin: 'eclipse'
-	apply plugin: 'java'
+    apply plugin: 'eclipse'
+    repositories {
+        mavenCentral()
+	jcenter()
+    }
 }
 
-project('server'){
+project(':server'){
 	apply plugin: 'war'
+	apply plugin: 'java'
 	apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+	apply plugin: 'jacoco'
 
-
+	check.dependsOn {
+		project(':server').jacocoTestReport
+	}
+	jacocoTestReport {
+		afterEvaluate {
+			classDirectories = files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: 'META-INF/**')
+			}
+		)}
+		reports {
+       			 xml.enabled true
+       			 csv.enabled false
+       			 html.destination "${buildDir}/jacocoHtml"
+   		 }
+	}
 }
+
+project(':dtos'){
+	apply plugin: 'java'
+	apply plugin: 'jacoco'
+
+	check.dependsOn {
+		project(':dtos').jacocoTestReport
+	}
+	jacocoTestReport {
+		afterEvaluate {
+			classDirectories = files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: 'META-INF/**')
+			}
+		)}
+		reports {
+       			 xml.enabled true
+       			 csv.enabled false
+       			 html.destination "${buildDir}/jacocoHtml"
+   		 }
+	}
+}
+

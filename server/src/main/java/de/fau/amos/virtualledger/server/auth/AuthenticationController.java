@@ -2,7 +2,7 @@ package de.fau.amos.virtualledger.server.auth;
 
 import de.fau.amos.virtualledger.dtos.LoginData;
 import de.fau.amos.virtualledger.dtos.SessionData;
-import de.fau.amos.virtualledger.server.banking.api.BankingApiFacade;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiFacade;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
@@ -20,13 +20,13 @@ public class AuthenticationController {
      *
      */
     @Inject
-    private UserCredentialRepository userCredentialRepository;
+    UserCredentialRepository userCredentialRepository;
 
     @Inject
-    private SessionIdGenerator sessionIdGenerator;
+    SessionIdGenerator sessionIdGenerator;
 
     @Inject
-    private BankingApiFacade bankingApiFacade;
+    BankingApiFacade bankingApiFacade;
 
     /**
      * register a new user, if attributes are null or don't follow the specific pattern, an exception is thrown

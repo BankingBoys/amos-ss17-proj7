@@ -15,7 +15,7 @@ public class BankAccessFactory {
 
     public BankAccess createBankAccess(BankAccessBankingModel bankingModel)
     {
-        BankAccess bankAccess = new BankAccess(bankingModel.getId(), bankingModel.getBankName());
+        BankAccess bankAccess = new BankAccess(bankingModel.getId(), bankingModel.getBankName(), bankingModel.getBankCode(), bankingModel.getBankLogin());
         return bankAccess;
     }
 

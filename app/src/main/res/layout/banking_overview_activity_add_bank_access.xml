@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_weight="0.15"
+        android:gravity="center"
+        android:text="@string/banking_overview_add_access_title"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="30sp" />
+
+
+    <EditText
+        android:id="@+id/editText_addBankAccess_blz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15"
+        android:ems="10"
+        android:gravity="bottom"
+        android:hint="@string/banking_overview_add_access_blz_hint"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editText_addBankAccess_loginName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15"
+        android:ems="10"
+        android:gravity="bottom"
+        android:hint="@string/banking_overview_add_access_name_hint"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editText_addBankAccess_pin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15"
+        android:ems="10"
+        android:gravity="bottom"
+        android:hint="@string/banking_overview_add_access_password_hint"
+        android:inputType="textPassword"
+        tools:ignore="TextFields" />
+
+    <Button
+        android:id="@+id/button_addBankAccess_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.2"
+        android:background="@android:color/holo_blue_light"
+        android:text="@string/banking_overview_add_access_button_text"
+        android:textColor="@android:color/background_light" />
+
+</LinearLayout>

@@ -9,10 +9,10 @@
         <class>de.fau.amos.virtualledger.server.model.DeletedBankAccess</class>
         <class>de.fau.amos.virtualledger.server.model.DeletedBankAccount</class>
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://amos5.cgmcpwc3rxk0.eu-central-1.rds.amazonaws.com:3306/amos5db"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://amos5db.ckygzouzxgfb.us-east-2.rds.amazonaws.com:3306/amos5db"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
-            <property name="javax.persistence.jdbc.password" value="B47ud9j6MEdr"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
             <property name="javax.persistence.jdbc.database" value="amos5db"/>
             <property name="eclipselink.logging.level" value="ALL"/>
         </properties>
