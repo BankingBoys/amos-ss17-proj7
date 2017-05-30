@@ -1,7 +1,11 @@
 package de.fau.amos.virtualledger.android.dagger;
 
 import android.app.Application;
+import android.content.Context;
 
+import java.util.Properties;
+
+import de.fau.amos.virtualledger.android.Config.PropertyReader;
 import de.fau.amos.virtualledger.android.dagger.component.DaggerNetComponent;
 import de.fau.amos.virtualledger.android.dagger.component.NetComponent;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
@@ -16,13 +20,21 @@ public class App extends Application {
 
     private NetComponent netComponent;
 
+    private PropertyReader reader;
+    private Properties properties;
+    private Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        context = this;
+        reader = new PropertyReader(context);
+        properties = reader.getCustomProperties("config.properties");
+        String ip = properties.getProperty("IPAdress");
 
         netComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
-                .netModule(new NetModule("http://13.58.27.176:8080"))
+                .netModule(new NetModule(ip))
                 .build();
     }
 
