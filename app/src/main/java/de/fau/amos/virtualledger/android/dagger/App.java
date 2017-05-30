@@ -30,7 +30,7 @@ public class App extends Application {
         context = this;
         reader = new PropertyReader(context);
         properties = reader.getCustomProperties("config.properties");
-        String ip = properties.getProperty("IPAdress");
+        String ip = properties.getProperty("IPAddress");
 
         netComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
