@@ -18,21 +18,20 @@ public class BankAccess {
 
     /**
      *
-     * @methodtype constructor
      */
     public BankAccess() { }
 
     /**
      *
-     * @param id
-     * @param name
-     * @methodtype constructor
      */
     public BankAccess(String id, String name, String bankcode, String banklogin, List<BankAccount> bankaccounts ) {
         this(id, name, bankcode, banklogin);
         this.bankaccounts = bankaccounts;
     }
 
+    /**
+     *
+     */
     public BankAccess(String id, String name, String bankcode, String banklogin) {
         this.id = id;
         this.name = name;
@@ -42,8 +41,6 @@ public class BankAccess {
 
     /**
      *
-     * @return id
-     * @methodtype getter
      */
     public String getId() {
         return id;
@@ -51,8 +48,6 @@ public class BankAccess {
 
     /**
      *
-     * @param id
-     * @methodtype setter
      */
     public void setId(String id) {
         this.id = id;
@@ -60,8 +55,6 @@ public class BankAccess {
 
     /**
      *
-     * @return bank access name
-     * @methodtype getter
      */
     public String getName() {
         return name;
@@ -69,8 +62,6 @@ public class BankAccess {
 
     /**
      *
-     * @param name
-     * @methodtype setter
      */
     public void setName(String name) {
         this.name = name;
@@ -78,8 +69,6 @@ public class BankAccess {
 
     /**
      *
-     * @return balance
-     * @methodtype getter
      */
     public double getBalance() {
         double balance = 0;
@@ -89,11 +78,8 @@ public class BankAccess {
         return balance;
     }
 
-
     /**
      *
-     * @return List with Bank Accounts of this access
-     * @methodtype getter
      */
     public List<BankAccount> getBankaccounts() {
         return bankaccounts;
@@ -101,8 +87,6 @@ public class BankAccess {
 
     /**
      *
-     * @param bankaccounts
-     * @methodtype setter
      */
     public void setBankaccounts(List<BankAccount> bankaccounts) {
         this.bankaccounts = bankaccounts;
@@ -119,18 +103,30 @@ public class BankAccess {
         }
     };
 
+    /**
+     *
+     */
     public String getBankcode() {
         return bankcode;
     }
 
+    /**
+     *
+     */
     public void setBankcode(final String bankcode) {
         this.bankcode = bankcode;
     }
 
+    /**
+     *
+     */
     public String getBanklogin() {
         return banklogin;
     }
 
+    /**
+     *
+     */
     public void setBanklogin(final String banklogin) {
         this.banklogin = banklogin;
     }
