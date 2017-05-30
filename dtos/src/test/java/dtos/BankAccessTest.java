@@ -108,7 +108,7 @@ public class BankAccessTest {
      *
      */
     @Test
-    public void comperatorTest() {
+    public void comparatorTest() {
         BankAccess testAccess2 = new BankAccess("456","abcName", "12", "56", testAccountList);
         BankAccess testAccess3 = new BankAccess("789","jklName", "34", "12", testAccountList);
         BankAccess testAccess4 = new BankAccess("101112","ghiName", "56", "62", testAccountList);
@@ -118,7 +118,7 @@ public class BankAccessTest {
         listAccesses.add(testAccess3);
         listAccesses.add(testAccess2);
         listAccesses.add(testAccess4);
-        
+
         Collections.sort(listAccesses, BankAccess.sortBankAccessByName);
 
         Assert.assertEquals(testAccess2, listAccesses.get(0));
