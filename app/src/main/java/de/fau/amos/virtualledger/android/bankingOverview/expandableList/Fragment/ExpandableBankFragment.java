@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -93,13 +94,14 @@ public class ExpandableBankFragment extends Fragment {
                     @Override
                     public void onNext(@NonNull List<BankAccess> bankAccesses) {
                         bankAccessList = bankAccesses;
-                        onBankAccessesUpdated(bankAccesses);
+                        onBankAccessesUpdated(bankAccessList);
                         syncBankAccounts();
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        Log.e(TAG, "Error occured in Observable from login.");
+                        Log.e(TAG, "Error occured in Observable from bank overview");
+                        Toast.makeText(getActivity(), "Verbindungsprobleme mit dem Server, bitte versuchen Sie es erneut", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
