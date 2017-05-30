@@ -5,7 +5,7 @@ import android.content.Context;
 
 import java.util.Properties;
 
-import de.fau.amos.virtualledger.android.Config.PropertyReader;
+import de.fau.amos.virtualledger.android.config.PropertyReader;
 import de.fau.amos.virtualledger.android.dagger.component.DaggerNetComponent;
 import de.fau.amos.virtualledger.android.dagger.component.NetComponent;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;

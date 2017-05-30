@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.Config;
+package de.fau.amos.virtualledger.android.config;
 
 import android.content.Context;
 import android.content.res.AssetManager;
