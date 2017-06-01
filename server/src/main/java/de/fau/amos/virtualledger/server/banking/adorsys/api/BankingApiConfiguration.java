@@ -22,26 +22,6 @@ public class BankingApiConfiguration {
     private final String bankAccountSyncApiUrlRelative = "users/{userId}/bankaccesses/{accessId}/accounts/{accountId}/sync";
 
     /**
-     * flag if dummy endpoint should be used instead of adressing api of adorsys for user management
-     */
-    private final boolean useUserEndpointDummy = false;
-
-    /**
-     * flag if dummy endpoint should be used instead of adressing api of adorsys for bank accesses
-     */
-    private final boolean useBankAccessEndpointDummy = true;
-
-    /**
-     * flag if dummy endpoint should be used instead of adressing api of adorsys for bank accounts
-     */
-    private final boolean useBankAccountEndpointDummy = true;
-
-    /**
-     * flag if instead of real user on adorsys api, a specific test user with provided test data should be used
-     */
-    private final boolean useTestUser = false;
-
-    /**
      * username of the test user that does not use adorsys api but dummies
      */
     private final String testUserName = "test@user.de";
@@ -67,22 +47,7 @@ public class BankingApiConfiguration {
     public String getBankAccountSyncApiUrlRelative() {
         return bankAccountSyncApiUrlRelative;
     }
-
-    public boolean isUseUserEndpointDummy() {
-        return useUserEndpointDummy;
-    }
-
-    public boolean isUseBankAccountEndpointDummy() {
-        return useBankAccountEndpointDummy;
-    }
-
-    public boolean isUseBankAccessEndpointDummy() {
-        return useBankAccessEndpointDummy;
-    }
-
-    public boolean isUseTestUser() {
-        return useTestUser;
-    }
+    
 
     public String getTestUserName() {
         return testUserName;
