@@ -1,8 +1,11 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiDummy;
@@ -13,47 +16,75 @@ import de.fau.amos.virtualledger.server.banking.model.BankingException;
 /**
  * Created by Georg on 18.05.2017.
  */
-@RequestScoped @BankingApiDummy
+@ApplicationScoped
+@BankingApiDummy
 public class DummyBankAccountEndpoint implements BankAccountEndpoint {
+
+    Map<String, List<BankAccountBankingModel>> bankAccountMap = new HashMap<String, List<BankAccountBankingModel>>();
+    int number = 0;
+
 
     @Override
     public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId) throws BankingException {
-        List<BankAccountBankingModel> dummyData = new ArrayList<BankAccountBankingModel>();
-        dummyData.add(this.generateDummyBankAccountModel(1, bankingAccessId));
-        dummyData.add(this.generateDummyBankAccountModel(2, bankingAccessId));
-        return dummyData;
 
+        if(!bankAccountMap.containsKey(bankingAccessId))
+        {
+            this.generateDummyBankAccountModels(bankingAccessId);
+        }
+        return bankAccountMap.get(bankingAccessId);
     }
 
     @Override
     public void syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException {
-
+        // nothing to do here yet (maybe TODO generate new transactions on sync??)
     }
 
+
     /**
+     *
      * generates a BankAccountBankingModel with dummy data
-     * @param id that makes multiple dummies different via a postfix in every attribute
+     * @param bankingAccessId
      * @return
      */
-    private BankAccountBankingModel generateDummyBankAccountModel(int id, String bankingAccessId)
+    private BankAccountBankingModel generateDummyBankAccountModel(String bankingAccessId)
     {
         BankAccountBankingModel bankAccountBankingModel = new BankAccountBankingModel();
         BankAccountBalanceBankingModel bankAccountBalanceBankingModel = new BankAccountBalanceBankingModel();
-        bankAccountBalanceBankingModel.setAvailableHbciBalance(510.20);
-        bankAccountBalanceBankingModel.setReadyHbciBalance(510.20);
+        bankAccountBalanceBankingModel.setAvailableHbciBalance(500.00);
+        bankAccountBalanceBankingModel.setReadyHbciBalance(500.00);
+
+        String id_postfix = number++ + "_" + System.nanoTime();
 
         bankAccountBankingModel.setBankAccountBalance(bankAccountBalanceBankingModel);
         bankAccountBankingModel.setCountryHbciAccount("DE");
-        bankAccountBankingModel.setBlzHbciAccount("DummyBLZ " + id);
-        bankAccountBankingModel.setNumberHbciAccount("DummyHbciAccountNummer " + id);
-        bankAccountBankingModel.setTypeHbciAccount("Dummy Tilgungscredit " + id);
+        bankAccountBankingModel.setBlzHbciAccount("TestBLZ");
+        bankAccountBankingModel.setNumberHbciAccount("TestHbciAccountNummer " + id_postfix);
+        bankAccountBankingModel.setTypeHbciAccount("TestKonto " + id_postfix);
         bankAccountBankingModel.setCurrencyHbciAccount("EUR");
-        bankAccountBankingModel.setNameHbciAccount("Dummy Adam");
-        bankAccountBankingModel.setBicHbciAccount("DummyBIC " + id);
-        bankAccountBankingModel.setIbanHbciAccount("DummyIBAN " + id);
-        bankAccountBankingModel.setId("Dummy ID " + id);
+        bankAccountBankingModel.setNameHbciAccount("TestUser");
+        bankAccountBankingModel.setBicHbciAccount("TestBIC");
+        bankAccountBankingModel.setIbanHbciAccount("TestIBAN");
+        bankAccountBankingModel.setId("TestID" + id_postfix);
         bankAccountBankingModel.setBankAccessId(bankingAccessId);
 
         return bankAccountBankingModel;
+    }
+
+    /**
+     *
+     * generates a few BankAccountBankingModel and inserts them into bankAccountMap
+     * @param bankingAccessId
+     * @return
+     */
+    private void generateDummyBankAccountModels(String bankingAccessId)
+    {
+        List<BankAccountBankingModel> bankAccountBankingModelList = new ArrayList<BankAccountBankingModel>();
+        for(int i = 0; i < 5; ++i)
+        {
+            BankAccountBankingModel bankAccountBankingModel = this.generateDummyBankAccountModel(bankingAccessId);
+            bankAccountBankingModelList.add(bankAccountBankingModel);
+        }
+
+        this.bankAccountMap.put(bankingAccessId, bankAccountBankingModelList);
     }
 }

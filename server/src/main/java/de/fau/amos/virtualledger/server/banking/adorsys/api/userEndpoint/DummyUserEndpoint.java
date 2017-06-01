@@ -12,6 +12,6 @@ public class DummyUserEndpoint implements UserEndpoint {
 
     @Override
     public void createUser(String userId) {
-
+        // nothing to do here
     }
 }

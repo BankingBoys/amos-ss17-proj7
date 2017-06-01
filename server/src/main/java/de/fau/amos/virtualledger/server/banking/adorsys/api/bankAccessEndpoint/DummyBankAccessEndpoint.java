@@ -28,13 +28,13 @@ public class DummyBankAccessEndpoint implements BankAccessEndpoint {
     public void addBankAccess(String userId, BankAccessBankingModel bankAccess)  throws BankingException {
 
         BankAccessBankingModel bankAccessBankingModel = new BankAccessBankingModel();
-        bankAccessBankingModel.setId("DummyID" + number + "_" + System.nanoTime());
+        bankAccessBankingModel.setId("TestID" + number + "_" + System.nanoTime());
         bankAccessBankingModel.setBankLogin(bankAccess.getBankLogin());
         bankAccessBankingModel.setBankCode(bankAccess.getBankCode());
         bankAccessBankingModel.setUserId(userId);
         bankAccessBankingModel.setBankName("TestBank" + number);
         bankAccessBankingModel.setPin(null);
-        bankAccessBankingModel.setPassportState("dummyPassportState");
+        bankAccessBankingModel.setPassportState("testPassportState");
 
         this.bankingModels.add(bankAccessBankingModel);
         number ++;
