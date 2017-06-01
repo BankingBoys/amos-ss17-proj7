@@ -27,34 +27,34 @@ public class BankingApiFacade {
         this.binder = binder;
     }
     // protected empty constructor required for server to init it
-    protected BankingApiFacade() { this(null); }
+    protected BankingApiFacade() { }
 
 
 
 
     public void createUser(String userId) throws BankingException
     {
-        binder.getUserEndpoint().createUser(userId);
+        binder.getUserEndpoint(userId).createUser(userId);
     }
 
     public List<BankAccessBankingModel> getBankAccesses(String userId) throws BankingException
     {
-        return binder.getBankAccessEndpoint().getBankAccesses(userId);
+        return binder.getBankAccessEndpoint(userId).getBankAccesses(userId);
     }
 
     public List<BankAccountBankingModel> getBankAccounts(String userId, String bankAccessId) throws BankingException
     {
-        return binder.getBankAccountEndpoint().getBankAccounts(userId, bankAccessId);
+        return binder.getBankAccountEndpoint(userId).getBankAccounts(userId, bankAccessId);
     }
 
     public void syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException
     {
-        binder.getBankAccountEndpoint().syncBankAccount(userId, bankAccessId, bankAccountId, pin);
+        binder.getBankAccountEndpoint(userId).syncBankAccount(userId, bankAccessId, bankAccountId, pin);
     }
 
     public void addBankAccess(String userId, BankAccessBankingModel bankAccess) throws BankingException
     {
-        binder.getBankAccessEndpoint().addBankAccess(userId, bankAccess);
+        binder.getBankAccessEndpoint(userId).addBankAccess(userId, bankAccess);
     }
 
 }

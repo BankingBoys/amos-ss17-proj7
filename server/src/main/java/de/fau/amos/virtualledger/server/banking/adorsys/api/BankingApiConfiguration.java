@@ -29,12 +29,12 @@ public class BankingApiConfiguration {
     /**
      * flag if dummy endpoint should be used instead of adressing api of adorsys for bank accesses
      */
-    private final boolean useBankAccessEndpointDummy = false;
+    private final boolean useBankAccessEndpointDummy = true;
 
     /**
      * flag if dummy endpoint should be used instead of adressing api of adorsys for bank accounts
      */
-    private final boolean useBankAccountEndpointDummy = false;
+    private final boolean useBankAccountEndpointDummy = true;
 
     /**
      * flag if instead of real user on adorsys api, a specific test user with provided test data should be used
@@ -42,9 +42,9 @@ public class BankingApiConfiguration {
     private final boolean useTestUser = false;
 
     /**
-     * username of the test user on adorsys api
+     * username of the test user that does not use adorsys api but dummies
      */
-    private final String testUserName = "test";
+    private final String testUserName = "test@user.de";
 
 
 

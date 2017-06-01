@@ -4,8 +4,15 @@ package de.fau.amos.virtualledger.server.banking.adorsys.api;
  * Created by Georg on 18.05.2017.
  */
 
-import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.BankAccountEndpoint;
+
 import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.BankAccessEndpoint;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.DummyBankAccessEndpoint;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.HttpBankAccessEndpoint;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.BankAccountEndpoint;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.DummyBankAccountEndpoint;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.HttpBankAccountEndpoint;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.DummyUserEndpoint;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.HttpUserEndpoint;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.UserEndpoint;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -14,60 +21,75 @@ import javax.inject.Inject;
 
 /**
  * Class that is responsible for binding the right implementation of an interface for banking api
- * Chosen can be a dummy or the real implementation, which depends on BankingApiConfiguration.
+ * Chosen can be a dummy or the real implementation, which depends on BankingApiConfiguration test user name.
  */
 @ApplicationScoped
 public class BankingApiBinder {
 
 
-    // all injected by setter
-    private UserEndpoint userEndpoint;
-    private BankAccountEndpoint bankAccountEndpoint;
-    private BankAccessEndpoint bankAccessEndpoint;
+    // all injected by constructor
+    private UserEndpoint httpUserEndpoint;
+    private UserEndpoint dummyUserEndpoint;
+    private BankAccessEndpoint httpBankAccessEndpoint;
+    private BankAccessEndpoint dummyBankAccessEndpoint;
+    private BankAccountEndpoint httpBankAccountEndpoint;
+    private BankAccountEndpoint dummyBankAccountEndpoint;
 
-
-    public UserEndpoint getUserEndpoint() {
-        return userEndpoint;
-    }
+    private BankingApiConfiguration bankingApiConfiguration;
 
     @Inject
-    public void setUserEndpoint(@BankingApiDummy UserEndpoint dummyEndpoint, @Default UserEndpoint httpEndpoint, BankingApiConfiguration bankingApiConfiguration) {
-        if(bankingApiConfiguration.isUseUserEndpointDummy())
+    public BankingApiBinder(
+            BankingApiConfiguration bankingApiConfiguration,
+            @Default UserEndpoint httpUserEndpoint,
+            @BankingApiDummy UserEndpoint dummyUserEndpoint,
+            @Default BankAccessEndpoint httpBankAccessEndpoint,
+            @BankingApiDummy BankAccessEndpoint dummyBankAccessEndpoint,
+            @Default BankAccountEndpoint httpBankAccountEndpoint,
+            @BankingApiDummy BankAccountEndpoint dummyBankAccountEndpoint)
+    {
+        this.bankingApiConfiguration = bankingApiConfiguration;
+
+        this.httpUserEndpoint = httpUserEndpoint;
+        this.dummyUserEndpoint = dummyUserEndpoint;
+        this.httpBankAccessEndpoint = httpBankAccessEndpoint;
+        this.dummyBankAccessEndpoint = dummyBankAccessEndpoint;
+        this.httpBankAccountEndpoint = httpBankAccountEndpoint;
+        this.dummyBankAccountEndpoint = dummyBankAccountEndpoint;
+    }
+    protected BankingApiBinder()    { }
+
+
+    public UserEndpoint getUserEndpoint(String userId) {
+
+        if(bankingApiConfiguration.getTestUserName().equals(userId))
         {
-            this.userEndpoint = dummyEndpoint;
+            return dummyUserEndpoint;
         } else
         {
-            this.userEndpoint = httpEndpoint;
+            return httpUserEndpoint;
         }
     }
 
-    public BankAccountEndpoint getBankAccountEndpoint() {
-        return bankAccountEndpoint;
-    }
 
-    @Inject
-    public void setBankAccountEndpoint(@BankingApiDummy BankAccountEndpoint dummyEndpoint, @Default BankAccountEndpoint httpEndpoint, BankingApiConfiguration bankingApiConfiguration) {
-        if(bankingApiConfiguration.isUseBankAccountEndpointDummy())
+    public BankAccessEndpoint getBankAccessEndpoint(String userId) {
+
+        if(bankingApiConfiguration.getTestUserName().equals(userId))
         {
-            this.bankAccountEndpoint = dummyEndpoint;
+            return dummyBankAccessEndpoint;
         } else
         {
-            this.bankAccountEndpoint = httpEndpoint;
+            return httpBankAccessEndpoint;
         }
     }
 
-    public BankAccessEndpoint getBankAccessEndpoint() {
-        return bankAccessEndpoint;
-    }
-
-    @Inject
-    public void setBankAccessEndpoint(@BankingApiDummy BankAccessEndpoint dummyEndpoint, @Default BankAccessEndpoint httpEndpoint, BankingApiConfiguration bankingApiConfiguration) {
-        if(bankingApiConfiguration.isUseBankAccessEndpointDummy())
+    public BankAccountEndpoint getBankAccountEndpoint(String userId)
+    {
+        if(bankingApiConfiguration.getTestUserName().equals(userId))
         {
-            this.bankAccessEndpoint = dummyEndpoint;
+            return dummyBankAccountEndpoint;
         } else
         {
-            this.bankAccessEndpoint = httpEndpoint;
+            return httpBankAccountEndpoint;
         }
     }
 
