@@ -36,22 +36,14 @@ public class BankingApiUrlProvider {
     public String getBankAccessEndpointUrl(String userId)
     {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccessApiUrlRelative();
-        if(configuration.isUseTestUser()) {
-            url = url.replaceAll("\\{userId\\}", configuration.getTestUserName());
-        } else {
-            url = url.replaceAll("\\{userId\\}", userId);
-        }
+        url = url.replaceAll("\\{userId\\}", userId);
         return url;
     }
 
     public String getBankAccountEndpointUrl(String userId, String bankAccessId)
     {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccountApiUrlRelative();
-        if(configuration.isUseTestUser()) {
-            url = url.replaceAll("\\{userId\\}", "test");
-        } else {
-            url = url.replaceAll("\\{userId\\}", userId);
-        }
+        url = url.replaceAll("\\{userId\\}", userId);
         url = url.replaceAll("\\{accessId\\}", bankAccessId);
         return url;
     }
@@ -59,11 +51,7 @@ public class BankingApiUrlProvider {
     public String getBankAccountSyncEndpointUrl(String userId, String bankAccessId, String bankAccountId)
     {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccountSyncApiUrlRelative();
-        if(configuration.isUseTestUser()) {
-            url = url.replaceAll("\\{userId\\}", "test");
-        } else {
-            url = url.replaceAll("\\{userId\\}", userId);
-        }
+        url = url.replaceAll("\\{userId\\}", userId);
         url = url.replaceAll("\\{accessId\\}", bankAccessId);
         url = url.replaceAll("\\{accountId\\}", bankAccountId);
         return url;

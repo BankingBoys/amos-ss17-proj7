@@ -47,7 +47,7 @@ public class BankingApiConfiguration {
     public String getBankAccountSyncApiUrlRelative() {
         return bankAccountSyncApiUrlRelative;
     }
-    
+
 
     public String getTestUserName() {
         return testUserName;
