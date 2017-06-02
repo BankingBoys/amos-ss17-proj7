@@ -1,10 +1,8 @@
 package de.fau.amos.virtualledger.server.banking;
 
-import de.fau.amos.virtualledger.dtos.BankAccess;
-import de.fau.amos.virtualledger.dtos.BankAccessCredential;
-import de.fau.amos.virtualledger.dtos.BankAccount;
-import de.fau.amos.virtualledger.dtos.BankAccountSync;
+import de.fau.amos.virtualledger.dtos.*;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import de.fau.amos.virtualledger.server.banking.model.BookingModel;
 import de.fau.amos.virtualledger.server.factories.*;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiFacade;
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
@@ -48,6 +46,9 @@ public class BankingOverviewController {
 
     @Inject
     DeletedBankAccountFactory deletedBankAccountFactory;
+
+    @Inject
+    BankAccountBookingsFactory bankAccountBookingsFactory;
 
     /**
      * loads all the bank accesses and accounts embedded matching to the email from adorsys api (or from dummies, depending on configuration)
@@ -112,12 +113,17 @@ public class BankingOverviewController {
         deletedBankAccountRepository.createDeletedBankAccount(deletedBankAccount);
     }
 
-    public void syncBankAccounts(String email, List<BankAccountSync> bankAccountSyncList) throws BankingException
+    public BankAccountSyncResult syncBankAccounts(String email, List<BankAccountSync> bankAccountSyncList) throws BankingException
     {
+        final List<BankAccountBookings> resultAccountBookings = new ArrayList<>();
+        final BankAccountSyncResult result = new BankAccountSyncResult(resultAccountBookings);
         for(BankAccountSync bankAccountSync: bankAccountSyncList)
         {
-            bankingApiFacade.syncBankAccount(email, bankAccountSync.getBankaccessid(), bankAccountSync.getBankaccountid(), bankAccountSync.getPin());
+            final List<BookingModel> bookingModels = bankingApiFacade.syncBankAccount(email, bankAccountSync.getBankaccessid(), bankAccountSync.getBankaccountid(), bankAccountSync.getPin());
+            resultAccountBookings.add(bankAccountBookingsFactory.createBankAccountBookings(bookingModels, bankAccountSync.getBankaccessid(), bankAccountSync.getBankaccountid()));
+
         }
+        return result;
     }
 
     /**

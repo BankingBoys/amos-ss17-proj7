@@ -11,6 +11,7 @@ import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiDummy;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBalanceBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import de.fau.amos.virtualledger.server.banking.model.BookingModel;
 
 /**
  * Created by Georg on 18.05.2017.
@@ -34,8 +35,9 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
     }
 
     @Override
-    public void syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException {
+    public List<BookingModel> syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException {
         // nothing to do here yet (maybe TODO generate new transactions on sync??)
+        return null;
     }
 
 

@@ -2,8 +2,10 @@ package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint
 
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvider;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccountJSONBankingModel;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccountSyncJSONBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import de.fau.amos.virtualledger.server.banking.model.BookingModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +55,7 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
     }
 
     @Override
-    public void syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException {
+    public List<BookingModel> syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException {
 
         // Create Jersey client
         Client client = ClientBuilder.newClient();
@@ -67,6 +69,13 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
             logger.warn("No connection to Adorsys Server!");
             throw new BankingException("No connection to Adorsys Server!");
         }
+        BankAccountSyncJSONBankingModel responseModel = response.readEntity(BankAccountSyncJSONBankingModel.class);
+        if(responseModel == null || responseModel.get_embedded() == null) {
+            logger.warn("No bookings found");
+            return new ArrayList<>();
+        }
+        return responseModel.get_embedded().getBookingEntityList();
+
     }
 
 

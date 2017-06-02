@@ -8,6 +8,7 @@ package de.fau.amos.virtualledger.server.banking.adorsys.api;
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import de.fau.amos.virtualledger.server.banking.model.BookingModel;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -47,9 +48,9 @@ public class BankingApiFacade {
         return binder.getBankAccountEndpoint(userId).getBankAccounts(userId, bankAccessId);
     }
 
-    public void syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException
+    public List<BookingModel> syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException
     {
-        binder.getBankAccountEndpoint(userId).syncBankAccount(userId, bankAccessId, bankAccountId, pin);
+        return binder.getBankAccountEndpoint(userId).syncBankAccount(userId, bankAccessId, bankAccountId, pin);
     }
 
     public void addBankAccess(String userId, BankAccessBankingModel bankAccess) throws BankingException

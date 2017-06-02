@@ -1,11 +1,13 @@
 package de.fau.amos.virtualledger.dtos;
 
+import java.util.Date;
+
 public class Booking {
 
-    private int date;
+    private Date date;
     private double amount;
 
-    public Booking(int date, double amount) {
+    public Booking(Date date, double amount) {
         this.date = date;
         this.amount = amount;
     }
@@ -14,11 +16,11 @@ public class Booking {
 
     }
 
-    public int getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
