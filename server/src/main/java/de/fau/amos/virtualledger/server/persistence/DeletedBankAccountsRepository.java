@@ -1,15 +1,14 @@
 package de.fau.amos.virtualledger.server.persistence;
 
-import com.sun.istack.logging.Logger;
-import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
 import de.fau.amos.virtualledger.server.model.DeletedBankAccount;
-import de.fau.amos.virtualledger.server.model.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.*;
+import java.lang.invoke.MethodHandles;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * Created by Georg on 22.05.2017.
@@ -17,6 +16,7 @@ import java.util.logging.Level;
 
 @ApplicationScoped
 public class DeletedBankAccountsRepository {
+    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     EntityManagerFactory entityManagerFactory;
 
@@ -36,11 +36,11 @@ public class DeletedBankAccountsRepository {
                 entityManager.persist(deletedBankAccount);
                 entityTransaction.commit();
             } catch(EntityExistsException entityExistsException) {
-                logger().info("Entity already exists: "+ deletedBankAccount);
+                logger.info("Entity already exists: "+ deletedBankAccount);
                 entityTransaction.rollback();
                 throw entityExistsException;
             } catch(IllegalArgumentException persistenceException) {
-                logger().logException(persistenceException, Level.WARNING);
+                logger.warn("", persistenceException);
                 entityTransaction.rollback();
                 throw persistenceException;
             }
@@ -71,7 +71,7 @@ public class DeletedBankAccountsRepository {
                 }
                 entityTransaction.commit();
             } catch(final Exception e) {
-                logger().logException(e, Level.WARNING);
+                logger.warn("", e);
                 entityTransaction.rollback();
                 throw e;
             }
@@ -96,8 +96,4 @@ public class DeletedBankAccountsRepository {
         }
     }
 
-
-    private Logger logger() {
-        return Logger.getLogger(UserCredentialRepository.class);
-    }
 }

@@ -1,6 +1,5 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint;
 
-import com.sun.istack.logging.Logger;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -11,11 +10,14 @@ import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccessJSONB
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvider;
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,7 @@ import java.util.List;
  */
 @RequestScoped @Default
 public class HttpBankAccessEndpoint implements BankAccessEndpoint {
+    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Inject
     BankingApiUrlProvider urlProvider;
@@ -48,7 +51,7 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
         BankAccessJSONBankingModel reponseModel = response.getEntity(BankAccessJSONBankingModel.class);
         if(reponseModel == null || reponseModel.get_embedded() == null)
         {
-        	Logger.getLogger(HttpBankAccessEndpoint.class).info("No access found!");
+        	logger.info("No access found!");
             return new ArrayList<BankAccessBankingModel>();
         }
         List<BankAccessBankingModel> result = reponseModel.get_embedded().getBankAccessEntityList();

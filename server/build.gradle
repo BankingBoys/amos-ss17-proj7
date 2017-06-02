@@ -25,6 +25,8 @@ uploadArchives {
 dependencies {
     providedCompile group: 'javax', name: 'javaee-api', version:'7.0'
 
+    compile 'ch.qos.logback:logback-classic:1.2.3'
+
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
     compile group: 'org.eclipse.persistence', name: 'eclipselink', version: '2.6.4'
     compile group: 'com.owlike', name: 'genson', version: '1.4'

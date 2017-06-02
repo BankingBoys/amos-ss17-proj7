@@ -3,14 +3,14 @@ package de.fau.amos.virtualledger.server.api;
 import de.fau.amos.virtualledger.dtos.LoginData;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
-import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.auth.AuthenticationController;
 import de.fau.amos.virtualledger.server.auth.InvalidCredentialsException;
 import de.fau.amos.virtualledger.server.auth.Secured;
 import de.fau.amos.virtualledger.server.auth.VirtualLedgerAuthenticationException;
+import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.model.UserCredential;
-
-import java.util.logging.Level;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -21,15 +21,14 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-
-import com.sun.istack.logging.Logger;
-import org.eclipse.persistence.sessions.Login;
+import java.lang.invoke.MethodHandles;
 
 /**
  * Endpoints for authentication / authorization
  */
 @Path("/auth")
 public class AuthApiEndpoint {
+    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     AuthenticationController authenticationController;
     StringApiModelFactory stringApiModelFactory;
@@ -40,14 +39,6 @@ public class AuthApiEndpoint {
         this.stringApiModelFactory = stringApiModelFactory;
     }
     protected AuthApiEndpoint() { }
-
-
-
-    private Logger logger() {
-        return Logger.getLogger(AuthApiEndpoint.class);
-    }
-
-
 
 
     /**
@@ -68,7 +59,7 @@ public class AuthApiEndpoint {
         {
             return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty, id has to be 0.").build();
         }
-        logger().info("Registration for " + credential.getEmail() + " was requested.");
+        logger.info("Registration for " + credential.getEmail() + " was requested.");
 
         return this.register(credential);
     }
@@ -87,7 +78,7 @@ public class AuthApiEndpoint {
         {
             return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
         }
-        logger().info("Login of "+ loginData.email +" was requested.");
+        logger.info("Login of "+ loginData.email +" was requested.");
 
         return this.login(loginData);
     }
@@ -108,7 +99,7 @@ public class AuthApiEndpoint {
             return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
         }
         final String email = securityContext.getUserPrincipal().getName();
-        logger().info("Logout of " + email + " was requested");
+        logger.info("Logout of " + email + " was requested");
 
         return this.logout(email);
     }
@@ -128,7 +119,7 @@ public class AuthApiEndpoint {
             responseMsg = authenticationController.register(credential);
         } catch(VirtualLedgerAuthenticationException ex)
         {
-            logger().logException(ex, Level.INFO);
+            logger.error("", ex);
             return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
         StringApiModel responseObj = stringApiModelFactory.createStringApiModel(responseMsg);
@@ -147,7 +138,7 @@ public class AuthApiEndpoint {
         try {
             sessionData = authenticationController.login(loginData);
         } catch (InvalidCredentialsException ex) {
-            logger().logException(ex, Level.INFO);
+            logger.error("", ex);
             return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
         return Response.ok(sessionData).build();

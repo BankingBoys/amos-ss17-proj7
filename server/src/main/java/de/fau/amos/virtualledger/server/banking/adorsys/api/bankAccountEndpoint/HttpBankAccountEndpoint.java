@@ -1,6 +1,5 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint;
 
-import com.sun.istack.logging.Logger;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -12,11 +11,14 @@ import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvide
 import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccountJSONBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,7 @@ import java.util.List;
  */
 @RequestScoped @Default
 public class HttpBankAccountEndpoint implements BankAccountEndpoint {
+    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Inject
     BankingApiUrlProvider urlProvider;
@@ -45,13 +48,13 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
         ClientResponse response = webResourceGET.get(ClientResponse.class);
 
         if (response.getStatus() != 200) {
-        	Logger.getLogger(HttpBankAccountEndpoint.class).warning("No connection to Adorsys Server!");
+        	logger.warn("No connection to Adorsys Server!");
             throw new BankingException("No connection to Adorsys Server!");
         }
         BankAccountJSONBankingModel reponseModel = response.getEntity(BankAccountJSONBankingModel.class);
         if(reponseModel == null || reponseModel.get_embedded() == null)
         { 
-        	Logger.getLogger(HttpBankAccountEndpoint.class).info("No accounts found");
+        	logger.info("No accounts found");
             return new ArrayList<BankAccountBankingModel>();
         }
         List<BankAccountBankingModel> result = reponseModel.get_embedded().getBankAccountEntityList();
@@ -70,7 +73,7 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
         ClientResponse response = webResourceGET.put(ClientResponse.class, pin);
 
         if (response.getStatus() != 200) {
-            Logger.getLogger(HttpBankAccountEndpoint.class).warning("No connection to Adorsys Server!");
+            logger.warn("No connection to Adorsys Server!");
             throw new BankingException("No connection to Adorsys Server!");
         }
     }
