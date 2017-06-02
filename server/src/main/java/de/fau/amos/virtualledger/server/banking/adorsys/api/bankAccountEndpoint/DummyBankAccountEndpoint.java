@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiDummy;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBalanceBankingModel;
