@@ -44,20 +44,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
         }
         List<BankAccountBankingModel> bankAccountBankingModelList = bankAccountMap.get(bankAccessId);
 
-        BankAccountBankingModel matchingBankAccountBankingModel = null;
-        for (BankAccountBankingModel bankAccountBankingModel: bankAccountBankingModelList)
-        {
-            if(bankAccountBankingModel.getId().equals(bankAccountId))
-            {
-                matchingBankAccountBankingModel = bankAccountBankingModel;
-                break;
-            }
-        }
-
-        if(matchingBankAccountBankingModel == null)
-        {
-            throw new BankingException("Dummy found no existing BankAccount for Operation Sync!");
-        }
+        BankAccountBankingModel matchingBankAccountBankingModel = this.findBankAccountBankingModel(bankAccountBankingModelList, bankAccountId);
 
         if(!bankBookingMap.containsKey(matchingBankAccountBankingModel))
         {
@@ -133,10 +120,8 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
 
             for(int day = 30; day >= 0; day -= 3)
             { // day of the booking
-                Calendar calendar = new GregorianCalendar();
-                calendar.set(Calendar.getInstance().get(Calendar.YEAR), month, day);
-                long targetDateInMilli = calendar.getTimeInMillis();
-                Date targetDate = new Date(targetDateInMilli);
+                long targetDateLong = this.getDate(day, month, Calendar.getInstance().get(Calendar.YEAR));
+                Date targetDate = new Date(targetDateLong);
 
                 if(!targetDate.after(now)) {
                     // no bookings in future!
@@ -165,11 +150,49 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
         amount += randomGenerator.nextInt(100) / 100.0;
         bookingModel.setAmount(amount);
 
-        Calendar calendar = new GregorianCalendar();
-        calendar.set(Calendar.getInstance().get(Calendar.YEAR), month, day);
-        long date = calendar.getTimeInMillis();
+        long date = this.getDate(day, month, Calendar.getInstance().get(Calendar.YEAR));
         bookingModel.setBookingDate(date);
 
         return bookingModel;
+    }
+
+    /**
+     * generates a data in long format (milliseconds);
+     * @param day
+     * @param month
+     * @param year
+     * @return
+     */
+    private long getDate(int day, int month, int year)
+    {
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(year, month, day);
+        return calendar.getTimeInMillis();
+    }
+
+    /**
+     * finds account by bankAccountId in bankAccountBankingModelList
+     * @param bankAccountBankingModelList
+     * @param bankAccountId
+     * @return
+     * @throws BankingException if bankAccount with id does not exist
+     */
+    private BankAccountBankingModel findBankAccountBankingModel(List<BankAccountBankingModel> bankAccountBankingModelList, String bankAccountId) throws BankingException
+    {
+        BankAccountBankingModel matchingBankAccountBankingModel = null;
+        for (BankAccountBankingModel bankAccountBankingModel: bankAccountBankingModelList)
+        {
+            if(bankAccountBankingModel.getId().equals(bankAccountId))
+            {
+                matchingBankAccountBankingModel = bankAccountBankingModel;
+                break;
+            }
+        }
+
+        if(matchingBankAccountBankingModel == null)
+        {
+            throw new BankingException("Dummy found no existing BankAccount for Operation Sync!");
+        }
+        return matchingBankAccountBankingModel;
     }
 }
