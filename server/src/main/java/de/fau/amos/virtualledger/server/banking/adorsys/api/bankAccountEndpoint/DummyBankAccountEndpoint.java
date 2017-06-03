@@ -1,9 +1,6 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -23,6 +20,10 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
     Map<String, List<BankAccountBankingModel>> bankAccountMap = new HashMap<String, List<BankAccountBankingModel>>();
     int numberBankAccount = 0;
 
+    Map<BankAccountBankingModel, List<BookingModel>> bankBookingMap = new HashMap<BankAccountBankingModel, List<BookingModel>>();
+
+    Random randomGenerator = new Random(System.nanoTime());
+
 
     @Override
     public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId) throws BankingException {
@@ -36,8 +37,33 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
 
     @Override
     public List<BookingModel> syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException {
-        // nothing to do here yet (maybe TODO generate new transactions on sync??)
-        return null;
+
+        if(!bankAccountMap.containsKey(bankAccessId))
+        {
+            throw new BankingException("Dummy found no existing BankAccess for Operation Sync!");
+        }
+        List<BankAccountBankingModel> bankAccountBankingModelList = bankAccountMap.get(bankAccessId);
+
+        BankAccountBankingModel matchingBankAccountBankingModel = null;
+        for (BankAccountBankingModel bankAccountBankingModel: bankAccountBankingModelList)
+        {
+            if(bankAccountBankingModel.getId().equals(bankAccountId))
+            {
+                matchingBankAccountBankingModel = bankAccountBankingModel;
+                break;
+            }
+        }
+
+        if(matchingBankAccountBankingModel == null)
+        {
+            throw new BankingException("Dummy found no existing BankAccount for Operation Sync!");
+        }
+
+        if(!bankBookingMap.containsKey(matchingBankAccountBankingModel))
+        {
+            return new ArrayList<BookingModel>();
+        }
+        return bankBookingMap.get(matchingBankAccountBankingModel);
     }
 
 
@@ -73,7 +99,8 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
 
     /**
      *
-     * generates a few BankAccountBankingModel and inserts them into bankAccountMap
+     * generates a few BankAccountBankingModel and inserts them into bankAccountMap;
+     * for the last 6 months, 5 bookings each are generated
      * @param bankingAccessId
      * @return
      */
@@ -84,8 +111,65 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
         {
             BankAccountBankingModel bankAccountBankingModel = this.generateDummyBankAccountModel(bankingAccessId);
             bankAccountBankingModelList.add(bankAccountBankingModel);
+            this.generateDummyBookingModels(bankAccountBankingModel);
         }
 
         this.bankAccountMap.put(bankingAccessId, bankAccountBankingModelList);
+    }
+
+
+    /**
+     * generates a few BookingModel and inserts them into bankBookingMap
+     * @param bankAccountBankingModel
+     */
+    private void generateDummyBookingModels(BankAccountBankingModel bankAccountBankingModel)
+    {
+        List<BookingModel> bookingModelList = new ArrayList<BookingModel>();
+        Date now = new Date();
+
+        for(int i = 0; i <= 5; ++i)
+        { // bookings for last 6 months
+            int month = Calendar.getInstance().get(Calendar.MONTH) - i;
+
+            for(int day = 30; day >= 0; day -= 3)
+            { // day of the booking
+                Calendar calendar = new GregorianCalendar();
+                calendar.set(Calendar.getInstance().get(Calendar.YEAR), month, day);
+                long targetDateInMilli = calendar.getTimeInMillis();
+                Date targetDate = new Date(targetDateInMilli);
+
+                if(!targetDate.after(now)) {
+                    // no bookings in future!
+                    BookingModel bookingModel = this.generateDummyBookingModel(month, day);
+                    bookingModelList.add(bookingModel);
+                }
+            }
+        }
+
+        this.bankBookingMap.put(bankAccountBankingModel, bookingModelList);
+    }
+
+    /**
+     *
+     * generates a BookingModel with dummy data
+     * @param month
+     * @param day
+     * @return
+     */
+    private BookingModel generateDummyBookingModel(int month, int day)
+    {
+        BookingModel bookingModel = new BookingModel();
+
+        // amount between -50.0 and +51.0
+        double amount = randomGenerator.nextInt(100) - 50;
+        amount += randomGenerator.nextInt(100) / 100.0;
+        bookingModel.setAmount(amount);
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(Calendar.getInstance().get(Calendar.YEAR), month, day);
+        long date = calendar.getTimeInMillis();
+        bookingModel.setBookingDate(date);
+
+        return bookingModel;
     }
 }
