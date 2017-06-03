@@ -21,7 +21,7 @@ import de.fau.amos.virtualledger.server.banking.model.BookingModel;
 public class DummyBankAccountEndpoint implements BankAccountEndpoint {
 
     Map<String, List<BankAccountBankingModel>> bankAccountMap = new HashMap<String, List<BankAccountBankingModel>>();
-    int number = 0;
+    int numberBankAccount = 0;
 
 
     @Override
@@ -54,7 +54,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
         bankAccountBalanceBankingModel.setAvailableHbciBalance(500.00);
         bankAccountBalanceBankingModel.setReadyHbciBalance(500.00);
 
-        String id_postfix = number++ + "_" + System.nanoTime();
+        String id_postfix = numberBankAccount++ + "_" + System.nanoTime();
 
         bankAccountBankingModel.setBankAccountBalance(bankAccountBalanceBankingModel);
         bankAccountBankingModel.setCountryHbciAccount("DE");
