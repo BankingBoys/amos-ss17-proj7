@@ -77,7 +77,7 @@ public class BankingApiBinderTest {
     {
         // SETUP
         String username = "test@user.de";
-        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, null, null, null, null, new HttpBankAccountEndpoint(), new DummyBankAccountEndpoint());
+        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, null, null, null, null, new HttpBankAccountEndpoint(), new DummyBankAccountEndpoint(null));
 
         // EXECUTE
         BankAccountEndpoint endpoint = bankingApiBinder.getBankAccountEndpoint(username);
@@ -95,7 +95,7 @@ public class BankingApiBinderTest {
     {
         // SETUP
         String username = "!test@user.de";
-        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, null, null, null, null, new HttpBankAccountEndpoint(), new DummyBankAccountEndpoint());
+        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, null, null, null, null, new HttpBankAccountEndpoint(), new DummyBankAccountEndpoint(null));
 
         // EXECUTE
         BankAccountEndpoint endpoint = bankingApiBinder.getBankAccountEndpoint(username);

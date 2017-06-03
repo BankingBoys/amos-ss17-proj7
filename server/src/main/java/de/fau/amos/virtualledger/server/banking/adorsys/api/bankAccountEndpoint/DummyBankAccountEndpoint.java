@@ -29,7 +29,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
     Random randomGenerator = new Random(System.nanoTime());
 
     @Inject
-    public DummyBankAccountEndpoint(DummyBankAccessEndpoint dummyBankAccessEndpoint)
+    public DummyBankAccountEndpoint(@BankingApiDummy DummyBankAccessEndpoint dummyBankAccessEndpoint)
     {
         this.dummyBankAccessEndpoint = dummyBankAccessEndpoint;
     }
@@ -38,7 +38,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
 
     @Override
     public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId) throws BankingException {
-        if(dummyBankAccessEndpoint.existsBankAccess(bankingAccessId))
+        if(!dummyBankAccessEndpoint.existsBankAccess(bankingAccessId))
         {
             throw new BankingException("Dummy found no existing BankAccess for Operation getBankAccounts!");
         }
@@ -52,11 +52,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
     @Override
     public List<BookingModel> syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException {
 
-        if(!bankAccountMap.containsKey(bankAccessId))
-        {
-            throw new BankingException("Dummy found no existing BankAccess for Operation Sync!");
-        }
-        List<BankAccountBankingModel> bankAccountBankingModelList = bankAccountMap.get(bankAccessId);
+        List<BankAccountBankingModel> bankAccountBankingModelList = this.getBankAccounts(userId, bankAccessId);
 
         BankAccountBankingModel matchingBankAccountBankingModel = this.findBankAccountBankingModel(bankAccountBankingModelList, bankAccountId);
 
