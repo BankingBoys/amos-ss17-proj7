@@ -35,9 +35,13 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
     }
     protected DummyBankAccountEndpoint()    { }
 
+
     @Override
     public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId) throws BankingException {
-
+        if(dummyBankAccessEndpoint.existsBankAccess(bankingAccessId))
+        {
+            throw new BankingException("Dummy found no existing BankAccess for Operation getBankAccounts!");
+        }
         if(!bankAccountMap.containsKey(bankingAccessId))
         {
             this.generateDummyBankAccountModels(bankingAccessId);
