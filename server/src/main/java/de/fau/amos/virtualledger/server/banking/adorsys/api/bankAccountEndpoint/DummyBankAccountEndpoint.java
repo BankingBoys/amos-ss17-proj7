@@ -5,6 +5,7 @@ import java.util.*;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiDummy;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.DummyBankAccessEndpoint;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBalanceBankingModel;
@@ -107,8 +108,9 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
         for(int i = 0; i < 5; ++i)
         {
             BankAccountBankingModel bankAccountBankingModel = this.generateDummyBankAccountModel(bankingAccessId);
-            bankAccountBankingModelList.add(bankAccountBankingModel);
             this.generateDummyBookingModels(bankAccountBankingModel);
+            this.updateAccountBalance(bankAccountBankingModel);
+            bankAccountBankingModelList.add(bankAccountBankingModel);
         }
 
         this.bankAccountMap.put(bankingAccessId, bankAccountBankingModelList);
@@ -204,5 +206,23 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
             throw new BankingException("Dummy found no existing BankAccount for Operation Sync!");
         }
         return matchingBankAccountBankingModel;
+    }
+
+    /**
+     * updates the bankAccountBankingModel by the bookings in bankBookingMap
+     * @param bankAccountBankingModel
+     */
+    private void updateAccountBalance(BankAccountBankingModel bankAccountBankingModel)
+    {
+        List<BookingModel> bookingModelList = this.bankBookingMap.get(bankAccountBankingModel);
+
+        for(BookingModel bookingModel: bookingModelList)
+        {
+            BankAccountBalanceBankingModel bankAccountBalanceBankingModel = bankAccountBankingModel.getBankAccountBalance();
+            double oldAvailableBalance = bankAccountBalanceBankingModel.getAvailableHbciBalance();
+            bankAccountBalanceBankingModel.setAvailableHbciBalance(oldAvailableBalance + bookingModel.getAmount());
+            double oldReadyBalance = bankAccountBalanceBankingModel.getReadyHbciBalance();
+            bankAccountBalanceBankingModel.setReadyHbciBalance(oldReadyBalance + bookingModel.getAmount());
+        }
     }
 }
