@@ -40,4 +40,19 @@ public class DummyBankAccessEndpoint implements BankAccessEndpoint {
         number ++;
     }
 
+
+    public boolean existsBankAccess(String bankAccessId)
+    {
+        boolean result = false;
+
+        for(BankAccessBankingModel bankAccessBankingModel: this.bankingModels)
+        {
+            if(bankAccessBankingModel.getId().equals(bankAccessId))
+            {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
 }
