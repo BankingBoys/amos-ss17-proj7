@@ -3,8 +3,10 @@ package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint
 import java.util.*;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiDummy;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.DummyBankAccessEndpoint;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBalanceBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
@@ -17,6 +19,8 @@ import de.fau.amos.virtualledger.server.banking.model.BookingModel;
 @BankingApiDummy
 public class DummyBankAccountEndpoint implements BankAccountEndpoint {
 
+    DummyBankAccessEndpoint dummyBankAccessEndpoint;
+
     Map<String, List<BankAccountBankingModel>> bankAccountMap = new HashMap<String, List<BankAccountBankingModel>>();
     int numberBankAccount = 0;
 
@@ -24,6 +28,12 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
 
     Random randomGenerator = new Random(System.nanoTime());
 
+    @Inject
+    public DummyBankAccountEndpoint(DummyBankAccessEndpoint dummyBankAccessEndpoint)
+    {
+        this.dummyBankAccessEndpoint = dummyBankAccessEndpoint;
+    }
+    protected DummyBankAccountEndpoint()    { }
 
     @Override
     public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId) throws BankingException {
