@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_weight="1"
-        android:fontFamily="sans-serif"
         android:gravity="start|bottom"
         android:textColor="@color/colorBankingOverview"
         android:textSize="@dimen/fontSizeExpandableGroup"
