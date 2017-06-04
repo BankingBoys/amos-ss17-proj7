@@ -3,6 +3,7 @@ package de.fau.amos.virtualledger.dtos;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Simon on 20.05.2017.
@@ -97,8 +98,8 @@ public class BankAccess {
      */
     public static Comparator<BankAccess> sortBankAccessByName = new Comparator<BankAccess>(){
         public int compare(BankAccess access1, BankAccess access2) {
-            String access1Name = access1.getName().toUpperCase();
-            String access2Name = access2.getName().toUpperCase();
+            String access1Name = access1.getName().toUpperCase(Locale.GERMAN);
+            String access2Name = access2.getName().toUpperCase(Locale.GERMAN);
             return access1Name.compareTo(access2Name);
         }
     };
