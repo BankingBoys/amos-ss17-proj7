@@ -22,11 +22,9 @@
         <activity
             android:name=".android.authentication.registration.RegisterActivity"
             android:label="Register"
-            android:parentActivityName=".android.authentication.registration.RegisterActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".android.menu.MainMenu"
-            android:parentActivityName=".android.menu.MainMenu"
             android:theme="@style/AppTheme">
             >
         </activity>
