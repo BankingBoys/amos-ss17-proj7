@@ -5,7 +5,6 @@
     <string name="authentication_register_firstname_hint">First Name</string>
     <string name="authentication_register_lastname_hint">Last Name</string>
     <string name="authentication_register_title">Registration</string>
-    <string name="authentication_register_feedback_textview"> </string>
     <string name="authentication_register_button_text">Register</string>
     <string name="authentication_register_terms_and_conditions">By joining virtual ledger, you agree to the <u> terms and conditions </u></string>
     <string name="authentication_login_title">Login</string>
