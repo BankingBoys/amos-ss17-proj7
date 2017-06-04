@@ -5,6 +5,7 @@ import java.util.List;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
+import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.android.model.UserCredential;
 import de.fau.amos.virtualledger.dtos.LoginData;
@@ -43,5 +44,8 @@ public interface Restapi {
 
     @PUT("/api/banking/sync")
     Call<Void> syncBankAccounts(@Header("Authorization") String token, @Body List<BankAccountSync> bankAccountSyncList);
+
+    @PUT("/api/banking/sync")
+    Call<BankAccountSyncResult> getBookings(@Header("Authorization") String token, @Body List<BankAccountSync> bankAccountSyncList);
 
 }
