@@ -24,4 +24,7 @@
     <string name="banking_overview_add_access_button_text">Add Bank Access</string>
     <string name="banking_overview_add_access_title">Add bank access</string>
     <string name="banking_overview_add_access_blz_hint">BLZ</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

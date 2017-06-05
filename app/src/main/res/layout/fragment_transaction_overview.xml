@@ -15,7 +15,9 @@
         android:text="Some Text"
         android:textColor="@color/colorBankingOverviewLightGreen"
         android:textSize="@dimen/fontSizeOverviewBalance"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"/>
+
 
     <ListView
         android:id="@+id/transaction_list"
