@@ -85,7 +85,7 @@ public class MainMenu extends AppCompatActivity {
         drawerLayout.closeDrawer(listView);
 
         //starting fragment -- if necessary add the start fragment here
-        replaceFragment(1);
+        replaceFragment(2);
 
         //click on items
         listView.setOnItemClickListener(
@@ -209,7 +209,7 @@ public class MainMenu extends AppCompatActivity {
             //new Fragments can be added her
             default:
                 Logger.getLogger(MainMenu.class.getCanonicalName()).log(Level.INFO,"Menu item pos: {"+pos+"} not found");
-                fragment = new ExpandableBankFragment();
+                fragment = new TransactionOverviewFragment();
                 openFragment(fragment);
                 break;
         }

@@ -31,4 +31,7 @@ public class Booking {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+
+    //FIXME change when adorsys fixed their api
+    public String getUsage(){return "Test Usage";}//TODO change when adorsys fixed their api
 }
