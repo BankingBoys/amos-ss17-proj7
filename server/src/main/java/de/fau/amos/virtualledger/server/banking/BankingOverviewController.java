@@ -78,12 +78,32 @@ public class BankingOverviewController {
      * adds a bank access, uses adorsys api if configured to store on user with email as username
      * @param email
      * @param bankAccessCredential
+     * @return the added BankAccess with containing all added BankAccounts
      * @throws BankingException
      */
-    public void addBankAccess(String email, BankAccessCredential bankAccessCredential) throws BankingException
+    public BankAccess addBankAccess(String email, BankAccessCredential bankAccessCredential) throws BankingException
     {
         BankAccessBankingModel bankAccessBankingModel = bankAccessBankingModelFactory.createBankAccessBankingModel(email, bankAccessCredential);
         bankingApiFacade.addBankAccess(email, bankAccessBankingModel);
+
+        List<BankAccess> allBankAccesses = getBankingOverview(email);
+        BankAccess addedBankAccess = null;
+        for (BankAccess bankAccess: allBankAccesses) {
+            if(bankAccess.getBankcode().equals(bankAccessCredential.getBankcode()) && bankAccess.getBanklogin().equals(bankAccessCredential.getBanklogin()) )
+            { // this should be the added one
+                if(addedBankAccess == null) {
+                    addedBankAccess = bankAccess;
+                }
+                else { // multiple accesses found -> error
+                    // TODO handle error: maybe delete one? or prevent from adding the same access multiple times?
+                    throw new BankingException("Inconsistency after adding: multiple accesses found that match combination of bankcode and banklogin!");
+                }
+            }
+        }
+        if(addedBankAccess == null) {
+            throw new BankingException("Adding the access didn't work! Couldn't find added BankAccess!");
+        }
+        return addedBankAccess;
     }
 
     /**
