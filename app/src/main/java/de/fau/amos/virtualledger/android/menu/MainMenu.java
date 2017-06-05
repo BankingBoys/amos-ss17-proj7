@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -38,7 +37,7 @@ import retrofit2.Retrofit;
  * Created by Simon on 13.05.2017.
  */
 
-public class MainMenu extends AppCompatActivity implements TransactionOverviewFragment.OnFragmentInteractionListener {
+public class MainMenu extends AppCompatActivity {
 
     @Inject
     AuthenticationProvider authenticationProvider;
@@ -247,9 +246,5 @@ public class MainMenu extends AppCompatActivity implements TransactionOverviewFr
     public void logout() {
         authenticationProvider.logout();
     }
-
-    @Override
-    public void onFragmentInteraction(Uri uri){}
-
 
 }
