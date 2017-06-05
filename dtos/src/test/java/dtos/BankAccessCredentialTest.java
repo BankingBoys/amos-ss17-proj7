@@ -13,7 +13,7 @@ public class BankAccessCredentialTest {
     private BankAccessCredential credential;
 
     /**
-     * 
+     *
      */
     @Before
     public void setUp() {

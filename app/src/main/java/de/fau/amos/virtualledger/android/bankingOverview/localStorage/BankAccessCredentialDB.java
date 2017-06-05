@@ -15,7 +15,7 @@ public class BankAccessCredentialDB {
     private SQLiteDatabase database;
 
     /**
-     * 
+     *
      */
     public BankAccessCredentialDB(final Context context) {
         final BankAccessCredentialDBHelper dbHelper = new BankAccessCredentialDBHelper(context);
