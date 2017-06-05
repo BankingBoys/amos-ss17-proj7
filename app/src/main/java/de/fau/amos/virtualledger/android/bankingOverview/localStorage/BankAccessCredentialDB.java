@@ -5,6 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import de.fau.amos.virtualledger.dtos.BankAccountSync;
+
 public class BankAccessCredentialDB {
 
     private SQLiteDatabase database;
@@ -37,4 +42,32 @@ public class BankAccessCredentialDB {
         return result;
     }
 
+
+
+    public List<BankAccountSync> getBankAccountSyncList(final String user)
+    {
+        final String[] columns = new String[] {
+                BankAccessCredentialDBConstants.COLUMN_NAME_ACCESSID,
+                BankAccessCredentialDBConstants.COLUMN_NAME_ACCOUNTID,
+                BankAccessCredentialDBConstants.COLUMN_NAME_PIN
+        };
+        final Cursor cursor = database.query(true, BankAccessCredentialDBConstants.TABLE_NAME, columns, BankAccessCredentialDBConstants.COLUMN_NAME_USER + " = ?", new String[] {user}, null, null, null, null);
+
+        List<BankAccountSync> bankAccountSyncList = new ArrayList<BankAccountSync>();
+
+        boolean success = cursor.moveToFirst();
+
+        while(success) {
+            final String accessId = cursor.getString(0);
+            final String accountId = cursor.getString(1);
+            final String pin = cursor.getString(2);
+
+            BankAccountSync bankAccountSync = new BankAccountSync(accessId, accountId, pin);
+            bankAccountSyncList.add(bankAccountSync);
+            success = cursor.moveToNext();
+        }
+        cursor.close();
+
+        return bankAccountSyncList;
+    }
 }
