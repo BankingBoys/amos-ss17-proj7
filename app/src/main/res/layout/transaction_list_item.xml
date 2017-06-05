@@ -1,57 +1,67 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context=".android.transactionOverview.BlankFragment"
-    android:layout_marginTop="10dp">
-
-    <TextView
-        android:id="@+id/id_datum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="01.01.17"
-        android:textColor="@color/colorBankingOverviewLightGreen"
-        android:textSize="@dimen/fontSizeOverviewBalance"
-        android:textStyle="bold" />
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    tools:context=".android.transactionOverview.BlankFragment">
 
     <LinearLayout
-        android:id="@+id/id_layout_bla"
+        android:id="@+id/id_layout_bla_"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginLeft="10dp">
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/id_bankname"
-            android:layout_width="match_parent"
+            android:id="@+id/id_datum"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sparkasse"
+            android:layout_marginLeft="10dp"
+            android:text="01.01.17"
             android:textColor="@color/colorBankingOverviewLightGreen"
-            android:textSize="@dimen/fontSizeOverviewBalance"
+            android:textSize="@dimen/fontSizeTransactionOverview"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/id_usage"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/id_layout_bla"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lachen im Keller"
-            android:textColor="@color/colorBankingOverviewLightGreen"
-            android:textSize="@dimen/fontSizeOverviewBalance"
-            android:textStyle="bold" />
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/id_bankname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sparkasse"
+                android:textColor="@color/colorBankingOverviewLightGreen"
+                android:textSize="@dimen/fontSizeTransactionOverview"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/id_usage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lachen im Keller"
+                android:textColor="@color/colorBankingOverviewLightGreen"
+                android:textSize="@dimen/fontSizeTransactionOverview"
+                android:textStyle="bold" />
+
+        </LinearLayout>
     </LinearLayout>
 
     <TextView
         android:id="@+id/id_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_weight="1"
         android:text="+12"
         android:textColor="@color/colorBankingOverviewLightGreen"
-        android:textSize="@dimen/fontSizeOverviewBalance"
+        android:textSize="@dimen/fontSizeTransactionOverview"
         android:textStyle="bold" />
 
-</LinearLayout>
+</RelativeLayout>

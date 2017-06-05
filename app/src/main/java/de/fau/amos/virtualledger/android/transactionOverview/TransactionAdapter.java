@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.android.transactionOverview;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +17,13 @@ import de.fau.amos.virtualledger.R;
 public class TransactionAdapter extends ArrayAdapter<Transaction> {
 
 
-    public TransactionAdapter(Activity activity, int layout, ArrayList<Transaction> data){
+    public TransactionAdapter(Activity activity, int layout, ArrayList<Transaction> data) {
         super(activity, layout, data);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        System.out.println("++##############Position"+position);
+        System.out.println("++##############Position" + position);
         Transaction transaction = super.getItem(position);
 
         if (convertView == null) {
@@ -36,8 +37,7 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         TextView bankTextView = (TextView) convertView.findViewById(R.id.id_bankname);
         bankTextView.setText(transaction.bankName());
 
-        TextView amountTextView = (TextView) convertView.findViewById(R.id.id_amount);
-        amountTextView.setText(transaction.booking().getAmount()+"");
+        setAmount(convertView, transaction);
 
         TextView usageTextView = (TextView) convertView.findViewById(R.id.id_usage);
         usageTextView.setText(transaction.booking().getUsage());
@@ -45,6 +45,18 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         return convertView;
     }
 
+    private void setAmount(View convertView, Transaction transaction) {
+        TextView amountTextView = (TextView) convertView.findViewById(R.id.id_amount);
+
+        if (transaction.booking().getAmount() > 0) {
+            amountTextView.setText("+" + transaction.booking().getAmount());
+        }
+        if (transaction.booking().getAmount() < 0) {
+            amountTextView.setText("-" + Math.abs(transaction.booking().getAmount()));
+            ColorStateList redColor = convertView.getResources().getColorStateList(R.color.colorNegativeAmount);
+            amountTextView.setTextColor(redColor);
+        }
+    }
 
 
 }

@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorBankingOverview">#37B0C8</color>
     <color name="colorBankingOverviewLightGreen">#52BF90</color>
+    <color name="colorNegativeAmount">#ff0000</color>
 </resources>

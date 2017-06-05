@@ -54,8 +54,15 @@ public class TransactionOverviewFragment extends Fragment {
         ListView bookingListView = (ListView) view.findViewById(R.id.transaction_list);
         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
         Booking booking = new Booking();
+        booking.setAmount(-1);
         booking.setDate(new Date());
+
+        Booking booking2 = new Booking();
+        booking2.setAmount(1);
+        booking2.setDate(new Date());
+
         transactions.add(new Transaction("Testbank", booking));
+        transactions.add(new Transaction("Noch eine", booking2));
         bookingListView.setAdapter(new TransactionAdapter(this.getActivity(), R.id.transaction_list, transactions));
 
         return view;
