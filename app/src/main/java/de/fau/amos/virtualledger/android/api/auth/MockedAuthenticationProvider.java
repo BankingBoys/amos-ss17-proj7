@@ -49,7 +49,7 @@ public class MockedAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public String getEmail() {
-        return null;
+        return "test@test.de";
     }
 
     @Override
