@@ -34,9 +34,9 @@ public class TransactionOverviewFragment extends Fragment {
      *
      */
     private TextView sumView = null;
-    private double totalAmount = 0;
     private ArrayList<BankAccountSync> bankAccountSyncs = new ArrayList<>();
     private TransactionAdapter adapter;
+    private View mainView;
 
     /**
      *
@@ -61,10 +61,9 @@ public class TransactionOverviewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
-        View view = inflater.inflate(R.layout.fragment_transaction_overview, container, false);
-        refreshTotalAmount(view);
+        this.mainView = inflater.inflate(R.layout.fragment_transaction_overview, container, false);
 
-        ListView bookingListView = (ListView) view.findViewById(R.id.transaction_list);
+        ListView bookingListView = (ListView) this.mainView.findViewById(R.id.transaction_list);
         final TransactionOverviewFragment frag = this;
         bankingProvider.getAllBankingTransactions()
                 .subscribeOn(Schedulers.newThread())
@@ -79,8 +78,13 @@ public class TransactionOverviewFragment extends Fragment {
                         List<BankAccountBookings> allSyncResults = (List<BankAccountBookings>) o;
                         for (BankAccountBookings bankAccountBookings : allSyncResults) {
                             for (Booking booking : bankAccountBookings.getBookings()) {
-                                Transaction transaction = new Transaction("testbank", booking);
+                                Transaction transaction = new Transaction(
+                                        frag.bankingProvider
+                                                .getBankAccountNameFor(
+                                                        bankAccountBookings.getBankaccessid()),
+                                        booking);
                                 frag.adapter.add(transaction);
+                                frag.refreshTotalAmount();
                             }
                         }
                     }
@@ -97,18 +101,24 @@ public class TransactionOverviewFragment extends Fragment {
                     }
                 });
 
-        this.adapter = new TransactionAdapter(this.getActivity(), R.id.transaction_list,  new ArrayList<Transaction>());
+        this.adapter = new TransactionAdapter(this.getActivity(), R.id.transaction_list, new ArrayList<Transaction>());
         bookingListView.setAdapter(adapter);
 
-        return view;
+        refreshTotalAmount();
+        return this.mainView;
     }
 
     private void repaint() {
 
     }
 
-    private void refreshTotalAmount(View view) {
-        this.sumView = (TextView) view.findViewById(R.id.transaction_sum_text);
+    private void refreshTotalAmount() {
+        double totalAmount = 0;
+        for (int i = 0; i < this.adapter.getCount(); i++) {
+            Transaction transaction = this.adapter.getItem(i);
+            totalAmount += transaction.booking().getAmount();
+        }
+        this.sumView = (TextView) this.mainView.findViewById(R.id.transaction_sum_text);
         sumView.setText("Total amount: " + totalAmount);
     }
 

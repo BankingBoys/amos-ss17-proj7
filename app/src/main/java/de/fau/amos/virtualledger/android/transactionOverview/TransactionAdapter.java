@@ -23,7 +23,6 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        System.out.println("++##############Position" + position);
         Transaction transaction = super.getItem(position);
 
         if (convertView == null) {

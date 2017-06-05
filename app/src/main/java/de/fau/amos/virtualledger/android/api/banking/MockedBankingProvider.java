@@ -20,7 +20,7 @@ import io.reactivex.subjects.PublishSubject;
 
 public class MockedBankingProvider implements BankingProvider {
 
-    public static final int DELAY_TIME_MILLISECUNDS = 300;
+    public static final int DELAY_TIME_MILLISECONDS = 300;
     private String token = "";
 
 
@@ -57,7 +57,7 @@ public class MockedBankingProvider implements BankingProvider {
             public void run() {
                 try{
                     //Wait until subject is subscribed
-                    Thread.sleep(DELAY_TIME_MILLISECUNDS);}
+                    Thread.sleep(DELAY_TIME_MILLISECONDS);}
                 catch (Exception e){
 
                 }
@@ -104,7 +104,7 @@ public class MockedBankingProvider implements BankingProvider {
             public void run() {
                 try{
                     //Wait until subject is subscribed
-                    Thread.sleep(DELAY_TIME_MILLISECUNDS);}
+                    Thread.sleep(DELAY_TIME_MILLISECONDS);}
                 catch (Exception e){
 
                 }
@@ -132,7 +132,7 @@ public class MockedBankingProvider implements BankingProvider {
             public void run() {
                 try{
                     //Wait until subject is subscribed
-                    Thread.sleep(DELAY_TIME_MILLISECUNDS);}
+                    Thread.sleep(DELAY_TIME_MILLISECONDS);}
                 catch (Exception e){
 
                 }
@@ -154,7 +154,7 @@ public class MockedBankingProvider implements BankingProvider {
             public void run() {
                 try{
                     //Wait until subject is subscribed
-                    Thread.sleep(DELAY_TIME_MILLISECUNDS);}
+                    Thread.sleep(DELAY_TIME_MILLISECONDS);}
                 catch (Exception e){
 
                 }
@@ -176,7 +176,7 @@ public class MockedBankingProvider implements BankingProvider {
             public void run() {
                 try{
                     //Wait until subject is subscribed
-                    Thread.sleep(DELAY_TIME_MILLISECUNDS);}
+                    Thread.sleep(DELAY_TIME_MILLISECONDS);}
                 catch (Exception e){
 
                 }
@@ -198,7 +198,7 @@ public class MockedBankingProvider implements BankingProvider {
             public void run() {
                 try{
                     //Wait until subject is subscribed
-                    Thread.sleep(DELAY_TIME_MILLISECUNDS);}
+                    Thread.sleep(DELAY_TIME_MILLISECONDS);}
                 catch (Exception e){
 
                 }
@@ -210,6 +210,11 @@ public class MockedBankingProvider implements BankingProvider {
         th.start();
 
         return observable;
+    }
+
+    @Override
+    public String getBankAccountNameFor(String bankAccessID) {
+       return "Some test bank";
     }
 
 }

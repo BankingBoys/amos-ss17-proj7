@@ -27,4 +27,6 @@ public interface BankingProvider {
     Observable<String> deleteBankAccount(String accessId, String accountId);
 
     Observable<String> syncBankAccounts(List<BankAccountSync> bankAccountSyncList);
+
+    String getBankAccountNameFor(String bankAccessID);
 }
