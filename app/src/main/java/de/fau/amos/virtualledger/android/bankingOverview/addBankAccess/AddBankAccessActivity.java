@@ -69,7 +69,7 @@ public class AddBankAccessActivity extends AppCompatActivity {
                         final AddBankAccessActivity context = AddBankAccessActivity.this;
                         Toast.makeText(context, "Access added successfully", Toast.LENGTH_SHORT).show();
                         for(BankAccount account: access.getBankaccounts()) {
-                            new BankAccessCredentialDB(context).persist(authenticationProvider.getEmail(), bankCode, bankLogin, pin, access.getId(), account.getBankid());
+                            new BankAccessCredentialDB(context).persist(authenticationProvider.getEmail(), bankCode, bankLogin, pin, access.getId(), account.getBankid(), access.getName(), account.getName());
                         }
 
                         Intent intent = new Intent(context, MainMenu.class);
