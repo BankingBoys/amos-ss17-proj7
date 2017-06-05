@@ -18,7 +18,7 @@ public interface BankingProvider {
 
     Observable<BankAccountSyncResult> getBankingTransactions(List<BankAccountSync> bankAccountSyncList);
 
-    Observable<String> addBankAccess(BankAccessCredential bankAccessCredential);
+    Observable<BankAccess> addBankAccess(BankAccessCredential bankAccessCredential);
 
     Observable<String> deleteBankAccess(String accessId);
 

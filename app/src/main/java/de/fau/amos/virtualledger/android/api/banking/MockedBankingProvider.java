@@ -120,7 +120,7 @@ public class MockedBankingProvider implements BankingProvider {
 
 
     @Override
-    public Observable<String> addBankAccess(BankAccessCredential bankAccessCredential) {
+    public Observable<BankAccess> addBankAccess(BankAccessCredential bankAccessCredential) {
         final PublishSubject observable = PublishSubject.create();
         Thread th = new Thread(new Runnable() {
             @Override

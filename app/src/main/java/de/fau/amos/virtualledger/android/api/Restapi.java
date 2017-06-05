@@ -34,7 +34,7 @@ public interface Restapi {
     Call<List<BankAccess>> getBankAccess(@Header("Authorization") String token);
 
     @POST("/api/banking")
-    Call<Void> addBankAccess(@Header("Authorization") String token, @Body BankAccessCredential bankAccessCredential);
+    Call<BankAccess> addBankAccess(@Header("Authorization") String token, @Body BankAccessCredential bankAccessCredential);
 
     @DELETE("/api/banking/{accessId}")
     Call<Void> deleteBankAccess(@Header("Authorization") String token, @Path("accessId") String accessId);

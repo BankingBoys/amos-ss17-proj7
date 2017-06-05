@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 class BankAccessCredentialDBHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_CREATE = "CREATE TABLE " + BankAccessCredentialDBConstants.TABLE_NAME + " (_id INTEGER PRIMARY KEY, " + BankAccessCredentialDBConstants.COLUMN_NAME_USER + " TEXT, " + BankAccessCredentialDBConstants.COLUMN_NAME_BANK_CODE + " TEXT, " + BankAccessCredentialDBConstants.COLUMN_NAME_BANK_LOGIN + " TEXT, " + BankAccessCredentialDBConstants.COLUMN_NAME_PIN + " TEXT)";
+    private static final String DATABASE_CREATE = "CREATE TABLE " + BankAccessCredentialDBConstants.TABLE_NAME + " (_id INTEGER PRIMARY KEY, " + BankAccessCredentialDBConstants.COLUMN_NAME_USER + " TEXT, " + BankAccessCredentialDBConstants.COLUMN_NAME_BANK_CODE + " TEXT, " + BankAccessCredentialDBConstants.COLUMN_NAME_BANK_LOGIN + " TEXT, " + BankAccessCredentialDBConstants.COLUMN_NAME_PIN + "TEXT" + BankAccessCredentialDBConstants.COLUMN_NAME_ACCESSID + "TEXT" + BankAccessCredentialDBConstants.COLUMN_NAME_ACCOUNTID + " TEXT)";
     private static final String DATABASE_DELETE = "DROP TABLE IF EXISTS " + BankAccessCredentialDBConstants.TABLE_NAME;
 
     BankAccessCredentialDBHelper(final Context context) {

@@ -148,12 +148,13 @@ public class ExpandableBankFragment extends Fragment {
         final BankAccessCredentialDB db = new BankAccessCredentialDB(getActivity());
         final List<BankAccountSync> accountsToSync = new ArrayList<>();
         for (final BankAccess bankAccess : bankAccessList) {
-            final String pin = db.getPin(authenticationProvider.getEmail(), bankAccess.getBankcode(), bankAccess.getBanklogin());
-            if(pin == null) {
-                Log.w(TAG, "No pin found for bank access " + bankAccess.getId());
-                continue;
-            }
+
             for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
+                final String pin = db.getPin(authenticationProvider.getEmail(), bankAccess.getBankcode(), bankAccess.getBanklogin(), bankAccess.getId(), bankAccount.getBankid());
+                if(pin == null) {
+                    Log.w(TAG, "No pin found for bank access " + bankAccess.getId());
+                    continue;
+                }
                 accountsToSync.add(new BankAccountSync(bankAccess.getId(), bankAccount.getBankid(), pin));
             }
         }

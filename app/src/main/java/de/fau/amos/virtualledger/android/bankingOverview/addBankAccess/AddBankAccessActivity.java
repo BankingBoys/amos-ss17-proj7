@@ -20,7 +20,9 @@ import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.menu.MainMenu;
+import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
+import de.fau.amos.virtualledger.dtos.BankAccount;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -56,17 +58,20 @@ public class AddBankAccessActivity extends AppCompatActivity {
         bankingProvider.addBankAccess(bankAccessCredential)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
+                .subscribe(new Observer<BankAccess>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull String message) {
+                    public void onNext(@NonNull BankAccess access) {
                         final AddBankAccessActivity context = AddBankAccessActivity.this;
                         Toast.makeText(context, "Access added successfully", Toast.LENGTH_SHORT).show();
-                        new BankAccessCredentialDB(context).persist(authenticationProvider.getEmail(), bankCode, bankLogin, pin);
+                        for(BankAccount account: access.getBankaccounts()) {
+                            new BankAccessCredentialDB(context).persist(authenticationProvider.getEmail(), bankCode, bankLogin, pin, access.getId(), account.getBankid());
+                        }
+
                         Intent intent = new Intent(context, MainMenu.class);
                         startActivity(intent);
                         finish();

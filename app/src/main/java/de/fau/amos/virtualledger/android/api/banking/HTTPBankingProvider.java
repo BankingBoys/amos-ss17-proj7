@@ -96,16 +96,17 @@ public class HTTPBankingProvider implements BankingProvider {
     }
 
     @Override
-    public Observable<String> addBankAccess(BankAccessCredential bankAccessCredential) {
-        final retrofit2.Call<Void> responseMessage = retrofit.create(Restapi.class).addBankAccess(authenticationProvider.getToken(), bankAccessCredential);
+    public Observable<BankAccess> addBankAccess(BankAccessCredential bankAccessCredential) {
+        final retrofit2.Call<BankAccess> responseMessage = retrofit.create(Restapi.class).addBankAccess(authenticationProvider.getToken(), bankAccessCredential);
         final PublishSubject observable = PublishSubject.create();
 
-        responseMessage.enqueue(new Callback<Void>() {
+        responseMessage.enqueue(new Callback<BankAccess>() {
             @Override
-            public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
+            public void onResponse(retrofit2.Call<BankAccess> call, Response<BankAccess> response) {
                 if (response.isSuccessful()) {
+                    BankAccess bankAccess = response.body();
                     Log.v(TAG, "Adding bank accesses was successful " + response.code());
-                    observable.onNext("Adding bank access was successful");
+                    observable.onNext(bankAccess);
                 } else {
                     Log.e(TAG, "Adding bank accesses was not successful! ERROR " + response.code());
                     observable.onError(new Throwable("Adding bank accesses was not successful!"));
@@ -114,7 +115,7 @@ public class HTTPBankingProvider implements BankingProvider {
 
 
             @Override
-            public void onFailure(retrofit2.Call<Void> call, Throwable t) {
+            public void onFailure(retrofit2.Call<BankAccess> call, Throwable t) {
 
                 Log.e(TAG, "No connection to server!");
                 observable.onError(new Throwable("No connection to server!"));
