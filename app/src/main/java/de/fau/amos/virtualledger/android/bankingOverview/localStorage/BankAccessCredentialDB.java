@@ -56,7 +56,9 @@ public class BankAccessCredentialDB {
         List<BankAccountSync> bankAccountSyncList = new ArrayList<BankAccountSync>();
 
         boolean success = cursor.moveToFirst();
-
+        if(!success) {
+            return null;
+        }
         while(success) {
             final String accessId = cursor.getString(0);
             final String accountId = cursor.getString(1);
