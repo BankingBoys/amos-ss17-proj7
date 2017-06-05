@@ -65,6 +65,10 @@ public class TransactionOverviewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
+        TextView sumView = (TextView) view.findViewById(R.id.transaction_sum_text);
+        System.out.println(sumView.getText());
+        sumView.setText("Ein Test");
+        System.out.println(sumView.getText());
         return view;
     }
 
