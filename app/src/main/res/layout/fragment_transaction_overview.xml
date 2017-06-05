@@ -3,17 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".android.menu.MainMenu">
+
     <TextView
         android:id="@+id/transaction_sum_text"
         android:layout_width="match_parent"
-        android:layout_height="47dp"
-        android:text="TextView" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Some Text"
+        android:textColor="@color/colorBankingOverviewLightGreen"
+        android:textSize="@dimen/fontSizeOverviewBalance"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/transaction_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />
+
+
 
 </LinearLayout>
