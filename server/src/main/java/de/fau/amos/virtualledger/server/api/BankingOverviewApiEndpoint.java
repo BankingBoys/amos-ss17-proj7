@@ -209,13 +209,13 @@ public class BankingOverviewApiEndpoint {
     private Response addBankAccess(String email, BankAccessCredential bankAccessCredential)
     {
         try {
-            bankingOverviewController.addBankAccess(email, bankAccessCredential);
+            BankAccess addedBankAccess = bankingOverviewController.addBankAccess(email, bankAccessCredential);
+            return Response.status(Response.Status.CREATED).entity(addedBankAccess).build();
         } catch (BankingException ex)
         {
             logger.error("", ex);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.status(Response.Status.CREATED).build();
     }
 
     /**
