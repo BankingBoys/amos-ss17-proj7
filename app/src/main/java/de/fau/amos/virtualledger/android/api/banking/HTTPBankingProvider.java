@@ -74,8 +74,9 @@ public class HTTPBankingProvider implements BankingProvider {
             @Override
             public void onResponse(retrofit2.Call<BankAccountSyncResult> call, Response<BankAccountSyncResult> response) {
                 if (response.isSuccessful()) {
+                    BankAccountSyncResult syncResult = response.body();
                     Log.v(TAG, "Getting Bookings was successful " + response.code());
-                    observable.onNext("Getting Bookings was successful ");
+                    observable.onNext(syncResult);
                 } else {
                     Log.e(TAG, "Getting Bookings was not successful!  ERROR " + response.code());
                     observable.onError(new Throwable("Getting Bookings was not successful!"));
