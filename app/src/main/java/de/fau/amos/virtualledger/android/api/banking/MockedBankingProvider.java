@@ -1,13 +1,16 @@
 package de.fau.amos.virtualledger.android.api.banking;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccount;
+import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
+import de.fau.amos.virtualledger.dtos.Booking;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -70,7 +73,49 @@ public class MockedBankingProvider implements BankingProvider {
 
     @Override
     public Observable<BankAccountSyncResult> getBankingTransactions(List<BankAccountSync> bankAccountSyncList) {
-        return null;
+        final PublishSubject observable = PublishSubject.create();
+
+        final List<BankAccountBookings> bankAccountBookingsList = new ArrayList<BankAccountBookings>();
+
+        for(int i = 1; i <= 2; ++i) {
+
+            BankAccountBookings bankAccountBookings = new BankAccountBookings();
+            bankAccountBookings.setBankaccessid("DummyAccessId" + i);
+            bankAccountBookings.setBankaccountid("DummyAccountId" + i);
+
+            List<Booking> bookingList = new ArrayList<Booking>();
+            Booking booking = new Booking();
+            booking.setDate(new Date());
+            booking.setAmount(200.00);
+            bookingList.add(booking);
+            booking = new Booking();
+            booking.setDate(new Date());
+            booking.setAmount(-150.00);
+            bookingList.add(booking);
+
+            bankAccountBookings.setBookings(bookingList);
+            bankAccountBookingsList.add(bankAccountBookings);
+        }
+        BankAccountSyncResult bankAccountSyncResult = new BankAccountSyncResult();
+        bankAccountSyncResult.setBankaccountbookings(bankAccountBookingsList);
+
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    //Wait until subject is subscribed
+                    Thread.sleep(DELAY_TIME_MILLISECUNDS);}
+                catch (Exception e){
+
+                }
+                // publish accounts to subject
+                observable.onNext(bankAccountBookingsList);
+                observable.onComplete();
+            }
+        });
+        th.start();
+
+        return observable;
     }
 
 
