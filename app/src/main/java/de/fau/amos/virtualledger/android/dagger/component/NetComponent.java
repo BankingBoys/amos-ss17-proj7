@@ -12,6 +12,7 @@ import de.fau.amos.virtualledger.android.dagger.module.AppModule;
 import de.fau.amos.virtualledger.android.dagger.module.AuthenticationModule;
 import de.fau.amos.virtualledger.android.dagger.module.BankingModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
+import de.fau.amos.virtualledger.android.transactionOverview.TransactionOverviewFragment;
 
 /**
  * Created by Simon on 07.05.2017. taken from https://adityaladwa.wordpress.com/2016/05/09/
@@ -34,4 +35,6 @@ public interface NetComponent {
     void inject(ExpandableBankFragment expandableBankFragment);
 
     void inject(AddBankAccessActivity addBankAccessActivity);
+
+    void inject(TransactionOverviewFragment transactionOverviewFragment);
 }

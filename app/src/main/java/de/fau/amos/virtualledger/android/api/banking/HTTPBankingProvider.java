@@ -212,4 +212,9 @@ public class HTTPBankingProvider implements BankingProvider {
         return observable;
     }
 
+    @Override
+    public Observable<BankAccountSyncResult> getAllBankingTransactions() {
+        return new MockedBankingProvider().getAllBankingTransactions();///FIXME //TODO replace with real implementation
+    }
+
 }
