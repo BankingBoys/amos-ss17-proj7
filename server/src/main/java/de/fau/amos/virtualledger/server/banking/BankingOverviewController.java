@@ -83,27 +83,30 @@ public class BankingOverviewController {
      */
     public BankAccess addBankAccess(String email, BankAccessCredential bankAccessCredential) throws BankingException
     {
+
+        List<BankAccess> allBankAccessesBeforeAdd = getBankingOverview(email);
+
         BankAccessBankingModel bankAccessBankingModel = bankAccessBankingModelFactory.createBankAccessBankingModel(email, bankAccessCredential);
         bankingApiFacade.addBankAccess(email, bankAccessBankingModel);
 
-        List<BankAccess> allBankAccesses = getBankingOverview(email);
-        BankAccess addedBankAccess = null;
-        for (BankAccess bankAccess: allBankAccesses) {
-            if(bankAccess.getBankcode().equals(bankAccessCredential.getBankcode()) && bankAccess.getBanklogin().equals(bankAccessCredential.getBanklogin()) )
-            { // this should be the added one
-                if(addedBankAccess == null) {
-                    addedBankAccess = bankAccess;
-                }
-                else { // multiple accesses found -> error
-                    // TODO handle error: maybe delete one? or prevent from adding the same access multiple times?
-                    throw new BankingException("Inconsistency after adding: multiple accesses found that match combination of bankcode and banklogin!");
-                }
-            }
+        List<BankAccess> allBankAccessesAfterAdd = getBankingOverview(email);
+
+        if(allBankAccessesAfterAdd.size() != allBankAccessesBeforeAdd.size() + 1)
+        {
+            throw new BankingException("Inconsistency after add! Before add there were " + allBankAccessesBeforeAdd.size() + " accesses and after there are " + allBankAccessesAfterAdd.size());
         }
-        if(addedBankAccess == null) {
-            throw new BankingException("Adding the access didn't work! Couldn't find added BankAccess!");
+
+        // find the one BankAccess that is in allBankAccessesAfterAdd but not in bankAccessBankingModel
+        for(BankAccess bankAccessBeforeAdd : allBankAccessesBeforeAdd) {
+            allBankAccessesAfterAdd.removeIf(p -> p.getId().equals(bankAccessBeforeAdd.getId()));
         }
-        return addedBankAccess;
+
+        if(allBankAccessesAfterAdd.size() != 1)
+        {
+            throw new BankingException("Inconsistency after add! Added access was not found!");
+        }
+
+        return allBankAccessesAfterAdd.get(0);
     }
 
     /**
