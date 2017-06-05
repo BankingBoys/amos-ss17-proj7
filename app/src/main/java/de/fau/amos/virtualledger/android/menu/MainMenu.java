@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
+import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
 import de.fau.amos.virtualledger.android.bankingOverview.addBankAccess.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
@@ -31,6 +32,10 @@ import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
 import de.fau.amos.virtualledger.android.transactionOverview.TransactionOverviewFragment;
+import de.fau.amos.virtualledger.dtos.BankAccess;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import retrofit2.Retrofit;
 
 /**
@@ -47,6 +52,10 @@ public class MainMenu extends AppCompatActivity {
      */
     @Inject
     Retrofit retrofit;
+
+
+    @Inject
+    BankingProvider bankingProvider;
 
     /**
      *
@@ -85,7 +94,38 @@ public class MainMenu extends AppCompatActivity {
         drawerLayout.closeDrawer(listView);
 
         //starting fragment -- if necessary add the start fragment here
-        replaceFragment(2);
+
+        replaceFragment(1);
+        final MainMenu mainMenu = this;
+        bankingProvider.getBankingOverview().subscribe(new Observer<List<BankAccess>>() {
+            boolean found = false;
+
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(@NonNull List<BankAccess> bankAccesses) {
+                if (bankAccesses.size() > 0) {
+                    mainMenu.replaceFragment(2);
+                    found = true;
+                }
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                Logger.getLogger(this.getClass().getCanonicalName()).log(Level.SEVERE, "failed to sync bankaccounts", e);
+            }
+
+            @Override
+            public void onComplete() {
+                if(!found){
+                    mainMenu.replaceFragment(1);
+                }
+            }
+        });
+
 
         //click on items
         listView.setOnItemClickListener(
@@ -99,7 +139,6 @@ public class MainMenu extends AppCompatActivity {
 
                         replaceFragment(pos);
 
-                        //Close
                         drawerLayout.closeDrawer(listView);
                     }
                 });
@@ -208,7 +247,7 @@ public class MainMenu extends AppCompatActivity {
 
             //new Fragments can be added her
             default:
-                Logger.getLogger(MainMenu.class.getCanonicalName()).log(Level.INFO,"Menu item pos: {"+pos+"} not found");
+                Logger.getLogger(MainMenu.class.getCanonicalName()).log(Level.INFO, "Menu item pos: {" + pos + "} not found");
                 fragment = new TransactionOverviewFragment();
                 openFragment(fragment);
                 break;
