@@ -119,12 +119,6 @@ public class MockedBankingProvider implements BankingProvider {
     }
 
     @Override
-    public Observable<BankAccountSyncResult> getAllBankingTransactions() {
-        return getBankingTransactions(null);
-    }
-
-
-    @Override
     public Observable<BankAccess> addBankAccess(BankAccessCredential bankAccessCredential) {
         final PublishSubject observable = PublishSubject.create();
         Thread th = new Thread(new Runnable() {

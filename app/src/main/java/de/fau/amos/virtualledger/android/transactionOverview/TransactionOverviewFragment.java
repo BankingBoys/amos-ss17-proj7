@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
+import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
@@ -65,7 +66,10 @@ public class TransactionOverviewFragment extends Fragment {
 
         ListView bookingListView = (ListView) this.mainView.findViewById(R.id.transaction_list);
         final TransactionOverviewFragment frag = this;
-        bankingProvider.getAllBankingTransactions()
+
+
+        final BankAccessCredentialDB db = new BankAccessCredentialDB(getActivity());
+        bankingProvider.getBankingTransactions(db.getBankAccountSyncList(authenticationProvider.getEmail()))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Object>() {
