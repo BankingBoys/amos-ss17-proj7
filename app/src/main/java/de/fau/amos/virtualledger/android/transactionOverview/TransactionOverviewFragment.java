@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,6 +40,7 @@ public class TransactionOverviewFragment extends Fragment {
     private ArrayList<BankAccountSync> bankAccountSyncs = new ArrayList<>();
     private TransactionAdapter adapter;
     private View mainView;
+    private ArrayList<Transaction> allTransactions = new ArrayList<>();
 
     /**
      *
@@ -87,7 +90,16 @@ public class TransactionOverviewFragment extends Fragment {
                                                 .getBankAccountNameFor(
                                                         bankAccountBookings.getBankaccessid()),
                                         booking);
-                                frag.adapter.add(transaction);
+
+                                frag.allTransactions.add(transaction);
+                                Calendar calTransaction = Calendar.getInstance();
+                                calTransaction.setTime(transaction.booking().getDate());
+
+                                Calendar calToday = new GregorianCalendar();
+                                if (calTransaction.get(Calendar.MONTH) == calToday.get(Calendar.MONTH)) {
+                                    frag.adapter.add(transaction);
+                                }
+
                                 frag.refreshTotalAmount();
                             }
                         }
@@ -95,8 +107,8 @@ public class TransactionOverviewFragment extends Fragment {
 
                     @Override
                     public void onError(@io.reactivex.annotations.NonNull Throwable e) {
-                        Logger.getLogger(this.getClass().getCanonicalName()).log(Level.SEVERE, "failed to sync transactions", e);
-                        Toast.makeText(getActivity(), "Problems with synchronisation of transactions. PLease try again later", Toast.LENGTH_LONG).show();
+                        Logger.getLogger(this.getClass().toString()).log(Level.SEVERE, "failed to sync transactions",e);
+                        Toast.makeText(getActivity(), "Problems with synchronisation of transactions. Please try again later", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -118,8 +130,8 @@ public class TransactionOverviewFragment extends Fragment {
 
     private void refreshTotalAmount() {
         double totalAmount = 0;
-        for (int i = 0; i < this.adapter.getCount(); i++) {
-            Transaction transaction = this.adapter.getItem(i);
+        for (int i = 0; i < this.allTransactions.size(); i++) {
+            Transaction transaction = this.allTransactions.get(i);
             totalAmount += transaction.booking().getAmount();
         }
         this.sumView = (TextView) this.mainView.findViewById(R.id.transaction_sum_text);
