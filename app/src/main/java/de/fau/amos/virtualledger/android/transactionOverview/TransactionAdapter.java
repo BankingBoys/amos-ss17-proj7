@@ -30,7 +30,7 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         }
 
         TextView dateTextView = (TextView) convertView.findViewById(R.id.id_datum);
-        DateFormat formatter = new SimpleDateFormat("dd.MM.YY");
+        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         dateTextView.setText(formatter.format(transaction.booking().getDate()));
 
         TextView bankTextView = (TextView) convertView.findViewById(R.id.id_bankname);
