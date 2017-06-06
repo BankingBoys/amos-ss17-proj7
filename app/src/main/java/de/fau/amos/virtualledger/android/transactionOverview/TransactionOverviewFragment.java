@@ -107,6 +107,7 @@ public class TransactionOverviewFragment extends Fragment {
                                 frag.refreshTotalAmount();
                             }
                         }
+                        frag.adapter.sort(new TransactionsComparator());
                     }
 
                     @Override
@@ -117,7 +118,7 @@ public class TransactionOverviewFragment extends Fragment {
 
                     @Override
                     public void onComplete() {
-                        frag.adapter.sort(new TransactionsComparator());
+
                     }
                 });
 

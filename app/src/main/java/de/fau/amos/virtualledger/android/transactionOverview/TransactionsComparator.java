@@ -9,6 +9,6 @@ import java.util.Comparator;
 public class TransactionsComparator implements Comparator<Transaction> {
     @Override
     public int compare(Transaction transaction, Transaction t1) {
-        return transaction.booking().getDate().compareTo(t1.booking().getDate());
+        return t1.booking().getDate().compareTo(transaction.booking().getDate());
     }
 }
