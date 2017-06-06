@@ -99,7 +99,7 @@ public class MainMenu extends AppCompatActivity {
 
         //starting fragment -- if necessary add the start fragment here
 
-        replaceFragment(startingFragment);
+
         if(bundle==null) {
             final MainMenu mainMenu = this;
             bankingProvider.getBankingOverview().subscribe(new Observer<List<BankAccess>>() {
@@ -131,6 +131,8 @@ public class MainMenu extends AppCompatActivity {
                 }
             });
         }
+
+        replaceFragment(startingFragment);
 
 
         //click on items
