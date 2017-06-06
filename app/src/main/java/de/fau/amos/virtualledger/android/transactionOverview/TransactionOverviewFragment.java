@@ -1,6 +1,8 @@
 package de.fau.amos.virtualledger.android.transactionOverview;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,6 +27,7 @@ import javax.inject.Inject;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
+import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
@@ -75,6 +78,10 @@ public class TransactionOverviewFragment extends Fragment {
         ListView bookingListView = (ListView) this.mainView.findViewById(R.id.transaction_list);
         final TransactionOverviewFragment frag = this;
 
+        List<BankAccountSync> syncList = bankAccessCredentialDB.getBankAccountSyncList(authenticationProvider.getEmail());
+        if(syncList == null || syncList.size() == 0){
+            openFragment(new NoBankingAccessesFragment());
+        }
         bankingProvider.getBankingTransactions(bankAccessCredentialDB.getBankAccountSyncList(authenticationProvider.getEmail()))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -86,6 +93,9 @@ public class TransactionOverviewFragment extends Fragment {
                     @Override
                     public void onNext(@io.reactivex.annotations.NonNull BankAccountSyncResult bankAccountSyncResult) {
                         List<BankAccountBookings> allSyncResults = bankAccountSyncResult.getBankaccountbookings();
+                        if(allSyncResults == null || allSyncResults.size() == 0) {
+                            openFragment(new NoBankingAccessesFragment());
+                        }
                         for (BankAccountBookings bankAccountBookings : allSyncResults) {
                             for (Booking booking : bankAccountBookings.getBookings()) {
                                 Transaction transaction = new Transaction(
@@ -125,8 +135,8 @@ public class TransactionOverviewFragment extends Fragment {
 
         this.adapter = new TransactionAdapter(this.getActivity(), R.id.transaction_list, new ArrayList<Transaction>());
         bookingListView.setAdapter(adapter);
-
         refreshTotalAmount();
+
         return this.mainView;
     }
 
@@ -158,6 +168,16 @@ public class TransactionOverviewFragment extends Fragment {
         }
 
         sumView.setText("Total amount: " + bankBalanceString);
+    }
+
+    private void openFragment(Fragment fragment) {
+        if (null != fragment) {
+            FragmentManager manager = getFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.content, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 
 
