@@ -50,6 +50,7 @@ public class TransactionOverviewFragment extends Fragment {
     private View mainView;
     private ArrayList<Transaction> allTransactions = new ArrayList<>();
     ListView bookingListView;
+    View separator;
 
     /**
      *
@@ -135,10 +136,8 @@ public class TransactionOverviewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mainView = inflater.inflate(R.layout.fragment_transaction_overview, container, false);
-
         bookingListView = (ListView) this.mainView.findViewById(R.id.transaction_list);
-
-
+        separator = (View) mainView.findViewById(R.id.transactionSeparator);
         return this.mainView;
     }
 
@@ -170,6 +169,7 @@ public class TransactionOverviewFragment extends Fragment {
         }
 
         sumView.setText("Total amount: " + bankBalanceString);
+        separator.setVisibility(View.VISIBLE);
     }
 
     private void openFragment(Fragment fragment) {
