@@ -41,7 +41,9 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
     public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId) throws BankingException {
         if(!dummyBankAccessEndpoint.existsBankAccess(bankingAccessId))
         {
-            throw new BankingException("Dummy found no existing BankAccess for Operation getBankAccounts!");
+            // throw new BankingException("Dummy found no existing BankAccess for Operation getBankAccounts!");
+            // inconsistency -> on app can be accesses persisted that are not in local storage of server
+            return new ArrayList<BankAccountBankingModel>(); // TODO? better solution?
         }
         if(!bankAccountMap.containsKey(bankingAccessId))
         {
@@ -54,9 +56,13 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
     public List<BookingModel> syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException {
 
         List<BankAccountBankingModel> bankAccountBankingModelList = this.getBankAccounts(userId, bankAccessId);
-
-        BankAccountBankingModel matchingBankAccountBankingModel = this.findBankAccountBankingModel(bankAccountBankingModelList, bankAccountId);
-
+        BankAccountBankingModel matchingBankAccountBankingModel;
+        try {
+            matchingBankAccountBankingModel = this.findBankAccountBankingModel(bankAccountBankingModelList, bankAccountId);
+        } catch(BankingException ex)
+        { // inconsistency -> on app can be accesses persisted that are not in local storage of server
+            return new ArrayList<BookingModel>(); // TODO? better solution?
+        }
         if(!bankBookingMap.containsKey(matchingBankAccountBankingModel))
         {
             return new ArrayList<BookingModel>();
