@@ -1,8 +1,10 @@
 package de.fau.amos.virtualledger.android.transactionOverview;
 
 import android.app.Fragment;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -142,6 +144,20 @@ public class TransactionOverviewFragment extends Fragment {
         this.sumView = (TextView) this.mainView.findViewById(R.id.transaction_sum_text);
 
         String bankBalanceString = String.format(Locale.GERMAN, "%.2f", totalAmount);
+        if(totalAmount < 0)
+        {
+            int redColor = ContextCompat.getColor(this.getActivity(), R.color.colorNegativeAmount);
+            sumView.setTextColor(redColor);
+        } else if(totalAmount == 0)
+        {
+            int blueColor = ContextCompat.getColor(this.getActivity(), R.color.colorBankingOverview);
+            sumView.setTextColor(blueColor);
+        } else
+        {
+            int greenColor = ContextCompat.getColor(this.getActivity(), R.color.colorBankingOverviewLightGreen);
+            sumView.setTextColor(greenColor);
+        }
+
         sumView.setText("Total amount: " + bankBalanceString);
     }
 
