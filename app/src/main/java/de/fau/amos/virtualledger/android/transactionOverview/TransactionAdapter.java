@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import de.fau.amos.virtualledger.R;
 
@@ -48,10 +49,12 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         TextView amountTextView = (TextView) convertView.findViewById(R.id.id_amount);
 
         if (transaction.booking().getAmount() > 0) {
-            amountTextView.setText("+" + transaction.booking().getAmount());
+            String bankBalanceString = String.format(Locale.GERMAN, "%.2f", transaction.booking().getAmount());
+            amountTextView.setText("+" + bankBalanceString);
         }
         if (transaction.booking().getAmount() < 0) {
-            amountTextView.setText("-" + Math.abs(transaction.booking().getAmount()));
+            String bankBalanceString = String.format(Locale.GERMAN, "%.2f", Math.abs(transaction.booking().getAmount()));
+            amountTextView.setText("-" + bankBalanceString);
             ColorStateList redColor = convertView.getResources().getColorStateList(R.color.colorNegativeAmount);
             amountTextView.setTextColor(redColor);
         }
