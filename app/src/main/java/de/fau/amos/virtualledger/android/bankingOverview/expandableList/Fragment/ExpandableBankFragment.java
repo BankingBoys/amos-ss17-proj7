@@ -1,12 +1,12 @@
 package de.fau.amos.virtualledger.android.bankingOverview.expandableList.Fragment;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -16,7 +16,6 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -128,6 +127,7 @@ public class ExpandableBankFragment extends Fragment {
 
         listView.setAdapter(adapter);
         String bankBalanceString = String.format(Locale.GERMAN, "%.2f", bankBalanceOverview);
+        changeColorOfBalance(bankBalanceOverview);
         bankBalanceOverviewText.setText(bankBalanceString);
         separator.setVisibility(View.VISIBLE);
         final BankAccessNameExtractor getName = new BankAccessNameExtractor();
@@ -144,6 +144,22 @@ public class ExpandableBankFragment extends Fragment {
                 )
 
         );
+    }
+
+    private void changeColorOfBalance(double balance) {
+        if(balance < 0)
+        {
+            int redColor = ContextCompat.getColor(this.getActivity(), R.color.colorNegativeAmount);
+            bankBalanceOverviewText.setTextColor(redColor);
+        } else if(balance == 0)
+        {
+            int blueColor = ContextCompat.getColor(this.getActivity(), R.color.colorBankingOverview);
+            bankBalanceOverviewText.setTextColor(blueColor);
+        } else
+        {
+            int greenColor = ContextCompat.getColor(this.getActivity(), R.color.colorBankingOverviewLightGreen);
+            bankBalanceOverviewText.setTextColor(greenColor);
+        }
     }
 
     private void syncBankAccounts() {
@@ -207,7 +223,7 @@ public class ExpandableBankFragment extends Fragment {
         View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
         listView = (ExpandableListView) view.findViewById(R.id.expandableView);
         bankBalanceOverviewText = (TextView) view.findViewById(R.id.BankAccessBalanceOverview);
-        separator = (View) view.findViewById(R.id.BankOverviewSeperator);
+        separator = (View) view.findViewById(R.id.bankOverviewSeparator);
         return view;
     }
 
