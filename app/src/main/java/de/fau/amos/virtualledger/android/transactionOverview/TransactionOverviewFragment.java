@@ -37,9 +37,10 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class TransactionOverviewFragment extends Fragment {
-    /**
-     *
-     */
+
+    @Inject
+    BankAccessCredentialDB bankAccessCredentialDB;
+
     private TextView sumView = null;
     private ArrayList<BankAccountSync> bankAccountSyncs = new ArrayList<>();
     private TransactionAdapter adapter;
@@ -74,9 +75,7 @@ public class TransactionOverviewFragment extends Fragment {
         ListView bookingListView = (ListView) this.mainView.findViewById(R.id.transaction_list);
         final TransactionOverviewFragment frag = this;
 
-
-        final BankAccessCredentialDB db = new BankAccessCredentialDB(getActivity());
-        bankingProvider.getBankingTransactions(db.getBankAccountSyncList(authenticationProvider.getEmail()))
+        bankingProvider.getBankingTransactions(bankAccessCredentialDB.getBankAccountSyncList(authenticationProvider.getEmail()))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BankAccountSyncResult>() {
@@ -90,7 +89,7 @@ public class TransactionOverviewFragment extends Fragment {
                         for (BankAccountBookings bankAccountBookings : allSyncResults) {
                             for (Booking booking : bankAccountBookings.getBookings()) {
                                 Transaction transaction = new Transaction(
-                                        new BankAccessCredentialDB(getActivity())
+                                        bankAccessCredentialDB
                                                 .getAccountName(
                                                         authenticationProvider.getEmail(),
                                                         bankAccountBookings.getBankaccessid(),

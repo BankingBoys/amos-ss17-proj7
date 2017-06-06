@@ -36,6 +36,8 @@ public class AddBankAccessActivity extends AppCompatActivity {
     BankingProvider bankingProvider;
     @Inject
     AuthenticationProvider authenticationProvider;
+    @Inject
+    BankAccessCredentialDB bankAccessCredentialDB;
 
     @BindView(R.id.editText_addBankAccess_blz)
     EditText blzEditText;
@@ -69,7 +71,7 @@ public class AddBankAccessActivity extends AppCompatActivity {
                         final AddBankAccessActivity context = AddBankAccessActivity.this;
                         Toast.makeText(context, "Access added successfully", Toast.LENGTH_SHORT).show();
                         for(BankAccount account: access.getBankaccounts()) {
-                            new BankAccessCredentialDB(context).persist(authenticationProvider.getEmail(), bankCode, bankLogin, pin, access.getId(), account.getBankid(), access.getName(), account.getName());
+                            bankAccessCredentialDB.persist(authenticationProvider.getEmail(), bankCode, bankLogin, pin, access.getId(), account.getBankid(), access.getName(), account.getName());
                         }
 
                         Intent intent = new Intent(context, MainMenu.class);

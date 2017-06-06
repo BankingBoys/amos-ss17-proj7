@@ -9,6 +9,7 @@ import de.fau.amos.virtualledger.android.config.PropertyReader;
 import de.fau.amos.virtualledger.android.dagger.component.DaggerNetComponent;
 import de.fau.amos.virtualledger.android.dagger.component.NetComponent;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
+import de.fau.amos.virtualledger.android.dagger.module.DatabaseModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 
 /**

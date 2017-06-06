@@ -48,9 +48,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ExpandableBankFragment extends Fragment {
     private static final String TAG = "BankAccessListFragment";
 
-    /**
-     *
-     */
+
     ExpandableListView listView;
 
     TextView bankBalanceOverviewText;
@@ -70,6 +68,8 @@ public class ExpandableBankFragment extends Fragment {
     BankingProvider bankingProvider;
     @Inject
     AuthenticationProvider authenticationProvider;
+    @Inject
+    BankAccessCredentialDB bankAccessCredentialDB;
 
 
     /**
@@ -145,8 +145,7 @@ public class ExpandableBankFragment extends Fragment {
     }
 
     private void syncBankAccounts() {
-        final BankAccessCredentialDB db = new BankAccessCredentialDB(getActivity());
-        final List<BankAccountSync> accountsToSync = db.getBankAccountSyncList(authenticationProvider.getEmail());
+        final List<BankAccountSync> accountsToSync = bankAccessCredentialDB.getBankAccountSyncList(authenticationProvider.getEmail());
         bankingProvider.syncBankAccounts(accountsToSync)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
