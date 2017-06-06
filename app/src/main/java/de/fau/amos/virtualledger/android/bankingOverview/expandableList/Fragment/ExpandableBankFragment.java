@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.android.bankingOverview.expandableList.Fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -33,6 +34,7 @@ import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Adapter.
 import de.fau.amos.virtualledger.android.bankingOverview.expandableList.model.Group;
 import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.android.menu.MainMenu;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
@@ -94,6 +96,10 @@ public class ExpandableBankFragment extends Fragment {
                     @Override
                     public void onNext(@NonNull List<BankAccess> bankAccesses) {
                         bankAccessList = bankAccesses;
+                        if ((bankAccessList == null || bankAccesses.size() == 0) && (getActivity() instanceof MainMenu)) {
+                            Fragment fragment = new NoBankingAccessesFragment();
+                            openFragment(fragment);
+                        }
                         onBankAccessesUpdated(bankAccessList);
                         syncBankAccounts();
                     }
@@ -114,10 +120,6 @@ public class ExpandableBankFragment extends Fragment {
     }
 
     private void onBankAccessesUpdated(final @NonNull List<BankAccess> bankAccesses) {
-        if (bankAccessList == null || bankAccesses.size() == 0) {
-            Fragment fragment = new NoBankingAccessesFragment();
-            openFragment(fragment);
-        }
         createData();
         ExpandableAdapterBanking adapter = new ExpandableAdapterBanking(getActivity(),
                 groups);
