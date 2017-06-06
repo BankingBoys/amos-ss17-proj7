@@ -69,7 +69,7 @@ public class BankAccessCredentialDB {
 
         boolean success = cursor.moveToFirst();
         if(!success) {
-            return null;
+            return bankAccountSyncList;
         }
         while(success) {
             final String accessId = cursor.getString(0);
