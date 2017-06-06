@@ -49,6 +49,7 @@ public class TransactionOverviewFragment extends Fragment {
     private TransactionAdapter adapter;
     private View mainView;
     private ArrayList<Transaction> allTransactions = new ArrayList<>();
+    ListView bookingListView;
 
     /**
      *
@@ -65,17 +66,7 @@ public class TransactionOverviewFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-    }
-
-    /**
-     *
-     */
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
-        this.mainView = inflater.inflate(R.layout.fragment_transaction_overview, container, false);
-
-        ListView bookingListView = (ListView) this.mainView.findViewById(R.id.transaction_list);
         final TransactionOverviewFragment frag = this;
 
         List<BankAccountSync> syncList = bankAccessCredentialDB.getBankAccountSyncList(authenticationProvider.getEmail());
@@ -135,7 +126,18 @@ public class TransactionOverviewFragment extends Fragment {
 
         this.adapter = new TransactionAdapter(this.getActivity(), R.id.transaction_list, new ArrayList<Transaction>());
         bookingListView.setAdapter(adapter);
-        refreshTotalAmount();
+        /*refreshTotalAmount();*/
+    }
+
+    /**
+     *
+     */
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.mainView = inflater.inflate(R.layout.fragment_transaction_overview, container, false);
+
+        bookingListView = (ListView) this.mainView.findViewById(R.id.transaction_list);
+
 
         return this.mainView;
     }
