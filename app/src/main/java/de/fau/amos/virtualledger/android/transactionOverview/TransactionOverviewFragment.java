@@ -26,6 +26,7 @@ import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccess
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
+import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
 import de.fau.amos.virtualledger.dtos.Booking;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -75,14 +76,14 @@ public class TransactionOverviewFragment extends Fragment {
         bankingProvider.getBankingTransactions(db.getBankAccountSyncList(authenticationProvider.getEmail()))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Object>() {
+                .subscribe(new Observer<BankAccountSyncResult>() {
                     @Override
                     public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
                     }
 
                     @Override
-                    public void onNext(@io.reactivex.annotations.NonNull Object o) {
-                        List<BankAccountBookings> allSyncResults = (List<BankAccountBookings>) o;
+                    public void onNext(@io.reactivex.annotations.NonNull BankAccountSyncResult bankAccountSyncResult) {
+                        List<BankAccountBookings> allSyncResults = bankAccountSyncResult.getBankaccountbookings();
                         for (BankAccountBookings bankAccountBookings : allSyncResults) {
                             for (Booking booking : bankAccountBookings.getBookings()) {
                                 Transaction transaction = new Transaction(
