@@ -211,10 +211,4 @@ public class HTTPBankingProvider implements BankingProvider {
 
         return observable;
     }
-
-    @Override
-    public String getBankAccountNameFor(String bankAccessID) {
-        return new MockedBankingProvider().getBankAccountNameFor(bankAccessID);//FIXME //TODO replace with real implementation
-    }
-
 }

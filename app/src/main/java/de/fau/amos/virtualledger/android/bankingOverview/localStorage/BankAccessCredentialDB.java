@@ -88,14 +88,15 @@ public class BankAccessCredentialDB {
     /**
      *
      */
-    public String getAccountName(final String user, final String accountId) {
+    public String getAccountName(final String user, final String accessId, final String accountId) {
         final String[] columns = new String[] {
                 BankAccessCredentialDBConstants.COLUMN_NAME_ACCOUNT_NAME,
         };
-        final Cursor cursor = database.query(true, BankAccessCredentialDBConstants.TABLE_NAME, columns, BankAccessCredentialDBConstants.COLUMN_NAME_USER + " = ?" + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCOUNTID + " = ?" , new String[] {user, accountId}, null, null, null, null);
+        final Cursor cursor = database.query(true, BankAccessCredentialDBConstants.TABLE_NAME, columns, BankAccessCredentialDBConstants.COLUMN_NAME_USER + " = ?" + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCESSID + " = ?" + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCOUNTID + " = ?" , new String[] {user, accessId, accountId}, null, null, null, null);
         final boolean success = cursor.moveToFirst();
         if(!success) {
-            return null;
+            // TODO maybe change to other solution;
+            return "Bank account not found!";
         }
         final String result = cursor.getString(0);
         cursor.close();
@@ -112,7 +113,8 @@ public class BankAccessCredentialDB {
         final Cursor cursor = database.query(true, BankAccessCredentialDBConstants.TABLE_NAME, columns, BankAccessCredentialDBConstants.COLUMN_NAME_USER + " = ?" + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCESSID + " = ?" , new String[] {user, accessId}, null, null, null, null);
         final boolean success = cursor.moveToFirst();
         if(!success) {
-            return null;
+            // TODO maybe change to other solution;
+            return "Bank access not found!";
         }
         final String result = cursor.getString(0);
         cursor.close();

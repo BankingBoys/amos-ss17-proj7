@@ -88,9 +88,11 @@ public class TransactionOverviewFragment extends Fragment {
                         for (BankAccountBookings bankAccountBookings : allSyncResults) {
                             for (Booking booking : bankAccountBookings.getBookings()) {
                                 Transaction transaction = new Transaction(
-                                        frag.bankingProvider
-                                                .getBankAccountNameFor(
-                                                        bankAccountBookings.getBankaccessid()),
+                                        new BankAccessCredentialDB(getActivity())
+                                                .getAccountName(
+                                                        authenticationProvider.getEmail(),
+                                                        bankAccountBookings.getBankaccessid(),
+                                                        bankAccountBookings.getBankaccountid()),
                                         booking);
 
                                 frag.allTransactions.add(transaction);
@@ -137,7 +139,7 @@ public class TransactionOverviewFragment extends Fragment {
             totalAmount += transaction.booking().getAmount();
         }
         this.sumView = (TextView) this.mainView.findViewById(R.id.transaction_sum_text);
-        
+
         String bankBalanceString = String.format(Locale.GERMAN, "%.2f", totalAmount);
         sumView.setText("Total amount: " + bankBalanceString);
     }

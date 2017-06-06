@@ -205,10 +205,4 @@ public class MockedBankingProvider implements BankingProvider {
 
         return observable;
     }
-
-    @Override
-    public String getBankAccountNameFor(String bankAccessID) {
-       return "Some test bank";
-    }
-
 }
