@@ -11,18 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:fontFamily="sans-serif"
         android:gravity="center"
         android:textColor="@color/colorBankingOverviewLightGreen"
         android:textSize="@dimen/fontSizeOverviewBalance"
         android:textStyle="bold" />
 
     <View
-        android:id="@+id/BankOverviewSeperator"
+        android:id="@+id/bankOverviewSeparator"
         android:layout_width="wrap_content"
         android:layout_height="2dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/colorBankingOverviewLightGreen"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorBankingOverview"
         android:visibility="gone">
 
     </View>

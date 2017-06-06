@@ -8,4 +8,8 @@ class BankAccessCredentialDBConstants {
     static final String COLUMN_NAME_BANK_LOGIN = "bankLogin";
     static final String COLUMN_NAME_BANK_CODE = "bankCode";
     static final String COLUMN_NAME_PIN = "pin";
+    static final String COLUMN_NAME_ACCESSID = "accessId";
+    static final String COLUMN_NAME_ACCOUNTID = "accountId";
+    static final String COLUMN_NAME_ACCESS_NAME = "accessName";
+    static final String COLUMN_NAME_ACCOUNT_NAME = "accountName";
 }

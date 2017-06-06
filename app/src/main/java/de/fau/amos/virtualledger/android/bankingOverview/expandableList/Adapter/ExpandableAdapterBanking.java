@@ -101,7 +101,8 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
         textBankName = (TextView) convertView.findViewById(R.id.bankAccountNameView);
         textBankName.setText(bankName);
         textBankBalance = (TextView) convertView.findViewById(R.id.bankAccountBalanceView);
-        textBankBalance.setText(String.valueOf(bankBalance));
+        String bankBalanceString = String.format(Locale.GERMAN,"%.2f", bankBalance);
+        textBankBalance.setText(bankBalanceString);
         return convertView;
     }
 

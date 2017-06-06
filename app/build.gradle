@@ -1,12 +1,12 @@
 buildscript {
     repositories {
         mavenCentral()
-	jcenter()
+        jcenter()
     }
     dependencies {
-         classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.6.0'
-   	 classpath 'com.android.tools.build:gradle:2.3.2'
-         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.6.0'
+        classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
 apply plugin: 'com.android.application'
@@ -16,9 +16,9 @@ apply plugin: 'com.vanniktech.android.junit.jacoco'
 
 
 repositories {
-        mavenCentral()
-	jcenter()
-    }
+    mavenCentral()
+    jcenter()
+}
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
@@ -37,7 +37,9 @@ android {
         }
     }
     lintOptions {
-          abortOnError false
+        ignoreWarnings true
+        abortOnError true
+        disable('InvalidPackage')
     }
 
 }
@@ -55,27 +57,13 @@ dependencies {
     //Gson
     //ReactJava
     //ReactAndroid
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile 'com.squareup.okio:okio:1.7.0'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.1'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
     // compile 'com.android.support.constraint:constraint-layout:+'
-    compile 'com.android.support:design:25.3.1'
+
 
     compile project(':dtos')
 
     // Butter Knife
-    compile 'com.jakewharton:butterknife:8.4.0'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
     // Dagger 2
-    apt 'com.google.dagger:dagger-compiler:2.8'
-    compile 'com.google.dagger:dagger:2.8'
-    provided 'javax.annotation:jsr250-api:1.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.+'
     testCompile group: 'junit', name: 'junit', version: '4.+'
@@ -84,9 +72,26 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+
+
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.squareup.okio:okio:1.7.0'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.1'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'com.google.dagger:dagger:2.8'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.google.android.gms:play-services-plus:10.2.6'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support:support-annotations:25.3.1'
-
-
-
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    apt 'com.google.dagger:dagger-compiler:2.8'
+    provided 'javax.annotation:jsr250-api:1.0'
 }

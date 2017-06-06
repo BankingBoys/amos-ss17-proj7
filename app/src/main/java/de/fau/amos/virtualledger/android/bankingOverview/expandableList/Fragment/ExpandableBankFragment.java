@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -15,7 +16,6 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -33,6 +33,7 @@ import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Adapter.
 import de.fau.amos.virtualledger.android.bankingOverview.expandableList.model.Group;
 import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.android.menu.MainMenu;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
@@ -48,9 +49,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ExpandableBankFragment extends Fragment {
     private static final String TAG = "BankAccessListFragment";
 
-    /**
-     *
-     */
+
     ExpandableListView listView;
 
     TextView bankBalanceOverviewText;
@@ -70,6 +69,8 @@ public class ExpandableBankFragment extends Fragment {
     BankingProvider bankingProvider;
     @Inject
     AuthenticationProvider authenticationProvider;
+    @Inject
+    BankAccessCredentialDB bankAccessCredentialDB;
 
 
     /**
@@ -94,6 +95,10 @@ public class ExpandableBankFragment extends Fragment {
                     @Override
                     public void onNext(@NonNull List<BankAccess> bankAccesses) {
                         bankAccessList = bankAccesses;
+                        if ((bankAccessList == null || bankAccesses.size() == 0) && (getActivity() instanceof MainMenu)) {
+                            Fragment fragment = new NoBankingAccessesFragment();
+                            openFragment(fragment);
+                        }
                         onBankAccessesUpdated(bankAccessList);
                         syncBankAccounts();
                     }
@@ -114,10 +119,6 @@ public class ExpandableBankFragment extends Fragment {
     }
 
     private void onBankAccessesUpdated(final @NonNull List<BankAccess> bankAccesses) {
-        if (bankAccessList == null || bankAccesses.size() == 0) {
-            Fragment fragment = new NoBankingAccessesFragment();
-            openFragment(fragment);
-        }
         createData();
         ExpandableAdapterBanking adapter = new ExpandableAdapterBanking(getActivity(),
                 groups);
@@ -126,6 +127,7 @@ public class ExpandableBankFragment extends Fragment {
 
         listView.setAdapter(adapter);
         String bankBalanceString = String.format(Locale.GERMAN, "%.2f", bankBalanceOverview);
+        changeColorOfBalance(bankBalanceOverview);
         bankBalanceOverviewText.setText(bankBalanceString);
         separator.setVisibility(View.VISIBLE);
         final BankAccessNameExtractor getName = new BankAccessNameExtractor();
@@ -144,19 +146,24 @@ public class ExpandableBankFragment extends Fragment {
         );
     }
 
-    private void syncBankAccounts() {
-        final BankAccessCredentialDB db = new BankAccessCredentialDB(getActivity());
-        final List<BankAccountSync> accountsToSync = new ArrayList<>();
-        for (final BankAccess bankAccess : bankAccessList) {
-            final String pin = db.getPin(authenticationProvider.getEmail(), bankAccess.getBankcode(), bankAccess.getBanklogin());
-            if(pin == null) {
-                Log.w(TAG, "No pin found for bank access " + bankAccess.getId());
-                continue;
-            }
-            for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
-                accountsToSync.add(new BankAccountSync(bankAccess.getId(), bankAccount.getBankid(), pin));
-            }
+    private void changeColorOfBalance(double balance) {
+        if(balance < 0)
+        {
+            int redColor = ContextCompat.getColor(this.getActivity(), R.color.colorNegativeAmount);
+            bankBalanceOverviewText.setTextColor(redColor);
+        } else if(balance == 0)
+        {
+            int blueColor = ContextCompat.getColor(this.getActivity(), R.color.colorBankingOverview);
+            bankBalanceOverviewText.setTextColor(blueColor);
+        } else
+        {
+            int greenColor = ContextCompat.getColor(this.getActivity(), R.color.colorBankingOverviewLightGreen);
+            bankBalanceOverviewText.setTextColor(greenColor);
         }
+    }
+
+    private void syncBankAccounts() {
+        final List<BankAccountSync> accountsToSync = bankAccessCredentialDB.getBankAccountSyncList(authenticationProvider.getEmail());
         bankingProvider.syncBankAccounts(accountsToSync)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -216,7 +223,7 @@ public class ExpandableBankFragment extends Fragment {
         View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
         listView = (ExpandableListView) view.findViewById(R.id.expandableView);
         bankBalanceOverviewText = (TextView) view.findViewById(R.id.BankAccessBalanceOverview);
-        separator = (View) view.findViewById(R.id.BankOverviewSeperator);
+        separator = (View) view.findViewById(R.id.bankOverviewSeparator);
         return view;
     }
 

@@ -1,7 +1,14 @@
 package de.fau.amos.virtualledger.server.api;
 
-import java.util.List;
-import java.util.logging.Level;
+import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccessCredential;
+import de.fau.amos.virtualledger.dtos.BankAccountSync;
+import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
+import de.fau.amos.virtualledger.server.auth.Secured;
+import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -9,14 +16,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-
-import com.sun.istack.logging.Logger;
-import de.fau.amos.virtualledger.dtos.BankAccess;
-import de.fau.amos.virtualledger.dtos.BankAccessCredential;
-import de.fau.amos.virtualledger.dtos.BankAccountSync;
-import de.fau.amos.virtualledger.server.auth.Secured;
-import de.fau.amos.virtualledger.server.banking.model.BankingException;
-import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
+import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 /**
  * Created by Georg on 20.05.2017.
@@ -27,6 +28,7 @@ import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
  */
 @Path("/banking")
 public class BankingOverviewApiEndpoint {
+    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private BankingOverviewController bankingOverviewController;
 
@@ -35,10 +37,6 @@ public class BankingOverviewApiEndpoint {
         this.bankingOverviewController = bankingOverviewController;
     }
     protected BankingOverviewApiEndpoint() { }
-
-    private Logger logger() {
-        return Logger.getLogger(BankingOverviewApiEndpoint.class);
-    }
 
 
     /**
@@ -57,7 +55,7 @@ public class BankingOverviewApiEndpoint {
             return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
         }
         final String email = securityContext.getUserPrincipal().getName();
-        logger().info("getBankingOverviewEndpoint of " + email + " was requested");
+        logger.info("getBankingOverviewEndpoint of " + email + " was requested");
 
         return this.getBankingOverview(email);
     }
@@ -84,7 +82,7 @@ public class BankingOverviewApiEndpoint {
             return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
         }
         final String email = securityContext.getUserPrincipal().getName();
-        logger().info("addBankAccessEndpoint was requested by " + email);
+        logger.info("addBankAccessEndpoint was requested by " + email);
 
         return this.addBankAccess(email, bankAccessCredential);
     }
@@ -110,7 +108,7 @@ public class BankingOverviewApiEndpoint {
             return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
         }
         final String email = securityContext.getUserPrincipal().getName();
-        logger().info("deleteBankAccessEndpoint was requested by " + email);
+        logger.info("deleteBankAccessEndpoint was requested by " + email);
 
         return this.deleteBankAccess(email, bankAccessId);
     }
@@ -138,7 +136,7 @@ public class BankingOverviewApiEndpoint {
             return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
         }
         final String email = securityContext.getUserPrincipal().getName();
-        logger().info("deleteBankAccountEndpoint was requested by " + email);
+        logger.info("deleteBankAccountEndpoint was requested by " + email);
 
         return this.deleteBankAccount(email, bankAccessId, bankAccountId);
     }
@@ -175,7 +173,7 @@ public class BankingOverviewApiEndpoint {
         }
 
         final String email = securityContext.getUserPrincipal().getName();
-        logger().info("syncBankAccountsEndpoint was requested by " + email);
+        logger.info("syncBankAccountsEndpoint was requested by " + email);
 
         return this.syncBankAccounts(email, bankAccountSyncList);
     }
@@ -195,7 +193,7 @@ public class BankingOverviewApiEndpoint {
             bankAccesses = bankingOverviewController.getBankingOverview(email);
         } catch (BankingException ex)
         {
-            logger().logException(ex, Level.INFO);
+            logger.error("", ex);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         return Response.ok(bankAccesses).build();
@@ -211,13 +209,13 @@ public class BankingOverviewApiEndpoint {
     private Response addBankAccess(String email, BankAccessCredential bankAccessCredential)
     {
         try {
-            bankingOverviewController.addBankAccess(email, bankAccessCredential);
+            BankAccess addedBankAccess = bankingOverviewController.addBankAccess(email, bankAccessCredential);
+            return Response.status(Response.Status.CREATED).entity(addedBankAccess).build();
         } catch (BankingException ex)
         {
-            logger().logException(ex, Level.INFO);
+            logger.error("", ex);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.status(Response.Status.CREATED).build();
     }
 
     /**
@@ -234,7 +232,7 @@ public class BankingOverviewApiEndpoint {
             bankingOverviewController.deleteBankAccess(email, bankAccessId);
         } catch (BankingException ex)
         {
-            logger().logException(ex, Level.INFO);
+            logger.error("", ex);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -256,7 +254,7 @@ public class BankingOverviewApiEndpoint {
             bankingOverviewController.deleteBankAccount(email, bankAccessId, bankAccountId);
         } catch (BankingException ex)
         {
-            logger().logException(ex, Level.INFO);
+            logger.error("", ex);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -274,13 +272,12 @@ public class BankingOverviewApiEndpoint {
     {
         try
         {
-            bankingOverviewController.syncBankAccounts(email, bankAccountSyncList);
+            final BankAccountSyncResult result = bankingOverviewController.syncBankAccounts(email, bankAccountSyncList);
+            return Response.status(Response.Status.OK).entity(result).build();
         } catch (BankingException ex)
         {
-            logger().logException(ex, Level.INFO);
+            logger.error("", ex);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-
-        return Response.status(Response.Status.OK).build();
     }
 }

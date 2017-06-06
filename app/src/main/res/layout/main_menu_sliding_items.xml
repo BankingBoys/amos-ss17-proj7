@@ -5,6 +5,7 @@
     android:orientation="horizontal">
 
     <ImageView
+        android:contentDescription="@string/main_menu_content_description_image"
         android:id="@+id/item_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"

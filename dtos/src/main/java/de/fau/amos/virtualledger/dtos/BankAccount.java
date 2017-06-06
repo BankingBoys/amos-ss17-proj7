@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.dtos;
 
 import java.util.Comparator;
+import java.util.Locale;
 
 /**
  * Created by Simon on 20.05.2017.
@@ -74,8 +75,8 @@ public class BankAccount {
      */
     public static Comparator<BankAccount> sortBankAccountByName = new Comparator<BankAccount>(){
         public int compare(BankAccount account1, BankAccount account2) {
-            String account1Name = account1.getName().toUpperCase();
-            String account2Name = account2.getName().toUpperCase();
+            String account1Name = account1.getName().toUpperCase(Locale.GERMAN);
+            String account2Name = account2.getName().toUpperCase(Locale.GERMAN);
             return account1Name.compareTo(account2Name);
         }
     };

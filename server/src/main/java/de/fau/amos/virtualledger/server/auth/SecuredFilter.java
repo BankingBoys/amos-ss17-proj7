@@ -1,6 +1,8 @@
 package de.fau.amos.virtualledger.server.auth;
 
 import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Priority;
 import javax.inject.Inject;
@@ -11,17 +13,15 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
-
-import com.sun.istack.logging.Logger;
-
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.security.Principal;
-import java.util.logging.Level;
 
 @Secured
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class SecuredFilter implements ContainerRequestFilter {
+    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Inject
     private UserCredentialRepository userCredentialRepository;
@@ -59,7 +59,7 @@ public class SecuredFilter implements ContainerRequestFilter {
             requestContext.setSecurityContext(newContext);
 
         } catch (InvalidCredentialsException e) {
-        	Logger.getLogger(SecuredFilter.class).logException(e, Level.INFO);
+        	logger.info("", e);
             requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).entity("Invalid Credentials").build());
         }
     }

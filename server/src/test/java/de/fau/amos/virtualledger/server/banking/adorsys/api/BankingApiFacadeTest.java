@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api;
 
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
@@ -30,7 +31,7 @@ public class BankingApiFacadeTest {
     {
         // SETUP
         DummyUserEndpoint endpoint = mock(DummyUserEndpoint.class);
-        when(bankingApiBinder.getUserEndpoint())
+        when(bankingApiBinder.getUserEndpoint(anyString()))
                 .thenReturn(endpoint);
         BankingApiFacade bankingApiFacade = new BankingApiFacade(bankingApiBinder);
 
@@ -43,7 +44,7 @@ public class BankingApiFacadeTest {
 
         // ASSERT
         Mockito.verify(bankingApiBinder, times(1))
-                .getUserEndpoint();
+                .getUserEndpoint(anyString());
     }
 
     @Test
@@ -51,7 +52,7 @@ public class BankingApiFacadeTest {
     {
         // SETUP
         DummyBankAccessEndpoint endpoint = mock(DummyBankAccessEndpoint.class);
-        when(bankingApiBinder.getBankAccessEndpoint())
+        when(bankingApiBinder.getBankAccessEndpoint(anyString()))
                 .thenReturn(endpoint);
         BankingApiFacade bankingApiFacade = new BankingApiFacade(bankingApiBinder);
 
@@ -64,7 +65,7 @@ public class BankingApiFacadeTest {
 
         // ASSERT
         Mockito.verify(bankingApiBinder, times(1))
-                .getBankAccessEndpoint();
+                .getBankAccessEndpoint(anyString());
     }
 
     @Test
@@ -72,7 +73,7 @@ public class BankingApiFacadeTest {
     {
         // SETUP
         DummyBankAccountEndpoint endpoint = mock(DummyBankAccountEndpoint.class);
-        when(bankingApiBinder.getBankAccountEndpoint())
+        when(bankingApiBinder.getBankAccountEndpoint(anyString()))
                 .thenReturn(endpoint);
         BankingApiFacade bankingApiFacade = new BankingApiFacade(bankingApiBinder);
 
@@ -85,7 +86,7 @@ public class BankingApiFacadeTest {
 
         // ASSERT
         Mockito.verify(bankingApiBinder, times(1))
-                .getBankAccountEndpoint();
+                .getBankAccountEndpoint(anyString());
     }
 
     @Test
@@ -93,7 +94,7 @@ public class BankingApiFacadeTest {
     {
         // SETUP
         DummyBankAccountEndpoint endpoint = mock(DummyBankAccountEndpoint.class);
-        when(bankingApiBinder.getBankAccountEndpoint())
+        when(bankingApiBinder.getBankAccountEndpoint(anyString()))
                 .thenReturn(endpoint);
         BankingApiFacade bankingApiFacade = new BankingApiFacade(bankingApiBinder);
 
@@ -106,6 +107,6 @@ public class BankingApiFacadeTest {
 
         // ASSERT
         Mockito.verify(bankingApiBinder, times(1))
-                .getBankAccountEndpoint();
+                .getBankAccountEndpoint(anyString());
     }
 }

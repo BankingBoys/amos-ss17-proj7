@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".android.menu.MainMenu">
+
+    <TextView
+        android:id="@+id/transaction_sum_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/colorBankingOverviewLightGreen"
+        android:textSize="@dimen/fontSizeOverviewBalance"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/transactionSeparator"
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorBankingOverview"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone">
+
+    </View>
+
+    <ListView
+        android:id="@+id/transaction_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginTop="5dp"/>
+
+
+
+</LinearLayout>

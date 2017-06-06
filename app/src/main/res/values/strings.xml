@@ -5,7 +5,6 @@
     <string name="authentication_register_firstname_hint">First Name</string>
     <string name="authentication_register_lastname_hint">Last Name</string>
     <string name="authentication_register_title">Registration</string>
-    <string name="authentication_register_feedback_textview"> </string>
     <string name="authentication_register_button_text">Register</string>
     <string name="authentication_register_terms_and_conditions">By joining virtual ledger, you agree to the <u> terms and conditions </u></string>
     <string name="authentication_login_title">Login</string>
@@ -14,6 +13,7 @@
     <string name="authentication_login_permanent_checkbox">Stay logged in</string>
     <string name="main_menu_drawer_opened">open</string>
     <string name="main_menu_drawer_closed">closed</string>
+    <string name="main_menu_content_description_image">Icon Items</string>
     <string name="banking_overview_no_bank_access_text">No bank accesses registered yet</string>
     />
     <string name="banking_overview_no_bank_access_button_text">Add Bank Accesses</string>
@@ -24,4 +24,7 @@
     <string name="banking_overview_add_access_button_text">Add Bank Access</string>
     <string name="banking_overview_add_access_title">Add bank access</string>
     <string name="banking_overview_add_access_blz_hint">BLZ</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

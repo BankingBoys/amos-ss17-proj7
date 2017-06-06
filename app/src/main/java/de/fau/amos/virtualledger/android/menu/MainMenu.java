@@ -17,17 +17,25 @@ import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.bankingOverview.addBankAccess.AddBankAccessActivity;
-import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
+import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
+import de.fau.amos.virtualledger.android.bankingOverview.addBankAccess.AddBankAccessActivity;
+import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
+import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
+import de.fau.amos.virtualledger.android.transactionOverview.TransactionOverviewFragment;
+import de.fau.amos.virtualledger.dtos.BankAccess;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import retrofit2.Retrofit;
 
 /**
@@ -44,6 +52,10 @@ public class MainMenu extends AppCompatActivity {
      */
     @Inject
     Retrofit retrofit;
+
+
+    @Inject
+    BankingProvider bankingProvider;
 
     /**
      *
@@ -62,7 +74,11 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu_sliding_tab);
-
+        Bundle bundle = getIntent().getExtras();
+        int startingFragment = 1;
+        if(bundle != null) {
+            startingFragment = bundle.getInt("startingFragment");
+        }
         //init
         init();
 
@@ -82,7 +98,42 @@ public class MainMenu extends AppCompatActivity {
         drawerLayout.closeDrawer(listView);
 
         //starting fragment -- if necessary add the start fragment here
-        replaceFragment(1);
+
+
+        if(bundle==null) {
+            final MainMenu mainMenu = this;
+            bankingProvider.getBankingOverview().subscribe(new Observer<List<BankAccess>>() {
+                boolean found = false;
+
+                @Override
+                public void onSubscribe(@NonNull Disposable d) {
+
+                }
+
+                @Override
+                public void onNext(@NonNull List<BankAccess> bankAccesses) {
+                    if (bankAccesses.size() > 0) {
+                        mainMenu.replaceFragment(2);
+                        found = true;
+                    }
+                }
+
+                @Override
+                public void onError(@NonNull Throwable e) {
+                    Logger.getLogger(this.getClass().getCanonicalName()).log(Level.SEVERE, "failed to sync bankaccounts", e);
+                }
+
+                @Override
+                public void onComplete() {
+                    if (!found) {
+                        mainMenu.replaceFragment(1);
+                    }
+                }
+            });
+        }
+
+        replaceFragment(startingFragment);
+
 
         //click on items
         listView.setOnItemClickListener(
@@ -96,7 +147,6 @@ public class MainMenu extends AppCompatActivity {
 
                         replaceFragment(pos);
 
-                        //Close
                         drawerLayout.closeDrawer(listView);
                     }
                 });
@@ -143,6 +193,7 @@ public class MainMenu extends AppCompatActivity {
     private void configureItemsForMenu() {
         slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Logout"));
         slidingItems.add(new ItemSlidingMenu(R.drawable.bank_accesses, "Bank Access"));
+        slidingItems.add(new ItemSlidingMenu(R.drawable.list, "Transaction Overview"));
         menuAdapter = new MenuAdapter(this, slidingItems);
         listView.setAdapter(menuAdapter);
     }
@@ -196,9 +247,16 @@ public class MainMenu extends AppCompatActivity {
                 fragment = new ExpandableBankFragment();
                 openFragment(fragment);
                 break;
+
+            case 2:
+                fragment = new TransactionOverviewFragment();
+                openFragment(fragment);
+                break;
+
             //new Fragments can be added her
             default:
-                fragment = new ExpandableBankFragment();
+                Logger.getLogger(MainMenu.class.getCanonicalName()).log(Level.INFO, "Menu item pos: {" + pos + "} not found");
+                fragment = new TransactionOverviewFragment();
                 openFragment(fragment);
                 break;
         }

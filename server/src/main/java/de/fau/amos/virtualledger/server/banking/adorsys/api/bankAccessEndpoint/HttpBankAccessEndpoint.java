@@ -1,21 +1,19 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint;
 
-import com.sun.istack.logging.Logger;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.json.JSONConfiguration;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccessJSONBankingModel;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvider;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccessJSONBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +22,7 @@ import java.util.List;
  */
 @RequestScoped @Default
 public class HttpBankAccessEndpoint implements BankAccessEndpoint {
+    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Inject
     BankingApiUrlProvider urlProvider;
@@ -32,23 +31,20 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
     public List<BankAccessBankingModel> getBankAccesses(String userId) throws BankingException {
 
         // Create Jersey client
-        ClientConfig clientConfig = new DefaultClientConfig();
-        clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-        Client client = Client.create(clientConfig);
+        Client client = ClientBuilder.newClient();
 
         String url = urlProvider.getBankAccessEndpointUrl(userId);
-        WebResource.Builder webResourceGET = client.resource(url)
-                .accept(MediaType.APPLICATION_JSON)
-                .type(MediaType.APPLICATION_JSON);
-        ClientResponse response = webResourceGET.get(ClientResponse.class);
+        WebTarget webTarget = client.target(url);
+        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
+        Response response = invocationBuilder.get();
 
         if (response.getStatus() != 200) {
             throw new BankingException("No connection to Adorsys Server!");
         }
-        BankAccessJSONBankingModel reponseModel = response.getEntity(BankAccessJSONBankingModel.class);
+        BankAccessJSONBankingModel reponseModel = response.readEntity(BankAccessJSONBankingModel.class);
         if(reponseModel == null || reponseModel.get_embedded() == null)
         {
-        	Logger.getLogger(HttpBankAccessEndpoint.class).info("No access found!");
+        	logger.info("No access found!");
             return new ArrayList<BankAccessBankingModel>();
         }
         List<BankAccessBankingModel> result = reponseModel.get_embedded().getBankAccessEntityList();
@@ -59,19 +55,15 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
     public void addBankAccess(String userId, BankAccessBankingModel bankAccess) throws BankingException {
 
         // Create Jersey client
-        ClientConfig clientConfig = new DefaultClientConfig();
-        clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-        Client client = Client.create(clientConfig);
+        Client client = ClientBuilder.newClient();
 
         String url = urlProvider.getBankAccessEndpointUrl(userId);
-        WebResource.Builder webResourcePOST = client.resource(url)
-                .accept(MediaType.APPLICATION_JSON)
-                .type(MediaType.APPLICATION_JSON);
-        ClientResponse response = webResourcePOST.post(ClientResponse.class, bankAccess);
+        WebTarget webTarget = client.target(url);
+        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
+        Response response = invocationBuilder.post(Entity.entity(bankAccess, MediaType.APPLICATION_JSON_TYPE));
 
         if (response.getStatus() != 201) {
             throw new BankingException("Creating Banking Access failed!");
         }
-        return;
     }
 }

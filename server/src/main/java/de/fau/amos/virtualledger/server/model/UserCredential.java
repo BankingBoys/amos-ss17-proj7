@@ -1,15 +1,16 @@
 package de.fau.amos.virtualledger.server.model;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.sun.istack.logging.Logger;
-
+import java.lang.invoke.MethodHandles;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +21,7 @@ import java.util.regex.Pattern;
 @Entity
 @Table(name = "Users")
 public class UserCredential {
+    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static final String LAST_NAME_MUST_NOT_BE_EMPTY = "Last name must not be empty!";
 	private static final String FIRST_NAME_MUST_NOT_BE_EMPTY = "First name must not be empty!";
@@ -73,7 +75,7 @@ public class UserCredential {
 
         if(password == null || ! isPasswordPatternValid(password))
         {
-        	logger().warning(PASSWORD_MUST_NOT_BE_EMPTY);
+        	logger.warn(PASSWORD_MUST_NOT_BE_EMPTY);
             throw new IllegalArgumentException(PASSWORD_MUST_NOT_BE_EMPTY);
         }
         this.password = password;
@@ -89,15 +91,12 @@ public class UserCredential {
 
         if(firstName == null || ! this.isFirstNamePatternValid(firstName))
         {
-        	logger().warning(FIRST_NAME_MUST_NOT_BE_EMPTY);
+        	logger.warn(FIRST_NAME_MUST_NOT_BE_EMPTY);
             throw new IllegalArgumentException(FIRST_NAME_MUST_NOT_BE_EMPTY);
         }
         this.firstName = firstName;
     }
 
-	private Logger logger() {
-		return Logger.getLogger(UserCredential.class);
-	}
 
     /**
      *
@@ -118,7 +117,7 @@ public class UserCredential {
 
         if(lastName == null || ! this.isLastNamePatternValid(lastName))
         {
-        	logger().warning(LAST_NAME_MUST_NOT_BE_EMPTY);
+            logger.warn(LAST_NAME_MUST_NOT_BE_EMPTY);
             throw new IllegalArgumentException(LAST_NAME_MUST_NOT_BE_EMPTY);
         }
         this.lastName = lastName;

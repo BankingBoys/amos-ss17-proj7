@@ -5,52 +5,52 @@ package de.fau.amos.virtualledger.server.banking.model;
  */
 public class BankAccountBalanceBankingModel {
 
-    private double availableHbciBalance;
-    private double creditHbciBalance;
-    private double readyHbciBalance;
-    private double unreadyHbciBalance;
-    private double usedHbciBalance;
+    private Double availableHbciBalance;
+    private Double creditHbciBalance;
+    private Double readyHbciBalance;
+    private Double unreadyHbciBalance;
+    private Double usedHbciBalance;
 
     public BankAccountBalanceBankingModel() {
     }
 
-    public double getAvailableHbciBalance() {
+    public Double getAvailableHbciBalance() {
         return availableHbciBalance;
     }
 
-    public void setAvailableHbciBalance(double availableHbciBalance) {
+    public void setAvailableHbciBalance(Double availableHbciBalance) {
         this.availableHbciBalance = availableHbciBalance;
     }
 
-    public double getCreditHbciBalance() {
+    public Double getCreditHbciBalance() {
         return creditHbciBalance;
     }
 
-    public void setCreditHbciBalance(double creditHbciBalance) {
+    public void setCreditHbciBalance(Double creditHbciBalance) {
         this.creditHbciBalance = creditHbciBalance;
     }
 
-    public double getReadyHbciBalance() {
+    public Double getReadyHbciBalance() {
         return readyHbciBalance;
     }
 
-    public void setReadyHbciBalance(double readyHbciBalance) {
+    public void setReadyHbciBalance(Double readyHbciBalance) {
         this.readyHbciBalance = readyHbciBalance;
     }
 
-    public double getUnreadyHbciBalance() {
+    public Double getUnreadyHbciBalance() {
         return unreadyHbciBalance;
     }
 
-    public void setUnreadyHbciBalance(double unreadyHbciBalance) {
+    public void setUnreadyHbciBalance(Double unreadyHbciBalance) {
         this.unreadyHbciBalance = unreadyHbciBalance;
     }
 
-    public double getUsedHbciBalance() {
+    public Double getUsedHbciBalance() {
         return usedHbciBalance;
     }
 
-    public void setUsedHbciBalance(double usedHbciBalance) {
+    public void setUsedHbciBalance(Double usedHbciBalance) {
         this.usedHbciBalance = usedHbciBalance;
     }
 }

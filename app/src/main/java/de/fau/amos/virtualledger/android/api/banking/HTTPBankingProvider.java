@@ -9,6 +9,7 @@ import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
+import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Callback;
@@ -63,18 +64,49 @@ public class HTTPBankingProvider implements BankingProvider {
         return observable;
     }
 
-
     @Override
-    public Observable<String> addBankAccess(BankAccessCredential bankAccessCredential) {
-        final retrofit2.Call<Void> responseMessage = retrofit.create(Restapi.class).addBankAccess(authenticationProvider.getToken(), bankAccessCredential);
+    public Observable<BankAccountSyncResult> getBankingTransactions(List<BankAccountSync> bankAccountSyncList) {
+
+        final retrofit2.Call<BankAccountSyncResult> responseMessage = retrofit.create(Restapi.class).getBookings(authenticationProvider.getToken(), bankAccountSyncList );
         final PublishSubject observable = PublishSubject.create();
 
-        responseMessage.enqueue(new Callback<Void>() {
+        responseMessage.enqueue(new Callback<BankAccountSyncResult>() {
             @Override
-            public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
+            public void onResponse(retrofit2.Call<BankAccountSyncResult> call, Response<BankAccountSyncResult> response) {
                 if (response.isSuccessful()) {
+                    BankAccountSyncResult syncResult = response.body();
+                    Log.v(TAG, "Getting Bookings was successful " + response.code());
+                    observable.onNext(syncResult);
+                } else {
+                    Log.e(TAG, "Getting Bookings was not successful!  ERROR " + response.code());
+                    observable.onError(new Throwable("Getting Bookings was not successful!"));
+                }
+            }
+
+
+            @Override
+            public void onFailure(retrofit2.Call<BankAccountSyncResult> call, Throwable t) {
+
+                Log.e(TAG, "No connection to server!");
+                observable.onError(new Throwable("No connection to server!"));
+            }
+        });
+
+        return observable;
+    }
+
+    @Override
+    public Observable<BankAccess> addBankAccess(BankAccessCredential bankAccessCredential) {
+        final retrofit2.Call<BankAccess> responseMessage = retrofit.create(Restapi.class).addBankAccess(authenticationProvider.getToken(), bankAccessCredential);
+        final PublishSubject observable = PublishSubject.create();
+
+        responseMessage.enqueue(new Callback<BankAccess>() {
+            @Override
+            public void onResponse(retrofit2.Call<BankAccess> call, Response<BankAccess> response) {
+                if (response.isSuccessful()) {
+                    BankAccess bankAccess = response.body();
                     Log.v(TAG, "Adding bank accesses was successful " + response.code());
-                    observable.onNext("Adding bank access was successful");
+                    observable.onNext(bankAccess);
                 } else {
                     Log.e(TAG, "Adding bank accesses was not successful! ERROR " + response.code());
                     observable.onError(new Throwable("Adding bank accesses was not successful!"));
@@ -83,7 +115,7 @@ public class HTTPBankingProvider implements BankingProvider {
 
 
             @Override
-            public void onFailure(retrofit2.Call<Void> call, Throwable t) {
+            public void onFailure(retrofit2.Call<BankAccess> call, Throwable t) {
 
                 Log.e(TAG, "No connection to server!");
                 observable.onError(new Throwable("No connection to server!"));
@@ -179,5 +211,4 @@ public class HTTPBankingProvider implements BankingProvider {
 
         return observable;
     }
-
 }

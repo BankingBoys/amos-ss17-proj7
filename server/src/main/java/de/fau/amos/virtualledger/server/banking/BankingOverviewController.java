@@ -1,10 +1,8 @@
 package de.fau.amos.virtualledger.server.banking;
 
-import de.fau.amos.virtualledger.dtos.BankAccess;
-import de.fau.amos.virtualledger.dtos.BankAccessCredential;
-import de.fau.amos.virtualledger.dtos.BankAccount;
-import de.fau.amos.virtualledger.dtos.BankAccountSync;
+import de.fau.amos.virtualledger.dtos.*;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import de.fau.amos.virtualledger.server.banking.model.BookingModel;
 import de.fau.amos.virtualledger.server.factories.*;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiFacade;
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
@@ -17,6 +15,7 @@ import de.fau.amos.virtualledger.server.persistence.DeletedBankAccountsRepositor
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -49,6 +48,9 @@ public class BankingOverviewController {
     @Inject
     DeletedBankAccountFactory deletedBankAccountFactory;
 
+    @Inject
+    BankAccountBookingsFactory bankAccountBookingsFactory;
+
     /**
      * loads all the bank accesses and accounts embedded matching to the email from adorsys api (or from dummies, depending on configuration)
      * also filters the received data to only return the not deleted ones
@@ -77,12 +79,35 @@ public class BankingOverviewController {
      * adds a bank access, uses adorsys api if configured to store on user with email as username
      * @param email
      * @param bankAccessCredential
+     * @return the added BankAccess with containing all added BankAccounts
      * @throws BankingException
      */
-    public void addBankAccess(String email, BankAccessCredential bankAccessCredential) throws BankingException
+    public BankAccess addBankAccess(String email, BankAccessCredential bankAccessCredential) throws BankingException
     {
+
+        List<BankAccess> allBankAccessesBeforeAdd = getBankingOverview(email);
+
         BankAccessBankingModel bankAccessBankingModel = bankAccessBankingModelFactory.createBankAccessBankingModel(email, bankAccessCredential);
         bankingApiFacade.addBankAccess(email, bankAccessBankingModel);
+
+        List<BankAccess> allBankAccessesAfterAdd = getBankingOverview(email);
+
+        if(allBankAccessesAfterAdd.size() != allBankAccessesBeforeAdd.size() + 1)
+        {
+            throw new BankingException("Inconsistency after add! Before add there were " + allBankAccessesBeforeAdd.size() + " accesses and after there are " + allBankAccessesAfterAdd.size());
+        }
+
+        // find the one BankAccess that is in allBankAccessesAfterAdd but not in bankAccessBankingModel
+        for(BankAccess bankAccessBeforeAdd : allBankAccessesBeforeAdd) {
+            allBankAccessesAfterAdd.removeIf(p -> p.getId().equals(bankAccessBeforeAdd.getId()));
+        }
+
+        if(allBankAccessesAfterAdd.size() != 1)
+        {
+            throw new BankingException("Inconsistency after add! Added access was not found!");
+        }
+
+        return allBankAccessesAfterAdd.get(0);
     }
 
     /**
@@ -112,12 +137,19 @@ public class BankingOverviewController {
         deletedBankAccountRepository.createDeletedBankAccount(deletedBankAccount);
     }
 
-    public void syncBankAccounts(String email, List<BankAccountSync> bankAccountSyncList) throws BankingException
+    public BankAccountSyncResult syncBankAccounts(String email, List<BankAccountSync> bankAccountSyncList) throws BankingException
     {
+        this.filterBankAccountSyncWithDeleted(email, bankAccountSyncList);
+
+        final List<BankAccountBookings> resultAccountBookings = new ArrayList<>();
+        final BankAccountSyncResult result = new BankAccountSyncResult(resultAccountBookings);
         for(BankAccountSync bankAccountSync: bankAccountSyncList)
         {
-            bankingApiFacade.syncBankAccount(email, bankAccountSync.getBankaccessid(), bankAccountSync.getBankaccountid(), bankAccountSync.getPin());
+            final List<BookingModel> bookingModels = bankingApiFacade.syncBankAccount(email, bankAccountSync.getBankaccessid(), bankAccountSync.getBankaccountid(), bankAccountSync.getPin());
+            resultAccountBookings.add(bankAccountBookingsFactory.createBankAccountBookings(bookingModels, bankAccountSync.getBankaccessid(), bankAccountSync.getBankaccountid()));
+
         }
+        return result;
     }
 
     /**
@@ -174,5 +206,32 @@ public class BankingOverviewController {
             }
         }
         bankAccountList.removeAll(foundBankAccounts);
+    }
+
+    /**
+     * filters a list of BankAccountSync objects with accesses and accounts that are marked as deleted in database
+     * @param email
+     * @param bankAccountSyncList
+     */
+    private void filterBankAccountSyncWithDeleted(String email, List<BankAccountSync> bankAccountSyncList)
+    {
+        List<DeletedBankAccess> deletedAccessList = deletedBankAccessesRepository.getDeletedBankAccessIdsByEmail(email);
+        for(DeletedBankAccess deletedBankAccess : deletedAccessList)
+        {
+            bankAccountSyncList.removeIf(x -> x.getBankaccessid().equals(deletedBankAccess.bankAccessId));
+        }
+
+        // use iterator, so we can modify List while iterating over it
+        Iterator<BankAccountSync> iterator = bankAccountSyncList.iterator();
+        while(iterator.hasNext()) {
+            BankAccountSync bankAccountSync = iterator.next();
+            List<DeletedBankAccount> deletedAccountList = deletedBankAccountRepository.getDeletedBankAccountIdsByEmailAndAccessId(email, bankAccountSync.getBankaccessid());
+            for (DeletedBankAccount deletedBankAccount : deletedAccountList) {
+                if(deletedBankAccount.bankAccountId.equals(bankAccountSync.getBankaccountid()))
+                {
+                    iterator.remove();
+                }
+            }
+        }
     }
 }
