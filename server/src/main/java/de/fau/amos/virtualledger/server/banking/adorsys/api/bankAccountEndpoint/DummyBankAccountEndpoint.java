@@ -81,8 +81,8 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
     {
         BankAccountBankingModel bankAccountBankingModel = new BankAccountBankingModel();
         BankAccountBalanceBankingModel bankAccountBalanceBankingModel = new BankAccountBalanceBankingModel();
-        bankAccountBalanceBankingModel.setAvailableHbciBalance(500.00);
-        bankAccountBalanceBankingModel.setReadyHbciBalance(500.00);
+        bankAccountBalanceBankingModel.setAvailableHbciBalance(0.00);
+        bankAccountBalanceBankingModel.setReadyHbciBalance(0.00);
 
         String id_postfix = numberBankAccount++ + "_" + System.nanoTime();
 

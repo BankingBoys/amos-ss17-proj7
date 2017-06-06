@@ -19,9 +19,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="01.01.17"
-            android:textColor="@color/colorBankingOverviewLightGreen"
+            android:textColor="@color/colorBankingOverview"
             android:textSize="@dimen/fontSizeTransactionOverview"
-            android:textStyle="bold" />
+            android:textStyle="normal" />
 
         <LinearLayout
             android:id="@+id/id_layout_bla"
@@ -35,16 +35,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Sparkasse"
-                android:textColor="@color/colorBankingOverviewLightGreen"
+                android:textColor="@color/colorBankingOverview"
                 android:textSize="@dimen/fontSizeTransactionOverview"
-                android:textStyle="bold" />
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/id_usage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Lachen im Keller"
-                android:textColor="@color/colorBankingOverviewLightGreen"
+                android:textColor="@color/colorBankingOverview"
                 android:textSize="@dimen/fontSizeTransactionOverview"
                 android:textStyle="bold" />
 

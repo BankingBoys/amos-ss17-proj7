@@ -2,6 +2,7 @@ package de.fau.amos.virtualledger.android.transactionOverview;
 
 import android.app.Activity;
 import android.content.res.ColorStateList;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,17 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import de.fau.amos.virtualledger.R;
 
 public class TransactionAdapter extends ArrayAdapter<Transaction> {
 
+    private Activity activity;
 
     public TransactionAdapter(Activity activity, int layout, ArrayList<Transaction> data) {
         super(activity, layout, data);
+        this.activity = activity;
     }
 
     @Override
@@ -47,12 +51,16 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
     private void setAmount(View convertView, Transaction transaction) {
         TextView amountTextView = (TextView) convertView.findViewById(R.id.id_amount);
 
-        if (transaction.booking().getAmount() > 0) {
-            amountTextView.setText("+" + transaction.booking().getAmount());
+        if (transaction.booking().getAmount() >= 0) {
+            String bankBalanceString = String.format(Locale.GERMAN, "%.2f", transaction.booking().getAmount());
+            amountTextView.setText("+" + bankBalanceString);
+            int greenColor = ContextCompat.getColor(this.activity, R.color.colorBankingOverviewLightGreen);
+            amountTextView.setTextColor(greenColor);
         }
         if (transaction.booking().getAmount() < 0) {
-            amountTextView.setText("-" + Math.abs(transaction.booking().getAmount()));
-            ColorStateList redColor = convertView.getResources().getColorStateList(R.color.colorNegativeAmount);
+            String bankBalanceString = String.format(Locale.GERMAN, "%.2f", Math.abs(transaction.booking().getAmount()));
+            amountTextView.setText("-" + bankBalanceString);
+            int redColor = ContextCompat.getColor(this.activity, R.color.colorNegativeAmount);
             amountTextView.setTextColor(redColor);
         }
     }
