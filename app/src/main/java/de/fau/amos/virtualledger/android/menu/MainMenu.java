@@ -74,7 +74,11 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu_sliding_tab);
-
+        Bundle bundle = getIntent().getExtras();
+        int startingFragment = 1;
+        if(bundle != null) {
+            startingFragment = bundle.getInt("startingFragment");
+        }
         //init
         init();
 
@@ -95,36 +99,38 @@ public class MainMenu extends AppCompatActivity {
 
         //starting fragment -- if necessary add the start fragment here
 
-        replaceFragment(1);
-        final MainMenu mainMenu = this;
-        bankingProvider.getBankingOverview().subscribe(new Observer<List<BankAccess>>() {
-            boolean found = false;
+        replaceFragment(startingFragment);
+        if(bundle==null) {
+            final MainMenu mainMenu = this;
+            bankingProvider.getBankingOverview().subscribe(new Observer<List<BankAccess>>() {
+                boolean found = false;
 
-            @Override
-            public void onSubscribe(@NonNull Disposable d) {
+                @Override
+                public void onSubscribe(@NonNull Disposable d) {
 
-            }
-
-            @Override
-            public void onNext(@NonNull List<BankAccess> bankAccesses) {
-                if (bankAccesses.size() > 0) {
-                    mainMenu.replaceFragment(2);
-                    found = true;
                 }
-            }
 
-            @Override
-            public void onError(@NonNull Throwable e) {
-                Logger.getLogger(this.getClass().getCanonicalName()).log(Level.SEVERE, "failed to sync bankaccounts", e);
-            }
-
-            @Override
-            public void onComplete() {
-                if(!found){
-                    mainMenu.replaceFragment(1);
+                @Override
+                public void onNext(@NonNull List<BankAccess> bankAccesses) {
+                    if (bankAccesses.size() > 0) {
+                        mainMenu.replaceFragment(2);
+                        found = true;
+                    }
                 }
-            }
-        });
+
+                @Override
+                public void onError(@NonNull Throwable e) {
+                    Logger.getLogger(this.getClass().getCanonicalName()).log(Level.SEVERE, "failed to sync bankaccounts", e);
+                }
+
+                @Override
+                public void onComplete() {
+                    if (!found) {
+                        mainMenu.replaceFragment(1);
+                    }
+                }
+            });
+        }
 
 
         //click on items

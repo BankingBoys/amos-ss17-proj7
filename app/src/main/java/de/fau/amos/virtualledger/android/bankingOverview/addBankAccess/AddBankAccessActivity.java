@@ -75,6 +75,9 @@ public class AddBankAccessActivity extends AppCompatActivity {
                         }
 
                         Intent intent = new Intent(context, MainMenu.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("startingFragment", 2);
+                        intent.putExtras(bundle);
                         startActivity(intent);
                         finish();
                     }

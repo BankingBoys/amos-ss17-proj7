@@ -3,6 +3,7 @@ package de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccoun
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -52,6 +53,9 @@ public class DeleteBankAccessAction implements BiConsumer<BankAccess, BankAccoun
                     public void onNext(@NonNull String s) {
                         Toast.makeText(activity, "Bank access deleted:\""  + getName.apply(bankAccess, bankAccount) + "\"", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(activity, MainMenu.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("startingFragment", 1);
+                        intent.putExtras(bundle);
                         activity.startActivity(intent);
                         activity.finish();
                     }
