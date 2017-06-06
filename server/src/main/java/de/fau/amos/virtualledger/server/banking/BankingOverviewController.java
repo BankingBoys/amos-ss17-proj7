@@ -15,6 +15,7 @@ import de.fau.amos.virtualledger.server.persistence.DeletedBankAccountsRepositor
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -138,6 +139,8 @@ public class BankingOverviewController {
 
     public BankAccountSyncResult syncBankAccounts(String email, List<BankAccountSync> bankAccountSyncList) throws BankingException
     {
+        this.filterBankAccountSyncWithDeleted(email, bankAccountSyncList);
+
         final List<BankAccountBookings> resultAccountBookings = new ArrayList<>();
         final BankAccountSyncResult result = new BankAccountSyncResult(resultAccountBookings);
         for(BankAccountSync bankAccountSync: bankAccountSyncList)
@@ -203,5 +206,32 @@ public class BankingOverviewController {
             }
         }
         bankAccountList.removeAll(foundBankAccounts);
+    }
+
+    /**
+     * filters a list of BankAccountSync objects with accesses and accounts that are marked as deleted in database
+     * @param email
+     * @param bankAccountSyncList
+     */
+    private void filterBankAccountSyncWithDeleted(String email, List<BankAccountSync> bankAccountSyncList)
+    {
+        List<DeletedBankAccess> deletedAccessList = deletedBankAccessesRepository.getDeletedBankAccessIdsByEmail(email);
+        for(DeletedBankAccess deletedBankAccess : deletedAccessList)
+        {
+            bankAccountSyncList.removeIf(x -> x.getBankaccessid().equals(deletedBankAccess.bankAccessId));
+        }
+
+        // use iterator, so we can modify List while iterating over it
+        Iterator<BankAccountSync> iterator = bankAccountSyncList.iterator();
+        while(iterator.hasNext()) {
+            BankAccountSync bankAccountSync = iterator.next();
+            List<DeletedBankAccount> deletedAccountList = deletedBankAccountRepository.getDeletedBankAccountIdsByEmailAndAccessId(email, bankAccountSync.getBankaccessid());
+            for (DeletedBankAccount deletedBankAccount : deletedAccountList) {
+                if(deletedBankAccount.bankAccountId.equals(bankAccountSync.getBankaccountid()))
+                {
+                    iterator.remove();
+                }
+            }
+        }
     }
 }
