@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -136,7 +137,9 @@ public class TransactionOverviewFragment extends Fragment {
             totalAmount += transaction.booking().getAmount();
         }
         this.sumView = (TextView) this.mainView.findViewById(R.id.transaction_sum_text);
-        sumView.setText("Total amount: " + totalAmount);
+        
+        String bankBalanceString = String.format(Locale.GERMAN, "%.2f", totalAmount);
+        sumView.setText("Total amount: " + bankBalanceString);
     }
 
 
