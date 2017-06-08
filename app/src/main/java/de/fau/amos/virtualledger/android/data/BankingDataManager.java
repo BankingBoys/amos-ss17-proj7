@@ -3,6 +3,7 @@ package de.fau.amos.virtualledger.android.data;
 import java.util.List;
 import java.util.Observable;
 
+import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.dtos.BankAccess;
@@ -18,12 +19,14 @@ import static de.fau.amos.virtualledger.android.data.BankingDataManager.SYNC_STA
 
 public class BankingDataManager extends Observable {
 
-    public enum SYNC_STATUS {
-        NOT_SYNCED, SYNC_IN_PROGRESS, SYNCED
-    }
 
+
+    public enum SYNC_STATUS {
+        NOT_SYNCED, SYNC_IN_PROGRESS, SYNCED;
+    }
     private final BankingProvider bankingProvider;
     private final BankAccessCredentialDB bankAccessCredentialDB;
+    private final AuthenticationProvider authenticationProvider;
 
     private List<BankAccess> bankAccesses;
     private List<BankAccountBookings> bankAccountBookings;
@@ -33,12 +36,13 @@ public class BankingDataManager extends Observable {
 
     private SYNC_STATUS syncStatus = NOT_SYNCED;
 
-    public BankingDataManager(final BankingProvider bankingProvider, final BankAccessCredentialDB bankAccessCredentialDB) {
+    public BankingDataManager(final BankingProvider bankingProvider, final BankAccessCredentialDB bankAccessCredentialDB, final AuthenticationProvider authenticationProvider) {
         this.bankingProvider = bankingProvider;
         this.bankAccessCredentialDB = bankAccessCredentialDB;
+        this.authenticationProvider = authenticationProvider;
     }
 
-    public void sync(final String user) {
+    public void sync() {
         bankingSyncFailedException = null;
         syncStatus = SYNC_IN_PROGRESS;
         bankingProvider.getBankingOverview()
@@ -48,7 +52,7 @@ public class BankingDataManager extends Observable {
             @Override
             public void accept(@NonNull final List<BankAccess> bankAccesses) throws Exception {
                 BankingDataManager.this.bankAccesses = bankAccesses;
-                syncBookings(user);
+                syncBookings();
             }
         }, new Consumer<Throwable>() {
             @Override
@@ -58,8 +62,8 @@ public class BankingDataManager extends Observable {
         });
     }
 
-    private void syncBookings(final String user) {
-        final List<BankAccountSync> bankAccountSyncList = bankAccessCredentialDB.getBankAccountSyncList(user);
+    private void syncBookings() {
+        final List<BankAccountSync> bankAccountSyncList = bankAccessCredentialDB.getBankAccountSyncList(authenticationProvider.getEmail());
         bankingProvider.getBankingTransactions(bankAccountSyncList)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

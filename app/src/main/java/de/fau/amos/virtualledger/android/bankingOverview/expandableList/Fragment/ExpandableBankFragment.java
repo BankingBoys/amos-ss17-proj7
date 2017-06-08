@@ -84,7 +84,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
 
         switch (bankingDataManager.getSyncStatus()) {
             case NOT_SYNCED:
-                bankingDataManager.sync(authenticationProvider.getEmail());
+                bankingDataManager.sync();
                 break;
             case SYNCED:
                 onBankingDataChanged();
@@ -112,7 +112,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
                         new BiConsumer<BankAccess, BankAccount>() {
                             @Override
                             public void accept(BankAccess item1, BankAccount item2) {
-                                new DeleteBankAccessAction(getActivity(), getName, bankingProvider).accept(item1, item2);
+                                new DeleteBankAccessAction(getActivity(), getName, bankingProvider, bankingDataManager).accept(item1, item2);
                             }
                         }
                 )
@@ -149,6 +149,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         int i = 0;
         bankBalanceOverview = 0;
         sortAccesses();
+        groups.clear();
         for (BankAccess access : bankAccessList) {
             Group group = new Group(access);
             List<BankAccount> accountList = sortAccounts(access.getBankaccounts());

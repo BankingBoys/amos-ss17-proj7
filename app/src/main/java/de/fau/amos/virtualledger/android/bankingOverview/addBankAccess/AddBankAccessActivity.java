@@ -75,7 +75,7 @@ public class AddBankAccessActivity extends AppCompatActivity {
                             bankAccessCredentialDB.persist(authenticationProvider.getEmail(), bankCode, bankLogin, pin, access.getId(), account.getBankid(), access.getName(), account.getName());
                         }
 
-                        bankingDataManager.sync(authenticationProvider.getEmail());
+                        bankingDataManager.sync();
 
                         finish();
                     }

@@ -1,16 +1,12 @@
 package de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.functions.BiConsumer;
 import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.functions.BiFunction;
-import de.fau.amos.virtualledger.android.menu.MainMenu;
+import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import io.reactivex.Observer;
@@ -29,13 +25,15 @@ public class DeleteBankAccessAction implements BiConsumer<BankAccess, BankAccoun
     private BankingProvider bankingProvider;
     private Activity activity;
     private BiFunction<BankAccess, BankAccount, String> getName;
+    private BankingDataManager bankingDataManager;
 
-    public DeleteBankAccessAction(Activity activity, BiFunction<BankAccess, BankAccount, String> getName, BankingProvider bankingProvider) {
+    public DeleteBankAccessAction(Activity activity, BiFunction<BankAccess, BankAccount, String> getName, BankingProvider bankingProvider, final BankingDataManager bankingDataManager) {
         this.getName = getName;
         this.activity = activity;
 
         // TODO refactor so inject works!!!
         this.bankingProvider = bankingProvider;
+        this.bankingDataManager = bankingDataManager;
     }
 
     @Override
@@ -51,13 +49,8 @@ public class DeleteBankAccessAction implements BiConsumer<BankAccess, BankAccoun
 
                     @Override
                     public void onNext(@NonNull String s) {
+                        bankingDataManager.sync();
                         Toast.makeText(activity, "Bank access deleted:\""  + getName.apply(bankAccess, bankAccount) + "\"", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(activity, MainMenu.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("startingFragment", 1);
-                        intent.putExtras(bundle);
-                        activity.startActivity(intent);
-                        activity.finish();
                     }
 
                     @Override
