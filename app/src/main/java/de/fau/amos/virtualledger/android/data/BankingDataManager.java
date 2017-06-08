@@ -1,5 +1,7 @@
 package de.fau.amos.virtualledger.android.data;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -22,7 +24,7 @@ import static de.fau.amos.virtualledger.android.data.BankingDataManager.SYNC_STA
 import static de.fau.amos.virtualledger.android.data.BankingDataManager.SYNC_STATUS.SYNC_IN_PROGRESS;
 
 public class BankingDataManager extends Observable {
-
+    private final static String TAG = BankingDataManager.class.getSimpleName();
 
 
     public enum SYNC_STATUS {
@@ -61,6 +63,7 @@ public class BankingDataManager extends Observable {
         }, new Consumer<Throwable>() {
             @Override
             public void accept(@NonNull final Throwable throwable) throws Exception {
+                Log.e(TAG, "Failed getting bankOverview", throwable);
                 bankingSyncFailedException = new BankingSyncFailedException(throwable);
             }
         });
@@ -89,6 +92,7 @@ public class BankingDataManager extends Observable {
         }, new Consumer<Throwable>() {
             @Override
             public void accept(@NonNull final Throwable throwable) throws Exception {
+                Log.e(TAG, "Failed getting bookings", throwable);
                 bankingSyncFailedException = new BankingSyncFailedException(throwable);
             }
         });

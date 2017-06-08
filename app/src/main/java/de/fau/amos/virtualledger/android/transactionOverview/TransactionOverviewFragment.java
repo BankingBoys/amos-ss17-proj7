@@ -6,7 +6,6 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccess
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
-import de.fau.amos.virtualledger.android.menu.MainMenu;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.Booking;
 
@@ -80,17 +78,14 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     private void onBankingDataChanged() {
         try {
             bankAccountBookingsList = bankingDataManager.getBankAccountBookings();
-            //TODO
-            if ((bankAccountBookingsList == null || bankAccountBookingsList.size() == 0) && (getActivity() instanceof MainMenu)) {
+            if ((bankAccountBookingsList == null || bankAccountBookingsList.size() == 0)) {
                 Fragment fragment = new NoBankingAccessesFragment();
                 openFragment(fragment);
             }
             onBookingsUpdated();
 
         } catch (BankingSyncFailedException ex) {
-            //TODO
-            Log.e(TAG, "Error occured in Observable from bank overview");
-            Toast.makeText(getActivity(), "Verbindungsprobleme mit dem Server, bitte versuchen Sie es erneut", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Failed connecting to the server, try again later", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -122,9 +117,6 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     }
 
 
-    /**
-     *
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mainView = inflater.inflate(R.layout.fragment_transaction_overview, container, false);
