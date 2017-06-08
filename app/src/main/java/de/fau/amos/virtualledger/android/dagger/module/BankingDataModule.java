@@ -14,6 +14,6 @@ public class BankingDataModule {
     @Provides
     @Singleton
     BankingDataManager provideBankingDataManager(BankingProvider bankingProvider) {
-        return new BankingDataManager(bankingProvider);
+        return new BankingDataManager(bankingProvider, bankAccessCredentialDB);
     }
 }
