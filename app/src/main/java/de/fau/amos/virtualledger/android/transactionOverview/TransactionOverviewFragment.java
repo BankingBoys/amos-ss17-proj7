@@ -25,7 +25,6 @@ import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
-import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.dagger.App;
@@ -38,38 +37,29 @@ import de.fau.amos.virtualledger.dtos.Booking;
 public class TransactionOverviewFragment extends Fragment implements java.util.Observer {
     private static final String TAG = TransactionOverviewFragment.class.getSimpleName();
 
-    @Inject
-    BankAccessCredentialDB bankAccessCredentialDB;
-
-    private TextView sumView = null;
     private TransactionAdapter adapter;
     private View mainView;
     private ArrayList<Transaction> allTransactions = new ArrayList<>();
-    ListView bookingListView;
-    View separator;
+    private ListView bookingListView;
+    private View separator;
 
-    /**
-     *
-     */
+
     @Inject
-    BankingProvider bankingProvider;
+    BankAccessCredentialDB bankAccessCredentialDB;
     @Inject
     AuthenticationProvider authenticationProvider;
     @Inject
     BankingDataManager bankingDataManager;
+
     private List<BankAccountBookings> bankAccountBookingsList;
 
-    /**
-     *
-     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
 
-        this.adapter = new TransactionAdapter(this.getActivity(), R.id.transaction_list, new ArrayList<Transaction>());
+        adapter = new TransactionAdapter(getActivity(), R.id.transaction_list, new ArrayList<Transaction>());
         bookingListView.setAdapter(adapter);
-        /*refreshTotalAmount();*/
     }
 
     @Override
@@ -105,6 +95,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     }
 
     private void onBookingsUpdated() {
+        allTransactions.clear();
         for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
             for (Booking booking : bankAccountBookings.getBookings()) {
                 Transaction transaction = new Transaction(
@@ -148,7 +139,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
             Transaction transaction = this.allTransactions.get(i);
             totalAmount += transaction.booking().getAmount();
         }
-        this.sumView = (TextView) this.mainView.findViewById(R.id.transaction_sum_text);
+        final TextView sumView = (TextView) this.mainView.findViewById(R.id.transaction_sum_text);
 
         String bankBalanceString = String.format(Locale.GERMAN, "%.2f", totalAmount);
         if(totalAmount < 0)
