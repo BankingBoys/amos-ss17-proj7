@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
 import de.fau.amos.virtualledger.android.bankingOverview.addBankAccess.AddBankAccessActivity;
 
 /**
@@ -29,6 +28,7 @@ public class NoBankingAccessesFragment extends Fragment {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), AddBankAccessActivity.class);
                         getActivity().startActivity(intent);
+                        getActivity().getFragmentManager().popBackStack();
                     }
                 }
         );
