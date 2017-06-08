@@ -62,6 +62,7 @@ public class BankingDataManager extends Observable {
             public void accept(@NonNull final BankAccountSyncResult bankAccountSyncResult) throws Exception {
                 bankAccountBookings = bankAccountSyncResult.getBankaccountbookings();
                 syncComplete = true;
+                setChanged();
                 notifyObservers();
             }
         }, new Consumer<Throwable>() {
