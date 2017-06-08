@@ -32,10 +32,6 @@ import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
 import de.fau.amos.virtualledger.android.transactionOverview.TransactionOverviewFragment;
-import de.fau.amos.virtualledger.dtos.BankAccess;
-import io.reactivex.Observer;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 import retrofit2.Retrofit;
 
 /**
@@ -96,41 +92,6 @@ public class MainMenu extends AppCompatActivity {
 
         //Close sliding menu
         drawerLayout.closeDrawer(listView);
-
-        //starting fragment -- if necessary add the start fragment here
-
-
-        if(bundle==null) {
-            final MainMenu mainMenu = this;
-            bankingProvider.getBankingOverview().subscribe(new Observer<List<BankAccess>>() {
-                boolean found = false;
-
-                @Override
-                public void onSubscribe(@NonNull Disposable d) {
-
-                }
-
-                @Override
-                public void onNext(@NonNull List<BankAccess> bankAccesses) {
-                    if (bankAccesses.size() > 0) {
-                        mainMenu.replaceFragment(2);
-                        found = true;
-                    }
-                }
-
-                @Override
-                public void onError(@NonNull Throwable e) {
-                    Logger.getLogger(this.getClass().getCanonicalName()).log(Level.SEVERE, "failed to sync bankaccounts", e);
-                }
-
-                @Override
-                public void onComplete() {
-                    if (!found) {
-                        mainMenu.replaceFragment(1);
-                    }
-                }
-            });
-        }
 
         replaceFragment(startingFragment);
 
