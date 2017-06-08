@@ -1,3 +1,2 @@
-include ':app'
 include ':dtos'
 project(':dtos').projectDir = new File('../dtos')
