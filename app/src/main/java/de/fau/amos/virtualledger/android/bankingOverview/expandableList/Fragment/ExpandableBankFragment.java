@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -41,26 +40,8 @@ import de.fau.amos.virtualledger.android.menu.MainMenu;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 
-/**
- * Created by Simon on 21.05.2017.
- */
-
 public class ExpandableBankFragment extends Fragment implements Observer {
     private static final String TAG = "BankAccessListFragment";
-
-
-    ExpandableListView listView;
-
-    TextView bankBalanceOverviewText;
-
-    View separator;
-
-    SparseArray<Group> groups = new SparseArray<Group>();
-
-    List<BankAccess> bankAccessList;
-
-    double bankBalanceOverview;
-
     @Inject
     BankingProvider bankingProvider;
     @Inject
@@ -69,7 +50,12 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     BankAccessCredentialDB bankAccessCredentialDB;
     @Inject
     BankingDataManager bankingDataManager;
-
+    private ExpandableListView listView;
+    private TextView bankBalanceOverviewText;
+    private View separator;
+    private SparseArray<Group> groups = new SparseArray<>();
+    private List<BankAccess> bankAccessList;
+    private double bankBalanceOverview;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -92,7 +78,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         }
     }
 
-    private void onBankAccessesUpdated(final @NonNull List<BankAccess> bankAccesses) {
+    private void onBankAccessesUpdated() {
         createData();
         ExpandableAdapterBanking adapter = new ExpandableAdapterBanking(getActivity(),
                 groups, bankingProvider, bankingDataManager);
@@ -119,16 +105,13 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     }
 
     private void changeColorOfBalance(double balance) {
-        if(balance < 0)
-        {
+        if (balance < 0) {
             int redColor = ContextCompat.getColor(this.getActivity(), R.color.colorNegativeAmount);
             bankBalanceOverviewText.setTextColor(redColor);
-        } else if(balance == 0)
-        {
+        } else if (balance == 0) {
             int blueColor = ContextCompat.getColor(this.getActivity(), R.color.colorBankingOverview);
             bankBalanceOverviewText.setTextColor(blueColor);
-        } else
-        {
+        } else {
             int greenColor = ContextCompat.getColor(this.getActivity(), R.color.colorBankingOverviewLightGreen);
             bankBalanceOverviewText.setTextColor(greenColor);
         }
@@ -139,7 +122,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
         listView = (ExpandableListView) view.findViewById(R.id.expandableView);
         bankBalanceOverviewText = (TextView) view.findViewById(R.id.BankAccessBalanceOverview);
-        separator = (View) view.findViewById(R.id.bankOverviewSeparator);
+        separator = view.findViewById(R.id.bankOverviewSeparator);
         return view;
     }
 
@@ -189,17 +172,16 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         onBankingDataChanged();
     }
 
-    public void onBankingDataChanged()
-    {
-        try{
+    public void onBankingDataChanged() {
+        try {
             bankAccessList = bankingDataManager.getBankAccesses();
             if ((bankAccessList == null || bankAccessList.size() == 0) && (getActivity() instanceof MainMenu)) {
                 Fragment fragment = new NoBankingAccessesFragment();
                 openFragment(fragment);
             }
-            onBankAccessesUpdated(bankAccessList);
+            onBankAccessesUpdated();
 
-        } catch(BankingSyncFailedException ex) {
+        } catch (BankingSyncFailedException ex) {
             Log.e(TAG, "Error occured in Observable from bank overview");
             Toast.makeText(getActivity(), "Verbindungsprobleme mit dem Server, bitte versuchen Sie es erneut", Toast.LENGTH_LONG).show();
         }
