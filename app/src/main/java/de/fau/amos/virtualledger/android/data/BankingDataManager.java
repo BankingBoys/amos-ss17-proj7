@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.android.data;
 
 import java.util.List;
+import java.util.Observable;
 
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
@@ -8,10 +9,12 @@ import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
-public class BankingDataManager {
+public class BankingDataManager extends Observable {
 
     private final BankingProvider bankingProvider;
     private final BankAccessCredentialDB bankAccessCredentialDB;
@@ -32,7 +35,10 @@ public class BankingDataManager {
     public void sync(final String user) {
         bankingSyncFailedException = null;
         syncComplete = false;
-        bankingProvider.getBankingOverview().subscribe(new Consumer<List<BankAccess>>() {
+        bankingProvider.getBankingOverview()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<BankAccess>>() {
             @Override
             public void accept(@NonNull final List<BankAccess> bankAccesses) throws Exception {
                 BankingDataManager.this.bankAccesses = bankAccesses;
@@ -48,11 +54,15 @@ public class BankingDataManager {
 
     private void syncBookings(final String user) {
         final List<BankAccountSync> bankAccountSyncList = bankAccessCredentialDB.getBankAccountSyncList(user);
-        bankingProvider.getBankingTransactions(bankAccountSyncList).subscribe(new Consumer<BankAccountSyncResult>() {
+        bankingProvider.getBankingTransactions(bankAccountSyncList)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<BankAccountSyncResult>() {
             @Override
             public void accept(@NonNull final BankAccountSyncResult bankAccountSyncResult) throws Exception {
                 bankAccountBookings = bankAccountSyncResult.getBankaccountbookings();
                 syncComplete = true;
+                notifyObservers();
             }
         }, new Consumer<Throwable>() {
             @Override

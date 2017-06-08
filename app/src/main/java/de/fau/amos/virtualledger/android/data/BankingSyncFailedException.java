@@ -2,7 +2,7 @@ package de.fau.amos.virtualledger.android.data;
 
 import java.io.IOException;
 
-class BankingSyncFailedException extends IOException {
+public class BankingSyncFailedException extends IOException {
     BankingSyncFailedException() {
         super();
     }
