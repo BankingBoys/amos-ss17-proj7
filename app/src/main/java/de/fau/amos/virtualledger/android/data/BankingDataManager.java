@@ -14,7 +14,13 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+import static de.fau.amos.virtualledger.android.data.BankingDataManager.SYNC_STATUS.*;
+
 public class BankingDataManager extends Observable {
+
+    public enum SYNC_STATUS {
+        NOT_SYNCED, SYNC_IN_PROGRESS, SYNCED
+    }
 
     private final BankingProvider bankingProvider;
     private final BankAccessCredentialDB bankAccessCredentialDB;
@@ -25,7 +31,7 @@ public class BankingDataManager extends Observable {
     //Set if sync failed and thrwon in getters
     private BankingSyncFailedException bankingSyncFailedException = null;
 
-    private boolean syncComplete = false;
+    private SYNC_STATUS syncStatus = NOT_SYNCED;
 
     public BankingDataManager(final BankingProvider bankingProvider, final BankAccessCredentialDB bankAccessCredentialDB) {
         this.bankingProvider = bankingProvider;
@@ -34,7 +40,7 @@ public class BankingDataManager extends Observable {
 
     public void sync(final String user) {
         bankingSyncFailedException = null;
-        syncComplete = false;
+        syncStatus = SYNC_IN_PROGRESS;
         bankingProvider.getBankingOverview()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -61,7 +67,7 @@ public class BankingDataManager extends Observable {
             @Override
             public void accept(@NonNull final BankAccountSyncResult bankAccountSyncResult) throws Exception {
                 bankAccountBookings = bankAccountSyncResult.getBankaccountbookings();
-                syncComplete = true;
+                syncStatus = SYNCED;
                 setChanged();
                 notifyObservers();
             }
@@ -73,19 +79,19 @@ public class BankingDataManager extends Observable {
         });
     }
 
-    public boolean isSyncComplete() {
-        return syncComplete;
+    public SYNC_STATUS getSyncStatus() {
+        return syncStatus;
     }
 
     public List<BankAccess> getBankAccesses() throws BankingSyncFailedException {
         if(bankingSyncFailedException != null) throw bankingSyncFailedException;
-        if(!syncComplete) throw new IllegalStateException("Sync not completed");
+        if(syncStatus != SYNCED) throw new IllegalStateException("Sync not completed");
         return bankAccesses;
     }
 
     public List<BankAccountBookings> getBankAccountBookings() throws BankingSyncFailedException {
         if(bankingSyncFailedException != null) throw bankingSyncFailedException;
-        if(!syncComplete) throw new IllegalStateException("Sync not completed");
+        if(syncStatus != SYNCED) throw new IllegalStateException("Sync not completed");
         return bankAccountBookings;
     }
 }

@@ -82,10 +82,13 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         super.onResume();
         bankingDataManager.addObserver(this);
 
-        if(!bankingDataManager.isSyncComplete()) {
-            bankingDataManager.sync(authenticationProvider.getEmail());
-        } else {
-            onBankingDataChanged();
+        switch (bankingDataManager.getSyncStatus()) {
+            case NOT_SYNCED:
+                bankingDataManager.sync(authenticationProvider.getEmail());
+                break;
+            case SYNCED:
+                onBankingDataChanged();
+                break;
         }
     }
 
