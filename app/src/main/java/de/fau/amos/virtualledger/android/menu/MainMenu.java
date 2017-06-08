@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,6 @@ import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
-import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
 import de.fau.amos.virtualledger.android.bankingOverview.addBankAccess.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
@@ -32,40 +30,17 @@ import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
 import de.fau.amos.virtualledger.android.transactionOverview.TransactionOverviewFragment;
-import retrofit2.Retrofit;
-
-/**
- * Created by Simon on 13.05.2017.
- */
 
 public class MainMenu extends AppCompatActivity {
 
     @Inject
     AuthenticationProvider authenticationProvider;
 
-    /**
-     *
-     */
-    @Inject
-    Retrofit retrofit;
-
-
-    @Inject
-    BankingProvider bankingProvider;
-
-    /**
-     *
-     */
     private List<ItemSlidingMenu> slidingItems;
-    private MenuAdapter menuAdapter;
     private DrawerLayout drawerLayout;
     private ListView listView;
-    private RelativeLayout content;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    /**
-     *
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,18 +89,12 @@ public class MainMenu extends AppCompatActivity {
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.main_menu_drawer_opened, R.string.main_menu_drawer_closed) {
 
-            /**
-             *
-             */
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu();
             }
 
-            /**
-             *
-             */
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -137,40 +106,26 @@ public class MainMenu extends AppCompatActivity {
 
     }
 
-    /**
-     *
-     */
     private void init() {
         ((App) getApplication()).getNetComponent().inject(this);
         listView = (ListView) findViewById(R.id.sliding_menu);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        content = (RelativeLayout) findViewById(R.id.content);
         slidingItems = new ArrayList<>();
     }
 
-    /**
-     *
-     */
     private void configureItemsForMenu() {
         slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Logout"));
         slidingItems.add(new ItemSlidingMenu(R.drawable.bank_accesses, "Bank Access"));
         slidingItems.add(new ItemSlidingMenu(R.drawable.list, "Transaction Overview"));
-        menuAdapter = new MenuAdapter(this, slidingItems);
-        listView.setAdapter(menuAdapter);
+        listView.setAdapter(new MenuAdapter(this, slidingItems));
     }
 
-    /**
-     *
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
-    /**
-     *
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
@@ -185,9 +140,6 @@ public class MainMenu extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     *
-     */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -224,9 +176,6 @@ public class MainMenu extends AppCompatActivity {
 
     }
 
-    /**
-     *
-     */
     private void openFragment(Fragment fragment) {
         if (null != fragment) {
             FragmentManager manager = getFragmentManager();
@@ -237,22 +186,12 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
-    /**
-     *
-     */
     public void executeLogout() {
-        logout();
+        authenticationProvider.logout();
         authenticationProvider.deleteSavedLoginData(this);
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    /**
-     *
-     */
-    public void logout() {
-        authenticationProvider.logout();
     }
 
 }
