@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,8 +17,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
@@ -32,6 +31,8 @@ import de.fau.amos.virtualledger.android.menu.model.ItemSlidingMenu;
 import de.fau.amos.virtualledger.android.transactionOverview.TransactionOverviewFragment;
 
 public class MainMenu extends AppCompatActivity {
+
+    private static final String TAG = MainMenu.class.getSimpleName();
 
     @Inject
     AuthenticationProvider authenticationProvider;
@@ -58,9 +59,6 @@ public class MainMenu extends AppCompatActivity {
 
         //set Menu-Icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //title -- use if a title is necessary
-        //setTitle(slidingItems.get(0).getImageTitle());
 
         //select
         listView.setItemChecked(0, true);
@@ -168,7 +166,7 @@ public class MainMenu extends AppCompatActivity {
 
             //new Fragments can be added her
             default:
-                Logger.getLogger(MainMenu.class.getCanonicalName()).log(Level.INFO, "Menu item pos: {" + pos + "} not found");
+                Log.e(TAG, "Menu item pos: {" + pos + "} not found");
                 fragment = new TransactionOverviewFragment();
                 openFragment(fragment);
                 break;
