@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import de.fau.amos.virtualledger.android.bankingOverview.addBankAccess.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
+import de.fau.amos.virtualledger.android.dagger.module.BankingDataModule;
 import de.fau.amos.virtualledger.android.dagger.module.DatabaseModule;
 import de.fau.amos.virtualledger.android.menu.MainMenu;
 import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
@@ -21,7 +22,7 @@ import de.fau.amos.virtualledger.android.transactionOverview.TransactionOverview
  */
 
 @Singleton
-@Component(modules = {AppModule.class, NetModule.class, AuthenticationModule.class, BankingModule.class, DatabaseModule.class})
+@Component(modules = {AppModule.class, NetModule.class, AuthenticationModule.class, BankingModule.class, DatabaseModule.class, BankingDataModule.class})
 public interface NetComponent {
 
     /**
