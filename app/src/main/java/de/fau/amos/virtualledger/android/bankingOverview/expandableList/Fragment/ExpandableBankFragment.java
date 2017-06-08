@@ -175,6 +175,8 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     public void onBankingDataChanged() {
         try {
             bankAccessList = bankingDataManager.getBankAccesses();
+
+            //TODO
             if ((bankAccessList == null || bankAccessList.size() == 0) && (getActivity() instanceof MainMenu)) {
                 Fragment fragment = new NoBankingAccessesFragment();
                 openFragment(fragment);
@@ -182,6 +184,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
             onBankAccessesUpdated();
 
         } catch (BankingSyncFailedException ex) {
+            //TODO
             Log.e(TAG, "Error occured in Observable from bank overview");
             Toast.makeText(getActivity(), "Verbindungsprobleme mit dem Server, bitte versuchen Sie es erneut", Toast.LENGTH_LONG).show();
         }

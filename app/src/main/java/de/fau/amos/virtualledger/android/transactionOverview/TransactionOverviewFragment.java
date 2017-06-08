@@ -3,10 +3,10 @@ package de.fau.amos.virtualledger.android.transactionOverview;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +19,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Observable;
 
 import javax.inject.Inject;
 
@@ -30,22 +29,19 @@ import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.android.data.BankingDataManager;
+import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
+import de.fau.amos.virtualledger.android.menu.MainMenu;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
-import de.fau.amos.virtualledger.dtos.BankAccountSync;
-import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
 import de.fau.amos.virtualledger.dtos.Booking;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
-public class TransactionOverviewFragment extends Fragment {
+public class TransactionOverviewFragment extends Fragment implements java.util.Observer {
+    private static final String TAG = TransactionOverviewFragment.class.getSimpleName();
 
     @Inject
     BankAccessCredentialDB bankAccessCredentialDB;
 
     private TextView sumView = null;
-    private ArrayList<BankAccountSync> bankAccountSyncs = new ArrayList<>();
     private TransactionAdapter adapter;
     private View mainView;
     private ArrayList<Transaction> allTransactions = new ArrayList<>();
@@ -59,7 +55,9 @@ public class TransactionOverviewFragment extends Fragment {
     BankingProvider bankingProvider;
     @Inject
     AuthenticationProvider authenticationProvider;
-
+    @Inject
+    BankingDataManager bankingDataManager;
+    private List<BankAccountBookings> bankAccountBookingsList;
 
     /**
      *
@@ -68,67 +66,70 @@ public class TransactionOverviewFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
-        final TransactionOverviewFragment frag = this;
-
-        List<BankAccountSync> syncList = bankAccessCredentialDB.getBankAccountSyncList(authenticationProvider.getEmail());
-        if(syncList == null || syncList.size() == 0){
-            openFragment(new NoBankingAccessesFragment());
-        }
-        bankingProvider.getBankingTransactions(bankAccessCredentialDB.getBankAccountSyncList(authenticationProvider.getEmail()))
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BankAccountSyncResult>() {
-                    @Override
-                    public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
-                    }
-
-                    @Override
-                    public void onNext(@io.reactivex.annotations.NonNull BankAccountSyncResult bankAccountSyncResult) {
-                        List<BankAccountBookings> allSyncResults = bankAccountSyncResult.getBankaccountbookings();
-                        if(allSyncResults == null || allSyncResults.size() == 0) {
-                            openFragment(new NoBankingAccessesFragment());
-                        }
-                        for (BankAccountBookings bankAccountBookings : allSyncResults) {
-                            for (Booking booking : bankAccountBookings.getBookings()) {
-                                Transaction transaction = new Transaction(
-                                        bankAccessCredentialDB
-                                                .getAccountName(
-                                                        authenticationProvider.getEmail(),
-                                                        bankAccountBookings.getBankaccessid(),
-                                                        bankAccountBookings.getBankaccountid()),
-                                        booking);
-
-                                frag.allTransactions.add(transaction);
-                                Calendar calTransaction = Calendar.getInstance();
-                                calTransaction.setTime(transaction.booking().getDate());
-
-                                Calendar calToday = new GregorianCalendar();
-                                if (calTransaction.get(Calendar.MONTH) == calToday.get(Calendar.MONTH)) {
-                                    frag.adapter.add(transaction);
-                                }
-
-                                frag.refreshTotalAmount();
-                            }
-                        }
-                        frag.adapter.sort(new TransactionsComparator());
-                    }
-
-                    @Override
-                    public void onError(@io.reactivex.annotations.NonNull Throwable e) {
-                        Logger.getLogger(this.getClass().toString()).log(Level.SEVERE, "failed to sync transactions",e);
-                        Toast.makeText(getActivity(), "Problems with synchronisation of transactions. Please try again later", Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
 
         this.adapter = new TransactionAdapter(this.getActivity(), R.id.transaction_list, new ArrayList<Transaction>());
         bookingListView.setAdapter(adapter);
         /*refreshTotalAmount();*/
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        bankingDataManager.addObserver(this);
+
+        switch (bankingDataManager.getSyncStatus()) {
+            case NOT_SYNCED:
+                bankingDataManager.sync();
+                break;
+            case SYNCED:
+                onBankingDataChanged();
+                break;
+        }
+    }
+
+    private void onBankingDataChanged() {
+        try {
+            bankAccountBookingsList = bankingDataManager.getBankAccountBookings();
+            //TODO
+            if ((bankAccountBookingsList == null || bankAccountBookingsList.size() == 0) && (getActivity() instanceof MainMenu)) {
+                Fragment fragment = new NoBankingAccessesFragment();
+                openFragment(fragment);
+            }
+            onBookingsUpdated();
+
+        } catch (BankingSyncFailedException ex) {
+            //TODO
+            Log.e(TAG, "Error occured in Observable from bank overview");
+            Toast.makeText(getActivity(), "Verbindungsprobleme mit dem Server, bitte versuchen Sie es erneut", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void onBookingsUpdated() {
+        for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
+            for (Booking booking : bankAccountBookings.getBookings()) {
+                Transaction transaction = new Transaction(
+                        bankAccessCredentialDB
+                                .getAccountName(
+                                        authenticationProvider.getEmail(),
+                                        bankAccountBookings.getBankaccessid(),
+                                        bankAccountBookings.getBankaccountid()),
+                        booking);
+
+                allTransactions.add(transaction);
+                Calendar calTransaction = Calendar.getInstance();
+                calTransaction.setTime(transaction.booking().getDate());
+
+                Calendar calToday = new GregorianCalendar();
+                if (calTransaction.get(Calendar.MONTH) == calToday.get(Calendar.MONTH)) {
+                    adapter.add(transaction);
+                }
+
+                refreshTotalAmount();
+            }
+        }
+        adapter.sort(new TransactionsComparator());
+    }
+
 
     /**
      *
@@ -139,10 +140,6 @@ public class TransactionOverviewFragment extends Fragment {
         bookingListView = (ListView) this.mainView.findViewById(R.id.transaction_list);
         separator = (View) mainView.findViewById(R.id.transactionSeparator);
         return this.mainView;
-    }
-
-    private void repaint() {
-
     }
 
     private void refreshTotalAmount() {
@@ -183,4 +180,14 @@ public class TransactionOverviewFragment extends Fragment {
     }
 
 
+    @Override
+    public void update(final Observable o, final Object arg) {
+        onBankingDataChanged();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        bankingDataManager.deleteObserver(this);
+    }
 }

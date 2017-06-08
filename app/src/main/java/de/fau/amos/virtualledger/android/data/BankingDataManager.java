@@ -26,7 +26,7 @@ public class BankingDataManager extends Observable {
 
 
     public enum SYNC_STATUS {
-        NOT_SYNCED, SYNC_IN_PROGRESS, SYNCED;
+        NOT_SYNCED, SYNC_IN_PROGRESS, SYNCED
     }
     private final BankingProvider bankingProvider;
     private final BankAccessCredentialDB bankAccessCredentialDB;
