@@ -19,12 +19,19 @@ public class BankingDataManager {
     private List<BankAccess> bankAccesses;
     private List<BankAccountBookings> bankAccountBookings;
 
+    //Set if sync failed and thrwon in getters
+    private BankingSyncFailedException bankingSyncFailedException = null;
+
+    private boolean syncComplete = false;
+
     public BankingDataManager(final BankingProvider bankingProvider, final BankAccessCredentialDB bankAccessCredentialDB) {
         this.bankingProvider = bankingProvider;
         this.bankAccessCredentialDB = bankAccessCredentialDB;
     }
 
     public void sync(final String user) {
+        bankingSyncFailedException = null;
+        syncComplete = false;
         bankingProvider.getBankingOverview().subscribe(new Consumer<List<BankAccess>>() {
             @Override
             public void accept(@NonNull final List<BankAccess> bankAccesses) throws Exception {
@@ -34,7 +41,7 @@ public class BankingDataManager {
         }, new Consumer<Throwable>() {
             @Override
             public void accept(@NonNull final Throwable throwable) throws Exception {
-
+                bankingSyncFailedException = new BankingSyncFailedException(throwable);
             }
         });
     }
@@ -45,20 +52,29 @@ public class BankingDataManager {
             @Override
             public void accept(@NonNull final BankAccountSyncResult bankAccountSyncResult) throws Exception {
                 bankAccountBookings = bankAccountSyncResult.getBankaccountbookings();
+                syncComplete = true;
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(@NonNull final Throwable throwable) throws Exception {
-
+                bankingSyncFailedException = new BankingSyncFailedException(throwable);
             }
         });
     }
 
-    public List<BankAccess> getBankAccesses() {
+    public boolean isSyncComplete() {
+        return syncComplete;
+    }
+
+    public List<BankAccess> getBankAccesses() throws BankingSyncFailedException {
+        if(bankingSyncFailedException != null) throw bankingSyncFailedException;
+        if(!syncComplete) throw new IllegalStateException("Sync not completed");
         return bankAccesses;
     }
 
-    public List<BankAccountBookings> getBankAccountBookings() {
+    public List<BankAccountBookings> getBankAccountBookings() throws BankingSyncFailedException {
+        if(bankingSyncFailedException != null) throw bankingSyncFailedException;
+        if(!syncComplete) throw new IllegalStateException("Sync not completed");
         return bankAccountBookings;
     }
 }
