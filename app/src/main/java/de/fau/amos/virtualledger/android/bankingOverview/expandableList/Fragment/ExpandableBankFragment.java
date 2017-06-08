@@ -95,9 +95,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     private void onBankAccessesUpdated(final @NonNull List<BankAccess> bankAccesses) {
         createData();
         ExpandableAdapterBanking adapter = new ExpandableAdapterBanking(getActivity(),
-                groups);
-        // TODO delete when refactored to inject in deleteAction
-        adapter.setBankingProvider(bankingProvider);
+                groups, bankingProvider, bankingDataManager);
 
         listView.setAdapter(adapter);
         String bankBalanceString = String.format(Locale.GERMAN, "%.2f", bankBalanceOverview);

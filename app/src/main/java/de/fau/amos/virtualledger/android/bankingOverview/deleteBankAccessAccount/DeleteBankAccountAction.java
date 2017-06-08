@@ -1,8 +1,6 @@
 package de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -10,7 +8,7 @@ import javax.inject.Inject;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.functions.BiConsumer;
 import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.functions.BiFunction;
-import de.fau.amos.virtualledger.android.menu.MainMenu;
+import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import io.reactivex.Observer;
@@ -28,17 +26,19 @@ public class DeleteBankAccountAction implements BiConsumer<BankAccess, BankAccou
 
     // injected by setter
     private BankingProvider bankingProvider;
+    private BankingDataManager bankingDataManager;
 
     private Activity activity;
     private BiFunction<BankAccess, BankAccount, String> getName;
 
-    public DeleteBankAccountAction(Activity activity, BiFunction<BankAccess, BankAccount, String> getName, BankingProvider bankingProvider) {
+    public DeleteBankAccountAction(Activity activity, BiFunction<BankAccess, BankAccount, String> getName, BankingProvider bankingProvider, final BankingDataManager bankingDataManager) {
         this.getName = getName;
         this.activity = activity;
 
 
         // TODO refactor so inject works!!!
         this.bankingProvider = bankingProvider;
+        this.bankingDataManager = bankingDataManager;
     }
 
     @Override
@@ -54,13 +54,8 @@ public class DeleteBankAccountAction implements BiConsumer<BankAccess, BankAccou
 
                     @Override
                     public void onNext(@NonNull String s) {
+                        bankingDataManager.sync();
                         Toast.makeText(activity, "Bank account deleted:\"" + getName.apply(bankAccess, bankAccount) + "\"", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(activity, MainMenu.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("startingFragment", 1);
-                        intent.putExtras(bundle);
-                        activity.startActivity(intent);
-                        activity.finish();
                     }
 
                     @Override

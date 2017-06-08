@@ -21,6 +21,7 @@ import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.BankAccountNameExtractor;
 import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.DeleteBankAccountAction;
 import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.LongClickDeleteListenerSingleItem;
+import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 
 public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
@@ -33,22 +34,19 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     private final SparseArray<Group> groups;
     // TODO refavtor so dagger injects directly into deleteAction
     private BankingProvider bankingProvider;
+    private BankingDataManager bankingDataManager;
 
     /**
      *
      */
-    public ExpandableAdapterBanking(Activity activity, SparseArray<Group> groups) {
+    public ExpandableAdapterBanking(Activity activity, SparseArray<Group> groups, final BankingProvider bankingProvider, final BankingDataManager bankingDataManager) {
         this.listActivity = activity;
         this.groups = groups;
         inflater = activity.getLayoutInflater();
+        this.bankingProvider = bankingProvider;
+        this.bankingDataManager = bankingDataManager;
     }
 
-    /**
-     *
-     */
-    public void setBankingProvider(BankingProvider bankingProvider) {
-        this.bankingProvider = bankingProvider;
-    }
 
     /**
      *
@@ -95,7 +93,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
                         groups.get(groupPosition).bankAccess,
                         children,
                         getName,
-                        new DeleteBankAccountAction(listActivity, getName, bankingProvider)
+                        new DeleteBankAccountAction(listActivity, getName, bankingProvider, bankingDataManager)
                 ));
 
         textBankName = (TextView) convertView.findViewById(R.id.bankAccountNameView);
