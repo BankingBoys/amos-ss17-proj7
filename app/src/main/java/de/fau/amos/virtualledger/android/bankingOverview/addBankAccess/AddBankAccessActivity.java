@@ -1,6 +1,5 @@
 package de.fau.amos.virtualledger.android.bankingOverview.addBankAccess;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +19,6 @@ import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
-import de.fau.amos.virtualledger.android.menu.MainMenu;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccount;
@@ -79,11 +77,6 @@ public class AddBankAccessActivity extends AppCompatActivity {
 
                         bankingDataManager.sync(authenticationProvider.getEmail());
 
-                        Intent intent = new Intent(context, MainMenu.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("startingFragment", 2);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
                         finish();
                     }
 
