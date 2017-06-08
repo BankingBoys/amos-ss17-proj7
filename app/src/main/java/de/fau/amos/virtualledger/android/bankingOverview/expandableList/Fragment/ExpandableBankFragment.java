@@ -19,6 +19,8 @@ import android.widget.Toast;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.inject.Inject;
 
@@ -33,20 +35,17 @@ import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Adapter.
 import de.fau.amos.virtualledger.android.bankingOverview.expandableList.model.Group;
 import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.android.data.BankingDataManager;
+import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
 import de.fau.amos.virtualledger.android.menu.MainMenu;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
-import de.fau.amos.virtualledger.dtos.BankAccountSync;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Simon on 21.05.2017.
  */
 
-public class ExpandableBankFragment extends Fragment {
+public class ExpandableBankFragment extends Fragment implements Observer {
     private static final String TAG = "BankAccessListFragment";
 
 
@@ -62,60 +61,32 @@ public class ExpandableBankFragment extends Fragment {
 
     double bankBalanceOverview;
 
-    /**
-     *
-     */
     @Inject
     BankingProvider bankingProvider;
     @Inject
     AuthenticationProvider authenticationProvider;
     @Inject
     BankAccessCredentialDB bankAccessCredentialDB;
+    @Inject
+    BankingDataManager bankingDataManager;
 
 
-    /**
-     *
-     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
-        final ExpandableBankFragment __self = this;
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        bankingDataManager.addObserver(this);
 
-        bankingProvider.getBankingOverview()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<BankAccess>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(@NonNull List<BankAccess> bankAccesses) {
-                        bankAccessList = bankAccesses;
-                        if ((bankAccessList == null || bankAccesses.size() == 0) && (getActivity() instanceof MainMenu)) {
-                            Fragment fragment = new NoBankingAccessesFragment();
-                            openFragment(fragment);
-                        }
-                        onBankAccessesUpdated(bankAccessList);
-                        syncBankAccounts();
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.e(TAG, "Error occured in Observable from bank overview");
-                        Toast.makeText(getActivity(), "Verbindungsprobleme mit dem Server, bitte versuchen Sie es erneut", Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-
+        if(!bankingDataManager.isSyncComplete()) {
+            bankingDataManager.sync(authenticationProvider.getEmail());
+        } else {
+            onBankingDataChanged();
+        }
     }
 
     private void onBankAccessesUpdated(final @NonNull List<BankAccess> bankAccesses) {
@@ -162,62 +133,6 @@ public class ExpandableBankFragment extends Fragment {
         }
     }
 
-    private void syncBankAccounts() {
-        final List<BankAccountSync> accountsToSync = bankAccessCredentialDB.getBankAccountSyncList(authenticationProvider.getEmail());
-        bankingProvider.syncBankAccounts(accountsToSync)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(@NonNull String string) {
-                        bankingProvider.getBankingOverview()
-                                .subscribeOn(Schedulers.newThread())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Observer<List<BankAccess>>() {
-                                    @Override
-                                    public void onSubscribe(@NonNull Disposable d) {
-
-                                    }
-
-                                    @Override
-                                    public void onNext(@NonNull List<BankAccess> bankAccesses) {
-                                        bankAccessList = bankAccesses;
-                                        onBankAccessesUpdated(bankAccesses);
-                                    }
-
-                                    @Override
-                                    public void onError(@NonNull Throwable e) {
-                                        Log.e(TAG, "Error occured in Observable from login.");
-                                    }
-
-                                    @Override
-                                    public void onComplete() {
-
-                                    }
-                                });
-
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.e(TAG, "Failed to sync accounts.");
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-    }
-
-    /**
-     *
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
@@ -227,9 +142,6 @@ public class ExpandableBankFragment extends Fragment {
         return view;
     }
 
-    /**
-     *
-     */
     private void createData() {
         int i = 0;
         bankBalanceOverview = 0;
@@ -248,16 +160,10 @@ public class ExpandableBankFragment extends Fragment {
 
     }
 
-    /**
-     *
-     */
     private void sortAccesses() {
         Collections.sort(bankAccessList, BankAccess.sortBankAccessByName);
     }
 
-    /**
-     *
-     */
     private List<BankAccount> sortAccounts(List<BankAccount> accounts) {
         Collections.sort(accounts, BankAccount.sortBankAccountByName);
         return accounts;
@@ -274,5 +180,32 @@ public class ExpandableBankFragment extends Fragment {
             transaction.addToBackStack(null);
             transaction.commit();
         }
+    }
+
+    @Override
+    public void update(final Observable o, final Object arg) {
+        onBankingDataChanged();
+    }
+
+    public void onBankingDataChanged()
+    {
+        try{
+            bankAccessList = bankingDataManager.getBankAccesses();
+            if ((bankAccessList == null || bankAccessList.size() == 0) && (getActivity() instanceof MainMenu)) {
+                Fragment fragment = new NoBankingAccessesFragment();
+                openFragment(fragment);
+            }
+            onBankAccessesUpdated(bankAccessList);
+
+        } catch(BankingSyncFailedException ex) {
+            Log.e(TAG, "Error occured in Observable from bank overview");
+            Toast.makeText(getActivity(), "Verbindungsprobleme mit dem Server, bitte versuchen Sie es erneut", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        bankingDataManager.deleteObserver(this);
     }
 }
