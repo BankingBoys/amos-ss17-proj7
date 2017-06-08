@@ -19,6 +19,7 @@ import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.menu.MainMenu;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
@@ -38,6 +39,8 @@ public class AddBankAccessActivity extends AppCompatActivity {
     AuthenticationProvider authenticationProvider;
     @Inject
     BankAccessCredentialDB bankAccessCredentialDB;
+    @Inject
+    BankingDataManager bankingDataManager;
 
     @BindView(R.id.editText_addBankAccess_blz)
     EditText blzEditText;
@@ -73,6 +76,8 @@ public class AddBankAccessActivity extends AppCompatActivity {
                         for(BankAccount account: access.getBankaccounts()) {
                             bankAccessCredentialDB.persist(authenticationProvider.getEmail(), bankCode, bankLogin, pin, access.getId(), account.getBankid(), access.getName(), account.getName());
                         }
+
+                        bankingDataManager.sync(authenticationProvider.getEmail());
 
                         Intent intent = new Intent(context, MainMenu.class);
                         Bundle bundle = new Bundle();
