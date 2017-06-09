@@ -9,7 +9,7 @@
     android:paddingLeft="45dp"
     android:paddingRight="10dp"
     android:paddingStart="45dp"
-    tools:context=".android.menu.MainMenu">
+    tools:context=".android.views.menu.MainMenu">
 
     <LinearLayout
         android:layout_width="match_parent"

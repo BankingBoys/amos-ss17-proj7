@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    tools:context=".android.transactionOverview.BlankFragment">
+    tools:context=".android.views.transactionOverview.BlankFragment">
 
     <LinearLayout
         android:id="@+id/id_layout_bla_"

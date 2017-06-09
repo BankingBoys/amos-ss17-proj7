@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.android.menu.MainMenu;
+import de.fau.amos.virtualledger.android.views.menu.MainMenu;
 import de.fau.amos.virtualledger.android.authentication.registration.RegisterActivity;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import io.reactivex.Observer;
