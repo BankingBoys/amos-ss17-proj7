@@ -28,4 +28,14 @@
         android:textSize="@dimen/fontSizeTotalAmountBalance"
         android:textStyle="bold"
         android:text="0" />
+
+    <View
+        android:id="@+id/transactionSeparator"
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorBankingOverview"
+        android:layout_marginBottom="20dp"
+        android:visibility="visible">
+    </View>
 </LinearLayout>
