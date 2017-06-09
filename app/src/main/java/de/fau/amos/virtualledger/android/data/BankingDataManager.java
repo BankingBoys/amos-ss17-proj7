@@ -151,7 +151,7 @@ public class BankingDataManager extends Observable {
      * @param bankAccessCredential
      * @throws BankingAddFailedException
      */
-    public void addBankAccess(BankAccessCredential bankAccessCredential) throws BankingAddFailedException {
+    public void addBankAccess(final BankAccessCredential bankAccessCredential) throws BankingAddFailedException {
         bankingProvider.addBankAccess(bankAccessCredential)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -159,7 +159,9 @@ public class BankingDataManager extends Observable {
                     @Override
                     public void accept(@NonNull final BankAccess bankAccess) throws Exception {
                         BankingDataManager.this.sync();
-                        // TODO add to database
+                        for(BankAccount account: bankAccess.getBankaccounts()) {
+                            bankAccessCredentialDB.persist(authenticationProvider.getEmail(), bankAccess.getBankcode(), bankAccess.getBanklogin(), bankAccessCredential.getPin(), bankAccess.getId(), account.getBankid(), bankAccess.getName(), account.getName());
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
