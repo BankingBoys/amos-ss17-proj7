@@ -85,8 +85,10 @@ public class BankingDataManager extends Observable {
         for (BankAccess bankAccess : bankAccesses) {
             for (BankAccount bankAccount: bankAccess.getBankaccounts()) {
                 final String pin = bankAccessCredentialDB.getPin(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
-                final BankAccountSync bankAccountSync = new BankAccountSync(bankAccess.getId(), bankAccount.getBankid(), pin);
-                bankAccountSyncList.add(bankAccountSync);
+                if(pin != null) {
+                    final BankAccountSync bankAccountSync = new BankAccountSync(bankAccess.getId(), bankAccount.getBankid(), pin);
+                    bankAccountSyncList.add(bankAccountSync);
+                }
             }
         }
         bankingProvider.getBankingTransactions(bankAccountSyncList)
