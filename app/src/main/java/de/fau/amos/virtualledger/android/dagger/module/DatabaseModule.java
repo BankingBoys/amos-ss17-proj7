@@ -1,13 +1,12 @@
 package de.fau.amos.virtualledger.android.dagger.module;
 
 import android.app.Application;
-import android.content.Context;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
+import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 
 /**
  * Created by Georg on 06.06.2017.

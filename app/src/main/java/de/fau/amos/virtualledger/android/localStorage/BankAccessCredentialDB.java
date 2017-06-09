@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.bankingOverview.localStorage;
+package de.fau.amos.virtualledger.android.localStorage;
 
 import android.content.ContentValues;
 import android.content.Context;

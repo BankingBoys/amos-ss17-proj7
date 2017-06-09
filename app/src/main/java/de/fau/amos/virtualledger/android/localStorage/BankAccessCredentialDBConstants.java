@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.bankingOverview.localStorage;
+package de.fau.amos.virtualledger.android.localStorage;
 
 class BankAccessCredentialDBConstants {
     static final String DATABASE_NAME = "BankAccessData";

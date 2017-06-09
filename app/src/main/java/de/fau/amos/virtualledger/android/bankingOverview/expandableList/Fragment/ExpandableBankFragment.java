@@ -31,7 +31,7 @@ import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount
 import de.fau.amos.virtualledger.android.bankingOverview.deleteBankAccessAccount.functions.BiConsumer;
 import de.fau.amos.virtualledger.android.bankingOverview.expandableList.Adapter.ExpandableAdapterBanking;
 import de.fau.amos.virtualledger.android.bankingOverview.expandableList.model.Group;
-import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
+import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
