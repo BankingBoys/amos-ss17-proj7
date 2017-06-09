@@ -10,6 +10,7 @@ import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.bankingOverview.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
@@ -141,5 +142,31 @@ public class BankingDataManager extends Observable {
         if(bankingSyncFailedException != null) throw bankingSyncFailedException;
         if(syncStatus != SYNCED) throw new IllegalStateException("Sync not completed");
         return bankAccountBookings;
+    }
+
+    /**
+     * Adds a BankAccess.
+     * Therefore calls server API, stores on success in localStorage.
+     * Afterwars syncs (-> Observers are notified after that)
+     * @param bankAccessCredential
+     * @throws BankingAddFailedException
+     */
+    public void addBankAccess(BankAccessCredential bankAccessCredential) throws BankingAddFailedException {
+        bankingProvider.addBankAccess(bankAccessCredential)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<BankAccess>() {
+                    @Override
+                    public void accept(@NonNull final BankAccess bankAccess) throws Exception {
+                        BankingDataManager.this.sync();
+                        // TODO add to database
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull final Throwable throwable) throws Exception {
+                        Log.e(TAG, "Failed adding a bank access", throwable);
+                        throw new BankingAddFailedException(throwable);
+                    }
+                });
     }
 }
