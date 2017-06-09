@@ -48,6 +48,11 @@ public class BankingDataManager extends Observable {
         this.authenticationProvider = authenticationProvider;
     }
 
+    /**
+     * Syncs all bankAccess and booking data with server.
+     * Therefore the syncStatus goes firs into SYNC_IN_PROGRESS and back into SYNCED when finished.
+     * Also notifies all Observers that changes were made.
+     */
     public void sync() {
         bankingSyncFailedException = null;
         syncStatus = SYNC_IN_PROGRESS;
@@ -69,6 +74,11 @@ public class BankingDataManager extends Observable {
         });
     }
 
+    /**
+     * Method that handles sync'ing the booking data with the server.
+     * Therefore the syncStatus set to SYNCED when finished.
+     * Also notifies all Observers that changes were made.
+     */
     private void syncBookings() {
         final List<BankAccountSync> bankAccountSyncList = new ArrayList<>();
         for (BankAccess bankAccess : bankAccesses) {
@@ -98,16 +108,35 @@ public class BankingDataManager extends Observable {
         });
     }
 
+    /**
+     * gets the status of the BankingDataManager.
+     * NOT_SYNCED if no sync was done yet.
+     * SYNC_IN_PROGRESS if the sync is in progress yet.
+     * SYNCED if a sync was done.
+     * @return
+     */
     public SYNC_STATUS getSyncStatus() {
         return syncStatus;
     }
 
+    /**
+     * get all synced bankAccesses
+     * @return
+     * @throws BankingSyncFailedException if something has gone wrong during the syncing process
+     * @throws BankingSyncFailedException if getter is called while sync is in progress.
+     */
     public List<BankAccess> getBankAccesses() throws BankingSyncFailedException {
         if(bankingSyncFailedException != null) throw bankingSyncFailedException;
         if(syncStatus != SYNCED) throw new IllegalStateException("Sync not completed");
         return bankAccesses;
     }
 
+    /**
+     * get all synced bankAccountBookings
+     * @return
+     * @throws BankingSyncFailedException if something has gone wrong during the syncing process
+     * @throws BankingSyncFailedException if getter is called while sync is in progress.
+     */
     public List<BankAccountBookings> getBankAccountBookings() throws BankingSyncFailedException {
         if(bankingSyncFailedException != null) throw bankingSyncFailedException;
         if(syncStatus != SYNCED) throw new IllegalStateException("Sync not completed");
