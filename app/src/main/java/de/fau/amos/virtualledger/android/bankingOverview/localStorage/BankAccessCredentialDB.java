@@ -25,11 +25,9 @@ public class BankAccessCredentialDB {
     /**
      *
      */
-    public void persist(final String user, final String bankCode, final String bankLogin, final String pin, final String accessId, final String accountId, final String accessName, final String accountName) {
+    public void persist(final String user, final String pin, final String accessId, final String accountId, final String accessName, final String accountName) {
         final ContentValues contentValues = new ContentValues();
         contentValues.put(BankAccessCredentialDBConstants.COLUMN_NAME_USER, user);
-        contentValues.put(BankAccessCredentialDBConstants.COLUMN_NAME_BANK_CODE, bankCode);
-        contentValues.put(BankAccessCredentialDBConstants.COLUMN_NAME_BANK_LOGIN, bankLogin);
         contentValues.put(BankAccessCredentialDBConstants.COLUMN_NAME_PIN, pin);
         contentValues.put(BankAccessCredentialDBConstants.COLUMN_NAME_ACCESSID, accessId);
         contentValues.put(BankAccessCredentialDBConstants.COLUMN_NAME_ACCOUNTID, accountId);
@@ -41,9 +39,9 @@ public class BankAccessCredentialDB {
     /**
      *
      */
-    public String getPin(final String user, final String bankCode, final String bankLogin, final String accessId, final String accountId) {
+    public String getPin(final String user, final String accessId, final String accountId) {
         final String[] columns = new String[] {BankAccessCredentialDBConstants.COLUMN_NAME_PIN};
-        final Cursor cursor = database.query(true, BankAccessCredentialDBConstants.TABLE_NAME, columns, BankAccessCredentialDBConstants.COLUMN_NAME_USER + " = ?" + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_BANK_CODE + " = ?" + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_BANK_LOGIN + " = ?"  + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCESSID + " = ?"  + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCOUNTID + " = ?", new String[] {user, bankCode, bankLogin, accessId, accountId}, null, null, null, null);
+        final Cursor cursor = database.query(true, BankAccessCredentialDBConstants.TABLE_NAME, columns, BankAccessCredentialDBConstants.COLUMN_NAME_USER + " = ?" + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCESSID + " = ?"  + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCOUNTID + " = ?", new String[] {user, accessId, accountId}, null, null, null, null);
         final boolean success = cursor.moveToFirst();
         if(!success) {
             return null;

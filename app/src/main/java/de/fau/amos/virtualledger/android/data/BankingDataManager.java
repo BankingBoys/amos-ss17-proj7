@@ -84,7 +84,7 @@ public class BankingDataManager extends Observable {
         final List<BankAccountSync> bankAccountSyncList = new ArrayList<>();
         for (BankAccess bankAccess : bankAccesses) {
             for (BankAccount bankAccount: bankAccess.getBankaccounts()) {
-                final String pin = bankAccessCredentialDB.getPin(authenticationProvider.getEmail(), bankAccess.getBankcode(), bankAccess.getBanklogin(), bankAccess.getId(), bankAccount.getBankid());
+                final String pin = bankAccessCredentialDB.getPin(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
                 final BankAccountSync bankAccountSync = new BankAccountSync(bankAccess.getId(), bankAccount.getBankid(), pin);
                 bankAccountSyncList.add(bankAccountSync);
             }
@@ -158,10 +158,10 @@ public class BankingDataManager extends Observable {
                 .subscribe(new Consumer<BankAccess>() {
                     @Override
                     public void accept(@NonNull final BankAccess bankAccess) throws Exception {
-                        BankingDataManager.this.sync();
                         for(BankAccount account: bankAccess.getBankaccounts()) {
-                            bankAccessCredentialDB.persist(authenticationProvider.getEmail(), bankAccess.getBankcode(), bankAccess.getBanklogin(), bankAccessCredential.getPin(), bankAccess.getId(), account.getBankid(), bankAccess.getName(), account.getName());
+                            bankAccessCredentialDB.persist(authenticationProvider.getEmail(), bankAccessCredential.getPin(), bankAccess.getId(), account.getBankid(), bankAccess.getName(), account.getName());
                         }
+                        BankingDataManager.this.sync();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
