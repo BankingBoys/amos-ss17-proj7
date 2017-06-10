@@ -2,7 +2,6 @@ package de.fau.amos.virtualledger.android.data;
 
 import android.util.Log;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -149,7 +148,7 @@ public class BankingDataManager extends Observable {
      * Therefore calls server API, stores on success in localStorage.
      * Afterwards syncs (-> Observers are notified after that)
      */
-    public void addBankAccess(final BankAccessCredential bankAccessCredential) throws BankingAddFailedException {
+    public void addBankAccess(final BankAccessCredential bankAccessCredential) {
         bankingProvider.addBankAccess(bankAccessCredential)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -165,7 +164,6 @@ public class BankingDataManager extends Observable {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
                         Log.e(TAG, "Failed adding a bank access", throwable);
-                        throw new BankingAddFailedException(throwable);
                     }
                 });
     }
@@ -195,7 +193,6 @@ public class BankingDataManager extends Observable {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
                         Log.e(TAG, "Failed deleting a bank access", throwable);
-                        throw new IOException(throwable);
                     }
                 });
     }
@@ -225,7 +222,6 @@ public class BankingDataManager extends Observable {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
                         Log.e(TAG, "Failed deleting a bank account", throwable);
-                        throw new IOException(throwable);
                     }
                 });
     }
