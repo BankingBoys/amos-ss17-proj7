@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <CalendarView
+        android:id="@+id/calendar_view_fragment_calendar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Calendar Fragment"/>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
