@@ -11,8 +11,10 @@ import android.widget.TextView;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
+import java.util.Locale;
 import java.util.Map;
 
+import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import hirondelle.date4j.DateTime;
 
@@ -21,6 +23,11 @@ import hirondelle.date4j.DateTime;
  */
 
 public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
+
+    TextView dateTextView;
+    TextView amountDeltaTextView;
+    TextView amountTextView;
+
     /**
      * Constructor
      *
@@ -41,85 +48,53 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View cellView = convertView;
 
-        // For reuse
+        //TODO
+        double amountDelta = 100.00;
+        double amount = 500.00;
+
+        // load custom cell
         if (convertView == null) {
             cellView = inflater.inflate(R.layout.calendar_view_cell, null);
         }
-
-        int topPadding = cellView.getPaddingTop();
-        int leftPadding = cellView.getPaddingLeft();
-        int bottomPadding = cellView.getPaddingBottom();
-        int rightPadding = cellView.getPaddingRight();
-
-        TextView dateTextView = (TextView) cellView.findViewById(R.id.calendar_view_cell_date);
-        TextView amountTextView = (TextView) cellView.findViewById(R.id.calendar_view_cell_amount);
+        dateTextView = (TextView) cellView.findViewById(R.id.calendar_view_cell_date);
+        amountDeltaTextView = (TextView) cellView.findViewById(R.id.calendar_view_cell_amount_delta);
+        amountTextView = (TextView) cellView.findViewById(R.id.calendar_view_cell_amount);
 
         dateTextView.setTextColor(Color.BLACK);
+        changeAmountDeltaTextColor(amountDelta);
+        changeAmountBackgroundColor(amount);
 
-        // Get dateTime of this cell
         DateTime dateTime = this.datetimeList.get(position);
-        Resources resources = context.getResources();
 
         // Set color of the dates in previous / next month
         if (dateTime.getMonth() != month) {
-            dateTextView.setTextColor(resources
-                    .getColor(com.caldroid.R.color.caldroid_darker_gray));
-        }
-
-        boolean shouldResetDiabledView = false;
-        boolean shouldResetSelectedView = false;
-
-        // Customize for disabled dates and date outside min/max dates
-        if ((minDateTime != null && dateTime.lt(minDateTime))
-                || (maxDateTime != null && dateTime.gt(maxDateTime))
-                || (disableDates != null && disableDates.indexOf(dateTime) != -1)) {
-
-            dateTextView.setTextColor(CaldroidFragment.disabledTextColor);
-            if (CaldroidFragment.disabledBackgroundDrawable == -1) {
-                cellView.setBackgroundResource(com.caldroid.R.drawable.disable_cell);
-            } else {
-                cellView.setBackgroundResource(CaldroidFragment.disabledBackgroundDrawable);
-            }
-
-            if (dateTime.equals(getToday())) {
-                cellView.setBackgroundResource(com.caldroid.R.drawable.red_border_gray_bg);
-            }
-
-        } else {
-            shouldResetDiabledView = true;
-        }
-
-        // Customize for selected dates
-        if (selectedDates != null && selectedDates.indexOf(dateTime) != -1) {
-            cellView.setBackgroundColor(resources
-                    .getColor(com.caldroid.R.color.caldroid_sky_blue));
-
-            dateTextView.setTextColor(Color.BLACK);
-
-        } else {
-            shouldResetSelectedView = true;
-        }
-
-        if (shouldResetDiabledView && shouldResetSelectedView) {
-            // Customize for today
-            if (dateTime.equals(getToday())) {
-                cellView.setBackgroundResource(com.caldroid.R.drawable.red_border);
-            } else {
-                cellView.setBackgroundResource(com.caldroid.R.drawable.cell_bg);
-            }
+            setColorsOfDayOutOfMonth();
         }
 
         dateTextView.setText("" + dateTime.getDay());
-        amountTextView.setText("2500");
-
-        // Somehow after setBackgroundResource, the padding collapse.
-        // This is to recover the padding
-        //cellView.setPadding(leftPadding, topPadding, rightPadding, bottomPadding);
-        cellView.setPadding(3, 2, 2, 3);
+        amountTextView.setText(getFormatedDouble(amount));
+        amountDeltaTextView.setText(getFormatedDouble(amountDelta));
 
         // Set custom color if required
         setCustomResources(dateTime, cellView, dateTextView);
 
         return cellView;
+    }
+
+    private void changeAmountBackgroundColor(double amount) {
+        // TODO
+    }
+
+    private void changeAmountDeltaTextColor(double amountDelta) {
+        // TODO
+    }
+
+    private void setColorsOfDayOutOfMonth() {
+        dateTextView.setTextColor(resources
+                .getColor(com.caldroid.R.color.caldroid_darker_gray));
+    }
+
+    private String getFormatedDouble(double number) {
+        return String.format(Locale.GERMAN, "%.2f", number);
     }
 }
