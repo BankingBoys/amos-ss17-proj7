@@ -16,13 +16,31 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textAlignment="viewEnd"
+            tools:text="From:" />
+
         <Button
             android:id="@+id/start_date_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Button"
-            tools:text="first day" />
+            tools:text="(choose date)" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textAlignment="textEnd"
+            tools:text="To:" />
 
         <Button
             android:id="@+id/end_date_button"
@@ -30,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Button"
-            tools:text="last day" />
+            tools:text="(choose date)" />
 
     </LinearLayout>
 
