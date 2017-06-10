@@ -94,7 +94,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
                         new BiConsumer<BankAccess, BankAccount>() {
                             @Override
                             public void accept(BankAccess item1, BankAccount item2) {
-                                new DeleteBankAccessAction(getActivity(), getName, bankingProvider, bankingDataManager).accept(item1, item2);
+                                new DeleteBankAccessAction(bankingDataManager).accept(item1, item2);
                             }
                         }
                 )

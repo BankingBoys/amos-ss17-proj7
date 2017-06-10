@@ -93,7 +93,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
                         groups.get(groupPosition).bankAccess,
                         children,
                         getName,
-                        new DeleteBankAccountAction(listActivity, getName, bankingProvider, bankingDataManager)
+                        new DeleteBankAccountAction(bankingDataManager)
                 ));
 
         textBankName = (TextView) convertView.findViewById(R.id.bankAccountNameView);
