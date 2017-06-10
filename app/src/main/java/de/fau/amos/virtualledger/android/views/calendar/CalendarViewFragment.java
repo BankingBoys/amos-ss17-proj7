@@ -17,7 +17,7 @@ import de.fau.amos.virtualledger.android.dagger.App;
 public class CalendarViewFragment extends Fragment {
     private static final String TAG = CalendarViewFragment.class.getSimpleName();
 
-    @BindView(R.id.calendar_view_fragment_calendar)
+    @BindView(R.id.calendar_view_fragment_calendar_wrapper)
     CalendarView calendarView;
 
     @Override
@@ -35,8 +35,6 @@ public class CalendarViewFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        int backgroundColor = ContextCompat.getColor(this.getActivity(), R.color.colorBankingOverview);
-        calendarView.setBackgroundColor(backgroundColor);
+
     }
 }
