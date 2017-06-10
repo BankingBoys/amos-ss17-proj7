@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <CalendarView
+    <de.fau.amos.virtualledger.android.views.calendar.BankDataCalendarView
         android:id="@+id/calendar_view_fragment_calendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
