@@ -100,32 +100,32 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
     private void changeAmountBackgroundColor(double amount) {
         if (amount < 0) {
             int redColor = ContextCompat.getColor(cellView.getContext(), R.color.colorNegativeAmount);
-            amountDeltaTextView.setBackgroundColor(redColor);
+            amountTextView.setBackgroundColor(redColor);
         } else if (amount == 0) {
             int blueColor = ContextCompat.getColor(cellView.getContext(), R.color.colorBankingOverview);
-            amountDeltaTextView.setBackgroundColor(blueColor);
+            amountTextView.setBackgroundColor(blueColor);
         } else {
             int greenColor = ContextCompat.getColor(cellView.getContext(), R.color.colorBankingOverviewLightGreen);
-            amountDeltaTextView.setBackgroundColor(greenColor);
+            amountTextView.setBackgroundColor(greenColor);
         }
     }
 
     private void changeAmountDeltaTextColor(double amountDelta) {
         if (amountDelta < 0) {
             int redColor = ContextCompat.getColor(cellView.getContext(), R.color.colorNegativeAmount);
-            amountTextView.setTextColor(redColor);
+            amountDeltaTextView.setTextColor(redColor);
         } else if (amountDelta == 0) {
             int blueColor = ContextCompat.getColor(cellView.getContext(), R.color.colorBankingOverview);
-            amountTextView.setTextColor(blueColor);
+            amountDeltaTextView.setTextColor(blueColor);
         } else {
             int greenColor = ContextCompat.getColor(cellView.getContext(), R.color.colorBankingOverviewLightGreen);
-            amountTextView.setTextColor(greenColor);
+            amountDeltaTextView.setTextColor(greenColor);
         }
     }
 
     private void setColorsOfDayOutOfMonth() {
-        dateTextView.setTextColor(resources
-                .getColor(com.caldroid.R.color.caldroid_darker_gray));
+        int grayColor = ContextCompat.getColor(cellView.getContext(), com.caldroid.R.color.caldroid_darker_gray);
+        dateTextView.setTextColor(grayColor);
     }
 
     private String getFormatedDouble(double number) {
