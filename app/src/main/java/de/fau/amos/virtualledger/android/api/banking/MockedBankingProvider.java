@@ -183,26 +183,4 @@ public class MockedBankingProvider implements BankingProvider {
 
         return observable;
     }
-
-    @Override
-    public Observable<String> syncBankAccounts(List<BankAccountSync> bankAccountSyncList) {
-        final PublishSubject observable = PublishSubject.create();
-        Thread th = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    //Wait until subject is subscribed
-                    Thread.sleep(DELAY_TIME_MILLISECONDS);}
-                catch (Exception e){
-
-                }
-                // publish accounts to subject
-                observable.onNext("BankAccount was deleted! DummyImplementation...");
-                observable.onComplete();
-            }
-        });
-        th.start();
-
-        return observable;
-    }
 }

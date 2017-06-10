@@ -8,10 +8,6 @@ import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
 import io.reactivex.Observable;
 
-/**
- * Created by sebastian on 14.05.17.
- */
-
 public interface BankingProvider {
 
     Observable<List<BankAccess>> getBankingOverview();
@@ -23,6 +19,4 @@ public interface BankingProvider {
     Observable<String> deleteBankAccess(String accessId);
 
     Observable<String> deleteBankAccount(String accessId, String accountId);
-
-    Observable<String> syncBankAccounts(List<BankAccountSync> bankAccountSyncList);
 }
