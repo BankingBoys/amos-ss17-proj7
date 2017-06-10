@@ -26,7 +26,7 @@ import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
 import de.fau.amos.virtualledger.android.views.bankingOverview.addBankAccess.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.android.views.calendar.CalenderViewFragment;
+import de.fau.amos.virtualledger.android.views.calendar.CalendarViewFragment;
 import de.fau.amos.virtualledger.android.views.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.views.menu.model.ItemSlidingMenu;
 import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOverviewFragment;
@@ -167,7 +167,7 @@ public class MainMenu extends AppCompatActivity {
                 break;
 
             case 3:
-                fragment = new CalenderViewFragment();
+                fragment = new CalendarViewFragment();
                 openFragment(fragment);
                 break;
             //new Fragments can be added her

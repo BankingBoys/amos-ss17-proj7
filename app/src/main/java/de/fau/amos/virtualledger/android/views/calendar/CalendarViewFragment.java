@@ -7,19 +7,15 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
-import android.widget.ListView;
-import android.widget.Spinner;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOverviewFragment;
 
-public class CalenderViewFragment extends Fragment {
-    private static final String TAG = CalenderViewFragment.class.getSimpleName();
+public class CalendarViewFragment extends Fragment {
+    private static final String TAG = CalendarViewFragment.class.getSimpleName();
 
     @BindView(R.id.calendar_view_fragment_calendar)
     CalendarView calendarView;

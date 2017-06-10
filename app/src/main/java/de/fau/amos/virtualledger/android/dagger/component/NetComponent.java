@@ -8,7 +8,7 @@ import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fr
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.dagger.module.BankingDataModule;
 import de.fau.amos.virtualledger.android.dagger.module.DatabaseModule;
-import de.fau.amos.virtualledger.android.views.calendar.CalenderViewFragment;
+import de.fau.amos.virtualledger.android.views.calendar.CalendarViewFragment;
 import de.fau.amos.virtualledger.android.views.menu.MainMenu;
 import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
 import de.fau.amos.virtualledger.android.authentication.registration.RegisterActivity;
@@ -47,5 +47,5 @@ public interface NetComponent {
 
     void inject(TotalAmountFragment totalAmountFragment);
 
-    void inject(CalenderViewFragment calenderViewFragment);
+    void inject(CalendarViewFragment calendarViewFragment);
 }
