@@ -175,12 +175,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
 
         // add total amount fragment programmatically (bad practice in xml -> empty LinearLayout as wrapper)
         FragmentManager fm = getFragmentManager();
-        TotalAmountFragment totalAmountFragment = (TotalAmountFragment) fm.findFragmentByTag("shared_total_amount");
-        if (totalAmountFragment == null) {
-            totalAmountFragment = new TotalAmountFragment();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.banking_overview_total_amount_fragment_wrapper, totalAmountFragment, "banking_overview_total_amount_fragment");
-            ft.commit();
-        }
+        TotalAmountFragment totalAmountFragment = new TotalAmountFragment();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.banking_overview_total_amount_fragment_wrapper, totalAmountFragment, "banking_overview_total_amount_fragment");
+        ft.commit();
     }
 }
