@@ -76,7 +76,7 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
 
         dateTextView.setText("" + dateTime.getDay());
         amountTextView.setText(getFormatedDouble(amount));
-        amountDeltaTextView.setText(getFormatedDouble(amountDelta));
+        setAmountDeltaText(amountDelta);
 
         // Set custom color if required
         setCustomResources(dateTime, cellView, dateTextView);
@@ -84,21 +84,43 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
         return cellView;
     }
 
+    private void setAmountDeltaText(double amountDelta) {
+        String amountDeltaText = getFormatedDouble(amountDelta);
+        if (amountDelta < 0) {
+            amountDeltaText = "-" + amountDeltaText;
+        }
+        if (amountDelta == 0) {
+            amountDeltaText = "";
+        }else {
+            amountDeltaText = "+" + amountDeltaText;
+        }
+        amountDeltaTextView.setText(amountDeltaText);
+    }
+
     private void changeAmountBackgroundColor(double amount) {
         if (amount < 0) {
             int redColor = ContextCompat.getColor(cellView.getContext(), R.color.colorNegativeAmount);
-            amountTextView.setBackgroundColor(redColor);
+            amountDeltaTextView.setBackgroundColor(redColor);
         } else if (amount == 0) {
             int blueColor = ContextCompat.getColor(cellView.getContext(), R.color.colorBankingOverview);
-            amountTextView.setBackgroundColor(blueColor);
+            amountDeltaTextView.setBackgroundColor(blueColor);
         } else {
             int greenColor = ContextCompat.getColor(cellView.getContext(), R.color.colorBankingOverviewLightGreen);
-            amountTextView.setBackgroundColor(greenColor);
+            amountDeltaTextView.setBackgroundColor(greenColor);
         }
     }
 
     private void changeAmountDeltaTextColor(double amountDelta) {
-        // TODO
+        if (amountDelta < 0) {
+            int redColor = ContextCompat.getColor(cellView.getContext(), R.color.colorNegativeAmount);
+            amountTextView.setTextColor(redColor);
+        } else if (amountDelta == 0) {
+            int blueColor = ContextCompat.getColor(cellView.getContext(), R.color.colorBankingOverview);
+            amountTextView.setTextColor(blueColor);
+        } else {
+            int greenColor = ContextCompat.getColor(cellView.getContext(), R.color.colorBankingOverviewLightGreen);
+            amountTextView.setTextColor(greenColor);
+        }
     }
 
     private void setColorsOfDayOutOfMonth() {
