@@ -107,6 +107,6 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
     }
 
     private String getFormatedDouble(double number) {
-        return String.format(Locale.GERMAN, "%.2f", number);
+        return String.format(Locale.GERMAN, "%.0f", number);
     }
 }
