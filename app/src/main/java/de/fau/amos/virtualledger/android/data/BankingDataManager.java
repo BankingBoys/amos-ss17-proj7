@@ -2,6 +2,7 @@ package de.fau.amos.virtualledger.android.data;
 
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -176,7 +177,7 @@ public class BankingDataManager extends Observable {
 
     /**
      * Deletes a BankAccess.
-     * Therefore calls server API, removes access from localStorage on success.
+     * Therefore calls server API, removes all associated accounts from localStorage on success.
      * Afterwards syncs (-> Observers are notified after that)
      */
     public void deleteBankAccess(final String accessId) {
@@ -199,7 +200,37 @@ public class BankingDataManager extends Observable {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
                         Log.e(TAG, "Failed deleting a bank access", throwable);
-                        throw new BankingAddFailedException(throwable);
+                        throw new IOException(throwable);
+                    }
+                });
+    }
+
+    /**
+     * Deletes a BankAccount.
+     * Therefore calls server API, removes account from localStorage on success.
+     * Afterwards syncs (-> Observers are notified after that)
+     */
+    public void deleteBankAccount(final String accessId, final String accountId) {
+        bankingProvider.deleteBankAccount(accessId, accountId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull final String string) throws Exception {
+                        for (final BankAccess bankAccess : bankAccesses) {
+                            for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
+                                if(bankAccount.getBankid().equals(accountId)) {
+                                    bankAccessCredentialDB.delete(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
+                                }
+                            }
+                        }
+                        BankingDataManager.this.sync();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull final Throwable throwable) throws Exception {
+                        Log.e(TAG, "Failed deleting a bank account", throwable);
+                        throw new IOException(throwable);
                     }
                 });
     }
