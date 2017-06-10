@@ -12,12 +12,34 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content" />
-    <Spinner
-        android:id="@+id/transactionSpinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible" />
-        
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="0.45"
+            android:gravity="center_vertical|end"
+            android:text="Range:"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorBankingOverview"
+            android:textSize="@dimen/fontSizeTotalAmountHeader"
+            tools:text="Range:" />
+
+        <Spinner
+            android:id="@+id/transactionSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="39dp"
+            android:layout_weight="1.85"
+            android:textColor="@color/colorBankingOverview"
+            android:textSize="@dimen/fontSizeTotalAmountHeader"
+            android:visibility="visible" />
+    </LinearLayout>
+
     <View
         android:id="@+id/transactionSeparator2"
         android:layout_width="wrap_content"
