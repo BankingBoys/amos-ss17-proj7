@@ -36,6 +36,12 @@ public class BankAccessCredentialDB {
         database.insert(BankAccessCredentialDBConstants.TABLE_NAME, null, contentValues);
     }
 
+    public void delete(final String user, final String accessId, final String accountId) {
+        final String whereClause = BankAccessCredentialDBConstants.COLUMN_NAME_USER + " = ?" + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCESSID + " = ?" + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCOUNTID + " = ?";
+        final String[] whereArgs = {user, accessId, accountId};
+        database.delete(BankAccessCredentialDBConstants.TABLE_NAME, whereClause, whereArgs);
+    }
+
     /**
      *
      */

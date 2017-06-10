@@ -27,7 +27,7 @@ import static de.fau.amos.virtualledger.android.data.BankingDataManager.SYNC_STA
 public class BankingDataManager extends Observable {
     private final static String TAG = BankingDataManager.class.getSimpleName();
 
-
+    @SuppressWarnings("WeakerAccess") //False positive
     public enum SYNC_STATUS {
         NOT_SYNCED, SYNC_IN_PROGRESS, SYNCED
     }
@@ -38,7 +38,7 @@ public class BankingDataManager extends Observable {
     private List<BankAccess> bankAccesses;
     private List<BankAccountBookings> bankAccountBookings;
 
-    //Set if sync failed and thrwon in getters
+    //Set if sync failed and thrown in getters
     private BankingSyncFailedException bankingSyncFailedException = null;
 
     private SYNC_STATUS syncStatus = NOT_SYNCED;
@@ -116,7 +116,6 @@ public class BankingDataManager extends Observable {
      * NOT_SYNCED if no sync was done yet.
      * SYNC_IN_PROGRESS if the sync is in progress yet.
      * SYNCED if a sync was done.
-     * @return
      */
     public SYNC_STATUS getSyncStatus() {
         return syncStatus;
@@ -124,7 +123,6 @@ public class BankingDataManager extends Observable {
 
     /**
      * get all synced bankAccesses
-     * @return
      * @throws BankingSyncFailedException if something has gone wrong during the syncing process
      * @throws BankingSyncFailedException if getter is called while sync is in progress.
      */
@@ -136,7 +134,6 @@ public class BankingDataManager extends Observable {
 
     /**
      * get all synced bankAccountBookings
-     * @return
      * @throws BankingSyncFailedException if something has gone wrong during the syncing process
      * @throws BankingSyncFailedException if getter is called while sync is in progress.
      */
@@ -149,11 +146,9 @@ public class BankingDataManager extends Observable {
     /**
      * Adds a BankAccess.
      * Therefore calls server API, stores on success in localStorage.
-     * Afterwars syncs (-> Observers are notified after that)
-     * @param bankAccessCredential
-     * @throws BankingAddFailedException
+     * Afterwards syncs (-> Observers are notified after that)
      */
-    public void addBankAccess(final BankAccessCredential bankAccessCredential) throws BankingAddFailedException {
+    public void addBankAccess(final BankAccessCredential bankAccessCredential) {
         bankingProvider.addBankAccess(bankAccessCredential)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -169,7 +164,64 @@ public class BankingDataManager extends Observable {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
                         Log.e(TAG, "Failed adding a bank access", throwable);
-                        throw new BankingAddFailedException(throwable);
+                    }
+                });
+    }
+
+    /**
+     * Deletes a BankAccess.
+     * Therefore calls server API, removes all associated accounts from localStorage on success.
+     * Afterwards syncs (-> Observers are notified after that)
+     */
+    public void deleteBankAccess(final String accessId) {
+        bankingProvider.deleteBankAccess(accessId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull final String string) throws Exception {
+                        for (final BankAccess bankAccess : bankAccesses) {
+                            if (bankAccess.getId().equals(accessId)) {
+                                for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
+                                    bankAccessCredentialDB.delete(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
+                                }
+                            }
+                        }
+                        BankingDataManager.this.sync();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull final Throwable throwable) throws Exception {
+                        Log.e(TAG, "Failed deleting a bank access", throwable);
+                    }
+                });
+    }
+
+    /**
+     * Deletes a BankAccount.
+     * Therefore calls server API, removes account from localStorage on success.
+     * Afterwards syncs (-> Observers are notified after that)
+     */
+    public void deleteBankAccount(final String accessId, final String accountId) {
+        bankingProvider.deleteBankAccount(accessId, accountId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull final String string) throws Exception {
+                        for (final BankAccess bankAccess : bankAccesses) {
+                            for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
+                                if(bankAccount.getBankid().equals(accountId)) {
+                                    bankAccessCredentialDB.delete(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
+                                }
+                            }
+                        }
+                        BankingDataManager.this.sync();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull final Throwable throwable) throws Exception {
+                        Log.e(TAG, "Failed deleting a bank account", throwable);
                     }
                 });
     }
