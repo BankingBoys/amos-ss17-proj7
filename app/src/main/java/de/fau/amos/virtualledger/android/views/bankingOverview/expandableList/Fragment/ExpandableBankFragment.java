@@ -79,7 +79,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     private void onBankAccessesUpdated() {
         createData();
         ExpandableAdapterBanking adapter = new ExpandableAdapterBanking(getActivity(),
-                groups, bankingProvider, bankingDataManager);
+                groups, bankingDataManager);
 
         listView.setAdapter(adapter);
         String bankBalanceString = String.format(Locale.GERMAN, "%.2f", bankBalanceOverview);
