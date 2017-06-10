@@ -42,7 +42,6 @@ public class AddBankAccessActivity extends AppCompatActivity {
 
         try {
             bankingDataManager.addBankAccess(bankAccessCredential);
-            Toast.makeText(this, "Access added successfully", Toast.LENGTH_SHORT).show();
         } catch (BankingAddFailedException e) {
             Toast.makeText(AddBankAccessActivity.this, "Access could not be added", Toast.LENGTH_SHORT).show();
         } finally {
