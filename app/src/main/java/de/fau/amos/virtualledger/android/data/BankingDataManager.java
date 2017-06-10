@@ -28,7 +28,7 @@ import static de.fau.amos.virtualledger.android.data.BankingDataManager.SYNC_STA
 public class BankingDataManager extends Observable {
     private final static String TAG = BankingDataManager.class.getSimpleName();
 
-
+    @SuppressWarnings("WeakerAccess") //False positive
     public enum SYNC_STATUS {
         NOT_SYNCED, SYNC_IN_PROGRESS, SYNCED
     }
@@ -39,7 +39,7 @@ public class BankingDataManager extends Observable {
     private List<BankAccess> bankAccesses;
     private List<BankAccountBookings> bankAccountBookings;
 
-    //Set if sync failed and thrwon in getters
+    //Set if sync failed and thrown in getters
     private BankingSyncFailedException bankingSyncFailedException = null;
 
     private SYNC_STATUS syncStatus = NOT_SYNCED;
@@ -117,7 +117,6 @@ public class BankingDataManager extends Observable {
      * NOT_SYNCED if no sync was done yet.
      * SYNC_IN_PROGRESS if the sync is in progress yet.
      * SYNCED if a sync was done.
-     * @return
      */
     public SYNC_STATUS getSyncStatus() {
         return syncStatus;
@@ -125,7 +124,6 @@ public class BankingDataManager extends Observable {
 
     /**
      * get all synced bankAccesses
-     * @return
      * @throws BankingSyncFailedException if something has gone wrong during the syncing process
      * @throws BankingSyncFailedException if getter is called while sync is in progress.
      */
@@ -137,7 +135,6 @@ public class BankingDataManager extends Observable {
 
     /**
      * get all synced bankAccountBookings
-     * @return
      * @throws BankingSyncFailedException if something has gone wrong during the syncing process
      * @throws BankingSyncFailedException if getter is called while sync is in progress.
      */
@@ -151,8 +148,6 @@ public class BankingDataManager extends Observable {
      * Adds a BankAccess.
      * Therefore calls server API, stores on success in localStorage.
      * Afterwards syncs (-> Observers are notified after that)
-     * @param bankAccessCredential
-     * @throws BankingAddFailedException
      */
     public void addBankAccess(final BankAccessCredential bankAccessCredential) throws BankingAddFailedException {
         bankingProvider.addBankAccess(bankAccessCredential)
