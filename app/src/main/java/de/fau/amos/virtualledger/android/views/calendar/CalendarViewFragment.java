@@ -51,7 +51,7 @@ public class CalendarViewFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
-        CaldroidFragment caldroidFragment = new CaldroidFragment();
+        CaldroidBankingFragment caldroidFragment = new CaldroidBankingFragment();
         Bundle args = new Bundle();
         Calendar cal = Calendar.getInstance();
         args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH));
