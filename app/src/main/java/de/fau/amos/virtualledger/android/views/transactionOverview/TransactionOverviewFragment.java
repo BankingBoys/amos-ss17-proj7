@@ -9,7 +9,9 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +26,12 @@ import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
-import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
-import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
+import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
+import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
+import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.Booking;
 
@@ -39,7 +42,6 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     private View mainView;
     private ArrayList<Transaction> allTransactions = new ArrayList<>();
     private ListView bookingListView;
-    private View separator;
 
 
     @Inject
@@ -109,8 +111,6 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                 if (calTransaction.get(Calendar.MONTH) == calToday.get(Calendar.MONTH)) {
                     adapter.add(transaction);
                 }
-
-                refreshTotalAmount();
             }
         }
         adapter.sort(new TransactionsComparator());
@@ -121,35 +121,14 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mainView = inflater.inflate(R.layout.fragment_transaction_overview, container, false);
         bookingListView = (ListView) this.mainView.findViewById(R.id.transaction_list);
-        separator = (View) mainView.findViewById(R.id.transactionSeparator);
+
+        Spinner spinner = (Spinner) mainView.findViewById(R.id.transactionSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mainView.getContext(),
+                R.array.transactionfilter, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
         return this.mainView;
-    }
-
-    private void refreshTotalAmount() {
-        double totalAmount = 0;
-        for (int i = 0; i < this.allTransactions.size(); i++) {
-            Transaction transaction = this.allTransactions.get(i);
-            totalAmount += transaction.booking().getAmount();
-        }
-        final TextView sumView = (TextView) this.mainView.findViewById(R.id.transaction_sum_text);
-
-        String bankBalanceString = String.format(Locale.GERMAN, "%.2f", totalAmount);
-        if(totalAmount < 0)
-        {
-            int redColor = ContextCompat.getColor(this.getActivity(), R.color.colorNegativeAmount);
-            sumView.setTextColor(redColor);
-        } else if(totalAmount == 0)
-        {
-            int blueColor = ContextCompat.getColor(this.getActivity(), R.color.colorBankingOverview);
-            sumView.setTextColor(blueColor);
-        } else
-        {
-            int greenColor = ContextCompat.getColor(this.getActivity(), R.color.colorBankingOverviewLightGreen);
-            sumView.setTextColor(greenColor);
-        }
-
-        sumView.setText("Total amount: " + bankBalanceString);
-        separator.setVisibility(View.VISIBLE);
     }
 
     private void openFragment(Fragment fragment) {
@@ -173,4 +152,16 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         super.onPause();
         bankingDataManager.deleteObserver(this);
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        // add total amount fragment programmatically (bad practice in xml -> empty LinearLayout as wrapper)
+        FragmentManager fm = getFragmentManager();
+        TotalAmountFragment totalAmountFragment = new TotalAmountFragment();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.transaction_overview_total_amount_fragment_wrapper, totalAmountFragment, "transaction_overview_total_amount_fragment");
+        ft.commit();
+    }
 }
+
