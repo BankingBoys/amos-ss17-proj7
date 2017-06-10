@@ -3,6 +3,8 @@ package de.fau.amos.virtualledger.android.views.calendar;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.icu.util.Calendar;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +53,7 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         cellView = convertView;
 
-        //TODO
+        //TODO get real data
         double amountDelta = 100.00;
         double amount = 500.00;
 
@@ -63,7 +65,7 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
         amountDeltaTextView = (TextView) cellView.findViewById(R.id.calendar_view_cell_amount_delta);
         amountTextView = (TextView) cellView.findViewById(R.id.calendar_view_cell_amount);
 
-        dateTextView.setTextColor(Color.BLACK);
+        setDefaultColors();
         changeAmountDeltaTextColor(amountDelta);
         changeAmountBackgroundColor(amount);
 
@@ -74,6 +76,11 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
             setColorsOfDayOutOfMonth();
         }
 
+        // Set color of today
+        if(dateTime.equals(getToday())) {
+            setColorsOfToday();
+        }
+
         dateTextView.setText("" + dateTime.getDay());
         amountTextView.setText(getFormatedDouble(amount));
         setAmountDeltaText(amountDelta);
@@ -82,6 +89,14 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
         setCustomResources(dateTime, cellView, dateTextView);
 
         return cellView;
+    }
+
+    private void setDefaultColors() {
+        dateTextView.setTypeface(Typeface.DEFAULT_BOLD);
+    }
+
+    private void setColorsOfToday() {
+        dateTextView.setBackgroundColor(Color.GRAY);
     }
 
     private void setAmountDeltaText(double amountDelta) {
@@ -122,10 +137,9 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
             amountDeltaTextView.setTextColor(greenColor);
         }
     }
-
+    
     private void setColorsOfDayOutOfMonth() {
-        int grayColor = ContextCompat.getColor(cellView.getContext(), com.caldroid.R.color.caldroid_darker_gray);
-        dateTextView.setTextColor(grayColor);
+        dateTextView.setTypeface(Typeface.DEFAULT);
     }
 
     private String getFormatedDouble(double number) {

@@ -54,7 +54,7 @@ public class CalendarViewFragment extends Fragment {
         CaldroidBankingFragment caldroidFragment = new CaldroidBankingFragment();
         Bundle args = new Bundle();
         Calendar cal = Calendar.getInstance();
-        args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH));
+        args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
         args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
         caldroidFragment.setArguments(args);
 
