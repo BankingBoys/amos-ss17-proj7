@@ -149,7 +149,7 @@ public class BankingDataManager extends Observable {
     /**
      * Adds a BankAccess.
      * Therefore calls server API, stores on success in localStorage.
-     * Afterwars syncs (-> Observers are notified after that)
+     * Afterwards syncs (-> Observers are notified after that)
      * @param bankAccessCredential
      * @throws BankingAddFailedException
      */
@@ -169,6 +169,36 @@ public class BankingDataManager extends Observable {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
                         Log.e(TAG, "Failed adding a bank access", throwable);
+                        throw new BankingAddFailedException(throwable);
+                    }
+                });
+    }
+
+    /**
+     * Deletes a BankAccess.
+     * Therefore calls server API, removes access from localStorage on success.
+     * Afterwards syncs (-> Observers are notified after that)
+     */
+    public void deleteBankAccess(final String accessId) {
+        bankingProvider.deleteBankAccess(accessId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull final String string) throws Exception {
+                        for (final BankAccess bankAccess : bankAccesses) {
+                            if (bankAccess.getId().equals(accessId)) {
+                                for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
+                                    bankAccessCredentialDB.delete(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
+                                }
+                            }
+                        }
+                        BankingDataManager.this.sync();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull final Throwable throwable) throws Exception {
+                        Log.e(TAG, "Failed deleting a bank access", throwable);
                         throw new BankingAddFailedException(throwable);
                     }
                 });
