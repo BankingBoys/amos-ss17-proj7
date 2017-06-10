@@ -12,8 +12,6 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content" />
-<<<<<<< HEAD
-
     <Spinner
         android:id="@+id/transactionSpinner"
         android:layout_width="fill_parent"
@@ -29,17 +27,10 @@
         android:layout_marginBottom="20dp"
         android:visibility="gone">
     </View>
-=======
->>>>>>> 29f930c5a37967890f82e71c0acb2045ba89602c
-
-
     <ListView
         android:id="@+id/transaction_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_marginTop="5dp"/>
-
-
-
 </LinearLayout>
