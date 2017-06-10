@@ -26,6 +26,7 @@ import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
 import de.fau.amos.virtualledger.android.views.bankingOverview.addBankAccess.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.android.views.calendar.CalenderViewFragment;
 import de.fau.amos.virtualledger.android.views.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.views.menu.model.ItemSlidingMenu;
 import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOverviewFragment;
@@ -115,6 +116,7 @@ public class MainMenu extends AppCompatActivity {
         slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Logout"));
         slidingItems.add(new ItemSlidingMenu(R.drawable.bank_accesses, "Bank Access"));
         slidingItems.add(new ItemSlidingMenu(R.drawable.list, "Transaction Overview"));
+        slidingItems.add(new ItemSlidingMenu(R.drawable.list, "Calendar Test View"));
         listView.setAdapter(new MenuAdapter(this, slidingItems));
     }
 
@@ -164,6 +166,10 @@ public class MainMenu extends AppCompatActivity {
                 openFragment(fragment);
                 break;
 
+            case 3:
+                fragment = new CalenderViewFragment();
+                openFragment(fragment);
+                break;
             //new Fragments can be added her
             default:
                 Log.e(TAG, "Menu item pos: {" + pos + "} not found");
