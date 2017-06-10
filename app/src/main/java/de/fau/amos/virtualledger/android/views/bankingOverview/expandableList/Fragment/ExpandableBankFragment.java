@@ -35,6 +35,7 @@ import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
+import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 
@@ -49,8 +50,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     @Inject
     BankingDataManager bankingDataManager;
     private ExpandableListView listView;
-    private TextView bankBalanceOverviewText;
-    private View separator;
     private SparseArray<Group> groups = new SparseArray<>();
     private List<BankAccess> bankAccessList;
     private double bankBalanceOverview;
@@ -82,10 +81,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
                 groups, bankingProvider, bankingDataManager);
 
         listView.setAdapter(adapter);
-        String bankBalanceString = String.format(Locale.GERMAN, "%.2f", bankBalanceOverview);
-        changeColorOfBalance(bankBalanceOverview);
-        bankBalanceOverviewText.setText(bankBalanceString);
-        separator.setVisibility(View.VISIBLE);
         final BankAccessNameExtractor getName = new BankAccessNameExtractor();
         listView.setOnItemLongClickListener(
                 new LongClickDeleteListenerList(adapter, getActivity(),
@@ -102,25 +97,10 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         );
     }
 
-    private void changeColorOfBalance(double balance) {
-        if (balance < 0) {
-            int redColor = ContextCompat.getColor(this.getActivity(), R.color.colorNegativeAmount);
-            bankBalanceOverviewText.setTextColor(redColor);
-        } else if (balance == 0) {
-            int blueColor = ContextCompat.getColor(this.getActivity(), R.color.colorBankingOverview);
-            bankBalanceOverviewText.setTextColor(blueColor);
-        } else {
-            int greenColor = ContextCompat.getColor(this.getActivity(), R.color.colorBankingOverviewLightGreen);
-            bankBalanceOverviewText.setTextColor(greenColor);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
         listView = (ExpandableListView) view.findViewById(R.id.expandableView);
-        bankBalanceOverviewText = (TextView) view.findViewById(R.id.BankAccessBalanceOverview);
-        separator = view.findViewById(R.id.bankOverviewSeparator);
         return view;
     }
 
@@ -188,5 +168,19 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     public void onPause() {
         super.onPause();
         bankingDataManager.deleteObserver(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        // add total amount fragment programmatically (bad practice in xml -> empty LinearLayout as wrapper)
+        FragmentManager fm = getFragmentManager();
+        TotalAmountFragment totalAmountFragment = (TotalAmountFragment) fm.findFragmentByTag("shared_total_amount");
+        if (totalAmountFragment == null) {
+            totalAmountFragment = new TotalAmountFragment();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.add(R.id.banking_overview_total_amount_fragment_wrapper, totalAmountFragment, "banking_overview_total_amount_fragment");
+            ft.commit();
+        }
     }
 }
