@@ -3,6 +3,7 @@ package de.fau.amos.virtualledger.android.views.calendar;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
     TextView amountDeltaTextView;
     TextView amountTextView;
 
+    View cellView;
+
     /**
      * Constructor
      *
@@ -46,7 +49,7 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View cellView = convertView;
+        cellView = convertView;
 
         //TODO
         double amountDelta = 100.00;
@@ -82,7 +85,16 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
     }
 
     private void changeAmountBackgroundColor(double amount) {
-        // TODO
+        if (amount < 0) {
+            int redColor = ContextCompat.getColor(cellView.getContext(), R.color.colorNegativeAmount);
+            amountTextView.setBackgroundColor(redColor);
+        } else if (amount == 0) {
+            int blueColor = ContextCompat.getColor(cellView.getContext(), R.color.colorBankingOverview);
+            amountTextView.setBackgroundColor(blueColor);
+        } else {
+            int greenColor = ContextCompat.getColor(cellView.getContext(), R.color.colorBankingOverviewLightGreen);
+            amountTextView.setBackgroundColor(greenColor);
+        }
     }
 
     private void changeAmountDeltaTextColor(double amountDelta) {
