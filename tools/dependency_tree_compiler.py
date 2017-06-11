@@ -20,7 +20,6 @@ def compile_file(dependency_file, dependency_map):
 	return dependency_map
 
 dependency_all_map = compile_file(open("dependencies.app"), {})
-dependency_all_map = compile_file(open("dependencies.android"), dependency_all_map)
 dependency_all_map = compile_file(open("dependencies.dtos"), dependency_all_map)
 dependency_all_map = compile_file(open("dependencies.server"), dependency_all_map)
 print("------------------------------------------------------------------")
