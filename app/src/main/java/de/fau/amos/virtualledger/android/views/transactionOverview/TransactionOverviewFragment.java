@@ -102,6 +102,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
     private void onBookingsUpdated() {
         allTransactions.clear();
+        presentedTransactions.clear();
         boolean filter = hasItemsChecked(mappingCheckBoxes);
         for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
             for (Booking booking : bankAccountBookings.getBookings()) {
@@ -117,6 +118,12 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                 this.presentedTransactions.add(transaction);
             }
         }
+
+        showUpdatedTransactions();
+    }
+
+    private void showUpdatedTransactions() {
+        this.adapter.clear();
         for (Transaction actualTransaction : new LinkedList<>(this.presentedTransactions)) {
             if (this.transactionFilter.shouldBeRemoved(actualTransaction)){
                 this.presentedTransactions.remove(actualTransaction);
@@ -124,9 +131,9 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         }
 
         for (Transaction actualTransaction : this.presentedTransactions) {
-            adapter.add(actualTransaction);
+            this.adapter.add(actualTransaction);
         }
-        adapter.sort(new TransactionsComparator());
+        this.adapter.sort(new TransactionsComparator());
     }
 
 
@@ -170,7 +177,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     private void filterTransactions(String by) {
         logger().log(Level.INFO, "Selected filter: " + by);
         this.transactionFilter = FilterByName.getTransactionFilterByUIName(by);
-        this.onBookingsUpdated();
+        this.showUpdatedTransactions();
     }
 
     private Logger logger() {
