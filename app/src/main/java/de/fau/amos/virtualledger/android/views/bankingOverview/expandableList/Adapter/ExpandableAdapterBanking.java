@@ -6,9 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import de.fau.amos.virtualledger.R;
@@ -25,12 +29,14 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     private LayoutInflater inflater;
     private final SparseArray<Group> groups;
     private BankingDataManager bankingDataManager;
+    private HashMap<BankAccount, Boolean> mappingCheckBoxes = new HashMap<>();
 
-    public ExpandableAdapterBanking(Activity activity, SparseArray<Group> groups, final BankingDataManager bankingDataManager) {
+    public ExpandableAdapterBanking(Activity activity, SparseArray<Group> groups, final BankingDataManager bankingDataManager, HashMap<BankAccount, Boolean> mappingCheckBoxes) {
         this.listActivity = activity;
         this.groups = groups;
         inflater = activity.getLayoutInflater();
         this.bankingDataManager = bankingDataManager;
+        this.mappingCheckBoxes = mappingCheckBoxes;
     }
 
 
@@ -45,7 +51,7 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
+    public View getChildView(final int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
         final BankAccount children = (BankAccount) getChild(groupPosition, childPosition);
         final String bankName = children.getName();
@@ -54,6 +60,18 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.banking_overview_expandablelist_detail, parent, false);
         }
 
+
+        final CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.banking_overview_checkBox);
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mappingCheckBoxes.put(groups.get(groupPosition).children.get(childPosition), checkBox.isChecked());
+            }
+        });
+        final Boolean checkedStatus = mappingCheckBoxes.get(groups.get(groupPosition).children.get(childPosition)) ;
+        if(checkedStatus != null) {
+            checkBox.setChecked(checkedStatus);
+        }
         BankAccountNameExtractor getName = new BankAccountNameExtractor();
         convertView.setOnLongClickListener(
                 new LongClickDeleteListenerSingleItem(
