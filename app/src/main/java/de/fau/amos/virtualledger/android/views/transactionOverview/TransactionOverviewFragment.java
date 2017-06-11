@@ -9,9 +9,11 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
@@ -120,11 +124,13 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         this.mainView = inflater.inflate(R.layout.fragment_transaction_overview, container, false);
         bookingListView = (ListView) this.mainView.findViewById(R.id.transaction_list);
 
-        Spinner spinner = (Spinner) mainView.findViewById(R.id.transactionSpinner);
+        final Spinner spinner = (Spinner) mainView.findViewById(R.id.transactionSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mainView.getContext(),
                 R.array.transactionfilter, R.layout.filter_spinner_item);
-        adapter.setDropDownViewResource(R.layout.filter_spinner_dropdown_item );
+        adapter.setDropDownViewResource(R.layout.filter_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        final TransactionOverviewFragment _this = this;
+
         /**
          * Color of the little spinner triangle.
          * Usually its an image and have to be completly redisigned and recompiled into
@@ -134,7 +140,29 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
          * --> this is a fancy workaround
          */
         spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorBankingOverview), PorterDuff.Mode.SRC_ATOP);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView selectedTextView = (TextView) spinner.getSelectedView();
+                _this.filterTransactions(selectedTextView.getText().toString());
+                _this.onBookingsUpdated();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        spinner.setSelection(1);
         return this.mainView;
+    }
+
+    private void filterTransactions(String by) {
+        logger().log(Level.INFO, "Selected filter: " + by);
+    }
+
+    private Logger logger() {
+        return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.hashCode() + "}");
     }
 
     private void openFragment(Fragment fragment) {
