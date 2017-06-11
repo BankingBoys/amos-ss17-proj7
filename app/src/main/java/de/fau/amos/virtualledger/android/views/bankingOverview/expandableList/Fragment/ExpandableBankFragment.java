@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
@@ -53,6 +54,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     private SparseArray<Group> groups = new SparseArray<>();
     private List<BankAccess> bankAccessList;
     private double bankBalanceOverview;
+    private HashMap<BankAccount, Boolean> mappingCheckBoxes = new HashMap<>();
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -78,7 +80,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     private void onBankAccessesUpdated() {
         createData();
         ExpandableAdapterBanking adapter = new ExpandableAdapterBanking(getActivity(),
-                groups, bankingDataManager);
+                groups, bankingDataManager, mappingCheckBoxes);
 
         listView.setAdapter(adapter);
         final BankAccessNameExtractor getName = new BankAccessNameExtractor();
@@ -109,12 +111,14 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         bankBalanceOverview = 0;
         sortAccesses();
         groups.clear();
+        mappingCheckBoxes.clear();
         for (BankAccess access : bankAccessList) {
             Group group = new Group(access);
             List<BankAccount> accountList = sortAccounts(access.getBankaccounts());
             access.setBankaccounts(accountList);
             for (BankAccount account : access.getBankaccounts()) {
                 group.children.add(account);
+                mappingCheckBoxes.put(account, false);
             }
             bankBalanceOverview += access.getBalance();
             groups.append(i, group);
