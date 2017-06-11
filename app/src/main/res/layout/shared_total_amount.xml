@@ -15,7 +15,7 @@
         android:textColor="@color/colorBankingOverview"
         android:textSize="@dimen/fontSizeTotalAmountHeader"
         android:textStyle="normal"
-        android:text="TOTAL" />
+        android:text="@string/banking_overview_total_amount_text" />
 
     <TextView
         android:id="@+id/total_amount_balance"
@@ -27,7 +27,7 @@
         android:textColor="@color/colorBankingOverview"
         android:textSize="@dimen/fontSizeTotalAmountBalance"
         android:textStyle="bold"
-        android:text="0" />
+        android:text="" />
 
     <View
         android:id="@+id/transactionSeparator"
@@ -35,7 +35,6 @@
         android:layout_height="2dp"
         android:layout_marginTop="10dp"
         android:background="@color/colorBankingOverview"
-        android:layout_marginBottom="20dp"
         android:visibility="visible">
     </View>
 </LinearLayout>
