@@ -17,8 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.logging.Level;
@@ -34,6 +33,7 @@ import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
+import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.ByActualMonth;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.Booking;
 
@@ -43,6 +43,8 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     private TransactionAdapter adapter;
     private View mainView;
     private ArrayList<Transaction> allTransactions = new ArrayList<>();
+    private ArrayList<Transaction> presentedTransactions = new ArrayList<>();
+    private TransactionFilter transactionFilter = new ByActualMonth();
     private ListView bookingListView;
 
 
@@ -105,15 +107,18 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                                         bankAccountBookings.getBankaccountid()),
                         booking);
 
-                allTransactions.add(transaction);
-                Calendar calTransaction = Calendar.getInstance();
-                calTransaction.setTime(transaction.booking().getDate());
-
-                Calendar calToday = new GregorianCalendar();
-                if (calTransaction.get(Calendar.MONTH) == calToday.get(Calendar.MONTH)) {
-                    adapter.add(transaction);
-                }
+                this.allTransactions.add(transaction);
+                this.presentedTransactions.add(transaction);
             }
+        }
+        for (Transaction actualTransaction : new LinkedList<>(this.presentedTransactions)) {
+            if (this.transactionFilter.shouldBeRemoved(actualTransaction)){
+                this.presentedTransactions.remove(actualTransaction);
+            }
+        }
+
+        for (Transaction actualTransaction : this.presentedTransactions) {
+            adapter.add(actualTransaction);
         }
         adapter.sort(new TransactionsComparator());
     }
@@ -159,6 +164,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
     private void filterTransactions(String by) {
         logger().log(Level.INFO, "Selected filter: " + by);
+        //this.fi
     }
 
     private Logger logger() {
