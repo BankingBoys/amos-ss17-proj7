@@ -37,10 +37,10 @@ after_script:
  - scp -rp -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh /home/travis/build/BankingBoys/amos-ss17-proj7/server/compiled/server-1.0-SNAPSHOT.war ubuntu@13.58.27.176:/home/ubuntu/
  - ssh -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh ubuntu@13.58.27.176 "/home/ubuntu/pay/payara41/bin/asadmin --user admin --passwordfile ~/payPW deploy --force --name server-1.0-SNAPSHOT server-1.0-SNAPSHOT.war"
  -  cd /home/travis/build/BankingBoys/amos-ss17-proj7/
- -  chmod 777 ./tools/post_slack_server_status.sh
- -  ./tools/post_slack_server_status.sh
  -  chmod 777 upload_script.sh
  -  ./upload_script.sh
+ -  chmod 777 ./tools/post_slack_server_status.sh
+ -  ./tools/post_slack_server_status.sh
 
 notifications:
     slack: amosteam5:WF2UyrAWwmuoSgjjtqPo8O1N

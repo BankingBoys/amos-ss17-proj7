@@ -6,7 +6,7 @@
 # https://slackhost.slack.com/
 server="13.58.27.176"
 text=""
-if nc -w 5 -z "$server" 22 ; then
+if nc -w 5 -z "$server" 8080 ; then
     echo "Port 22 on $server is open"
     text="serverUp"
 else
