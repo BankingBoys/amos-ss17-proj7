@@ -19,7 +19,7 @@ public class Last4Weeks implements TransactionFilter {
     }
 
 
-    public static int getWeeksBetween(Date a, Date b) {
+    protected static int getWeeksBetween(Date a, Date b) {
 
         if (b.before(a)) {
             return getWeeksBetween(b, a);

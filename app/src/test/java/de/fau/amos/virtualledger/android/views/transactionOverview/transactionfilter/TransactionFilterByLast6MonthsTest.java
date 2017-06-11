@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger;
+package de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter;
 
 import org.junit.Test;
 

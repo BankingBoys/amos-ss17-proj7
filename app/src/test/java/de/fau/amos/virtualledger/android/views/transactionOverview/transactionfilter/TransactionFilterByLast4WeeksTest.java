@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger;
+package de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter;
 
 import org.junit.Test;
 
@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.fau.amos.virtualledger.android.views.transactionOverview.Transaction;
-import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.Last4Weeks;
 import de.fau.amos.virtualledger.dtos.Booking;
 
 import static org.assertj.core.api.Assertions.assertThat;
