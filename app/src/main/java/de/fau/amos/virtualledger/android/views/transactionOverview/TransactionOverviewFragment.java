@@ -36,19 +36,19 @@ import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
+import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.ByActualMonth;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.FilterByName;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.TransactionFilter;
-import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.ByActualMonth;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.Booking;
 
 public class TransactionOverviewFragment extends Fragment implements java.util.Observer {
     private static final String TAG = TransactionOverviewFragment.class.getSimpleName();
 
-    private TransactionAdapter adapter;
+    TransactionAdapter adapter;
     private View mainView;
-    private ArrayList<Transaction> allTransactions = new ArrayList<>();
-    private ArrayList<Transaction> presentedTransactions = new ArrayList<>();
+    ArrayList<Transaction> allTransactions = new ArrayList<>();
+    ArrayList<Transaction> presentedTransactions = new ArrayList<>();
     private TransactionFilter transactionFilter = new ByActualMonth();
     private ListView bookingListView;
     private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
@@ -122,8 +122,10 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         showUpdatedTransactions();
     }
 
-    private void showUpdatedTransactions() {
+    void showUpdatedTransactions() {
         this.adapter.clear();
+        this.presentedTransactions.clear();
+        this.presentedTransactions.addAll(this.allTransactions);
         for (Transaction actualTransaction : new LinkedList<>(this.presentedTransactions)) {
             if (this.transactionFilter.shouldBeRemoved(actualTransaction)){
                 this.presentedTransactions.remove(actualTransaction);
@@ -174,14 +176,14 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         return this.mainView;
     }
 
-    private void filterTransactions(String by) {
+    void filterTransactions(String by) {
         logger().log(Level.INFO, "Selected filter: " + by);
         this.transactionFilter = FilterByName.getTransactionFilterByUIName(by);
         this.showUpdatedTransactions();
     }
 
     private Logger logger() {
-        return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.hashCode() + "}");
+        return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.toString() + "}");
     }
 
     private void openFragment(Fragment fragment) {
