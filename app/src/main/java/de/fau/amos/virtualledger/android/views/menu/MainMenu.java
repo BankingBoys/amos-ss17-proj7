@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,6 +31,7 @@ import de.fau.amos.virtualledger.android.views.calendar.CalendarViewFragment;
 import de.fau.amos.virtualledger.android.views.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.views.menu.model.ItemSlidingMenu;
 import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOverviewFragment;
+import de.fau.amos.virtualledger.dtos.BankAccount;
 
 public class MainMenu extends AppCompatActivity {
 
@@ -42,6 +44,7 @@ public class MainMenu extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ListView listView;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,31 +153,35 @@ public class MainMenu extends AppCompatActivity {
      * replaces the current fragment with chosen one from the user
      */
     private void replaceFragment(int pos) {
-        Fragment fragment;
         switch (pos) {
             case 0:
                 executeLogout();
                 break;
 
             case 1:
-                fragment = new ExpandableBankFragment();
+                ExpandableBankFragment fragment = new ExpandableBankFragment();
+                fragment.setCheckedMap(mappingCheckBoxes);
                 openFragment(fragment);
                 break;
 
             case 2:
-                fragment = new TransactionOverviewFragment();
-                openFragment(fragment);
+                TransactionOverviewFragment fragment2;
+                fragment2 = new TransactionOverviewFragment();
+                fragment2.setCheckedMap(mappingCheckBoxes);
+                openFragment(fragment2);
                 break;
 
             case 3:
-                fragment = new CalendarViewFragment();
-                openFragment(fragment);
+                Fragment fragment3;
+                fragment3 = new CalendarViewFragment();
+                openFragment(fragment3);
                 break;
             //new Fragments can be added her
             default:
                 Log.e(TAG, "Menu item pos: {" + pos + "} not found");
-                fragment = new TransactionOverviewFragment();
-                openFragment(fragment);
+                Fragment fragment4;
+                fragment4 = new TransactionOverviewFragment();
+                openFragment(fragment4);
                 break;
         }
 

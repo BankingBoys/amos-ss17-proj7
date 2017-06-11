@@ -19,7 +19,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +37,7 @@ import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
+import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.Booking;
 
@@ -44,7 +48,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     private View mainView;
     private ArrayList<Transaction> allTransactions = new ArrayList<>();
     private ListView bookingListView;
-
+    private HashMap<BankAccount, Boolean> mappingCheckBoxes = new HashMap<>();
 
     @Inject
     BankAccessCredentialDB bankAccessCredentialDB;
@@ -95,6 +99,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
     private void onBookingsUpdated() {
         allTransactions.clear();
+        boolean filter = hasItemsChecked(mappingCheckBoxes);
         for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
             for (Booking booking : bankAccountBookings.getBookings()) {
                 Transaction transaction = new Transaction(
@@ -196,6 +201,20 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.transaction_overview_total_amount_fragment_wrapper, totalAmountFragment, "transaction_overview_total_amount_fragment");
         ft.commit();
+    }
+
+    public void setCheckedMap(HashMap<BankAccount,Boolean> map) {
+        this.mappingCheckBoxes = map;
+    }
+
+    public static boolean hasItemsChecked(HashMap<BankAccount, Boolean> map) {
+        Boolean ret = false;
+        Iterator iterator = map.entrySet().iterator();
+        while (iterator.hasNext() && !ret) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            ret = (Boolean)entry.getValue();
+        }
+        return ret;
     }
 }
 

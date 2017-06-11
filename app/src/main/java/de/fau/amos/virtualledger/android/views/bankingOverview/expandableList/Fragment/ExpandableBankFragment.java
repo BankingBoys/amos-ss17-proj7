@@ -10,6 +10,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,13 +54,21 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     private ExpandableListView listView;
     private SparseArray<Group> groups = new SparseArray<>();
     private List<BankAccess> bankAccessList;
+    private Button finishButton;
     private double bankBalanceOverview;
-    private HashMap<BankAccount, Boolean> mappingCheckBoxes = new HashMap<>();
+    private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Todo: call the transaction fragment
+                
+            }
+        });
     }
 
     @Override
@@ -103,6 +112,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
         listView = (ExpandableListView) view.findViewById(R.id.expandableView);
+        finishButton = (Button) view.findViewById(R.id.banking_overview_finishButton);
         return view;
     }
 
@@ -118,7 +128,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
             access.setBankaccounts(accountList);
             for (BankAccount account : access.getBankaccounts()) {
                 group.children.add(account);
-                mappingCheckBoxes.put(account, false);
+                mappingCheckBoxes.put(account.getName(), false);
             }
             bankBalanceOverview += access.getBalance();
             groups.append(i, group);
@@ -183,5 +193,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.banking_overview_total_amount_fragment_wrapper, totalAmountFragment, "banking_overview_total_amount_fragment");
         ft.commit();
+    }
+
+    public void setCheckedMap(HashMap<String,Boolean> map) {
+        this.mappingCheckBoxes = map;
     }
 }

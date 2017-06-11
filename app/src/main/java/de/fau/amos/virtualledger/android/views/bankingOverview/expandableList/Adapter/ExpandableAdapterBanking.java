@@ -29,9 +29,9 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     private LayoutInflater inflater;
     private final SparseArray<Group> groups;
     private BankingDataManager bankingDataManager;
-    private HashMap<BankAccount, Boolean> mappingCheckBoxes = new HashMap<>();
+    private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
 
-    public ExpandableAdapterBanking(Activity activity, SparseArray<Group> groups, final BankingDataManager bankingDataManager, HashMap<BankAccount, Boolean> mappingCheckBoxes) {
+    public ExpandableAdapterBanking(Activity activity, SparseArray<Group> groups, final BankingDataManager bankingDataManager, HashMap<String, Boolean> mappingCheckBoxes) {
         this.listActivity = activity;
         this.groups = groups;
         inflater = activity.getLayoutInflater();
@@ -65,10 +65,10 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mappingCheckBoxes.put(groups.get(groupPosition).children.get(childPosition), checkBox.isChecked());
+                mappingCheckBoxes.put(groups.get(groupPosition).children.get(childPosition).getName(), checkBox.isChecked());
             }
         });
-        final Boolean checkedStatus = mappingCheckBoxes.get(groups.get(groupPosition).children.get(childPosition)) ;
+        final Boolean checkedStatus = mappingCheckBoxes.get(groups.get(groupPosition).children.get(childPosition).getName()) ;
         if(checkedStatus != null) {
             checkBox.setChecked(checkedStatus);
         }
