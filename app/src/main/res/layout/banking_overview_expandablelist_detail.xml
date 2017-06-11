@@ -6,21 +6,32 @@
     android:clickable="true"
     android:orientation="vertical"
     android:paddingEnd="10dp"
-    android:paddingLeft="45dp"
+    android:paddingLeft="30dp"
     android:paddingRight="10dp"
-    android:paddingStart="45dp"
+    android:paddingStart="30dp"
     tools:context=".android.views.menu.MainMenu">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:theme="@style/bankingOverviewCheckBox"
+            android:text="" />
+
         <TextView
             android:id="@+id/bankAccountNameView"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:gravity="start|bottom"
+            android:gravity="bottom"
             android:textColor="@color/colorBankingOverview"
             android:textSize="@dimen/fontSizeExpandableDetail"
             android:textStyle="bold" />
