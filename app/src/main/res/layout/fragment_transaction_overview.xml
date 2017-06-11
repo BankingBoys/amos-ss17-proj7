@@ -27,7 +27,7 @@
             android:text="Range:"
             android:textAlignment="textEnd"
             android:textColor="@color/colorBankingOverview"
-            android:textSize="@dimen/fontSizeTotalAmountHeader"
+            android:textSize="@dimen/spinner_item_size"
             tools:text="Range:" />
 
         <Spinner

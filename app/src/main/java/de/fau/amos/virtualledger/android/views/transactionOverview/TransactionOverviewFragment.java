@@ -3,6 +3,7 @@ package de.fau.amos.virtualledger.android.views.transactionOverview;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -121,10 +122,18 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
         Spinner spinner = (Spinner) mainView.findViewById(R.id.transactionSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mainView.getContext(),
-                R.array.transactionfilter, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.array.transactionfilter, R.layout.filter_spinner_item);
+        adapter.setDropDownViewResource(R.layout.filter_spinner_dropdown_item );
         spinner.setAdapter(adapter);
-
+        /**
+         * Color of the little spinner triangle.
+         * Usually its an image and have to be completly redisigned and recompiled into
+         * all android spinners.
+         * When you do that and you change your master color, all android image icons have to be
+         * recompiled (this is bad)
+         * --> this is a fancy workaround
+         */
+        spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorBankingOverview), PorterDuff.Mode.SRC_ATOP);
         return this.mainView;
     }
 
