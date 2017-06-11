@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
@@ -38,6 +39,7 @@ import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
 import de.fau.amos.virtualledger.dtos.BankAccount;
+import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.ByActualMonth;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.Booking;
 
@@ -47,8 +49,10 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     private TransactionAdapter adapter;
     private View mainView;
     private ArrayList<Transaction> allTransactions = new ArrayList<>();
+    private ArrayList<Transaction> presentedTransactions = new ArrayList<>();
+    private TransactionFilter transactionFilter = new ByActualMonth();
     private ListView bookingListView;
-    private HashMap<BankAccount, Boolean> mappingCheckBoxes = new HashMap<>();
+    private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
 
     @Inject
     BankAccessCredentialDB bankAccessCredentialDB;
@@ -110,15 +114,18 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                                         bankAccountBookings.getBankaccountid()),
                         booking);
 
-                allTransactions.add(transaction);
-                Calendar calTransaction = Calendar.getInstance();
-                calTransaction.setTime(transaction.booking().getDate());
-
-                Calendar calToday = new GregorianCalendar();
-                if (calTransaction.get(Calendar.MONTH) == calToday.get(Calendar.MONTH)) {
-                    adapter.add(transaction);
-                }
+                this.allTransactions.add(transaction);
+                this.presentedTransactions.add(transaction);
             }
+        }
+        for (Transaction actualTransaction : new LinkedList<>(this.presentedTransactions)) {
+            if (this.transactionFilter.shouldBeRemoved(actualTransaction)){
+                this.presentedTransactions.remove(actualTransaction);
+            }
+        }
+
+        for (Transaction actualTransaction : this.presentedTransactions) {
+            adapter.add(actualTransaction);
         }
         adapter.sort(new TransactionsComparator());
     }
@@ -164,6 +171,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
     private void filterTransactions(String by) {
         logger().log(Level.INFO, "Selected filter: " + by);
+        //this.fi
     }
 
     private Logger logger() {
@@ -203,11 +211,11 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         ft.commit();
     }
 
-    public void setCheckedMap(HashMap<BankAccount,Boolean> map) {
+    public void setCheckedMap(HashMap<String,Boolean> map) {
         this.mappingCheckBoxes = map;
     }
 
-    public static boolean hasItemsChecked(HashMap<BankAccount, Boolean> map) {
+    public static boolean hasItemsChecked(HashMap<String, Boolean> map) {
         Boolean ret = false;
         Iterator iterator = map.entrySet().iterator();
         while (iterator.hasNext() && !ret) {
