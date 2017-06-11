@@ -31,5 +31,9 @@ public class FilterByNameTest {
         assertThat(FilterByName.getTransactionFilterByUIName("Specsafkjshfoiuahify")).isNull();
     }
 
+    @Test
+    public void teste_withActualMonth_shouldReturnFilter() throws InterruptedException {
+        assertThat(FilterByName.getTransactionFilterByUIName("Actual month")).isNotNull();
+    }
 
 }

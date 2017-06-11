@@ -1,7 +1,5 @@
 package de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter;
 
-import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionFilter;
-
 /**
  * Created by sebastian on 11.06.17.
  */
@@ -22,6 +20,10 @@ public enum FilterByName {
     }, SPECIFY("Specify") {
         public TransactionFilter getFilter() {
             return null;
+        }
+    }, LAST_MONTH("Actual month") {
+        public TransactionFilter getFilter() {
+            return new ByActualMonth();
         }
     };
 

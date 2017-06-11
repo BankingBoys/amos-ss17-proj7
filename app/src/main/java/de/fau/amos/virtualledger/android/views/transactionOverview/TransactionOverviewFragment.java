@@ -17,8 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -38,7 +36,8 @@ import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
-import de.fau.amos.virtualledger.dtos.BankAccount;
+import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.FilterByName;
+import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.TransactionFilter;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.ByActualMonth;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.Booking;
@@ -157,7 +156,6 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView selectedTextView = (TextView) spinner.getSelectedView();
                 _this.filterTransactions(selectedTextView.getText().toString());
-                _this.onBookingsUpdated();
             }
 
             @Override
@@ -171,7 +169,8 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
     private void filterTransactions(String by) {
         logger().log(Level.INFO, "Selected filter: " + by);
-        //this.fi
+        this.transactionFilter = FilterByName.getTransactionFilterByUIName(by);
+        this.onBookingsUpdated();
     }
 
     private Logger logger() {
