@@ -4,21 +4,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".android.views.menu.MainMenu">
-
+    tools:context=".android.views.menu.MainMenu"
+    android:weightSum="1"
+    >
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/banking_overview_total_amount_fragment_wrapper"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.95"
         android:orientation="vertical"
-        android:layout_height="wrap_content" />
+        >
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/banking_overview_total_amount_fragment_wrapper"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            />
 
-    <ExpandableListView
-        android:id="@+id/expandableView"
+        <ExpandableListView
+            android:id="@+id/expandableView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            >
+
+
+        </ExpandableListView>
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/button2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
-
-    </ExpandableListView>
+        android:layout_weight="0.05"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_height="0dp"
+        android:background="#f08080"
+        android:text="@string/banking_overview_finish_selecting_accounts_button_text"
+        android:textColor="@android:color/background_light"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_gravity="bottom"
+        />
 
 </LinearLayout>
