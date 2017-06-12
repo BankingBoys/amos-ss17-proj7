@@ -1,7 +1,6 @@
 package de.fau.amos.virtualledger.android.views.transactionOverview;
 
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -20,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -171,10 +171,11 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                 TextView selectedTextView = (TextView) spinner.getSelectedView();
                 if (selectedTextView == null) {
                     logger().info("Nothing selected in spinner. Filtering for 12 months.");
-                    _this.filterTransactions("Last 12 months");
+                    _this.filterTransactions("Last 12 months", null);
                     return;
                 }
-                _this.filterTransactions(selectedTextView.getText().toString());
+                _this.filterTransactions(selectedTextView.getText().toString(), selectedTextView);
+
             }
 
             @Override
@@ -186,19 +187,24 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         return this.mainView;
     }
 
-    void filterTransactions(String by) {
+    void filterTransactions(String by, final TextView selectedTextView) {
         logger().log(Level.INFO, "Selected filter: " + by);
         TransactionFilter transactionFilter = FilterByName.getTransactionFilterByUIName(by);
 
         if (transactionFilter == null) {
-            DialogFragment newFragment = SpecifyDateDialog.newInstance();
+            final SpecifyDateDialog chooserDialogContent = SpecifyDateDialog.newInstance();
             ContextThemeWrapper ctw = new ContextThemeWrapper(mainView.getContext(), R.style.AlternativeAltertDialogTheme);
             AlertDialog.Builder builder = new AlertDialog.Builder(ctw)
                     .setTitle("")
                     .setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    // do something...
+                                    if (selectedTextView != null) {
+                                        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+                                        String selectionText = dateFormatter.format(chooserDialogContent.getStartCalendar().getTime())//
+                                                + "-" + dateFormatter.format(chooserDialogContent.getEndCalendar().getTime());
+                                        selectedTextView.setText(selectionText);
+                                    }
                                 }
                             }
                     )
@@ -209,11 +215,10 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                                 }
                             }
                     );
-            builder.setView(newFragment.onCreateView(getActivity().getLayoutInflater(), null, null));
+            builder.setView(chooserDialogContent.onCreateView(getActivity().getLayoutInflater(), null, null));
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
 
-            //newFragment.show(getFragmentManager(), "dialog");
             return;
         }
         logger().log(Level.INFO, "Direct filter found for " + by);

@@ -23,6 +23,14 @@ public class SpecifyDateDialog extends DialogFragment {
     private Button startDateButton;
     private Button endDateButton;
 
+    public Calendar getStartCalendar() {
+        return this.startDate;
+    }
+
+    public Calendar getEndCalendar() {
+        return this.endDate;
+    }
+
     DatePickerDialog.OnDateSetListener startDateListener = new
             DatePickerDialog.OnDateSetListener() {
 
@@ -45,7 +53,7 @@ public class SpecifyDateDialog extends DialogFragment {
 
     @NonNull
     private String generateButtonText(int year, int monthOfYear, int dayOfMonth) {
-        return dayOfMonth+"."+monthOfYear+"."+year;
+        return dayOfMonth + "." + monthOfYear + "." + year;
     }
 
     DatePickerDialog.OnDateSetListener endDateListener = new

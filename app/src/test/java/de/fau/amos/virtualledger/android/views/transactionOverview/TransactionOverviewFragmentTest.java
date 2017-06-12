@@ -46,7 +46,7 @@ public class TransactionOverviewFragmentTest {
 
 
         component_under_test.showUpdatedTransactions();
-        component_under_test.filterTransactions("Last 12 months");
+        component_under_test.filterTransactions("Last 12 months",null);
 
         assertThat(component_under_test.presentedTransactions).containsOnly(newTransaction, lastYearTransaction);
     }
