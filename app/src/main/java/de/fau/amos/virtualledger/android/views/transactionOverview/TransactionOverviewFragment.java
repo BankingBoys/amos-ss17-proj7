@@ -188,7 +188,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         TransactionFilter transactionFilter = FilterByName.getTransactionFilterByUIName(by);
 
         if (transactionFilter == null) {
-            DialogFragment newFragment = MyDialogFragment.newInstance();
+            DialogFragment newFragment = SpecifyDateDialog.newInstance();
             newFragment.show(getFragmentManager(), "dialog");
             return;
         }
