@@ -26,7 +26,6 @@ public class LastNMonths implements TransactionFilter{
 
         int diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
         int diffMonth = diffYear * 12 + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);
-        System.out.println(diffMonth);
         return Math.abs(diffMonth) > this.numberOfMonths;
     }
 }

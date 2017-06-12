@@ -131,12 +131,15 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                 this.presentedTransactions.remove(actualTransaction);
             }
         }
+        adapter = new TransactionAdapter(getActivity(), R.id.transaction_list, new ArrayList<Transaction>());
+        bookingListView.setAdapter(adapter);//FIXME refresh doent work
 
         logger().log(Level.INFO, "Number of presented transactions: " + presentedTransactions.size());
         for (Transaction actualTransaction : this.presentedTransactions) {
             this.adapter.add(actualTransaction);
         }
         this.adapter.sort(new TransactionsComparator());
+        this.adapter.notifyDataSetChanged();//Fixme doenst work? 
     }
 
 
