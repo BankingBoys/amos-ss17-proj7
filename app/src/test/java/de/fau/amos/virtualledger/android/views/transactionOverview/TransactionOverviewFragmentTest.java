@@ -17,7 +17,7 @@ public class TransactionOverviewFragmentTest {
 
     @Test
     public void teste_filterTransactionInitial_shouldOnlyPresentTransactionsOfActualMonth() throws Exception {
-        TransactionOverviewFragment component_under_test = new TransactionOverviewFragment();
+        TransactionOverviewFragment component_under_test = new MocketTransactionOverview();
         Transaction oldTransaction = new Transaction("some bank", oldBooking());
         component_under_test.allTransactions.add(oldTransaction);
 
