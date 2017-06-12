@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.android.views.transactionOverview;
 
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -186,10 +187,14 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         logger().log(Level.INFO, "Selected filter: " + by);
         TransactionFilter transactionFilter = FilterByName.getTransactionFilterByUIName(by);
 
-        if (transactionFilter != null) {
-            logger().log(Level.INFO, "Direct filter found for " + by);
-            this.transactionFilter = transactionFilter;
+        if (transactionFilter == null) {
+            DialogFragment newFragment = MyDialogFragment.newInstance();
+            newFragment.show(getFragmentManager(), "dialog");
+            return;
         }
+        logger().log(Level.INFO, "Direct filter found for " + by);
+        this.transactionFilter = transactionFilter;
+
         this.showUpdatedTransactions();
     }
 
