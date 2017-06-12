@@ -11,7 +11,7 @@ import de.fau.amos.virtualledger.dtos.BankAccountSync;
  */
 
 public class BankAccountSyncTest {
-
+    
     private String bankaccessid = "TestAccessId";
     private String bankaccountid = "TestAccountID";
     private String pin = "TestPin";
@@ -63,6 +63,4 @@ public class BankAccountSyncTest {
         syncTest.setPin(newPin);
         Assert.assertEquals(newPin, syncTest.getPin());
     }
-    
-
 }
