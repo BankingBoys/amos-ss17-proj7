@@ -127,7 +127,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         this.presentedTransactions.clear();
         this.presentedTransactions.addAll(this.allTransactions);
         for (Transaction actualTransaction : new LinkedList<>(this.presentedTransactions)) {
-            if (this.transactionFilter.shouldBeRemoved(actualTransaction)){
+            if (this.transactionFilter.shouldBeRemoved(actualTransaction)) {
                 this.presentedTransactions.remove(actualTransaction);
             }
         }
@@ -180,7 +180,8 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         logger().log(Level.INFO, "Selected filter: " + by);
         TransactionFilter transactionFilter = FilterByName.getTransactionFilterByUIName(by);
 
-        if(transactionFilter != null){
+        if (transactionFilter != null) {
+            logger().log(Level.INFO, "Direct filter found for " + by);
             this.transactionFilter = transactionFilter;
         }
         this.showUpdatedTransactions();
@@ -223,7 +224,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         ft.commit();
     }
 
-    public void setCheckedMap(HashMap<String,Boolean> map) {
+    public void setCheckedMap(HashMap<String, Boolean> map) {
         this.mappingCheckBoxes = map;
     }
 
@@ -232,7 +233,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         Iterator iterator = map.entrySet().iterator();
         while (iterator.hasNext() && !ret) {
             Map.Entry entry = (Map.Entry) iterator.next();
-            ret = (Boolean)entry.getValue();
+            ret = (Boolean) entry.getValue();
         }
         return ret;
     }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="transactionfilter">
-        <item>12 months</item>
-        <item>6 months</item>
-        <item>4 weeks</item>
+        <item>Last 12 months</item>
+        <item>Last 6 months</item>
+        <item>Last 4 weeks</item>
         <item>specify</item>
     </string-array>
 </resources>
