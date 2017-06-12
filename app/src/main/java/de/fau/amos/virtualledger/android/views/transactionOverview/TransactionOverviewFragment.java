@@ -178,7 +178,11 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
     void filterTransactions(String by) {
         logger().log(Level.INFO, "Selected filter: " + by);
-        this.transactionFilter = FilterByName.getTransactionFilterByUIName(by);
+        TransactionFilter transactionFilter = FilterByName.getTransactionFilterByUIName(by);
+
+        if(transactionFilter != null){
+            this.transactionFilter = transactionFilter;
+        }
         this.showUpdatedTransactions();
     }
 
