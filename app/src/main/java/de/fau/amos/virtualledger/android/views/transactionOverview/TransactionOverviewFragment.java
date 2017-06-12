@@ -173,10 +173,10 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                 TextView selectedTextView = (TextView) spinner.getSelectedView();
                 if (selectedTextView == null) {
                     logger().info("Nothing selected in spinner. Filtering for 12 months.");
-                    _this.filterTransactions("Last 12 months", null);
+                    _this.filterTransactions("Last 12 months", selectedTextView, spinner);
                     return;
                 }
-                _this.filterTransactions(selectedTextView.getText().toString(), selectedTextView);
+                _this.filterTransactions(selectedTextView.getText().toString(), selectedTextView, spinner);
 
             }
 
@@ -189,7 +189,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         return this.mainView;
     }
 
-    void filterTransactions(String by, final TextView selectedTextView) {
+    void filterTransactions(String by, final TextView selectedTextView, final Spinner spinner) {
         logger().log(Level.INFO, "Selected filter: " + by);
         TransactionFilter transactionFilter = FilterByName.getTransactionFilterByUIName(by);
         final TransactionOverviewFragment _this = this;
@@ -219,8 +219,8 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     dialog.dismiss();
-                                    if(selectedTextView!= null){
-                                        selectedTextView.setText("Last 12 months");
+                                    if (selectedTextView != null) {
+                                        spinner.setSelection(0);
                                         _this.transactionFilter = new Last12Months();
                                         _this.showUpdatedTransactions();
                                     }
