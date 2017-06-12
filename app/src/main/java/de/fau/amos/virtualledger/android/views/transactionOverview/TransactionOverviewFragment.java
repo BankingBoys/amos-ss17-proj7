@@ -41,6 +41,7 @@ import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.ByActualMonth;
+import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.CustomFilter;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.FilterByName;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.TransactionFilter;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
@@ -183,14 +184,14 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
             }
         });
-        spinner.setSelection(1);
+        spinner.setSelection(0);
         return this.mainView;
     }
 
     void filterTransactions(String by, final TextView selectedTextView) {
         logger().log(Level.INFO, "Selected filter: " + by);
         TransactionFilter transactionFilter = FilterByName.getTransactionFilterByUIName(by);
-
+        final TransactionOverviewFragment _this = this;
         if (transactionFilter == null) {
             final SpecifyDateDialog chooserDialogContent = SpecifyDateDialog.newInstance();
             ContextThemeWrapper ctw = new ContextThemeWrapper(mainView.getContext(), R.style.AlternativeAltertDialogTheme);
@@ -204,7 +205,12 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                                         String selectionText = dateFormatter.format(chooserDialogContent.getStartCalendar().getTime())//
                                                 + "-" + dateFormatter.format(chooserDialogContent.getEndCalendar().getTime());
                                         selectedTextView.setText(selectionText);
+                                        _this.transactionFilter = new CustomFilter(chooserDialogContent.getStartCalendar().getTime(),
+                                                chooserDialogContent.getEndCalendar().getTime());
+                                        _this.showUpdatedTransactions();
+
                                     }
+
                                 }
                             }
                     )
