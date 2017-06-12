@@ -1,12 +1,15 @@
 package de.fau.amos.virtualledger.android.views.transactionOverview;
 
+import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -189,7 +192,28 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
         if (transactionFilter == null) {
             DialogFragment newFragment = SpecifyDateDialog.newInstance();
-            newFragment.show(getFragmentManager(), "dialog");
+            ContextThemeWrapper ctw = new ContextThemeWrapper(mainView.getContext(), R.style.AlternativeAltertDialogTheme);
+            AlertDialog.Builder builder = new AlertDialog.Builder(ctw)
+                    .setTitle("")
+                    .setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    // do something...
+                                }
+                            }
+                    )
+                    .setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.dismiss();
+                                }
+                            }
+                    );
+            builder.setView(newFragment.onCreateView(getActivity().getLayoutInflater(), null, null));
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+
+            //newFragment.show(getFragmentManager(), "dialog");
             return;
         }
         logger().log(Level.INFO, "Direct filter found for " + by);

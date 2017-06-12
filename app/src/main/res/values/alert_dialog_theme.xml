@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AlternativeAltertDialogTheme">
+        <item name="android:background">@color/caldroid_black</item>
+        <item name="android:textColor">@color/colorBankingOverview</item>
+    </style>
+</resources>
