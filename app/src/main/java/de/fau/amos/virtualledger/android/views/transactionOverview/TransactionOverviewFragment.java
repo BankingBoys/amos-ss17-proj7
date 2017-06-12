@@ -131,7 +131,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                 this.presentedTransactions.remove(actualTransaction);
             }
         }
-
+        logger().log(Level.INFO, "Number of presented transactions: " + presentedTransactions.size());
         for (Transaction actualTransaction : this.presentedTransactions) {
             this.adapter.add(actualTransaction);
         }
@@ -164,6 +164,11 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView selectedTextView = (TextView) spinner.getSelectedView();
+                if (selectedTextView == null) {
+                    logger().info("Nothing selected in spinner. Filtering for 12 months.");
+                    _this.filterTransactions("Last 12 months");
+                    return;
+                }
                 _this.filterTransactions(selectedTextView.getText().toString());
             }
 
