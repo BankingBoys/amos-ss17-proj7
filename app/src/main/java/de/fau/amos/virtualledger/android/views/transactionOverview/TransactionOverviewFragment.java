@@ -43,6 +43,7 @@ import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFra
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.ByActualMonth;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.CustomFilter;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.FilterByName;
+import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.Last12Months;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.TransactionFilter;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.Booking;
@@ -218,6 +219,11 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     dialog.dismiss();
+                                    if(selectedTextView!= null){
+                                        selectedTextView.setText("Last 12 months");
+                                        _this.transactionFilter = new Last12Months();
+                                        _this.showUpdatedTransactions();
+                                    }
                                 }
                             }
                     );
