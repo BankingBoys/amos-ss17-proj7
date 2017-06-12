@@ -25,5 +25,4 @@
     android:layout_height="wrap_content"
     android:ellipsize="marquee"
     android:textColor="@color/colorBankingOverview"
-    android:textSize="@dimen/spinner_item_size"
     android:textAlignment="inherit"/>
