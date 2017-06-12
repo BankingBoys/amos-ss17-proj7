@@ -39,7 +39,7 @@ public class LongClickDeleteListenerSingleItem implements View.OnLongClickListen
 
     @Override
     public boolean onLongClick(View v) {
-        DeleteDialog tDeleteDialog = new DeleteDialog(listenedObject, bankAccess, bankAccount, getName, approvedAction);
+        DeleteDialog tDeleteDialog = new DeleteDialog(v.getContext(), listenedObject, bankAccess, bankAccount, getName, approvedAction);
         tDeleteDialog.show();
         return true;
     }

@@ -54,7 +54,7 @@ public class LongClickDeleteListenerList implements AdapterView.OnItemLongClickL
         Group group = (Group) listView.getAdapter().getItem(position);
         int index = this.adapter.getIndexForGroup(group);
 
-        DeleteDialog tDeleteDialog = new DeleteDialog(listenedObject, this.bankAccesses.get(index), null, getName, approvedAction);
+        DeleteDialog tDeleteDialog = new DeleteDialog(view.getContext(),listenedObject, this.bankAccesses.get(index), null, getName, approvedAction);
         tDeleteDialog.show();
         return true;
     }

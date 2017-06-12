@@ -2,8 +2,11 @@ package de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccess
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.view.ContextThemeWrapper;
 
+import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessAccount.functions.BiConsumer;
 import de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessAccount.functions.BiFunction;
 import de.fau.amos.virtualledger.dtos.BankAccess;
@@ -22,6 +25,7 @@ public class DeleteDialog {
     private BankAccount bankAccount;
     private BiFunction<BankAccess, BankAccount, String> getName;
     private BiConsumer<BankAccess, BankAccount> approvedAction;
+    private Context context;
 
 
     /**
@@ -31,21 +35,23 @@ public class DeleteDialog {
      * @param getName        = the name extractor to extract the name of the access and the account
      * @param approvedAction = the action that is executed when the delete option is approved
      */
-    public DeleteDialog(Activity listenedObject, BankAccess bankAccess, BankAccount bankAccount, BiFunction<BankAccess, BankAccount, String> getName, BiConsumer<BankAccess, BankAccount> approvedAction) {
+    public DeleteDialog(Context context, Activity listenedObject, BankAccess bankAccess, BankAccount bankAccount, BiFunction<BankAccess, BankAccount, String> getName, BiConsumer<BankAccess, BankAccount> approvedAction) {
         this.listenedObject = listenedObject;
         this.bankAccess = bankAccess;
         this.bankAccount = bankAccount;
         this.getName = getName;
         this.approvedAction = approvedAction;
+        this.context = context;
     }
 
     /**
      * shows the popup
      */
     public void show() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(listenedObject);
+        ContextThemeWrapper ctw = new ContextThemeWrapper(this.context, R.style.AlternativeAltertDialogTheme);
+        AlertDialog.Builder alert = new AlertDialog.Builder(ctw);
         alert.setTitle("DELETE CONFIRMATION");
-        alert.setMessage("Are you sure to delete " + this.getName.apply(bankAccess, bankAccount));
+        alert.setMessage("Are you sure to delete " + this.getName.apply(bankAccess, bankAccount)+"?");
         alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
 
             @Override
