@@ -131,6 +131,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                 this.presentedTransactions.remove(actualTransaction);
             }
         }
+
         logger().log(Level.INFO, "Number of presented transactions: " + presentedTransactions.size());
         for (Transaction actualTransaction : this.presentedTransactions) {
             this.adapter.add(actualTransaction);
