@@ -203,7 +203,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
             }
         });
-        spinner.setSelection(0);
+        spinner.setSelection(2);
         return this.mainView;
     }
 
