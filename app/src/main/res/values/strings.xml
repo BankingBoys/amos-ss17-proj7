@@ -26,7 +26,7 @@
     <string name="banking_overview_add_access_blz_hint">BLZ</string>
     <string name="banking_overview_finish_selecting_accounts_button_text">Finish</string>
     <string name="banking_overview_total_amount_text">TOTAL</string>
-
+    <string name="banking_overview_enable_all_accounts_checkbox">Enable all bank accounts</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
