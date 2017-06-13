@@ -3,6 +3,7 @@ package de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.F
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -37,6 +38,7 @@ import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
+import de.fau.amos.virtualledger.android.views.menu.MainMenu;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
@@ -65,11 +67,12 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Todo: call the transaction fragment
-                
+                Intent intent = new Intent(getActivity(), MainMenu.class);
+                startActivity(intent);
             }
         });
     }
+
 
     @Override
     public void onResume() {
