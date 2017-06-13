@@ -45,15 +45,17 @@ public class MainMenu extends AppCompatActivity {
     private ListView listView;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
+    private int startingFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu_sliding_tab);
         Bundle bundle = getIntent().getExtras();
-        int startingFragment = 2;
+        startingFragment = 2;
         if(bundle != null) {
             startingFragment = bundle.getInt("startingFragment");
+            mappingCheckBoxes = (HashMap) bundle.get("checkedMap");
         }
         //init
         init();
@@ -113,6 +115,12 @@ public class MainMenu extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.sliding_menu);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         slidingItems = new ArrayList<>();
+    }
+
+    @Override
+    protected void onResume() {
+        startingFragment = 2;
+        super.onResume();
     }
 
     private void configureItemsForMenu() {
@@ -205,4 +213,13 @@ public class MainMenu extends AppCompatActivity {
         finish();
     }
 
+    public void setMappingCheckBoxes(HashMap<String, Boolean> map) {
+        this.mappingCheckBoxes = map;
+    }
+
+    @Override
+    public void onBackPressed() {
+        startingFragment = 2;
+        super.onBackPressed();
+    }
 }

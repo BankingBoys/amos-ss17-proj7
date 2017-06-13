@@ -110,21 +110,39 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         allTransactions.clear();
         presentedTransactions.clear();
         boolean filter = hasItemsChecked(mappingCheckBoxes);
-        for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
-            for (Booking booking : bankAccountBookings.getBookings()) {
-                Transaction transaction = new Transaction(
-                        bankAccessCredentialDB
-                                .getAccountName(
-                                        authenticationProvider.getEmail(),
-                                        bankAccountBookings.getBankaccessid(),
-                                        bankAccountBookings.getBankaccountid()),
-                        booking);
+        if(filter) {
+            for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
+                for (Booking booking : bankAccountBookings.getBookings()) {
+                    String accountName = bankAccessCredentialDB
+                            .getAccountName(
+                                    authenticationProvider.getEmail(),
+                                    bankAccountBookings.getBankaccessid(),
+                                    bankAccountBookings.getBankaccountid());
+                    if(mappingCheckBoxes.get(accountName)) {
+                        Transaction transaction = new Transaction(accountName, booking);
+                        this.allTransactions.add(transaction);
+                        this.presentedTransactions.add(transaction);
+                    }
+                }
+            }
 
-                this.allTransactions.add(transaction);
-                this.presentedTransactions.add(transaction);
+        }
+        else {
+            for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
+                for (Booking booking : bankAccountBookings.getBookings()) {
+                    Transaction transaction = new Transaction(
+                            bankAccessCredentialDB
+                                    .getAccountName(
+                                            authenticationProvider.getEmail(),
+                                            bankAccountBookings.getBankaccessid(),
+                                            bankAccountBookings.getBankaccountid()),
+                            booking);
+
+                    this.allTransactions.add(transaction);
+                    this.presentedTransactions.add(transaction);
+                }
             }
         }
-
         showUpdatedTransactions();
     }
 
