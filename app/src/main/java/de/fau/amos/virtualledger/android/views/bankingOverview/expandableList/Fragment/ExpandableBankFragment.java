@@ -108,6 +108,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
                             @Override
                             public void accept(BankAccess item1, BankAccount item2) {
                                 new DeleteBankAccessAction(bankingDataManager).accept(item1, item2);
+                                Intent intent = new Intent(getActivity(), MainMenu.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
                             }
                         }
                 )
