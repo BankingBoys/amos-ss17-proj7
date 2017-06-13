@@ -168,7 +168,6 @@ public class MainMenu extends AppCompatActivity {
 
             case 1:
                 ExpandableBankFragment fragment = new ExpandableBankFragment();
-                fragment.setCheckedMap(mappingCheckBoxes);
                 openFragment(fragment);
                 break;
 
