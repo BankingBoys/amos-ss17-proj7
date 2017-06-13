@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.android.views.bankingOverview.addBankAccess;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
+import de.fau.amos.virtualledger.android.views.menu.MainMenu;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 
 public class AddBankAccessActivity extends AppCompatActivity {
@@ -39,6 +41,10 @@ public class AddBankAccessActivity extends AppCompatActivity {
         bankAccessCredential.setPin(pin);
 
         bankingDataManager.addBankAccess(bankAccessCredential);
+        Intent intent = new Intent(this, MainMenu.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("startingFragment", 2);
+        startActivity(intent);
         finish();
     }
 
