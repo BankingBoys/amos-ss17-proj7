@@ -160,7 +160,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
             this.adapter.add(actualTransaction);
         }
         this.adapter.sort(new TransactionsComparator());
-        this.adapter.notifyDataSetChanged();//Fixme doenst work?
+        this.adapter.notifyDataSetChanged();
     }
 
 
