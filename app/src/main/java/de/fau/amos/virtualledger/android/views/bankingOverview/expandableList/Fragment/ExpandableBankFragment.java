@@ -74,12 +74,14 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MainMenu.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("checkedMap", mappingCheckBoxes);
-                bundle.putInt("startingFragment", 2);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if(hasItemsChecked(mappingCheckBoxes)) {
+                    Intent intent = new Intent(getActivity(), MainMenu.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("checkedMap", mappingCheckBoxes);
+                    bundle.putInt("startingFragment", 2);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
             }
         });
         enableAllCheckBox.setOnClickListener(new View.OnClickListener() {
@@ -234,4 +236,15 @@ public class ExpandableBankFragment extends Fragment implements Observer {
             entry.setValue(checked);
         }
     }
+
+    public static boolean hasItemsChecked(HashMap<String, Boolean> map) {
+        Boolean ret = false;
+        Iterator iterator = map.entrySet().iterator();
+        while (iterator.hasNext() && !ret) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            ret = (Boolean) entry.getValue();
+        }
+        return ret;
+    }
+
 }
