@@ -118,7 +118,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                                     authenticationProvider.getEmail(),
                                     bankAccountBookings.getBankaccessid(),
                                     bankAccountBookings.getBankaccountid());
-                    if(mappingCheckBoxes.get(accountName)) {
+                    if((mappingCheckBoxes.get(accountName) != null) && (mappingCheckBoxes.get(accountName))) {
                         Transaction transaction = new Transaction(accountName, booking);
                         this.allTransactions.add(transaction);
                         this.presentedTransactions.add(transaction);
