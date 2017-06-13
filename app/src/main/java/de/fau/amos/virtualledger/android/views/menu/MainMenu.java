@@ -51,7 +51,7 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu_sliding_tab);
         Bundle bundle = getIntent().getExtras();
-        int startingFragment = 1;
+        int startingFragment = 2;
         if(bundle != null) {
             startingFragment = bundle.getInt("startingFragment");
         }
