@@ -9,12 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+
+
+
 import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.dtos.BankAccountBookings;
+import de.fau.amos.virtualledger.dtos.Booking;
 import hirondelle.date4j.DateTime;
 
 /**
@@ -29,6 +37,10 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
 
     View cellView;
 
+    Context context;
+
+    private List<BankAccountBookings> bankAccountBookingsList;
+
     /**
      * Constructor
      *
@@ -38,9 +50,12 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
      * @param caldroidData
      * @param extraData
      */
-    public CaldroidBankingCellAdapter(Context context, int month, int year, Map<String, Object> caldroidData, Map<String, Object> extraData) {
+    public CaldroidBankingCellAdapter(Context context, int month, int year, Map<String, Object> caldroidData, Map<String, Object> extraData, List<BankAccountBookings> list) {
         super(context, month, year, caldroidData, extraData);
+        this.context = context;
+        this.bankAccountBookingsList = list;
     }
+
 
 
     @Override
@@ -48,10 +63,24 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         cellView = convertView;
-
+        double amountDelta = 100;
+        double amount = 500;
+        boolean skip = false;
         //TODO get real data
-        double amountDelta = 100.00;
-        double amount = 500.00;
+        DateTime dateTime = this.datetimeList.get(position);
+        for(BankAccountBookings bankAccountBooking: bankAccountBookingsList) {
+            if(skip) {
+                break;
+            }
+            for(Booking booking: bankAccountBooking.getBookings()) {
+                //Todo: compare the dates from the current position and the booking
+                /*if(dateTime.getDay() == newDateTime.getDay() && dateTime.getMonth() == newDateTime.getMonth() && dateTime.getYear() == newDateTime.getYear()){
+                    amountDelta = booking.getAmount();
+                    skip = true;
+                    break;
+                }*/
+            }
+        }
 
         // load custom cell
         if (convertView == null) {
@@ -64,8 +93,6 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
         styleDefault();
         changeAmountDeltaTextColor(amountDelta);
         changeAmountBackgroundColor(amount);
-
-        DateTime dateTime = this.datetimeList.get(position);
 
         // Set color of the dates in previous / next month
         if (dateTime.getMonth() != month) {
@@ -141,4 +168,5 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
     private String getFormatedDouble(double number) {
         return String.format(Locale.GERMAN, "%.0f", number);
     }
+
 }

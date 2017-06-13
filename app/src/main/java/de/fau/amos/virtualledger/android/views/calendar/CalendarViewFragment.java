@@ -38,7 +38,7 @@ public class CalendarViewFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((App) getActivity().getApplication()).getNetComponent().inject(this);
+        /*((App) getActivity().getApplication()).getNetComponent().inject(this);*/
     }
 
     @Override
