@@ -11,7 +11,7 @@ import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fr
  * Created by Simon on 13.06.2017.
  */
 
-public class bankingOverviewTest {
+public class ExpandableBankFragmentTest {
 
 
     @Test
