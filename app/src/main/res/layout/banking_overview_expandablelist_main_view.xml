@@ -18,8 +18,17 @@
             android:id="@+id/banking_overview_total_amount_fragment_wrapper"
             android:layout_width="match_parent"
             android:orientation="vertical"
+            android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:id="@+id/banking_overview_enable_all_accounts_checkbox"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:theme="@style/bankingOverviewCheckBox"
+            android:textColor="@color/colorBankingOverview"
+            android:text="@string/banking_overview_enable_all_accounts_checkbox" />
 
         <ExpandableListView
             android:id="@+id/expandableView"
