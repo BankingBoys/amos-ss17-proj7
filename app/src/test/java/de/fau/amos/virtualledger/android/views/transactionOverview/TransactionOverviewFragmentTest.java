@@ -2,12 +2,14 @@ package de.fau.amos.virtualledger.android.views.transactionOverview;
 
 import android.support.annotation.NonNull;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import de.fau.amos.virtualledger.dtos.Booking;
 
@@ -50,6 +52,37 @@ public class TransactionOverviewFragmentTest {
 
         assertThat(component_under_test.presentedTransactions).containsOnly(newTransaction, lastYearTransaction);
     }
+
+    @Test
+    public void hasItemsCheckedFalseTest() {
+        MocketTransactionOverview component_under_test = new MocketTransactionOverview();
+        HashMap<String, Boolean> map = new HashMap<>();
+        String test1 = "test1";
+        String test2 = "test2";
+        String test3 = "test3";
+        String test4 = "test4";
+        map.put(test1, false);
+        map.put(test2, false);
+        map.put(test3, false);
+        map.put(test4, false);
+        Assert.assertEquals(false, component_under_test.hasItemsChecked(map));
+    }
+
+    @Test
+    public void hasItemsCheckedTrueTest() {
+        MocketTransactionOverview component_under_test = new MocketTransactionOverview();
+        HashMap<String, Boolean> map = new HashMap<>();
+        String test1 = "test1";
+        String test2 = "test2";
+        String test3 = "test3";
+        String test4 = "test4";
+        map.put(test1, false);
+        map.put(test2, false);
+        map.put(test3, false);
+        map.put(test4, true);
+        Assert.assertEquals(true, component_under_test.hasItemsChecked(map));
+    }
+
 
     private TransactionAdapter mockedAdapter() {
         TransactionAdapter mock = Mockito.mock(TransactionAdapter.class);
