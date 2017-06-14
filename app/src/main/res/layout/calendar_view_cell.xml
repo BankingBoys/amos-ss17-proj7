@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:paddingBottom="4dp"
-        android:paddingLeft="2dp"/>
+        android:textSize="@dimen/fontSizeL"
+        android:layout_margin="2dp"/>
 
     <TextView
         android:id="@+id/calendar_view_cell_amount_delta"
@@ -24,11 +24,12 @@
         android:textAlignment="center"
         android:paddingBottom="2dp"/>
 
+
     <TextView
         android:id="@+id/calendar_view_cell_amount"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textAlignment="center"
-        android:background="@color/colorBankingOverviewLightGreen"/>
-
+        android:background="@color/colorBankingOverviewLightGreen"
+        android:layout_margin="1dp"/>
 </LinearLayout>
