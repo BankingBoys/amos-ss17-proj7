@@ -16,19 +16,20 @@ fi
 
 # Amazon AWS Deploy
 if [ "$DEPLOY_SERVER" != "TRUE" ]; then
-	text=$text", ServerDeploy:{TRUE}"
-else
 	text=$text", ServerDeploy:{FALSE}"
+else
+	text=$text", ServerDeploy:{TRUE}"
 fi
+
 
 # Amazon Server Status
 if nc -w 5 -z "$server" 8080 ; then
     echo "Port 22 on $server is open"
     text=$text", ServerStatus:{UP}"
 else
-    text="!!!ATTENTION!!!::: "$text", ServerStatus:{DOWN}Commit{"$TRAVIS_COMMIT_MESSAGE"}"
+    text="!!!ATTENTION!!!::: "$text", ServerStatus:{DOWN}"
 fi
-
+text=$text+", Commit{"$TRAVIS_COMMIT_MESSAGE"}"
 
 token="WF2UyrAWwmuoSgjjtqPo8O1N"
 channel="#server"
