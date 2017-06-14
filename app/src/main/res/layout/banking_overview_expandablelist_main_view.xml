@@ -46,6 +46,7 @@
         android:textColor="@android:color/background_light"
         android:layout_marginLeft="100dp"
         android:layout_marginRight="100dp"
+        android:padding="2dp"
         android:layout_gravity="bottom"
         />
 
