@@ -3,7 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorBankingOverview">#37B0C8</color>
+    <color name="colorBankingOverview">#000000</color>
     <color name="colorBankingOverviewLightGreen">#52BF90</color>
     <color name="colorNegativeAmount">#ff0000</color>
     <color name="colorBankingOverviewButton">#F08080</color>
