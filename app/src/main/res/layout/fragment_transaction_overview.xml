@@ -4,37 +4,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".android.menu.MainMenu">
+    tools:context=".android.views.menu.MainMenu">
 
-    <TextView
-        android:id="@+id/transaction_sum_text"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/transaction_overview_total_amount_fragment_wrapper"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text=""
-        android:textColor="@color/colorBankingOverviewLightGreen"
-        android:textSize="@dimen/fontSizeOverviewBalance"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.45" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="0.45"
+            android:gravity="center_vertical|end"
+            android:text="Range:"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorBankingOverview"
+            android:textSize="@dimen/spinner_item_size"
+            tools:text="Range:" />
+
+        <Spinner
+            android:id="@+id/transactionSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="39dp"
+            android:layout_weight="1.85"
+            android:textColor="@color/colorBankingOverview"
+            android:textSize="@dimen/fontSizeTotalAmountHeader"
+            android:visibility="visible" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.07" />
+
+    </LinearLayout>
 
     <View
-        android:id="@+id/transactionSeparator"
+        android:id="@+id/transactionSeparator2"
         android:layout_width="wrap_content"
         android:layout_height="2dp"
         android:layout_marginTop="10dp"
         android:background="@color/colorBankingOverview"
         android:layout_marginBottom="20dp"
         android:visibility="gone">
-
     </View>
-
     <ListView
         android:id="@+id/transaction_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_marginTop="5dp"/>
-
-
-
 </LinearLayout>

@@ -27,7 +27,8 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
 
     Map<BankAccountBankingModel, List<BookingModel>> bankBookingMap = new HashMap<BankAccountBankingModel, List<BookingModel>>();
 
-    Random randomGenerator = new Random(System.nanoTime());
+    // Seed "0" for predictability
+    Random randomGenerator = new Random(0);
 
     @Inject
     public DummyBankAccountEndpoint(@BankingApiDummy DummyBankAccessEndpoint dummyBankAccessEndpoint)

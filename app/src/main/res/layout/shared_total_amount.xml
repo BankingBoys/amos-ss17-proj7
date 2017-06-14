@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/total_amount_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/colorBankingOverview"
+        android:textSize="@dimen/fontSizeTotalAmountHeader"
+        android:textStyle="normal"
+        android:text="@string/banking_overview_total_amount_text" />
+
+    <TextView
+        android:id="@+id/total_amount_balance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/colorBankingOverview"
+        android:textSize="@dimen/fontSizeTotalAmountBalance"
+        android:textStyle="bold"
+        android:text="" />
+
+    <View
+        android:id="@+id/transactionSeparator"
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorBankingOverview"
+        android:visibility="visible">
+    </View>
+</LinearLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
-  <info organisation="de.fau.amos.virtual-ledger" module="server" revision="1.0-SNAPSHOT" status="integration" default="true" publication="20170526184119"/>
+  <info organisation="de.fau.amos.virtual-ledger" module="server" revision="1.0-SNAPSHOT" status="integration" default="true" publication="20170530231429"/>
   <configurations>
     <conf name="apiElements" visibility="private" extends="compile,runtime"/>
     <conf name="archives" visibility="public"/>
@@ -64,6 +64,7 @@
     <dependency org="junit" name="junit" rev="4.12" conf="testCompile-&gt;default"/>
     <dependency org="org.mockito" name="mockito-core" rev="1.10.19" conf="testCompile-&gt;default"/>
     <dependency org="org.glassfish.jersey.core" name="jersey-client" rev="2.25.1" conf="testCompile-&gt;default"/>
+    <dependency org="org.assertj" name="assertj-core" rev="3.+" conf="testCompile-&gt;default"/>
     <exclude org="*" module="spring-boot-starter-tomcat" artifact="*" type="*" ext="*" conf="compile" matcher="exact"/>
     <exclude org="*" module="spring-boot-starter-jetty" artifact="*" type="*" ext="*" conf="compile" matcher="exact"/>
     <exclude org="org.springframework.boot" module="*" artifact="*" type="*" ext="*" conf="grettyNoSpringBoot" matcher="exact"/>
