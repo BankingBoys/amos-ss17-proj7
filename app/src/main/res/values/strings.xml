@@ -24,7 +24,7 @@
     <string name="banking_overview_add_access_button_text">Add Bank Access</string>
     <string name="banking_overview_add_access_title">Add bank access</string>
     <string name="banking_overview_add_access_blz_hint">BLZ</string>
-    <string name="banking_overview_finish_selecting_accounts_button_text">Finish</string>
+    <string name="banking_overview_finish_selecting_accounts_button_text">Show Transactions</string>
     <string name="banking_overview_total_amount_text">TOTAL</string>
 
     <!-- TODO: Remove or change this placeholder text -->
