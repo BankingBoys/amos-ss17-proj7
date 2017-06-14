@@ -31,7 +31,7 @@ after_script:
  -  ./tools/upload_script_to_amazon_aws.sh
  -  cd /home/travis/build/BankingBoys/amos-ss17-proj7/
  -  chmod 777 tools/upload_script_to_hockey_app.sh
- -  ./upload_script.sh
+ -  ./tools/upload_script_to_hockey_app.sh
  -  chmod 777 ./tools/post_slack_server_status.sh
  -  ./tools/post_slack_server_status.sh
 
