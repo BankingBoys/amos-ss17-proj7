@@ -5,7 +5,7 @@ if [ "$DEPLOY_SERVER" != "TRUE" ]; then
 	echo "No auto deploy of "$TRAVIS_COMMIT_MESSAGE
 	exit 0;
 fi
-
+echo "Uploading new version to amazon aws"
 ./gradlew server:uploadArchives
 cd app
 cd build
