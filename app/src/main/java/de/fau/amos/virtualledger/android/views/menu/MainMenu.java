@@ -212,14 +212,4 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-    public void setMappingCheckBoxes(HashMap<String, Boolean> map) {
-        this.mappingCheckBoxes = map;
-    }
-
-    @Override
-    public void onBackPressed() {
-        startingFragment = 2;
-        super.onBackPressed();
-    }
 }

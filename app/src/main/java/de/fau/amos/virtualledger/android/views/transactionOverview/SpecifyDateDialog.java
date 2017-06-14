@@ -37,7 +37,6 @@ public class SpecifyDateDialog extends DialogFragment {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear,
                                       int dayOfMonth) {
-                    // TODO Auto-generated method stub
                     startDate.set(Calendar.YEAR, year);
                     startDate.set(Calendar.MONTH, monthOfYear);
                     startDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -62,7 +61,6 @@ public class SpecifyDateDialog extends DialogFragment {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear,
                                       int dayOfMonth) {
-                    // TODO Auto-generated method stub
                     endDate.set(Calendar.YEAR, year);
                     endDate.set(Calendar.MONTH, monthOfYear);
                     endDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);

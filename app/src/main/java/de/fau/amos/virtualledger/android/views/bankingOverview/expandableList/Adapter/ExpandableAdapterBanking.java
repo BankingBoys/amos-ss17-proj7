@@ -153,4 +153,8 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
     }
+
+    public void setMappingCheckBoxes(HashMap<String, Boolean> map) {
+        this.mappingCheckBoxes = map;
+    }
 }
