@@ -39,7 +39,7 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
 
     Context context;
 
-    private List<BankAccountBookings> bankAccountBookingsList;
+    private Map<DateTime, BankingDateInformation> bankingDateInformationMap;
 
     /**
      * Constructor
@@ -50,10 +50,10 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
      * @param caldroidData
      * @param extraData
      */
-    public CaldroidBankingCellAdapter(Context context, int month, int year, Map<String, Object> caldroidData, Map<String, Object> extraData, List<BankAccountBookings> list) {
+    public CaldroidBankingCellAdapter(Context context, int month, int year, Map<String, Object> caldroidData, Map<String, Object> extraData, Map<DateTime, BankingDateInformation> bankingDateInformationMap) {
         super(context, month, year, caldroidData, extraData);
         this.context = context;
-        this.bankAccountBookingsList = list;
+        this.bankingDateInformationMap = bankingDateInformationMap;
     }
 
 
@@ -62,24 +62,15 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        cellView = convertView;
-        double amountDelta = 100;
-        double amount = 500;
-        boolean skip = false;
-        //TODO get real data
         DateTime dateTime = this.datetimeList.get(position);
-        for(BankAccountBookings bankAccountBooking: bankAccountBookingsList) {
-            if(skip) {
-                break;
-            }
-            for(Booking booking: bankAccountBooking.getBookings()) {
-                //Todo: compare the dates from the current position and the booking
-                /*if(dateTime.getDay() == newDateTime.getDay() && dateTime.getMonth() == newDateTime.getMonth() && dateTime.getYear() == newDateTime.getYear()){
-                    amountDelta = booking.getAmount();
-                    skip = true;
-                    break;
-                }*/
-            }
+        cellView = convertView;
+
+        BankingDateInformation bankingDateInformation = this.bankingDateInformationMap.get(dateTime);
+        double amountDelta = 0.0;
+        double amount = 0.0;
+        if(bankingDateInformation != null) {
+            amountDelta = bankingDateInformation.getAmountDelta();
+            amount = bankingDateInformation.getAmount();
         }
 
         // load custom cell
