@@ -11,6 +11,7 @@ import com.roomorama.caldroid.CaldroidGridAdapter;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,10 +45,12 @@ public class CaldroidBankingFragment extends CaldroidFragment {
     List<Transaction> transactionList;
     private double totalAmount;
 
-    public static CaldroidBankingFragment newInstance(ArrayList<Transaction> transactionList, double totalAmount) {
+    public static CaldroidBankingFragment newInstance(int month, int year, ArrayList<Transaction> transactionList, double totalAmount) {
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST, transactionList);
         bundle.putDouble(CaldroidBankingFragment.BUNDLE_PARAMETER_TOTALAMOUNT, totalAmount);
+        bundle.putInt(CaldroidFragment.MONTH, month);
+        bundle.putInt(CaldroidFragment.YEAR, year);
         CaldroidBankingFragment fragment = new CaldroidBankingFragment();
         fragment.setArguments(bundle);
 

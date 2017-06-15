@@ -17,12 +17,14 @@ import com.roomorama.caldroid.CaldroidFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.views.transactionOverview.Transaction;
+import de.fau.amos.virtualledger.dtos.Booking;
 
 public class CalendarViewFragment extends Fragment {
     private static final String TAG = CalendarViewFragment.class.getSimpleName();
@@ -53,13 +55,12 @@ public class CalendarViewFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
-        CaldroidBankingFragment caldroidFragment = CaldroidBankingFragment.newInstance(new ArrayList<Transaction>(), 1000.00);
-        Bundle args = caldroidFragment.getArguments();
         Calendar cal = Calendar.getInstance();
-        args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
-        args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
-        caldroidFragment.setArguments(args);
+        Transaction testTransaction = new Transaction("avc", new Booking(cal.getTime(), 50.00));
+        ArrayList<Transaction> transactionList = new ArrayList<>();
+        transactionList.add(testTransaction);
 
+        CaldroidBankingFragment caldroidFragment = CaldroidBankingFragment.newInstance(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), transactionList, 2000.00);
         FragmentTransaction transaction = context.getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.calendar_view_fragment_calendar_wrapper, caldroidFragment, "calendar_view_fragment_calendar");
         transaction.commit();
