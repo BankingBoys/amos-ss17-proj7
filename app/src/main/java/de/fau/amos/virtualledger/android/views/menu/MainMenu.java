@@ -128,7 +128,7 @@ public class MainMenu extends AppCompatActivity {
         slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Logout"));
         slidingItems.add(new ItemSlidingMenu(R.drawable.bank_accesses, "Bank Access"));
         slidingItems.add(new ItemSlidingMenu(R.drawable.list, "Transaction Overview"));
-        slidingItems.add(new ItemSlidingMenu(R.drawable.list, "Calendar Test View"));
+        slidingItems.add(new ItemSlidingMenu(R.drawable.calendar, "Calendar Test View"));
         listView.setAdapter(new MenuAdapter(this, slidingItems));
     }
 
