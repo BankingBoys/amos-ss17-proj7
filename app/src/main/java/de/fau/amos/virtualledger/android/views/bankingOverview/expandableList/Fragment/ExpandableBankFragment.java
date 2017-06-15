@@ -77,13 +77,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         enableAllCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!enableAllCheckBox.isChecked()) {
-                    setAllAccountsCheckedOrUnchecked(false);
-                } else {
-                    setAllAccountsCheckedOrUnchecked(true);
-                }
-                adapter.setMappingCheckBoxes(mappingCheckBoxes);
-                listView.setAdapter(adapter);
+                clickCheckBox();
             }
         });
     }
@@ -97,6 +91,16 @@ public class ExpandableBankFragment extends Fragment implements Observer {
             intent.putExtras(bundle);
             startActivity(intent);
         }
+    }
+
+    public void clickCheckBox() {
+        if(!enableAllCheckBox.isChecked()) {
+            setAllAccountsCheckedOrUnchecked(false);
+        } else {
+            setAllAccountsCheckedOrUnchecked(true);
+        }
+        adapter.setMappingCheckBoxes(mappingCheckBoxes);
+        listView.setAdapter(adapter);
     }
 
 
