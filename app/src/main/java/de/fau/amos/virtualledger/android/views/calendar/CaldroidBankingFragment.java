@@ -1,10 +1,15 @@
 package de.fau.amos.virtualledger.android.views.calendar;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -29,10 +34,38 @@ import hirondelle.date4j.DateTime;
 
 public class CaldroidBankingFragment extends CaldroidFragment {
 
+    private static final String BUNDLE_PARAMETER_TRANSACTIONLIST = "transactionlist";
+
     @Inject
     BankingDataManager bankingDataManager;
 
     private HashMap<DateTime, BankingDateInformation> bankingDateInformationMap;
+    List<Transaction> transactionList;
+
+    public static CaldroidBankingFragment newInstance(ArrayList<Transaction> transactionList, double totalAmount) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST, transactionList);
+        CaldroidBankingFragment fragment = new CaldroidBankingFragment();
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
+    private void readBundle(Bundle bundle) {
+        if (bundle != null) {
+            transactionList = bundle.getParcelableArrayList(CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST);
+        } else {
+            throw new InvalidParameterException("No data found in bundle! Please check if you instantiate CaldroidBankingFragment with " + CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST + "!");
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        readBundle(getArguments());
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        return view;
+    }
 
     @Override
     public CaldroidGridAdapter getNewDatesGridAdapter(int month, int year) {
@@ -46,9 +79,8 @@ public class CaldroidBankingFragment extends CaldroidFragment {
         bankingDateInformationMap = new HashMap<>();
 
         // TODO get from Fragment instantiation
-        List<Transaction> transactionList = new ArrayList<>();
         double totalAmount = 1000.000;
-        
+
         Collections.sort(transactionList, new TransactionsComparator());
 
         for(int i = 0; i < transactionList.size(); ++i) {
