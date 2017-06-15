@@ -8,6 +8,7 @@ import com.roomorama.caldroid.CaldroidGridAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.inject.Inject;
 
@@ -48,8 +49,6 @@ public class CaldroidBankingFragment extends CaldroidFragment {
             Toast.makeText(getActivity(), "Failed connecting to the server, try again later", Toast.LENGTH_LONG).show();
         }
 
-        // TODO order List
-
         for(int i = 0; i < bankAccountBookingsList.size(); ++i) {
             BankAccountBookings bankAccountBookings = bankAccountBookingsList.get(i);
 
@@ -59,7 +58,7 @@ public class CaldroidBankingFragment extends CaldroidFragment {
             double amount = 0.0;
             double amountDelta = 0.0;
 
-            BankingDateInformation bankingDateInformation = new BankingDateInformation(amount, amountDelta, bankAccountBookings.getBookings());
+            BankingDateInformation bankingDateInformation = new BankingDateInformation(DateTime.today(TimeZone.getDefault()), amount, new ArrayList<Booking>());
         }
     }
 }
