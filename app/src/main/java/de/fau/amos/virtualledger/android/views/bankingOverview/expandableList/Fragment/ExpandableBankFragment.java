@@ -15,11 +15,8 @@ import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -37,6 +34,7 @@ import de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessA
 import de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessAccount.LongClickDeleteListenerList;
 import de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessAccount.functions.BiConsumer;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Adapter.ExpandableAdapterBanking;
+import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.BankingOverviewHandler;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.model.Group;
 import de.fau.amos.virtualledger.android.views.menu.MainMenu;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
@@ -68,9 +66,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((App) getActivity().getApplication()).getNetComponent().inject(this);
         adapter = new ExpandableAdapterBanking(getActivity(),
                 groups, bankingDataManager, mappingCheckBoxes);
+        ((App) getActivity().getApplication()).getNetComponent().inject(this);
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,7 +87,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
      *
      */
     public void showAllTransactionsButtonClicked() {
-        if(hasItemsChecked(mappingCheckBoxes)) {
+        if(BankingOverviewHandler.getInstance().hasItemsChecked(mappingCheckBoxes)) {
             Intent intent = new Intent(getActivity(), MainMenu.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("checkedMap", mappingCheckBoxes);
@@ -103,10 +101,11 @@ public class ExpandableBankFragment extends Fragment implements Observer {
      *
      */
     public void clickCheckBox() {
+        BankingOverviewHandler bankingOverview = BankingOverviewHandler.getInstance();
         if(!enableAllCheckBox.isChecked()) {
-            setAllAccountsCheckedOrUnchecked(false);
+            mappingCheckBoxes = bankingOverview.setAllAccountsCheckedOrUnchecked(mappingCheckBoxes, false);
         } else {
-            setAllAccountsCheckedOrUnchecked(true);
+            mappingCheckBoxes = bankingOverview.setAllAccountsCheckedOrUnchecked(mappingCheckBoxes, true);
         }
         adapter.setMappingCheckBoxes(mappingCheckBoxes);
         listView.setAdapter(adapter);
@@ -173,38 +172,24 @@ public class ExpandableBankFragment extends Fragment implements Observer {
      */
     private void createData() {
         int i = 0;
+        BankingOverviewHandler bankingOverview = BankingOverviewHandler.getInstance();
         bankBalanceOverview = 0;
-        sortAccesses();
+        bankAccessList = bankingOverview.sortAccesses(bankAccessList);
         groups.clear();
         mappingCheckBoxes.clear();
         for (BankAccess access : bankAccessList) {
             Group group = new Group(access);
-            List<BankAccount> accountList = sortAccounts(access.getBankaccounts());
+            List<BankAccount> accountList = bankingOverview.sortAccounts(access.getBankaccounts());
             access.setBankaccounts(accountList);
             for (BankAccount account : access.getBankaccounts()) {
                 group.children.add(account);
-                mappingCheckBoxes.put(account.getName(), false);
+                mappingCheckBoxes.put(account.getBankid(), false);
             }
             bankBalanceOverview += access.getBalance();
             groups.append(i, group);
             i++;
         }
 
-    }
-
-    /**
-     *
-     */
-    private void sortAccesses() {
-        Collections.sort(bankAccessList, BankAccess.sortBankAccessByName);
-    }
-
-    /**
-     *
-     */
-    private List<BankAccount> sortAccounts(List<BankAccount> accounts) {
-        Collections.sort(accounts, BankAccount.sortBankAccountByName);
-        return accounts;
     }
 
     /**
@@ -270,30 +255,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
      */
     public void setMappingCheckBoxes(HashMap<String, Boolean> map) {
         this.mappingCheckBoxes = map;
-    }
-
-    /**
-     *
-     */
-    public void setAllAccountsCheckedOrUnchecked(boolean checked) {
-        Iterator iterator = mappingCheckBoxes.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            entry.setValue(checked);
-        }
-    }
-
-    /**
-     *
-     */
-    public static boolean hasItemsChecked(HashMap<String, Boolean> map) {
-        Boolean ret = false;
-        Iterator iterator = map.entrySet().iterator();
-        while (iterator.hasNext() && !ret) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            ret = (Boolean) entry.getValue();
-        }
-        return ret;
     }
 
 }
