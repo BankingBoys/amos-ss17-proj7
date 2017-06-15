@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:theme="@style/bankingOverviewCheckBox"
-            android:text="" />
+            />
 
         <TextView
             android:id="@+id/bankAccountNameView"
