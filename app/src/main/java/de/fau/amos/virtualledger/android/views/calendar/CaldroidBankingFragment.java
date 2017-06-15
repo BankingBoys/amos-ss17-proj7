@@ -62,7 +62,7 @@ public class CaldroidBankingFragment extends CaldroidFragment {
             transactionList = bundle.getParcelableArrayList(CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST);
             totalAmount = bundle.getDouble(CaldroidBankingFragment.BUNDLE_PARAMETER_TOTALAMOUNT);
         } else {
-            throw new InvalidParameterException("No data found in bundle! Please check if you instantiate CaldroidBankingFragment with " + CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST + "!");
+            throw new InvalidParameterException("No data found in bundle! Please check if you instantiate CaldroidBankingFragment with " + CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST + " and " + CaldroidBankingFragment.BUNDLE_PARAMETER_TOTALAMOUNT + " !");
         }
     }
 
