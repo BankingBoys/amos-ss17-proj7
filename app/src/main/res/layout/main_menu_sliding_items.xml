@@ -7,14 +7,14 @@
     <ImageView
         android:contentDescription="@string/main_menu_content_description_image"
         android:id="@+id/item_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10dp" />
+        android:layout_width="@dimen/main_menu_image_view_width"
+        android:layout_height="@dimen/main_menu_image_view_height"
+        android:layout_marginLeft="@dimen/main_menu_image_view_magin_left" />
 
     <TextView
         android:id="@+id/item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="@dimen/main_menu_text_view_margin_left" />
 </LinearLayout>
