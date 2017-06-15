@@ -128,7 +128,6 @@ public class MainMenu extends AppCompatActivity {
         slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Logout"));
         slidingItems.add(new ItemSlidingMenu(R.drawable.bank_accesses, "Bank Access"));
         slidingItems.add(new ItemSlidingMenu(R.drawable.list, "Transaction Overview"));
-        slidingItems.add(new ItemSlidingMenu(R.drawable.calendar, "Calendar Test View"));
         listView.setAdapter(new MenuAdapter(this, slidingItems));
     }
 
@@ -179,11 +178,6 @@ public class MainMenu extends AppCompatActivity {
                 openFragment(fragment2);
                 break;
 
-            case 3:
-                Fragment fragment3;
-                fragment3 = CalendarViewFragment.newInstance(new ArrayList<Transaction>(), 2000.00);
-                openFragment(fragment3);
-                break;
             //new Fragments can be added her
             default:
                 Log.e(TAG, "Menu item pos: {" + pos + "} not found");
