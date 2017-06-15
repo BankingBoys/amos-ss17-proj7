@@ -29,4 +29,6 @@
     <string name="banking_overview_enable_all_accounts_checkbox">Enable all bank accounts</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="transaction_overview_calendar_button_text">Show Calendar</string>
 </resources>
