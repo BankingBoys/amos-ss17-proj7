@@ -6,6 +6,8 @@ import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
@@ -15,6 +17,7 @@ import javax.inject.Inject;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
+import de.fau.amos.virtualledger.android.views.transactionOverview.Transaction;
 import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionsComparator;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.Booking;
@@ -41,24 +44,27 @@ public class CaldroidBankingFragment extends CaldroidFragment {
 
     private void init() {
         bankingDateInformationMap = new HashMap<>();
-        List<BankAccountBookings> bankAccountBookingsList = new ArrayList<>();
 
-        try {
-            bankAccountBookingsList = bankingDataManager.getBankAccountBookings();
-        } catch (BankingSyncFailedException ex) {
-            Toast.makeText(getActivity(), "Failed connecting to the server, try again later", Toast.LENGTH_LONG).show();
-        }
+        // TODO get from Fragment instantiation
+        List<Transaction> transactionList = new ArrayList<>();
+        double totalAmount = 1000.000;
+        
+        Collections.sort(transactionList, new TransactionsComparator());
 
-        for(int i = 0; i < bankAccountBookingsList.size(); ++i) {
-            BankAccountBookings bankAccountBookings = bankAccountBookingsList.get(i);
+        for(int i = 0; i < transactionList.size(); ++i) {
+            Booking booking = transactionList.get(i).booking();
+            Date date = booking.getDate();
+            DateTime dateTime = DateTime.forInstantNanos(date.getTime(), TimeZone.getDefault());
 
-            for(Booking booking : bankAccountBookings.getBookings()) {
-
+            BankingDateInformation bankingDateInformation = bankingDateInformationMap.get(dateTime);
+            if(bankingDateInformation == null) {
+                bankingDateInformation = new BankingDateInformation(dateTime, totalAmount, new ArrayList<Booking>());
+                bankingDateInformationMap.put(dateTime, bankingDateInformation);
             }
-            double amount = 0.0;
-            double amountDelta = 0.0;
 
-            BankingDateInformation bankingDateInformation = new BankingDateInformation(DateTime.today(TimeZone.getDefault()), amount, new ArrayList<Booking>());
+            bankingDateInformation.getBookingList().add(booking);
+            bankingDateInformation.setAmount(totalAmount - booking.getAmount());
+            totalAmount -= booking.getAmount();
         }
     }
 }
