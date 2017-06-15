@@ -1,19 +1,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:layout_marginTop="5dp"
+    android:layout_height="@dimen/banking_overview_expandablelist_detail_layout_height"
+    android:layout_marginTop="@dimen/banking_overview_expandablelist_detail_layout_margin_top"
     android:clickable="true"
     android:orientation="vertical"
-    android:paddingEnd="10dp"
-    android:paddingLeft="30dp"
-    android:paddingRight="10dp"
-    android:paddingStart="30dp"
+    android:paddingEnd="@dimen/banking_overview_expandablelist_detail_layout_padding_end_right"
+    android:paddingLeft="@dimen/banking_overview_expandablelist_detail_layout_padding_start_left"
+    android:paddingRight="@dimen/banking_overview_expandablelist_detail_layout_padding_end_right"
+    android:paddingStart="@dimen/banking_overview_expandablelist_detail_layout_padding_start_left"
     tools:context=".android.views.menu.MainMenu">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="@dimen/banking_overview_expandablelist_detail_partial_layout_height">
 
 
         <CheckBox
@@ -26,10 +26,10 @@
 
         <TextView
             android:id="@+id/bankAccountNameView"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="@dimen/banking_overview_expandablelist_detail_accountname_margin_start_left"
+            android:layout_marginLeft="@dimen/banking_overview_expandablelist_detail_accountname_margin_start_left"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="@dimen/banking_overview_expandablelist_detail_text_fields_height"
             android:layout_weight="1"
             android:gravity="bottom"
             android:textColor="@color/colorBankingOverview"
@@ -39,7 +39,7 @@
         <TextView
             android:id="@+id/bankAccountBalanceView"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="@dimen/banking_overview_expandablelist_detail_text_fields_height"
             android:layout_weight="2"
             android:gravity="end|bottom"
             android:textColor="@color/colorBankingOverview"
@@ -50,7 +50,7 @@
 
     <View
         android:layout_width="wrap_content"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/banking_overview_expandablelist_detail_seperator_height"
         android:background="@color/colorBankingOverview" />
 
 
