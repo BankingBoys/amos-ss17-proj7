@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="authentication_login_title_margin_top">40dp</dimen>
+    <dimen name="authentication_login_button_margin_side">16dp</dimen>
+    <dimen name="authentication_login_text_field_register_margin_bottom">10dp</dimen>
+    <dimen name="authentication_login_text_field_register_margin_top">20dp</dimen>
+    <dimen name="authentication_login_check_box_margin_left">10dp</dimen>
+</resources>
