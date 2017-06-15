@@ -62,6 +62,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     private CheckBox enableAllCheckBox;
     ExpandableAdapterBanking adapter;
 
+    /**
+     *
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -82,6 +85,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         });
     }
 
+    /**
+     *
+     */
     public void showAllTransactionsButtonClicked() {
         if(hasItemsChecked(mappingCheckBoxes)) {
             Intent intent = new Intent(getActivity(), MainMenu.class);
@@ -93,6 +99,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         }
     }
 
+    /**
+     *
+     */
     public void clickCheckBox() {
         if(!enableAllCheckBox.isChecked()) {
             setAllAccountsCheckedOrUnchecked(false);
@@ -103,7 +112,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         listView.setAdapter(adapter);
     }
 
-
+    /**
+     *
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -119,6 +130,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         }
     }
 
+    /**
+     *
+     */
     private void onBankAccessesUpdated() {
         createData();
         adapter.setMappingCheckBoxes(mappingCheckBoxes);
@@ -142,6 +156,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         );
     }
 
+    /**
+     *
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
@@ -151,6 +168,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         return view;
     }
 
+    /**
+     *
+     */
     private void createData() {
         int i = 0;
         bankBalanceOverview = 0;
@@ -172,10 +192,16 @@ public class ExpandableBankFragment extends Fragment implements Observer {
 
     }
 
+    /**
+     *
+     */
     private void sortAccesses() {
         Collections.sort(bankAccessList, BankAccess.sortBankAccessByName);
     }
 
+    /**
+     *
+     */
     private List<BankAccount> sortAccounts(List<BankAccount> accounts) {
         Collections.sort(accounts, BankAccount.sortBankAccountByName);
         return accounts;
@@ -194,6 +220,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void update(final Observable o, final Object arg) {
         onBankingDataChanged();
@@ -213,12 +242,18 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void onPause() {
         super.onPause();
         bankingDataManager.deleteObserver(this);
     }
 
+    /**
+     *
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
@@ -230,10 +265,16 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         ft.commit();
     }
 
+    /**
+     *
+     */
     public void setMappingCheckBoxes(HashMap<String, Boolean> map) {
         this.mappingCheckBoxes = map;
     }
 
+    /**
+     *
+     */
     public void setAllAccountsCheckedOrUnchecked(boolean checked) {
         Iterator iterator = mappingCheckBoxes.entrySet().iterator();
         while (iterator.hasNext()) {
@@ -242,6 +283,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         }
     }
 
+    /**
+     *
+     */
     public static boolean hasItemsChecked(HashMap<String, Boolean> map) {
         Boolean ret = false;
         Iterator iterator = map.entrySet().iterator();
