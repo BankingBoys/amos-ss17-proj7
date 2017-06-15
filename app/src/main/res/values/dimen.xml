@@ -21,4 +21,11 @@
     <dimen name="banking_overview_expandablelist_group_layout_height">40dp</dimen>
     <dimen name="banking_overview_expandablelist_group_layout_padding_start_left">15dp</dimen>
     <dimen name="banking_overview_expandablelist_group_layout_padding_end_right">10dp</dimen>
+
+    <dimen name="banking_overview_expandablelist_main_view_layout_height">0dp</dimen>
+    <dimen name="banking_overview_expandablelist_main_view_checkbox_margin_top">5dp</dimen>
+    <dimen name="banking_overview_expandablelist_main_view_button_margin_top_bottom">3dp</dimen>
+    <dimen name="banking_overview_expandablelist_main_view_button_height">0dp</dimen>
+    <dimen name="banking_overview_expandablelist_main_view_button_margin_left_right">100dp</dimen>
+    <dimen name="banking_overview_expandablelist_main_view_button_padding">2dp</dimen>
 </resources>
