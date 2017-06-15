@@ -33,4 +33,7 @@
     <dimen name="banking_overview_expandablelist_main_view_button_height">0dp</dimen>
     <dimen name="banking_overview_expandablelist_main_view_button_margin_left_right">100dp</dimen>
     <dimen name="banking_overview_expandablelist_main_view_button_padding">2dp</dimen>
+
+    <dimen name="banking_overview_no_bank_accesses_button_margin_bottom">30dp</dimen>
+    <dimen name="banking_overview_no_bank_accesses_button_margin_left_right">16dp</dimen>
 </resources>
