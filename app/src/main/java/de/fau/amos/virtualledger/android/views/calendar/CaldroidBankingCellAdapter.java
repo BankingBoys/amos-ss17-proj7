@@ -49,6 +49,8 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
      * @param year
      * @param caldroidData
      * @param extraData
+     * @param bankingDateInformationMap key must be a DateTime in Year, Month, Day and time set completely to 0
+     * Hint: use new DateTime(year, month, day, new Integer(0), new Integer(0), new Integer(0), new Integer(0));
      */
     public CaldroidBankingCellAdapter(Context context, int month, int year, Map<String, Object> caldroidData, Map<String, Object> extraData, Map<DateTime, BankingDateInformation> bankingDateInformationMap) {
         super(context, month, year, caldroidData, extraData);
