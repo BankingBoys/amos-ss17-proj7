@@ -15,7 +15,7 @@
         android:text="@string/authentication_register_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@android:color/holo_blue_light"
-        android:textSize="30sp" />
+        android:textSize="@dimen/fontSizeXL" />
 
     <LinearLayout
         android:layout_width="match_parent"
