@@ -35,16 +35,19 @@ import hirondelle.date4j.DateTime;
 public class CaldroidBankingFragment extends CaldroidFragment {
 
     private static final String BUNDLE_PARAMETER_TRANSACTIONLIST = "transactionlist";
+    private static final String BUNDLE_PARAMETER_TOTALAMOUNT = "totalamount";
 
     @Inject
     BankingDataManager bankingDataManager;
 
     private HashMap<DateTime, BankingDateInformation> bankingDateInformationMap;
     List<Transaction> transactionList;
+    private double totalAmount;
 
     public static CaldroidBankingFragment newInstance(ArrayList<Transaction> transactionList, double totalAmount) {
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST, transactionList);
+        bundle.putDouble(CaldroidBankingFragment.BUNDLE_PARAMETER_TOTALAMOUNT, totalAmount);
         CaldroidBankingFragment fragment = new CaldroidBankingFragment();
         fragment.setArguments(bundle);
 
@@ -54,6 +57,7 @@ public class CaldroidBankingFragment extends CaldroidFragment {
     private void readBundle(Bundle bundle) {
         if (bundle != null) {
             transactionList = bundle.getParcelableArrayList(CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST);
+            totalAmount = bundle.getDouble(CaldroidBankingFragment.BUNDLE_PARAMETER_TOTALAMOUNT);
         } else {
             throw new InvalidParameterException("No data found in bundle! Please check if you instantiate CaldroidBankingFragment with " + CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST + "!");
         }
@@ -77,10 +81,6 @@ public class CaldroidBankingFragment extends CaldroidFragment {
 
     private void init() {
         bankingDateInformationMap = new HashMap<>();
-
-        // TODO get from Fragment instantiation
-        double totalAmount = 1000.000;
-
         Collections.sort(transactionList, new TransactionsComparator());
 
         for(int i = 0; i < transactionList.size(); ++i) {
