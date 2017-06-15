@@ -18,9 +18,9 @@
         android:layout_width="@dimen/main_menu_sliding_tab_list_view_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#FFFFFF"
+        android:background="@color/colorWhite"
         android:choiceMode="singleChoice">
-        
+
     </ListView>
 
 
