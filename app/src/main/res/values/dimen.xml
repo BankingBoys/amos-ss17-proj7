@@ -17,4 +17,8 @@
     <dimen name="banking_overview_expandablelist_detail_accountname_margin_start_left">10dp</dimen>
     <dimen name="banking_overview_expandablelist_detail_text_fields_height">30dp</dimen>
     <dimen name="banking_overview_expandablelist_detail_seperator_height">1dp</dimen>
+
+    <dimen name="banking_overview_expandablelist_group_layout_height">40dp</dimen>
+    <dimen name="banking_overview_expandablelist_group_layout_padding_start_left">15dp</dimen>
+    <dimen name="banking_overview_expandablelist_group_layout_padding_end_right">10dp</dimen>
 </resources>
