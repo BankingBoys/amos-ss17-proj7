@@ -40,4 +40,8 @@ public class BankingDateInformation {
     public DateTime getDateTime() {
         return dateTime;
     }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
 }
