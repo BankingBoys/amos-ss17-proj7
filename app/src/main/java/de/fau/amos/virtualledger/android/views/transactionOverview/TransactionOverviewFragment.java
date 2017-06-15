@@ -124,11 +124,11 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
             for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
                 for (Booking booking : bankAccountBookings.getBookings()) {
                     String accountName = bankAccessCredentialDB
-                            .getAccountName(
-                                    authenticationProvider.getEmail(),
-                                    bankAccountBookings.getBankaccessid(),
-                                    bankAccountBookings.getBankaccountid());
-                    if((mappingCheckBoxes.get(accountName) != null) && (mappingCheckBoxes.get(accountName))) {
+                        .getAccountName(
+                                authenticationProvider.getEmail(),
+                                bankAccountBookings.getBankaccessid(),
+                                bankAccountBookings.getBankaccountid());
+                    if((mappingCheckBoxes.get(bankAccountBookings.getBankaccountid()) != null) && (mappingCheckBoxes.get(bankAccountBookings.getBankaccountid()))) {
                         Transaction transaction = new Transaction(accountName, booking);
                         this.allTransactions.add(transaction);
                         this.presentedTransactions.add(transaction);
@@ -338,8 +338,8 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         if(hasItemsChecked(mappingCheckBoxes)) {
             for(BankAccess bankAccess : bankAccessList) {
                 for(BankAccount bankAccount : bankAccess.getBankaccounts()) {
-                    boolean isChecked = mappingCheckBoxes.get(bankAccount.getBankid());
-                    if(isChecked) {
+                    Boolean isChecked = mappingCheckBoxes.get(bankAccount.getBankid());
+                    if(isChecked != null && isChecked) {
                         filteredBalance += bankAccess.getBalance();
                     }
                 }
