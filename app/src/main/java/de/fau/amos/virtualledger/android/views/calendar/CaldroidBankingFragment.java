@@ -99,7 +99,6 @@ public class CaldroidBankingFragment extends CaldroidFragment {
             }
 
             bankingDateInformation.getBookingList().add(booking);
-            bankingDateInformation.setAmount(totalAmount - booking.getAmount());
             totalAmount -= booking.getAmount();
         }
     }

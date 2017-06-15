@@ -59,6 +59,7 @@ public class CalendarViewFragment extends Fragment {
         Transaction testTransaction = new Transaction("avc", new Booking(cal.getTime(), 50.00));
         ArrayList<Transaction> transactionList = new ArrayList<>();
         transactionList.add(testTransaction);
+        transactionList.add(new Transaction("avc", new Booking(cal.getTime(), 10.00)));
 
         CaldroidBankingFragment caldroidFragment = CaldroidBankingFragment.newInstance(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), transactionList, 2000.00);
         FragmentTransaction transaction = context.getSupportFragmentManager().beginTransaction();
