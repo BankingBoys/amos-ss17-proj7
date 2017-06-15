@@ -15,7 +15,7 @@
 
     <ListView
         android:id="@+id/sliding_menu"
-        android:layout_width="150dp"
+        android:layout_width="@dimen/main_menu_sliding_tab_list_view_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="#FFFFFF"
