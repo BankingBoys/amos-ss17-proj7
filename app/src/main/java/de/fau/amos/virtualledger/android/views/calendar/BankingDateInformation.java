@@ -5,10 +5,6 @@ import java.util.List;
 import de.fau.amos.virtualledger.dtos.Booking;
 import hirondelle.date4j.DateTime;
 
-/**
- * Created by Georg on 15.06.2017.
- */
-
 public class BankingDateInformation {
 
     private DateTime dateTime;

@@ -6,26 +6,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
 import android.widget.LinearLayout;
-
-import com.roomorama.caldroid.CaldroidFragment;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.views.transactionOverview.Transaction;
-import de.fau.amos.virtualledger.dtos.Booking;
 
 public class CalendarViewFragment extends Fragment {
     private static final String TAG = CalendarViewFragment.class.getSimpleName();
@@ -45,7 +38,6 @@ public class CalendarViewFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        /*((App) getActivity().getApplication()).getNetComponent().inject(this);*/
     }
 
     @Override

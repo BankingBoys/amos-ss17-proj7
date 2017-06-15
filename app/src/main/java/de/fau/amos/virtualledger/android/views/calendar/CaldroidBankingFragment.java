@@ -4,42 +4,28 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
-import javax.inject.Inject;
-
 import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.android.data.BankingDataManager;
-import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
 import de.fau.amos.virtualledger.android.views.transactionOverview.Transaction;
 import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionsComparator;
-import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.Booking;
 import hirondelle.date4j.DateTime;
-
-/**
- * Created by Georg on 10.06.2017.
- */
 
 public class CaldroidBankingFragment extends CaldroidFragment {
 
     private static final String BUNDLE_PARAMETER_TRANSACTIONLIST = "transactionlist";
     private static final String BUNDLE_PARAMETER_TOTALAMOUNT = "totalamount";
-
-    @Inject
-    BankingDataManager bankingDataManager;
 
     private HashMap<DateTime, BankingDateInformation> bankingDateInformationMap;
     List<Transaction> transactionList;

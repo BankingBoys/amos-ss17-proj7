@@ -9,25 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-
-
-
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.dtos.BankAccountBookings;
-import de.fau.amos.virtualledger.dtos.Booking;
 import hirondelle.date4j.DateTime;
-
-/**
- * Created by Georg on 10.06.2017.
- */
 
 public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
 
