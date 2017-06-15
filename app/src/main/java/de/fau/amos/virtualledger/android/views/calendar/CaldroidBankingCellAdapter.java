@@ -109,12 +109,7 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
 
     private void setAmountDeltaText(double amountDelta) {
         String amountDeltaText = getFormatedDouble(amountDelta);
-        if (amountDelta < 0) {
-            amountDeltaText = "-" + amountDeltaText;
-        }
-        if (amountDelta == 0) {
-            amountDeltaText = "";
-        }else {
+        if (amountDelta > 0) {
             amountDeltaText = "+" + amountDeltaText;
         }
         amountDeltaTextView.setText(amountDeltaText);

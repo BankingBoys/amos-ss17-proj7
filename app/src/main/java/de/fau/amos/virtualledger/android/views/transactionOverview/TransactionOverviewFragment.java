@@ -334,7 +334,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         } catch (BankingSyncFailedException e) {
             return 0.0;
         }
-        
+
         if(hasItemsChecked(mappingCheckBoxes)) {
             for(BankAccess bankAccess : bankAccessList) {
                 for(BankAccount bankAccount : bankAccess.getBankaccounts()) {
