@@ -71,27 +71,26 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
         amountDeltaTextView = (TextView) cellView.findViewById(R.id.calendar_view_cell_amount_delta);
         amountTextView = (TextView) cellView.findViewById(R.id.calendar_view_cell_amount);
 
-        // Set color of the dates in previous / next month
-        if (dateTime.getMonth() != month) {
-            styleDayOutOfMonth();
-        }
-
         // Set color of today
         if(dateTime.equals(getToday())) {
             styleToday();
         }
 
         styleDefault();
-        dateTextView.setText("" + dateTime.getDay());
+        
+        if (dateTime.getMonth() == month) {
+            dateTextView.setText("" + dateTime.getDay());
 
-        // only show amount + amount delta if there are changes:
-        if(amountDelta != 0.0) {
-            changeAmountDeltaTextColor(amountDelta);
-            changeAmountBackgroundColor(amount);
+            // only show amount + amount delta if there are changes:
+            if(amountDelta != 0.0) {
+                changeAmountDeltaTextColor(amountDelta);
+                changeAmountBackgroundColor(amount);
 
-            amountTextView.setText(getFormatedDouble(amount));
-            setAmountDeltaText(amountDelta);
+                amountTextView.setText(getFormatedDouble(amount));
+                setAmountDeltaText(amountDelta);
+            }
         }
+
 
         // Set custom color if required
         setCustomResources(dateTime, cellView, dateTextView);
@@ -139,10 +138,6 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
             int greenColor = ContextCompat.getColor(cellView.getContext(), R.color.colorBankingOverviewLightGreen);
             amountDeltaTextView.setTextColor(greenColor);
         }
-    }
-
-    private void styleDayOutOfMonth() {
-        dateTextView.setTypeface(Typeface.DEFAULT);
     }
 
     private String getFormatedDouble(double number) {
