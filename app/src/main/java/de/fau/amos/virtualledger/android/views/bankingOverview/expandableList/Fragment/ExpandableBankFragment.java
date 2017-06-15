@@ -71,14 +71,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(hasItemsChecked(mappingCheckBoxes)) {
-                    Intent intent = new Intent(getActivity(), MainMenu.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("checkedMap", mappingCheckBoxes);
-                    bundle.putInt("startingFragment", 2);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
+                showAllTransactionsButtonClicked();
             }
         });
         enableAllCheckBox.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +86,17 @@ public class ExpandableBankFragment extends Fragment implements Observer {
                 listView.setAdapter(adapter);
             }
         });
+    }
+
+    public void showAllTransactionsButtonClicked() {
+        if(hasItemsChecked(mappingCheckBoxes)) {
+            Intent intent = new Intent(getActivity(), MainMenu.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("checkedMap", mappingCheckBoxes);
+            bundle.putInt("startingFragment", 2);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
 
 
