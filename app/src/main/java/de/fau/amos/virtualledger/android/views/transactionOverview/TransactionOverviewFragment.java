@@ -50,6 +50,8 @@ import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfi
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.FilterByName;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.Last12Months;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.TransactionFilter;
+import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.Booking;
 
@@ -320,8 +322,35 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     @OnClick(R.id.transaction_overview_calendar_button)
     public void onOpenCalendar() {
 
-        CalendarViewFragment calendar = CalendarViewFragment.newInstance(new ArrayList<Transaction>(), 1000.00);
+        CalendarViewFragment calendar = CalendarViewFragment.newInstance(presentedTransactions, computeBalanceOfCheckedAccounts());
         openFragment(calendar);
+    }
+
+    private double computeBalanceOfCheckedAccounts() {
+        List<BankAccess> bankAccessList = new ArrayList<>();
+        double filteredBalance = 0.0;
+        try {
+            bankAccessList = bankingDataManager.getBankAccesses();
+        } catch (BankingSyncFailedException e) {
+            return 0.0;
+        }
+        
+        if(hasItemsChecked(mappingCheckBoxes)) {
+            for(BankAccess bankAccess : bankAccessList) {
+                for(BankAccount bankAccount : bankAccess.getBankaccounts()) {
+                    boolean isChecked = mappingCheckBoxes.get(bankAccount.getBankid());
+                    if(isChecked) {
+                        filteredBalance += bankAccess.getBalance();
+                    }
+                }
+            }
+        } else {
+            for(BankAccess bankAccess : bankAccessList) {
+                filteredBalance += bankAccess.getBalance();
+            }
+        }
+
+        return filteredBalance;
     }
 }
 
