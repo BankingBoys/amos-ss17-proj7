@@ -7,6 +7,9 @@ public class Booking {
     private Date date;
     private double amount;
 
+    //TODO change when adorsys fixed their api
+    private String usage = "Test Usage";
+
     public Booking(Date date, double amount) {
         this.date = date;
         this.amount = amount;
@@ -32,6 +35,11 @@ public class Booking {
         this.amount = amount;
     }
 
-    //FIXME change when adorsys fixed their api
-    public String getUsage(){return "Test Usage";}//TODO change when adorsys fixed their api
+    public String getUsage() {
+        return usage;
+    }
+
+    public void setUsage(String usage) {
+        this.usage = usage;
+    }
 }
