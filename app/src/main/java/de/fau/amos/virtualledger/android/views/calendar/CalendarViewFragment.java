@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 
 import com.roomorama.caldroid.CaldroidFragment;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,14 +30,16 @@ import de.fau.amos.virtualledger.dtos.Booking;
 public class CalendarViewFragment extends Fragment {
     private static final String TAG = CalendarViewFragment.class.getSimpleName();
 
+    private static final String BUNDLE_PARAMETER_TRANSACTIONLIST = "transactionlist";
+    private static final String BUNDLE_PARAMETER_TOTALAMOUNT = "totalamount";
+
     @BindView(R.id.calendar_view_fragment_calendar_wrapper)
     LinearLayout calendarWrapper;
 
     // need FragmentActivity because of Caldroid workaround
     private FragmentActivity context;
-
-
-
+    private ArrayList<Transaction> transactionList;
+    private double totalAmount;
 
 
     @Override
@@ -48,6 +51,7 @@ public class CalendarViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.calendar_view_fragment, container, false);
+        readBundle(getArguments());
         ButterKnife.bind(this, view);
         return view;
     }
@@ -56,12 +60,7 @@ public class CalendarViewFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         Calendar cal = Calendar.getInstance();
-        Transaction testTransaction = new Transaction("avc", new Booking(cal.getTime(), 50.00));
-        ArrayList<Transaction> transactionList = new ArrayList<>();
-        transactionList.add(testTransaction);
-        transactionList.add(new Transaction("avc", new Booking(cal.getTime(), 10.00)));
-
-        CaldroidBankingFragment caldroidFragment = CaldroidBankingFragment.newInstance(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), transactionList, 2000.00);
+        CaldroidBankingFragment caldroidFragment = CaldroidBankingFragment.newInstance(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), transactionList, totalAmount);
         FragmentTransaction transaction = context.getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.calendar_view_fragment_calendar_wrapper, caldroidFragment, "calendar_view_fragment_calendar");
         transaction.commit();
@@ -73,5 +72,26 @@ public class CalendarViewFragment extends Fragment {
         // workaround because we need getSupportFragmentManager() for Caldroid
         this.context = (FragmentActivity) context;
         super.onAttach(context);
+    }
+
+
+
+    public static CalendarViewFragment newInstance(ArrayList<Transaction> transactionList, double totalAmount) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(CalendarViewFragment.BUNDLE_PARAMETER_TRANSACTIONLIST, transactionList);
+        bundle.putDouble(CalendarViewFragment.BUNDLE_PARAMETER_TOTALAMOUNT, totalAmount);
+        CalendarViewFragment fragment = new CalendarViewFragment();
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
+    private void readBundle(Bundle bundle) {
+        if (bundle != null) {
+            transactionList = bundle.getParcelableArrayList(CalendarViewFragment.BUNDLE_PARAMETER_TRANSACTIONLIST);
+            totalAmount = bundle.getDouble(CalendarViewFragment.BUNDLE_PARAMETER_TOTALAMOUNT);
+        } else {
+            throw new InvalidParameterException("No data found in bundle! Please check if you instantiate CaldroidBankingFragment with " + CalendarViewFragment.BUNDLE_PARAMETER_TRANSACTIONLIST + " and " + CalendarViewFragment.BUNDLE_PARAMETER_TOTALAMOUNT + " !");
+        }
     }
 }
