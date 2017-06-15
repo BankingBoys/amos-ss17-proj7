@@ -95,6 +95,12 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
             styleToday();
         }
 
+        // only show amount + amount delta if there are changes:
+        if(amountDelta == 0.0) {
+            amountDeltaTextView.setVisibility(View.GONE);
+            amountTextView.setVisibility(View.GONE);
+        }
+
         dateTextView.setText("" + dateTime.getDay());
         amountTextView.setText(getFormatedDouble(amount));
         setAmountDeltaText(amountDelta);
