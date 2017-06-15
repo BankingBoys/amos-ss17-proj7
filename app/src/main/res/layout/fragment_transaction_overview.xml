@@ -85,7 +85,7 @@
         android:layout_marginBottom="3dp"
         android:layout_height="0dp"
         android:background="#f08080"
-        android:text="@string/banking_overview_finish_selecting_accounts_button_text"
+        android:text="@string/transaction_overview_calendar_button_text"
         android:drawableLeft="@drawable/calendar"
         android:textColor="@android:color/background_light"
         android:paddingTop="3dp"
