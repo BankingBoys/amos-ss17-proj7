@@ -10,7 +10,7 @@
         android:id="@+id/RegistrationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="@dimen/authentication_register_title_margin_top"
         android:gravity="center_horizontal"
         android:text="@string/authentication_register_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -25,7 +25,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="@dimen/authentication_register_text_field_name_margin_top"
             android:layout_weight="1"
             android:gravity="bottom"
             android:orientation="horizontal">
@@ -80,7 +80,7 @@
         <Button
             android:id="@+id/button_register"
             style="@style/Widget.AppCompat.Button"
-            android:layout_width="350dp"
+            android:layout_width="@dimen/authentication_register_button_width"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_weight="1.5"

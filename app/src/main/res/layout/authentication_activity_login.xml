@@ -84,6 +84,6 @@
             android:gravity="center_horizontal"
             android:text="@string/authentication_login_register_first_link"
             android:textSize="@dimen/fontSizeLoginRegisterFirst" />
-        
+
     </LinearLayout>
 </RelativeLayout>

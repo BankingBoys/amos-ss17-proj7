@@ -5,4 +5,7 @@
     <dimen name="authentication_login_text_field_register_margin_bottom">10dp</dimen>
     <dimen name="authentication_login_text_field_register_margin_top">20dp</dimen>
     <dimen name="authentication_login_check_box_margin_left">10dp</dimen>
+    <dimen name="authentication_register_title_margin_top">30dp</dimen>
+    <dimen name="authentication_register_text_field_name_margin_top">70dp</dimen>
+    <dimen name="authentication_register_button_width">350dp</dimen>
 </resources>
