@@ -17,7 +17,9 @@
         android:gravity="start|bottom"
         android:textColor="@color/colorBankingOverview"
         android:textSize="@dimen/fontSizeExpandableGroup"
-        android:textStyle="bold"></CheckedTextView>
+        android:textStyle="bold">
+        
+    </CheckedTextView>
 
     <TextView
         android:id="@+id/bankAccessBalanceView"
