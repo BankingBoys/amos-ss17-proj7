@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,6 +33,9 @@ import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.dagger.App;
@@ -39,6 +43,7 @@ import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
+import de.fau.amos.virtualledger.android.views.calendar.CalendarViewFragment;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.ByActualMonth;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.CustomFilter;
@@ -58,6 +63,9 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     private TransactionFilter transactionFilter = new ByActualMonth();
     private ListView bookingListView;
     private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
+
+    @BindView(R.id.transaction_overview_calendar_button)
+    Button calendarButton;
 
     @Inject
     BankAccessCredentialDB bankAccessCredentialDB;
@@ -168,6 +176,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mainView = inflater.inflate(R.layout.fragment_transaction_overview, container, false);
         bookingListView = (ListView) this.mainView.findViewById(R.id.transaction_list);
+        ButterKnife.bind(this, mainView);
 
         final Spinner spinner = (Spinner) mainView.findViewById(R.id.transactionSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mainView.getContext(),
@@ -306,6 +315,13 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
             ret = (Boolean) entry.getValue();
         }
         return ret;
+    }
+
+    @OnClick(R.id.transaction_overview_calendar_button)
+    public void onOpenCalendar() {
+
+        CalendarViewFragment calendar = CalendarViewFragment.newInstance(new ArrayList<Transaction>(), 1000.00);
+        openFragment(calendar);
     }
 }
 
