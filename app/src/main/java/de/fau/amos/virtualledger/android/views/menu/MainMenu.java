@@ -44,7 +44,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
     private NavigationView navigationView;
 
     @Override
@@ -132,7 +131,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 navigationView.setCheckedItem(R.id.nav_transaction_overview);
 
                 final TransactionOverviewFragment transactionOverviewFragment = new TransactionOverviewFragment();
-                transactionOverviewFragment.setCheckedMap(mappingCheckBoxes);
+                transactionOverviewFragment.setCheckedMap(new HashMap<String, Boolean>());
                 openFragment(transactionOverviewFragment);
                 break;
             default:
@@ -168,8 +167,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     private void openFragment(Fragment fragment) {
         if (null != fragment) {
-            FragmentManager manager = getFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
+            final FragmentManager manager = getFragmentManager();
+            final FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace(R.id.content, fragment);
             transaction.addToBackStack(null);
             transaction.commit();
@@ -179,7 +178,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     public void executeLogout() {
         authenticationProvider.logout();
         authenticationProvider.deleteSavedLoginData(this);
-        Intent intent = new Intent(this, LoginActivity.class);
+        final Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
