@@ -50,16 +50,21 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((App) getApplication()).getNetComponent().inject(this);
+
         setContentView(R.layout.main_menu_sliding_tab);
 
-        //init
-        init();
+        initializeDrawer();
 
         //set Menu-Icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         replaceFragment(AppFragment.TRANSACTION_OVERVIEW);
 
+    }
+
+    private void initializeDrawer() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.main_menu_drawer_opened, R.string.main_menu_drawer_closed) {
 
             @Override
@@ -79,11 +84,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_transaction_overview);
-    }
-
-    private void init() {
-        ((App) getApplication()).getNetComponent().inject(this);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     }
 
 
