@@ -81,14 +81,21 @@ public class MainMenu extends AppCompatActivity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> root, View view, int pos, long id) {
-                        //title
-                        setTitle(slidingItems.get(pos).getImageTitle());
-                        //items selected
-                        listView.setItemChecked(pos, true);
+                        switch (pos) {
+                            case 3:
+                                //TODO Settings
+                                break;
+                            default:
+                                //title
+                                setTitle(slidingItems.get(pos).getImageTitle());
+                                //items selected
+                                listView.setItemChecked(pos, true);
 
-                        replaceFragment(pos);
+                                replaceFragment(pos);
 
-                        drawerLayout.closeDrawer(listView);
+                                drawerLayout.closeDrawer(listView);
+                                break;
+                        }
                     }
                 });
 
@@ -128,6 +135,7 @@ public class MainMenu extends AppCompatActivity {
         slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Logout"));
         slidingItems.add(new ItemSlidingMenu(R.drawable.bank_accesses, "Bank Access"));
         slidingItems.add(new ItemSlidingMenu(R.drawable.list, "Transaction Overview"));
+        slidingItems.add(new ItemSlidingMenu(R.drawable.ic_settings, "Settings"));
         listView.setAdapter(new MenuAdapter(this, slidingItems));
     }
 
