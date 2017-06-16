@@ -170,7 +170,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             final FragmentManager manager = getFragmentManager();
             final FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace(R.id.content, fragment);
-            transaction.addToBackStack(null);
             transaction.commit();
         }
     }
