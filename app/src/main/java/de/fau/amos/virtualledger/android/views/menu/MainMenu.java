@@ -19,6 +19,8 @@ import java.util.HashMap;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
@@ -42,9 +44,12 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     @Inject
     BankingDataManager bankingDataManager;
 
-    private DrawerLayout drawerLayout;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.navigation_view)
+    NavigationView navigationView;
+
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         ((App) getApplication()).getNetComponent().inject(this);
 
         setContentView(R.layout.main_menu_sliding_tab);
+        ButterKnife.bind(this);
 
         initializeDrawer();
 
@@ -63,7 +69,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     private void initializeDrawer() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.main_menu_drawer_opened, R.string.main_menu_drawer_closed) {
 
             @Override
@@ -80,7 +85,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         };
         // add the Toggle as Listener
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -174,7 +178,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         }
     }
 
-    public void executeLogout() {
+    private void executeLogout() {
         authenticationProvider.logout();
         authenticationProvider.deleteSavedLoginData(this);
         final Intent intent = new Intent(this, LoginActivity.class);
