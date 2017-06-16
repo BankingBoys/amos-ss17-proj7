@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/nav_group_fragments"
+           android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_bank_accesses"
+            android:icon="@drawable/bank_accesses"
+            android:title="Bank Accesses"/>
+        <item
+            android:id="@+id/nav_transaction_overview"
+            android:icon="@drawable/list"
+            android:title="Transaction Overview"/>
+    </group>
+    <group android:id="@+id/nav_group_misc">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Settings"/>
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/icon_logout"
+            android:title="Logout"/>
+    </group>
+</menu>

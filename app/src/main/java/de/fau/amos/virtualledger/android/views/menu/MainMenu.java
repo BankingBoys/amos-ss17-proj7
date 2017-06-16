@@ -5,6 +5,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,12 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -28,12 +26,10 @@ import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.views.bankingOverview.addBankAccess.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
-import de.fau.amos.virtualledger.android.views.menu.adapter.MenuAdapter;
-import de.fau.amos.virtualledger.android.views.menu.model.ItemSlidingMenu;
 import de.fau.amos.virtualledger.android.views.settings.SettingsActivity;
 import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOverviewFragment;
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = MainMenu.class.getSimpleName();
 
@@ -42,12 +38,11 @@ public class MainMenu extends AppCompatActivity {
     @Inject
     BankingDataManager bankingDataManager;
 
-    private List<ItemSlidingMenu> slidingItems;
     private DrawerLayout drawerLayout;
-    private ListView listView;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
     private int startingFragment;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,43 +57,10 @@ public class MainMenu extends AppCompatActivity {
         //init
         init();
 
-        //items for slide list
-        configureItemsForMenu();
-
         //set Menu-Icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //select
-        listView.setItemChecked(0, true);
-
-        //Close sliding menu
-        drawerLayout.closeDrawer(listView);
-
         replaceFragment(startingFragment);
-
-
-        //click on items
-        listView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> root, View view, int pos, long id) {
-                        switch (pos) {
-                            case 3:
-                                startActivity(new Intent(MainMenu.this, SettingsActivity.class));
-                                break;
-                            default:
-                                //title
-                                setTitle(slidingItems.get(pos).getImageTitle());
-                                //items selected
-                                listView.setItemChecked(pos, true);
-
-                                replaceFragment(pos);
-
-                                drawerLayout.closeDrawer(listView);
-                                break;
-                        }
-                    }
-                });
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.main_menu_drawer_opened, R.string.main_menu_drawer_closed) {
 
@@ -116,14 +78,13 @@ public class MainMenu extends AppCompatActivity {
         };
         // add the Toggle as Listener
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
-
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void init() {
         ((App) getApplication()).getNetComponent().inject(this);
-        listView = (ListView) findViewById(R.id.sliding_menu);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        slidingItems = new ArrayList<>();
     }
 
     @Override
@@ -132,17 +93,9 @@ public class MainMenu extends AppCompatActivity {
         super.onResume();
     }
 
-    private void configureItemsForMenu() {
-        slidingItems.add(new ItemSlidingMenu(R.drawable.icon_logout, "Logout"));
-        slidingItems.add(new ItemSlidingMenu(R.drawable.bank_accesses, "Bank Access"));
-        slidingItems.add(new ItemSlidingMenu(R.drawable.list, "Transaction Overview"));
-        slidingItems.add(new ItemSlidingMenu(R.drawable.ic_settings, "Settings"));
-        listView.setAdapter(new MenuAdapter(this, slidingItems));
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu_app_bar, menu);
         return true;
     }
 
@@ -199,6 +152,44 @@ public class MainMenu extends AppCompatActivity {
                 break;
         }
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_bank_accesses:
+                //title
+                setTitle(item.getTitle());
+                //items selected
+                navigationView.setCheckedItem(item.getItemId());
+
+                ExpandableBankFragment fragment = new ExpandableBankFragment();
+                openFragment(fragment);
+                break;
+            case R.id.nav_transaction_overview:
+                //title
+                setTitle(item.getTitle());
+                //items selected
+                navigationView.setCheckedItem(item.getItemId());
+
+                TransactionOverviewFragment fragment2;
+                fragment2 = new TransactionOverviewFragment();
+                fragment2.setCheckedMap(mappingCheckBoxes);
+                openFragment(fragment2);
+                break;
+            case R.id.nav_settings:
+                startActivity(new Intent(MainMenu.this, SettingsActivity.class));
+                break;
+            case R.id.nav_logout:
+                executeLogout();
+                break;
+            default:
+                Log.e(TAG, "Unhandled menu item: " + item.getTitle());
+                break;
+        }
+        drawerLayout.closeDrawers();
+
+        return true;
     }
 
     private void openFragment(Fragment fragment) {
