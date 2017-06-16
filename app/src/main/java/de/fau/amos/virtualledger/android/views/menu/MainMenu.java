@@ -121,14 +121,14 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     private void switchToFragment(final AppFragment fragment) {
         switch (fragment) {
             case BANK_ACCESSES:
-                setTitle("Bank Accesses");
+                setTitle(getString(R.string.banking_overview_title));
                 navigationView.setCheckedItem(R.id.nav_bank_accesses);
 
                 final ExpandableBankFragment expandableBankFragment = new ExpandableBankFragment();
                 openFragment(expandableBankFragment);
                 break;
             case TRANSACTION_OVERVIEW:
-                setTitle("Transactions");
+                setTitle(getString(R.string.transaction_overview_title));
                 navigationView.setCheckedItem(R.id.nav_transaction_overview);
 
                 final TransactionOverviewFragment transactionOverviewFragment = new TransactionOverviewFragment();
