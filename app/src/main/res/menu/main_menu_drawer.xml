@@ -3,22 +3,22 @@
     <group android:id="@+id/nav_group_fragments"
            android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_bank_accesses"
-            android:icon="@drawable/bank_accesses"
+            android:id="@+id/main_menu_nav_bank_accesses"
+            android:icon="@drawable/ic_bank_accesses"
             android:title="@string/main_menu_drawer_bank_accesses"/>
         <item
-            android:id="@+id/nav_transaction_overview"
-            android:icon="@drawable/list"
+            android:id="@+id/main_menu_transaction_overview"
+            android:icon="@drawable/ic_transaction_overview"
             android:title="@string/main_menu_drawer_transaction_overview"/>
     </group>
     <group android:id="@+id/nav_group_misc">
         <item
-            android:id="@+id/nav_settings"
+            android:id="@+id/main_menu_nav_settings"
             android:icon="@drawable/ic_settings"
             android:title="@string/main_menu_drawer_settings"/>
         <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/icon_logout"
+            android:id="@+id/main_menu_nav_logout"
+            android:icon="@drawable/ic_logout"
             android:title="@string/main_menu_drawer_logout"/>
     </group>
 </menu>

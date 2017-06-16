@@ -86,7 +86,7 @@
         android:layout_height="0dp"
         android:background="#f08080"
         android:text="@string/transaction_overview_calendar_button_text"
-        android:drawableLeft="@drawable/calendar"
+        android:drawableLeft="@drawable/ic_calendar"
         android:textColor="@android:color/background_light"
         android:paddingTop="3dp"
         android:paddingBottom="3dp"

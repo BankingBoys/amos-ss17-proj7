@@ -199,7 +199,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         if (null != fragment) {
             FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.content, fragment);
+            transaction.replace(R.id.main_menu_content, fragment);
             transaction.addToBackStack(null);
             transaction.commit();
         }

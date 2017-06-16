@@ -18,7 +18,7 @@ import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 
 /**
- * LongClick lisntens to a list
+ * LongClick lisntens to a ic_transaction_overview
  * Created by sebastian on 21.05.17.
  */
 
@@ -34,7 +34,7 @@ public class LongClickDeleteListenerList implements AdapterView.OnItemLongClickL
     /**
      * @param adapter        the adapter for getting the GroupNumber out of the absolute GroupIndex (is different when groups are exapnded)
      * @param listenedObject the activity
-     * @param elementList    the  list of accesses
+     * @param elementList    the  ic_transaction_overview of accesses
      * @param getName        the naming function
      * @param approvedAction the action if the delete dialog is approved
      */

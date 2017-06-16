@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/m_refresh"
+        android:id="@+id/main_menu_app_bar_refresh"
         android:icon="@drawable/ic_refresh"
-        android:title="@string/main_menu_shortcut_refresh"
+        android:title="@string/main_menu_app_bar_refresh"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/m_add_bank_access"
+        android:id="@+id/main_menu_app_bar_add_bank_access"
         android:icon="@drawable/ic_add"
-        android:title="@string/banking_overview_add_access_shortcut"
+        android:title="@string/main_menu_app_bar_add_bank_access"
         app:showAsAction="ifRoom" />
 
 </menu>

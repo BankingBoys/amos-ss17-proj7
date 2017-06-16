@@ -44,9 +44,9 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     @Inject
     BankingDataManager bankingDataManager;
 
-    @BindView(R.id.drawer_layout)
+    @BindView(R.id.main_menu_drawer_layout)
     DrawerLayout drawerLayout;
-    @BindView(R.id.navigation_view)
+    @BindView(R.id.main_menu_navigation_view)
     NavigationView navigationView;
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -101,11 +101,11 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             return true;
         }
         switch (item.getItemId()) {
-            case R.id.m_add_bank_access:
+            case R.id.main_menu_app_bar_add_bank_access:
                 final Intent addBankAccessIntent = new Intent(this, AddBankAccessActivity.class);
                 startActivity(addBankAccessIntent);
                 break;
-            case R.id.m_refresh:
+            case R.id.main_menu_app_bar_refresh:
                 bankingDataManager.sync();
                 break;
         }
@@ -125,14 +125,14 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         switch (fragment) {
             case BANK_ACCESSES:
                 setTitle(getString(R.string.banking_overview_title));
-                navigationView.setCheckedItem(R.id.nav_bank_accesses);
+                navigationView.setCheckedItem(R.id.main_menu_nav_bank_accesses);
 
                 final ExpandableBankFragment expandableBankFragment = new ExpandableBankFragment();
                 openFragment(expandableBankFragment);
                 break;
             case TRANSACTION_OVERVIEW:
                 setTitle(getString(R.string.transaction_overview_title));
-                navigationView.setCheckedItem(R.id.nav_transaction_overview);
+                navigationView.setCheckedItem(R.id.main_menu_transaction_overview);
 
                 final TransactionOverviewFragment transactionOverviewFragment = new TransactionOverviewFragment();
                 transactionOverviewFragment.setCheckedMap(new HashMap<String, Boolean>());
@@ -148,16 +148,16 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_bank_accesses:
+            case R.id.main_menu_nav_bank_accesses:
                 switchToFragment(AppFragment.BANK_ACCESSES);
                 break;
-            case R.id.nav_transaction_overview:
+            case R.id.main_menu_transaction_overview:
                 switchToFragment(AppFragment.TRANSACTION_OVERVIEW);
                 break;
-            case R.id.nav_settings:
+            case R.id.main_menu_nav_settings:
                 startActivity(new Intent(MainMenu.this, SettingsActivity.class));
                 break;
-            case R.id.nav_logout:
+            case R.id.main_menu_nav_logout:
                 executeLogout();
                 break;
             default:
@@ -173,7 +173,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         if (null != fragment) {
             final FragmentManager manager = getFragmentManager();
             final FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.content, fragment);
+            transaction.replace(R.id.main_menu_content, fragment);
             transaction.commit();
         }
     }
