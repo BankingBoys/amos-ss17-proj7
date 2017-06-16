@@ -14,6 +14,7 @@
     <string name="main_menu_drawer_opened">open</string>
     <string name="main_menu_drawer_closed">closed</string>
     <string name="main_menu_content_description_image">Icon Items</string>
+    <string name="main_menu_shortcut_refresh">Refresh</string>
     <string name="banking_overview_no_bank_access_text">No bank accesses registered yet</string>
     />
     <string name="banking_overview_no_bank_access_button_text">Add Bank Accesses</string>
