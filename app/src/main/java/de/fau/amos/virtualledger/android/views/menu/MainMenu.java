@@ -24,15 +24,13 @@ import javax.inject.Inject;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
+import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.views.bankingOverview.addBankAccess.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
-import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.android.views.calendar.CalendarViewFragment;
 import de.fau.amos.virtualledger.android.views.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.views.menu.model.ItemSlidingMenu;
-import de.fau.amos.virtualledger.android.views.transactionOverview.Transaction;
 import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOverviewFragment;
-import de.fau.amos.virtualledger.dtos.BankAccount;
 
 public class MainMenu extends AppCompatActivity {
 
@@ -40,6 +38,8 @@ public class MainMenu extends AppCompatActivity {
 
     @Inject
     AuthenticationProvider authenticationProvider;
+    @Inject
+    BankingDataManager bankingDataManager;
 
     private List<ItemSlidingMenu> slidingItems;
     private DrawerLayout drawerLayout;
@@ -146,6 +146,9 @@ public class MainMenu extends AppCompatActivity {
             case R.id.m_add_bank_access:
                 final Intent addBankAccessIntent = new Intent(this, AddBankAccessActivity.class);
                 startActivity(addBankAccessIntent);
+                break;
+            case R.id.m_refresh:
+                bankingDataManager.sync();
                 break;
         }
         return super.onOptionsItemSelected(item);
