@@ -48,12 +48,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu_sliding_tab);
-        Bundle bundle = getIntent().getExtras();
         startingFragment = 2;
-        if(bundle != null) {
-            startingFragment = bundle.getInt("startingFragment");
-            mappingCheckBoxes = (HashMap) bundle.get("checkedMap");
-        }
+
         //init
         init();
 
