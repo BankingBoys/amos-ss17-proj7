@@ -59,7 +59,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         //set Menu-Icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        replaceFragment(AppFragment.TRANSACTION_OVERVIEW);
+        switchToFragment(AppFragment.TRANSACTION_OVERVIEW);
 
     }
 
@@ -83,7 +83,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_transaction_overview);
     }
 
 
@@ -117,17 +116,21 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     /**
-     * replaces the current fragment with chosen one from the user
+     * Switch to the specified fragment
      */
-    private void replaceFragment(final AppFragment fragment) {
+    private void switchToFragment(final AppFragment fragment) {
         switch (fragment) {
             case BANK_ACCESSES:
                 setTitle("Bank Accesses");
+                navigationView.setCheckedItem(R.id.nav_bank_accesses);
+
                 final ExpandableBankFragment expandableBankFragment = new ExpandableBankFragment();
                 openFragment(expandableBankFragment);
                 break;
             case TRANSACTION_OVERVIEW:
                 setTitle("Transactions");
+                navigationView.setCheckedItem(R.id.nav_transaction_overview);
+
                 final TransactionOverviewFragment transactionOverviewFragment = new TransactionOverviewFragment();
                 transactionOverviewFragment.setCheckedMap(mappingCheckBoxes);
                 openFragment(transactionOverviewFragment);
@@ -143,14 +146,10 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_bank_accesses:
-                navigationView.setCheckedItem(item.getItemId());
-
-                replaceFragment(AppFragment.BANK_ACCESSES);
+                switchToFragment(AppFragment.BANK_ACCESSES);
                 break;
             case R.id.nav_transaction_overview:
-                navigationView.setCheckedItem(item.getItemId());
-
-                replaceFragment(AppFragment.TRANSACTION_OVERVIEW);
+                switchToFragment(AppFragment.TRANSACTION_OVERVIEW);
                 break;
             case R.id.nav_settings:
                 startActivity(new Intent(MainMenu.this, SettingsActivity.class));
