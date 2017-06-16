@@ -33,6 +33,10 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     private static final String TAG = MainMenu.class.getSimpleName();
 
+    private enum AppFragment {
+        BANK_ACCESSES, TRANSACTION_OVERVIEW
+    }
+
     @Inject
     AuthenticationProvider authenticationProvider;
     @Inject
@@ -41,14 +45,12 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
-    private int startingFragment;
     private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu_sliding_tab);
-        startingFragment = 2;
 
         //init
         init();
@@ -56,7 +58,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         //set Menu-Icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        replaceFragment(startingFragment);
+        replaceFragment(AppFragment.TRANSACTION_OVERVIEW);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.main_menu_drawer_opened, R.string.main_menu_drawer_closed) {
 
@@ -83,11 +85,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     }
 
-    @Override
-    protected void onResume() {
-        startingFragment = 2;
-        super.onResume();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -121,30 +118,21 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     /**
      * replaces the current fragment with chosen one from the user
      */
-    private void replaceFragment(int pos) {
-        switch (pos) {
-            case 0:
-                executeLogout();
+    private void replaceFragment(final AppFragment fragment) {
+        switch (fragment) {
+            case BANK_ACCESSES:
+                setTitle("Bank Accesses");
+                final ExpandableBankFragment expandableBankFragment = new ExpandableBankFragment();
+                openFragment(expandableBankFragment);
                 break;
-
-            case 1:
-                ExpandableBankFragment fragment = new ExpandableBankFragment();
-                openFragment(fragment);
+            case TRANSACTION_OVERVIEW:
+                setTitle("Transactions");
+                final TransactionOverviewFragment transactionOverviewFragment = new TransactionOverviewFragment();
+                transactionOverviewFragment.setCheckedMap(mappingCheckBoxes);
+                openFragment(transactionOverviewFragment);
                 break;
-
-            case 2:
-                TransactionOverviewFragment fragment2;
-                fragment2 = new TransactionOverviewFragment();
-                fragment2.setCheckedMap(mappingCheckBoxes);
-                openFragment(fragment2);
-                break;
-
-            //new Fragments can be added her
             default:
-                Log.e(TAG, "Menu item pos: {" + pos + "} not found");
-                Fragment fragment4;
-                fragment4 = new TransactionOverviewFragment();
-                openFragment(fragment4);
+                Log.e(TAG, "Trying to change to unhandled fragment " + fragment.name());
                 break;
         }
 
@@ -154,24 +142,14 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_bank_accesses:
-                //title
-                setTitle(item.getTitle());
-                //items selected
                 navigationView.setCheckedItem(item.getItemId());
 
-                ExpandableBankFragment fragment = new ExpandableBankFragment();
-                openFragment(fragment);
+                replaceFragment(AppFragment.BANK_ACCESSES);
                 break;
             case R.id.nav_transaction_overview:
-                //title
-                setTitle(item.getTitle());
-                //items selected
                 navigationView.setCheckedItem(item.getItemId());
 
-                TransactionOverviewFragment fragment2;
-                fragment2 = new TransactionOverviewFragment();
-                fragment2.setCheckedMap(mappingCheckBoxes);
-                openFragment(fragment2);
+                replaceFragment(AppFragment.TRANSACTION_OVERVIEW);
                 break;
             case R.id.nav_settings:
                 startActivity(new Intent(MainMenu.this, SettingsActivity.class));
