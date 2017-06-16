@@ -35,6 +35,10 @@
             android:name=".android.views.bankingOverview.addBankAccess.AddBankAccessActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".android.views.settings.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

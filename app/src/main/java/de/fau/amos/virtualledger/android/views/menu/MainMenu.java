@@ -30,6 +30,7 @@ import de.fau.amos.virtualledger.android.views.bankingOverview.addBankAccess.Add
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.views.menu.adapter.MenuAdapter;
 import de.fau.amos.virtualledger.android.views.menu.model.ItemSlidingMenu;
+import de.fau.amos.virtualledger.android.views.settings.SettingsActivity;
 import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOverviewFragment;
 
 public class MainMenu extends AppCompatActivity {
@@ -83,7 +84,7 @@ public class MainMenu extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> root, View view, int pos, long id) {
                         switch (pos) {
                             case 3:
-                                //TODO Settings
+                                startActivity(new Intent(MainMenu.this, SettingsActivity.class));
                                 break;
                             default:
                                 //title
