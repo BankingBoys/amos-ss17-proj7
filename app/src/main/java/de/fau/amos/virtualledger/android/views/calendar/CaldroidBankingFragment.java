@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.TimeZone;
 
 import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.android.views.transactionOverview.Transaction;
-import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionsComparator;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionsComparator;
 import de.fau.amos.virtualledger.dtos.Booking;
 import hirondelle.date4j.DateTime;
 
@@ -31,9 +31,9 @@ public class CaldroidBankingFragment extends CaldroidFragment {
     List<Transaction> transactionList;
     private double totalAmount;
 
-    public static CaldroidBankingFragment newInstance(int month, int year, ArrayList<Transaction> transactionList, double totalAmount) {
+    public static CaldroidBankingFragment newInstance(int month, int year, List<Transaction> transactionList, double totalAmount) {
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST, transactionList);
+        bundle.putParcelableArrayList(CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST, new ArrayList<Transaction>(transactionList));
         bundle.putDouble(CaldroidBankingFragment.BUNDLE_PARAMETER_TOTALAMOUNT, totalAmount);
         bundle.putInt(CaldroidFragment.MONTH, month);
         bundle.putInt(CaldroidFragment.YEAR, year);

@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import de.fau.amos.virtualledger.android.views.transactionOverview.Transaction;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
 import de.fau.amos.virtualledger.dtos.Booking;
 
 import static org.assertj.core.api.Assertions.assertThat;

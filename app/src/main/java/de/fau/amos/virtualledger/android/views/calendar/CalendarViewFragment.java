@@ -14,11 +14,12 @@ import android.widget.LinearLayout;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.views.transactionOverview.Transaction;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
 
 public class CalendarViewFragment extends Fragment {
     private static final String TAG = CalendarViewFragment.class.getSimpleName();
@@ -31,7 +32,7 @@ public class CalendarViewFragment extends Fragment {
 
     // need FragmentActivity because of Caldroid workaround
     private FragmentActivity context;
-    private ArrayList<Transaction> transactionList;
+    private List<Transaction> transactionList;
     private double totalAmount;
 
 
@@ -68,9 +69,9 @@ public class CalendarViewFragment extends Fragment {
 
 
 
-    public static CalendarViewFragment newInstance(ArrayList<Transaction> transactionList, double totalAmount) {
+    public static CalendarViewFragment newInstance(List<Transaction> transactionList, double totalAmount) {
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(CalendarViewFragment.BUNDLE_PARAMETER_TRANSACTIONLIST, transactionList);
+        bundle.putParcelableArrayList(CalendarViewFragment.BUNDLE_PARAMETER_TRANSACTIONLIST, new ArrayList<Transaction>(transactionList));
         bundle.putDouble(CalendarViewFragment.BUNDLE_PARAMETER_TOTALAMOUNT, totalAmount);
         CalendarViewFragment fragment = new CalendarViewFragment();
         fragment.setArguments(bundle);

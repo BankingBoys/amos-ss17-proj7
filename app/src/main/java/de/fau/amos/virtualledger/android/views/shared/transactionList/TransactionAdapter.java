@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.views.transactionOverview;
+package de.fau.amos.virtualledger.android.views.shared.transactionList;
 
 import android.app.Activity;
 import android.support.v4.content.ContextCompat;

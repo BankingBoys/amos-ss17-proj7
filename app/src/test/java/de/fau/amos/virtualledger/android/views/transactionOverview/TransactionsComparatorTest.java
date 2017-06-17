@@ -6,6 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionsComparator;
 import de.fau.amos.virtualledger.dtos.Booking;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.views.transactionOverview;
+package de.fau.amos.virtualledger.android.views.shared.transactionList;
 
 import java.util.Comparator;
 

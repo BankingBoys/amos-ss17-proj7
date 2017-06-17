@@ -15,18 +15,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +29,6 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
@@ -42,10 +36,11 @@ import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
-import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.views.calendar.CalendarViewFragment;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
-import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.ByActualMonth;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplierImplementation;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionAdapter;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionListFragment;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.CustomFilter;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.FilterByName;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.Last12Months;
@@ -53,18 +48,17 @@ import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfi
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
-import de.fau.amos.virtualledger.dtos.Booking;
+
+import static de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.BankingOverviewHandler.hasItemsChecked;
 
 public class TransactionOverviewFragment extends Fragment implements java.util.Observer {
     private static final String TAG = TransactionOverviewFragment.class.getSimpleName();
 
     TransactionAdapter adapter;
     private View mainView;
-    ArrayList<Transaction> allTransactions = new ArrayList<>();
-    ArrayList<Transaction> presentedTransactions = new ArrayList<>();
-    private TransactionFilter transactionFilter = new ByActualMonth();
-    private ListView bookingListView;
     private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
+
+    private TransactionListFragment transactionListFragment;
 
     @BindView(R.id.transaction_overview_calendar_button)
     Button calendarButton;
@@ -76,109 +70,18 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     @Inject
     BankingDataManager bankingDataManager;
 
-    private List<BankAccountBookings> bankAccountBookingsList;
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
-
-        adapter = new TransactionAdapter(getActivity(), R.id.transaction_list, new ArrayList<Transaction>());
-        bookingListView.setAdapter(adapter);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        bankingDataManager.addObserver(this);
-
-        switch (bankingDataManager.getSyncStatus()) {
-            case NOT_SYNCED:
-                bankingDataManager.sync();
-                break;
-            case SYNCED:
-                onBankingDataChanged();
-                break;
-        }
-    }
-
-    private void onBankingDataChanged() {
-        try {
-            bankAccountBookingsList = bankingDataManager.getBankAccountBookings();
-            if ((bankAccountBookingsList == null || bankAccountBookingsList.size() == 0)) {
-                Fragment fragment = new NoBankingAccessesFragment();
-                openFragment(fragment);
-            }
-            onBookingsUpdated();
-
-        } catch (BankingSyncFailedException ex) {
-            Toast.makeText(getActivity(), "Failed connecting to the server, try again later", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void onBookingsUpdated() {
-        allTransactions.clear();
-        presentedTransactions.clear();
-        boolean filter = hasItemsChecked(mappingCheckBoxes);
-        if(filter) {
-            for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
-                for (Booking booking : bankAccountBookings.getBookings()) {
-                    String accountName = bankAccessCredentialDB
-                        .getAccountName(
-                                authenticationProvider.getEmail(),
-                                bankAccountBookings.getBankaccessid(),
-                                bankAccountBookings.getBankaccountid());
-                    if((mappingCheckBoxes.get(bankAccountBookings.getBankaccountid()) != null) && (mappingCheckBoxes.get(bankAccountBookings.getBankaccountid()))) {
-                        Transaction transaction = new Transaction(accountName, booking);
-                        this.allTransactions.add(transaction);
-                        this.presentedTransactions.add(transaction);
-                    }
-                }
-            }
-
-        }
-        else {
-            for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
-                for (Booking booking : bankAccountBookings.getBookings()) {
-                    Transaction transaction = new Transaction(
-                            bankAccessCredentialDB
-                                    .getAccountName(
-                                            authenticationProvider.getEmail(),
-                                            bankAccountBookings.getBankaccessid(),
-                                            bankAccountBookings.getBankaccountid()),
-                            booking);
-
-                    this.allTransactions.add(transaction);
-                    this.presentedTransactions.add(transaction);
-                }
-            }
-        }
-        showUpdatedTransactions();
-    }
-
-    void showUpdatedTransactions() {
-        this.adapter.clear();
-        this.presentedTransactions.clear();
-        this.presentedTransactions.addAll(this.allTransactions);
-        for (Transaction actualTransaction : new LinkedList<>(this.presentedTransactions)) {
-            if (this.transactionFilter.shouldBeRemoved(actualTransaction)) {
-                this.presentedTransactions.remove(actualTransaction);
-            }
-        }
-        logger().log(Level.INFO, "Number of presented transactions: " + presentedTransactions.size());
-        for (Transaction actualTransaction : this.presentedTransactions) {
-            this.adapter.add(actualTransaction);
-        }
-        this.adapter.sort(new TransactionsComparator());
-        this.adapter.notifyDataSetChanged();
+        this.transactionListFragment.pushCheckedMap(this.mappingCheckBoxes);
+        this.bankingDataManager.addObserver(this);
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mainView = inflater.inflate(R.layout.fragment_transaction_overview, container, false);
-        bookingListView = (ListView) this.mainView.findViewById(R.id.transaction_list);
-        ButterKnife.bind(this, mainView);
 
         final Spinner spinner = (Spinner) mainView.findViewById(R.id.transactionSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mainView.getContext(),
@@ -235,10 +138,10 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                                         String selectionText = dateFormatter.format(chooserDialogContent.getStartCalendar().getTime())//
                                                 + "-" + dateFormatter.format(chooserDialogContent.getEndCalendar().getTime());
                                         selectedTextView.setText(selectionText);
-                                        _this.transactionFilter = new CustomFilter(chooserDialogContent.getStartCalendar().getTime(),
-                                                chooserDialogContent.getEndCalendar().getTime());
-                                        _this.showUpdatedTransactions();
-
+                                        _this.transactionListFragment.changeFilterTo(//
+                                                new CustomFilter(//
+                                                        chooserDialogContent.getStartCalendar().getTime(),
+                                                        chooserDialogContent.getEndCalendar().getTime()));
                                     }
 
                                 }
@@ -250,8 +153,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                                     dialog.dismiss();
                                     if (selectedTextView != null) {
                                         spinner.setSelection(0);
-                                        _this.transactionFilter = new Last12Months();
-                                        _this.showUpdatedTransactions();
+                                        _this.transactionListFragment.changeFilterTo(new Last12Months());
                                     }
                                 }
                             }
@@ -263,9 +165,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
             return;
         }
         logger().log(Level.INFO, "Direct filter found for " + by);
-        this.transactionFilter = transactionFilter;
-
-        this.showUpdatedTransactions();
+        this.transactionListFragment.changeFilterTo(transactionFilter);
     }
 
     private Logger logger() {
@@ -284,11 +184,6 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
 
     @Override
-    public void update(final Observable o, final Object arg) {
-        onBankingDataChanged();
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
         bankingDataManager.deleteObserver(this);
@@ -303,26 +198,28 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.transaction_overview_total_amount_fragment_wrapper, totalAmountFragment, "transaction_overview_total_amount_fragment");
         ft.commit();
+
+
+        this.transactionListFragment = new TransactionListFragment();
+
+        fm = getFragmentManager();
+        ft = fm.beginTransaction();
+        ft.add(R.id.transaction_list_placeholder, transactionListFragment, "transaction_overview_total_amount_fragment");
+        ft.commit();
     }
 
     public void setCheckedMap(HashMap<String, Boolean> map) {
         this.mappingCheckBoxes = map;
+        if (transactionListFragment != null) {
+            this.transactionListFragment.pushCheckedMap(map);
+        }
     }
 
-    public static boolean hasItemsChecked(HashMap<String, Boolean> map) {
-        Boolean ret = false;
-        Iterator iterator = map.entrySet().iterator();
-        while (iterator.hasNext() && !ret) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            ret = (Boolean) entry.getValue();
-        }
-        return ret;
-    }
 
     @OnClick(R.id.transaction_overview_calendar_button)
     public void onOpenCalendar() {
 
-        CalendarViewFragment calendar = CalendarViewFragment.newInstance(presentedTransactions, computeBalanceOfCheckedAccounts());
+        CalendarViewFragment calendar = CalendarViewFragment.newInstance(this.transactionListFragment.presentedTransactions(), computeBalanceOfCheckedAccounts());
         openFragment(calendar);
     }
 
@@ -335,22 +232,33 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
             return 0.0;
         }
 
-        if(hasItemsChecked(mappingCheckBoxes)) {
-            for(BankAccess bankAccess : bankAccessList) {
-                for(BankAccount bankAccount : bankAccess.getBankaccounts()) {
+        if (hasItemsChecked(mappingCheckBoxes)) {
+            for (BankAccess bankAccess : bankAccessList) {
+                for (BankAccount bankAccount : bankAccess.getBankaccounts()) {
                     Boolean isChecked = mappingCheckBoxes.get(bankAccount.getBankid());
-                    if(isChecked != null && isChecked) {
+                    if (isChecked != null && isChecked) {
                         filteredBalance += bankAccess.getBalance();
                     }
                 }
             }
         } else {
-            for(BankAccess bankAccess : bankAccessList) {
+            for (BankAccess bankAccess : bankAccessList) {
                 filteredBalance += bankAccess.getBalance();
             }
         }
 
         return filteredBalance;
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        List<BankAccountBookings> bankAccountBookings = null;
+        try {
+            bankAccountBookings = this.bankingDataManager.getBankAccountBookings();
+        } catch (BankingSyncFailedException e) {
+            logger().log(Level.SEVERE, "Exception occured in get account bookings", e);
+        }
+        this.transactionListFragment.pushDataProvider(new BankTransactionSupplierImplementation(this.getActivity(), bankAccountBookings));
     }
 }
 
