@@ -40,7 +40,6 @@ import de.fau.amos.virtualledger.android.views.calendar.CalendarViewFragment;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplierImplementation;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.ItemCheckedMap;
-import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionAdapter;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionListFragment;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.CustomFilter;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.FilterByName;
@@ -51,9 +50,6 @@ import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 
 public class TransactionOverviewFragment extends Fragment implements java.util.Observer {
-    private static final String TAG = TransactionOverviewFragment.class.getSimpleName();
-
-    TransactionAdapter adapter;
     private View mainView;
     private ItemCheckedMap itemCheckedMap = new ItemCheckedMap(new HashMap<String, Boolean>());
 

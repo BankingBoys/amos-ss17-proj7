@@ -22,8 +22,6 @@ import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfi
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.TransactionFilter;
 
 public class TransactionListFragment extends Fragment implements java.util.Observer, DataListening {
-    private static final String TAG = TransactionListFragment.class.getSimpleName();
-
     TransactionAdapter adapter;
     private View mainView;
 

@@ -88,7 +88,6 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
             this.logger().info("taking all transactions");
             for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
                 for (Booking booking : bankAccountBookings.getBookings()) {
-                    Logger.getAnonymousLogger().log(Level.INFO, "loading transatction");
                     Transaction transaction = new Transaction(
                             bankAccessCredentialDB
                                     .getAccountName(
