@@ -39,6 +39,7 @@ import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.calendar.CalendarViewFragment;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplierImplementation;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.ItemCheckedMap;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionAdapter;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionListFragment;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.CustomFilter;
@@ -49,14 +50,12 @@ import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 
-import static de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.BankingOverviewHandler.hasItemsChecked;
-
 public class TransactionOverviewFragment extends Fragment implements java.util.Observer {
     private static final String TAG = TransactionOverviewFragment.class.getSimpleName();
 
     TransactionAdapter adapter;
     private View mainView;
-    private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
+    private ItemCheckedMap itemCheckedMap = new ItemCheckedMap(new HashMap<String, Boolean>());
 
     private TransactionListFragment transactionListFragment;
 
@@ -74,7 +73,6 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
-        this.transactionListFragment.pushCheckedMap(this.mappingCheckBoxes);
         this.bankingDataManager.addObserver(this);
     }
 
@@ -209,16 +207,12 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     }
 
     public void setCheckedMap(HashMap<String, Boolean> map) {
-        this.mappingCheckBoxes = map;
-        if (transactionListFragment != null) {
-            this.transactionListFragment.pushCheckedMap(map);
-        }
+        this.itemCheckedMap.update(map);
     }
 
 
     @OnClick(R.id.transaction_overview_calendar_button)
     public void onOpenCalendar() {
-
         CalendarViewFragment calendar = CalendarViewFragment.newInstance(this.transactionListFragment.presentedTransactions(), computeBalanceOfCheckedAccounts());
         openFragment(calendar);
     }
@@ -232,11 +226,10 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
             return 0.0;
         }
 
-        if (hasItemsChecked(mappingCheckBoxes)) {
+        if (itemCheckedMap.hasItemsChecked()) {
             for (BankAccess bankAccess : bankAccessList) {
                 for (BankAccount bankAccount : bankAccess.getBankaccounts()) {
-                    Boolean isChecked = mappingCheckBoxes.get(bankAccount.getBankid());
-                    if (isChecked != null && isChecked) {
+                    if (this.itemCheckedMap.shouldBePresented(bankAccount.getBankid())) {
                         filteredBalance += bankAccess.getBalance();
                     }
                 }
@@ -258,7 +251,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         } catch (BankingSyncFailedException e) {
             logger().log(Level.SEVERE, "Exception occured in get account bookings", e);
         }
-        this.transactionListFragment.pushDataProvider(new BankTransactionSupplierImplementation(this.getActivity(), bankAccountBookings));
+        this.transactionListFragment.pushDataProvider(new BankTransactionSupplierImplementation(this.getActivity(), bankAccountBookings, this.itemCheckedMap));
     }
 }
 

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
@@ -21,7 +20,6 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.ByActualMonth;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.TransactionFilter;
-import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 
 public class TransactionListFragment extends Fragment implements java.util.Observer, DataListening {
     private static final String TAG = TransactionListFragment.class.getSimpleName();
@@ -34,10 +32,6 @@ public class TransactionListFragment extends Fragment implements java.util.Obser
 
     private TransactionFilter transactionFilter = new ByActualMonth();
     private ListView bookingListView;
-    private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
-
-
-    private List<BankAccountBookings> bankAccountBookingsList;
 
     private BankTransactionSupplier bankTransactionSupplier;
 
@@ -126,11 +120,6 @@ public class TransactionListFragment extends Fragment implements java.util.Obser
 
     public List<Transaction> presentedTransactions() {
         return this.presentedTransactions();
-    }
-
-    public void pushCheckedMap(HashMap<String, Boolean> map) {
-        this.mappingCheckBoxes = map;
-        this.notifyDataChanged();
     }
 }
 

@@ -63,4 +63,18 @@ public class ItemCheckedMapTest {
 
         assertThat(component_under_test.shouldBePresented("test1")).isTrue();
     }
+
+    @Test
+    public void teste_update_shouldUpdate() {
+        HashMap<String, Boolean> data = new HashMap<>();
+        data.put("test1", true);
+        ItemCheckedMap component_under_test = new ItemCheckedMap(data);
+
+        assertThat(component_under_test.shouldBePresented("test1")).isTrue();
+
+        data = new HashMap<>();
+        data.put("test1", false);
+        component_under_test.update(data);
+        assertThat(component_under_test.shouldBePresented("test1")).isFalse();
+    }
 }

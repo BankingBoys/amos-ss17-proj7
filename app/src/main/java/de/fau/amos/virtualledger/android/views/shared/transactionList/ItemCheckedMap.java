@@ -29,5 +29,9 @@ public class ItemCheckedMap {
         return this.map.containsKey(bankAccountID) && this.map.get(bankAccountID).booleanValue();
     }
 
+    public void update(HashMap<String, Boolean> map){
+        this.map = map;
+    }
+
 
 }

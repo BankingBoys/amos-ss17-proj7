@@ -3,7 +3,6 @@ package de.fau.amos.virtualledger.android.views.shared.transactionList;
 import android.app.Activity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -31,7 +30,7 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
     @Inject
     AuthenticationProvider authenticationProvider;
 
-    private ItemCheckedMap itemCheckedMap = new ItemCheckedMap(new HashMap<String, Boolean>());
+    private ItemCheckedMap itemCheckedMap;
 
     private List<DataListening> dataListenings = new ArrayList<>();
 
@@ -39,9 +38,10 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
 
     private List<BankAccountBookings> bankAccountBookingsList;
 
-    public BankTransactionSupplierImplementation(Activity activity, List<BankAccountBookings> bankAccountBookingsList) {
+    public BankTransactionSupplierImplementation(Activity activity, List<BankAccountBookings> bankAccountBookingsList, ItemCheckedMap itemCheckedMap) {
         ((App) activity.getApplication()).getNetComponent().inject(this);
         this.bankAccountBookingsList = bankAccountBookingsList;
+        this.itemCheckedMap = itemCheckedMap;
     }
 
     @Override
