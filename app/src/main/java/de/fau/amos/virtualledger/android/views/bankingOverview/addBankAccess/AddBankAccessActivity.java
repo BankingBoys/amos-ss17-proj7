@@ -41,10 +41,12 @@ public class AddBankAccessActivity extends AppCompatActivity {
         bankAccessCredential.setPin(pin);
 
         bankingDataManager.addBankAccess(bankAccessCredential);
-        Intent intent = new Intent(this, MainMenu.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("startingFragment", MainMenu.AppFragment.TRANSACTION_OVERVIEW);
+
+        final Intent intent = new Intent(this, MainMenu.class);
+        final Bundle bundle = new Bundle();
+        bundle.putSerializable(MainMenu.EXTRA_STARTING_FRAGMENT, MainMenu.AppFragment.TRANSACTION_OVERVIEW);
         startActivity(intent);
+
         finish();
     }
 

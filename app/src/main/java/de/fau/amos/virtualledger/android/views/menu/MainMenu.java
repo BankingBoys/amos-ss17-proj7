@@ -34,6 +34,10 @@ import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOv
 public class MainMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = MainMenu.class.getSimpleName();
+
+    public static final String EXTRA_CHECKED_BANK_ACCOUNTS = "EXTRA_CHECKED_BANK_ACCOUNTS";
+    public static final String EXTRA_STARTING_FRAGMENT = "EXTRA_STARTING_FRAGMENT";
+
     private HashMap<String, Boolean> checkedBankAccounts = new HashMap<>();
 
     public enum AppFragment {
@@ -65,10 +69,10 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         //set Menu-Icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final HashMap<String, Boolean> extraCheckedMap = (HashMap<String, Boolean>) getIntent().getSerializableExtra("checkedMap");
+        final HashMap<String, Boolean> extraCheckedMap = (HashMap<String, Boolean>) getIntent().getSerializableExtra(EXTRA_CHECKED_BANK_ACCOUNTS);
         checkedBankAccounts = extraCheckedMap != null ? extraCheckedMap : new HashMap<String, Boolean>();
 
-        final AppFragment extraAppFragment = (AppFragment) getIntent().getSerializableExtra("startingFragment");
+        final AppFragment extraAppFragment = (AppFragment) getIntent().getSerializableExtra(EXTRA_STARTING_FRAGMENT);
         switchToFragment(extraAppFragment != null ? extraAppFragment : AppFragment.TRANSACTION_OVERVIEW);
     }
 
