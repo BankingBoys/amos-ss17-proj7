@@ -91,7 +91,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
             Intent intent = new Intent(getActivity(), MainMenu.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("checkedMap", mappingCheckBoxes);
-            bundle.putInt("startingFragment", 2);
+            bundle.putSerializable("startingFragment", MainMenu.AppFragment.TRANSACTION_OVERVIEW);
             intent.putExtras(bundle);
             startActivity(intent);
         }

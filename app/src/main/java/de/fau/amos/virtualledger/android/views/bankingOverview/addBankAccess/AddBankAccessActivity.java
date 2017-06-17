@@ -43,7 +43,7 @@ public class AddBankAccessActivity extends AppCompatActivity {
         bankingDataManager.addBankAccess(bankAccessCredential);
         Intent intent = new Intent(this, MainMenu.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("startingFragment", 2);
+        bundle.putSerializable("startingFragment", MainMenu.AppFragment.TRANSACTION_OVERVIEW);
         startActivity(intent);
         finish();
     }

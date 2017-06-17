@@ -34,8 +34,9 @@ import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOv
 public class MainMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = MainMenu.class.getSimpleName();
+    private HashMap<String, Boolean> checkedBankAccounts = new HashMap<>();
 
-    private enum AppFragment {
+    public enum AppFragment {
         BANK_ACCESSES, TRANSACTION_OVERVIEW
     }
 
@@ -64,8 +65,11 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         //set Menu-Icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        switchToFragment(AppFragment.TRANSACTION_OVERVIEW);
+        final HashMap<String, Boolean> extraCheckedMap = (HashMap<String, Boolean>) getIntent().getSerializableExtra("checkedMap");
+        checkedBankAccounts = extraCheckedMap != null ? extraCheckedMap : new HashMap<String, Boolean>();
 
+        final AppFragment extraAppFragment = (AppFragment) getIntent().getSerializableExtra("startingFragment");
+        switchToFragment(extraAppFragment != null ? extraAppFragment : AppFragment.TRANSACTION_OVERVIEW);
     }
 
     private void initializeDrawer() {
@@ -135,7 +139,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 navigationView.setCheckedItem(R.id.main_menu_transaction_overview);
 
                 final TransactionOverviewFragment transactionOverviewFragment = new TransactionOverviewFragment();
-                transactionOverviewFragment.setCheckedMap(new HashMap<String, Boolean>());
+                transactionOverviewFragment.setCheckedMap(checkedBankAccounts);
                 openFragment(transactionOverviewFragment);
                 break;
             default:
