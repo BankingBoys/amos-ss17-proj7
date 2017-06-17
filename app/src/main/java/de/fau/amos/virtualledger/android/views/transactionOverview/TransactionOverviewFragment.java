@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.ContextThemeWrapper;
@@ -84,15 +83,6 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         spinner.setAdapter(adapter);
         final TransactionOverviewFragment _this = this;
 
-        /**
-         * Color of the little spinner triangle.
-         * Usually its an image and have to be completly redisigned and recompiled into
-         * all android spinners.
-         * When you do that and you change your master color, all android image icons have to be
-         * recompiled (this is bad)
-         * --> this is a fancy workaround
-         */
-        spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorBankingOverview), PorterDuff.Mode.SRC_ATOP);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
