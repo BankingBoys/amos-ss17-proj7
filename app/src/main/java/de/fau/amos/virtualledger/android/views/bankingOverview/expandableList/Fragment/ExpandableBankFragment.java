@@ -66,9 +66,11 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        // This line needs to stay right here!!! Otherwise bankingDataManager is null when passed to adapter
+        ((App) getActivity().getApplication()).getNetComponent().inject(this);
+
         adapter = new ExpandableAdapterBanking(getActivity(),
                 groups, bankingDataManager, mappingCheckBoxes);
-        ((App) getActivity().getApplication()).getNetComponent().inject(this);
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
