@@ -93,12 +93,10 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                     return;
                 }
                 _this.filterTransactions(selectedTextView.getText().toString(), selectedTextView, spinner);
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
         spinner.setSelection(2);
