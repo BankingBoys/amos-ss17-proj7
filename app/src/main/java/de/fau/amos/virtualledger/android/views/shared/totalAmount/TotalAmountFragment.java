@@ -7,11 +7,9 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
@@ -25,10 +23,6 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
-import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
-import de.fau.amos.virtualledger.android.views.transactionOverview.Transaction;
-import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionAdapter;
-import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOverviewFragment;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 
 /**
@@ -71,6 +65,12 @@ public class TotalAmountFragment extends Fragment implements Observer{
                 onBankingDataChanged();
                 break;
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        bankingDataManager.deleteObserver(this);
     }
 
     private void onBankingDataChanged() {
