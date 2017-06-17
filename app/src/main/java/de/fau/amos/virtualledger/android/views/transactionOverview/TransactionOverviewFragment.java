@@ -229,13 +229,25 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
     @Override
     public void update(Observable observable, Object o) {
-        List<BankAccountBookings> bankAccountBookings = null;
+        this.logger().info("Updateing Transaction Overview Fragment");
+        this.transactionListFragment.pushDataProvider(new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings(), this.itemCheckedMap));
+    }
+
+    private List<BankAccountBookings> getBankAccountBookings() {
         try {
-            bankAccountBookings = this.bankingDataManager.getBankAccountBookings();
-        } catch (BankingSyncFailedException e) {
+            return this.bankingDataManager.getBankAccountBookings();
+        } catch (Exception e) {
             logger().log(Level.SEVERE, "Exception occured in get account bookings", e);
         }
-        this.transactionListFragment.pushDataProvider(new BankTransactionSupplierImplementation(this.getActivity(), bankAccountBookings, this.itemCheckedMap));
+        return new ArrayList<>();
     }
+
+    @Override
+    public void onResume() {
+        this.logger().info("On Resume of Transaction View");
+        this.transactionListFragment.pushDataProvider(new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings(), this.itemCheckedMap));
+        super.onResume();
+    }
+
 }
 

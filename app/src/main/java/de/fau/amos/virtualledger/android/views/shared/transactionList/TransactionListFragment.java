@@ -55,6 +55,7 @@ public class TransactionListFragment extends Fragment implements java.util.Obser
         if (bankTransactionSupplier != null) {
             this.bankTransactionSupplier.onResume();
         }
+        showUpdatedTransactions();
     }
 
     void showUpdatedTransactions() {
