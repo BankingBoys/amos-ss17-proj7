@@ -22,15 +22,29 @@ public class OidcAuthenticationActivity extends Activity {
     private static final String TAG = OidcAuthenticationActivity.class.getSimpleName();
 
 
-    private static final String SHOOT_SERVER_URL = "https://multibanking-keycloak.dev.adorsys.de";
-    private static final String AUTHZ_URL = SHOOT_SERVER_URL +"/auth";
-    private static final String AUTHZ_ENDPOINT = "/realms/multibanking/tokens/login";
-    private static final String ACCESS_TOKEN_ENDPOINT = "/realms/multibanking/tokens/access/codes";
-    private static final String REFRESH_TOKEN_ENDPOINT = "/realms/multibanking/tokens/refresh";
+    private static final String ADORSYS_SERVER_URL = "https://multibanking-keycloak.dev.adorsys.de";
+    private static final String AUTHZ_URL = ADORSYS_SERVER_URL +"/auth";
+    private static final String AUTHZ_ENDPOINT = "/realms/multibanking/protocol/openid-connect/auth";
+    private static final String ACCESS_TOKEN_ENDPOINT = "/realms/multibanking/protocol/openid-connect/token";
+    private static final String REFRESH_TOKEN_ENDPOINT = "/realms/multibanking/protocol/openid-connect/token";
     private static final String AUTHZ_ACCOOUNT_ID = "keycloak-token";
-    private static final String AUTHZ_CLIENT_ID = "shoot-third-party";
+    private static final String AUTHZ_CLIENT_ID = "multibanking-client";
     private static final String AUTHZ_REDIRECT_URL = "http://oauth2callback";
     private static final String MODULE_NAME = "KeyCloakAuthz";
+
+    private void successfullConnected(Object data) {
+        try {
+            String token = (String) data;
+            Log.i(TAG, "got successful response from oidc server!");
+
+            // TODO: store token
+            // TODO: start new activity and finish this one
+
+        } catch (Exception ex) {
+            Log.e(TAG, "Error in obtaining token from response of oidc server!");
+            Toast.makeText(this, "Login failed. Please try again later!", Toast.LENGTH_LONG).show();
+        }
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,10 +75,6 @@ public class OidcAuthenticationActivity extends Activity {
                 Toast.makeText(OidcAuthenticationActivity.this.getApplicationContext(), "Authentication failed!", Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    private void successfullConnected(Object data) {
-        Log.i(TAG, "authentication was successful");
     }
 
 
