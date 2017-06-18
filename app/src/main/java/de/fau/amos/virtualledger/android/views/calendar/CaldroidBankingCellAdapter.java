@@ -91,6 +91,12 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
             }
         }
 
+        cellView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
 
         // Set custom color if required
         setCustomResources(dateTime, cellView, dateTextView);
