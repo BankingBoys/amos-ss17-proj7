@@ -52,9 +52,7 @@
 
         <service android:name="org.jboss.aerogear.android.authorization.oauth2.OAuth2AuthzService"/>
 
-        <uses-permission android:name="android.permission.INTERNET"/>
     </application>
 
-
-
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
