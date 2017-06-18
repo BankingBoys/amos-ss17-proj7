@@ -19,7 +19,7 @@ public class CustomTransactionFilterTest {
         Date end = sdf.parse("11/07/2017");
         Booking booking = new Booking();
         booking.setDate(end);
-        Transaction testTransaction = new Transaction("someBank", booking);
+        Transaction testTransaction = new Transaction("someBank", "some bank id", booking);
 
         CustomFilter component_under_test = new CustomFilter(start, end);
 
@@ -34,7 +34,7 @@ public class CustomTransactionFilterTest {
         Date end = sdf.parse("11/07/2017");
         Booking booking = new Booking();
         booking.setDate(start);
-        Transaction testTransaction = new Transaction("someBank", booking);
+        Transaction testTransaction = new Transaction("someBank", "some bank id", booking);
 
         CustomFilter component_under_test = new CustomFilter(start, end);
 
@@ -49,7 +49,7 @@ public class CustomTransactionFilterTest {
         Date testDate = sdf.parse("11/04/2017");
         Booking booking = new Booking();
         booking.setDate(testDate);
-        Transaction testTransaction = new Transaction("someBank", booking);
+        Transaction testTransaction = new Transaction("someBank", "some bank id", booking);
 
         CustomFilter component_under_test = new CustomFilter(start, end);
 
@@ -64,7 +64,7 @@ public class CustomTransactionFilterTest {
         Date testDate = sdf.parse("11/08/2017");
         Booking booking = new Booking();
         booking.setDate(testDate);
-        Transaction testTransaction = new Transaction("someBank", booking);
+        Transaction testTransaction = new Transaction("someBank", "some bank id", booking);
 
         CustomFilter component_under_test = new CustomFilter(start, end);
 

@@ -19,7 +19,7 @@ public class TransactionsComparatorTest {
         TransactionsComparator component_under_test = new TransactionsComparator();
         Booking booking = new Booking();
         booking.setDate(new Date());
-        Transaction transaction = new Transaction("some bank", booking);
+        Transaction transaction = new Transaction("some bank", "some bank id", booking);
 
         assertThat(component_under_test.compare(transaction, transaction)).isEqualTo(0);
     }
@@ -29,11 +29,11 @@ public class TransactionsComparatorTest {
         TransactionsComparator component_under_test = new TransactionsComparator();
         Booking booking = new Booking();
         booking.setDate(toDate("01/01/17"));
-        Transaction transaction = new Transaction("some bank", booking);
+        Transaction transaction = new Transaction("some bank", "some bank id", booking);
 
         booking = new Booking();
         booking.setDate(toDate("01/01/18"));
-        Transaction later = new Transaction("some bank", booking);
+        Transaction later = new Transaction("some bank", "some bank id", booking);
 
         assertThat(component_under_test.compare(transaction, later)).isEqualTo(1);
     }
@@ -43,11 +43,11 @@ public class TransactionsComparatorTest {
         TransactionsComparator component_under_test = new TransactionsComparator();
         Booking booking = new Booking();
         booking.setDate(toDate("01/01/17"));
-        Transaction transaction = new Transaction("some bank", booking);
+        Transaction transaction = new Transaction("some bank", "some bank id", booking);
 
         booking = new Booking();
         booking.setDate(toDate("01/01/16"));
-        Transaction earlier = new Transaction("some bank", booking);
+        Transaction earlier = new Transaction("some bank", "some bank id", booking);
 
         assertThat(component_under_test.compare(transaction, earlier)).isEqualTo(-1);
     }

@@ -15,24 +15,31 @@ public class Transaction implements Parcelable {
 
     private String bankName;
     private Booking booking;
+    private String bankAccountID;
 
 
-    public Transaction(String bankName, Booking booking){
+    public Transaction(String bankName, String bankAccountID, Booking booking) {
         this.bankName = bankName;
         this.booking = booking;
+        this.bankAccountID = bankAccountID;
     }
 
-    public Booking booking(){
+    public Booking booking() {
         return this.booking;
     }
 
-    public String bankName(){
+    public String bankName() {
         return this.bankName;
     }
 
     @Override
     public int describeContents() {
         return 0;
+    }
+
+
+    public String bankAccountID() {
+        return bankAccountID;
     }
 
     @Override

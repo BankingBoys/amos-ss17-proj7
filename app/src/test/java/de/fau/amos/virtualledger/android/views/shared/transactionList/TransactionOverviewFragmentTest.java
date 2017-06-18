@@ -20,8 +20,8 @@ public class TransactionOverviewFragmentTest {
     public void teste_filterTransactionInitial_shouldOnlyPresentTransactionsOfActualMonth() throws Exception {
         //Arrange
         TransactionListFragment component_under_test = new MockedTransactionList();
-        Transaction oldTransaction = new Transaction("some bank", oldBooking());
-        Transaction newTransaction = new Transaction("some new bank", newBooking());
+        Transaction oldTransaction = new Transaction("some bank", "some bank number",oldBooking());
+        Transaction newTransaction = new Transaction("some new bank","some bank number", newBooking());
         component_under_test.adapter = mockedAdapter();
 
 
@@ -38,8 +38,8 @@ public class TransactionOverviewFragmentTest {
     public void teste_filterTransaction12Months_shouldPresentAllTransactionsOfLast12Months() throws Exception {
         // Arrange
         TransactionListFragment component_under_test = new MockedTransactionList();
-        Transaction lastYearTransaction = new Transaction("some bank", lastYearBooking());
-        Transaction newTransaction = new Transaction("some new bank", newBooking());
+        Transaction lastYearTransaction = new Transaction("some bank", "some bank number",lastYearBooking());
+        Transaction newTransaction = new Transaction("some new bank","some bank number", newBooking());
 
         //Act
         component_under_test.pushDataProvider(new StubbedBankTransactionSupplier(newTransaction, lastYearTransaction));

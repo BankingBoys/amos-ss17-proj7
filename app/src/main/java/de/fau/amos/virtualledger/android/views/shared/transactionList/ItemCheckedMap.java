@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.TransactionFilter;
+
 /**
  * Created by sebastian on 17.06.17.
  */
 
-public class ItemCheckedMap {
+public class ItemCheckedMap implements TransactionFilter{
     private HashMap<String, Boolean> map;
 
     public ItemCheckedMap(HashMap<String, Boolean> map) {
@@ -34,4 +36,9 @@ public class ItemCheckedMap {
     }
 
 
+    @Override
+    public boolean shouldBeRemoved(Transaction t) {
+        boolean shouldStay = shouldBePresented(t.bankAccountID());
+        return !shouldStay;
+    }
 }

@@ -78,7 +78,7 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
                                     bankAccountBookings.getBankaccessid(),
                                     bankAccountBookings.getBankaccountid());
                     if (this.itemCheckedMap.shouldBePresented(bankAccountBookings.getBankaccountid())) {
-                        Transaction transaction = new Transaction(accountName, booking);
+                        Transaction transaction = new Transaction(accountName, bankAccountBookings.getBankaccountid(), booking);
                         this.allBankTransactions.add(transaction);
                     }
                 }
@@ -94,6 +94,7 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
                                             authenticationProvider.getEmail(),
                                             bankAccountBookings.getBankaccessid(),
                                             bankAccountBookings.getBankaccountid()),
+                            bankAccountBookings.getBankaccountid(),
                             booking);
 
                     this.allBankTransactions.add(transaction);
