@@ -2,6 +2,7 @@ package de.fau.amos.virtualledger.android.views.shared.transactionList;
 
 import android.support.annotation.NonNull;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.text.ParseException;
@@ -54,6 +55,7 @@ public class TransactionOverviewFragmentTest {
 
 }
 
+@Ignore
 class MockedTransactionListFragment extends TransactionListFragment {
     @Override
     public String toString() {
