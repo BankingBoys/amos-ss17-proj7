@@ -11,6 +11,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity;
+import de.fau.amos.virtualledger.android.authentication.oidc.OidcAuthenticationActivity;
 
 
 public class AuthenticationChooserActivity extends Activity {
@@ -34,6 +35,8 @@ public class AuthenticationChooserActivity extends Activity {
 
     @OnClick(R.id.authentication_activity_chooser_oidc_workflow_button)
     public void onInitOidcWorkflow() {
-
+        Intent intent = new Intent(this, OidcAuthenticationActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
