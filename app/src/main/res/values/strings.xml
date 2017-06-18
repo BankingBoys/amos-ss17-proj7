@@ -13,6 +13,8 @@
     <string name="authentication_login_register_first_link"><u>Register first</u></string>
     <string name="authentication_login_permanent_checkbox">Stay logged in</string>
 
+    <string name="calendar_view_daily_transaction_aggregated_amount">Amount</string>
+
     <string name="main_menu_content_description_image">Icon Items</string>
     <string name="main_menu_app_bar_add_bank_access">Add bank access</string>
     <string name="main_menu_app_bar_refresh">Refresh</string>
