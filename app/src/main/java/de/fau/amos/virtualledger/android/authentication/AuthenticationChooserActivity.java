@@ -3,14 +3,11 @@ package de.fau.amos.virtualledger.android.authentication;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
-import de.fau.amos.virtualledger.android.authentication.registration.RegisterActivity;
+import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity;
 
 
 public class AuthenticationChooserActivity extends Activity {

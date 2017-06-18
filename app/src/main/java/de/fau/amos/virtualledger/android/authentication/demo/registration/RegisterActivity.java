@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.authentication.registration;
+package de.fau.amos.virtualledger.android.authentication.demo.registration;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
-import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
+import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;

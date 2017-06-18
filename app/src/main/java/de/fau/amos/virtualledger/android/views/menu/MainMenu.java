@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
-import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
+import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.views.bankingOverview.addBankAccess.AddBankAccessActivity;

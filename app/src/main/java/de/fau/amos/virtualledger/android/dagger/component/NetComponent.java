@@ -3,8 +3,8 @@ package de.fau.amos.virtualledger.android.dagger.component;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
-import de.fau.amos.virtualledger.android.authentication.registration.RegisterActivity;
+import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity;
+import de.fau.amos.virtualledger.android.authentication.demo.registration.RegisterActivity;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
 import de.fau.amos.virtualledger.android.dagger.module.AuthenticationModule;
 import de.fau.amos.virtualledger.android.dagger.module.BankingDataModule;
