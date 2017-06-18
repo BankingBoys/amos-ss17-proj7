@@ -1,8 +1,11 @@
 package de.fau.amos.virtualledger.android.authentication;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.AttributeSet;
+import android.view.View;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -17,9 +20,8 @@ public class AuthenticationChooserActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-
         setContentView(R.layout.authentication_activity_chooser);
+        ButterKnife.bind(this);
     }
 
 
@@ -27,6 +29,7 @@ public class AuthenticationChooserActivity extends Activity {
     public void onInitDemoWorkflow() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @OnClick(R.id.authentication_activity_chooser_oidc_workflow_button)
