@@ -68,7 +68,7 @@ public class CalendarViewFragment extends Fragment implements DataListening {
         Calendar cal = Calendar.getInstance();
         CaldroidBankingFragment caldroidFragment = CaldroidBankingFragment.newInstance(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), allTransactions, totalAmount);
         FragmentTransaction transaction = context.getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.calendar_view_fragment_calendar_wrapper, caldroidFragment, "calendar_view_fragment_calendar");
+        transaction.replace(R.id.calendar_view_fragment_calendar_wrapper, caldroidFragment, "calendar_view_fragment_calendar");
         transaction.commit();
     }
 
