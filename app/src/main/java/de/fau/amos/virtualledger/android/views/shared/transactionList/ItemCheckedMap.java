@@ -10,7 +10,7 @@ import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfi
  * Created by sebastian on 17.06.17.
  */
 
-public class ItemCheckedMap implements TransactionFilter{
+public class ItemCheckedMap implements TransactionFilter {
     private HashMap<String, Boolean> map;
 
     public ItemCheckedMap(HashMap<String, Boolean> map) {
@@ -31,13 +31,16 @@ public class ItemCheckedMap implements TransactionFilter{
         return this.map.containsKey(bankAccountID) && this.map.get(bankAccountID).booleanValue();
     }
 
-    public void update(HashMap<String, Boolean> map){
+    public void update(HashMap<String, Boolean> map) {
         this.map = map;
     }
 
 
     @Override
     public boolean shouldBeRemoved(Transaction t) {
+        if (this.map.isEmpty()) {
+            return false;
+        }
         boolean shouldStay = shouldBePresented(t.bankAccountID());
         return !shouldStay;
     }

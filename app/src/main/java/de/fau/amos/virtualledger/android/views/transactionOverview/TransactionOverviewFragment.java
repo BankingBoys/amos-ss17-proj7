@@ -204,8 +204,8 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     public void onOpenCalendar() {
         this.logger().info("Opening calendar fragment");
         CalendarViewFragment calendar = CalendarViewFragment.newInstance(
-                getBankTransactionSupplier().getAllTransactions(),
-                computeBalanceOfCheckedAccounts());//TODO extract in Filtered wrapper
+                getBankTransactionSupplier(),
+                computeBalanceOfCheckedAccounts());
         openFragment(calendar);
     }
 

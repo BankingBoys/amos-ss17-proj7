@@ -65,6 +65,32 @@ public class ItemCheckedMapTest {
     }
 
     @Test
+    public void teste_shouldBeRemoved_withWithKeyInMapAndValueTrue_shouldReturnFalse() {
+        HashMap<String, Boolean> data = new HashMap<>();
+        data.put("test1", true);
+        ItemCheckedMap component_under_test = new ItemCheckedMap(data);
+
+        assertThat(component_under_test.shouldBeRemoved(new Transaction(null, "test1", null))).isFalse();
+    }
+
+    @Test
+    public void teste_shouldBeRemoved_withWithKeyInMapAndValueFalse_shouldReturnTrue() {
+        HashMap<String, Boolean> data = new HashMap<>();
+        data.put("test1", false);
+        ItemCheckedMap component_under_test = new ItemCheckedMap(data);
+
+        assertThat(component_under_test.shouldBeRemoved(new Transaction(null, "test1", null))).isTrue();
+    }
+
+    @Test
+    public void teste_shouldBeRemoved_withNoData_shouldReturnFalse() {
+        ItemCheckedMap component_under_test = new ItemCheckedMap(new HashMap<String, Boolean>());
+
+        assertThat(component_under_test.shouldBeRemoved(new Transaction(null, "test1", null))).isFalse();
+    }
+
+
+    @Test
     public void teste_update_shouldUpdate() {
         HashMap<String, Boolean> data = new HashMap<>();
         data.put("test1", true);
