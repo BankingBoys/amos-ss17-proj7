@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".android.authentication.AuthenticationChooserActivity"
             android:screenOrientation="portrait"
-            android:label="Choose Authentication Type"
+            android:label="Virtual Ledger"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
