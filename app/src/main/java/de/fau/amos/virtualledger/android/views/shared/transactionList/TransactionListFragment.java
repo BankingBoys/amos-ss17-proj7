@@ -10,7 +10,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -115,10 +114,6 @@ public class TransactionListFragment extends Fragment implements java.util.Obser
     @Override
     public void notifyDataChanged() {
         this.showUpdatedTransactions();
-    }
-
-    public List<Transaction> presentedTransactions() {
-        return this.presentedTransactions();
     }
 }
 

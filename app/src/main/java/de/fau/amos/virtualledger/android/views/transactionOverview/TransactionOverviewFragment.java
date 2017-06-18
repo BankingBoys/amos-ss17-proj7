@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
@@ -75,6 +76,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mainView = inflater.inflate(R.layout.fragment_transaction_overview, container, false);
+        ButterKnife.bind(this, mainView);
 
         final Spinner spinner = (Spinner) mainView.findViewById(R.id.transactionSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mainView.getContext(),
@@ -197,7 +199,10 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
     @OnClick(R.id.transaction_overview_calendar_button)
     public void onOpenCalendar() {
-        CalendarViewFragment calendar = CalendarViewFragment.newInstance(this.transactionListFragment.presentedTransactions(), computeBalanceOfCheckedAccounts());
+        this.logger().info("Opening calendar fragment");
+        CalendarViewFragment calendar = CalendarViewFragment.newInstance(
+                new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings(), this.itemCheckedMap).getAllTransactions(),
+                computeBalanceOfCheckedAccounts());//TODO extract in Filtered wrapper
         openFragment(calendar);
     }
 
