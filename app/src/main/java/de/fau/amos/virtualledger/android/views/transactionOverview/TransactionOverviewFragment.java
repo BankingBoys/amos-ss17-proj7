@@ -127,10 +127,10 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                                         String selectionText = dateFormatter.format(chooserDialogContent.getStartCalendar().getTime())//
                                                 + "-" + dateFormatter.format(chooserDialogContent.getEndCalendar().getTime());
                                         selectedTextView.setText(selectionText);
-                                        _this.transactionListFragment.pushDataProvider(getBankTransactionSupplier(
-                                                new CustomFilter(//
-                                                        chooserDialogContent.getStartCalendar().getTime(),
-                                                        chooserDialogContent.getEndCalendar().getTime())));
+                                        _this.filter = new CustomFilter(//
+                                                chooserDialogContent.getStartCalendar().getTime(),
+                                                chooserDialogContent.getEndCalendar().getTime());
+                                        _this.update(null,null);
                                     }
                                 }
                             }
@@ -139,26 +139,23 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     dialog.dismiss();
-                                    if (selectedTextView != null) {
-                                        spinner.setSelection(0);
-                                        _this.transactionListFragment.pushDataProvider(getBankTransactionSupplier(_this.filter));
-                                    }
                                 }
                             }
                     );
             builder.setView(chooserDialogContent.onCreateView(getActivity().getLayoutInflater(), null, null));
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-
             return;
         }
         logger().log(Level.INFO, "Direct filter found for " + by);
-        this.transactionListFragment.pushDataProvider(getBankTransactionSupplier(transactionFilter));
+        this.filter = transactionFilter;
+        this.transactionListFragment.pushDataProvider(getBankTransactionSupplier());
     }
 
     private Logger logger() {
         return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.toString() + "}");
     }
+
     private void openFragment(Fragment fragment) {
         if (null != fragment) {
             FragmentManager manager = getFragmentManager();
@@ -241,16 +238,12 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         this.transactionListFragment.pushDataProvider(getBankTransactionSupplier());
     }
 
-    @NonNull
-    private BankTransactionSupplier getBankTransactionSupplier() {
-        return getBankTransactionSupplier(this.filter);
-    }
 
     @NonNull
-    private BankTransactionSupplier getBankTransactionSupplier(TransactionFilter filter) {
+    private BankTransactionSupplier getBankTransactionSupplier() {
         BankTransactionSupplier basicTransactionSupplier = new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings());
         BankTransactionSupplier filteredForSelection = new BankTransactionSuplierFilter(basicTransactionSupplier, this.itemCheckedMap);
-        return new BankTransactionSuplierFilter(filteredForSelection, filter);
+        return new BankTransactionSuplierFilter(filteredForSelection, this.filter);
     }
 
     private List<BankAccountBookings> getBankAccountBookings() {
