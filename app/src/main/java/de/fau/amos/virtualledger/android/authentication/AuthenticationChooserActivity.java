@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.android.authentication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -8,10 +9,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
+import de.fau.amos.virtualledger.android.authentication.registration.RegisterActivity;
 
-/**
- * Created by Georg on 18.06.2017.
- */
 
 public class AuthenticationChooserActivity extends Activity {
     private static final String TAG = AuthenticationChooserActivity.class.getSimpleName();
@@ -28,7 +28,8 @@ public class AuthenticationChooserActivity extends Activity {
 
     @OnClick(R.id.authentication_activity_chooser_demo_workflow_button)
     public void onInitDemoWorkflow() {
-
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.authentication_activity_chooser_oidc_workflow_button)
