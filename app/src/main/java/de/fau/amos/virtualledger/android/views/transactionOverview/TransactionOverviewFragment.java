@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
@@ -37,12 +39,14 @@ import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.calendar.CalendarViewFragment;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSuplierFilter;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplier;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplierImplementation;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.ItemCheckedMap;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionListFragment;
+import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.ByActualMonth;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.CustomFilter;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.FilterByName;
-import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.Last12Months;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.TransactionFilter;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
@@ -64,6 +68,8 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     @Inject
     BankingDataManager bankingDataManager;
 
+    private TransactionFilter filter = new ByActualMonth();
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -75,6 +81,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mainView = inflater.inflate(R.layout.fragment_transaction_overview, container, false);
+        ButterKnife.bind(this, mainView);
 
         final Spinner spinner = (Spinner) mainView.findViewById(R.id.transactionSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mainView.getContext(),
@@ -120,12 +127,11 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                                         String selectionText = dateFormatter.format(chooserDialogContent.getStartCalendar().getTime())//
                                                 + "-" + dateFormatter.format(chooserDialogContent.getEndCalendar().getTime());
                                         selectedTextView.setText(selectionText);
-                                        _this.transactionListFragment.changeFilterTo(//
-                                                new CustomFilter(//
-                                                        chooserDialogContent.getStartCalendar().getTime(),
-                                                        chooserDialogContent.getEndCalendar().getTime()));
+                                        _this.filter = new CustomFilter(//
+                                                chooserDialogContent.getStartCalendar().getTime(),
+                                                chooserDialogContent.getEndCalendar().getTime());
+                                        _this.update(null,null);
                                     }
-
                                 }
                             }
                     )
@@ -133,21 +139,17 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     dialog.dismiss();
-                                    if (selectedTextView != null) {
-                                        spinner.setSelection(0);
-                                        _this.transactionListFragment.changeFilterTo(new Last12Months());
-                                    }
                                 }
                             }
                     );
             builder.setView(chooserDialogContent.onCreateView(getActivity().getLayoutInflater(), null, null));
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-
             return;
         }
         logger().log(Level.INFO, "Direct filter found for " + by);
-        this.transactionListFragment.changeFilterTo(transactionFilter);
+        this.filter = transactionFilter;
+        this.transactionListFragment.pushDataProvider(getBankTransactionSupplier());
     }
 
     private Logger logger() {
@@ -197,7 +199,10 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
     @OnClick(R.id.transaction_overview_calendar_button)
     public void onOpenCalendar() {
-        CalendarViewFragment calendar = CalendarViewFragment.newInstance(this.transactionListFragment.presentedTransactions(), computeBalanceOfCheckedAccounts());
+        this.logger().info("Opening calendar fragment");
+        CalendarViewFragment calendar = CalendarViewFragment.newInstance(
+                getBankTransactionSupplier(),
+                computeBalanceOfCheckedAccounts());
         openFragment(calendar);
     }
 
@@ -230,7 +235,15 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     @Override
     public void update(Observable observable, Object o) {
         this.logger().info("Updateing Transaction Overview Fragment");
-        this.transactionListFragment.pushDataProvider(new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings(), this.itemCheckedMap));
+        this.transactionListFragment.pushDataProvider(getBankTransactionSupplier());
+    }
+
+
+    @NonNull
+    private BankTransactionSupplier getBankTransactionSupplier() {
+        BankTransactionSupplier basicTransactionSupplier = new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings());
+        BankTransactionSupplier filteredForSelection = new BankTransactionSuplierFilter(basicTransactionSupplier, this.itemCheckedMap);
+        return new BankTransactionSuplierFilter(filteredForSelection, this.filter);
     }
 
     private List<BankAccountBookings> getBankAccountBookings() {
@@ -245,7 +258,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     @Override
     public void onResume() {
         this.logger().info("On Resume of Transaction View");
-        this.transactionListFragment.pushDataProvider(new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings(), this.itemCheckedMap));
+        this.transactionListFragment.pushDataProvider(new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings()));
         super.onResume();
     }
 

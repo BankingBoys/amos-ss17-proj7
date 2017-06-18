@@ -76,7 +76,7 @@ public class CaldroidBankingFragment extends CaldroidFragment {
             Booking booking = transactionList.get(i).booking();
             Date date = booking.getDate();
             DateTime exactDateTime = DateTime.forInstant(date.getTime(), TimeZone.getDefault());
-            DateTime dateTime = new DateTime(exactDateTime.getYear(), exactDateTime.getMonth(), exactDateTime.getDay(), new Integer(0), new Integer(0), new Integer(0), new Integer(0));
+            DateTime dateTime = new DateTime(exactDateTime.getYear(), exactDateTime.getMonth(), exactDateTime.getDay(), 0, 0, 0, 0);
 
             BankingDateInformation bankingDateInformation = bankingDateInformationMap.get(dateTime);
             if(bankingDateInformation == null) {

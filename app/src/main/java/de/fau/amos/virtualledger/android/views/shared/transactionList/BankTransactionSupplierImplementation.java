@@ -30,18 +30,15 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
     @Inject
     AuthenticationProvider authenticationProvider;
 
-    private ItemCheckedMap itemCheckedMap;
-
     private List<DataListening> dataListenings = new ArrayList<>();
 
     private ArrayList<Transaction> allBankTransactions = new ArrayList<>();
 
     private List<BankAccountBookings> bankAccountBookingsList;
 
-    public BankTransactionSupplierImplementation(Activity activity, List<BankAccountBookings> bankAccountBookingsList, ItemCheckedMap itemCheckedMap) {
+    public BankTransactionSupplierImplementation(Activity activity, List<BankAccountBookings> bankAccountBookingsList) {
         ((App) activity.getApplication()).getNetComponent().inject(this);
         this.bankAccountBookingsList = bankAccountBookingsList;
-        this.itemCheckedMap = itemCheckedMap;
     }
 
     @Override
@@ -68,36 +65,18 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
     private void onBookingsUpdated() {
         this.logger().info("bookings loaded. Compiling it to transactions");
         this.allBankTransactions.clear();
-        if (this.itemCheckedMap.hasItemsChecked()) {
-            this.logger().info("Filtering bookings");
-            for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
-                for (Booking booking : bankAccountBookings.getBookings()) {
-                    String accountName = bankAccessCredentialDB
-                            .getAccountName(
-                                    authenticationProvider.getEmail(),
-                                    bankAccountBookings.getBankaccessid(),
-                                    bankAccountBookings.getBankaccountid());
-                    if (this.itemCheckedMap.shouldBePresented(bankAccountBookings.getBankaccountid())) {
-                        Transaction transaction = new Transaction(accountName, booking);
-                        this.allBankTransactions.add(transaction);
-                    }
-                }
-            }
+        for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
+            for (Booking booking : bankAccountBookings.getBookings()) {
+                Transaction transaction = new Transaction(
+                        bankAccessCredentialDB
+                                .getAccountName(
+                                        authenticationProvider.getEmail(),
+                                        bankAccountBookings.getBankaccessid(),
+                                        bankAccountBookings.getBankaccountid()),
+                        bankAccountBookings.getBankaccountid(),
+                        booking);
 
-        } else {
-            this.logger().info("taking all transactions");
-            for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
-                for (Booking booking : bankAccountBookings.getBookings()) {
-                    Transaction transaction = new Transaction(
-                            bankAccessCredentialDB
-                                    .getAccountName(
-                                            authenticationProvider.getEmail(),
-                                            bankAccountBookings.getBankaccessid(),
-                                            bankAccountBookings.getBankaccountid()),
-                            booking);
-
-                    this.allBankTransactions.add(transaction);
-                }
+                this.allBankTransactions.add(transaction);
             }
         }
         this.logger().info("Notifying observers: " + dataListenings.size() + " with number of transactions: " + this.allBankTransactions.size());
