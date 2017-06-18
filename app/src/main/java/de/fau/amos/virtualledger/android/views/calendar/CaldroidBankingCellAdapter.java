@@ -67,7 +67,7 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
             amountDelta = bankingDateInformation.getAmountDelta();
             amount = bankingDateInformation.getAmount();
         }
-        final double amountPassed = amount;
+        final double amountPassed = amountDelta;
 
         // load custom cell
         if (convertView == null) {
@@ -100,7 +100,7 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
         cellView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CalenderDayTransactionFragment calenderDayTransactionFragment = CalenderDayTransactionFragment.newInstance(amountPassed);
+                CalenderDayTransactionFragment calenderDayTransactionFragment = CalenderDayTransactionFragment.newInstance(null, amountPassed);
                 openFragment(calenderDayTransactionFragment);
             }
         });
