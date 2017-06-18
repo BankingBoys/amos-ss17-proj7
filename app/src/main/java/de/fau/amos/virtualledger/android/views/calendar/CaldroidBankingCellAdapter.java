@@ -1,5 +1,9 @@
 package de.fau.amos.virtualledger.android.views.calendar;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -15,6 +19,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.android.views.menu.MainMenu;
 import hirondelle.date4j.DateTime;
 
 public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
@@ -94,7 +99,7 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
         cellView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                openFragment(new CalenderDayTransactionFragment());
             }
         });
 
@@ -103,6 +108,20 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
 
         return cellView;
     }
+
+    /**
+     * opens a fragment through replacing another fragment
+     */
+    private void openFragment(Fragment fragment) {
+        if (null != fragment) {
+            FragmentManager fragmentManager = ((Activity) context).getFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.main_menu_content, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
+    }
+
 
     private void styleDefault() {
         dateTextView.setTypeface(Typeface.DEFAULT_BOLD);
