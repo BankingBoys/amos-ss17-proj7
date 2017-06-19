@@ -71,7 +71,6 @@ public class CalenderDayTransactionFragment extends Fragment {
         bundle.putDouble(BUNDLE_PARAMETER_TOTALAMOUNT, totalAmount);
         bundle.putParcelableArrayList(BUNDLE_PARAMETER_TRANSACTIONLIST, new ArrayList<Transaction>(transactionList));
         CalenderDayTransactionFragment fragment = new CalenderDayTransactionFragment();
-        fragment.setTransactionList(transactionList); //temporary solution, transactionList needs to implement Parcelable to pass it in a bundle
         fragment.setArguments(bundle);
 
         return fragment;
