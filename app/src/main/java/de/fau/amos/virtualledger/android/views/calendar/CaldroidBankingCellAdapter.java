@@ -15,11 +15,15 @@ import android.widget.TextView;
 
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.views.menu.MainMenu;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
+import de.fau.amos.virtualledger.dtos.Booking;
 import hirondelle.date4j.DateTime;
 
 public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
@@ -63,10 +67,13 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
         BankingDateInformation bankingDateInformation = this.bankingDateInformationMap.get(dateTime);
         double amountDelta = 0.0;
         double amount = 0.0;
+        List<Transaction> transactionList = new ArrayList<>();
         if(bankingDateInformation != null) {
             amountDelta = bankingDateInformation.getAmountDelta();
             amount = bankingDateInformation.getAmount();
+            transactionList = bankingDateInformation.getTransactions();
         }
+        final List<Transaction> transactionListPassed = transactionList;
         final double amountPassed = amountDelta;
 
         // load custom cell
@@ -100,7 +107,7 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
         cellView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CalenderDayTransactionFragment calenderDayTransactionFragment = CalenderDayTransactionFragment.newInstance(null, amountPassed);
+                CalenderDayTransactionFragment calenderDayTransactionFragment = CalenderDayTransactionFragment.newInstance(transactionListPassed, amountPassed);
                 openFragment(calenderDayTransactionFragment);
             }
         });
