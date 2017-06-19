@@ -92,7 +92,7 @@ public class CalenderDayTransactionFragment extends Fragment {
     }*/
 
     private String getFormatedDouble(double number) {
-        return String.format(Locale.GERMAN, "%.0f", number);
+        return String.format(Locale.GERMAN, "%.2f", number);
     }
 
     private void changeAmountTextColor(double amount_i) {
