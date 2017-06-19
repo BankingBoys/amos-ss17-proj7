@@ -43,11 +43,6 @@ public class CalendarViewFragment extends Fragment implements DataListening {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.calendar_view_fragment, container, false);
         readBundle(getArguments());
@@ -58,8 +53,19 @@ public class CalendarViewFragment extends Fragment implements DataListening {
     @Override
     public void onViewCreated(@Nullable View view, @Nullable Bundle savedInstanceState) {
         this.bankTransactionSupplier.addDataListeningObject(this);
-        this.bankTransactionSupplier.onResume();
         updateCalendar();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.bankTransactionSupplier.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.bankTransactionSupplier.onPause();
     }
 
     private void updateCalendar() {
