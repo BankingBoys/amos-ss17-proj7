@@ -80,11 +80,12 @@ public class CaldroidBankingFragment extends CaldroidFragment {
 
             BankingDateInformation bankingDateInformation = bankingDateInformationMap.get(dateTime);
             if(bankingDateInformation == null) {
-                bankingDateInformation = new BankingDateInformation(dateTime, totalAmount, new ArrayList<Booking>());
+                bankingDateInformation = new BankingDateInformation(dateTime, totalAmount, new ArrayList<Booking>(), new ArrayList<Transaction>());
                 bankingDateInformationMap.put(dateTime, bankingDateInformation);
             }
 
             bankingDateInformation.getBookingList().add(booking);
+            bankingDateInformation.getTransactions().add(transactionList.get(i));
             totalAmount -= booking.getAmount();
         }
     }
