@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.BankingOverviewHandler;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
@@ -95,4 +96,27 @@ public class BankingOverviewHandlerTest {
         Assert.assertEquals(bankAccount2, bankAccounts.get(1));
         Assert.assertEquals(bankAccount3, bankAccounts.get(2));
     }
+
+    @Test
+    public void hasItemsCheckedFalseTest() {
+        HashMap<String, Boolean> testMap = new HashMap<>();
+        testMap.put("1", false);
+        testMap.put("2", false);
+        testMap.put("3", false);
+        testMap.put("4", false);
+        testMap.put("5", false);
+        Assert.assertEquals(false, BankingOverviewHandler.hasItemsChecked(testMap));
+    }
+
+    @Test
+    public void hasItemsCheckedTrueTest() {
+        HashMap<String, Boolean> testMap = new HashMap<>();
+        testMap.put("1", true);
+        testMap.put("2", false);
+        testMap.put("3", false);
+        testMap.put("4", false);
+        testMap.put("5", false);
+        Assert.assertEquals(true, BankingOverviewHandler.hasItemsChecked(testMap));
+    }
+
 }
