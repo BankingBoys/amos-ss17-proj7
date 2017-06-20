@@ -37,6 +37,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     public static final String EXTRA_CHECKED_BANK_ACCOUNTS = "EXTRA_CHECKED_BANK_ACCOUNTS";
     public static final String EXTRA_STARTING_FRAGMENT = "EXTRA_STARTING_FRAGMENT";
+    public static final String EXTRA_RECENT_ACTIVITY_ADD_ACCESS = "EXTRA_RECENT_ACTIVITY_ADD_ACCESS";
 
     private HashMap<String, Boolean> checkedBankAccounts = new HashMap<>();
 
@@ -72,8 +73,10 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         final HashMap<String, Boolean> extraCheckedMap = (HashMap<String, Boolean>) getIntent().getSerializableExtra(EXTRA_CHECKED_BANK_ACCOUNTS);
         checkedBankAccounts = extraCheckedMap != null ? extraCheckedMap : new HashMap<String, Boolean>();
 
+        final boolean currentlyAddedAccess = (Boolean) getIntent().getBooleanExtra(EXTRA_RECENT_ACTIVITY_ADD_ACCESS, false);
+
         final AppFragment extraAppFragment = (AppFragment) getIntent().getSerializableExtra(EXTRA_STARTING_FRAGMENT);
-        switchToFragment(extraAppFragment != null ? extraAppFragment : AppFragment.TRANSACTION_OVERVIEW);
+        switchToFragment(extraAppFragment != null ? extraAppFragment : AppFragment.TRANSACTION_OVERVIEW, currentlyAddedAccess);
     }
 
     private void initializeDrawer() {
@@ -129,7 +132,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     /**
      * Switch to the specified fragment
      */
-    private void switchToFragment(final AppFragment fragment) {
+    private void switchToFragment(final AppFragment fragment, boolean recentlyAddedAccess) {
         switch (fragment) {
             case BANK_ACCESSES:
                 setTitle(getString(R.string.banking_overview_title));
@@ -144,6 +147,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
                 final TransactionOverviewFragment transactionOverviewFragment = new TransactionOverviewFragment();
                 transactionOverviewFragment.setCheckedMap(checkedBankAccounts);
+                transactionOverviewFragment.setRecentlyAddedAccessFlag(recentlyAddedAccess);
                 openFragment(transactionOverviewFragment);
                 break;
             default:
@@ -157,10 +161,10 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.main_menu_nav_bank_accesses:
-                switchToFragment(AppFragment.BANK_ACCESSES);
+                switchToFragment(AppFragment.BANK_ACCESSES, false);
                 break;
             case R.id.main_menu_transaction_overview:
-                switchToFragment(AppFragment.TRANSACTION_OVERVIEW);
+                switchToFragment(AppFragment.TRANSACTION_OVERVIEW, false);
                 break;
             case R.id.main_menu_nav_settings:
                 startActivity(new Intent(MainMenu.this, SettingsActivity.class));
