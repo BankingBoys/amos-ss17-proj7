@@ -12,16 +12,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".android.authentication.login.LoginActivity"
+        <activity android:name=".android.authentication.AuthenticationChooserActivity"
+            android:screenOrientation="portrait"
+            android:label="Virtual Ledger"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".android.authentication.demo.login.LoginActivity"
                   android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".android.authentication.registration.RegisterActivity"
+            android:name=".android.authentication.demo.registration.RegisterActivity"
             android:label="Register"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -35,6 +39,19 @@
             android:name=".android.views.bankingOverview.addBankAccess.AddBankAccessActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".android.views.settings.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".android.authentication.oidc.OidcAuthenticationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
+
+        <service android:name="org.jboss.aerogear.android.authorization.oauth2.OAuth2AuthzService"/>
+
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

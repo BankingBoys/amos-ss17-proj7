@@ -5,33 +5,33 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.dagger.App;
@@ -39,25 +39,34 @@ import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
+import de.fau.amos.virtualledger.android.views.calendar.CalendarViewFragment;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSuplierFilter;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplier;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplierImplementation;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.ItemCheckedMap;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionListFragment;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.ByActualMonth;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.CustomFilter;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.FilterByName;
-import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.Last12Months;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.TransactionFilter;
+import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
-import de.fau.amos.virtualledger.dtos.Booking;
 
 public class TransactionOverviewFragment extends Fragment implements java.util.Observer {
-    private static final String TAG = TransactionOverviewFragment.class.getSimpleName();
-
-    TransactionAdapter adapter;
+    private final static String fragmentTag = "TransactionOverviewFrag";
     private View mainView;
-    ArrayList<Transaction> allTransactions = new ArrayList<>();
-    ArrayList<Transaction> presentedTransactions = new ArrayList<>();
-    private TransactionFilter transactionFilter = new ByActualMonth();
-    private ListView bookingListView;
-    private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
+    private ItemCheckedMap itemCheckedMap = new ItemCheckedMap(new HashMap<String, Boolean>());
+
+    TotalAmountFragment totalAmountFragment;
+
+    private TransactionListFragment transactionListFragment;
+
+    private boolean recentlyAddedAccessFlag;
+
+    @BindView(R.id.transaction_overview_calendar_button)
+    Button calendarButton;
 
     @Inject
     BankAccessCredentialDB bankAccessCredentialDB;
@@ -66,108 +75,21 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     @Inject
     BankingDataManager bankingDataManager;
 
-    private List<BankAccountBookings> bankAccountBookingsList;
+    private TransactionFilter filter = new ByActualMonth();
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
+        this.bankingDataManager.addObserver(this);
 
-        adapter = new TransactionAdapter(getActivity(), R.id.transaction_list, new ArrayList<Transaction>());
-        bookingListView.setAdapter(adapter);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        bankingDataManager.addObserver(this);
-
-        switch (bankingDataManager.getSyncStatus()) {
-            case NOT_SYNCED:
-                bankingDataManager.sync();
-                break;
-            case SYNCED:
-                onBankingDataChanged();
-                break;
-        }
-    }
-
-    private void onBankingDataChanged() {
-        try {
-            bankAccountBookingsList = bankingDataManager.getBankAccountBookings();
-            if ((bankAccountBookingsList == null || bankAccountBookingsList.size() == 0)) {
-                Fragment fragment = new NoBankingAccessesFragment();
-                openFragment(fragment);
-            }
-            onBookingsUpdated();
-
-        } catch (BankingSyncFailedException ex) {
-            Toast.makeText(getActivity(), "Failed connecting to the server, try again later", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void onBookingsUpdated() {
-        allTransactions.clear();
-        presentedTransactions.clear();
-        boolean filter = hasItemsChecked(mappingCheckBoxes);
-        if(filter) {
-            for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
-                for (Booking booking : bankAccountBookings.getBookings()) {
-                    String accountName = bankAccessCredentialDB
-                            .getAccountName(
-                                    authenticationProvider.getEmail(),
-                                    bankAccountBookings.getBankaccessid(),
-                                    bankAccountBookings.getBankaccountid());
-                    if((mappingCheckBoxes.get(accountName) != null) && (mappingCheckBoxes.get(accountName))) {
-                        Transaction transaction = new Transaction(accountName, booking);
-                        this.allTransactions.add(transaction);
-                        this.presentedTransactions.add(transaction);
-                    }
-                }
-            }
-
-        }
-        else {
-            for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
-                for (Booking booking : bankAccountBookings.getBookings()) {
-                    Transaction transaction = new Transaction(
-                            bankAccessCredentialDB
-                                    .getAccountName(
-                                            authenticationProvider.getEmail(),
-                                            bankAccountBookings.getBankaccessid(),
-                                            bankAccountBookings.getBankaccountid()),
-                            booking);
-
-                    this.allTransactions.add(transaction);
-                    this.presentedTransactions.add(transaction);
-                }
-            }
-        }
-        showUpdatedTransactions();
-    }
-
-    void showUpdatedTransactions() {
-        this.adapter.clear();
-        this.presentedTransactions.clear();
-        this.presentedTransactions.addAll(this.allTransactions);
-        for (Transaction actualTransaction : new LinkedList<>(this.presentedTransactions)) {
-            if (this.transactionFilter.shouldBeRemoved(actualTransaction)) {
-                this.presentedTransactions.remove(actualTransaction);
-            }
-        }
-        logger().log(Level.INFO, "Number of presented transactions: " + presentedTransactions.size());
-        for (Transaction actualTransaction : this.presentedTransactions) {
-            this.adapter.add(actualTransaction);
-        }
-        this.adapter.sort(new TransactionsComparator());
-        this.adapter.notifyDataSetChanged();
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mainView = inflater.inflate(R.layout.fragment_transaction_overview, container, false);
-        bookingListView = (ListView) this.mainView.findViewById(R.id.transaction_list);
+        ButterKnife.bind(this, mainView);
 
         final Spinner spinner = (Spinner) mainView.findViewById(R.id.transactionSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mainView.getContext(),
@@ -176,15 +98,6 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         spinner.setAdapter(adapter);
         final TransactionOverviewFragment _this = this;
 
-        /**
-         * Color of the little spinner triangle.
-         * Usually its an image and have to be completly redisigned and recompiled into
-         * all android spinners.
-         * When you do that and you change your master color, all android image icons have to be
-         * recompiled (this is bad)
-         * --> this is a fancy workaround
-         */
-        spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorBankingOverview), PorterDuff.Mode.SRC_ATOP);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -195,12 +108,10 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                     return;
                 }
                 _this.filterTransactions(selectedTextView.getText().toString(), selectedTextView, spinner);
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
         spinner.setSelection(2);
@@ -224,12 +135,11 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                                         String selectionText = dateFormatter.format(chooserDialogContent.getStartCalendar().getTime())//
                                                 + "-" + dateFormatter.format(chooserDialogContent.getEndCalendar().getTime());
                                         selectedTextView.setText(selectionText);
-                                        _this.transactionFilter = new CustomFilter(chooserDialogContent.getStartCalendar().getTime(),
+                                        _this.filter = new CustomFilter(//
+                                                chooserDialogContent.getStartCalendar().getTime(),
                                                 chooserDialogContent.getEndCalendar().getTime());
-                                        _this.showUpdatedTransactions();
-
+                                        _this.update(null,null);
                                     }
-
                                 }
                             }
                     )
@@ -237,24 +147,17 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     dialog.dismiss();
-                                    if (selectedTextView != null) {
-                                        spinner.setSelection(0);
-                                        _this.transactionFilter = new Last12Months();
-                                        _this.showUpdatedTransactions();
-                                    }
                                 }
                             }
                     );
             builder.setView(chooserDialogContent.onCreateView(getActivity().getLayoutInflater(), null, null));
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-
             return;
         }
         logger().log(Level.INFO, "Direct filter found for " + by);
-        this.transactionFilter = transactionFilter;
-
-        this.showUpdatedTransactions();
+        this.filter = transactionFilter;
+        this.transactionListFragment.pushDataProvider(getBankTransactionSupplier());
     }
 
     private Logger logger() {
@@ -265,17 +168,12 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         if (null != fragment) {
             FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.content, fragment);
+            transaction.replace(R.id.main_menu_content, fragment);
             transaction.addToBackStack(null);
             transaction.commit();
         }
     }
 
-
-    @Override
-    public void update(final Observable o, final Object arg) {
-        onBankingDataChanged();
-    }
 
     @Override
     public void onPause() {
@@ -288,24 +186,115 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
         // add total amount fragment programmatically (bad practice in xml -> empty LinearLayout as wrapper)
         FragmentManager fm = getFragmentManager();
-        TotalAmountFragment totalAmountFragment = new TotalAmountFragment();
+        totalAmountFragment = new TotalAmountFragment();
+        totalAmountFragment.setCheckedMap(itemCheckedMap);
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.transaction_overview_total_amount_fragment_wrapper, totalAmountFragment, "transaction_overview_total_amount_fragment");
+        ft.commit();
+
+
+        this.transactionListFragment = new TransactionListFragment();
+
+        fm = getFragmentManager();
+        ft = fm.beginTransaction();
+        ft.add(R.id.transaction_list_placeholder, transactionListFragment, "transaction_overview_total_amount_fragment");
         ft.commit();
     }
 
     public void setCheckedMap(HashMap<String, Boolean> map) {
-        this.mappingCheckBoxes = map;
+        this.itemCheckedMap.update(map);
     }
 
-    public static boolean hasItemsChecked(HashMap<String, Boolean> map) {
-        Boolean ret = false;
-        Iterator iterator = map.entrySet().iterator();
-        while (iterator.hasNext() && !ret) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            ret = (Boolean) entry.getValue();
-        }
-        return ret;
+
+    @OnClick(R.id.transaction_overview_calendar_button)
+    public void onOpenCalendar() {
+        this.logger().info("Opening calendar fragment");
+        double test = computeBalanceOfCheckedAccounts();
+        CalendarViewFragment calendar = CalendarViewFragment.newInstance(
+                getBankTransactionSupplier(),
+                computeBalanceOfCheckedAccounts());
+        openFragment(calendar);
     }
+
+    private double computeBalanceOfCheckedAccounts() {
+        List<BankAccess> bankAccessList = new ArrayList<>();
+        double filteredBalance = 0.0;
+        try {
+            bankAccessList = bankingDataManager.getBankAccesses();
+        } catch (BankingSyncFailedException e) {
+            return 0.0;
+        }
+
+        if (itemCheckedMap.hasItemsChecked()) {
+            for (BankAccess bankAccess : bankAccessList) {
+                for (BankAccount bankAccount : bankAccess.getBankaccounts()) {
+                    if (this.itemCheckedMap.shouldBePresented(bankAccount.getBankid())) {
+                        filteredBalance += bankAccount.getBalance();
+                    }
+                }
+            }
+        } else {
+            for (BankAccess bankAccess : bankAccessList) {
+                filteredBalance += bankAccess.getBalance();
+            }
+        }
+
+        return filteredBalance;
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        this.logger().info("Updateing Transaction Overview Fragment");
+        totalAmountFragment.setCheckedMap(itemCheckedMap);
+        this.transactionListFragment.pushDataProvider(getBankTransactionSupplier());
+
+        checkForEmptyOrNullAccessList();
+    }
+
+
+    @NonNull
+    private BankTransactionSupplier getBankTransactionSupplier() {
+        BankTransactionSupplier basicTransactionSupplier = new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings());
+        BankTransactionSupplier filteredForSelection = new BankTransactionSuplierFilter(basicTransactionSupplier, this.itemCheckedMap);
+        return new BankTransactionSuplierFilter(filteredForSelection, this.filter);
+    }
+
+    private List<BankAccountBookings> getBankAccountBookings() {
+        try {
+            return this.bankingDataManager.getBankAccountBookings();
+        } catch (Exception e) {
+            logger().log(Level.SEVERE, "Exception occured in get account bookings", e);
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public void onResume() {
+        this.logger().info("On Resume of Transaction View");
+        totalAmountFragment.setCheckedMap(itemCheckedMap);
+        this.transactionListFragment.pushDataProvider(new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings()));
+        checkForEmptyOrNullAccessList();
+        super.onResume();
+    }
+
+    private void checkForEmptyOrNullAccessList() {
+        if(!recentlyAddedAccessFlag) {
+            try {
+                List<BankAccess> accessList = bankingDataManager.getBankAccesses();
+                if(accessList == null || accessList.size() == 0) {
+                    openFragment(new NoBankingAccessesFragment());
+                }
+            } catch(Exception e) {
+                Log.e(fragmentTag, "could not fetch bank accounts");
+            }
+        } else {
+            this.recentlyAddedAccessFlag = false;
+        }
+    }
+
+    public void setRecentlyAddedAccessFlag(boolean flag) {
+        this.recentlyAddedAccessFlag = flag;
+    }
+
 }
 

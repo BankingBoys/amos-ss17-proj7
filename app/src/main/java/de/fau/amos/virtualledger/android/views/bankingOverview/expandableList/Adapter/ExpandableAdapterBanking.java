@@ -65,10 +65,10 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mappingCheckBoxes.put(groups.get(groupPosition).children.get(childPosition).getName(), checkBox.isChecked());
+                mappingCheckBoxes.put(groups.get(groupPosition).children.get(childPosition).getBankid(), checkBox.isChecked());
             }
         });
-        final Boolean checkedStatus = mappingCheckBoxes.get(groups.get(groupPosition).children.get(childPosition).getName()) ;
+        final Boolean checkedStatus = mappingCheckBoxes.get(groups.get(groupPosition).children.get(childPosition).getBankid()) ;
         if(checkedStatus != null) {
             checkBox.setChecked(checkedStatus);
         }

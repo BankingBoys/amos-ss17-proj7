@@ -2,27 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
+    android:layout_height="@dimen/banking_overview_expandablelist_group_layout_height"
     android:orientation="horizontal"
-    android:paddingEnd="10dp"
-    android:paddingLeft="15dp"
-    android:paddingRight="10dp"
-    android:paddingStart="15dp">
+    android:paddingEnd="@dimen/banking_overview_expandablelist_group_layout_padding_end_right"
+    android:paddingLeft="@dimen/banking_overview_expandablelist_group_layout_padding_start_left"
+    android:paddingRight="@dimen/banking_overview_expandablelist_group_layout_padding_end_right"
+    android:paddingStart="@dimen/banking_overview_expandablelist_group_layout_padding_start_left">
 
     <CheckedTextView
         android:id="@+id/bankAccessNameView"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/banking_overview_expandablelist_group_layout_height"
         android:layout_weight="1"
         android:gravity="start|bottom"
         android:textColor="@color/colorBankingOverview"
         android:textSize="@dimen/fontSizeExpandableGroup"
-        android:textStyle="bold"></CheckedTextView>
+        android:textStyle="bold">
+        
+    </CheckedTextView>
 
     <TextView
         android:id="@+id/bankAccessBalanceView"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/banking_overview_expandablelist_group_layout_height"
         android:layout_weight="2"
         android:gravity="end|center"
         android:textColor="@color/colorBankingOverview"

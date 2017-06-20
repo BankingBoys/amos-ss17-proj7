@@ -7,6 +7,8 @@
     <dimen name="fontSizeTotalAmountBalance">30sp</dimen>
     <dimen name="spinner_dropdown_item_size">30sp</dimen>
     <dimen name="spinner_item_size">18sp</dimen>
+    <dimen name="fontSizeLoginRegisterFirst">18sp</dimen>
+    <dimen name="fontSizeBankingOverviewNoBankAccess">20sp</dimen>
 
     <dimen name="fontSizeXS">10sp</dimen>
     <dimen name="fontSizeS">13sp</dimen>

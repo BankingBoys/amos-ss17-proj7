@@ -1,4 +1,4 @@
-  #!/bin/bash
+#!/bin/bash
 if [ "$TRAVIS_BRANCH" != "master" ]; then
 	echo "$TRAVIS_BRANCH is not master branch, no push into hockey app"
 	echo "No auto deploy of "$TRAVIS_COMMIT_MESSAGE

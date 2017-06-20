@@ -71,6 +71,7 @@ public class BankingDataManager extends Observable {
             public void accept(@NonNull final Throwable throwable) throws Exception {
                 Log.e(TAG, "Failed getting bankOverview", throwable);
                 bankingSyncFailedException = new BankingSyncFailedException(throwable);
+                onSyncComplete();
             }
         });
     }
@@ -98,17 +99,22 @@ public class BankingDataManager extends Observable {
             @Override
             public void accept(@NonNull final BankAccountSyncResult bankAccountSyncResult) throws Exception {
                 bankAccountBookings = bankAccountSyncResult.getBankaccountbookings();
-                syncStatus = SYNCED;
-                setChanged();
-                notifyObservers();
+                onSyncComplete();
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(@NonNull final Throwable throwable) throws Exception {
                 Log.e(TAG, "Failed getting bookings", throwable);
                 bankingSyncFailedException = new BankingSyncFailedException(throwable);
+                onSyncComplete();
             }
         });
+    }
+
+    private void onSyncComplete() {
+        syncStatus = SYNCED;
+        setChanged();
+        notifyObservers();
     }
 
     /**

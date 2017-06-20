@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/calendar_view_daily_transaction_amount_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/colorBankingOverview"
+            android:textSize="@dimen/fontSizeTotalAmountHeader"
+            android:textStyle="normal"
+            android:text="@string/calendar_view_daily_transaction_aggregated_amount" />
+
+        <TextView
+            android:id="@+id/calendar_view_daily_transaction_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/colorBankingOverview"
+            android:textSize="@dimen/fontSizeTotalAmountBalance"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/calendar_view_daily_transaction_separator"
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorBankingOverview"
+            android:visibility="visible">
+        </View>
+
+        <ListView
+            android:id="@+id/calender_view_transaction_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1" />
+
+</LinearLayout>

@@ -25,6 +25,5 @@
     android:layout_height="wrap_content"
     android:textColor="@color/colorBankingOverview"
     android:textSize="@dimen/spinner_dropdown_item_size"
-    android:backgroundTint="@color/caldroid_black"
     android:background="@drawable/button_border"
     android:ellipsize="marquee"/>

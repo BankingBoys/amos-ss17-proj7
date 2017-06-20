@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.authentication.login;
+package de.fau.amos.virtualledger.android.authentication.demo.login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.views.menu.MainMenu;
-import de.fau.amos.virtualledger.android.authentication.registration.RegisterActivity;
+import de.fau.amos.virtualledger.android.authentication.demo.registration.RegisterActivity;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;

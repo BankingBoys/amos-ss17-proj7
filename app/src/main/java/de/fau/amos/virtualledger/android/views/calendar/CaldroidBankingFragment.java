@@ -1,45 +1,92 @@
 package de.fau.amos.virtualledger.android.views.calendar;
 
-import android.widget.Toast;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.inject.Inject;
+import java.util.TimeZone;
 
 import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.android.data.BankingDataManager;
-import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
-import de.fau.amos.virtualledger.dtos.BankAccountBookings;
-
-/**
- * Created by Georg on 10.06.2017.
- */
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionsComparator;
+import de.fau.amos.virtualledger.dtos.Booking;
+import hirondelle.date4j.DateTime;
 
 public class CaldroidBankingFragment extends CaldroidFragment {
 
-    @Inject
-    BankingDataManager bankingDataManager;
+    private static final String BUNDLE_PARAMETER_TRANSACTIONLIST = "transactionlist";
+    private static final String BUNDLE_PARAMETER_TOTALAMOUNT = "totalamount";
 
-    private List<BankAccountBookings> bankAccountBookingsList;
+    private HashMap<DateTime, BankingDateInformation> bankingDateInformationMap;
+    List<Transaction> transactionList;
+    private double totalAmount;
+
+    public static CaldroidBankingFragment newInstance(int month, int year, List<Transaction> transactionList, double totalAmount) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST, new ArrayList<Transaction>(transactionList));
+        bundle.putDouble(CaldroidBankingFragment.BUNDLE_PARAMETER_TOTALAMOUNT, totalAmount);
+        bundle.putInt(CaldroidFragment.MONTH, month);
+        bundle.putInt(CaldroidFragment.YEAR, year);
+        CaldroidBankingFragment fragment = new CaldroidBankingFragment();
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
+    private void readBundle(Bundle bundle) {
+        if (bundle != null) {
+            transactionList = bundle.getParcelableArrayList(CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST);
+            totalAmount = bundle.getDouble(CaldroidBankingFragment.BUNDLE_PARAMETER_TOTALAMOUNT);
+        } else {
+            throw new InvalidParameterException("No data found in bundle! Please check if you instantiate CaldroidBankingFragment with " + CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST + " and " + CaldroidBankingFragment.BUNDLE_PARAMETER_TOTALAMOUNT + " !");
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        readBundle(getArguments());
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        return view;
+    }
 
     @Override
     public CaldroidGridAdapter getNewDatesGridAdapter(int month, int year) {
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
         init();
-        return new CaldroidBankingCellAdapter(getContext(), month, year, getCaldroidData(), getExtraData(), bankAccountBookingsList);
+
+        return new CaldroidBankingCellAdapter(getContext(), month, year, getCaldroidData(), getExtraData(), bankingDateInformationMap );
     }
 
     private void init() {
-        try {
-            bankAccountBookingsList = bankingDataManager.getBankAccountBookings();
-            if ((bankAccountBookingsList == null || bankAccountBookingsList.size() == 0)) {
-                //do nothing
+        bankingDateInformationMap = new HashMap<>();
+        Collections.sort(transactionList, new TransactionsComparator());
+
+        for(int i = 0; i < transactionList.size(); ++i) {
+            Booking booking = transactionList.get(i).booking();
+            Date date = booking.getDate();
+            DateTime exactDateTime = DateTime.forInstant(date.getTime(), TimeZone.getDefault());
+            DateTime dateTime = new DateTime(exactDateTime.getYear(), exactDateTime.getMonth(), exactDateTime.getDay(), 0, 0, 0, 0);
+
+            BankingDateInformation bankingDateInformation = bankingDateInformationMap.get(dateTime);
+            if(bankingDateInformation == null) {
+                bankingDateInformation = new BankingDateInformation(dateTime, totalAmount, new ArrayList<Booking>(), new ArrayList<Transaction>());
+                bankingDateInformationMap.put(dateTime, bankingDateInformation);
             }
-        } catch (BankingSyncFailedException ex) {
-            Toast.makeText(getActivity(), "Failed connecting to the server, try again later", Toast.LENGTH_LONG).show();
+
+            bankingDateInformation.getBookingList().add(booking);
+            bankingDateInformation.getTransactions().add(transactionList.get(i));
+            totalAmount -= booking.getAmount();
         }
     }
 }

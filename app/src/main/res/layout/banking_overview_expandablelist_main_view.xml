@@ -9,7 +9,7 @@
     >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/banking_overview_expandablelist_main_view_layout_height"
         android:layout_weight="0.95"
         android:orientation="vertical"
         >
@@ -24,7 +24,7 @@
             android:id="@+id/banking_overview_enable_all_accounts_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/banking_overview_expandablelist_main_view_checkbox_margin_top"
             android:gravity="center"
             android:theme="@style/bankingOverviewCheckBox"
             android:textColor="@color/colorBankingOverview"
@@ -47,15 +47,15 @@
         android:id="@+id/banking_overview_finishButton"
         android:layout_width="match_parent"
         android:layout_weight="0.05"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp"
-        android:layout_height="0dp"
-        android:background="#f08080"
+        android:layout_marginTop="@dimen/banking_overview_expandablelist_main_view_button_margin_top_bottom"
+        android:layout_marginBottom="@dimen/banking_overview_expandablelist_main_view_button_margin_top_bottom"
+        android:layout_height="@dimen/banking_overview_expandablelist_main_view_button_height"
+        android:background="@color/colorBankingOverviewButton"
         android:text="@string/banking_overview_finish_selecting_accounts_button_text"
         android:textColor="@android:color/background_light"
-        android:layout_marginLeft="100dp"
-        android:layout_marginRight="100dp"
-        android:padding="2dp"
+        android:layout_marginLeft="@dimen/banking_overview_expandablelist_main_view_button_margin_left_right"
+        android:layout_marginRight="@dimen/banking_overview_expandablelist_main_view_button_margin_left_right"
+        android:padding="@dimen/banking_overview_expandablelist_main_view_button_padding"
         android:layout_gravity="bottom"
         />
 

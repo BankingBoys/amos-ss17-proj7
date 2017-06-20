@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="authentication_login_title_margin_top">40dp</dimen>
+    <dimen name="authentication_login_button_margin_side">16dp</dimen>
+    <dimen name="authentication_login_text_field_register_margin_bottom">10dp</dimen>
+    <dimen name="authentication_login_text_field_register_margin_top">20dp</dimen>
+    <dimen name="authentication_login_check_box_margin_left">10dp</dimen>
+    <dimen name="authentication_register_title_margin_top">30dp</dimen>
+    <dimen name="authentication_register_text_field_name_margin_top">70dp</dimen>
+    <dimen name="authentication_register_button_width">350dp</dimen>
+
+    <dimen name="main_menu_image_view_width">40dp</dimen>
+    <dimen name="main_menu_image_view_height">40dp</dimen>
+    <dimen name="main_menu_image_view_magin_left">10dp</dimen>
+    <dimen name="main_menu_text_view_margin_left">10dp</dimen>
+
+    <dimen name="banking_overview_expandablelist_detail_layout_height">50dp</dimen>
+    <dimen name="banking_overview_expandablelist_detail_layout_margin_top">5dp</dimen>
+    <dimen name="banking_overview_expandablelist_detail_layout_padding_start_left">30dp</dimen>
+    <dimen name="banking_overview_expandablelist_detail_layout_padding_end_right">10dp</dimen>
+    <dimen name="banking_overview_expandablelist_detail_partial_layout_height">40dp</dimen>
+    <dimen name="banking_overview_expandablelist_detail_accountname_margin_start_left">10dp</dimen>
+    <dimen name="banking_overview_expandablelist_detail_text_fields_height">30dp</dimen>
+    <dimen name="banking_overview_expandablelist_detail_seperator_height">1dp</dimen>
+
+    <dimen name="banking_overview_expandablelist_group_layout_height">40dp</dimen>
+    <dimen name="banking_overview_expandablelist_group_layout_padding_start_left">15dp</dimen>
+    <dimen name="banking_overview_expandablelist_group_layout_padding_end_right">10dp</dimen>
+
+    <dimen name="banking_overview_expandablelist_main_view_layout_height">0dp</dimen>
+    <dimen name="banking_overview_expandablelist_main_view_checkbox_margin_top">5dp</dimen>
+    <dimen name="banking_overview_expandablelist_main_view_button_margin_top_bottom">3dp</dimen>
+    <dimen name="banking_overview_expandablelist_main_view_button_height">0dp</dimen>
+    <dimen name="banking_overview_expandablelist_main_view_button_margin_left_right">100dp</dimen>
+    <dimen name="banking_overview_expandablelist_main_view_button_padding">2dp</dimen>
+
+    <dimen name="banking_overview_no_bank_accesses_button_margin_bottom">30dp</dimen>
+    <dimen name="banking_overview_no_bank_accesses_button_margin_left_right">16dp</dimen>
+
+    <dimen name="main_menu_sliding_tab_list_view_width">150dp</dimen>
+</resources>

@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.view.ContextThemeWrapper;
 
-import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessAccount.functions.BiConsumer;
 import de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessAccount.functions.BiFunction;
 import de.fau.amos.virtualledger.dtos.BankAccess;
@@ -48,8 +46,7 @@ public class DeleteDialog {
      * shows the popup
      */
     public void show() {
-        ContextThemeWrapper ctw = new ContextThemeWrapper(this.context, R.style.AlternativeAltertDialogTheme);
-        AlertDialog.Builder alert = new AlertDialog.Builder(ctw);
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("DELETE CONFIRMATION");
         alert.setMessage("Are you sure to delete " + this.getName.apply(bankAccess, bankAccount)+"?");
         alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {

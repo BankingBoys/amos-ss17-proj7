@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.authentication.login.LoginActivity;
+import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

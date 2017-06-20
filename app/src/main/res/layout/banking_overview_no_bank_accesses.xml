@@ -12,21 +12,21 @@
         android:gravity="center_vertical|center_horizontal"
         android:text="@string/banking_overview_no_bank_access_text"
         android:textColor="@color/colorBankingOverview"
-        android:textSize="20sp"
+        android:textSize="@dimen/fontSizeBankingOverviewNoBankAccess"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/banking_overview_no_bank_access_button_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="30dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginBottom="@dimen/banking_overview_no_bank_accesses_button_margin_bottom"
+        android:layout_marginLeft="@dimen/banking_overview_no_bank_accesses_button_margin_left_right"
+        android:layout_marginRight="@dimen/banking_overview_no_bank_accesses_button_margin_left_right"
         android:layout_weight="2"
         android:background="@color/colorBankingOverview"
         android:text="@string/banking_overview_no_bank_access_button_text"
         android:textColor="@android:color/background_light"
-        android:textSize="20sp"
+        android:textSize="@dimen/fontSizeBankingOverviewNoBankAccess"
         android:textStyle="bold"
 
         />
