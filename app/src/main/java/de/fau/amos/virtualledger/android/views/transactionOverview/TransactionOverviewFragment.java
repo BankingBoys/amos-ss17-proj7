@@ -61,6 +61,8 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
     private TransactionListFragment transactionListFragment;
 
+    private boolean recentlyAddedAccessFlag;
+
     @BindView(R.id.transaction_overview_calendar_button)
     Button calendarButton;
 
@@ -269,14 +271,22 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     }
 
     private void checkForEmptyOrNullAccessList() {
-        try {
-            List<BankAccess> accessList = bankingDataManager.getBankAccesses();
-            if(accessList == null || accessList.size() == 0) {
-                openFragment(new NoBankingAccessesFragment());
+        if(!recentlyAddedAccessFlag) {
+            try {
+                List<BankAccess> accessList = bankingDataManager.getBankAccesses();
+                if(accessList == null || accessList.size() == 0) {
+                    openFragment(new NoBankingAccessesFragment());
+                }
+            } catch(Exception e) {
+                Log.e(fragmentTag, "could not fetch bank accounts");
             }
-        } catch(Exception e) {
-            Log.e(fragmentTag, "could not fetch bank accounts");
+        } else {
+            this.recentlyAddedAccessFlag = false;
         }
+    }
+
+    public void setRecentlyAddedAccessFlag(boolean flag) {
+        this.recentlyAddedAccessFlag = flag;
     }
 
 }
