@@ -76,5 +76,23 @@ public class BankingOverviewHandlerTest {
         Assert.assertEquals(bankAccess3, bankAccesses.get(2));
 
     }
-    
+
+    @Test
+    public void sortAccountTest() {
+        List<BankAccount> bankAccounts = new ArrayList<>();
+        BankAccount bankAccount1 = new BankAccount("1", "a", 0);
+        BankAccount bankAccount2 = new BankAccount("2", "b", 0);
+        BankAccount bankAccount3 = new BankAccount("3", "c", 0);
+
+        bankAccounts.add(bankAccount2);
+        bankAccounts.add(bankAccount1);
+        bankAccounts.add(bankAccount3);
+
+        BankingOverviewHandler handler = BankingOverviewHandler.getInstance();
+        handler.sortAccounts(bankAccounts);
+
+        Assert.assertEquals(bankAccount1, bankAccounts.get(0));
+        Assert.assertEquals(bankAccount2, bankAccounts.get(1));
+        Assert.assertEquals(bankAccount3, bankAccounts.get(2));
+    }
 }
