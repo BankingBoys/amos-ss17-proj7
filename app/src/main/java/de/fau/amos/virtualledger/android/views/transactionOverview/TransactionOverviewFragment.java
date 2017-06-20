@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
+import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.views.calendar.CalendarViewFragment;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSuplierFilter;
@@ -53,6 +55,7 @@ import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 
 public class TransactionOverviewFragment extends Fragment implements java.util.Observer {
+    private final static String fragmentTag = "TransactionOverviewFrag";
     private View mainView;
     private ItemCheckedMap itemCheckedMap = new ItemCheckedMap(new HashMap<String, Boolean>());
 
@@ -75,6 +78,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         super.onActivityCreated(savedInstanceState);
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
         this.bankingDataManager.addObserver(this);
+
     }
 
 
@@ -236,6 +240,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     public void update(Observable observable, Object o) {
         this.logger().info("Updateing Transaction Overview Fragment");
         this.transactionListFragment.pushDataProvider(getBankTransactionSupplier());
+        checkForEmptyOrNullAccessList();
     }
 
 
@@ -259,7 +264,19 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     public void onResume() {
         this.logger().info("On Resume of Transaction View");
         this.transactionListFragment.pushDataProvider(new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings()));
+        checkForEmptyOrNullAccessList();
         super.onResume();
+    }
+
+    private void checkForEmptyOrNullAccessList() {
+        try {
+            List<BankAccess> accessList = bankingDataManager.getBankAccesses();
+            if(accessList == null || accessList.size() == 0) {
+                openFragment(new NoBankingAccessesFragment());
+            }
+        } catch(Exception e) {
+            Log.e(fragmentTag, "could not fetch bank accounts");
+        }
     }
 
 }
