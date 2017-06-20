@@ -59,6 +59,8 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     private View mainView;
     private ItemCheckedMap itemCheckedMap = new ItemCheckedMap(new HashMap<String, Boolean>());
 
+    TotalAmountFragment totalAmountFragment;
+
     private TransactionListFragment transactionListFragment;
 
     private boolean recentlyAddedAccessFlag;
@@ -184,7 +186,8 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
         // add total amount fragment programmatically (bad practice in xml -> empty LinearLayout as wrapper)
         FragmentManager fm = getFragmentManager();
-        TotalAmountFragment totalAmountFragment = new TotalAmountFragment();
+        totalAmountFragment = new TotalAmountFragment();
+        totalAmountFragment.setCheckedMap(itemCheckedMap);
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.transaction_overview_total_amount_fragment_wrapper, totalAmountFragment, "transaction_overview_total_amount_fragment");
         ft.commit();
@@ -206,6 +209,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     @OnClick(R.id.transaction_overview_calendar_button)
     public void onOpenCalendar() {
         this.logger().info("Opening calendar fragment");
+        double test = computeBalanceOfCheckedAccounts();
         CalendarViewFragment calendar = CalendarViewFragment.newInstance(
                 getBankTransactionSupplier(),
                 computeBalanceOfCheckedAccounts());
@@ -225,7 +229,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
             for (BankAccess bankAccess : bankAccessList) {
                 for (BankAccount bankAccount : bankAccess.getBankaccounts()) {
                     if (this.itemCheckedMap.shouldBePresented(bankAccount.getBankid())) {
-                        filteredBalance += bankAccess.getBalance();
+                        filteredBalance += bankAccount.getBalance();
                     }
                 }
             }
@@ -241,7 +245,9 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     @Override
     public void update(Observable observable, Object o) {
         this.logger().info("Updateing Transaction Overview Fragment");
+        totalAmountFragment.setCheckedMap(itemCheckedMap);
         this.transactionListFragment.pushDataProvider(getBankTransactionSupplier());
+
         checkForEmptyOrNullAccessList();
     }
 
@@ -265,6 +271,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     @Override
     public void onResume() {
         this.logger().info("On Resume of Transaction View");
+        totalAmountFragment.setCheckedMap(itemCheckedMap);
         this.transactionListFragment.pushDataProvider(new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings()));
         checkForEmptyOrNullAccessList();
         super.onResume();
