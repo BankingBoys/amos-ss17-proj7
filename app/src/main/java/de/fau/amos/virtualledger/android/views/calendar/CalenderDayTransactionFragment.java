@@ -17,7 +17,6 @@ import java.util.Locale;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionAdapter;
-import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionListFragment;
 
 /**
  * Created by Simon on 18.06.2017.
@@ -38,10 +37,9 @@ public class CalenderDayTransactionFragment extends Fragment {
 
     List<Transaction> transactionList= new ArrayList<>();
 
-    TransactionListFragment transactionListFragment;
-
-    private BankingDateInformation bankingDateInformation;
-
+    /**
+     *
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -56,6 +54,9 @@ public class CalenderDayTransactionFragment extends Fragment {
         bookingListView.setAdapter(adapter);
     }
 
+    /**
+     *
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +66,9 @@ public class CalenderDayTransactionFragment extends Fragment {
         return this.view;
     }
 
+    /**
+     *
+     */
     public static CalenderDayTransactionFragment newInstance(List<Transaction> transactionList, double totalAmount) {
         Bundle bundle = new Bundle();
         bundle.putDouble(BUNDLE_PARAMETER_TOTALAMOUNT, totalAmount);
@@ -75,24 +79,23 @@ public class CalenderDayTransactionFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     *
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     }
 
-    public void setBankingDateInformation(BankingDateInformation bankingDateInformation) {
-        this.bankingDateInformation = bankingDateInformation;
-    }
-
- /*   @NonNull
-    private BankTransactionSupplier getBankTransactionSupplier() {
-        BankTransactionSupplier basicTransactionSupplier = new BankTransactionSupplierImplementation(this.getActivity(), bankAccountBookingsList);
-        return basicTransactionSupplier;
-    }*/
-
+    /**
+     *
+     */
     private String getFormatedDouble(double number) {
         return String.format(Locale.GERMAN, "%.2f", number);
     }
 
+    /**
+     *
+     */
     private void changeAmountTextColor(double amount_i) {
         if (amount_i < 0) {
             int redColor = ContextCompat.getColor(view.getContext(), R.color.colorNegativeAmount);
@@ -106,6 +109,9 @@ public class CalenderDayTransactionFragment extends Fragment {
         }
     }
 
+    /**
+     *
+     */
     public void setTransactionList(List<Transaction> transactionList) {
         this.transactionList = transactionList;
     }
