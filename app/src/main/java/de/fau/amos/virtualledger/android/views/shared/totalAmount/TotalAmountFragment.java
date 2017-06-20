@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
@@ -23,7 +25,9 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.ItemCheckedMap;
 import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccount;
 
 /**
  * Created by Georg on 09.06.2017.
@@ -32,6 +36,8 @@ import de.fau.amos.virtualledger.dtos.BankAccess;
 public class TotalAmountFragment extends Fragment implements Observer{
 
     private static final String TAG = TotalAmountFragment.class.getSimpleName();
+
+    private ItemCheckedMap itemCheckedMap = new ItemCheckedMap(new HashMap<String, Boolean>());
 
     @BindView(R.id.total_amount_balance)
     TextView totalBalanceText;
@@ -76,15 +82,36 @@ public class TotalAmountFragment extends Fragment implements Observer{
     private void onBankingDataChanged() {
         try {
             List<BankAccess> bankAccessList = bankingDataManager.getBankAccesses();
-            double totalAmountSum = 0.0;
-            for(BankAccess bankAccess : bankAccessList)
-            {
-                totalAmountSum += bankAccess.getBalance();
-            }
+            double totalAmountSum = computeBalanceOfCheckedAccounts();
             setTotalBalance(totalAmountSum);
         } catch (BankingSyncFailedException ex) {
             Toast.makeText(getActivity(), "Failed connecting to the server, try again later", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private double computeBalanceOfCheckedAccounts() {
+        List<BankAccess> bankAccessList = new ArrayList<>();
+        double filteredBalance = 0.0;
+        try {
+            bankAccessList = bankingDataManager.getBankAccesses();
+        } catch (BankingSyncFailedException e) {
+            return 0.0;
+        }
+
+        if (itemCheckedMap.hasItemsChecked()) {
+            for (BankAccess bankAccess : bankAccessList) {
+                for (BankAccount bankAccount : bankAccess.getBankaccounts()) {
+                    if (this.itemCheckedMap.shouldBePresented(bankAccount.getBankid())) {
+                        filteredBalance += bankAccount.getBalance();
+                    }
+                }
+            }
+        } else {
+            for (BankAccess bankAccess : bankAccessList) {
+                filteredBalance += bankAccess.getBalance();
+            }
+        }
+        return filteredBalance;
     }
 
     private void changeColorOfBalance(double balance) {
@@ -109,5 +136,9 @@ public class TotalAmountFragment extends Fragment implements Observer{
         String bankBalanceString = String.format(Locale.GERMAN, "%.2f", totalBalance);
         changeColorOfBalance(totalBalance);
         totalBalanceText.setText(bankBalanceString);
+    }
+
+    public void setCheckedMap(ItemCheckedMap itemCheckedMap) {
+        this.itemCheckedMap = itemCheckedMap;
     }
 }
