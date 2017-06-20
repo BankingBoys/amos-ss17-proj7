@@ -3,10 +3,14 @@ package de.fau.amos.virtualledger.android.views.bankingOverview;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.BankingOverviewHandler;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
+import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccount;
 
 /**
  * Created by Simon on 13.06.2017.
@@ -53,4 +57,24 @@ public class BankingOverviewHandlerTest {
         Assert.assertEquals(map.get("test4"), false);
     }
 
+    @Test
+    public void sortAccessesTest() {
+        List<BankAccess> bankAccesses = new ArrayList<>();
+        BankAccess bankAccess1 = new BankAccess("1","a","1","1");
+        BankAccess bankAccess2 = new BankAccess("2","b","2","2");
+        BankAccess bankAccess3 = new BankAccess("3","c","3","3");
+
+        bankAccesses.add(bankAccess3);
+        bankAccesses.add(bankAccess1);
+        bankAccesses.add(bankAccess2);
+
+        BankingOverviewHandler handler = BankingOverviewHandler.getInstance();
+        bankAccesses = handler.sortAccesses(bankAccesses);
+
+        Assert.assertEquals(bankAccess1, bankAccesses.get(0));
+        Assert.assertEquals(bankAccess2, bankAccesses.get(1));
+        Assert.assertEquals(bankAccess3, bankAccesses.get(2));
+
+    }
+    
 }
