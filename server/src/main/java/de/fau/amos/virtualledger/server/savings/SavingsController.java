@@ -20,6 +20,7 @@ public class SavingsController {
 
     public void addSavingAccount(String email, SavingsAccount savingsAccount) throws SavingsException {
 
+        savingsAccount.setId("SavingsAccountId" + savingsAccountList.size());
         savingsAccountList.add(savingsAccount);
     }
 }
