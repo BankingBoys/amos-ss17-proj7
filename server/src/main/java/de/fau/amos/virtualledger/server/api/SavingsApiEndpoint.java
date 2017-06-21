@@ -23,6 +23,11 @@ public class SavingsApiEndpoint {
 
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    /**
+     * Gets all available saving accounts to the authenticated user
+     * @param securityContext
+     * @return
+     */
     @GET
     @Secured
     @Produces(MediaType.APPLICATION_JSON)
@@ -37,6 +42,12 @@ public class SavingsApiEndpoint {
         return this.getSavingAccounts(email);
     }
 
+    /**
+     * Does the logic for getting all saving accounts to a specific user.
+     * Handles exceptions and returns corresponding response codes.
+     * @param email
+     * @return
+     */
     private Response getSavingAccounts(String email) {
         List<SavingsAccount> savingsAccountList = new ArrayList<>();
         for(int i = 0; i < 5; ++i) {
