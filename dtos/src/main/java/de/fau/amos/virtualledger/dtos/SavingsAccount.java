@@ -38,4 +38,24 @@ public class SavingsAccount {
     public Date getFinaldate() {
         return finaldate;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setGoalbalance(double goalbalance) {
+        this.goalbalance = goalbalance;
+    }
+
+    public void setCurrentbalance(double currentbalance) {
+        this.currentbalance = currentbalance;
+    }
+
+    public void setFinaldate(Date finaldate) {
+        this.finaldate = finaldate;
+    }
 }
