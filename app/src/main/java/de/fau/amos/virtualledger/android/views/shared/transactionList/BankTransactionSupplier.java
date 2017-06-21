@@ -14,5 +14,8 @@ public interface BankTransactionSupplier {
 
     void addDataListeningObject(DataListening observer);
 
+
+    void deregister(DataListening observer);
+
     void onPause();
 }

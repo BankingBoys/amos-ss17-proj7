@@ -89,6 +89,11 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
     }
 
     @Override
+    public void deregister(DataListening observer) {
+        this.dataListenings.remove(observer);
+    }
+
+    @Override
     public void onPause() {
         this.logger().log(Level.INFO, "De-Registering from bank data manager");
         this.bankingDataManager.deleteObserver(this);
