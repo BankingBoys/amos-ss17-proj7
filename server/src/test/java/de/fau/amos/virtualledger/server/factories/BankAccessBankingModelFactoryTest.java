@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.server.factories;
 
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
+import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,7 +14,7 @@ public class BankAccessBankingModelFactoryTest {
     public void createTest () {
         BankAccessBankingModelFactory bankAccessBankingModelFactory = new BankAccessBankingModelFactory();
         BankAccessCredential credential = new BankAccessCredential("test", "test", "test");
-        bankAccessBankingModelFactory.createBankAccessBankingModel("1", credential);
-        Assert.assertNotNull(bankAccessBankingModelFactory);
+        BankAccessBankingModel testModel = bankAccessBankingModelFactory.createBankAccessBankingModel("1", credential);
+        Assert.assertNotNull(testModel);
     }
 }
