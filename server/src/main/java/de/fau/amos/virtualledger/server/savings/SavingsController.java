@@ -18,8 +18,8 @@ public class SavingsController {
         return savingsAccountList;
     }
 
-    private void addSavingAccount(String email, SavingsAccount savingsAccount) {
-        
+    private void addSavingAccount(String email, SavingsAccount savingsAccount) throws SavingsException {
+
         savingsAccountList.add(savingsAccount);
     }
 }
