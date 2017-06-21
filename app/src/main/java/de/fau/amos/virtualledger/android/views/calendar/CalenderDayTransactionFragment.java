@@ -1,6 +1,8 @@
 package de.fau.amos.virtualledger.android.views.calendar;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -10,13 +12,12 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplier;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionAdapter;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionListFragment;
 
 /**
  * Created by Simon on 18.06.2017.
@@ -25,7 +26,8 @@ import de.fau.amos.virtualledger.android.views.shared.transactionList.Transactio
 public class CalenderDayTransactionFragment extends Fragment {
 
     private static final String BUNDLE_PARAMETER_TOTALAMOUNT = "totalamount";
-    private static final String BUNDLE_PARAMETER_TRANSACTIONLIST = "transactionList";
+    private TransactionListFragment transactionListFragment;
+    private BankTransactionSupplier bankTransactionSupplier;
 
     TransactionAdapter adapter;
 
@@ -34,8 +36,6 @@ public class CalenderDayTransactionFragment extends Fragment {
     TextView amount;
 
     View view;
-
-    List<Transaction> transactionList= new ArrayList<>();
 
     /**
      *
@@ -48,9 +48,7 @@ public class CalenderDayTransactionFragment extends Fragment {
         if(bundle!=null) {
             amount.setText(getFormatedDouble(amountBundle));
             changeAmountTextColor(amountBundle);
-            this.transactionList = bundle.getParcelableArrayList(BUNDLE_PARAMETER_TRANSACTIONLIST);
         }
-        adapter = new TransactionAdapter(getActivity(), R.id.transaction_list, new ArrayList<>(transactionList));
         bookingListView.setAdapter(adapter);
     }
 
@@ -61,7 +59,16 @@ public class CalenderDayTransactionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         this.view = inflater.inflate(R.layout.calendar_view_daily_transactions, container, false);
-        bookingListView = (ListView) this.view.findViewById(R.id.calender_view_transaction_list);
+
+
+        FragmentManager fragmentManager = this.getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        this.transactionListFragment= new TransactionListFragment();
+        this.transactionListFragment.pushDataProvider(this.bankTransactionSupplier);
+        fragmentTransaction.replace(R.id.calender_view_transaction_list, transactionListFragment);
+        fragmentTransaction.commit();
+
+
         amount = (TextView) view.findViewById(R.id.calendar_view_daily_transaction_amount);
         return this.view;
     }
@@ -69,14 +76,32 @@ public class CalenderDayTransactionFragment extends Fragment {
     /**
      *
      */
-    public static CalenderDayTransactionFragment newInstance(List<Transaction> transactionList, double totalAmount) {
+    public static CalenderDayTransactionFragment newInstance(BankTransactionSupplier transactionSupplier, double totalAmount) {
         Bundle bundle = new Bundle();
         bundle.putDouble(BUNDLE_PARAMETER_TOTALAMOUNT, totalAmount);
-        bundle.putParcelableArrayList(BUNDLE_PARAMETER_TRANSACTIONLIST, new ArrayList<Transaction>(transactionList));
         CalenderDayTransactionFragment fragment = new CalenderDayTransactionFragment();
         fragment.setArguments(bundle);
-
+        fragment.pushTransactionSupplier(transactionSupplier);
         return fragment;
+    }
+
+    private void pushTransactionSupplier(BankTransactionSupplier transactionSupplier){
+        this.bankTransactionSupplier = transactionSupplier;
+        if(this.transactionListFragment != null){
+            this.transactionListFragment.pushDataProvider(this.bankTransactionSupplier);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.transactionListFragment.onPause();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        this.transactionListFragment.onResume();
     }
 
     /**
@@ -108,14 +133,4 @@ public class CalenderDayTransactionFragment extends Fragment {
             amount.setTextColor(greenColor);
         }
     }
-
-    /**
-     *
-     */
-    public void setTransactionList(List<Transaction> transactionList) {
-        this.transactionList = transactionList;
-    }
-
-
-
 }

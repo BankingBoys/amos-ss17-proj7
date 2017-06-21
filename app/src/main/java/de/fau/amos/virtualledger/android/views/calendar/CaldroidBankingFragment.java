@@ -9,46 +9,47 @@ import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.TimeZone;
 
 import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSuplierFilter;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplier;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
-import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionsComparator;
+import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.OneDayFilter;
 import de.fau.amos.virtualledger.dtos.Booking;
 import hirondelle.date4j.DateTime;
 
 public class CaldroidBankingFragment extends CaldroidFragment {
 
-    private static final String BUNDLE_PARAMETER_TRANSACTIONLIST = "transactionlist";
     private static final String BUNDLE_PARAMETER_TOTALAMOUNT = "totalamount";
 
     private HashMap<DateTime, BankingDateInformation> bankingDateInformationMap;
-    List<Transaction> transactionList;
+    private BankTransactionSupplier bankTransactionSupplier;
     private double totalAmount;
 
-    public static CaldroidBankingFragment newInstance(int month, int year, List<Transaction> transactionList, double totalAmount) {
+    public static CaldroidBankingFragment newInstance(int month, int year, BankTransactionSupplier bankTransactionSupplier, double totalAmount) {
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST, new ArrayList<Transaction>(transactionList));
         bundle.putDouble(CaldroidBankingFragment.BUNDLE_PARAMETER_TOTALAMOUNT, totalAmount);
         bundle.putInt(CaldroidFragment.MONTH, month);
         bundle.putInt(CaldroidFragment.YEAR, year);
         CaldroidBankingFragment fragment = new CaldroidBankingFragment();
         fragment.setArguments(bundle);
+        fragment.pushBankTransactionSupplier(bankTransactionSupplier);
 
         return fragment;
     }
 
+    private void pushBankTransactionSupplier(BankTransactionSupplier bankTransactionSupplier) {
+        this.bankTransactionSupplier = bankTransactionSupplier;
+    }
+
     private void readBundle(Bundle bundle) {
         if (bundle != null) {
-            transactionList = bundle.getParcelableArrayList(CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST);
             totalAmount = bundle.getDouble(CaldroidBankingFragment.BUNDLE_PARAMETER_TOTALAMOUNT);
         } else {
-            throw new InvalidParameterException("No data found in bundle! Please check if you instantiate CaldroidBankingFragment with " + CaldroidBankingFragment.BUNDLE_PARAMETER_TRANSACTIONLIST + " and " + CaldroidBankingFragment.BUNDLE_PARAMETER_TOTALAMOUNT + " !");
+            throw new InvalidParameterException("No data found in bundle! Please check if you instantiate CaldroidBankingFragment with " + CaldroidBankingFragment.BUNDLE_PARAMETER_TOTALAMOUNT + " !");
         }
     }
 
@@ -65,26 +66,28 @@ public class CaldroidBankingFragment extends CaldroidFragment {
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
         init();
 
-        return new CaldroidBankingCellAdapter(getContext(), month, year, getCaldroidData(), getExtraData(), bankingDateInformationMap );
+        return new CaldroidBankingCellAdapter(getContext(), month, year, getCaldroidData(), getExtraData(), bankingDateInformationMap);
     }
 
     private void init() {
         bankingDateInformationMap = new HashMap<>();
-        Collections.sort(transactionList, new TransactionsComparator());
 
-        for(int i = 0; i < transactionList.size(); ++i) {
-            Booking booking = transactionList.get(i).booking();
+        for (Transaction transaction : this.bankTransactionSupplier.getAllTransactions()) {
+            Booking booking = transaction.booking();
             Date date = booking.getDate();
             DateTime exactDateTime = DateTime.forInstant(date.getTime(), TimeZone.getDefault());
             DateTime dateTime = new DateTime(exactDateTime.getYear(), exactDateTime.getMonth(), exactDateTime.getDay(), 0, 0, 0, 0);
 
-            BankingDateInformation bankingDateInformation = bankingDateInformationMap.get(dateTime);
-            if(bankingDateInformation == null) {
-                bankingDateInformation = new BankingDateInformation(totalAmount, new ArrayList<Transaction>());
+            if (!bankingDateInformationMap.containsKey(dateTime)) {
+                BankingDateInformation bankingDateInformation = new BankingDateInformation(totalAmount, //
+                        new BankTransactionSuplierFilter(this.bankTransactionSupplier, //
+                                 new OneDayFilter(booking.getDate())));
                 bankingDateInformationMap.put(dateTime, bankingDateInformation);
+
             }
 
-            bankingDateInformation.getTransactions().add(transactionList.get(i));
+            BankingDateInformation bankingDateInformation = bankingDateInformationMap.get(dateTime);
+
             totalAmount -= booking.getAmount();
         }
     }
