@@ -197,7 +197,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
         fm = getFragmentManager();
         ft = fm.beginTransaction();
-        ft.add(R.id.transaction_list_placeholder, transactionListFragment, "transaction_overview_total_amount_fragment");
+        ft.add(R.id.transaction_list_placeholder, transactionListFragment);
         ft.commit();
     }
 

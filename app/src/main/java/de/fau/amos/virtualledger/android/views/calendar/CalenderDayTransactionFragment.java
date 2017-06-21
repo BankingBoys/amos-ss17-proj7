@@ -27,9 +27,9 @@ public class CalenderDayTransactionFragment extends Fragment {
     private TransactionListFragment transactionListFragment;
     private BankTransactionSupplier bankTransactionSupplier;
 
-    TextView amount;
+    private TextView amount;
 
-    View view;
+    private View view;
 
     /**
      *
@@ -58,7 +58,7 @@ public class CalenderDayTransactionFragment extends Fragment {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         this.transactionListFragment= new TransactionListFragment();
         this.transactionListFragment.pushDataProvider(this.bankTransactionSupplier);
-        fragmentTransaction.replace(R.id.calender_view_transaction_list, transactionListFragment);
+        fragmentTransaction.replace(R.id.transaction_list_placeholder, transactionListFragment);
         fragmentTransaction.commit();
 
 
