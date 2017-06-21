@@ -10,16 +10,16 @@ public class SavingsAccount {
 
     private String id;
     private String name;
-    private double goalBalance;
-    private double currentBalance;
-    private Date finalDate;
+    private double goalbalance;
+    private double currentbalance;
+    private Date finaldate;
 
-    public SavingsAccount(String id, String name, double goalBalance, double currentBalance, Date finalDate) {
+    public SavingsAccount(String id, String name, double goalbalance, double currentbalance, Date finaldate) {
         this.id = id;
         this.name = name;
-        this.goalBalance = goalBalance;
-        this.currentBalance = currentBalance;
-        this.finalDate = finalDate;
+        this.goalbalance = goalbalance;
+        this.currentbalance = currentbalance;
+        this.finaldate = finaldate;
     }
 
     public String getId() {
@@ -30,15 +30,15 @@ public class SavingsAccount {
         return name;
     }
 
-    public double getGoalBalance() {
-        return goalBalance;
+    public double getGoalbalance() {
+        return goalbalance;
     }
 
-    public double getCurrentBalance() {
-        return currentBalance;
+    public double getCurrentbalance() {
+        return currentbalance;
     }
 
-    public Date getFinalDate() {
-        return finalDate;
+    public Date getFinaldate() {
+        return finaldate;
     }
 }

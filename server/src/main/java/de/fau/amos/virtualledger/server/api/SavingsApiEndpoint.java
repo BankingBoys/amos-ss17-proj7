@@ -65,6 +65,11 @@ public class SavingsApiEndpoint {
         if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
         {
             return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
+        } if(savingsAccount == null
+                || (savingsAccount.getId() != null && ! savingsAccount.getId().isEmpty())
+                || savingsAccount.getName() == null || savingsAccount.getName().isEmpty()
+                || savingsAccount.getFinaldate() == null ) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
         }
         final String email = securityContext.getUserPrincipal().getName();
         logger.info("getSavingAccountsEndpoint of " + email + " was requested");
@@ -86,7 +91,7 @@ public class SavingsApiEndpoint {
         } catch (SavingsException ex) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.status(Response.Status.CREATED).build;
+        return Response.status(Response.Status.CREATED).build();
     }
 
     /**
