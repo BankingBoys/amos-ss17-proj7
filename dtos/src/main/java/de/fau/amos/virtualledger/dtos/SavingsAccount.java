@@ -1,11 +1,6 @@
 package de.fau.amos.virtualledger.dtos;
 
 import java.util.Date;
-
-/**
- * Created by Georg on 21.06.2017.
- */
-
 public class SavingsAccount {
 
     private String id;
@@ -13,6 +8,8 @@ public class SavingsAccount {
     private double goalbalance;
     private double currentbalance;
     private Date finaldate;
+
+    public SavingsAccount() {}
 
     public SavingsAccount(String id, String name, double goalbalance, double currentbalance, Date finaldate) {
         this.id = id;
