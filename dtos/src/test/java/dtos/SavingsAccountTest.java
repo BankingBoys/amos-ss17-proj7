@@ -29,8 +29,8 @@ public class SavingsAccountTest {
         Assert.assertNotNull(savingsAccount);
         Assert.assertEquals(id, savingsAccount.getId());
         Assert.assertEquals(name, savingsAccount.getName());
-        Assert.assertEquals(goalBalance, savingsAccount.getGoalBalance(), 0.01);
-        Assert.assertEquals(currentBalance, savingsAccount.getCurrentBalance(), 0.01);
-        Assert.assertEquals(finalDate, savingsAccount.getFinalDate());
+        Assert.assertEquals(goalBalance, savingsAccount.getGoalbalance(), 0.01);
+        Assert.assertEquals(currentBalance, savingsAccount.getCurrentbalance(), 0.01);
+        Assert.assertEquals(finalDate, savingsAccount.getFinaldate());
     }
 }
