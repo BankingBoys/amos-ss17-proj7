@@ -26,10 +26,6 @@ public class BankingDateInformation {
         return amountDelta;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
     public List<Transaction> getTransactions() {
         return transactionList;
     }
