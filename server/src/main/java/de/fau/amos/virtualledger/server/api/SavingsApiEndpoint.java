@@ -2,9 +2,11 @@ package de.fau.amos.virtualledger.server.api;
 
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.server.auth.Secured;
+import de.fau.amos.virtualledger.server.savings.SavingsController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -20,6 +22,14 @@ import java.util.*;
 public class SavingsApiEndpoint {
 
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private SavingsController savingsController;
+
+
+    @Inject
+    public SavingsApiEndpoint(SavingsController savingsController) {
+        this.savingsController = savingsController;
+    }
+    protected SavingsApiEndpoint()  {}
 
     /**
      * Gets all available saving accounts to the authenticated user
