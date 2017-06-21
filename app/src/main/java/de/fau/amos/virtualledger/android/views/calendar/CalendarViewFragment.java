@@ -9,13 +9,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import java.security.InvalidParameterException;
 import java.util.Calendar;
 import java.util.logging.Logger;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplier;
@@ -26,9 +24,6 @@ public class CalendarViewFragment extends Fragment implements DataListening {
 
     private static final String BUNDLE_PARAMETER_TRANSACTIONSUPLIER = "transactiosuplier";
     private static final String BUNDLE_PARAMETER_TOTALAMOUNT = "totalamount";
-
-    @BindView(R.id.calendar_view_fragment_calendar_wrapper)
-    LinearLayout calendarWrapper;
 
     // need FragmentActivity because of Caldroid workaround
     private FragmentActivity context;

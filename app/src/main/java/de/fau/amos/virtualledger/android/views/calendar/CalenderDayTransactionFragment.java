@@ -9,14 +9,12 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.Locale;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplier;
-import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionAdapter;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionListFragment;
 
 /**
@@ -28,10 +26,6 @@ public class CalenderDayTransactionFragment extends Fragment {
     private static final String BUNDLE_PARAMETER_TOTALAMOUNT = "totalamount";
     private TransactionListFragment transactionListFragment;
     private BankTransactionSupplier bankTransactionSupplier;
-
-    TransactionAdapter adapter;
-
-    ListView bookingListView;
 
     TextView amount;
 
@@ -49,7 +43,6 @@ public class CalenderDayTransactionFragment extends Fragment {
             amount.setText(getFormatedDouble(amountBundle));
             changeAmountTextColor(amountBundle);
         }
-        bookingListView.setAdapter(adapter);
     }
 
     /**
