@@ -30,6 +30,8 @@ public class BookingTest {
     @Test
     public void constructorTest() {
         Assert.assertNotNull(booking);
+        Booking booking2 = new Booking();
+        Assert.assertNotNull(booking2);
     }
 
     /**
@@ -50,6 +52,17 @@ public class BookingTest {
         double newAmount = 5555;
         booking.setAmount(newAmount);
         Assert.assertEquals(newAmount, booking.getAmount(), 0);
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void setAndGetUsageTest() {
+        String newTestUsage = "TestUsage2";
+        booking.setUsage(newTestUsage);
+        String testUsage = booking.getUsage();
+        Assert.assertEquals(newTestUsage, testUsage);
     }
 
 }
