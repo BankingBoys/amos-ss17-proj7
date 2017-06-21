@@ -157,7 +157,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         }
         logger().log(Level.INFO, "Direct filter found for " + by);
         this.filter = transactionFilter;
-        this.transactionListFragment.pushDataProvider(getBankTransactionSupplier());
+        this.transactionListFragment.pushDataProvider(getDateFilteredBankTransactionSupplier());
     }
 
     private Logger logger() {
@@ -246,17 +246,22 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     public void update(Observable observable, Object o) {
         this.logger().info("Updateing Transaction Overview Fragment");
         totalAmountFragment.setCheckedMap(itemCheckedMap);
-        this.transactionListFragment.pushDataProvider(getBankTransactionSupplier());
+        this.transactionListFragment.pushDataProvider(getDateFilteredBankTransactionSupplier());
 
         checkForEmptyOrNullAccessList();
     }
 
 
     @NonNull
+    private BankTransactionSupplier getDateFilteredBankTransactionSupplier() {
+        BankTransactionSupplier filteredForSelection = getBankTransactionSupplier();
+        return new BankTransactionSuplierFilter(filteredForSelection, this.filter);
+    }
+
+    @NonNull
     private BankTransactionSupplier getBankTransactionSupplier() {
         BankTransactionSupplier basicTransactionSupplier = new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings());
-        BankTransactionSupplier filteredForSelection = new BankTransactionSuplierFilter(basicTransactionSupplier, this.itemCheckedMap);
-        return new BankTransactionSuplierFilter(filteredForSelection, this.filter);
+        return new BankTransactionSuplierFilter(basicTransactionSupplier, this.itemCheckedMap);
     }
 
     private List<BankAccountBookings> getBankAccountBookings() {
