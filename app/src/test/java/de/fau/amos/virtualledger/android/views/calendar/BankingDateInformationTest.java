@@ -30,7 +30,6 @@ public class BankingDateInformationTest {
         //ASSERT
         assertThat(bankingDateInformation.getDateTime()).isEqualTo(dateTime);
         assertThat(bankingDateInformation.getAmount()).isEqualTo(amount);
-        assertThat(bankingDateInformation.getBookingList()).isEmpty();
         assertThat(bankingDateInformation.getTransactions()).isEmpty();
     }
 

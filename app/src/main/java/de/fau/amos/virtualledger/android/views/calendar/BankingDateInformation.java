@@ -1,10 +1,8 @@
 package de.fau.amos.virtualledger.android.views.calendar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
-import de.fau.amos.virtualledger.dtos.Booking;
 import hirondelle.date4j.DateTime;
 
 public class BankingDateInformation {
@@ -29,14 +27,6 @@ public class BankingDateInformation {
             amountDelta += transaction.booking().getAmount();
         }
         return amountDelta;
-    }
-
-    public List<Booking> getBookingList() {
-        List<Booking> bookingList = new ArrayList<>();
-        for (Transaction t: this.transactionList) {
-            bookingList.add(t.booking());
-        }
-        return bookingList;
     }
 
     public DateTime getDateTime() {
