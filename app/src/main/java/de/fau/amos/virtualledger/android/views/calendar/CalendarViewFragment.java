@@ -20,9 +20,6 @@ import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransa
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
 
 public class CalendarViewFragment extends Fragment implements DataListening {
-    private static final String TAG = CalendarViewFragment.class.getSimpleName();
-
-    private static final String BUNDLE_PARAMETER_TRANSACTIONSUPLIER = "transactiosuplier";
     private static final String BUNDLE_PARAMETER_TOTALAMOUNT = "totalamount";
 
     // need FragmentActivity because of Caldroid workaround
