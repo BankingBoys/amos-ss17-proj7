@@ -14,13 +14,9 @@ public class BankingDateInformation {
     private List<Transaction> transactionList;
 
     public BankingDateInformation(DateTime dateTime, double amount, List<Transaction> transactionList) {
-        this(dateTime, amount);
-        this.transactionList = transactionList;
-    }
-
-    public BankingDateInformation(DateTime dateTime, double amount) {
         this.dateTime = dateTime;
         this.amount = amount;
+        this.transactionList = transactionList;
     }
 
     public double getAmount() {
