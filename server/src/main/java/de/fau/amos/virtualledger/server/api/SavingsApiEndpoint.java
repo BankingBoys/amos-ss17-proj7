@@ -3,6 +3,7 @@ package de.fau.amos.virtualledger.server.api;
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.server.auth.Secured;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
+import de.fau.amos.virtualledger.server.savings.SavingsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +24,6 @@ public class SavingsApiEndpoint {
 
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private SavingsController savingsController;
-
 
     @Inject
     public SavingsApiEndpoint(SavingsController savingsController) {
@@ -80,8 +80,13 @@ public class SavingsApiEndpoint {
      * @return status 201 if successful
      */
     private Response addSavingAccount(String email, SavingsAccount savingsAccount) {
-        // TODO implement
-        return Response.status(Response.Status.CREATED).build();
+
+        try {
+            savingsController.addSavingAccount(email, savingsAccount);
+        } catch (SavingsException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.status(Response.Status.CREATED).build;
     }
 
     /**
@@ -91,12 +96,8 @@ public class SavingsApiEndpoint {
      * @return
      */
     private Response getSavingAccounts(String email) {
-        // TODO implement a SavingsController and call it, do exception handling
-        List<SavingsAccount> savingsAccountList = new ArrayList<>();
-        for(int i = 0; i < 5; ++i) {
-            SavingsAccount savingsAccount = new SavingsAccount("id1", "savingsaccount1", 500.00, 123.12, new Date());
-            savingsAccountList.add(savingsAccount);
-        }
+
+        List<SavingsAccount> savingsAccountList = savingsController.getSavingAccounts(email);
         return Response.ok(savingsAccountList).build();
     }
 
