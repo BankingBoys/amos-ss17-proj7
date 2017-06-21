@@ -38,7 +38,12 @@ public class SavingsApiEndpoint {
     }
 
     private Response getSavingAccounts(String email) {
-        return Response.ok().build();
+        List<SavingsAccount> savingsAccountList = new ArrayList<>();
+        for(int i = 0; i < 5; ++i) {
+            SavingsAccount savingsAccount = new SavingsAccount("id1", "savingsaccount1", 500.00, 123.12, new Date());
+            savingsAccountList.add(savingsAccount);
+        }
+        return Response.ok(savingsAccountList).build();
     }
 
 }
