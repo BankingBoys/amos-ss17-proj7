@@ -21,7 +21,7 @@ public class CustomTransactionFilterTest {
         booking.setDate(end);
         Transaction testTransaction = new Transaction("someBank", "some bank id", booking);
 
-        CustomFilter component_under_test = new CustomFilter(start, end);
+        TransactionFilter component_under_test = new CustomFilter(start, end);
 
 
         assertThat(component_under_test.shouldBeRemoved(testTransaction)).isFalse();
@@ -36,7 +36,7 @@ public class CustomTransactionFilterTest {
         booking.setDate(start);
         Transaction testTransaction = new Transaction("someBank", "some bank id", booking);
 
-        CustomFilter component_under_test = new CustomFilter(start, end);
+        TransactionFilter component_under_test = new CustomFilter(start, end);
 
         assertThat(component_under_test.shouldBeRemoved(testTransaction)).isFalse();
     }
@@ -51,7 +51,7 @@ public class CustomTransactionFilterTest {
         booking.setDate(testDate);
         Transaction testTransaction = new Transaction("someBank", "some bank id", booking);
 
-        CustomFilter component_under_test = new CustomFilter(start, end);
+        TransactionFilter component_under_test = new CustomFilter(start, end);
 
         assertThat(component_under_test.shouldBeRemoved(testTransaction)).isTrue();
     }
@@ -66,7 +66,7 @@ public class CustomTransactionFilterTest {
         booking.setDate(testDate);
         Transaction testTransaction = new Transaction("someBank", "some bank id", booking);
 
-        CustomFilter component_under_test = new CustomFilter(start, end);
+        TransactionFilter component_under_test = new CustomFilter(start, end);
 
         assertThat(component_under_test.shouldBeRemoved(testTransaction)).isTrue();
     }
