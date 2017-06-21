@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.android.views.calendar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
@@ -10,18 +11,16 @@ public class BankingDateInformation {
 
     private DateTime dateTime;
     private double amount;
-    private List<Booking> bookingList;
     private List<Transaction> transactionList;
 
-    public BankingDateInformation(DateTime dateTime, double amount, List<Booking> bookingList, List<Transaction> transactionList) {
-        this(dateTime, amount, bookingList);
+    public BankingDateInformation(DateTime dateTime, double amount, List<Transaction> transactionList) {
+        this(dateTime, amount);
         this.transactionList = transactionList;
     }
 
-    public BankingDateInformation(DateTime dateTime, double amount, List<Booking> bookingList) {
+    public BankingDateInformation(DateTime dateTime, double amount) {
         this.dateTime = dateTime;
         this.amount = amount;
-        this.bookingList = bookingList;
     }
 
     public double getAmount() {
@@ -30,13 +29,17 @@ public class BankingDateInformation {
 
     public double getAmountDelta() {
         double amountDelta = 0.0;
-        for (Booking booking : bookingList) {
-            amountDelta += booking.getAmount();
+        for (Transaction transaction : this.transactionList) {
+            amountDelta += transaction.booking().getAmount();
         }
         return amountDelta;
     }
 
     public List<Booking> getBookingList() {
+        List<Booking> bookingList = new ArrayList<>();
+        for (Transaction t: this.transactionList) {
+            bookingList.add(t.booking());
+        }
         return bookingList;
     }
 

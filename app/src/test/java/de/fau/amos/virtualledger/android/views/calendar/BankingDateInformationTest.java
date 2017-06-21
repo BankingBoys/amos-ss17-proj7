@@ -1,6 +1,5 @@
 package de.fau.amos.virtualledger.android.views.calendar;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -11,6 +10,8 @@ import java.util.TimeZone;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
 import de.fau.amos.virtualledger.dtos.Booking;
 import hirondelle.date4j.DateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BankingDateInformationTest {
 
@@ -24,13 +25,13 @@ public class BankingDateInformationTest {
         List<Transaction> transactionList = new ArrayList<>();
 
         // ACT
-        BankingDateInformation bankingDateInformation = new BankingDateInformation(dateTime, amount, bookingList, transactionList);
+        BankingDateInformation bankingDateInformation = new BankingDateInformation(dateTime, amount, transactionList);
 
         //ASSERT
-        Assert.assertEquals(dateTime, bankingDateInformation.getDateTime());
-        Assert.assertTrue(amount == bankingDateInformation.getAmount());
-        Assert.assertEquals(bookingList, bankingDateInformation.getBookingList());
-        Assert.assertEquals(transactionList, bankingDateInformation.getTransactions());
+        assertThat(bankingDateInformation.getDateTime()).isEqualTo(dateTime);
+        assertThat(bankingDateInformation.getAmount()).isEqualTo(amount);
+        assertThat(bankingDateInformation.getBookingList()).isEmpty();
+        assertThat(bankingDateInformation.getTransactions()).isEmpty();
     }
 
 
@@ -39,13 +40,12 @@ public class BankingDateInformationTest {
         // SETUP
         DateTime dateTime = DateTime.today(TimeZone.getDefault());
         double amount = 123.456;
-        List<Booking> bookingList = new ArrayList<>();
 
         // ACT
-        BankingDateInformation bankingDateInformation = new BankingDateInformation(dateTime, amount, bookingList);
+        BankingDateInformation bankingDateInformation = new BankingDateInformation(dateTime, amount, new ArrayList<Transaction>());
 
         //ASSERT
-        Assert.assertTrue(bankingDateInformation.getAmountDelta() == 0.0);
+        assertThat(bankingDateInformation.getAmountDelta()).isZero();
     }
 
 
@@ -54,19 +54,22 @@ public class BankingDateInformationTest {
         // SETUP
         DateTime dateTime = DateTime.today(TimeZone.getDefault());
         double amount = 123.456;
-        List<Booking> bookingList = new ArrayList<>();
+        List<Transaction> transactionList = new ArrayList<>();
         double amount1 = 500.00;
         double amount2 = -100.00;
 
         Booking booking1 = new Booking(new Date(), amount1);
-        bookingList.add(booking1);
+        Transaction transaction1 = new Transaction("some name","some id",booking1);
+        transactionList.add(transaction1);
+
         Booking booking2 = new Booking(new Date(), amount2);
-        bookingList.add(booking2);
+        Transaction transaction2 = new Transaction("some name","some id",booking2);
+        transactionList.add(transaction2);
 
         // ACT
-        BankingDateInformation bankingDateInformation = new BankingDateInformation(dateTime, amount, bookingList);
+        BankingDateInformation bankingDateInformation = new BankingDateInformation(dateTime, amount, transactionList);
 
         //ASSERT
-        Assert.assertTrue(bankingDateInformation.getAmountDelta() == amount1 + amount2);
+        assertThat(bankingDateInformation.getAmountDelta()).isEqualTo(amount1+amount2);
     }
 }

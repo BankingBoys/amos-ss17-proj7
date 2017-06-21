@@ -21,9 +21,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.views.menu.MainMenu;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
-import de.fau.amos.virtualledger.dtos.Booking;
 import hirondelle.date4j.DateTime;
 
 public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
@@ -103,6 +101,7 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
                 setAmountDeltaText(amountDelta);
             }
         }
+
 
         cellView.setOnClickListener(new View.OnClickListener() {
             @Override
