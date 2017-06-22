@@ -3,9 +3,11 @@ package de.fau.amos.virtualledger.android.views.shared.transactionList;
 import android.app.Activity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,7 +32,7 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
     @Inject
     AuthenticationProvider authenticationProvider;
 
-    private List<DataListening> dataListenings = new ArrayList<>();
+    private Set<DataListening> dataListenings = new HashSet<>();
 
     private ArrayList<Transaction> allBankTransactions = new ArrayList<>();
 

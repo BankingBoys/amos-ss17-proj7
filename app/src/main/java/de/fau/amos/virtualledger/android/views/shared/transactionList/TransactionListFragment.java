@@ -98,7 +98,6 @@ public class TransactionListFragment extends Fragment implements  DataListening 
 
     @Override
     public void notifyDataChanged() {
-        Thread.dumpStack();
         this.logger().info("Transaction List Fragment Notify Data Changed");
         this.showUpdatedTransactions();
     }
