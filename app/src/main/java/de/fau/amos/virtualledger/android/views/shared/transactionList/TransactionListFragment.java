@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 
-public class TransactionListFragment extends Fragment implements  DataListening {
+public class TransactionListFragment extends Fragment implements DataListening {
     TransactionAdapter adapter;
     private View mainView;
 
@@ -44,7 +44,9 @@ public class TransactionListFragment extends Fragment implements  DataListening 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        this.bankTransactionSupplier.deregister(this);
+        if (this.bankTransactionSupplier != null) {
+            this.bankTransactionSupplier.deregister(this);
+        }
     }
 
     @Override
@@ -89,7 +91,9 @@ public class TransactionListFragment extends Fragment implements  DataListening 
     @Override
     public void onPause() {
         super.onPause();
-        this.bankTransactionSupplier.onPause();
+        if (this.bankTransactionSupplier != null) {
+            this.bankTransactionSupplier.onPause();
+        }
     }
 
     @Override
