@@ -10,7 +10,7 @@ public class SavingsAccountTest {
     @Test
     public void constructor_getters_match() {
         // SETUP
-        String id = "id";
+        int id = 123;
         String name = "name";
         double goalBalance = 123.45;
         double currentBalance = 234.567;
