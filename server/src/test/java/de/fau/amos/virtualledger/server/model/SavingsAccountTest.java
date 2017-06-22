@@ -1,15 +1,10 @@
-package dtos;
+package de.fau.amos.virtualledger.server.model;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Date;
 
-import de.fau.amos.virtualledger.dtos.SavingsAccount;
-
-/**
- * Created by Georg on 21.06.2017.
- */
 
 public class SavingsAccountTest {
 

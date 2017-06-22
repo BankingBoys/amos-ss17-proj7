@@ -1,7 +1,7 @@
 package de.fau.amos.virtualledger.server.api;
 
 
-import de.fau.amos.virtualledger.dtos.SavingsAccount;
+import de.fau.amos.virtualledger.server.model.SavingsAccount;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
 import de.fau.amos.virtualledger.server.savings.SavingsException;
 import org.eclipse.persistence.jpa.jpql.Assert;

@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.dtos;
+package de.fau.amos.virtualledger.server.model;
 
 import java.util.Date;
 public class SavingsAccount {

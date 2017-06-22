@@ -1,6 +1,6 @@
 package de.fau.amos.virtualledger.server.api;
 
-import de.fau.amos.virtualledger.dtos.SavingsAccount;
+import de.fau.amos.virtualledger.server.model.SavingsAccount;
 import de.fau.amos.virtualledger.server.auth.Secured;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
 import de.fau.amos.virtualledger.server.savings.SavingsException;
