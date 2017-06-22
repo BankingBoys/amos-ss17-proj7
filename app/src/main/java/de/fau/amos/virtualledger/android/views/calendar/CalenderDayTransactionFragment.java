@@ -90,13 +90,17 @@ public class CalenderDayTransactionFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        this.transactionListFragment.onPause();
+        if (this.bankTransactionSupplier != null) {
+            this.transactionListFragment.onPause();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        this.transactionListFragment.onResume();
+        if (this.bankTransactionSupplier != null) {
+            this.transactionListFragment.onResume();
+        }
     }
 
     /**
