@@ -37,7 +37,7 @@ public class StubbedBankTransactionSupplier implements BankTransactionSupplier{
 
     @Override
     public void deregister(DataListening observer) {
-        
+
     }
 
     @Override

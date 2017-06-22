@@ -43,6 +43,12 @@ public class TransactionListFragment extends Fragment implements java.util.Obser
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        this.bankTransactionSupplier.deregister(this);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         if (bankTransactionSupplier != null) {
