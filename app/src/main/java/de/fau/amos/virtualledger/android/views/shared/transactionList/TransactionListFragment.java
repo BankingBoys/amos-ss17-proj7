@@ -10,7 +10,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +17,7 @@ import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 
-public class TransactionListFragment extends Fragment implements java.util.Observer, DataListening {
+public class TransactionListFragment extends Fragment implements  DataListening {
     TransactionAdapter adapter;
     private View mainView;
 
@@ -51,6 +50,7 @@ public class TransactionListFragment extends Fragment implements java.util.Obser
     @Override
     public void onResume() {
         super.onResume();
+        this.logger().info("On resume transactionlistfragment");
         if (bankTransactionSupplier != null) {
             this.bankTransactionSupplier.onResume();
         }
@@ -61,6 +61,7 @@ public class TransactionListFragment extends Fragment implements java.util.Obser
         if (this.adapter == null || this.bankTransactionSupplier == null) {
             return;
         }
+        this.logger().info("TransactionListFragment is refreshing transactions");
         List<Transaction> transactionsToPresent = this.bankTransactionSupplier.getAllTransactions();
         this.adapter.clear();
         logger().log(Level.INFO, "Number of presented transactions: " + transactionsToPresent.size());
@@ -86,11 +87,6 @@ public class TransactionListFragment extends Fragment implements java.util.Obser
 
 
     @Override
-    public void update(final Observable o, final Object arg) {
-        showUpdatedTransactions();
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
         this.bankTransactionSupplier.onPause();
@@ -102,6 +98,8 @@ public class TransactionListFragment extends Fragment implements java.util.Obser
 
     @Override
     public void notifyDataChanged() {
+        Thread.dumpStack();
+        this.logger().info("Transaction List Fragment Notify Data Changed");
         this.showUpdatedTransactions();
     }
 }

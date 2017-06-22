@@ -102,7 +102,6 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
     @Override
     public void update(Observable observable, Object o) {
         this.onBookingsUpdated();
-        notifyObservers();
     }
 
     private void notifyObservers() {
