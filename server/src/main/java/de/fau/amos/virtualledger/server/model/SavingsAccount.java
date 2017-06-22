@@ -1,8 +1,14 @@
 package de.fau.amos.virtualledger.server.model;
 
+import javax.persistence.*;
 import java.util.Date;
+
+@Entity
+@Table(name="SanvingsAccounts")
 public class SavingsAccount {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private double goalbalance;
