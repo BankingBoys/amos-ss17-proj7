@@ -46,6 +46,11 @@ public class BankTransactionSuplierFilter implements BankTransactionSupplier {
     }
 
     @Override
+    public void deregister(DataListening observer) {
+        this.wrappedSupplier.deregister(observer);
+    }
+
+    @Override
     public void onPause() {
         wrappedSupplier.onPause();
     }

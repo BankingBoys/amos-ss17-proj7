@@ -9,26 +9,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import java.security.InvalidParameterException;
 import java.util.Calendar;
 import java.util.logging.Logger;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplier;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
 
 public class CalendarViewFragment extends Fragment implements DataListening {
-    private static final String TAG = CalendarViewFragment.class.getSimpleName();
-
-    private static final String BUNDLE_PARAMETER_TRANSACTIONSUPLIER = "transactiosuplier";
     private static final String BUNDLE_PARAMETER_TOTALAMOUNT = "totalamount";
-
-    @BindView(R.id.calendar_view_fragment_calendar_wrapper)
-    LinearLayout calendarWrapper;
+    private boolean active = true;
 
     // need FragmentActivity because of Caldroid workaround
     private FragmentActivity context;
@@ -55,6 +48,12 @@ public class CalendarViewFragment extends Fragment implements DataListening {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        this.bankTransactionSupplier.deregister(this);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         this.bankTransactionSupplier.onResume();
@@ -69,6 +68,7 @@ public class CalendarViewFragment extends Fragment implements DataListening {
     private void updateCalendar() {
         logger().info("initialise calendar with " + bankTransactionSupplier.getAllTransactions().size() + " Transactions");
         Calendar cal = Calendar.getInstance();
+
         CaldroidBankingFragment caldroidFragment = CaldroidBankingFragment.newInstance(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), this.bankTransactionSupplier, totalAmount);
         FragmentTransaction transaction = context.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.calendar_view_fragment_calendar_wrapper, caldroidFragment, "calendar_view_fragment_calendar");
@@ -90,7 +90,6 @@ public class CalendarViewFragment extends Fragment implements DataListening {
         CalendarViewFragment fragment = new CalendarViewFragment();
         fragment.pushTransactionSupplier(bankTransactionSupplier);
         fragment.setArguments(bundle);
-
         return fragment;
     }
 

@@ -9,14 +9,12 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.Locale;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplier;
-import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionAdapter;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionListFragment;
 
 /**
@@ -29,13 +27,9 @@ public class CalenderDayTransactionFragment extends Fragment {
     private TransactionListFragment transactionListFragment;
     private BankTransactionSupplier bankTransactionSupplier;
 
-    TransactionAdapter adapter;
+    private TextView amount;
 
-    ListView bookingListView;
-
-    TextView amount;
-
-    View view;
+    private View view;
 
     /**
      *
@@ -49,7 +43,6 @@ public class CalenderDayTransactionFragment extends Fragment {
             amount.setText(getFormatedDouble(amountBundle));
             changeAmountTextColor(amountBundle);
         }
-        bookingListView.setAdapter(adapter);
     }
 
     /**
@@ -65,7 +58,7 @@ public class CalenderDayTransactionFragment extends Fragment {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         this.transactionListFragment= new TransactionListFragment();
         this.transactionListFragment.pushDataProvider(this.bankTransactionSupplier);
-        fragmentTransaction.replace(R.id.calender_view_transaction_list, transactionListFragment);
+        fragmentTransaction.replace(R.id.transaction_list_placeholder, transactionListFragment);
         fragmentTransaction.commit();
 
 
