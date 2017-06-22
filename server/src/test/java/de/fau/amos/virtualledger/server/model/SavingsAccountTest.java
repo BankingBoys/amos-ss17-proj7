@@ -11,7 +11,7 @@ public class SavingsAccountTest {
     @Test
     public void constructor_getters_match() {
         // SETUP
-        String id = "id";
+        int id = 123;
         String name = "name";
         double goalBalance = 123.45;
         double currentBalance = 234.567;
@@ -22,10 +22,10 @@ public class SavingsAccountTest {
 
         // ASSERT
         Assert.assertNotNull(savingsAccount);
-        Assert.assertEquals(id, savingsAccount.getId());
-        Assert.assertEquals(name, savingsAccount.getName());
-        Assert.assertEquals(goalBalance, savingsAccount.getGoalbalance(), 0.01);
-        Assert.assertEquals(currentBalance, savingsAccount.getCurrentbalance(), 0.01);
-        Assert.assertEquals(finalDate, savingsAccount.getFinaldate());
+        Assert.assertEquals(id, savingsAccount.id);
+        Assert.assertEquals(name, savingsAccount.name);
+        Assert.assertEquals(goalBalance, savingsAccount.goalbalance, 0.01);
+        Assert.assertEquals(currentBalance, savingsAccount.currentbalance, 0.01);
+        Assert.assertEquals(finalDate, savingsAccount.finaldate);
     }
 }

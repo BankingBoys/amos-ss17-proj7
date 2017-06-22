@@ -76,7 +76,7 @@ public class SavingsApiEndpointTest {
         when(context.getUserPrincipal())
                 .thenReturn(principal);
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
-        SavingsAccount savingsAccount = new SavingsAccount("test", "dummy", 123.23, 453.23, new Date());
+        SavingsAccount savingsAccount = new SavingsAccount(123, "dummy", 123.23, 453.23, new Date());
 
         // ACT
         Response reponse = savingsApiEndpoint.addSavingAccountEndpoint(context, savingsAccount);
@@ -98,7 +98,7 @@ public class SavingsApiEndpointTest {
         when(context.getUserPrincipal())
                 .thenReturn(principal);
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
-        SavingsAccount savingsAccount = new SavingsAccount("test", "dummy", 123.23, 453.23, new Date());
+        SavingsAccount savingsAccount = new SavingsAccount(123, "dummy", 123.23, 453.23, new Date());
 
         // ACT
         Response reponse = savingsApiEndpoint.addSavingAccountEndpoint(context, savingsAccount);
@@ -131,29 +131,7 @@ public class SavingsApiEndpointTest {
         verify(savingsController, times(0))
                 .addSavingAccount(any(String.class), any(SavingsAccount.class));
     }
-
-    @Test
-    public void addSavingAccountsEndpoint_savingsAccountIdNotNullOrEmpty() throws SavingsException {
-        // SETUP
-        SecurityContext context = mock(SecurityContext.class);
-        Principal principal = mock(Principal.class);
-        when(principal.getName())
-                .thenReturn("username");
-        when(context.getUserPrincipal())
-                .thenReturn(principal);
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
-        SavingsAccount savingsAccount = new SavingsAccount("ssdf", "test", 123.43, 543.43, new Date());
-
-        // ACT
-        Response reponse = savingsApiEndpoint.addSavingAccountEndpoint(context, savingsAccount);
-
-        // ASSERT
-        int expectedStatusCode = 400;
-        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
-        verify(savingsController, times(0))
-                .addSavingAccount(any(String.class), any(SavingsAccount.class));
-    }
-
+    
     @Test
     public void addSavingAccountsEndpoint_savingsAccountNameNull() throws SavingsException {
         // SETUP
@@ -164,7 +142,7 @@ public class SavingsApiEndpointTest {
         when(context.getUserPrincipal())
                 .thenReturn(principal);
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
-        SavingsAccount savingsAccount = new SavingsAccount("", null, 123.43, 543.43, new Date());
+        SavingsAccount savingsAccount = new SavingsAccount(123, null, 123.43, 543.43, new Date());
 
         // ACT
         Response reponse = savingsApiEndpoint.addSavingAccountEndpoint(context, savingsAccount);
@@ -186,7 +164,7 @@ public class SavingsApiEndpointTest {
         when(context.getUserPrincipal())
                 .thenReturn(principal);
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
-        SavingsAccount savingsAccount = new SavingsAccount("", "", 123.43, 543.43, new Date());
+        SavingsAccount savingsAccount = new SavingsAccount(123, "", 123.43, 543.43, new Date());
 
         // ACT
         Response reponse = savingsApiEndpoint.addSavingAccountEndpoint(context, savingsAccount);
@@ -208,7 +186,7 @@ public class SavingsApiEndpointTest {
         when(context.getUserPrincipal())
                 .thenReturn(principal);
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
-        SavingsAccount savingsAccount = new SavingsAccount("", "test", 123.43, 543.43, null);
+        SavingsAccount savingsAccount = new SavingsAccount(123, "test", 123.43, 543.43, null);
 
         // ACT
         Response reponse = savingsApiEndpoint.addSavingAccountEndpoint(context, savingsAccount);
