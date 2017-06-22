@@ -39,7 +39,7 @@ public class CalenderDayTransactionFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
         double amountBundle = bundle.getDouble(BUNDLE_PARAMETER_TOTALAMOUNT);
-        if(bundle!=null) {
+        if (bundle != null) {
             amount.setText(getFormatedDouble(amountBundle));
             changeAmountTextColor(amountBundle);
         }
@@ -56,8 +56,10 @@ public class CalenderDayTransactionFragment extends Fragment {
 
         FragmentManager fragmentManager = this.getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        this.transactionListFragment= new TransactionListFragment();
-        this.transactionListFragment.pushDataProvider(this.bankTransactionSupplier);
+        this.transactionListFragment = new TransactionListFragment();
+        if (this.bankTransactionSupplier != null) {
+            this.transactionListFragment.pushDataProvider(this.bankTransactionSupplier);
+        }
         fragmentTransaction.replace(R.id.transaction_list_placeholder, transactionListFragment);
         fragmentTransaction.commit();
 
@@ -78,9 +80,9 @@ public class CalenderDayTransactionFragment extends Fragment {
         return fragment;
     }
 
-    private void pushTransactionSupplier(BankTransactionSupplier transactionSupplier){
+    private void pushTransactionSupplier(BankTransactionSupplier transactionSupplier) {
         this.bankTransactionSupplier = transactionSupplier;
-        if(this.transactionListFragment != null){
+        if (this.transactionListFragment != null) {
             this.transactionListFragment.pushDataProvider(this.bankTransactionSupplier);
         }
     }
@@ -92,7 +94,7 @@ public class CalenderDayTransactionFragment extends Fragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         this.transactionListFragment.onResume();
     }

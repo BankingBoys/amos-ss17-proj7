@@ -87,12 +87,18 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
 
     @Override
     public void addDataListeningObject(DataListening observer) {
+        if (this.dataListenings.isEmpty()) {
+            this.bankingDataManager.addObserver(this);
+        }
         this.dataListenings.add(observer);
     }
 
     @Override
     public void deregister(DataListening observer) {
         this.dataListenings.remove(observer);
+        if (this.dataListenings.isEmpty()){
+            this.bankingDataManager.deleteObserver(this);
+        }
     }
 
     @Override
