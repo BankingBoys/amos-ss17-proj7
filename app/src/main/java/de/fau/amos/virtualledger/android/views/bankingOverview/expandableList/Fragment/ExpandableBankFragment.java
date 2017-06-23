@@ -3,10 +3,14 @@ package de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.F
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -31,6 +35,7 @@ import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
+import de.fau.amos.virtualledger.android.views.bankingOverview.addBankAccess.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessAccount.BankAccessNameExtractor;
 import de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessAccount.DeleteBankAccessAction;
 import de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessAccount.DeleteDialog;
@@ -79,6 +84,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         final View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
         ButterKnife.bind(this, view);
 
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -90,6 +96,11 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         final FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.banking_overview_total_amount_fragment_wrapper, totalAmountFragment, "banking_overview_total_amount_fragment");
         ft.commit();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        inflater.inflate(R.menu.banking_overview_app_bar, menu);
     }
 
     @Override
@@ -111,6 +122,21 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     public void onPause() {
         super.onPause();
         bankingDataManager.deleteObserver(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.banking_overview_app_bar_add_bank_access:
+                final Intent addBankAccessIntent = new Intent(getActivity(), AddBankAccessActivity.class);
+                startActivity(addBankAccessIntent);
+                return true;
+            case R.id.banking_overview_app_bar_refresh:
+                bankingDataManager.sync();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @OnClick(R.id.banking_overview_finishButton)

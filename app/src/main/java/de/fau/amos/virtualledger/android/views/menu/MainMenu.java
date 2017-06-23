@@ -11,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -27,7 +26,6 @@ import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
-import de.fau.amos.virtualledger.android.views.bankingOverview.addBankAccess.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.views.savings.SavingAccountsFragment;
 import de.fau.amos.virtualledger.android.views.settings.SettingsActivity;
@@ -100,26 +98,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu_app_bar, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        switch (item.getItemId()) {
-            case R.id.main_menu_app_bar_add_bank_access:
-                final Intent addBankAccessIntent = new Intent(this, AddBankAccessActivity.class);
-                startActivity(addBankAccessIntent);
-                break;
-            case R.id.main_menu_app_bar_refresh:
-                bankingDataManager.sync();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+        return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     @Override
