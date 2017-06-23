@@ -17,6 +17,8 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     @BindView(R.id.add_savings_account_pager)
     ViewPager viewPager;
 
+    private AddSavingsAccountPagerAdapter pagerAdapter;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +26,9 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
 
         setContentView(R.layout.saving_accounts_activity_add);
         ButterKnife.bind(this);
+
+        pagerAdapter = new AddSavingsAccountPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
     }
 
     @OnClick(R.id.add_savings_account_button_previous)
