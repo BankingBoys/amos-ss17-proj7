@@ -22,6 +22,8 @@ import java.util.Observer;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
@@ -53,13 +55,17 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     BankAccessCredentialDB bankAccessCredentialDB;
     @Inject
     BankingDataManager bankingDataManager;
-    private ExpandableListView listView;
     private final SparseArray<Group> groups = new SparseArray<>();
     private List<BankAccess> bankAccessList;
-    private Button finishButton;
     private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
-    private CheckBox enableAllCheckBox;
     ExpandableAdapterBanking adapter;
+
+    @BindView(R.id.expandableView)
+    ExpandableListView listView;
+    @BindView(R.id.banking_overview_finishButton)
+    Button finishButton;
+    @BindView(R.id.banking_overview_enable_all_accounts_checkbox)
+    CheckBox enableAllCheckBox;
 
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
@@ -141,9 +147,8 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
-        listView = (ExpandableListView) view.findViewById(R.id.expandableView);
-        finishButton = (Button) view.findViewById(R.id.banking_overview_finishButton);
-        enableAllCheckBox = (CheckBox) view.findViewById(R.id.banking_overview_enable_all_accounts_checkbox);
+        ButterKnife.bind(this, view);
+
         return view;
     }
 
