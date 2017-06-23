@@ -10,7 +10,6 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
@@ -59,10 +58,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
 
     @BindView(R.id.expandableView)
     ExpandableListView listView;
-    @BindView(R.id.banking_overview_finishButton)
-    Button finishButton;
-    @BindView(R.id.banking_overview_enable_all_accounts_checkbox)
-    CheckBox enableAllCheckBox;
 
     @OnClick(R.id.banking_overview_finishButton)
     void onClickShowAllTransactions() {
@@ -72,9 +67,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     }
 
     @OnClick(R.id.banking_overview_enable_all_accounts_checkbox)
-    void onClickEnableAllCheckbox() {
+    void onClickEnableAllCheckbox(final CheckBox view) {
         final BankingOverviewHandler bankingOverview = BankingOverviewHandler.getInstance();
-        mappingCheckBoxes = bankingOverview.setAllAccountsCheckedOrUnchecked(mappingCheckBoxes, enableAllCheckBox.isChecked());
+        mappingCheckBoxes = bankingOverview.setAllAccountsCheckedOrUnchecked(mappingCheckBoxes, view.isChecked());
         adapter.setMappingCheckBoxes(mappingCheckBoxes);
         listView.setAdapter(adapter);
     }
