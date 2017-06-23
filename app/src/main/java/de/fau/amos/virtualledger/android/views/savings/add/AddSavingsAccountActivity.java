@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.views.savings;
+package de.fau.amos.virtualledger.android.views.savings.add;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;

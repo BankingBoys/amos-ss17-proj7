@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
 
 public class SavingAccountsFragment extends Fragment {
     @SuppressWarnings("unused")
