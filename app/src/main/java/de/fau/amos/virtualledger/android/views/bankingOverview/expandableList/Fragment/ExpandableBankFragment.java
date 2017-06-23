@@ -59,6 +59,60 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     @BindView(R.id.expandableView)
     ExpandableListView listView;
 
+    private ExpandableAdapterBanking adapter;
+    private final SparseArray<Group> groups = new SparseArray<>();
+    private List<BankAccess> bankAccessList;
+    private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
+
+    @Override
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // This line needs to stay right here!!! Otherwise bankingDataManager is null when passed to adapter
+        ((App) getActivity().getApplication()).getNetComponent().inject(this);
+
+        adapter = new ExpandableAdapterBanking(getActivity(),
+                groups, bankingDataManager, mappingCheckBoxes);
+    }
+
+    @Override
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
+        ButterKnife.bind(this, view);
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        // add total amount fragment programmatically (bad practice in xml -> empty LinearLayout as wrapper)
+        final FragmentManager fm = getFragmentManager();
+        final TotalAmountFragment totalAmountFragment = new TotalAmountFragment();
+        final FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.banking_overview_total_amount_fragment_wrapper, totalAmountFragment, "banking_overview_total_amount_fragment");
+        ft.commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        bankingDataManager.addObserver(this);
+
+        switch (bankingDataManager.getSyncStatus()) {
+            case NOT_SYNCED:
+                bankingDataManager.sync();
+                break;
+            case SYNCED:
+                onBankingDataChanged();
+                break;
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        bankingDataManager.deleteObserver(this);
+    }
+
     @OnClick(R.id.banking_overview_finishButton)
     void onClickShowAllTransactions() {
         if (BankingOverviewHandler.hasItemsChecked(mappingCheckBoxes)) {
@@ -92,33 +146,35 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         return true;
     }
 
-    private ExpandableAdapterBanking adapter;
-    private final SparseArray<Group> groups = new SparseArray<>();
-    private List<BankAccess> bankAccessList;
-    private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
-
     @Override
-    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // This line needs to stay right here!!! Otherwise bankingDataManager is null when passed to adapter
-        ((App) getActivity().getApplication()).getNetComponent().inject(this);
-
-        adapter = new ExpandableAdapterBanking(getActivity(),
-                groups, bankingDataManager, mappingCheckBoxes);
+    public void update(final Observable o, final Object arg) {
+        onBankingDataChanged();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        bankingDataManager.addObserver(this);
+    private void onBankingDataChanged() {
+        try {
+            bankAccessList = bankingDataManager.getBankAccesses();
+            if ((bankAccessList == null || bankAccessList.size() == 0)) {
+                final Fragment fragment = new NoBankingAccessesFragment();
+                openFragment(fragment);
+            }
+            onBankAccessesUpdated();
 
-        switch (bankingDataManager.getSyncStatus()) {
-            case NOT_SYNCED:
-                bankingDataManager.sync();
-                break;
-            case SYNCED:
-                onBankingDataChanged();
-                break;
+        } catch (final BankingSyncFailedException ex) {
+            Toast.makeText(getActivity(), "Failed connecting to the server, try again later", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * opens a fragment through replacing another fragment
+     */
+    private void openFragment(final Fragment fragment) {
+        if (null != fragment) {
+            final FragmentManager manager = getFragmentManager();
+            final FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.main_menu_content, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 
@@ -126,14 +182,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         createData();
         adapter.setMappingCheckBoxes(mappingCheckBoxes);
         listView.setAdapter(adapter);
-    }
-
-    @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
-        ButterKnife.bind(this, view);
-
-        return view;
     }
 
     private void createData() {
@@ -153,55 +201,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
             groups.append(i, group);
             i++;
         }
-
-    }
-
-    /**
-     * opens a fragment through replacing another fragment
-     */
-    private void openFragment(final Fragment fragment) {
-        if (null != fragment) {
-            final FragmentManager manager = getFragmentManager();
-            final FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.main_menu_content, fragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }
-    }
-
-    @Override
-    public void update(final Observable o, final Object arg) {
-        onBankingDataChanged();
-    }
-
-    public void onBankingDataChanged() {
-        try {
-            bankAccessList = bankingDataManager.getBankAccesses();
-            if ((bankAccessList == null || bankAccessList.size() == 0)) {
-                final Fragment fragment = new NoBankingAccessesFragment();
-                openFragment(fragment);
-            }
-            onBankAccessesUpdated();
-
-        } catch (final BankingSyncFailedException ex) {
-            Toast.makeText(getActivity(), "Failed connecting to the server, try again later", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        bankingDataManager.deleteObserver(this);
-    }
-
-    @Override
-    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
-        // add total amount fragment programmatically (bad practice in xml -> empty LinearLayout as wrapper)
-        final FragmentManager fm = getFragmentManager();
-        final TotalAmountFragment totalAmountFragment = new TotalAmountFragment();
-        final FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.banking_overview_total_amount_fragment_wrapper, totalAmountFragment, "banking_overview_total_amount_fragment");
-        ft.commit();
     }
 
 }
