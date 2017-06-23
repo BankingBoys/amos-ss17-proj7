@@ -74,11 +74,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     @OnClick(R.id.banking_overview_enable_all_accounts_checkbox)
     void onClickEnableAllCheckbox() {
         final BankingOverviewHandler bankingOverview = BankingOverviewHandler.getInstance();
-        if(!enableAllCheckBox.isChecked()) {
-            mappingCheckBoxes = bankingOverview.setAllAccountsCheckedOrUnchecked(mappingCheckBoxes, false);
-        } else {
-            mappingCheckBoxes = bankingOverview.setAllAccountsCheckedOrUnchecked(mappingCheckBoxes, true);
-        }
+        mappingCheckBoxes = bankingOverview.setAllAccountsCheckedOrUnchecked(mappingCheckBoxes, enableAllCheckBox.isChecked());
         adapter.setMappingCheckBoxes(mappingCheckBoxes);
         listView.setAdapter(adapter);
     }
