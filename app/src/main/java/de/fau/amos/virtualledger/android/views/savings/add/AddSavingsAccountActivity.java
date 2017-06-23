@@ -29,15 +29,22 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
 
         pagerAdapter = new AddSavingsAccountPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setCurrentItem(0);
     }
 
     @OnClick(R.id.add_savings_account_button_previous)
     void onClickPrevious() {
-
+        final int currentItem = viewPager.getCurrentItem();
+        if(currentItem > 0) {
+            viewPager.setCurrentItem(currentItem - 1);
+        }
     }
 
     @OnClick(R.id.add_savings_account_button_next)
     void onClickNext() {
-
+        final int currentItem = viewPager.getCurrentItem();
+        if(currentItem < pagerAdapter.getCount() - 1) {
+            viewPager.setCurrentItem(currentItem + 1);
+        }
     }
 }
