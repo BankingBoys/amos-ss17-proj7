@@ -210,4 +210,9 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         startActivity(intent);
         finish();
     }
+
+    public void switchToTransactionOverview(final HashMap<String, Boolean> checkedBankAccounts) {
+        this.checkedBankAccounts = checkedBankAccounts;
+        switchToFragment(AppFragment.TRANSACTION_OVERVIEW, false);
+    }
 }

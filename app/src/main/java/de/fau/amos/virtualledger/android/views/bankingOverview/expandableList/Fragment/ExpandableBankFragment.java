@@ -60,9 +60,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     private CheckBox enableAllCheckBox;
     ExpandableAdapterBanking adapter;
 
-    /**
-     *
-     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -85,23 +82,12 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         });
     }
 
-    /**
-     *
-     */
     public void showAllTransactionsButtonClicked() {
         if(BankingOverviewHandler.getInstance().hasItemsChecked(mappingCheckBoxes)) {
-            Intent intent = new Intent(getActivity(), MainMenu.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(MainMenu.EXTRA_CHECKED_BANK_ACCOUNTS, mappingCheckBoxes);
-            bundle.putSerializable(MainMenu.EXTRA_STARTING_FRAGMENT, MainMenu.AppFragment.TRANSACTION_OVERVIEW);
-            intent.putExtras(bundle);
-            startActivity(intent);
+            ((MainMenu) getActivity()).switchToTransactionOverview(mappingCheckBoxes);
         }
     }
 
-    /**
-     *
-     */
     public void clickCheckBox() {
         BankingOverviewHandler bankingOverview = BankingOverviewHandler.getInstance();
         if(!enableAllCheckBox.isChecked()) {
@@ -113,9 +99,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         listView.setAdapter(adapter);
     }
 
-    /**
-     *
-     */
     @Override
     public void onResume() {
         super.onResume();
@@ -131,9 +114,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         }
     }
 
-    /**
-     *
-     */
     private void onBankAccessesUpdated() {
         createData();
         adapter.setMappingCheckBoxes(mappingCheckBoxes);
@@ -157,9 +137,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         );
     }
 
-    /**
-     *
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
@@ -169,9 +146,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         return view;
     }
 
-    /**
-     *
-     */
     private void createData() {
         int i = 0;
         BankingOverviewHandler bankingOverview = BankingOverviewHandler.getInstance();
@@ -207,9 +181,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         }
     }
 
-    /**
-     *
-     */
     @Override
     public void update(final Observable o, final Object arg) {
         onBankingDataChanged();
@@ -229,18 +200,12 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         }
     }
 
-    /**
-     *
-     */
     @Override
     public void onPause() {
         super.onPause();
         bankingDataManager.deleteObserver(this);
     }
 
-    /**
-     *
-     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
@@ -252,9 +217,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         ft.commit();
     }
 
-    /**
-     *
-     */
     public void setMappingCheckBoxes(HashMap<String, Boolean> map) {
         this.mappingCheckBoxes = map;
     }
