@@ -25,13 +25,13 @@ public class BankTransactionSuplierFilter implements BankTransactionSupplier {
     @Override
     public List<Transaction> getAllTransactions() {
         List<Transaction> allTransactions = new LinkedList<>(this.wrappedSupplier.getAllTransactions());/** Linked lists supports remove(T<?>)*/
-        logger().info("Filtering all transactions of size: " + allTransactions.size());
+        int sizeBefore = allTransactions.size();
         for (Transaction t : new LinkedList<>(allTransactions)) {
             if (filter.shouldBeRemoved(t)) {
                 allTransactions.remove(t);
             }
         }
-        logger().info("Result: " + allTransactions.size());
+        logger().info("Filtering Transactions: " + sizeBefore + ">>" + allTransactions.size());
         return allTransactions;
     }
 
