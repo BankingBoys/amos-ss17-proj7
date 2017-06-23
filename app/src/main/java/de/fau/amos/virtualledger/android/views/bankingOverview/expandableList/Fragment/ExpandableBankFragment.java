@@ -42,7 +42,9 @@ import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 
 public class ExpandableBankFragment extends Fragment implements Observer {
+    @SuppressWarnings("unused")
     private static final String TAG = "BankAccessListFragment";
+
     @Inject
     BankingProvider bankingProvider;
     @Inject
@@ -52,16 +54,15 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     @Inject
     BankingDataManager bankingDataManager;
     private ExpandableListView listView;
-    private SparseArray<Group> groups = new SparseArray<>();
+    private final SparseArray<Group> groups = new SparseArray<>();
     private List<BankAccess> bankAccessList;
     private Button finishButton;
-    private double bankBalanceOverview;
     private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
     private CheckBox enableAllCheckBox;
     ExpandableAdapterBanking adapter;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // This line needs to stay right here!!! Otherwise bankingDataManager is null when passed to adapter
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
@@ -70,26 +71,26 @@ public class ExpandableBankFragment extends Fragment implements Observer {
                 groups, bankingDataManager, mappingCheckBoxes);
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 showAllTransactionsButtonClicked();
             }
         });
         enableAllCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 clickCheckBox();
             }
         });
     }
 
     public void showAllTransactionsButtonClicked() {
-        if(BankingOverviewHandler.getInstance().hasItemsChecked(mappingCheckBoxes)) {
+        if(BankingOverviewHandler.hasItemsChecked(mappingCheckBoxes)) {
             ((MainMenu) getActivity()).switchToTransactionOverview(mappingCheckBoxes);
         }
     }
 
     public void clickCheckBox() {
-        BankingOverviewHandler bankingOverview = BankingOverviewHandler.getInstance();
+        final BankingOverviewHandler bankingOverview = BankingOverviewHandler.getInstance();
         if(!enableAllCheckBox.isChecked()) {
             mappingCheckBoxes = bankingOverview.setAllAccountsCheckedOrUnchecked(mappingCheckBoxes, false);
         } else {
@@ -125,9 +126,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
                         getName,
                         new BiConsumer<BankAccess, BankAccount>() {
                             @Override
-                            public void accept(BankAccess item1, BankAccount item2) {
+                            public void accept(final BankAccess item1, final BankAccount item2) {
                                 new DeleteBankAccessAction(bankingDataManager).accept(item1, item2);
-                                Intent intent = new Intent(getActivity(), MainMenu.class);
+                                final Intent intent = new Intent(getActivity(), MainMenu.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(intent);
                             }
@@ -138,8 +139,8 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.banking_overview_expandablelist_main_view, container, false);
         listView = (ExpandableListView) view.findViewById(R.id.expandableView);
         finishButton = (Button) view.findViewById(R.id.banking_overview_finishButton);
         enableAllCheckBox = (CheckBox) view.findViewById(R.id.banking_overview_enable_all_accounts_checkbox);
@@ -148,20 +149,18 @@ public class ExpandableBankFragment extends Fragment implements Observer {
 
     private void createData() {
         int i = 0;
-        BankingOverviewHandler bankingOverview = BankingOverviewHandler.getInstance();
-        bankBalanceOverview = 0;
+        final BankingOverviewHandler bankingOverview = BankingOverviewHandler.getInstance();
         bankAccessList = bankingOverview.sortAccesses(bankAccessList);
         groups.clear();
         mappingCheckBoxes.clear();
-        for (BankAccess access : bankAccessList) {
-            Group group = new Group(access);
-            List<BankAccount> accountList = bankingOverview.sortAccounts(access.getBankaccounts());
+        for (final BankAccess access : bankAccessList) {
+            final Group group = new Group(access);
+            final List<BankAccount> accountList = bankingOverview.sortAccounts(access.getBankaccounts());
             access.setBankaccounts(accountList);
-            for (BankAccount account : access.getBankaccounts()) {
+            for (final BankAccount account : access.getBankaccounts()) {
                 group.children.add(account);
                 mappingCheckBoxes.put(account.getBankid(), false);
             }
-            bankBalanceOverview += access.getBalance();
             groups.append(i, group);
             i++;
         }
@@ -171,10 +170,10 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     /**
      * opens a fragment through replacing another fragment
      */
-    private void openFragment(Fragment fragment) {
+    private void openFragment(final Fragment fragment) {
         if (null != fragment) {
-            FragmentManager manager = getFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
+            final FragmentManager manager = getFragmentManager();
+            final FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace(R.id.main_menu_content, fragment);
             transaction.addToBackStack(null);
             transaction.commit();
@@ -190,12 +189,12 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         try {
             bankAccessList = bankingDataManager.getBankAccesses();
             if ((bankAccessList == null || bankAccessList.size() == 0)) {
-                Fragment fragment = new NoBankingAccessesFragment();
+                final Fragment fragment = new NoBankingAccessesFragment();
                 openFragment(fragment);
             }
             onBankAccessesUpdated();
 
-        } catch (BankingSyncFailedException ex) {
+        } catch (final BankingSyncFailedException ex) {
             Toast.makeText(getActivity(), "Failed connecting to the server, try again later", Toast.LENGTH_LONG).show();
         }
     }
@@ -207,18 +206,13 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         // add total amount fragment programmatically (bad practice in xml -> empty LinearLayout as wrapper)
-        FragmentManager fm = getFragmentManager();
-        TotalAmountFragment totalAmountFragment = new TotalAmountFragment();
-        FragmentTransaction ft = fm.beginTransaction();
+        final FragmentManager fm = getFragmentManager();
+        final TotalAmountFragment totalAmountFragment = new TotalAmountFragment();
+        final FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.banking_overview_total_amount_fragment_wrapper, totalAmountFragment, "banking_overview_total_amount_fragment");
         ft.commit();
-    }
-
-    public void setMappingCheckBoxes(HashMap<String, Boolean> map) {
-        this.mappingCheckBoxes = map;
     }
 
 }
