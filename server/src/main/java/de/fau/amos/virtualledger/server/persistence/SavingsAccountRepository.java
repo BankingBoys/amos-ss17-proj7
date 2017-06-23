@@ -53,4 +53,16 @@ public class SavingsAccountRepository {
         }
     }
 
+    public List<SavingsAccount> getSavingsAccountsByUserEmail(final String email)
+    {
+        final EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            final Query query = entityManager.createQuery("Select u FROM SavingsAccount u JOIN SavingsAccountToUser s WHERE s.email = :email");
+            query.setParameter("email", email);
+            final List resultList = query.getResultList();
+            return resultList;
+        } finally {
+            entityManager.close();
+        }
+    }
 }
