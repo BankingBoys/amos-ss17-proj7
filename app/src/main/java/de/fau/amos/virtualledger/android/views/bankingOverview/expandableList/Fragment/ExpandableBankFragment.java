@@ -10,7 +10,6 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
@@ -35,7 +34,7 @@ import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessAccount.BankAccessNameExtractor;
 import de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessAccount.DeleteBankAccessAction;
-import de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessAccount.LongClickDeleteListenerList;
+import de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessAccount.DeleteDialog;
 import de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessAccount.functions.BiConsumer;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Adapter.ExpandableAdapterBanking;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.BankingOverviewHandler;
@@ -63,7 +62,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
 
     @OnClick(R.id.banking_overview_finishButton)
     void onClickShowAllTransactions() {
-        if(BankingOverviewHandler.hasItemsChecked(mappingCheckBoxes)) {
+        if (BankingOverviewHandler.hasItemsChecked(mappingCheckBoxes)) {
             ((MainMenu) getActivity()).switchToTransactionOverview(mappingCheckBoxes);
         }
     }
@@ -77,10 +76,12 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     }
 
     @OnItemLongClick(R.id.expandableView)
-    boolean onLongClickListViewItem(final AdapterView<?> parent, final View view, final int position, final long id) {
-        return new LongClickDeleteListenerList(adapter, getActivity(),
-                bankAccessList,
-                new BankAccessNameExtractor(),
+    boolean onLongClickListViewItem(final View view, final int position) {
+        final Group group = (Group) listView.getAdapter().getItem(position);
+        final int index = adapter.getIndexForGroup(group);
+
+        final DeleteDialog deleteDialog = new DeleteDialog(view.getContext(), getActivity(),
+                bankAccessList.get(index), null, new BankAccessNameExtractor(),
                 new BiConsumer<BankAccess, BankAccount>() {
                     @Override
                     public void accept(final BankAccess item1, final BankAccount item2) {
@@ -89,8 +90,9 @@ public class ExpandableBankFragment extends Fragment implements Observer {
                         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                     }
-                }
-        ).onItemLongClick(parent, view, position, id);
+                });
+        deleteDialog.show();
+        return true;
     }
 
     private ExpandableAdapterBanking adapter;
