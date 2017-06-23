@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -201,7 +202,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         ft.commit();
     }
 
-    public void setCheckedMap(HashMap<String, Boolean> map) {
+    public void setCheckedMap(Map<String, Boolean> map) {
         this.itemCheckedMap.update(map);
     }
 

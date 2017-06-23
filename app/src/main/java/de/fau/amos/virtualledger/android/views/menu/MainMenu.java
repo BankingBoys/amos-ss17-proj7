@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -39,7 +40,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     public static final String EXTRA_STARTING_FRAGMENT = "EXTRA_STARTING_FRAGMENT";
     public static final String EXTRA_RECENT_ACTIVITY_ADD_ACCESS = "EXTRA_RECENT_ACTIVITY_ADD_ACCESS";
 
-    private HashMap<String, Boolean> checkedBankAccounts = new HashMap<>();
+    private Map<String, Boolean> checkedBankAccounts = new HashMap<>();
     private boolean recentlyAddedAccess = false;
 
     public enum AppFragment {
