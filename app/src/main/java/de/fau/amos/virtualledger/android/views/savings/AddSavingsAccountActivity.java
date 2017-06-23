@@ -1,15 +1,21 @@
 package de.fau.amos.virtualledger.android.views.savings;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 
 public class AddSavingsAccountActivity extends AppCompatActivity {
     @SuppressWarnings("unused")
     private static final String TAG = AddSavingsAccountActivity.class.getSimpleName();
+
+    @BindView(R.id.add_savings_account_pager)
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -18,5 +24,15 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
 
         setContentView(R.layout.saving_accounts_activity_add);
         ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.add_savings_account_button_previous)
+    void onClickPrevious() {
+
+    }
+
+    @OnClick(R.id.add_savings_account_button_next)
+    void onClickNext() {
+
     }
 }
