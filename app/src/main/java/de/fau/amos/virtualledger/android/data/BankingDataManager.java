@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
@@ -42,6 +43,7 @@ public class BankingDataManager extends Observable {
     private BankingSyncFailedException bankingSyncFailedException = null;
 
     private SYNC_STATUS syncStatus = NOT_SYNCED;
+    private AtomicInteger syncsActive = new AtomicInteger(0);
 
     public BankingDataManager(final BankingProvider bankingProvider, final BankAccessCredentialDB bankAccessCredentialDB, final AuthenticationProvider authenticationProvider) {
         this.bankingProvider = bankingProvider;
@@ -57,6 +59,7 @@ public class BankingDataManager extends Observable {
     public void sync() {
         bankingSyncFailedException = null;
         syncStatus = SYNC_IN_PROGRESS;
+        syncsActive.addAndGet(1);
         bankingProvider.getBankingOverview()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -112,9 +115,12 @@ public class BankingDataManager extends Observable {
     }
 
     private void onSyncComplete() {
-        syncStatus = SYNCED;
-        setChanged();
-        notifyObservers();
+        final int syncsLeft = syncsActive.decrementAndGet();
+        if(syncsLeft == 0) {
+            syncStatus = SYNCED;
+            setChanged();
+            notifyObservers();
+        }
     }
 
     /**
