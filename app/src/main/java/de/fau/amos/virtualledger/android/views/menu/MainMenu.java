@@ -74,7 +74,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         final HashMap<String, Boolean> extraCheckedMap = (HashMap<String, Boolean>) getIntent().getSerializableExtra(EXTRA_CHECKED_BANK_ACCOUNTS);
         checkedBankAccounts = extraCheckedMap != null ? extraCheckedMap : new HashMap<String, Boolean>();
 
-        final boolean currentlyAddedAccess = (Boolean) getIntent().getBooleanExtra(EXTRA_RECENT_ACTIVITY_ADD_ACCESS, false);
+        final boolean currentlyAddedAccess = getIntent().getBooleanExtra(EXTRA_RECENT_ACTIVITY_ADD_ACCESS, false);
 
         final AppFragment extraAppFragment = (AppFragment) getIntent().getSerializableExtra(EXTRA_STARTING_FRAGMENT);
         switchToFragment(extraAppFragment != null ? extraAppFragment : AppFragment.TRANSACTION_OVERVIEW, currentlyAddedAccess);
