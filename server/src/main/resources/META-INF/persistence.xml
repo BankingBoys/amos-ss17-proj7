@@ -8,6 +8,8 @@
         <class>de.fau.amos.virtualledger.server.model.Session</class>
         <class>de.fau.amos.virtualledger.server.model.DeletedBankAccess</class>
         <class>de.fau.amos.virtualledger.server.model.DeletedBankAccount</class>
+        <class>de.fau.amos.virtualledger.server.model.SavingsAccount</class>
+        <class>de.fau.amos.virtualledger.server.model.SavingsAccountToUser</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://amos5db.ckygzouzxgfb.us-east-2.rds.amazonaws.com:3306/amos5db"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
