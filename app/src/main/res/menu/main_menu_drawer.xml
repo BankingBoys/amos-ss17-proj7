@@ -10,6 +10,11 @@
             android:id="@+id/main_menu_transaction_overview"
             android:icon="@drawable/ic_transaction_overview"
             android:title="@string/main_menu_drawer_transaction_overview"/>
+        <item
+            android:id="@+id/main_menu_nav_saving_accounts"
+            android:icon="@drawable/ic_saving_accounts"
+            android:title="@string/main_menu_drawer_saving_accounts"/>
+
     </group>
     <group android:id="@+id/nav_group_misc">
         <item
