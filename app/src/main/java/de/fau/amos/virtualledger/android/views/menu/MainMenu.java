@@ -36,7 +36,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     private static final String TAG = MainMenu.class.getSimpleName();
 
-    public static final String EXTRA_CHECKED_BANK_ACCOUNTS = "EXTRA_CHECKED_BANK_ACCOUNTS";
     public static final String EXTRA_STARTING_FRAGMENT = "EXTRA_STARTING_FRAGMENT";
     public static final String EXTRA_RECENT_ACTIVITY_ADD_ACCESS = "EXTRA_RECENT_ACTIVITY_ADD_ACCESS";
 
@@ -70,9 +69,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
         //set Menu-Icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        final HashMap<String, Boolean> extraCheckedMap = (HashMap<String, Boolean>) getIntent().getSerializableExtra(EXTRA_CHECKED_BANK_ACCOUNTS);
-        checkedBankAccounts = extraCheckedMap != null ? extraCheckedMap : new HashMap<String, Boolean>();
 
         final boolean currentlyAddedAccess = getIntent().getBooleanExtra(EXTRA_RECENT_ACTIVITY_ADD_ACCESS, false);
 
