@@ -65,4 +65,43 @@ public class SavingsAccountRepository {
             entityManager.close();
         }
     }
+
+    public void deleteSavingsAccountById(final int id)
+    {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try{
+            final EntityTransaction entityTransaction = entityManager.getTransaction();
+            try {
+                entityTransaction.begin();
+
+                Query query = entityManager.createQuery("Select s FROM SavingsAccount s WHERE s.id = :id");
+                query.setParameter("id", id);
+                List<SavingsAccount> savingsAccountList = query.getResultList();
+                for(int i = 0; i < savingsAccountList.size(); ++i)
+                {
+                    SavingsAccount savingsAccount = savingsAccountList.get(i);
+                    entityManager.remove(savingsAccount);
+                }
+
+                query = entityManager.createQuery("Select s FROM SavingsAccountToUser s WHERE s.id_savingsaccount = :id_savingsaccount");
+                query.setParameter("id_savingsaccount", id);
+                List<SavingsAccountToUser> savingsAccountToUserList = query.getResultList();
+                for(int i = 0; i < savingsAccountToUserList.size(); ++i)
+                {
+                    SavingsAccountToUser savingsAccountToUser = savingsAccountToUserList.get(i);
+                    entityManager.remove(savingsAccountToUser);
+                }
+
+                entityTransaction.commit();
+            } catch(final Exception e) {
+                logger.warn("", e);
+                entityTransaction.rollback();
+                throw e;
+            }
+        }
+        finally {
+            entityManager.close();
+        }
+    }
 }
