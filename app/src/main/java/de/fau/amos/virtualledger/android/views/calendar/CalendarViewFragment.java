@@ -38,6 +38,8 @@ public class CalendarViewFragment extends Fragment implements DataListening {
         View view = inflater.inflate(R.layout.calendar_view_fragment, container, false);
         readBundle(getArguments());
         ButterKnife.bind(this, view);
+
+        setHasOptionsMenu(true);
         return view;
     }
 

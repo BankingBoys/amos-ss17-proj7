@@ -11,7 +11,7 @@ import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfi
  */
 
 public class ItemCheckedMap implements TransactionFilter {
-    private HashMap<String, Boolean> map;
+    private Map<String, Boolean> map;
 
     public ItemCheckedMap(HashMap<String, Boolean> map) {
         this.map = map;
@@ -31,7 +31,7 @@ public class ItemCheckedMap implements TransactionFilter {
         return this.map.containsKey(bankAccountID) && this.map.get(bankAccountID).booleanValue();
     }
 
-    public void update(HashMap<String, Boolean> map) {
+    public void update(Map<String, Boolean> map) {
         this.map = map;
     }
 

@@ -11,6 +11,9 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -115,6 +119,8 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
             }
         });
         spinner.setSelection(2);
+
+        setHasOptionsMenu(true);
         return this.mainView;
     }
 
@@ -201,10 +207,25 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         ft.commit();
     }
 
-    public void setCheckedMap(HashMap<String, Boolean> map) {
+    public void setCheckedMap(Map<String, Boolean> map) {
         this.itemCheckedMap.update(map);
     }
 
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        inflater.inflate(R.menu.transaction_overview_app_bar, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.transaction_overview_app_bar_refresh:
+                bankingDataManager.sync();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @OnClick(R.id.transaction_overview_calendar_button)
     public void onOpenCalendar() {
