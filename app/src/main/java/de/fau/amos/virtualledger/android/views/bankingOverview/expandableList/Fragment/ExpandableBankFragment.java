@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
@@ -55,10 +56,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     BankAccessCredentialDB bankAccessCredentialDB;
     @Inject
     BankingDataManager bankingDataManager;
-    private final SparseArray<Group> groups = new SparseArray<>();
-    private List<BankAccess> bankAccessList;
-    private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
-    ExpandableAdapterBanking adapter;
 
     @BindView(R.id.expandableView)
     ExpandableListView listView;
@@ -66,6 +63,30 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     Button finishButton;
     @BindView(R.id.banking_overview_enable_all_accounts_checkbox)
     CheckBox enableAllCheckBox;
+
+    @OnClick(R.id.banking_overview_finishButton)
+    void onClickShowAllTransactions() {
+        if(BankingOverviewHandler.hasItemsChecked(mappingCheckBoxes)) {
+            ((MainMenu) getActivity()).switchToTransactionOverview(mappingCheckBoxes);
+        }
+    }
+
+    @OnClick(R.id.banking_overview_enable_all_accounts_checkbox)
+    void onClickEnableAllCheckbox() {
+        final BankingOverviewHandler bankingOverview = BankingOverviewHandler.getInstance();
+        if(!enableAllCheckBox.isChecked()) {
+            mappingCheckBoxes = bankingOverview.setAllAccountsCheckedOrUnchecked(mappingCheckBoxes, false);
+        } else {
+            mappingCheckBoxes = bankingOverview.setAllAccountsCheckedOrUnchecked(mappingCheckBoxes, true);
+        }
+        adapter.setMappingCheckBoxes(mappingCheckBoxes);
+        listView.setAdapter(adapter);
+    }
+
+    private ExpandableAdapterBanking adapter;
+    private final SparseArray<Group> groups = new SparseArray<>();
+    private List<BankAccess> bankAccessList;
+    private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
 
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
@@ -75,35 +96,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
 
         adapter = new ExpandableAdapterBanking(getActivity(),
                 groups, bankingDataManager, mappingCheckBoxes);
-        finishButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                showAllTransactionsButtonClicked();
-            }
-        });
-        enableAllCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                clickCheckBox();
-            }
-        });
-    }
-
-    public void showAllTransactionsButtonClicked() {
-        if(BankingOverviewHandler.hasItemsChecked(mappingCheckBoxes)) {
-            ((MainMenu) getActivity()).switchToTransactionOverview(mappingCheckBoxes);
-        }
-    }
-
-    public void clickCheckBox() {
-        final BankingOverviewHandler bankingOverview = BankingOverviewHandler.getInstance();
-        if(!enableAllCheckBox.isChecked()) {
-            mappingCheckBoxes = bankingOverview.setAllAccountsCheckedOrUnchecked(mappingCheckBoxes, false);
-        } else {
-            mappingCheckBoxes = bankingOverview.setAllAccountsCheckedOrUnchecked(mappingCheckBoxes, true);
-        }
-        adapter.setMappingCheckBoxes(mappingCheckBoxes);
-        listView.setAdapter(adapter);
     }
 
     @Override
