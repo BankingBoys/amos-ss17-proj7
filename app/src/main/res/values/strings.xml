@@ -44,4 +44,5 @@
     <string name="authentication_activity_chooser_demo_account_button">Demo Account</string>
     <string name="authentication_activity_chooser_oidc_button">Authenticate now!</string>
     <string name="main_menu_drawer_saving_accounts">Saving Accounts</string>
+    <string name="saving_accounts_title">Saving Accounts</string>
 </resources>

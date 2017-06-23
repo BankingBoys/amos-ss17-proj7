@@ -28,6 +28,7 @@ import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.views.bankingOverview.addBankAccess.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
+import de.fau.amos.virtualledger.android.views.savings.SavingAccountsFragment;
 import de.fau.amos.virtualledger.android.views.settings.SettingsActivity;
 import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOverviewFragment;
 
@@ -42,7 +43,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     private HashMap<String, Boolean> checkedBankAccounts = new HashMap<>();
 
     public enum AppFragment {
-        BANK_ACCESSES, TRANSACTION_OVERVIEW
+        BANK_ACCESSES, TRANSACTION_OVERVIEW, SAVING_ACCOUNTS
     }
 
     @Inject
@@ -150,6 +151,13 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 transactionOverviewFragment.setRecentlyAddedAccessFlag(recentlyAddedAccess);
                 openFragment(transactionOverviewFragment);
                 break;
+            case SAVING_ACCOUNTS:
+                setTitle(getString(R.string.saving_accounts_title));
+                navigationView.setCheckedItem(R.id.main_menu_nav_saving_accounts);
+
+                final SavingAccountsFragment savingAccountsFragment = new SavingAccountsFragment();
+                openFragment(savingAccountsFragment);
+                break;
             default:
                 Log.e(TAG, "Trying to change to unhandled fragment " + fragment.name());
                 break;
@@ -166,6 +174,9 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 break;
             case R.id.main_menu_transaction_overview:
                 switchToFragment(AppFragment.TRANSACTION_OVERVIEW, false);
+                break;
+            case R.id.main_menu_nav_saving_accounts:
+                switchToFragment(AppFragment.SAVING_ACCOUNTS, false);
                 break;
             case R.id.main_menu_nav_settings:
                 startActivity(new Intent(MainMenu.this, SettingsActivity.class));
