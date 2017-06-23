@@ -1,0 +1,31 @@
+package de.fau.amos.virtualledger.android.views.savings;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import de.fau.amos.virtualledger.R;
+
+public class AddSavingsAccountNameFragment extends Fragment {
+    @SuppressWarnings("unused")
+    private static final String TAG = AddSavingsAccountNameFragment.class.getSimpleName();
+
+    @BindView(R.id.add_savings_account_edit_text_name)
+    ViewPager viewPager;
+
+    @Nullable
+    @Override
+    public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.saving_accounts_add_fragment_name, container, false);
+        ButterKnife.bind(this, view);
+
+        return view;
+    }
+
+}
