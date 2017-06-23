@@ -10,6 +10,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemLongClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
@@ -74,6 +76,23 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         listView.setAdapter(adapter);
     }
 
+    @OnItemLongClick(R.id.expandableView)
+    boolean onLongClickListViewItem(final AdapterView<?> parent, final View view, final int position, final long id) {
+        return new LongClickDeleteListenerList(adapter, getActivity(),
+                bankAccessList,
+                new BankAccessNameExtractor(),
+                new BiConsumer<BankAccess, BankAccount>() {
+                    @Override
+                    public void accept(final BankAccess item1, final BankAccount item2) {
+                        new DeleteBankAccessAction(bankingDataManager).accept(item1, item2);
+                        final Intent intent = new Intent(getActivity(), MainMenu.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                    }
+                }
+        ).onItemLongClick(parent, view, position, id);
+    }
+
     private ExpandableAdapterBanking adapter;
     private final SparseArray<Group> groups = new SparseArray<>();
     private List<BankAccess> bankAccessList;
@@ -108,23 +127,6 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         createData();
         adapter.setMappingCheckBoxes(mappingCheckBoxes);
         listView.setAdapter(adapter);
-        final BankAccessNameExtractor getName = new BankAccessNameExtractor();
-        listView.setOnItemLongClickListener(
-                new LongClickDeleteListenerList(adapter, getActivity(),
-                        bankAccessList,
-                        getName,
-                        new BiConsumer<BankAccess, BankAccount>() {
-                            @Override
-                            public void accept(final BankAccess item1, final BankAccount item2) {
-                                new DeleteBankAccessAction(bankingDataManager).accept(item1, item2);
-                                final Intent intent = new Intent(getActivity(), MainMenu.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                                startActivity(intent);
-                            }
-                        }
-                )
-
-        );
     }
 
     @Override
