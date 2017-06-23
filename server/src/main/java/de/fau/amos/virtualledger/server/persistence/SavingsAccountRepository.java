@@ -28,4 +28,29 @@ public class SavingsAccountRepository {
     protected SavingsAccountRepository() { };
 
 
+    public void createSavingsAccount(String email, SavingsAccount savingsAccount)
+    {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try{
+            EntityTransaction entityTransaction = entityManager.getTransaction();
+            try {
+                entityTransaction.begin();
+                entityManager.persist(savingsAccount);
+                entityManager.persist(new SavingsAccountToUser(email, savingsAccount.id));
+                entityTransaction.commit();
+            } catch(EntityExistsException entityExistsException) {
+                logger.info("Entity already exists: "+ savingsAccount);
+                entityTransaction.rollback();
+                throw entityExistsException;
+            } catch(IllegalArgumentException persistenceException) {
+                logger.warn("", persistenceException);
+                entityTransaction.rollback();
+                throw persistenceException;
+            }
+        }
+        finally {
+            entityManager.close();
+        }
+    }
+
 }
