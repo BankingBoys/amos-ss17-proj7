@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <EditText
+        android:id="@+id/add_savings_account_edit_text_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/add_savings_account_enter_amount_hint"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/add_savings_account_edit_text_amount"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="93dp"
+        android:text="@string/add_savings_account_enter_amount_text"
+        android:textAlignment="center"
+        android:textSize="24sp"/>
+</RelativeLayout>

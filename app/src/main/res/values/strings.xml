@@ -53,5 +53,7 @@
     <string name="add_savings_account_button_next">Next</string>
     <string name="add_savings_account_enter_name_text">Enter a name for your savings account</string>
     <string name="add_savings_account_enter_name_hint">Name</string>
+    <string name="add_savings_account_enter_amount_hint">Goal balance</string>
+    <string name="add_savings_account_enter_amount_text">Enter the goal balance</string>
 
 </resources>
