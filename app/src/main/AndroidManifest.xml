@@ -40,6 +40,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".android.views.savings.AddSavingsAccountActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".android.views.settings.SettingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
