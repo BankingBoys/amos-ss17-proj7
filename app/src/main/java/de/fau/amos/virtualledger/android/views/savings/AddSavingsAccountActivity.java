@@ -13,7 +13,6 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         ((App) getApplication()).getNetComponent().inject(this);
 
