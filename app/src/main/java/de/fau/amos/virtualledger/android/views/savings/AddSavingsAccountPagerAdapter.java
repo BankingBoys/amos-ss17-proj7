@@ -13,11 +13,11 @@ public class AddSavingsAccountPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(final int position) {
-        return null;
+        return new AddSavingsAccountNameFragment();
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return 1;
     }
 }
