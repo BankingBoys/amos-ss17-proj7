@@ -144,7 +144,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 break;
             case TRANSACTION_OVERVIEW:
                 setTitle(getString(R.string.transaction_overview_title));
-                navigationView.setCheckedItem(R.id.main_menu_transaction_overview);
+                navigationView.setCheckedItem(R.id.main_menu_nav_transaction_overview);
 
                 final TransactionOverviewFragment transactionOverviewFragment = new TransactionOverviewFragment();
                 transactionOverviewFragment.setCheckedMap(checkedBankAccounts);
@@ -172,7 +172,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             case R.id.main_menu_nav_bank_accesses:
                 switchToFragment(AppFragment.BANK_ACCESSES, false);
                 break;
-            case R.id.main_menu_transaction_overview:
+            case R.id.main_menu_nav_transaction_overview:
                 switchToFragment(AppFragment.TRANSACTION_OVERVIEW, false);
                 break;
             case R.id.main_menu_nav_saving_accounts:

@@ -7,7 +7,7 @@
             android:icon="@drawable/ic_bank_accesses"
             android:title="@string/main_menu_drawer_bank_accesses"/>
         <item
-            android:id="@+id/main_menu_transaction_overview"
+            android:id="@+id/main_menu_nav_transaction_overview"
             android:icon="@drawable/ic_transaction_overview"
             android:title="@string/main_menu_drawer_transaction_overview"/>
         <item
