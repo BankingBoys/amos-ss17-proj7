@@ -3,10 +3,10 @@ package de.fau.amos.virtualledger.android.views.savings;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,7 +17,7 @@ public class AddSavingsAccountNameFragment extends Fragment {
     private static final String TAG = AddSavingsAccountNameFragment.class.getSimpleName();
 
     @BindView(R.id.add_savings_account_edit_text_name)
-    ViewPager viewPager;
+    EditText editText;
 
     @Nullable
     @Override
