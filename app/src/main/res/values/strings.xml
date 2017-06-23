@@ -51,5 +51,7 @@
     <string name="authentication_activity_chooser_oidc_button">Authenticate now!</string>
     <string name="add_savings_account_button_previous">Previous</string>
     <string name="add_savings_account_button_next">Next</string>
+    <string name="add_savings_account_enter_name_text">Enter a name for your savings account</string>
+    <string name="add_savings_account_enter_name_hint">Name</string>
 
 </resources>
