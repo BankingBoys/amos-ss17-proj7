@@ -3,7 +3,6 @@ package de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.F
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.SparseArray;
@@ -80,15 +79,13 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         final Group group = (Group) listView.getAdapter().getItem(position);
         final int index = adapter.getIndexForGroup(group);
 
-        final DeleteDialog deleteDialog = new DeleteDialog(view.getContext(), getActivity(),
+        final DeleteDialog deleteDialog = new DeleteDialog(view.getContext(),
                 bankAccessList.get(index), null, new BankAccessNameExtractor(),
                 new BiConsumer<BankAccess, BankAccount>() {
                     @Override
                     public void accept(final BankAccess item1, final BankAccount item2) {
                         new DeleteBankAccessAction(bankingDataManager).accept(item1, item2);
-                        final Intent intent = new Intent(getActivity(), MainMenu.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivity(intent);
+                        bankingDataManager.sync();
                     }
                 });
         deleteDialog.show();

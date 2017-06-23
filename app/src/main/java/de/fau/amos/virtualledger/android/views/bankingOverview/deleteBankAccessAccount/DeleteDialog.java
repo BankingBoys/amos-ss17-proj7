@@ -1,6 +1,5 @@
 package de.fau.amos.virtualledger.android.views.bankingOverview.deleteBankAccessAccount;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,7 +17,6 @@ import de.fau.amos.virtualledger.dtos.BankAccount;
 
 public class DeleteDialog {
 
-    private Activity listenedObject;
     private BankAccess bankAccess;
     private BankAccount bankAccount;
     private BiFunction<BankAccess, BankAccount, String> getName;
@@ -27,14 +25,12 @@ public class DeleteDialog {
 
 
     /**
-     * @param listenedObject = the activity
      * @param bankAccess     = the bank access
      * @param bankAccount    = the bank account if neccessary
      * @param getName        = the name extractor to extract the name of the access and the account
      * @param approvedAction = the action that is executed when the delete option is approved
      */
-    public DeleteDialog(Context context, Activity listenedObject, BankAccess bankAccess, BankAccount bankAccount, BiFunction<BankAccess, BankAccount, String> getName, BiConsumer<BankAccess, BankAccount> approvedAction) {
-        this.listenedObject = listenedObject;
+    public DeleteDialog(Context context, BankAccess bankAccess, BankAccount bankAccount, BiFunction<BankAccess, BankAccount, String> getName, BiConsumer<BankAccess, BankAccount> approvedAction) {
         this.bankAccess = bankAccess;
         this.bankAccount = bankAccount;
         this.getName = getName;
