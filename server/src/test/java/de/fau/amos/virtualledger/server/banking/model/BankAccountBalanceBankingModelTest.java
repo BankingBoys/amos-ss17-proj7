@@ -27,5 +27,11 @@ public class BankAccountBalanceBankingModelTest {
         testModel.setAvailableHbciBalance(testBalance);
         Assertions.assertThat(testModel.getAvailableHbciBalance()).isEqualTo(testBalance);
     }
-    
+
+    @Test
+    public void setAndGetReadyHbciBalance() {
+        double testBalance = 6;
+        testModel.setReadyHbciBalance(testBalance);
+        Assertions.assertThat(testModel.getReadyHbciBalance()).isEqualTo(testBalance);
+    }
 }
