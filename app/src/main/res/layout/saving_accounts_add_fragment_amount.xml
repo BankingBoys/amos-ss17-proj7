@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
         android:hint="@string/add_savings_account_enter_amount_hint"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"/>
