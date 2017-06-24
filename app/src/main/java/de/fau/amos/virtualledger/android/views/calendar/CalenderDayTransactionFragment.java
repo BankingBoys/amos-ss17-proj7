@@ -17,10 +17,6 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplier;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionListFragment;
 
-/**
- * Created by Simon on 18.06.2017.
- */
-
 public class CalenderDayTransactionFragment extends Fragment {
 
     private static final String BUNDLE_PARAMETER_TOTALAMOUNT = "totalamount";
@@ -28,6 +24,7 @@ public class CalenderDayTransactionFragment extends Fragment {
     private BankTransactionSupplier bankTransactionSupplier;
 
     private TextView amount;
+    private TextView header;
 
     private View view;
 
@@ -39,6 +36,7 @@ public class CalenderDayTransactionFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
         double amountBundle = bundle.getDouble(BUNDLE_PARAMETER_TOTALAMOUNT);
+
         if (bundle != null) {
             amount.setText(getFormatedDouble(amountBundle));
             changeAmountTextColor(amountBundle);
@@ -65,6 +63,7 @@ public class CalenderDayTransactionFragment extends Fragment {
 
 
         amount = (TextView) view.findViewById(R.id.calendar_view_daily_transaction_amount);
+        this.header = (TextView) view.findViewById(R.id.calendar_view_daily_transaction_amount_text);
         return this.view;
     }
 
@@ -124,12 +123,15 @@ public class CalenderDayTransactionFragment extends Fragment {
         if (amount_i < 0) {
             int redColor = ContextCompat.getColor(view.getContext(), R.color.colorNegativeAmount);
             amount.setTextColor(redColor);
+            this.header.setText("Amount");
         } else if (amount_i == 0) {
             int blueColor = ContextCompat.getColor(view.getContext(), R.color.colorBankingOverview);
             amount.setTextColor(blueColor);
+            this.header.setText("Total Amount");
         } else {
             int greenColor = ContextCompat.getColor(view.getContext(), R.color.colorBankingOverviewLightGreen);
             amount.setTextColor(greenColor);
+            this.header.setText("Amount");
         }
     }
 }
