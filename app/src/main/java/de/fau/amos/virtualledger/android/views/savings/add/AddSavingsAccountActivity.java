@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,6 +30,7 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     Button buttonNext;
 
     private AddSavingsAccountPagerAdapter pagerAdapter;
+    private List<AddSavingsAccountPage> pages = new ArrayList<>();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -36,7 +40,10 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         setContentView(R.layout.saving_accounts_activity_add);
         ButterKnife.bind(this);
 
-        pagerAdapter = new AddSavingsAccountPagerAdapter(getSupportFragmentManager());
+        pages.add(new AddSavingsAccountNameFragment());
+        pages.add(new AddSavingsAccountAmountFragment());
+
+        pagerAdapter = new AddSavingsAccountPagerAdapter(getSupportFragmentManager(), pages);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(0);
         updateBottomBar();

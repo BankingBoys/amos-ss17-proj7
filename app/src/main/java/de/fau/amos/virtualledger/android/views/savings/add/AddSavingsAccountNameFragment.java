@@ -2,7 +2,6 @@ package de.fau.amos.virtualledger.android.views.savings.add;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 
-public class AddSavingsAccountNameFragment extends Fragment implements AddSavingsAccountPage {
+public class AddSavingsAccountNameFragment extends AddSavingsAccountPage {
     @SuppressWarnings("unused")
     private static final String TAG = AddSavingsAccountNameFragment.class.getSimpleName();
 
