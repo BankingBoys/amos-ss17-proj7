@@ -11,6 +11,7 @@ import com.roomorama.caldroid.CaldroidGridAdapter;
 import java.security.InvalidParameterException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TimeZone;
 
 import de.fau.amos.virtualledger.android.dagger.App;
@@ -72,23 +73,38 @@ public class CaldroidBankingFragment extends CaldroidFragment {
     private void init() {
         bankingDateInformationMap = new HashMap<>();
 
-        for (Transaction transaction : this.bankTransactionSupplier.getAllTransactions()) {
+        List<Transaction> allTransactions = this.bankTransactionSupplier.getAllTransactions();
+        
+
+
+
+
+        for (Transaction transaction : allTransactions) {
             Booking booking = transaction.booking();
             Date date = booking.getDate();
             DateTime exactDateTime = DateTime.forInstant(date.getTime(), TimeZone.getDefault());
             DateTime dateTime = new DateTime(exactDateTime.getYear(), exactDateTime.getMonth(), exactDateTime.getDay(), 0, 0, 0, 0);
 
             if (!bankingDateInformationMap.containsKey(dateTime)) {
-                BankingDateInformation bankingDateInformation = new BankingDateInformation(totalAmount, //
+                BankingDateInformation bankingDateInformation = new BankingDateInformation(getTotalAmountFor(date, totalAmount, allTransactions), //
                         new BankTransactionSuplierFilter(this.bankTransactionSupplier, //
-                                 new OneDayFilter(booking.getDate())));
+                                new OneDayFilter(booking.getDate())));
                 bankingDateInformationMap.put(dateTime, bankingDateInformation);
-
             }
 
             BankingDateInformation bankingDateInformation = bankingDateInformationMap.get(dateTime);
-
-            totalAmount -= booking.getAmount();
         }
     }
+
+    private double getTotalAmountFor(Date date, double endTotalAmount, List<Transaction> allTransactions) {
+        double dayAmount = endTotalAmount;
+        for (Transaction t : allTransactions) {
+            if (t.booking().getDate().before(date) || t.booking().getDate().equals(date)) {
+                dayAmount += t.booking().getAmount();
+            }
+        }
+        return dayAmount;
+    }
+
+
 }

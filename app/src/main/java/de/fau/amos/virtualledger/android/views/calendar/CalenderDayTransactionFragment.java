@@ -20,6 +20,9 @@ import de.fau.amos.virtualledger.android.views.shared.transactionList.Transactio
 public class CalenderDayTransactionFragment extends Fragment {
 
     private static final String BUNDLE_PARAMETER_TOTALAMOUNT = "totalamount";
+    private static final String BUNDLE_PARAMETER_TOTAL_DAY_AMOUNT = "totaldayamount";
+
+
     private TransactionListFragment transactionListFragment;
     private BankTransactionSupplier bankTransactionSupplier;
 
@@ -36,10 +39,16 @@ public class CalenderDayTransactionFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
         double amountBundle = bundle.getDouble(BUNDLE_PARAMETER_TOTALAMOUNT);
+        double amountDayBundle = bundle.getDouble(BUNDLE_PARAMETER_TOTAL_DAY_AMOUNT);
 
-        if (bundle != null) {
+        if (amountBundle == 0) {
+            amount.setText(getFormatedDouble(amountDayBundle));
+            changeAmountTextColor(amountDayBundle);
+            this.header.setText("Total Amount");
+        } else {
             amount.setText(getFormatedDouble(amountBundle));
             changeAmountTextColor(amountBundle);
+            this.header.setText("Amount");
         }
     }
 
@@ -70,9 +79,10 @@ public class CalenderDayTransactionFragment extends Fragment {
     /**
      *
      */
-    public static CalenderDayTransactionFragment newInstance(BankTransactionSupplier transactionSupplier, double totalAmount) {
+    public static CalenderDayTransactionFragment newInstance(BankTransactionSupplier transactionSupplier, double totalAmount, double totalDayAmount) {
         Bundle bundle = new Bundle();
         bundle.putDouble(BUNDLE_PARAMETER_TOTALAMOUNT, totalAmount);
+        bundle.putDouble(BUNDLE_PARAMETER_TOTAL_DAY_AMOUNT, totalDayAmount);
         CalenderDayTransactionFragment fragment = new CalenderDayTransactionFragment();
         fragment.setArguments(bundle);
         fragment.pushTransactionSupplier(transactionSupplier);
@@ -123,15 +133,12 @@ public class CalenderDayTransactionFragment extends Fragment {
         if (amount_i < 0) {
             int redColor = ContextCompat.getColor(view.getContext(), R.color.colorNegativeAmount);
             amount.setTextColor(redColor);
-            this.header.setText("Amount");
         } else if (amount_i == 0) {
             int blueColor = ContextCompat.getColor(view.getContext(), R.color.colorBankingOverview);
             amount.setTextColor(blueColor);
-            this.header.setText("Total Amount");
         } else {
             int greenColor = ContextCompat.getColor(view.getContext(), R.color.colorBankingOverviewLightGreen);
             amount.setTextColor(greenColor);
-            this.header.setText("Amount");
         }
     }
 }
