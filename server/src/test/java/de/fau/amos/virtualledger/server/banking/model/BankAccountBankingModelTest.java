@@ -37,6 +37,13 @@ public class BankAccountBankingModelTest {
         Assertions.assertThat(testModel.getBicHbciAccount()).isEqualTo(testString);
     }
 
-    
+    @Test
+    public void setAndGetBlzHbciAccount() {
+        String testString = "testBlzHbci";
+        testModel.setBlzHbciAccount(testString);
+        Assertions.assertThat(testModel.getBlzHbciAccount()).isEqualTo(testString);
+    }
+
+
 
 }
