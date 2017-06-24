@@ -86,6 +86,15 @@ public class BankAccountBankingModelTest {
         Assertions.assertThat(testModel.getNumberHbciAccount()).isEqualTo(testString);
     }
 
+    @Test
+    public void setAndGetTypeHbciAccount() {
+        String testString = "testTypeHbci";
+        testModel.setTypeHbciAccount(testString);
+        Assertions.assertThat(testModel.getTypeHbciAccount()).isEqualTo(testString);
+    }
+
+
+
 
 
 
