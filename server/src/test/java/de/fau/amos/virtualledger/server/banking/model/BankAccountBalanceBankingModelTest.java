@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.server.banking.model;
 
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -8,10 +9,15 @@ import org.junit.Test;
  */
 public class BankAccountBalanceBankingModelTest {
 
+    BankAccountBalanceBankingModel testModel;
+
+    @Before
+    public void setUP() {
+        testModel = new BankAccountBalanceBankingModel();
+    }
+
     @Test
     public void constructorTest() {
-        BankAccountBalanceBankingModel testModel = new BankAccountBalanceBankingModel();
         Assertions.assertThat(testModel).isNotNull();
     }
-    
 }
