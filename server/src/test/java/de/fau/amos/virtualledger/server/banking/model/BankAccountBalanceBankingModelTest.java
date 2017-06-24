@@ -20,4 +20,12 @@ public class BankAccountBalanceBankingModelTest {
     public void constructorTest() {
         Assertions.assertThat(testModel).isNotNull();
     }
+
+    @Test
+    public void setAndGetAvailableHbciBalance() {
+        double testBalance = 5;
+        testModel.setAvailableHbciBalance(testBalance);
+        Assertions.assertThat(testModel.getAvailableHbciBalance()).isEqualTo(testBalance);
+    }
+    
 }
