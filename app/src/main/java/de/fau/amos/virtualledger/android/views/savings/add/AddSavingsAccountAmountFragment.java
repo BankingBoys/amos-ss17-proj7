@@ -12,7 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 
-public class AddSavingsAccountAmountFragment extends Fragment {
+public class AddSavingsAccountAmountFragment extends Fragment implements AddSavingsAccountPage {
     @SuppressWarnings("unused")
     private static final String TAG = AddSavingsAccountAmountFragment.class.getSimpleName();
 
@@ -28,4 +28,8 @@ public class AddSavingsAccountAmountFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void fillInData(final AddSavingsAccountResult addSavingsAccountResult) {
+        addSavingsAccountResult.amount = Double.valueOf(editText.getText().toString());
+    }
 }
