@@ -90,5 +90,6 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
             page.fillInData(result);
         }
         Toast.makeText(this, String.format(Locale.getDefault(), "Name: %s, Amount: %.2f", result.name, result.amount), Toast.LENGTH_LONG).show();
+        finish();
     }
 }
