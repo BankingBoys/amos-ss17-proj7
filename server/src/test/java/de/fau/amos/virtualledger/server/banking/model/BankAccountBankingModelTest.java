@@ -22,4 +22,11 @@ public class BankAccountBankingModelTest {
         testModel.setBankAccessId(testString);
         Assertions.assertThat(testModel.getBankAccessId()).isEqualTo(testString);
     }
+
+    @Test
+    public void setAndGetBankAccountBalance() {
+        BankAccountBalanceBankingModel testBalanceModel = new BankAccountBalanceBankingModel();
+        testModel.setBankAccountBalance(testBalanceModel);
+        Assertions.assertThat(testModel.getBankAccountBalance()).isEqualTo(testBalanceModel);
+    }
 }
