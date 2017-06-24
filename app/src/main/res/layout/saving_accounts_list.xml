@@ -4,4 +4,23 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fontSizeS" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Saving Accounts Overview"
+        android:textAlignment="center"
+        android:textSize="@dimen/fontSizeL" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fontSizeS" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
