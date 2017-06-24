@@ -19,7 +19,6 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
-import de.fau.amos.virtualledger.android.views.savings.add.SavingAccountsAdapter;
 
 public class SavingAccountsFragment extends Fragment {
     @SuppressWarnings("unused")

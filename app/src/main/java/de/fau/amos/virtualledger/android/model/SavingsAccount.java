@@ -1,5 +1,7 @@
 package de.fau.amos.virtualledger.android.model;
 
+import android.support.annotation.VisibleForTesting;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -39,13 +41,18 @@ public class SavingsAccount {
         Calendar cal2 = new GregorianCalendar();
 
         cal1.setTime(this.finaldate);
-        cal2.setTime(new Date());
+        cal2.setTime(this.today());
 
         return daysBetween(cal1.getTime(), cal2.getTime());
     }
 
     private int daysBetween(Date d1, Date d2){
-        return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+        return (int)( (d1.getTime() - d2.getTime()) / (1000 * 60 * 60 * 24));
+    }
+
+    @VisibleForTesting
+    Date today(){
+        return new Date();
     }
 
     public double getCurrentbalance() {

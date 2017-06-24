@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    tools:context=".android.views.transactionOverview.BlankFragment">
+    android:layout_marginTop="10dp">
 
     <LinearLayout
         android:id="@+id/id_layout_bla_"
