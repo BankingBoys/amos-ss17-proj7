@@ -15,4 +15,5 @@
     <dimen name="fontSizeM">16sp</dimen>
     <dimen name="fontSizeL">23sp</dimen>
     <dimen name="fontSizeXL">30sp</dimen>
+    <dimen name="fontSizeXXL">40sp</dimen>
 </resources>
