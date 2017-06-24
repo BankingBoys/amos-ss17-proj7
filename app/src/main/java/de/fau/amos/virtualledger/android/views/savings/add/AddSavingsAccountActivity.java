@@ -3,10 +3,12 @@ package de.fau.amos.virtualledger.android.views.savings.add;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnPageChange;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 
@@ -16,6 +18,9 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
 
     @BindView(R.id.add_savings_account_pager)
     ViewPager viewPager;
+
+    @BindView(R.id.add_savings_account_button_next)
+    Button buttonNext;
 
     private AddSavingsAccountPagerAdapter pagerAdapter;
 
@@ -46,5 +51,12 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         if(currentItem < pagerAdapter.getCount() - 1) {
             viewPager.setCurrentItem(currentItem + 1);
         }
+    }
+
+    @OnPageChange(R.id.add_savings_account_pager)
+    void onPagerPageChange(final int position) {
+        buttonNext.setText(position == pagerAdapter.getCount() - 1
+                ? R.string.add_savings_account_button_submit
+                : R.string.add_savings_account_button_next);
     }
 }
