@@ -39,6 +39,7 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         pagerAdapter = new AddSavingsAccountPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(0);
+        updateBottomBar();
     }
 
     @OnClick(R.id.add_savings_account_button_previous)
@@ -58,7 +59,12 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     }
 
     @OnPageChange(R.id.add_savings_account_pager)
-    void onPagerPageChange(final int position) {
+    void onPagerPageChange() {
+        updateBottomBar();
+    }
+
+    private void updateBottomBar() {
+        final int position = viewPager.getCurrentItem();
         buttonNext.setText(position >= pagerAdapter.getCount() - 1
                 ? R.string.add_savings_account_button_submit
                 : R.string.add_savings_account_button_next);
