@@ -5,9 +5,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,6 +64,8 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         final int currentItem = viewPager.getCurrentItem();
         if(currentItem < pagerAdapter.getCount() - 1) {
             viewPager.setCurrentItem(currentItem + 1);
+        } else {
+            submit();
         }
     }
 
@@ -78,5 +82,13 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         buttonPrevious.setVisibility(position <= 0
                 ? View.INVISIBLE
                 : View.VISIBLE);
+    }
+
+    private void submit() {
+        final AddSavingsAccountResult result = new AddSavingsAccountResult();
+        for (final AddSavingsAccountPage page : pages) {
+            page.fillInData(result);
+        }
+        Toast.makeText(this, String.format(Locale.getDefault(), "Name: %s, Amount: %.2f", result.name, result.amount), Toast.LENGTH_LONG).show();
     }
 }

@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
@@ -29,6 +31,6 @@ public class AddSavingsAccountAmountFragment extends AddSavingsAccountPage {
 
     @Override
     public void fillInData(final AddSavingsAccountResult addSavingsAccountResult) {
-        addSavingsAccountResult.amount = Double.valueOf(editText.getText().toString());
+        addSavingsAccountResult.amount = NumberUtils.toDouble(editText.getText().toString());
     }
 }
