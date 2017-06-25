@@ -17,6 +17,7 @@ import butterknife.OnClick;
 import butterknife.OnPageChange;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.dtos.AddSavingsAccountData;
 
 public class AddSavingsAccountActivity extends AppCompatActivity {
     @SuppressWarnings("unused")
@@ -85,7 +86,7 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     }
 
     private void submit() {
-        final AddSavingsAccountResult result = new AddSavingsAccountResult();
+        final AddSavingsAccountData result = new AddSavingsAccountResult();
         for (final AddSavingsAccountPage page : pages) {
             page.fillInData(result);
         }

@@ -12,6 +12,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.dtos.AddSavingsAccountData;
 
 public class AddSavingsAccountAmountFragment extends AddSavingsAccountPage {
     @SuppressWarnings("unused")
@@ -30,7 +31,7 @@ public class AddSavingsAccountAmountFragment extends AddSavingsAccountPage {
     }
 
     @Override
-    public void fillInData(final AddSavingsAccountResult addSavingsAccountResult) {
-        addSavingsAccountResult.amount = NumberUtils.toDouble(editText.getText().toString());
+    public void fillInData(final AddSavingsAccountData addSavingsAccountResult) {
+        addSavingsAccountResult.goalBalance = NumberUtils.toDouble(editText.getText().toString());
     }
 }
