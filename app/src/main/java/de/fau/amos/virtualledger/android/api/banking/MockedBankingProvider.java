@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccount;
@@ -182,5 +183,10 @@ public class MockedBankingProvider implements BankingProvider {
         th.start();
 
         return observable;
+    }
+
+    @Override
+    public Observable<List<SavingsAccount>> getSavingAccounts() {
+        return null;
     }
 }
