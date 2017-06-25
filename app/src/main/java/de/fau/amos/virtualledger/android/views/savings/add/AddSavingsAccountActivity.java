@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -90,7 +91,11 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         for (final AddSavingsAccountPage page : pages) {
             page.fillInData(result);
         }
-        Toast.makeText(this, String.format(Locale.getDefault(), "Name: %s, Amount: %.2f", result.name, result.goalBalance), Toast.LENGTH_LONG).show();
+        final DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
+        final String finalDateString = result.finalDate == null ? "" : dateFormat.format(result.finalDate);
+        Toast.makeText(this, String.format(Locale.getDefault(), "Name: %s, Goal amount: %.2f, Final date: %s",
+                result.name, result.goalBalance, finalDateString),
+                Toast.LENGTH_LONG).show();
         finish();
     }
 }
