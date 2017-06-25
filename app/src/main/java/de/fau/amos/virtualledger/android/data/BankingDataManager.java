@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
+import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccount;
@@ -34,6 +35,7 @@ public class BankingDataManager extends Observable {
 
     private List<BankAccess> bankAccesses;
     private List<BankAccountBookings> bankAccountBookings;
+    private List<SavingsAccount> savingsAccounts;
 
     //Set if sync failed and thrown in getters
     private SyncFailedException syncFailedException = null;
@@ -73,6 +75,25 @@ public class BankingDataManager extends Observable {
                 onSyncComplete();
             }
         });
+    }
+
+    public List<SavingsAccount> getSavingAccounts() {
+        bankingProvider.getSavingAccounts()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<SavingsAccount>>() {
+                    @Override
+                    public void accept(@NonNull final List<SavingsAccount> savingsAccounts) throws Exception {
+                        BankingDataManager.this.savingsAccounts = savingsAccounts;
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull final Throwable throwable) throws Exception {
+                        Log.e(TAG, "Failed getting savings", throwable);
+
+                    }
+                });
+        return savingsAccounts;
     }
 
     /**
