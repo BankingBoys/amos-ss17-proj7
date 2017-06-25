@@ -189,4 +189,9 @@ public class MockedBankingProvider implements BankingProvider {
     public Observable<List<SavingsAccount>> getSavingAccounts() {
         return null;
     }
+
+    @Override
+    public Observable<String> addSavingAccounts(List<SavingsAccount> savingsAccounts) {
+        return null;
+    }
 }
