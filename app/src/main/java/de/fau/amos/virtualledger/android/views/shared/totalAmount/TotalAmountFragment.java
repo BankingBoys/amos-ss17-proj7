@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
-import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
+import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.ItemCheckedMap;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
@@ -84,7 +84,7 @@ public class TotalAmountFragment extends Fragment implements Observer{
             List<BankAccess> bankAccessList = bankingDataManager.getBankAccesses();
             double totalAmountSum = computeBalanceOfCheckedAccounts();
             setTotalBalance(totalAmountSum);
-        } catch (BankingSyncFailedException ex) {
+        } catch (SyncFailedException ex) {
             Toast.makeText(getActivity(), "Failed connecting to the server, try again later", Toast.LENGTH_LONG).show();
         }
     }
@@ -94,7 +94,7 @@ public class TotalAmountFragment extends Fragment implements Observer{
         double filteredBalance = 0.0;
         try {
             bankAccessList = bankingDataManager.getBankAccesses();
-        } catch (BankingSyncFailedException e) {
+        } catch (SyncFailedException e) {
             return 0.0;
         }
 

@@ -40,7 +40,7 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
-import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
+import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.views.calendar.CalendarViewFragment;
@@ -242,7 +242,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         double filteredBalance = 0.0;
         try {
             bankAccessList = bankingDataManager.getBankAccesses();
-        } catch (BankingSyncFailedException e) {
+        } catch (SyncFailedException e) {
             return 0.0;
         }
 
