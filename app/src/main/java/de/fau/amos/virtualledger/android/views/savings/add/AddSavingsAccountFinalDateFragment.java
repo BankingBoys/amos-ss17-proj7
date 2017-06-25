@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 
+import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
@@ -30,6 +32,11 @@ public class AddSavingsAccountFinalDateFragment extends AddSavingsAccountPage {
 
     @Override
     public void fillInData(final AddSavingsAccountData addSavingsAccountResult) {
-
+        final int day = datePicker.getDayOfMonth();
+        final int month = datePicker.getMonth();
+        final int year = datePicker.getYear();
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+        addSavingsAccountResult.finalDate = calendar.getTime();
     }
 }
