@@ -86,11 +86,11 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     }
 
     private void submit() {
-        final AddSavingsAccountData result = new AddSavingsAccountResult();
+        final AddSavingsAccountData result = new AddSavingsAccountData();
         for (final AddSavingsAccountPage page : pages) {
             page.fillInData(result);
         }
-        Toast.makeText(this, String.format(Locale.getDefault(), "Name: %s, Amount: %.2f", result.name, result.amount), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, String.format(Locale.getDefault(), "Name: %s, Amount: %.2f", result.name, result.goalBalance), Toast.LENGTH_LONG).show();
         finish();
     }
 }
