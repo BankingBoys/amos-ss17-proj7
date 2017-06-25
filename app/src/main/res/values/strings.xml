@@ -56,5 +56,7 @@
     <string name="add_savings_account_enter_amount_hint">Goal balance</string>
     <string name="add_savings_account_enter_amount_text">Enter the goal balance</string>
     <string name="add_savings_account_button_submit">Submit</string>
+    <string name="add_savings_account_enter_final_date_text">Enter the termination date for this account</string>
+    <string name="add_savings_account_enter_final_date_hint">Termination date</string>
 
 </resources>
