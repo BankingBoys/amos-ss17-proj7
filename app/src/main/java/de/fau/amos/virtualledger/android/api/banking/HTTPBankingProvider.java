@@ -6,6 +6,8 @@ import java.util.List;
 
 import de.fau.amos.virtualledger.android.api.Restapi;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
+import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.android.views.savings.SavingAccountsAdapter;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
@@ -182,4 +184,36 @@ public class HTTPBankingProvider implements BankingProvider {
 
         return observable;
     }
+
+    @Override
+    public Observable<List<SavingsAccount>> getSavingAccounts() {
+
+        final retrofit2.Call<List<SavingsAccount>> responseMessage = retrofit.create(Restapi.class).getSavingAccounts(authenticationProvider.getToken());
+        final PublishSubject observable = PublishSubject.create();
+
+        responseMessage.enqueue(new Callback<List<SavingsAccount>>() {
+            @Override
+            public void onResponse(retrofit2.Call<List<SavingsAccount>> call, Response<List<SavingsAccount>> response) {
+                if (response.isSuccessful()) {
+                    List<SavingsAccount> savingsAccounts = response.body();
+                    Log.v(TAG, "Fetching of saving accounts was successful " + response.code());
+                    observable.onNext(savingsAccounts);
+                } else {
+                    Log.e(TAG, "Fetchin of saving accounts was not successful! ERROR " + response.code());
+                    observable.onError(new Throwable("Fetching of saving accounts was not successful!"));
+                }
+            }
+
+
+            @Override
+            public void onFailure(retrofit2.Call<List<SavingsAccount>> call, Throwable t) {
+
+                Log.e(TAG, "No connection to server!");
+                observable.onError(new Throwable("No connection to server!"));
+            }
+        });
+
+        return observable;
+    }
+
 }
