@@ -21,17 +21,13 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-import static de.fau.amos.virtualledger.android.data.BankingDataManager.SYNC_STATUS.NOT_SYNCED;
-import static de.fau.amos.virtualledger.android.data.BankingDataManager.SYNC_STATUS.SYNCED;
-import static de.fau.amos.virtualledger.android.data.BankingDataManager.SYNC_STATUS.SYNC_IN_PROGRESS;
+import static de.fau.amos.virtualledger.android.data.SyncStatus.NOT_SYNCED;
+import static de.fau.amos.virtualledger.android.data.SyncStatus.SYNCED;
+import static de.fau.amos.virtualledger.android.data.SyncStatus.SYNC_IN_PROGRESS;
 
 public class BankingDataManager extends Observable {
     private final static String TAG = BankingDataManager.class.getSimpleName();
 
-    @SuppressWarnings("WeakerAccess") //False positive
-    public enum SYNC_STATUS {
-        NOT_SYNCED, SYNC_IN_PROGRESS, SYNCED
-    }
     private final BankingProvider bankingProvider;
     private final BankAccessCredentialDB bankAccessCredentialDB;
     private final AuthenticationProvider authenticationProvider;
@@ -42,7 +38,7 @@ public class BankingDataManager extends Observable {
     //Set if sync failed and thrown in getters
     private BankingSyncFailedException bankingSyncFailedException = null;
 
-    private SYNC_STATUS syncStatus = NOT_SYNCED;
+    private SyncStatus syncStatus = NOT_SYNCED;
     private AtomicInteger syncsActive = new AtomicInteger(0);
 
     public BankingDataManager(final BankingProvider bankingProvider, final BankAccessCredentialDB bankAccessCredentialDB, final AuthenticationProvider authenticationProvider) {
@@ -129,7 +125,7 @@ public class BankingDataManager extends Observable {
      * SYNC_IN_PROGRESS if the sync is in progress yet.
      * SYNCED if a sync was done.
      */
-    public SYNC_STATUS getSyncStatus() {
+    public SyncStatus getSyncStatus() {
         return syncStatus;
     }
 
