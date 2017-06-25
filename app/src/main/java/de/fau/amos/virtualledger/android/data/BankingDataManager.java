@@ -39,7 +39,7 @@ public class BankingDataManager extends Observable {
     private SyncFailedException syncFailedException = null;
 
     private SyncStatus syncStatus = NOT_SYNCED;
-    private AtomicInteger syncsActive = new AtomicInteger(0);
+    private final AtomicInteger syncsActive = new AtomicInteger(0);
 
     public BankingDataManager(final BankingProvider bankingProvider, final BankAccessCredentialDB bankAccessCredentialDB, final AuthenticationProvider authenticationProvider) {
         this.bankingProvider = bankingProvider;
@@ -82,8 +82,8 @@ public class BankingDataManager extends Observable {
      */
     private void syncBookings() {
         final List<BankAccountSync> bankAccountSyncList = new ArrayList<>();
-        for (BankAccess bankAccess : bankAccesses) {
-            for (BankAccount bankAccount: bankAccess.getBankaccounts()) {
+        for (final BankAccess bankAccess : bankAccesses) {
+            for (final BankAccount bankAccount: bankAccess.getBankaccounts()) {
                 final String pin = bankAccessCredentialDB.getPin(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
                 if(pin != null) {
                     final BankAccountSync bankAccountSync = new BankAccountSync(bankAccess.getId(), bankAccount.getBankid(), pin);
@@ -163,7 +163,7 @@ public class BankingDataManager extends Observable {
                 .subscribe(new Consumer<BankAccess>() {
                     @Override
                     public void accept(@NonNull final BankAccess bankAccess) throws Exception {
-                        for(BankAccount account: bankAccess.getBankaccounts()) {
+                        for(final BankAccount account: bankAccess.getBankaccounts()) {
                             bankAccessCredentialDB.persist(authenticationProvider.getEmail(), bankAccessCredential.getPin(), bankAccess.getId(), account.getBankid(), bankAccess.getName(), account.getName());
                         }
                         BankingDataManager.this.sync();
