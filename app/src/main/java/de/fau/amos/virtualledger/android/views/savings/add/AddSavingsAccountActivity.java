@@ -34,7 +34,7 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     Button buttonNext;
 
     private AddSavingsAccountPagerAdapter pagerAdapter;
-    private List<AddSavingsAccountPage> pages = new ArrayList<>();
+    private final List<AddSavingsAccountPage> pages = new ArrayList<>();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

@@ -8,14 +8,14 @@ import android.util.Log;
 import java.util.List;
 
 
-public class AddSavingsAccountPagerAdapter extends FragmentPagerAdapter {
+class AddSavingsAccountPagerAdapter extends FragmentPagerAdapter {
     @SuppressWarnings("unused")
     private static final String TAG = AddSavingsAccountPagerAdapter.class.getSimpleName();
 
     private final List<AddSavingsAccountPage> pages;
 
-    public AddSavingsAccountPagerAdapter(final FragmentManager fm, final List<AddSavingsAccountPage> pages) {
-        super(fm);
+    AddSavingsAccountPagerAdapter(final FragmentManager fragmentManager, final List<AddSavingsAccountPage> pages) {
+        super(fragmentManager);
         this.pages = pages;
     }
 
