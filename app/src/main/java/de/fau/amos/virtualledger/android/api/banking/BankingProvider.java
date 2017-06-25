@@ -23,4 +23,6 @@ public interface BankingProvider {
 
     Observable<List<SavingsAccount>> getSavingAccounts();
 
+    Observable<String> addSavingAccounts(List<SavingsAccount> savingsAccounts);
+
 }
