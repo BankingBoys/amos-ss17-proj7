@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.android.dagger.module;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -10,8 +11,14 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import dagger.Module;
 import dagger.Provides;
@@ -62,7 +69,19 @@ public class NetModule {
         gsonBuilder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
             @Override
             public Date deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-                return new Date(json.getAsJsonPrimitive().getAsLong());
+                //FIXME Quick fix to parse two different date formats. Should make sure the server only returns one format instead!
+                final String jsonString = json.getAsJsonPrimitive().getAsString();
+                if(NumberUtils.isParsable(jsonString)) {
+                    return new Date(NumberUtils.createLong(jsonString));
+                } else {
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
+                    try {
+                        return dateFormat.parse(jsonString.replaceAll("Z$", "+0000"));
+                    } catch (ParseException e) {
+                        Log.e("", "Failed parsing date");
+                        return null;
+                    }
+                }
             }
         });
         return gsonBuilder.create();
