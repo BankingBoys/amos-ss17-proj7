@@ -25,6 +25,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     private final String GRANT_TYPE_LOGIN = "password";
     private final String GRANT_TYPE_REFRESH = "refresh_token";
 
+    private OidcData oidcData = null;
 
 
     public OidcAuthenticationProvider(Retrofit retrofit) {
@@ -47,7 +48,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
             public void onResponse(retrofit2.Call<OidcData> call, Response<OidcData> response) {
                 if (response.isSuccessful()) {
 
-
+                    oidcData = response.body();
                     observable.onNext("Login was successful!");
                 } else {
                     Log.e(TAG, "Login was not successful!");
@@ -66,36 +67,42 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Observable<String> logout() {
-        return null;
+        throw new NotImplementedException("Coming soon...");
     }
 
     @Override
     public boolean isLoggedIn() {
-        return false;
+
+        return oidcData != null;
     }
 
     @Override
     public String getToken() {
-        return null;
+
+        throw new NotImplementedException("Coming soon...");
     }
 
     @Override
     public String getEmail() {
-        return null;
+
+        throw new NotImplementedException("Coming soon...");
     }
 
     @Override
     public void persistLoginData(Context context) {
 
+        throw new NotImplementedException("Coming soon...");
     }
 
     @Override
     public void deleteSavedLoginData(Context context) {
 
+        throw new NotImplementedException("Coming soon...");
     }
 
     @Override
     public void tryLoadLoginData(Context context) {
 
+        throw new NotImplementedException("Coming soon...");
     }
 }
