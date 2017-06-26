@@ -38,14 +38,16 @@ public class App extends Application {
         String ip = properties.getProperty("IPAddress");
         String authorityIp = properties.getProperty("AuthorityIP");
 
+        AppModule appModule = new AppModule(this);
+
         netComponent = DaggerNetComponent.builder()
-                .appModule(new AppModule(this))
+                .appModule(appModule)
                 .netModule(new NetModule(ip))
                 .build();
 
         oidcAuthenticationComponent = DaggerOidcAuthenticationComponent.builder()
+                .appModule(appModule)
                 .netModule(new NetModule(authorityIp))
-                .oidcAuthenticationModule(new OidcAuthenticationModule())
                 .build();
     }
 
