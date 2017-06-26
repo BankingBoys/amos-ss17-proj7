@@ -59,8 +59,8 @@ public class HTTPSavingsProvider implements SavingsProvider {
     }
 
     @Override
-    public Observable<String> addSavingAccounts(List<SavingsAccount> savingsAccounts) {
-        final retrofit2.Call<Void> responseMessage = retrofit.create(Restapi.class).addSavingAccounts(authenticationProvider.getToken(), savingsAccounts);
+    public Observable<String> addSavingAccount(SavingsAccount savingsAccount) {
+        final retrofit2.Call<Void> responseMessage = retrofit.create(Restapi.class).addSavingAccounts(authenticationProvider.getToken(), savingsAccount);
         final PublishSubject observable = PublishSubject.create();
 
         responseMessage.enqueue(new Callback<Void>() {

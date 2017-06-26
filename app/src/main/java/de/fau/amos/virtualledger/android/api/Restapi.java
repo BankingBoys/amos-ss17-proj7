@@ -50,6 +50,6 @@ public interface Restapi {
     Call<List<SavingsAccount>> getSavingAccounts(@Header("Authorization") String token);
 
     @POST("/api/savings")
-    Call<Void> addSavingAccounts(@Header("Authorization") String token, @Body List<SavingsAccount> savingsAccounts);
+    Call<Void> addSavingAccounts(@Header("Authorization") String token, @Body SavingsAccount savingsAccounts);
 
 }

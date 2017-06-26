@@ -10,5 +10,5 @@ public interface SavingsProvider {
 
     Observable<List<SavingsAccount>> getSavingAccounts();
 
-    Observable<String> addSavingAccounts(List<SavingsAccount> savingsAccounts);
+    Observable<String> addSavingAccount(SavingsAccount savingsAccount);
 }
