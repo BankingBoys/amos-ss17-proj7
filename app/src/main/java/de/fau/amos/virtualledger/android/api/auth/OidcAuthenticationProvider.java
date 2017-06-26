@@ -5,10 +5,6 @@ import android.util.Log;
 
 import org.apache.commons.lang3.NotImplementedException;
 
-import de.fau.amos.virtualledger.android.api.Restapi;
-import de.fau.amos.virtualledger.android.model.OidcLoginData;
-import de.fau.amos.virtualledger.dtos.LoginData;
-import de.fau.amos.virtualledger.dtos.SessionData;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Callback;
