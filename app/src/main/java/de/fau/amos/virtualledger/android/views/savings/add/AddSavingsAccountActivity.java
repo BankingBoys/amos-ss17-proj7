@@ -12,17 +12,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnPageChange;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.android.data.SavingsAccountsDataManager;
 import de.fau.amos.virtualledger.dtos.AddSavingsAccountData;
 
 public class AddSavingsAccountActivity extends AppCompatActivity {
     @SuppressWarnings("unused")
     private static final String TAG = AddSavingsAccountActivity.class.getSimpleName();
+
+    @Inject
+    SavingsAccountsDataManager savingsAccountsDataManager;
 
     @BindView(R.id.add_savings_account_pager)
     ViewPager viewPager;
@@ -100,6 +106,7 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         Toast.makeText(this, String.format(Locale.getDefault(), "Name: %s, Goal amount: %.2f, Final date: %s",
                 result.name, result.goalBalance, finalDateString),
                 Toast.LENGTH_LONG).show();
+        savingsAccountsDataManager.addSavingsAccount(result);
         finish();
     }
 }
