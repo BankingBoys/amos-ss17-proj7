@@ -8,7 +8,7 @@ import de.fau.amos.virtualledger.android.views.shared.transactionList.Transactio
  * Created by sebastian on 11.06.17.
  */
 
-public class OneDayFilter implements TransactionFilter {
+public class OneDayFilter implements Filter<Transaction> {
     private Date day;
 
     public OneDayFilter(Date day) {

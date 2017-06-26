@@ -10,7 +10,7 @@ import de.fau.amos.virtualledger.android.views.shared.transactionList.Transactio
  * Created by sebastian on 11.06.17.
  */
 
-public class Last4Weeks implements TransactionFilter {
+public class Last4Weeks implements Filter<Transaction> {
     @Override
     public boolean shouldBeRemoved(Transaction t) {
         int weeks_difference = getWeeksBetween(t.booking().getDate(), new Date());

@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.views.shared.transactionList;
+package de.fau.amos.virtualledger.android.views.savings;
 
 import android.app.Activity;
 
@@ -13,39 +13,31 @@ import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
-import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
-import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
-import de.fau.amos.virtualledger.dtos.BankAccountBookings;
-import de.fau.amos.virtualledger.dtos.Booking;
+import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
 
 /**
  * Created by sebastian on 17.06.17.
  */
 
-public class BankTransactionSupplierImplementation implements Supplier<Transaction>, Observer {
+public class SavingsSupplier implements de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier<SavingsAccount>, Observer {
+
     @Inject
     BankingDataManager bankingDataManager;
-    @Inject
-    BankAccessCredentialDB bankAccessCredentialDB;
-    @Inject
-    AuthenticationProvider authenticationProvider;
 
     private Set<DataListening> dataListenings = new HashSet<>();
 
-    private ArrayList<Transaction> allBankTransactions = new ArrayList<>();
+    private List<SavingsAccount> allSavings = new ArrayList<>();
 
-    private List<BankAccountBookings> bankAccountBookingsList;
-
-    public BankTransactionSupplierImplementation(Activity activity, List<BankAccountBookings> bankAccountBookingsList) {
+    public SavingsSupplier(Activity activity) {
         ((App) activity.getApplication()).getNetComponent().inject(this);
-        this.bankAccountBookingsList = bankAccountBookingsList;
     }
 
     @Override
-    public List<Transaction> getAll() {
-        return this.allBankTransactions;
+    public List<SavingsAccount> getAll() {
+        return this.allSavings;
     }
 
     @Override
@@ -58,30 +50,18 @@ public class BankTransactionSupplierImplementation implements Supplier<Transacti
                 bankingDataManager.sync();
                 break;
             case SYNCED:
-                onBookingsUpdated();
+                onSavingsUpdated();
                 break;
         }
     }
 
 
-    private void onBookingsUpdated() {
-        this.logger().info("bookings loaded. Compiling it to transactions");
-        this.allBankTransactions.clear();
-        for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
-            for (Booking booking : bankAccountBookings.getBookings()) {
-                Transaction transaction = new Transaction(
-                        bankAccessCredentialDB
-                                .getAccountName(
-                                        authenticationProvider.getUserId(),
-                                        bankAccountBookings.getBankaccessid(),
-                                        bankAccountBookings.getBankaccountid()),
-                        bankAccountBookings.getBankaccountid(),
-                        booking);
-
-                this.allBankTransactions.add(transaction);
-            }
+    private void onSavingsUpdated() {
+        this.logger().info("Savings loaded.");
+        this.allSavings.clear();
+        if(this.bankingDataManager.getSavingAccounts() != null){
+            this.allSavings.addAll(this.bankingDataManager.getSavingAccounts());
         }
-        this.logger().info("Notifying observers: " + dataListenings.size() + " with number of transactions: " + this.allBankTransactions.size());
         notifyObservers();
     }
 
@@ -96,7 +76,7 @@ public class BankTransactionSupplierImplementation implements Supplier<Transacti
     @Override
     public void deregister(DataListening observer) {
         this.dataListenings.remove(observer);
-        if (this.dataListenings.isEmpty()){
+        if (this.dataListenings.isEmpty()) {
             this.bankingDataManager.deleteObserver(this);
         }
     }
@@ -109,10 +89,11 @@ public class BankTransactionSupplierImplementation implements Supplier<Transacti
 
     @Override
     public void update(Observable observable, Object o) {
-        this.onBookingsUpdated();
+        this.onSavingsUpdated();
     }
 
     private void notifyObservers() {
+        this.logger().info("Notify "+this.dataListenings.size()+" Savings-Listener with "+this.allSavings.size()+" Savings accounts");
         for (DataListening dataListening : this.dataListenings) {
             dataListening.notifyDataChanged();
         }

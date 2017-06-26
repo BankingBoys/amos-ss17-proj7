@@ -19,7 +19,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplier;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
 import hirondelle.date4j.DateTime;
 
 public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
@@ -62,13 +63,13 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
         BankingDateInformation bankingDateInformation = this.bankingDateInformationMap.get(dateTime);
         double amountDelta = 0.0;
         double amount = 0.0;
-        BankTransactionSupplier transactionList = null;
+        Supplier<Transaction> transactionList = null;
         if (bankingDateInformation != null) {
             amountDelta = bankingDateInformation.getAmountDelta();
             amount = bankingDateInformation.getAmount();
             transactionList = bankingDateInformation.getTransactionSuppllier();
         }
-        final BankTransactionSupplier transactionListPassed = transactionList;
+        final Supplier<Transaction> transactionListPassed = transactionList;
         final double amountPassed = amountDelta;
         final double dayAmount = amount;
 

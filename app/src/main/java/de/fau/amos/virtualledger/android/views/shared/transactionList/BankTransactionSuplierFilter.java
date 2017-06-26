@@ -4,29 +4,29 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.TransactionFilter;
+import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.Filter;
 
 /**
  * Created by sebastian on 18.06.17.
  */
 
-public class BankTransactionSuplierFilter implements BankTransactionSupplier {
+public class BankTransactionSuplierFilter<T> implements Supplier<T> {
 
-    private BankTransactionSupplier wrappedSupplier;
-    private TransactionFilter filter;
+    private Supplier<T> wrappedSupplier;
+    private Filter<T> filter;
 
 
-    public BankTransactionSuplierFilter(BankTransactionSupplier wrappedSupplier, TransactionFilter filter) {
+    public BankTransactionSuplierFilter(Supplier<T> wrappedSupplier, Filter<T> filter) {
         this.wrappedSupplier = wrappedSupplier;
         this.filter = filter;
     }
 
 
     @Override
-    public List<Transaction> getAllTransactions() {
-        List<Transaction> allTransactions = new LinkedList<>(this.wrappedSupplier.getAllTransactions());/** Linked lists supports remove(T<?>)*/
+    public List<T> getAll() {
+        List<T> allTransactions = new LinkedList<>(this.wrappedSupplier.getAll());/** Linked lists supports remove(T<?>)*/
         int sizeBefore = allTransactions.size();
-        for (Transaction t : new LinkedList<>(allTransactions)) {
+        for (T t : new LinkedList<>(allTransactions)) {
             if (filter.shouldBeRemoved(t)) {
                 allTransactions.remove(t);
             }

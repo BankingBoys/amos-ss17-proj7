@@ -4,45 +4,32 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
-import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
-import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
-import de.fau.amos.virtualledger.dtos.BankAccess;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
 
-public class SavingAccountsFragment extends Fragment {
+public class SavingAccountsFragment extends Fragment implements DataListening {
     @SuppressWarnings("unused")
     private final String TAG = this.getClass().getSimpleName();
 
-    @Inject
-    SavingsProvider savingsProvider;
 
-    private ListAdapter adapter;
+    private SavingAccountsAdapter adapter;
     private ListView savingsAccountList;
-    private List<SavingsAccount> savingsList;
+    private Supplier<SavingsAccount> savingsSupplier;
 
     @Inject
     BankingDataManager bankingDataManager;
@@ -52,9 +39,11 @@ public class SavingAccountsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
 
-        adapter = new SavingAccountsAdapter(getActivity(), R.id.savings_account_list, new ArrayList<SavingsAccount>());
+        this.savingsSupplier = new SavingsSupplier(getActivity());
+        this.savingsSupplier.addDataListeningObject(this);
+        adapter = new SavingAccountsAdapter(getActivity(), R.id.savings_account_list, savingsSupplier.getAll());
         savingsAccountList.setAdapter(adapter);
-        savingsList = bankingDataManager.getSavingAccounts();
+        this.savingsSupplier.onResume();
     }
 
     @Override
@@ -63,7 +52,6 @@ public class SavingAccountsFragment extends Fragment {
         View mainView = inflater.inflate(R.layout.saving_accounts_list, container, false);
 
         this.savingsAccountList = (ListView) mainView.findViewById(R.id.savings_account_list);
-
         return mainView;
     }
 
@@ -84,4 +72,21 @@ public class SavingAccountsFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void notifyDataChanged() {
+        this.adapter.clear();
+        this.adapter.addAll(this.savingsSupplier.getAll());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.savingsSupplier.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.savingsSupplier.onResume();
+    }
 }

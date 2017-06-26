@@ -8,7 +8,7 @@ import java.util.List;
  * Created by sebastian on 17.06.17.
  */
 
-public class StubbedBankTransactionSupplier implements BankTransactionSupplier{
+public class StubbedBankTransactionSupplier implements Supplier<Transaction>{
     private List<Transaction> transactionsList = null;
 
 
@@ -21,7 +21,7 @@ public class StubbedBankTransactionSupplier implements BankTransactionSupplier{
     }
 
     @Override
-    public List<Transaction> getAllTransactions() {
+    public List<Transaction> getAll() {
         return this.transactionsList;
     }
 

@@ -23,7 +23,7 @@ public class TransactionListFragment extends Fragment implements DataListening {
 
     private ListView bookingListView;
 
-    private BankTransactionSupplier bankTransactionSupplier;
+    private Supplier<Transaction> bankTransactionSupplier;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class TransactionListFragment extends Fragment implements DataListening {
         bookingListView.setAdapter(adapter);
     }
 
-    public void pushDataProvider(BankTransactionSupplier supplier) {
+    public void pushDataProvider(Supplier<Transaction> supplier) {
         this.bankTransactionSupplier = supplier;
         this.bankTransactionSupplier.addDataListeningObject(this);
         this.bankTransactionSupplier.onResume();
@@ -64,7 +64,7 @@ public class TransactionListFragment extends Fragment implements DataListening {
             return;
         }
         this.logger().info("TransactionListFragment is refreshing transactions");
-        List<Transaction> transactionsToPresent = this.bankTransactionSupplier.getAllTransactions();
+        List<Transaction> transactionsToPresent = this.bankTransactionSupplier.getAll();
         this.adapter.clear();
         logger().log(Level.INFO, "Number of presented transactions: " + transactionsToPresent.size());
         for (Transaction actualTransaction : transactionsToPresent) {

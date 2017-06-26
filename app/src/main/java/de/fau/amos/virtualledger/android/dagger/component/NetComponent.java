@@ -1,13 +1,8 @@
 package de.fau.amos.virtualledger.android.dagger.component;
 
-import android.app.Application;
-
 import javax.inject.Singleton;
 
 import dagger.Component;
-import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
-import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
-import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
 import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity;
 import de.fau.amos.virtualledger.android.authentication.demo.registration.RegisterActivity;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
@@ -17,15 +12,14 @@ import de.fau.amos.virtualledger.android.dagger.module.BankingModule;
 import de.fau.amos.virtualledger.android.dagger.module.DatabaseModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 import de.fau.amos.virtualledger.android.dagger.module.SavingsModule;
-import de.fau.amos.virtualledger.android.data.BankingDataManager;
-import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.bankingOverview.addBankAccess.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.views.calendar.CaldroidBankingFragment;
 import de.fau.amos.virtualledger.android.views.menu.MainMenu;
-import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
 import de.fau.amos.virtualledger.android.views.savings.SavingAccountsFragment;
+import de.fau.amos.virtualledger.android.views.savings.SavingsSupplier;
+import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplierImplementation;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionListFragment;
@@ -69,4 +63,6 @@ public interface NetComponent {
     void inject(SavingAccountsFragment savingAccountsFragment);
 
     void inject(AddSavingsAccountActivity addSavingsAccountActivity);
+
+    void inject(SavingsSupplier addSavingsAccountActivity);
 }
