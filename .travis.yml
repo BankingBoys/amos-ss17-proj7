@@ -9,9 +9,7 @@ before_install:
   - echo -e $sshcert > keyssh
 
 install:
-  - sudo apt-get install python-dev libffi-dev libssl-dev
-  - pip install pyopenssl ndg-httpsclient pyasn1
-  - pip install codecov
+  - pip install
   - cd /home/travis/build/BankingBoys/
   - sudo apt install unzip   
   - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
@@ -42,7 +40,7 @@ notifications:
     slack: amosteam5:WF2UyrAWwmuoSgjjtqPo8O1N
 
 after_success:
- - codecov
+ - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
