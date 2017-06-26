@@ -58,4 +58,8 @@ public class App extends Application {
     public OidcAuthenticationComponent getOidcAuthenticationComponent() {
         return oidcAuthenticationComponent;
     }
+
+    public String getOidcRegisterUrl() {
+        return properties.getProperty("AuthorityRegisterUrl");
+    }
 }
