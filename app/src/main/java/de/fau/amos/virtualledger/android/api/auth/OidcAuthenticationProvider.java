@@ -39,12 +39,12 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Observable<String> login(String username, String password) {
-        retrofit2.Call<Object> responseMessage = retrofit.create(KeycloakApi.class).login(username, password, CLIENT_ID, GRANT_TYPE_LOGIN);
+        retrofit2.Call<OidcData> responseMessage = retrofit.create(KeycloakApi.class).login(username, password, CLIENT_ID, GRANT_TYPE_LOGIN);
         final PublishSubject observable = PublishSubject.create();
 
-        responseMessage.enqueue(new Callback<Object>() {
+        responseMessage.enqueue(new Callback<OidcData>() {
             @Override
-            public void onResponse(retrofit2.Call<Object> call, Response<Object> response) {
+            public void onResponse(retrofit2.Call<OidcData> call, Response<OidcData> response) {
                 if (response.isSuccessful()) {
 
 
@@ -56,7 +56,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
             }
 
             @Override
-            public void onFailure(retrofit2.Call<Object> call, Throwable t) {
+            public void onFailure(retrofit2.Call<OidcData> call, Throwable t) {
                 Log.e(TAG, "Login failed!");
                 observable.onError(new Throwable("Login failed!"));
             }

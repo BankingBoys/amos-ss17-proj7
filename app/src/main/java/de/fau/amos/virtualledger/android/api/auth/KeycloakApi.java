@@ -13,7 +13,7 @@ public interface KeycloakApi {
 
     @FormUrlEncoded
     @POST("token")
-    Call<Object> login(@Field("username") String username, @Field("password") String password, @Field("client_id") String clientId, @Field("grant_type") String grantType);
+    Call<OidcData> login(@Field("username") String username, @Field("password") String password, @Field("client_id") String clientId, @Field("grant_type") String grantType);
 
     @FormUrlEncoded
     @POST("token")
