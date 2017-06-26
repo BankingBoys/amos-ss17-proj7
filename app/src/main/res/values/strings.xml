@@ -64,5 +64,7 @@
     <string name="add_savings_account_text_view_choose_deposit_type">Choose a deposit type</string>
     <string name="add_savings_account_deposit_type_single">Single</string>
     <string name="add_savings_account_deposit_type_shared">Shared</string>
+    <string name="add_savings_account_choose_accounts_button">Choose Accounts</string>
+    <string name="add_savings_account_choose_accounts_text">Choose accounts that are enabled for the transaction of money to this deposit</string>
 
 </resources>
