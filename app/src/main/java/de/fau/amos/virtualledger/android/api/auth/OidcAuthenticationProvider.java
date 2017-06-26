@@ -110,7 +110,34 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Observable<String> logout() {
-        throw new NotImplementedException("Coming soon...");
+        if(oidcData == null) {
+            throw new IllegalStateException("logout() was called but nobody was logged in!");
+        }
+
+        retrofit2.Call<Object> responseMessage = retrofit.create(KeycloakApi.class).logout(oidcData.refresh_token, CLIENT_ID);
+        final PublishSubject observable = PublishSubject.create();
+
+        responseMessage.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(retrofit2.Call<Object> call, Response<Object> response) {
+                if (response.isSuccessful()) {
+                    oidcData = null;
+                    lastRefresh = null;
+                    // TODO delete persisted data
+                    observable.onNext("Logout was successful!");
+                } else {
+                    Log.e(TAG, "Logout was not successful!");
+                    observable.onError(new Throwable("Logout was not successful!"));
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<Object> call, Throwable t) {
+                Log.e(TAG, "Logout failed!");
+                observable.onError(new Throwable("Logout failed!"));
+            }
+        });
+        return observable;
     }
 
     @Override
