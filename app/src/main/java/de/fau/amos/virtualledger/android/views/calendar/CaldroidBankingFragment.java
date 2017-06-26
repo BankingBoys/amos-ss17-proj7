@@ -74,9 +74,6 @@ public class CaldroidBankingFragment extends CaldroidFragment {
         bankingDateInformationMap = new HashMap<>();
 
         List<Transaction> allTransactions = this.bankTransactionSupplier.getAll();
-        
-
-
 
 
         for (Transaction transaction : allTransactions) {
@@ -91,16 +88,14 @@ public class CaldroidBankingFragment extends CaldroidFragment {
                                 new OneDayFilter(booking.getDate())));
                 bankingDateInformationMap.put(dateTime, bankingDateInformation);
             }
-
-            BankingDateInformation bankingDateInformation = bankingDateInformationMap.get(dateTime);
         }
     }
 
     private double getTotalAmountFor(Date date, double endTotalAmount, List<Transaction> allTransactions) {
         double dayAmount = endTotalAmount;
         for (Transaction t : allTransactions) {
-            if (t.booking().getDate().before(date) || t.booking().getDate().equals(date)) {
-                dayAmount += t.booking().getAmount();
+            if (date.before(t.booking().getDate())) {
+                dayAmount -= t.booking().getAmount();
             }
         }
         return dayAmount;
