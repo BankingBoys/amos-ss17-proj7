@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,27 +12,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
 import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.android.data.BankingDataManager;
+import de.fau.amos.virtualledger.android.data.SavingsAccountsDataManager;
 import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
-import de.fau.amos.virtualledger.dtos.BankAccess;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
-public class SavingAccountsFragment extends Fragment {
+public class SavingAccountsFragment extends Fragment implements Observer {
     @SuppressWarnings("unused")
     private final String TAG = this.getClass().getSimpleName();
 
@@ -42,25 +38,22 @@ public class SavingAccountsFragment extends Fragment {
 
     private ListAdapter adapter;
     private ListView savingsAccountList;
-    private List<SavingsAccount> savingsList;
+    private List<SavingsAccount> savingsList = new ArrayList<>();
 
     @Inject
-    BankingDataManager bankingDataManager;
+    SavingsAccountsDataManager savingsAccountsDataManager;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
 
-        adapter = new SavingAccountsAdapter(getActivity(), R.id.savings_account_list, new ArrayList<SavingsAccount>());
-        savingsAccountList.setAdapter(adapter);
-        savingsList = bankingDataManager.getSavingAccounts();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View mainView = inflater.inflate(R.layout.saving_accounts_list, container, false);
+        final View mainView = inflater.inflate(R.layout.saving_accounts_list, container, false);
 
         this.savingsAccountList = (ListView) mainView.findViewById(R.id.savings_account_list);
 
@@ -84,4 +77,33 @@ public class SavingAccountsFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        savingsAccountsDataManager.addObserver(this);
+
+        switch (savingsAccountsDataManager.getSyncStatus()) {
+            case NOT_SYNCED:
+                savingsAccountsDataManager.sync();
+                break;
+            case SYNCED:
+                onDataChanged();
+                break;
+        }
+    }
+
+    @Override
+    public void update(final Observable o, final Object arg) {
+        onDataChanged();
+    }
+
+    private void onDataChanged() {
+        try {
+            savingsList = savingsAccountsDataManager.getSavingsAccounts();
+            adapter = new SavingAccountsAdapter(getActivity(), R.id.savings_account_list, savingsList);
+            savingsAccountList.setAdapter(adapter);
+        } catch (final SyncFailedException e) {
+            Toast.makeText(getActivity(), "Failed connecting to the server, try again later", Toast.LENGTH_LONG).show();
+        }
+    }
 }

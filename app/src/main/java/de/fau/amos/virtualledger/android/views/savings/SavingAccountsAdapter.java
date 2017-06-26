@@ -8,8 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
@@ -18,7 +18,7 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
 
     private Activity activity;
 
-    public SavingAccountsAdapter(Activity activity, int layout, ArrayList<SavingsAccount> data) {
+    public SavingAccountsAdapter(Activity activity, int layout, List<SavingsAccount> data) {
         super(activity, layout, data);
         data.add(this.dummySavingsAccount());
         data.add(this.dummySavingsAccount());

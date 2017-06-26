@@ -11,9 +11,7 @@ import de.fau.amos.virtualledger.android.dagger.component.DaggerOidcAuthenticati
 import de.fau.amos.virtualledger.android.dagger.component.NetComponent;
 import de.fau.amos.virtualledger.android.dagger.component.OidcAuthenticationComponent;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
-import de.fau.amos.virtualledger.android.dagger.module.DatabaseModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
-import de.fau.amos.virtualledger.android.dagger.module.OidcAuthenticationModule;
 
 /**
  * Created by Simon on 07.05.2017. taken from https://adityaladwa.wordpress.com/2016/05/09/
