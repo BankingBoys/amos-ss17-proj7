@@ -29,7 +29,7 @@ public class MockedAuthenticationProviderTest {
     }
 
     @Test
-    public void login() {
+    public void loginTest() {
         Observable<String> testObservable = testProvider.login("testuser", "testpw");
         Assertions.assertThat(testObservable).isNotNull();
     }
@@ -40,7 +40,7 @@ public class MockedAuthenticationProviderTest {
     }
 
     @Test
-    public void logout() {
+    public void logoutTest() {
         Observable<String> testObservable = testProvider.logout();
         Assertions.assertThat(testObservable).isNotNull();
         Assertions.assertThat(testProvider.getToken()).isEqualTo(testtoken);
