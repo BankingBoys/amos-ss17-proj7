@@ -20,7 +20,7 @@ public interface AuthenticationProvider {
 
     String getToken();
 
-    String getEmail();
+    String getUserId();
 
     void persistLoginData(Context context);
 

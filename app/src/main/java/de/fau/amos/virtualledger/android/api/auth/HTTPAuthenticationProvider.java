@@ -143,7 +143,7 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public String getEmail() {
+    public String getUserId() {
         return this.email;
     }
 

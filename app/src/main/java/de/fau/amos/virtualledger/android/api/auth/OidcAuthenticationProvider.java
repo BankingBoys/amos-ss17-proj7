@@ -136,9 +136,9 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public String getEmail() {
+    public String getUserId() {
 
-        throw new NotImplementedException("Coming soon...");
+        return oidcData.id_token;
     }
 
     @Override

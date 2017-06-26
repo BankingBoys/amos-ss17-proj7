@@ -108,7 +108,7 @@ public class BankingDataManager extends Observable {
         final List<BankAccountSync> bankAccountSyncList = new ArrayList<>();
         for (BankAccess bankAccess : bankAccesses) {
             for (BankAccount bankAccount: bankAccess.getBankaccounts()) {
-                final String pin = bankAccessCredentialDB.getPin(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
+                final String pin = bankAccessCredentialDB.getPin(authenticationProvider.getUserId(), bankAccess.getId(), bankAccount.getBankid());
                 if(pin != null) {
                     final BankAccountSync bankAccountSync = new BankAccountSync(bankAccess.getId(), bankAccount.getBankid(), pin);
                     bankAccountSyncList.add(bankAccountSync);
@@ -188,7 +188,7 @@ public class BankingDataManager extends Observable {
                     @Override
                     public void accept(@NonNull final BankAccess bankAccess) throws Exception {
                         for(BankAccount account: bankAccess.getBankaccounts()) {
-                            bankAccessCredentialDB.persist(authenticationProvider.getEmail(), bankAccessCredential.getPin(), bankAccess.getId(), account.getBankid(), bankAccess.getName(), account.getName());
+                            bankAccessCredentialDB.persist(authenticationProvider.getUserId(), bankAccessCredential.getPin(), bankAccess.getId(), account.getBankid(), bankAccess.getName(), account.getName());
                         }
                         BankingDataManager.this.sync();
                     }
@@ -215,7 +215,7 @@ public class BankingDataManager extends Observable {
                         for (final BankAccess bankAccess : bankAccesses) {
                             if (bankAccess.getId().equals(accessId)) {
                                 for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
-                                    bankAccessCredentialDB.delete(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
+                                    bankAccessCredentialDB.delete(authenticationProvider.getUserId(), bankAccess.getId(), bankAccount.getBankid());
                                 }
                             }
                         }
@@ -244,7 +244,7 @@ public class BankingDataManager extends Observable {
                         for (final BankAccess bankAccess : bankAccesses) {
                             for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
                                 if(bankAccount.getBankid().equals(accountId)) {
-                                    bankAccessCredentialDB.delete(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
+                                    bankAccessCredentialDB.delete(authenticationProvider.getUserId(), bankAccess.getId(), bankAccount.getBankid());
                                 }
                             }
                         }

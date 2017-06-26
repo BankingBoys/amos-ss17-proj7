@@ -48,7 +48,7 @@ public class MockedAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public String getEmail() {
+    public String getUserId() {
         return "test@test.de";
     }
 
