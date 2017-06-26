@@ -21,8 +21,4 @@ public interface BankingProvider {
 
     Observable<String> deleteBankAccount(String accessId, String accountId);
 
-    Observable<List<SavingsAccount>> getSavingAccounts();
-
-    Observable<String> addSavingAccounts(List<SavingsAccount> savingsAccounts);
-
 }
