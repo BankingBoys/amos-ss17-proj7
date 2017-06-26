@@ -1,6 +1,8 @@
 package de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
 
@@ -12,14 +14,23 @@ public class OneDayFilter implements Filter<Transaction> {
     private Date day;
 
     public OneDayFilter(Date day) {
-        this.day = day;
+        this.day = getZeroTimeDate(day);
     }
 
     @Override
     public boolean shouldBeRemoved(Transaction t) {
-        if (this.day.equals(t.booking().getDate())) {
-            return false;
-        }
-        return true;
+        return getZeroTimeDate(t.booking().getDate()).compareTo(this.day) != 0;
+    }
+
+    private Date getZeroTimeDate(Date input) {
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime(input);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.setTimeZone(TimeZone.getDefault());
+        return calendar.getTime();
     }
 }

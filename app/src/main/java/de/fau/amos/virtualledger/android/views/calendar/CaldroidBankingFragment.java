@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.android.views.calendar;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,15 +76,13 @@ public class CaldroidBankingFragment extends CaldroidFragment {
 
         List<Transaction> allTransactions = this.bankTransactionSupplier.getAll();
 
-
         for (Transaction transaction : allTransactions) {
             Booking booking = transaction.booking();
             Date date = booking.getDate();
-            DateTime exactDateTime = DateTime.forInstant(date.getTime(), TimeZone.getDefault());
-            DateTime dateTime = new DateTime(exactDateTime.getYear(), exactDateTime.getMonth(), exactDateTime.getDay(), 0, 0, 0, 0);
+            DateTime dateTime = getDateTime(date);
 
             if (!bankingDateInformationMap.containsKey(dateTime)) {
-                BankingDateInformation bankingDateInformation = new BankingDateInformation(getTotalAmountFor(date, totalAmount, allTransactions), //
+                BankingDateInformation bankingDateInformation = new BankingDateInformation(getTotalAmountFor(dateTime, totalAmount, allTransactions), //
                         new BankTransactionSuplierFilter(this.bankTransactionSupplier, //
                                 new OneDayFilter(booking.getDate())));
                 bankingDateInformationMap.put(dateTime, bankingDateInformation);
@@ -91,12 +90,18 @@ public class CaldroidBankingFragment extends CaldroidFragment {
         }
     }
 
-    private double getTotalAmountFor(Date date, double endTotalAmount, List<Transaction> allTransactions) {
+    @NonNull
+    private DateTime getDateTime(Date date) {
+        DateTime exactDateTime = DateTime.forInstant(date.getTime(), TimeZone.getDefault());
+        return new DateTime(exactDateTime.getYear(), exactDateTime.getMonth(), exactDateTime.getDay(), 0, 0, 0, 0);
+    }
+
+    private double getTotalAmountFor(DateTime date, double endTotalAmount, List<Transaction> allTransactions) {
         double dayAmount = endTotalAmount;
+        long milliseconds = date.getMilliseconds(TimeZone.getDefault());
         for (Transaction t : allTransactions) {
-            if (date.before(t.booking().getDate())) {
+            if (milliseconds < t.getCachedTimeAsLong())
                 dayAmount -= t.booking().getAmount();
-            }
         }
         return dayAmount;
     }

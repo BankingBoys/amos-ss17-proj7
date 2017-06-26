@@ -42,4 +42,9 @@ public class Booking {
     public void setUsage(String usage) {
         this.usage = usage;
     }
+
+    @Override
+    public String toString() {
+        return super.toString()+"{"+date+" "+amount+"}";
+    }
 }
