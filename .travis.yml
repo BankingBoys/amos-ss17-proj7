@@ -9,6 +9,7 @@ before_install:
   - echo -e $sshcert > keyssh
 
 install:
+  - pip install urllib3[secure]
   - pip install codecov
   - cd /home/travis/build/BankingBoys/
   - sudo apt install unzip   
