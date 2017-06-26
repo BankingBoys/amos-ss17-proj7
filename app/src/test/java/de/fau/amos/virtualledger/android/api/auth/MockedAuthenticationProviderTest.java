@@ -46,5 +46,10 @@ public class MockedAuthenticationProviderTest {
         Assertions.assertThat(testProvider.getToken()).isEqualTo(testtoken);
     }
 
+    @Test
+    public void isLoggedInTest() {
+        Assertions.assertThat(testProvider.isLoggedIn()).isEqualTo(true);
+    }
+
 
 }
