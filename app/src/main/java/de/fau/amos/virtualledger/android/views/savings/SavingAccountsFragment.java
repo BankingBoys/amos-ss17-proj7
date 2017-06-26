@@ -76,6 +76,7 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
     public void notifyDataChanged() {
         this.adapter.clear();
         this.adapter.addAll(this.savingsSupplier.getAll());
+        this.adapter.notifyDataSetChanged();
     }
 
     @Override
