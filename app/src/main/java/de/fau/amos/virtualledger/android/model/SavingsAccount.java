@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
 
 public class SavingsAccount {
 
-    private int id;
+    private String id;
     private String name;
     private double goalbalance;
     private double currentbalance;
@@ -16,7 +16,7 @@ public class SavingsAccount {
 
     public SavingsAccount() {}
 
-    public SavingsAccount(int id, String name, double goalbalance, double currentbalance, Date finaldate) {
+    public SavingsAccount(String id, String name, double goalbalance, double currentbalance, Date finaldate) {
         this.id = id;
         this.name = name;
         this.goalbalance = goalbalance;
@@ -24,7 +24,7 @@ public class SavingsAccount {
         this.finaldate = finaldate;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -63,7 +63,7 @@ public class SavingsAccount {
         return finaldate;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

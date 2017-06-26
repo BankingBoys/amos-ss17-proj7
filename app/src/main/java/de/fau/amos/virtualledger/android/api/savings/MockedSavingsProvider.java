@@ -19,7 +19,7 @@ public class MockedSavingsProvider implements SavingsProvider {
     public Observable<List<SavingsAccount>> getSavingAccounts() {
         final List<SavingsAccount> savingsAccountList = new ArrayList<>();
 
-        SavingsAccount savingsAccount = new SavingsAccount(1, "dummy1", 100.00, 12.23, new Date());
+        SavingsAccount savingsAccount = new SavingsAccount("1", "dummy1", 100.00, 12.23, new Date());
         savingsAccountList.add(savingsAccount);
 
         final PublishSubject observable = PublishSubject.create();
