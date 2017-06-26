@@ -5,6 +5,8 @@ import android.util.Log;
 
 import org.apache.commons.lang3.NotImplementedException;
 
+import java.util.Date;
+
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Callback;
@@ -26,6 +28,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     private final String GRANT_TYPE_REFRESH = "refresh_token";
 
     private OidcData oidcData = null;
+    private Date lastRefresh = null;
 
 
     public OidcAuthenticationProvider(Retrofit retrofit) {
@@ -49,6 +52,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
                 if (response.isSuccessful()) {
 
                     oidcData = response.body();
+                    lastRefresh = new Date();
                     observable.onNext("Login was successful!");
                 } else {
                     Log.e(TAG, "Login was not successful!");
