@@ -51,5 +51,11 @@ public class MockedAuthenticationProviderTest {
         Assertions.assertThat(testProvider.isLoggedIn()).isEqualTo(true);
     }
 
+    @Test
+    public void getUserIdTest() {
+        String testUser = "test@test.de";
+        Assertions.assertThat(testProvider.getUserId()).isEqualTo(testUser);
+    }
+
 
 }
