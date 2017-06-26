@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
+import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.BankAccess;
@@ -30,6 +31,7 @@ public class BankingDataManager extends Observable {
     private final static String TAG = BankingDataManager.class.getSimpleName();
 
     private final BankingProvider bankingProvider;
+    private final SavingsProvider savingsProvider;
     private final BankAccessCredentialDB bankAccessCredentialDB;
     private final AuthenticationProvider authenticationProvider;
 
@@ -43,8 +45,9 @@ public class BankingDataManager extends Observable {
     private SyncStatus syncStatus = NOT_SYNCED;
     private AtomicInteger syncsActive = new AtomicInteger(0);
 
-    public BankingDataManager(final BankingProvider bankingProvider, final BankAccessCredentialDB bankAccessCredentialDB, final AuthenticationProvider authenticationProvider) {
+    public BankingDataManager(final BankingProvider bankingProvider, final SavingsProvider savingsProvider, final BankAccessCredentialDB bankAccessCredentialDB, final AuthenticationProvider authenticationProvider) {
         this.bankingProvider = bankingProvider;
+        this.savingsProvider = savingsProvider;
         this.bankAccessCredentialDB = bankAccessCredentialDB;
         this.authenticationProvider = authenticationProvider;
     }
@@ -78,7 +81,7 @@ public class BankingDataManager extends Observable {
     }
 
     public List<SavingsAccount> getSavingAccounts() {
-        bankingProvider.getSavingAccounts()
+        savingsProvider.getSavingAccounts()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<SavingsAccount>>() {

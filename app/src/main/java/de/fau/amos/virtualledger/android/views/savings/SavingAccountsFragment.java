@@ -21,6 +21,7 @@ import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
+import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.SyncFailedException;
@@ -37,7 +38,7 @@ public class SavingAccountsFragment extends Fragment {
     private final String TAG = this.getClass().getSimpleName();
 
     @Inject
-    BankingProvider bankingProvider;
+    SavingsProvider savingsProvider;
 
     private ListAdapter adapter;
     private ListView savingsAccountList;
