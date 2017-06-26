@@ -17,5 +17,5 @@ public interface KeycloakApi {
 
     @FormUrlEncoded
     @POST("token")
-    Call<Object> refreshToken(@Field("refresh_token") String refreshToken, @Field("client_id") String clientId, @Field("grant_type") String grantType);
+    Call<OidcData> refreshToken(@Field("refresh_token") String refreshToken, @Field("client_id") String clientId, @Field("grant_type") String grantType);
 }

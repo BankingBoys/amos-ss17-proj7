@@ -82,15 +82,15 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
             // TODO load data from persistence and to automatic login // do something else
         }
 
-        retrofit2.Call<Object> responseMessage = retrofit.create(KeycloakApi.class).refreshToken(oidcData.refresh_token, CLIENT_ID, GRANT_TYPE_REFRESH);
+        retrofit2.Call<OidcData> responseMessage = retrofit.create(KeycloakApi.class).refreshToken(oidcData.refresh_token, CLIENT_ID, GRANT_TYPE_REFRESH);
         final PublishSubject observable = PublishSubject.create();
 
-        responseMessage.enqueue(new Callback<Object>() {
+        responseMessage.enqueue(new Callback<OidcData>() {
             @Override
-            public void onResponse(retrofit2.Call<Object> call, Response<Object> response) {
+            public void onResponse(retrofit2.Call<OidcData> call, Response<OidcData> response) {
                 if (response.isSuccessful()) {
 
-                    // TODO set new data
+                    oidcData = response.body();
                     lastRefresh = new Date();
                     observable.onNext("Refresh was successful!");
                 } else {
@@ -100,7 +100,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
             }
 
             @Override
-            public void onFailure(retrofit2.Call<Object> call, Throwable t) {
+            public void onFailure(retrofit2.Call<OidcData> call, Throwable t) {
                 Log.e(TAG, "Refresh failed!");
                 observable.onError(new Throwable("Refresh failed!"));
             }
