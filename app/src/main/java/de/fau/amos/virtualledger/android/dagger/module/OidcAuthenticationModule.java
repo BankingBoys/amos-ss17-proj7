@@ -21,7 +21,6 @@ public class OidcAuthenticationModule {
      * @return
      */
     @Provides
-    @Singleton
     AuthenticationProvider provideLoginProvider(Retrofit retrofit) {
         return new OidcAuthenticationProvider(retrofit);
     }

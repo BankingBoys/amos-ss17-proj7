@@ -41,7 +41,6 @@ public class NetModule {
      * @return cache
      */
     @Provides
-    @Singleton
     Cache provideHttpCache(Application application) {
         int cacheSize = 10 * 1024 * 1024;
         Cache cache = new Cache(application.getCacheDir(), cacheSize);
@@ -52,7 +51,6 @@ public class NetModule {
      * @return Gson
      */
     @Provides
-    @Singleton
     Gson provideGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
@@ -64,7 +62,6 @@ public class NetModule {
      * @return OkHttpClient
      */
     @Provides
-    @Singleton
     OkHttpClient provideOkhttpClient(Cache cache) {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.cache(cache);
@@ -77,7 +74,6 @@ public class NetModule {
      * @return Retrofit
      */
     @Provides
-    @Singleton
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
