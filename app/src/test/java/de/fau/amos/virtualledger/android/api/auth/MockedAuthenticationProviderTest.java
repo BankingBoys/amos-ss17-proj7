@@ -1,11 +1,8 @@
 package de.fau.amos.virtualledger.android.api.auth;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 /**
