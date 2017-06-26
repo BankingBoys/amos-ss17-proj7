@@ -49,6 +49,7 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         pages.add(new AddSavingsAccountFinalDateFragment());
         pages.add(new AddSavingsAccountDepositTypeFragment());
         pages.add(new AddSavingsAccountAmountFragment());
+        pages.add(new AddSavingsAccountAccountsFragment());
 
         pagerAdapter = new AddSavingsAccountPagerAdapter(getSupportFragmentManager(), pages);
         viewPager.setAdapter(pagerAdapter);
