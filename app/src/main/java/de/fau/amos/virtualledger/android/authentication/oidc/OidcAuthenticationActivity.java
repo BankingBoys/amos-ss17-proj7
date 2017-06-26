@@ -1,6 +1,8 @@
 package de.fau.amos.virtualledger.android.authentication.oidc;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,6 +16,7 @@ import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.auth.OidcAuthenticationProvider;
+import de.fau.amos.virtualledger.android.config.PropertyReader;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.dagger.component.OidcAuthenticationScope;
 import io.reactivex.Observer;
@@ -80,5 +83,16 @@ public class OidcAuthenticationActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    @OnClick(R.id.textViewLogin_RegisterFirst)
+    public void onRegister() {
+
+        String url = ((App) getApplication()).getOidcRegisterUrl();
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent();
+        intent.setData(uri);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
     }
 }
