@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.android.views.savings;
 
 import android.app.Activity;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,7 +15,8 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.android.data.BankingDataManager;
+import de.fau.amos.virtualledger.android.data.SavingsAccountsDataManager;
+import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
 
@@ -25,7 +27,7 @@ import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListen
 public class SavingsSupplier implements de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier<SavingsAccount>, Observer {
 
     @Inject
-    BankingDataManager bankingDataManager;
+    SavingsAccountsDataManager savingsAccountsDataManager;
 
     private Set<DataListening> dataListenings = new HashSet<>();
 
@@ -43,11 +45,11 @@ public class SavingsSupplier implements de.fau.amos.virtualledger.android.views.
     @Override
     public void onResume() {
         this.logger().log(Level.INFO, "Registering to bank data manager");
-        bankingDataManager.addObserver(this);
-        this.logger().log(Level.INFO, "BankDataMangerSyncStatus" + this.bankingDataManager.getSyncStatus());
-        switch (bankingDataManager.getSyncStatus()) {
+        savingsAccountsDataManager.addObserver(this);
+        this.logger().log(Level.INFO, "BankDataMangerSyncStatus" + this.savingsAccountsDataManager.getSyncStatus());
+        switch (savingsAccountsDataManager.getSyncStatus()) {
             case NOT_SYNCED:
-                bankingDataManager.sync();
+                savingsAccountsDataManager.sync();
                 break;
             case SYNCED:
                 onSavingsUpdated();
@@ -59,7 +61,12 @@ public class SavingsSupplier implements de.fau.amos.virtualledger.android.views.
     private void onSavingsUpdated() {
         this.logger().info("Savings loaded.");
         this.allSavings.clear();
-        List<SavingsAccount> savingAccounts = this.bankingDataManager.getSavingAccounts();
+        List<SavingsAccount> savingAccounts = null;
+        try {
+            savingAccounts = this.savingsAccountsDataManager.getSavingsAccounts();
+        } catch (SyncFailedException e) {
+            Log.e("", "Sync failed");
+        }
         if(savingAccounts != null){
             this.allSavings.addAll(savingAccounts);
         }
@@ -69,7 +76,7 @@ public class SavingsSupplier implements de.fau.amos.virtualledger.android.views.
     @Override
     public void addDataListeningObject(DataListening observer) {
         if (this.dataListenings.isEmpty()) {
-            this.bankingDataManager.addObserver(this);
+            this.savingsAccountsDataManager.addObserver(this);
         }
         this.dataListenings.add(observer);
     }
@@ -78,14 +85,14 @@ public class SavingsSupplier implements de.fau.amos.virtualledger.android.views.
     public void deregister(DataListening observer) {
         this.dataListenings.remove(observer);
         if (this.dataListenings.isEmpty()) {
-            this.bankingDataManager.deleteObserver(this);
+            this.savingsAccountsDataManager.deleteObserver(this);
         }
     }
 
     @Override
     public void onPause() {
         this.logger().log(Level.INFO, "De-Registering from bank data manager");
-        this.bankingDataManager.deleteObserver(this);
+        this.savingsAccountsDataManager.deleteObserver(this);
     }
 
     @Override
