@@ -26,7 +26,6 @@ public class AppModule {
      * @return
      */
     @Provides
-    @Singleton
     Application provideApplication() {
         return virtualLedger;
     }

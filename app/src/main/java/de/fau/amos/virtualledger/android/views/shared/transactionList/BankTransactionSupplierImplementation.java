@@ -72,7 +72,7 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
                 Transaction transaction = new Transaction(
                         bankAccessCredentialDB
                                 .getAccountName(
-                                        authenticationProvider.getEmail(),
+                                        authenticationProvider.getUserId(),
                                         bankAccountBookings.getBankaccessid(),
                                         bankAccountBookings.getBankaccountid()),
                         bankAccountBookings.getBankaccountid(),

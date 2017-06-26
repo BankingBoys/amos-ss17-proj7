@@ -1,107 +1,98 @@
 package de.fau.amos.virtualledger.android.authentication.oidc;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
+import android.widget.EditText;
 
-import org.jboss.aerogear.android.authorization.AuthorizationManager;
-import org.jboss.aerogear.android.authorization.AuthzModule;
-import org.jboss.aerogear.android.authorization.oauth2.OAuth2AuthorizationConfiguration;
-import org.jboss.aerogear.android.authorization.oauth2.OAuthWebViewDialog;
-import org.jboss.aerogear.android.core.Callback;
+import javax.inject.Inject;
 
-import java.net.URL;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
+import de.fau.amos.virtualledger.android.api.auth.OidcAuthenticationProvider;
+import de.fau.amos.virtualledger.android.config.PropertyReader;
+import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.android.dagger.component.OidcAuthenticationScope;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
-/**
- * Created by Georg on 18.06.2017.
- */
-
-public class OidcAuthenticationActivity extends Activity {
+public class OidcAuthenticationActivity extends AppCompatActivity {
     private static final String TAG = OidcAuthenticationActivity.class.getSimpleName();
 
 
-    private static final String ADORSYS_SERVER_URL = "https://multibanking-keycloak.dev.adorsys.de";
-    private static final String AUTHZ_URL = ADORSYS_SERVER_URL +"/auth";
-    private static final String AUTHZ_ENDPOINT = "/realms/multibanking/protocol/openid-connect/auth";
-    private static final String ACCESS_TOKEN_ENDPOINT = "/realms/multibanking/protocol/openid-connect/token";
-    private static final String REFRESH_TOKEN_ENDPOINT = "/realms/multibanking/protocol/openid-connect/token";
-    private static final String AUTHZ_ACCOOUNT_ID = "keycloak-token";
-    private static final String AUTHZ_CLIENT_ID = "multibanking-client";
-    private static final String AUTHZ_REDIRECT_URL = "http://oauth2callback";
-    private static final String MODULE_NAME = "KeyCloakAuthz";
+    @BindView(R.id.userIDField)
+    EditText userIdField;
 
-    private void successfullConnected(Object data) {
-        try {
-            String token = (String) data;
-            Log.i(TAG, "got successful response from oidc server!");
+    @BindView(R.id.SecretField)
+    EditText secretField;
 
-            // TODO: store token
-            // TODO: start new activity and finish this one
-
-        } catch (Exception ex) {
-            Log.e(TAG, "Error in obtaining token from response of oidc server!");
-            Toast.makeText(this, "Login failed. Please try again later!", Toast.LENGTH_LONG).show();
-        }
-    }
+    @Inject
+    AuthenticationProvider authenticationProvider;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        ((App) getApplication()).getOidcAuthenticationComponent().inject(this);
 
-        try {
-            AuthorizationManager.config(MODULE_NAME, OAuth2AuthorizationConfiguration.class)
-                    .setBaseURL(new URL(AUTHZ_URL))
-                    .setAuthzEndpoint(AUTHZ_ENDPOINT)
-                    .setAccessTokenEndpoint(ACCESS_TOKEN_ENDPOINT)
-                    .setRefreshEndpoint(REFRESH_TOKEN_ENDPOINT)
-                    .setAccountId(AUTHZ_ACCOOUNT_ID)
-                    .setClientId(AUTHZ_CLIENT_ID)
-                    .setRedirectURL(AUTHZ_REDIRECT_URL)
-                    .asModule();
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        connect(this, new Callback() {
-            @Override
-            public void onSuccess(Object data) {
-                successfullConnected(data);
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Toast.makeText(OidcAuthenticationActivity.this.getApplicationContext(), "Authentication failed!", Toast.LENGTH_LONG).show();
-            }
-        });
+        setContentView(R.layout.authentication_activity_login);
+        ButterKnife.bind(this);
     }
 
+    @OnClick(R.id.loginButton)
+    public void onLogin() {
+        final String userID = userIdField.getText().toString();
+        final String password = secretField.getText().toString();
 
-    public void connect(final Activity activity, final Callback callback) {
-        try {
-            final AuthzModule authzModule = AuthorizationManager.getModule(MODULE_NAME);
+        // use observable due to asynchronizm
+        authenticationProvider.login(userID, password)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
 
-            authzModule.requestAccess(activity, new Callback<String>() {
-                @Override
-                public void onSuccess(String s) {
-                    callback.onSuccess(s);
-                }
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
 
-                @Override
-                public void onFailure(Exception e) {
-                    if (!e.getMessage().matches(OAuthWebViewDialog.OAuthReceiver.DISMISS_ERROR)) {
-                        authzModule.deleteAccount();
                     }
-                    callback.onFailure(e);
-                }
-            });
 
+                    @Override
+                    public void onNext(@NonNull String s) {
+                        if (authenticationProvider.isLoggedIn()) {
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+                        } else {
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
+    @OnClick(R.id.textViewLogin_RegisterFirst)
+    public void onRegister() {
+
+        String url = ((App) getApplication()).getOidcRegisterUrl();
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent();
+        intent.setData(uri);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
+    }
 }

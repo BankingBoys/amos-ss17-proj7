@@ -9,7 +9,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
+import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
+import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccount;
@@ -29,20 +31,23 @@ public class BankingDataManager extends Observable {
     private final static String TAG = BankingDataManager.class.getSimpleName();
 
     private final BankingProvider bankingProvider;
+    private final SavingsProvider savingsProvider;
     private final BankAccessCredentialDB bankAccessCredentialDB;
     private final AuthenticationProvider authenticationProvider;
 
     private List<BankAccess> bankAccesses;
     private List<BankAccountBookings> bankAccountBookings;
+    private List<SavingsAccount> savingsAccounts;
 
     //Set if sync failed and thrown in getters
     private SyncFailedException syncFailedException = null;
 
     private SyncStatus syncStatus = NOT_SYNCED;
-    private final AtomicInteger syncsActive = new AtomicInteger(0);
+    private AtomicInteger syncsActive = new AtomicInteger(0);
 
-    public BankingDataManager(final BankingProvider bankingProvider, final BankAccessCredentialDB bankAccessCredentialDB, final AuthenticationProvider authenticationProvider) {
+    public BankingDataManager(final BankingProvider bankingProvider, final SavingsProvider savingsProvider, final BankAccessCredentialDB bankAccessCredentialDB, final AuthenticationProvider authenticationProvider) {
         this.bankingProvider = bankingProvider;
+        this.savingsProvider = savingsProvider;
         this.bankAccessCredentialDB = bankAccessCredentialDB;
         this.authenticationProvider = authenticationProvider;
     }
@@ -75,6 +80,25 @@ public class BankingDataManager extends Observable {
         });
     }
 
+    public List<SavingsAccount> getSavingAccounts() {
+        savingsProvider.getSavingAccounts()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<SavingsAccount>>() {
+                    @Override
+                    public void accept(@NonNull final List<SavingsAccount> savingsAccounts) throws Exception {
+                        BankingDataManager.this.savingsAccounts = savingsAccounts;
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull final Throwable throwable) throws Exception {
+                        Log.e(TAG, "Failed getting savings", throwable);
+
+                    }
+                });
+        return savingsAccounts;
+    }
+
     /**
      * Method that handles sync'ing the booking data with the server.
      * Therefore the syncStatus set to SYNCED when finished.
@@ -82,9 +106,9 @@ public class BankingDataManager extends Observable {
      */
     private void syncBookings() {
         final List<BankAccountSync> bankAccountSyncList = new ArrayList<>();
-        for (final BankAccess bankAccess : bankAccesses) {
-            for (final BankAccount bankAccount: bankAccess.getBankaccounts()) {
-                final String pin = bankAccessCredentialDB.getPin(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
+        for (BankAccess bankAccess : bankAccesses) {
+            for (BankAccount bankAccount: bankAccess.getBankaccounts()) {
+                final String pin = bankAccessCredentialDB.getPin(authenticationProvider.getUserId(), bankAccess.getId(), bankAccount.getBankid());
                 if(pin != null) {
                     final BankAccountSync bankAccountSync = new BankAccountSync(bankAccess.getId(), bankAccount.getBankid(), pin);
                     bankAccountSyncList.add(bankAccountSync);
@@ -163,8 +187,8 @@ public class BankingDataManager extends Observable {
                 .subscribe(new Consumer<BankAccess>() {
                     @Override
                     public void accept(@NonNull final BankAccess bankAccess) throws Exception {
-                        for(final BankAccount account: bankAccess.getBankaccounts()) {
-                            bankAccessCredentialDB.persist(authenticationProvider.getEmail(), bankAccessCredential.getPin(), bankAccess.getId(), account.getBankid(), bankAccess.getName(), account.getName());
+                        for(BankAccount account: bankAccess.getBankaccounts()) {
+                            bankAccessCredentialDB.persist(authenticationProvider.getUserId(), bankAccessCredential.getPin(), bankAccess.getId(), account.getBankid(), bankAccess.getName(), account.getName());
                         }
                         BankingDataManager.this.sync();
                     }
@@ -191,7 +215,7 @@ public class BankingDataManager extends Observable {
                         for (final BankAccess bankAccess : bankAccesses) {
                             if (bankAccess.getId().equals(accessId)) {
                                 for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
-                                    bankAccessCredentialDB.delete(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
+                                    bankAccessCredentialDB.delete(authenticationProvider.getUserId(), bankAccess.getId(), bankAccount.getBankid());
                                 }
                             }
                         }
@@ -220,7 +244,7 @@ public class BankingDataManager extends Observable {
                         for (final BankAccess bankAccess : bankAccesses) {
                             for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
                                 if(bankAccount.getBankid().equals(accountId)) {
-                                    bankAccessCredentialDB.delete(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
+                                    bankAccessCredentialDB.delete(authenticationProvider.getUserId(), bankAccess.getId(), bankAccount.getBankid());
                                 }
                             }
                         }
