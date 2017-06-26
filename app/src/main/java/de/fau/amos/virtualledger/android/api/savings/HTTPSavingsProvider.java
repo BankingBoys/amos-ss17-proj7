@@ -26,7 +26,7 @@ public class HTTPSavingsProvider implements SavingsProvider {
         this.authenticationProvider = authenticationProvider;
     }
 
-    
+
     @Override
     public Observable<List<SavingsAccount>> getSavingAccounts() {
 
