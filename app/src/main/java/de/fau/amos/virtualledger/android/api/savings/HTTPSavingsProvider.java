@@ -66,8 +66,7 @@ public class HTTPSavingsProvider implements SavingsProvider {
         responseMessage.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    /*String callResponse = response.body();*/
+                if (response.code() == 201) {
                     Log.v(TAG, "Adding Saving Accounts was successful " + response.code());
                     observable.onNext("Adding Saving Accounts was successful");
                 } else {
