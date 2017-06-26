@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -45,7 +46,7 @@ public class BankTransactionSupplierImplementation implements Supplier<Transacti
 
     @Override
     public List<Transaction> getAll() {
-        return this.allBankTransactions;
+        return new LinkedList<>(this.allBankTransactions);
     }
 
     @Override

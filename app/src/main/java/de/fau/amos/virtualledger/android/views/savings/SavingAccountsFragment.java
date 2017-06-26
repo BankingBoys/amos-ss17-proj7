@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.util.List;
+import java.util.logging.Logger;
+
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.R;
@@ -75,9 +78,10 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
     @Override
     public void notifyDataChanged() {
         this.adapter.clear();
-        this.adapter.addAll(this.savingsSupplier.getAll());
+        List<SavingsAccount> allSavingAccounts = this.savingsSupplier.getAll();
+        logger().info("Refreshing savings overview with " + allSavingAccounts.size() + " accounts from"+this.savingsSupplier);
+        this.adapter.addAll(allSavingAccounts);
         this.adapter.notifyDataSetChanged();
-        System.out.println("DATASETS: "+this.adapter.getCount());
     }
 
     @Override
@@ -90,5 +94,9 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
     public void onResume() {
         super.onResume();
         this.savingsSupplier.onResume();
+    }
+
+    private Logger logger() {
+        return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.toString() + "}");
     }
 }
