@@ -26,6 +26,10 @@ public class MockedAuthenticationProviderTest {
         Assertions.assertThat(testObservable).isNotNull();
     }
 
-
-
+    @Test
+    public void login() {
+        Observable<String> testObservable = testProvider.login("testuser", "testpw");
+        Assertions.assertThat(testObservable).isNotNull();
+    }
+    
 }
