@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.AddSavingsAccountData;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -86,6 +87,25 @@ public class SavingsAccountsDataManager extends Observable {
         if(syncFailedException != null) throw syncFailedException;
         if(syncStatus != SYNCED) throw new IllegalStateException("Sync not completed");
         return savingsAccounts;
+    }
+
+    public void addSavingsAccount(final AddSavingsAccountData addSavingsAccountData) {
+        //TODO use dtos from library for everything
+        final SavingsAccount savingsAccount = new SavingsAccount(0, addSavingsAccountData.name, addSavingsAccountData.goalBalance, 0, addSavingsAccountData.finalDate);
+        savingsProvider.addSavingAccount(savingsAccount)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull final String result) throws Exception {
+                        SavingsAccountsDataManager.this.sync();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull final Throwable throwable) throws Exception {
+                        Log.e(TAG, "Failed adding savings account", throwable);
+                    }
+                });
     }
 
 
