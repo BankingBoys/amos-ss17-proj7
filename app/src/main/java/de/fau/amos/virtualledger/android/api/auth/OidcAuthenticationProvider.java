@@ -5,6 +5,7 @@ import android.util.Log;
 
 import org.apache.commons.lang3.NotImplementedException;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import io.reactivex.Observable;
@@ -64,6 +65,44 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
             public void onFailure(retrofit2.Call<OidcData> call, Throwable t) {
                 Log.e(TAG, "Login failed!");
                 observable.onError(new Throwable("Login failed!"));
+            }
+        });
+        return observable;
+    }
+
+    private Observable<String> refreshToken() {
+
+        if(oidcData == null) {
+            throw new IllegalStateException("refreshToken() was called but nobody was logged in!");
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, oidcData.refresh_expires_in);
+        if(lastRefresh.after(cal.getTime())) {
+            // refresh token expired
+            // TODO load data from persistence and to automatic login // do something else
+        }
+
+        retrofit2.Call<Object> responseMessage = retrofit.create(KeycloakApi.class).refreshToken(oidcData.refresh_token, CLIENT_ID, GRANT_TYPE_REFRESH);
+        final PublishSubject observable = PublishSubject.create();
+
+        responseMessage.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(retrofit2.Call<Object> call, Response<Object> response) {
+                if (response.isSuccessful()) {
+
+                    // TODO set new data
+                    lastRefresh = new Date();
+                    observable.onNext("Refresh was successful!");
+                } else {
+                    Log.e(TAG, "Refresh was not successful!");
+                    observable.onError(new Throwable("Refresh was not successful!"));
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<Object> call, Throwable t) {
+                Log.e(TAG, "Refresh failed!");
+                observable.onError(new Throwable("Refresh failed!"));
             }
         });
         return observable;
