@@ -38,6 +38,13 @@ public class MockedAuthenticationProviderTest {
     public void getTokenTest() {
         Assertions.assertThat(testProvider.getToken()).isEqualTo(testtoken);
     }
-       
+
+    @Test
+    public void logout() {
+        Observable<String> testObservable = testProvider.logout();
+        Assertions.assertThat(testObservable).isNotNull();
+        Assertions.assertThat(testProvider.getToken()).isEqualTo(testtoken);
+    }
+
 
 }
