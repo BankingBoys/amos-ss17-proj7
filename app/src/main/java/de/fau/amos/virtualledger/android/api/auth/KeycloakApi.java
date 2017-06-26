@@ -3,6 +3,8 @@ package de.fau.amos.virtualledger.android.api.auth;
 import de.fau.amos.virtualledger.android.model.OidcLoginData;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 /**
@@ -11,9 +13,11 @@ import retrofit2.http.POST;
 
 public interface KeycloakApi {
 
+    @FormUrlEncoded
     @POST("token")
-    Call<String> login(@Body OidcLoginData loginData);
+    Call<Object> login(@Field("username") String username, @Field("password") String password, @Field("client_id") String clientId, @Field("grant_type") String grantType);
 
+    @FormUrlEncoded
     @POST("token")
-    Call<String> refreshToken(@Body OidcLoginData loginData);
+    Call<Object> refreshToken(@Field("refresh_token") String refreshToken, @Field("client_id") String clientId, @Field("grant_type") String grantType);
 }
