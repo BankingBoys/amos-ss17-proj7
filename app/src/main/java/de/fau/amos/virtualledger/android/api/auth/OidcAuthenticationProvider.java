@@ -1,10 +1,18 @@
 package de.fau.amos.virtualledger.android.api.auth;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.apache.commons.lang3.NotImplementedException;
 
+import de.fau.amos.virtualledger.android.api.Restapi;
+import de.fau.amos.virtualledger.android.model.OidcLoginData;
+import de.fau.amos.virtualledger.dtos.LoginData;
+import de.fau.amos.virtualledger.dtos.SessionData;
 import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 /**
@@ -13,7 +21,7 @@ import retrofit2.Retrofit;
 
 public class OidcAuthenticationProvider implements AuthenticationProvider {
 
-    private static final String TAG = "OidcAuthenticationProvider";
+    private static final String TAG = "OidcAuthenticationProvi";
 
     private Retrofit retrofit;
 
@@ -35,7 +43,30 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Observable<String> login(String username, String password) {
-        return null;
+        OidcLoginData loginData = new OidcLoginData(CLIENT_ID, username, password, GRANT_TYPE_LOGIN);
+        retrofit2.Call<String> responseMessage = retrofit.create(KeycloakApi.class).login(loginData);
+        final PublishSubject observable = PublishSubject.create();
+
+        responseMessage.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(retrofit2.Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+
+
+                    observable.onNext("Login was successful!");
+                } else {
+                    Log.e(TAG, "Login was not successful!");
+                    observable.onError(new Throwable("Login was not successful!"));
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<String> call, Throwable t) {
+                Log.e(TAG, "Login failed!");
+                observable.onError(new Throwable("Login failed!"));
+            }
+        });
+        return observable;
     }
 
     @Override
