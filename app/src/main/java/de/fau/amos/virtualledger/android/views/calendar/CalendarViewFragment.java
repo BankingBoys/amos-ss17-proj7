@@ -16,8 +16,9 @@ import java.util.logging.Logger;
 
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplier;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
 
 public class CalendarViewFragment extends Fragment implements DataListening {
     private static final String BUNDLE_PARAMETER_TOTALAMOUNT = "totalamount";
@@ -26,10 +27,10 @@ public class CalendarViewFragment extends Fragment implements DataListening {
     // need FragmentActivity because of Caldroid workaround
     private FragmentActivity context;
     private double totalAmount;
-    private BankTransactionSupplier bankTransactionSupplier;
+    private Supplier<Transaction> bankTransactionSupplier;
 
 
-    public void pushTransactionSupplier(BankTransactionSupplier bankTransactionSupplier) {
+    public void pushTransactionSupplier(Supplier<Transaction> bankTransactionSupplier) {
         this.bankTransactionSupplier = bankTransactionSupplier;
     }
 
@@ -85,7 +86,7 @@ public class CalendarViewFragment extends Fragment implements DataListening {
     }
 
 
-    public static CalendarViewFragment newInstance(BankTransactionSupplier bankTransactionSupplier, double totalAmount) {
+    public static CalendarViewFragment newInstance(Supplier<Transaction> bankTransactionSupplier, double totalAmount) {
         Bundle bundle = new Bundle();
         bundle.putDouble(CalendarViewFragment.BUNDLE_PARAMETER_TOTALAMOUNT, totalAmount);
         CalendarViewFragment fragment = new CalendarViewFragment();

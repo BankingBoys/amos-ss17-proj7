@@ -21,7 +21,7 @@ public class OneDayFilterTest {
         booking.setDate(bookingDate);
         Transaction testTransaction = new Transaction("someBank", "some bank id", booking);
 
-        TransactionFilter component_under_test = new OneDayFilter(expectedDate);
+        Filter component_under_test = new OneDayFilter(expectedDate);
 
 
         assertThat(component_under_test.shouldBeRemoved(testTransaction)).isFalse();
@@ -36,7 +36,7 @@ public class OneDayFilterTest {
         booking.setDate(bookingDate);
         Transaction testTransaction = new Transaction("someBank", "some bank id", booking);
 
-        TransactionFilter component_under_test = new OneDayFilter(expectedDate);
+        Filter component_under_test = new OneDayFilter(expectedDate);
 
         assertThat(component_under_test.shouldBeRemoved(testTransaction)).isTrue();
     }

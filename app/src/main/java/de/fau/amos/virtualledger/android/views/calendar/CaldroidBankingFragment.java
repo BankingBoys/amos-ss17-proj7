@@ -16,7 +16,7 @@ import java.util.TimeZone;
 
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSuplierFilter;
-import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplier;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.OneDayFilter;
 import de.fau.amos.virtualledger.dtos.Booking;
@@ -27,10 +27,10 @@ public class CaldroidBankingFragment extends CaldroidFragment {
     private static final String BUNDLE_PARAMETER_TOTALAMOUNT = "totalamount";
 
     private HashMap<DateTime, BankingDateInformation> bankingDateInformationMap;
-    private BankTransactionSupplier bankTransactionSupplier;
+    private Supplier<Transaction> bankTransactionSupplier;
     private double totalAmount;
 
-    public static CaldroidBankingFragment newInstance(int month, int year, BankTransactionSupplier bankTransactionSupplier, double totalAmount) {
+    public static CaldroidBankingFragment newInstance(int month, int year, Supplier<Transaction> bankTransactionSupplier, double totalAmount) {
         Bundle bundle = new Bundle();
         bundle.putDouble(CaldroidBankingFragment.BUNDLE_PARAMETER_TOTALAMOUNT, totalAmount);
         bundle.putInt(CaldroidFragment.MONTH, month);
@@ -42,7 +42,7 @@ public class CaldroidBankingFragment extends CaldroidFragment {
         return fragment;
     }
 
-    private void pushBankTransactionSupplier(BankTransactionSupplier bankTransactionSupplier) {
+    private void pushBankTransactionSupplier(Supplier<Transaction> bankTransactionSupplier) {
         this.bankTransactionSupplier = bankTransactionSupplier;
     }
 
@@ -73,7 +73,7 @@ public class CaldroidBankingFragment extends CaldroidFragment {
     private void init() {
         bankingDateInformationMap = new HashMap<>();
 
-        List<Transaction> allTransactions = this.bankTransactionSupplier.getAllTransactions();
+        List<Transaction> allTransactions = this.bankTransactionSupplier.getAll();
         
 
 

@@ -46,14 +46,15 @@ import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fr
 import de.fau.amos.virtualledger.android.views.calendar.CalendarViewFragment;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSuplierFilter;
-import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplier;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplierImplementation;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.ItemCheckedMap;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionListFragment;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.ByActualMonth;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.CustomFilter;
+import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.Filter;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.FilterByName;
-import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.TransactionFilter;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
@@ -79,7 +80,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     @Inject
     BankingDataManager bankingDataManager;
 
-    private TransactionFilter filter = new ByActualMonth();
+    private Filter filter = new ByActualMonth();
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -126,7 +127,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
     void filterTransactions(String by, final TextView selectedTextView, final Spinner spinner) {
         logger().log(Level.INFO, "Selected filter: " + by);
-        TransactionFilter transactionFilter = FilterByName.getTransactionFilterByUIName(by);
+        Filter transactionFilter = FilterByName.getTransactionFilterByUIName(by);
         final TransactionOverviewFragment _this = this;
         if (transactionFilter == null) {
             final SpecifyDateDialog chooserDialogContent = SpecifyDateDialog.newInstance();
@@ -274,14 +275,14 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
 
     @NonNull
-    private BankTransactionSupplier getDateFilteredBankTransactionSupplier() {
-        BankTransactionSupplier filteredForSelection = getBankTransactionSupplier();
+    private Supplier<Transaction> getDateFilteredBankTransactionSupplier() {
+        Supplier<Transaction> filteredForSelection = getBankTransactionSupplier();
         return new BankTransactionSuplierFilter(filteredForSelection, this.filter);
     }
 
     @NonNull
-    private BankTransactionSupplier getBankTransactionSupplier() {
-        BankTransactionSupplier basicTransactionSupplier = new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings());
+    private Supplier<Transaction> getBankTransactionSupplier() {
+        Supplier<Transaction> basicTransactionSupplier = new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings());
         return new BankTransactionSuplierFilter(basicTransactionSupplier, this.itemCheckedMap);
     }
 

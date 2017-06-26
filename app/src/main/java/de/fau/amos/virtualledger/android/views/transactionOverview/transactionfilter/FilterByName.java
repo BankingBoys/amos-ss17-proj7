@@ -6,23 +6,23 @@ package de.fau.amos.virtualledger.android.views.transactionOverview.transactionf
 
 public enum FilterByName {
     LAST12MONTHS("Last 12 months") {
-        public TransactionFilter getFilter() {
+        public Filter getFilter() {
             return new Last12Months();
         }
     }, LAST6MONTHS("Last 6 months") {
-        public TransactionFilter getFilter() {
+        public Filter getFilter() {
             return new Last6Months();
         }
     }, LAST4WEEKS("Last 4 weeks") {
-        public TransactionFilter getFilter() {
+        public Filter getFilter() {
             return new Last4Weeks();
         }
     }, SPECIFY("Specify") {
-        public TransactionFilter getFilter() {
+        public Filter getFilter() {
             return null;
         }
     }, LAST_MONTH("Actual month") {
-        public TransactionFilter getFilter() {
+        public Filter getFilter() {
             return new ByActualMonth();
         }
     };
@@ -33,7 +33,7 @@ public enum FilterByName {
         this.uiName = uiName;
     }
 
-    public static TransactionFilter getTransactionFilterByUIName(String name) {
+    public static Filter getTransactionFilterByUIName(String name) {
         for (FilterByName item : FilterByName.values()) {
             if (item.uiName.equals(name)) {
                 return item.getFilter();
@@ -42,6 +42,6 @@ public enum FilterByName {
         return null;
     }
 
-    public abstract TransactionFilter getFilter();
+    public abstract Filter getFilter();
 
 }

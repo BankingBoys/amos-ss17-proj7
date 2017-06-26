@@ -14,7 +14,8 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplier;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionListFragment;
 
 public class CalenderDayTransactionFragment extends Fragment {
@@ -24,7 +25,7 @@ public class CalenderDayTransactionFragment extends Fragment {
 
 
     private TransactionListFragment transactionListFragment;
-    private BankTransactionSupplier bankTransactionSupplier;
+    private Supplier<Transaction> bankTransactionSupplier;
 
     private TextView amount;
     private TextView header;
@@ -79,7 +80,7 @@ public class CalenderDayTransactionFragment extends Fragment {
     /**
      *
      */
-    public static CalenderDayTransactionFragment newInstance(BankTransactionSupplier transactionSupplier, double totalAmount, double totalDayAmount) {
+    public static CalenderDayTransactionFragment newInstance(Supplier<Transaction> transactionSupplier, double totalAmount, double totalDayAmount) {
         Bundle bundle = new Bundle();
         bundle.putDouble(BUNDLE_PARAMETER_TOTALAMOUNT, totalAmount);
         bundle.putDouble(BUNDLE_PARAMETER_TOTAL_DAY_AMOUNT, totalDayAmount);
@@ -89,7 +90,7 @@ public class CalenderDayTransactionFragment extends Fragment {
         return fragment;
     }
 
-    private void pushTransactionSupplier(BankTransactionSupplier transactionSupplier) {
+    private void pushTransactionSupplier(Supplier<Transaction> transactionSupplier) {
         this.bankTransactionSupplier = transactionSupplier;
         if (this.transactionListFragment != null) {
             this.transactionListFragment.pushDataProvider(this.bankTransactionSupplier);

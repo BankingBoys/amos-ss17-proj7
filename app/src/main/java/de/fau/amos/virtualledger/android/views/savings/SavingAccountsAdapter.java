@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import de.fau.amos.virtualledger.R;
@@ -20,8 +18,6 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
 
     public SavingAccountsAdapter(Activity activity, int layout, List<SavingsAccount> data) {
         super(activity, layout, data);
-        data.add(this.dummySavingsAccount());
-        data.add(this.dummySavingsAccount());
         this.activity = activity;
     }
 
@@ -48,17 +44,4 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
 
         return convertView;
     }
-
-    private SavingsAccount dummySavingsAccount() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date d = null;
-        try {
-            d = sdf.parse("15/12/2017");
-        } catch (Exception e) {
-
-        }
-        SavingsAccount savingsAccount = new SavingsAccount((int) Math.random() * 100, "Sparschwein", 300, 80, d);
-        return savingsAccount;
-    }
-
 }

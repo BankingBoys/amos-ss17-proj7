@@ -8,7 +8,7 @@ import de.fau.amos.virtualledger.android.views.shared.transactionList.Transactio
  * Created by sebastian on 11.06.17.
  */
 
-public class CustomFilter implements TransactionFilter{
+public class CustomFilter implements Filter<Transaction> {
     private Date startDate;
     private Date endDate;
     public CustomFilter(Date startDate, Date endDate){
