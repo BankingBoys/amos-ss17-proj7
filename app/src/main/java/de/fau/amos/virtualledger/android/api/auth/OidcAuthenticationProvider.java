@@ -122,7 +122,17 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     @Override
     public String getToken() {
 
-        throw new NotImplementedException("Coming soon...");
+        if(oidcData == null) {
+            throw new IllegalStateException("Cannot get token if nobody is logged in!");
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, oidcData.expires_in);
+        if(lastRefresh.after(cal.getTime())) {
+            // TODO deal with asynchronity -> wait until refresh was successful or also return observable
+            refreshToken();
+        }
+
+        return oidcData.access_token;
     }
 
     @Override
