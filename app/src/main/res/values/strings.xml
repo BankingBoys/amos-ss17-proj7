@@ -61,5 +61,8 @@
     <string name="add_savings_account_choose_time_type">Choose a type of goal</string>
     <string name="add_savings_account_time_type_one_time">One time</string>
     <string name="add_savings_account_time_type_periodic">Periodic</string>
+    <string name="add_savings_account_text_view_choose_deposit_type">Choose a deposit type</string>
+    <string name="add_savings_account_deposit_type_single">Single</string>
+    <string name="add_savings_account_deposit_type_shared">Shared</string>
 
 </resources>
