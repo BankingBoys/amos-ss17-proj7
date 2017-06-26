@@ -59,8 +59,9 @@ public class SavingsSupplier implements de.fau.amos.virtualledger.android.views.
     private void onSavingsUpdated() {
         this.logger().info("Savings loaded.");
         this.allSavings.clear();
-        if(this.bankingDataManager.getSavingAccounts() != null){
-            this.allSavings.addAll(this.bankingDataManager.getSavingAccounts());
+        List<SavingsAccount> savingAccounts = this.bankingDataManager.getSavingAccounts();
+        if(savingAccounts != null){
+            this.allSavings.addAll(savingAccounts);
         }
         notifyObservers();
     }
