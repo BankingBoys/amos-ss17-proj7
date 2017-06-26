@@ -1,8 +1,13 @@
 package de.fau.amos.virtualledger.android.dagger.component;
 
+import android.app.Application;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
+import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
+import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
+import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
 import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity;
 import de.fau.amos.virtualledger.android.authentication.demo.registration.RegisterActivity;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
@@ -12,6 +17,8 @@ import de.fau.amos.virtualledger.android.dagger.module.BankingModule;
 import de.fau.amos.virtualledger.android.dagger.module.DatabaseModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 import de.fau.amos.virtualledger.android.dagger.module.SavingsModule;
+import de.fau.amos.virtualledger.android.data.BankingDataManager;
+import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.bankingOverview.addBankAccess.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
@@ -32,6 +39,7 @@ import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOv
 @Singleton
 @Component(modules = {AppModule.class, NetModule.class, AuthenticationModule.class, BankingModule.class, DatabaseModule.class, BankingDataModule.class, SavingsModule.class})
 public interface NetComponent {
+
 
     /**
      * @param activity
