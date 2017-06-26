@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.android.api.auth;
 
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,6 +15,7 @@ import io.reactivex.Observable;
 public class MockedAuthenticationProviderTest {
 
     MockedAuthenticationProvider testProvider;
+    String testtoken = "";
 
     @Before
     public void setUp() {
@@ -31,5 +33,11 @@ public class MockedAuthenticationProviderTest {
         Observable<String> testObservable = testProvider.login("testuser", "testpw");
         Assertions.assertThat(testObservable).isNotNull();
     }
-    
+
+    @Test
+    public void getTokenTest() {
+        Assertions.assertThat(testProvider.getToken()).isEqualTo(testtoken);
+    }
+       
+
 }
