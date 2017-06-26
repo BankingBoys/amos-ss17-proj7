@@ -11,7 +11,6 @@ import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccount;
@@ -31,13 +30,11 @@ public class BankingDataManager extends Observable {
     private final static String TAG = BankingDataManager.class.getSimpleName();
 
     private final BankingProvider bankingProvider;
-    private final SavingsProvider savingsProvider;
     private final BankAccessCredentialDB bankAccessCredentialDB;
     private final AuthenticationProvider authenticationProvider;
 
     private List<BankAccess> bankAccesses;
     private List<BankAccountBookings> bankAccountBookings;
-    private List<SavingsAccount> savingsAccounts;
 
     //Set if sync failed and thrown in getters
     private SyncFailedException syncFailedException = null;
@@ -47,7 +44,6 @@ public class BankingDataManager extends Observable {
 
     public BankingDataManager(final BankingProvider bankingProvider, final SavingsProvider savingsProvider, final BankAccessCredentialDB bankAccessCredentialDB, final AuthenticationProvider authenticationProvider) {
         this.bankingProvider = bankingProvider;
-        this.savingsProvider = savingsProvider;
         this.bankAccessCredentialDB = bankAccessCredentialDB;
         this.authenticationProvider = authenticationProvider;
     }
@@ -78,25 +74,6 @@ public class BankingDataManager extends Observable {
                 onSyncComplete();
             }
         });
-    }
-
-    public List<SavingsAccount> getSavingAccounts() {
-        savingsProvider.getSavingAccounts()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<SavingsAccount>>() {
-                    @Override
-                    public void accept(@NonNull final List<SavingsAccount> savingsAccounts) throws Exception {
-                        BankingDataManager.this.savingsAccounts = savingsAccounts;
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull final Throwable throwable) throws Exception {
-                        Log.e(TAG, "Failed getting savings", throwable);
-
-                    }
-                });
-        return savingsAccounts;
     }
 
     /**
