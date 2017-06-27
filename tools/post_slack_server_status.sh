@@ -4,7 +4,7 @@
 
 # Enter the name of your slack host here - the thing that appears in your URL:
 # https://slackhost.slack.com/
-server="13.58.27.176"
+server="13.58.185.7"
 text=""
 
 # HockeyAppDeploy
