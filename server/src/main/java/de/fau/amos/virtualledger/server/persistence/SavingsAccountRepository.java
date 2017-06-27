@@ -36,6 +36,7 @@ public class SavingsAccountRepository {
             try {
                 entityTransaction.begin();
                 entityManager.persist(savingsAccount);
+                entityManager.flush();
                 entityManager.persist(new SavingsAccountToUser(email, savingsAccount.id));
                 entityTransaction.commit();
             } catch(EntityExistsException entityExistsException) {
@@ -57,7 +58,7 @@ public class SavingsAccountRepository {
     {
         final EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            final Query query = entityManager.createQuery("Select u FROM SavingsAccount u JOIN SavingsAccountToUser s WHERE s.email = :email");
+            final Query query = entityManager.createQuery("Select u FROM SavingsAccount u JOIN SavingsAccountToUser s WHERE u.id = s.id_savingsaccount AND s.email = :email");
             query.setParameter("email", email);
             final List resultList = query.getResultList();
             return resultList;
