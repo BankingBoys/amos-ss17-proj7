@@ -34,4 +34,10 @@ public class SavingsAccountsDialogFragment extends DialogFragment {
 
         return builder.create();
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.name = getArguments().getString(nameTag);
+    }
 }
