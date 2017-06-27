@@ -25,4 +25,12 @@ public class UserCredentialTest {
     public void constructorTest() {
         Assertions.assertThat(testCredential).isNotNull();
     }
+
+    @Test
+    public void setAndGetEmailTest() {
+        String testEmail2 = "testEmail2";
+        testCredential.setEmail(testEmail2);
+        Assertions.assertThat(testCredential.getEmail()).isEqualTo(testEmail2);
+    }
+    
 }
