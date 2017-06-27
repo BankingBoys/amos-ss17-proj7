@@ -29,6 +29,13 @@ public class SavingsAccountTest {
         assertThat(savingsAccount.getFinaldate()).isEqualTo(finalDate);
     }
 
+    @Test
+    public void constructorTest() {
+        SavingsAccount savingsAccount = new SavingsAccount();
+        assertThat(savingsAccount).isNotNull();
+    }
+    
+
 
     @Test
     public void teste_getDaysLeft() throws Exception {
