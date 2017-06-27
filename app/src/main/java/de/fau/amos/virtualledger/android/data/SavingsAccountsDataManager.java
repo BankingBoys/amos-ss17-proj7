@@ -2,9 +2,11 @@ package de.fau.amos.virtualledger.android.data;
 
 import android.util.Log;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
@@ -23,7 +25,7 @@ public class SavingsAccountsDataManager extends Observable {
 
     private final SavingsProvider savingsProvider;
 
-    private List<SavingsAccount> savingsAccounts;
+    private List<SavingsAccount> savingsAccounts = new LinkedList<>();
 
     //Set if sync failed and thrown in getters
     private SyncFailedException syncFailedException = null;
@@ -41,18 +43,30 @@ public class SavingsAccountsDataManager extends Observable {
      * Also notifies all Observers that changes were made.
      */
     public void sync() {
+        this.savingsAccounts = new LinkedList<>();
         syncFailedException = null;
         syncStatus = SYNC_IN_PROGRESS;
         syncsActive.addAndGet(1);
-
         savingsProvider.getSavingAccounts()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<SavingsAccount>>() {
                     @Override
                     public void accept(@NonNull final List<SavingsAccount> savingsAccounts) throws Exception {
-                        SavingsAccountsDataManager.this.savingsAccounts = savingsAccounts;
+                        //SavingsAccountsDataManager.this.savingsAccounts.addAll(savingsAccounts);//FIXME Incomment this if server works correctly
+                        for (SavingsAccount newSavingsAccount : savingsAccounts) { //TODO delete this if server working correctly
+                            addIfNotAlreadyAdded(newSavingsAccount);
+                        }
                         onSyncComplete();
+                    }
+
+                    private void addIfNotAlreadyAdded(@NonNull SavingsAccount newSavingsAccount) {//TODO delete this if server working correctly
+                        for (SavingsAccount alreadyAddedSavingsAccount : SavingsAccountsDataManager.this.savingsAccounts) {
+                            if (newSavingsAccount.getId().equals(alreadyAddedSavingsAccount.getId())) {
+                                return;
+                            }
+                        }
+                        SavingsAccountsDataManager.this.savingsAccounts.add(newSavingsAccount);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -66,7 +80,7 @@ public class SavingsAccountsDataManager extends Observable {
 
     private void onSyncComplete() {
         final int syncsLeft = syncsActive.decrementAndGet();
-        if(syncsLeft == 0) {
+        if (syncsLeft == 0) {
             syncStatus = SYNCED;
             setChanged();
             notifyObservers();
@@ -84,9 +98,14 @@ public class SavingsAccountsDataManager extends Observable {
     }
 
     public List<SavingsAccount> getSavingsAccounts() throws SyncFailedException {
-        if(syncFailedException != null) throw syncFailedException;
-        if(syncStatus != SYNCED) throw new IllegalStateException("Sync not completed");
-        return savingsAccounts;
+        if (syncFailedException != null) throw syncFailedException;
+        if (syncStatus != SYNCED) throw new IllegalStateException("Sync not completed");
+        logger().info("Number of Saving accounts synct: " + this.savingsAccounts.size());
+        return new LinkedList<>(savingsAccounts);
+    }
+
+    private Logger logger() {
+        return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.hashCode() + "}");
     }
 
     public void addSavingsAccount(final AddSavingsAccountData addSavingsAccountData) {
@@ -98,6 +117,7 @@ public class SavingsAccountsDataManager extends Observable {
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(@NonNull final String result) throws Exception {
+                        SavingsAccountsDataManager.this.logger().info("Refreshing database of Saving Accounts after adding savings account");
                         SavingsAccountsDataManager.this.sync();
                     }
                 }, new Consumer<Throwable>() {
