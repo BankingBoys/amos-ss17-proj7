@@ -14,5 +14,8 @@ public class UserCredentialTest {
 
     UserCredential testCredential;
 
-
+    @Before
+    public void setUp() {
+        testCredential = new UserCredential(testEmail1, testPw1, testFirstName1, testLastName1);
+    }
 }
