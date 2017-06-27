@@ -39,9 +39,16 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
         TextView goalBalance = (TextView) convertView.findViewById(R.id.id_goal_balance);
         goalBalance.setText(Math.round(savingsAccount.getGoalbalance()) + "");
 
-        TextView daysLeft = (TextView) convertView.findViewById(R.id.id_time_left);
-        daysLeft.setText(savingsAccount.daysLeft() + " days left");
+        TextView daysLeftLabel = (TextView) convertView.findViewById(R.id.id_time_left);
 
+        int daysLeft = savingsAccount.daysLeft();
+        if (daysLeft > 1) {
+            daysLeftLabel.setText(daysLeft + " days left");
+        } else if (daysLeft == 1) {
+            daysLeftLabel.setText("one day left");
+        } else {
+            daysLeftLabel.setText("done");
+        }
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
