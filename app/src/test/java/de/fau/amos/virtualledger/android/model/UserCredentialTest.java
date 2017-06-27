@@ -11,5 +11,8 @@ public class UserCredentialTest {
     String testPw1 = "testPW1";
     String testFirstName1 = "testFirstName1";
     String testLastName1 = "testLastName1";
-        
+
+    UserCredential testCredential;
+
+
 }
