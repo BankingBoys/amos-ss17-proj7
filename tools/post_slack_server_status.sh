@@ -4,7 +4,6 @@
 
 # Enter the name of your slack host here - the thing that appears in your URL:
 # https://slackhost.slack.com/
-server="13.58.185.7"
 text=""
 
 # HockeyAppDeploy
@@ -23,8 +22,8 @@ fi
 
 
 # Amazon Server Status
-if nc -w 5 -z "$server" 8080 ; then
-    echo "Port 22 on $server is open"
+if nc -w 5 -z "$AWS_SERVER" 8080 ; then
+    echo "Port 22 on $AWS_SERVER is open"
     text=$text", ServerStatus:{UP}"
 else
     text="!!!ATTENTION!!!::: "$text", ServerStatus:{DOWN}"
