@@ -16,7 +16,7 @@ import java.util.List;
 @BankingApiDummy
 public class DummyBankAccessEndpoint implements BankAccessEndpoint {
 
-    private List<BankAccessBankingModel> bankingModels = new ArrayList<BankAccessBankingModel>();
+    protected List<BankAccessBankingModel> bankingModels = new ArrayList<BankAccessBankingModel>();
     private int number = 0;
 
     @Override
