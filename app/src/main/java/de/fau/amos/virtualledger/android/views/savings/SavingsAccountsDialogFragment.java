@@ -30,7 +30,7 @@ public class SavingsAccountsDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(name).setMessage("Person 1 \nPerson 2 \nPerson 3 \nPerson4");
+        builder.setTitle(name).setMessage("Person 1 \nPerson 2 \nPerson 3 \nPerson 4");
 
         return builder.create();
     }
