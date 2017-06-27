@@ -14,4 +14,13 @@ public class SavingAccountToUserTest {
         Assertions.assertThat(testAccount).isNotNull();
     }
 
+    @Test
+    public void constructorTest2() {
+        String testEmail = "email@email.de";
+        int savingsAccount = 0;
+        SavingsAccountToUser testAccount = new SavingsAccountToUser(testEmail, savingsAccount);
+        Assertions.assertThat(testAccount).isNotNull();
+        Assertions.assertThat(testAccount.email).isEqualTo(testEmail);
+        Assertions.assertThat(testAccount.id_savingsaccount).isEqualTo(savingsAccount);
+    }
 }
