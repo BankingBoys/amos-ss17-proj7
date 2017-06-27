@@ -25,5 +25,13 @@ public class SavingsAccountsDialogFragment extends DialogFragment {
         savingsAccountsDialogFragment.setArguments(bundle);
         return savingsAccountsDialogFragment;
     }
-    
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(name).setMessage("Person 1 \nPerson 2 \nPerson 3 \nPerson4");
+
+        return builder.create();
+    }
 }
