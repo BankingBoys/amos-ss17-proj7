@@ -3,6 +3,7 @@ package de.fau.amos.virtualledger.android.data;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -138,7 +139,7 @@ public class BankingDataManager extends Observable {
     public List<BankAccess> getBankAccesses() throws SyncFailedException {
         if(syncFailedException != null) throw syncFailedException;
         if(syncStatus != SYNCED) throw new IllegalStateException("Sync not completed");
-        return bankAccesses;
+        return new LinkedList<>(bankAccesses);
     }
 
     /**
