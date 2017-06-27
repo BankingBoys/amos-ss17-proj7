@@ -4,8 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.Date;
+import java.util.TimeZone;
 
 import de.fau.amos.virtualledger.dtos.Booking;
+import hirondelle.date4j.DateTime;
 
 /**
  * Created by sebastian on 05.06.17.
@@ -70,5 +72,18 @@ public class Transaction implements Parcelable {
         String usage = in.readString();
         booking = new Booking(date, amount);
         booking.setUsage(usage);
+    }
+    private long cachedTimeAsLong = -1;
+
+    public long getCachedTimeAsLong(){
+        if (this.cachedTimeAsLong == -1){
+            this.cachedTimeAsLong = this.getDateTime(booking().getDate()).getMilliseconds(TimeZone.getDefault());
+        }
+        return this.cachedTimeAsLong;
+    }
+
+    private DateTime getDateTime(Date date) {
+        DateTime exactDateTime = DateTime.forInstant(date.getTime(), TimeZone.getDefault());
+        return new DateTime(exactDateTime.getYear(), exactDateTime.getMonth(), exactDateTime.getDay(), 0, 0, 0, 0);
     }
 }

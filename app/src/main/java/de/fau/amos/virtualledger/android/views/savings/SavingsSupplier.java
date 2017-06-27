@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -39,7 +40,7 @@ public class SavingsSupplier implements de.fau.amos.virtualledger.android.views.
 
     @Override
     public List<SavingsAccount> getAll() {
-        return this.allSavings;
+        return new LinkedList<>(this.allSavings);
     }
 
     @Override
@@ -66,6 +67,7 @@ public class SavingsSupplier implements de.fau.amos.virtualledger.android.views.
             savingAccounts = this.savingsAccountsDataManager.getSavingsAccounts();
         } catch (SyncFailedException e) {
             Log.e("", "Sync failed");
+            return;
         }
         if(savingAccounts != null){
             this.allSavings.addAll(savingAccounts);
