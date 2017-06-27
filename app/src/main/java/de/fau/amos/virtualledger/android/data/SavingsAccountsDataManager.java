@@ -53,20 +53,8 @@ public class SavingsAccountsDataManager extends Observable {
                 .subscribe(new Consumer<List<SavingsAccount>>() {
                     @Override
                     public void accept(@NonNull final List<SavingsAccount> savingsAccounts) throws Exception {
-                        //SavingsAccountsDataManager.this.savingsAccounts.addAll(savingsAccounts);//FIXME Incomment this if server works correctly
-                        for (SavingsAccount newSavingsAccount : savingsAccounts) { //TODO delete this if server working correctly
-                            addIfNotAlreadyAdded(newSavingsAccount);
-                        }
+                        SavingsAccountsDataManager.this.savingsAccounts.addAll(savingsAccounts);//FIXME Incomment this if server works correctly
                         onSyncComplete();
-                    }
-
-                    private void addIfNotAlreadyAdded(@NonNull SavingsAccount newSavingsAccount) {//TODO delete this if server working correctly
-                        for (SavingsAccount alreadyAddedSavingsAccount : SavingsAccountsDataManager.this.savingsAccounts) {
-                            if (newSavingsAccount.getId().equals(alreadyAddedSavingsAccount.getId())) {
-                                return;
-                            }
-                        }
-                        SavingsAccountsDataManager.this.savingsAccounts.add(newSavingsAccount);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
