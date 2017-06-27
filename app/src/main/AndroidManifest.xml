@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".android.authentication.demo.login.LoginActivity"
                   android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -37,6 +38,10 @@
         </activity>
         <activity
             android:name=".android.views.bankingOverview.addBankAccess.AddBankAccessActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".android.views.savings.add.AddSavingsAccountActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity

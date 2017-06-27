@@ -19,7 +19,7 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.views.bankingOverview.addBankAccess.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
-import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
+import de.fau.amos.virtualledger.android.data.SyncFailedException;
 
 /**
  * Created by Simon on 21.05.2017.
@@ -73,7 +73,7 @@ public class NoBankingAccessesFragment extends Fragment implements Observer{
             if(bankingDataManager.getBankAccesses().size() > 0) {
                 getActivity().getFragmentManager().popBackStack();
             }
-        } catch (BankingSyncFailedException e) {
+        } catch (SyncFailedException e) {
             Toast.makeText(getActivity(), "Error in getting Bank accesses", Toast.LENGTH_SHORT).show();
         }
     }

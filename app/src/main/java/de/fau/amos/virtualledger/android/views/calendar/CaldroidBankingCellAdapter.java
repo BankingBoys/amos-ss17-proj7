@@ -15,15 +15,12 @@ import android.widget.TextView;
 
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.views.menu.MainMenu;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
-import de.fau.amos.virtualledger.dtos.Booking;
 import hirondelle.date4j.DateTime;
 
 public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
@@ -47,14 +44,13 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
      * @param caldroidData
      * @param extraData
      * @param bankingDateInformationMap key must be a DateTime in Year, Month, Day and time set completely to 0
-     * Hint: use new DateTime(year, month, day, new Integer(0), new Integer(0), new Integer(0), new Integer(0));
+     *                                  Hint: use new DateTime(year, month, day, new Integer(0), new Integer(0), new Integer(0), new Integer(0));
      */
     public CaldroidBankingCellAdapter(Context context, int month, int year, Map<String, Object> caldroidData, Map<String, Object> extraData, Map<DateTime, BankingDateInformation> bankingDateInformationMap) {
         super(context, month, year, caldroidData, extraData);
         this.context = context;
         this.bankingDateInformationMap = bankingDateInformationMap;
     }
-
 
 
     @Override
@@ -67,14 +63,15 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
         BankingDateInformation bankingDateInformation = this.bankingDateInformationMap.get(dateTime);
         double amountDelta = 0.0;
         double amount = 0.0;
-        List<Transaction> transactionList = new ArrayList<>();
-        if(bankingDateInformation != null) {
+        Supplier<Transaction> transactionList = null;
+        if (bankingDateInformation != null) {
             amountDelta = bankingDateInformation.getAmountDelta();
             amount = bankingDateInformation.getAmount();
-            transactionList = bankingDateInformation.getTransactions();
+            transactionList = bankingDateInformation.getTransactionSuppllier();
         }
-        final List<Transaction> transactionListPassed = transactionList;
+        final Supplier<Transaction> transactionListPassed = transactionList;
         final double amountPassed = amountDelta;
+        final double dayAmount = amount;
 
         // load custom cell
         if (convertView == null) {
@@ -85,32 +82,33 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
         amountTextView = (TextView) cellView.findViewById(R.id.calendar_view_cell_amount);
 
         // Set color of today
-        if(dateTime.equals(getToday())) {
+        if (dateTime.equals(getToday())) {
             styleToday();
         }
 
         styleDefault();
-        
+
         if (dateTime.getMonth() == month) {
             dateTextView.setText("" + dateTime.getDay());
 
             // only show amount + amount delta if there are changes:
-            if(amountDelta != 0.0) {
+            if (amountDelta != 0.0) {
+                setAmountDeltaText(amountDelta);
                 changeAmountDeltaTextColor(amountDelta);
-                changeAmountBackgroundColor(amount);
 
                 amountTextView.setText(getFormatedDouble(amount));
-                setAmountDeltaText(amountDelta);
+                changeAmountBackgroundColor(amount);
             }
+            cellView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CalenderDayTransactionFragment calenderDayTransactionFragment = CalenderDayTransactionFragment.newInstance(transactionListPassed, amountPassed, dayAmount);
+                    openFragment(calenderDayTransactionFragment);
+                }
+            });
+
         }
 
-        cellView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CalenderDayTransactionFragment calenderDayTransactionFragment = CalenderDayTransactionFragment.newInstance(transactionListPassed, amountPassed);
-                openFragment(calenderDayTransactionFragment);
-            }
-        });
 
         // Set custom color if required
         setCustomResources(dateTime, cellView, dateTextView);

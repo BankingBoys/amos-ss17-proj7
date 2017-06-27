@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.TransactionFilter;
+import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.Filter;
 
 /**
  * Created by sebastian on 17.06.17.
  */
 
-public class ItemCheckedMap implements TransactionFilter {
-    private HashMap<String, Boolean> map;
+public class ItemCheckedMap implements Filter<Transaction> {
+    private Map<String, Boolean> map;
 
     public ItemCheckedMap(HashMap<String, Boolean> map) {
         this.map = map;
@@ -31,7 +31,7 @@ public class ItemCheckedMap implements TransactionFilter {
         return this.map.containsKey(bankAccountID) && this.map.get(bankAccountID).booleanValue();
     }
 
-    public void update(HashMap<String, Boolean> map) {
+    public void update(Map<String, Boolean> map) {
         this.map = map;
     }
 

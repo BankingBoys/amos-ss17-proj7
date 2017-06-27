@@ -39,7 +39,6 @@ android {
         }
     }
     lintOptions {
-        ignoreWarnings true
         abortOnError true
         disable('InvalidPackage')
     }
@@ -81,17 +80,13 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile ('org.jboss.aerogear:aerogear-android-authz:2.0.0') {
-        exclude module : 'compatibility-v4'
-        transitive = true
-    }
-
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.squareup.okio:okio:1.7.0'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.squareup.retrofit2:converter-gson:2.0.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'
     compile 'com.android.support:design:25.3.1'
@@ -101,6 +96,7 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.google.android.gms:play-services-plus:10.2.6'
     compile 'com.roomorama:caldroid:3.0.1'
+    compile 'org.apache.commons:commons-lang3:3.6'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support:support-annotations:25.3.1'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'

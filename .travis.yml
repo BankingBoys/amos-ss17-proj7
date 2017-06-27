@@ -9,6 +9,7 @@ before_install:
   - echo -e $sshcert > keyssh
 
 install:
+  - pip install
   - cd /home/travis/build/BankingBoys/
   - sudo apt install unzip   
   - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
@@ -24,7 +25,7 @@ install:
   - echo y | $ANDROID_HOME/tools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
   - cd /home/travis/build/BankingBoys/amos-ss17-proj7/
 addons:
-  ssh_known_hosts: "13.58.27.176"
+  ssh_known_hosts: "13.58.185.7"
 
 after_script:
  -  chmod 777 tools/upload_script_to_amazon_aws.sh 
@@ -39,7 +40,7 @@ notifications:
     slack: amosteam5:WF2UyrAWwmuoSgjjtqPo8O1N
 
 after_success:
- - bash <(curl -s https://codecov.io/bash) -t cf0de81b-58db-4ef3-ae21-7e98da69c415
+ - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock

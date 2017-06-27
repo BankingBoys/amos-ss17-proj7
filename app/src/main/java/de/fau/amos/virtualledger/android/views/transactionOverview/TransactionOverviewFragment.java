@@ -11,6 +11,9 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,20 +40,21 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
-import de.fau.amos.virtualledger.android.data.BankingSyncFailedException;
+import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.views.calendar.CalendarViewFragment;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSuplierFilter;
-import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplier;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplierImplementation;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.ItemCheckedMap;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionListFragment;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.ByActualMonth;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.CustomFilter;
+import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.Filter;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.FilterByName;
-import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.TransactionFilter;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
@@ -75,7 +80,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     @Inject
     BankingDataManager bankingDataManager;
 
-    private TransactionFilter filter = new ByActualMonth();
+    private Filter filter = new ByActualMonth();
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -115,12 +120,14 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
             }
         });
         spinner.setSelection(2);
+
+        setHasOptionsMenu(true);
         return this.mainView;
     }
 
     void filterTransactions(String by, final TextView selectedTextView, final Spinner spinner) {
         logger().log(Level.INFO, "Selected filter: " + by);
-        TransactionFilter transactionFilter = FilterByName.getTransactionFilterByUIName(by);
+        Filter transactionFilter = FilterByName.getTransactionFilterByUIName(by);
         final TransactionOverviewFragment _this = this;
         if (transactionFilter == null) {
             final SpecifyDateDialog chooserDialogContent = SpecifyDateDialog.newInstance();
@@ -157,7 +164,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         }
         logger().log(Level.INFO, "Direct filter found for " + by);
         this.filter = transactionFilter;
-        this.transactionListFragment.pushDataProvider(getBankTransactionSupplier());
+        this.transactionListFragment.pushDataProvider(getDateFilteredBankTransactionSupplier());
     }
 
     private Logger logger() {
@@ -197,14 +204,29 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
         fm = getFragmentManager();
         ft = fm.beginTransaction();
-        ft.add(R.id.transaction_list_placeholder, transactionListFragment, "transaction_overview_total_amount_fragment");
+        ft.add(R.id.transaction_list_placeholder, transactionListFragment);
         ft.commit();
     }
 
-    public void setCheckedMap(HashMap<String, Boolean> map) {
+    public void setCheckedMap(Map<String, Boolean> map) {
         this.itemCheckedMap.update(map);
     }
 
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        inflater.inflate(R.menu.transaction_overview_app_bar, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.transaction_overview_app_bar_refresh:
+                bankingDataManager.sync();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @OnClick(R.id.transaction_overview_calendar_button)
     public void onOpenCalendar() {
@@ -221,7 +243,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         double filteredBalance = 0.0;
         try {
             bankAccessList = bankingDataManager.getBankAccesses();
-        } catch (BankingSyncFailedException e) {
+        } catch (SyncFailedException e) {
             return 0.0;
         }
 
@@ -246,17 +268,22 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     public void update(Observable observable, Object o) {
         this.logger().info("Updateing Transaction Overview Fragment");
         totalAmountFragment.setCheckedMap(itemCheckedMap);
-        this.transactionListFragment.pushDataProvider(getBankTransactionSupplier());
+        this.transactionListFragment.pushDataProvider(getDateFilteredBankTransactionSupplier());
 
         checkForEmptyOrNullAccessList();
     }
 
 
     @NonNull
-    private BankTransactionSupplier getBankTransactionSupplier() {
-        BankTransactionSupplier basicTransactionSupplier = new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings());
-        BankTransactionSupplier filteredForSelection = new BankTransactionSuplierFilter(basicTransactionSupplier, this.itemCheckedMap);
+    private Supplier<Transaction> getDateFilteredBankTransactionSupplier() {
+        Supplier<Transaction> filteredForSelection = getBankTransactionSupplier();
         return new BankTransactionSuplierFilter(filteredForSelection, this.filter);
+    }
+
+    @NonNull
+    private Supplier<Transaction> getBankTransactionSupplier() {
+        Supplier<Transaction> basicTransactionSupplier = new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings());
+        return new BankTransactionSuplierFilter(basicTransactionSupplier, this.itemCheckedMap);
     }
 
     private List<BankAccountBookings> getBankAccountBookings() {

@@ -10,7 +10,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,13 +17,13 @@ import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 
-public class TransactionListFragment extends Fragment implements java.util.Observer, DataListening {
+public class TransactionListFragment extends Fragment implements DataListening {
     TransactionAdapter adapter;
     private View mainView;
 
     private ListView bookingListView;
 
-    private BankTransactionSupplier bankTransactionSupplier;
+    private Supplier<Transaction> bankTransactionSupplier;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class TransactionListFragment extends Fragment implements java.util.Obser
         bookingListView.setAdapter(adapter);
     }
 
-    public void pushDataProvider(BankTransactionSupplier supplier) {
+    public void pushDataProvider(Supplier<Transaction> supplier) {
         this.bankTransactionSupplier = supplier;
         this.bankTransactionSupplier.addDataListeningObject(this);
         this.bankTransactionSupplier.onResume();
@@ -43,8 +42,17 @@ public class TransactionListFragment extends Fragment implements java.util.Obser
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (this.bankTransactionSupplier != null) {
+            this.bankTransactionSupplier.deregister(this);
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        this.logger().info("On resume transactionlistfragment");
         if (bankTransactionSupplier != null) {
             this.bankTransactionSupplier.onResume();
         }
@@ -55,7 +63,8 @@ public class TransactionListFragment extends Fragment implements java.util.Obser
         if (this.adapter == null || this.bankTransactionSupplier == null) {
             return;
         }
-        List<Transaction> transactionsToPresent = this.bankTransactionSupplier.getAllTransactions();
+        this.logger().info("TransactionListFragment is refreshing transactions");
+        List<Transaction> transactionsToPresent = this.bankTransactionSupplier.getAll();
         this.adapter.clear();
         logger().log(Level.INFO, "Number of presented transactions: " + transactionsToPresent.size());
         for (Transaction actualTransaction : transactionsToPresent) {
@@ -80,14 +89,11 @@ public class TransactionListFragment extends Fragment implements java.util.Obser
 
 
     @Override
-    public void update(final Observable o, final Object arg) {
-        showUpdatedTransactions();
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
-        this.bankTransactionSupplier.onPause();
+        if (this.bankTransactionSupplier != null) {
+            this.bankTransactionSupplier.onPause();
+        }
     }
 
     @Override
@@ -96,6 +102,7 @@ public class TransactionListFragment extends Fragment implements java.util.Obser
 
     @Override
     public void notifyDataChanged() {
+        this.logger().info("Transaction List Fragment Notify Data Changed");
         this.showUpdatedTransactions();
     }
 }

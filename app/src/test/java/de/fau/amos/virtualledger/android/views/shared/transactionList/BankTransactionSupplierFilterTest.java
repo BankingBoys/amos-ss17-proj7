@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.Filter;
 import de.fau.amos.virtualledger.android.views.transactionOverview.transactionfilter.Last12Months;
 import de.fau.amos.virtualledger.dtos.Booking;
 
@@ -25,11 +26,11 @@ public class BankTransactionSupplierFilterTest {
         //Arrange
         Transaction oldTransaction = new Transaction("some bank", "some bank number", oldBooking());
         Transaction newTransaction = new Transaction("some new bank", "some bank number", newBooking());
-        BankTransactionSupplier component_under_test = new BankTransactionSuplierFilter(new StubbedBankTransactionSupplier(oldTransaction, newTransaction), new Last12Months());
+        Supplier<Transaction> component_under_test = new BankTransactionSuplierFilter(new StubbedBankTransactionSupplier(oldTransaction, newTransaction), new Last12Months());
 
 
         //Act
-        List<Transaction> result = component_under_test.getAllTransactions();
+        List<Transaction> result = component_under_test.getAll();
 
         //Assert
         assertThat(result).containsOnly(newTransaction);

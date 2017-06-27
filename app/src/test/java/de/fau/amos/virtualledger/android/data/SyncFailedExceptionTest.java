@@ -4,14 +4,14 @@ import org.junit.Assert;
 import org.junit.Test;
 
 
-public class BankingSyncFailedExceptionTest {
+public class SyncFailedExceptionTest {
 
     @Test
     public void constructor_empty() {
         // SETUP
 
         // ACT
-        BankingSyncFailedException ex = new BankingSyncFailedException();
+        SyncFailedException ex = new SyncFailedException();
 
         // ASSERT
         Assert.assertNotNull(ex);
@@ -22,7 +22,7 @@ public class BankingSyncFailedExceptionTest {
         // SETUP
 
         // ACT
-        BankingSyncFailedException ex = new BankingSyncFailedException("test");
+        SyncFailedException ex = new SyncFailedException("test");
 
         // ASSERT
         Assert.assertNotNull(ex);
@@ -33,7 +33,7 @@ public class BankingSyncFailedExceptionTest {
         // SETUP
 
         // ACT
-        BankingSyncFailedException ex = new BankingSyncFailedException(new Throwable());
+        SyncFailedException ex = new SyncFailedException(new Throwable());
 
         // ASSERT
         Assert.assertNotNull(ex);
@@ -44,7 +44,7 @@ public class BankingSyncFailedExceptionTest {
         // SETUP
 
         // ACT
-        BankingSyncFailedException ex = new BankingSyncFailedException("test", new Throwable());
+        SyncFailedException ex = new SyncFailedException("test", new Throwable());
 
         // ASSERT
         Assert.assertNotNull(ex);

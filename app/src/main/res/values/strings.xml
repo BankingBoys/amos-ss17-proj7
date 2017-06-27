@@ -16,16 +16,17 @@
     <string name="calendar_view_daily_transaction_aggregated_amount">Amount</string>
 
     <string name="main_menu_content_description_image">Icon Items</string>
-    <string name="main_menu_app_bar_add_bank_access">Add bank access</string>
-    <string name="main_menu_app_bar_refresh">Refresh</string>
     <string name="main_menu_drawer_opened">open</string>
     <string name="main_menu_drawer_closed">closed</string>
     <string name="main_menu_drawer_bank_accesses">Bank Accesses</string>
     <string name="main_menu_drawer_transaction_overview">Transaction Overview</string>
+    <string name="main_menu_drawer_saving_accounts">Saving Accounts</string>
     <string name="main_menu_drawer_settings">Settings</string>
     <string name="main_menu_drawer_logout">Logout</string>
 
     <string name="banking_overview_title">Bank Accesses</string>
+    <string name="banking_overview_app_bar_add_bank_access">Add bank access</string>
+    <string name="banking_overview_app_bar_refresh">Refresh</string>
     <string name="banking_overview_no_bank_access_text">No bank accesses registered yet</string>
     <string name="banking_overview_no_bank_access_button_text">Add Bank Accesses</string>
     <string name="banking_overview_add_access_name_hint">Login name</string>
@@ -38,9 +39,32 @@
     <string name="banking_overview_enable_all_accounts_checkbox">Enable all bank accounts</string>
 
     <string name="transaction_overview_title">Transactions</string>
+    <string name="transaction_overview_app_bar_refresh">Refresh</string>
     <string name="transaction_overview_calendar_button_text">Show Calendar</string>
 
+    <string name="saving_accounts_title">Saving Accounts</string>
+    <string name="saving_accounts_app_bar_add">Add savings account</string>
+
     <string name="pref_example_title">Example Preference</string>
+
     <string name="authentication_activity_chooser_demo_account_button">Demo Account</string>
     <string name="authentication_activity_chooser_oidc_button">Authenticate now!</string>
+    <string name="add_savings_account_button_previous">Previous</string>
+    <string name="add_savings_account_button_next">Next</string>
+    <string name="add_savings_account_enter_name_text">Enter a name for your savings account</string>
+    <string name="add_savings_account_enter_name_hint">Name</string>
+    <string name="add_savings_account_enter_amount_hint">Goal balance</string>
+    <string name="add_savings_account_enter_amount_text">Enter the goal balance</string>
+    <string name="add_savings_account_button_submit">Submit</string>
+    <string name="add_savings_account_enter_final_date_text">Enter the termination date for this account</string>
+    <string name="add_savings_account_enter_final_date_hint">Termination date</string>
+    <string name="add_savings_account_choose_time_type">Choose a type of goal</string>
+    <string name="add_savings_account_time_type_one_time">One time</string>
+    <string name="add_savings_account_time_type_periodic">Periodic</string>
+    <string name="add_savings_account_text_view_choose_deposit_type">Choose a deposit type</string>
+    <string name="add_savings_account_deposit_type_single">Single</string>
+    <string name="add_savings_account_deposit_type_shared">Shared</string>
+    <string name="add_savings_account_choose_accounts_button">Choose Accounts</string>
+    <string name="add_savings_account_choose_accounts_text">Choose accounts that are enabled for the transaction of money to this deposit</string>
+
 </resources>

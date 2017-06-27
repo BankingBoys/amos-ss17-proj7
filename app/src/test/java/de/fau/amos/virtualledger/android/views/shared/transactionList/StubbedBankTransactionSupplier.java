@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.android.views.shared.transactionList;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -7,18 +8,20 @@ import java.util.List;
  * Created by sebastian on 17.06.17.
  */
 
-public class StubbedBankTransactionSupplier implements BankTransactionSupplier{
+public class StubbedBankTransactionSupplier implements Supplier<Transaction>{
     private List<Transaction> transactionsList = null;
 
 
-    StubbedBankTransactionSupplier(Transaction ... transactions){
+    public StubbedBankTransactionSupplier(Transaction ... transactions){
         this.transactionsList = Arrays.asList(transactions);
     }
 
-
+    public StubbedBankTransactionSupplier(){
+        this.transactionsList = new ArrayList<>();
+    }
 
     @Override
-    public List<Transaction> getAllTransactions() {
+    public List<Transaction> getAll() {
         return this.transactionsList;
     }
 
@@ -29,6 +32,11 @@ public class StubbedBankTransactionSupplier implements BankTransactionSupplier{
 
     @Override
     public void addDataListeningObject(DataListening observer) {
+
+    }
+
+    @Override
+    public void deregister(DataListening observer) {
 
     }
 

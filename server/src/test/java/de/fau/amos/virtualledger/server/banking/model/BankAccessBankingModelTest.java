@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.server.model;
+package de.fau.amos.virtualledger.server.banking.model;
 
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import org.junit.Assert;

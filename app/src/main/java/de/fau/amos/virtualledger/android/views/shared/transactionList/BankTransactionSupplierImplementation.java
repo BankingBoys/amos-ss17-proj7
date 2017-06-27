@@ -3,9 +3,12 @@ package de.fau.amos.virtualledger.android.views.shared.transactionList;
 import android.app.Activity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,7 +25,7 @@ import de.fau.amos.virtualledger.dtos.Booking;
  * Created by sebastian on 17.06.17.
  */
 
-public class BankTransactionSupplierImplementation implements BankTransactionSupplier, Observer {
+public class BankTransactionSupplierImplementation implements Supplier<Transaction>, Observer {
     @Inject
     BankingDataManager bankingDataManager;
     @Inject
@@ -30,7 +33,7 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
     @Inject
     AuthenticationProvider authenticationProvider;
 
-    private List<DataListening> dataListenings = new ArrayList<>();
+    private Set<DataListening> dataListenings = new HashSet<>();
 
     private ArrayList<Transaction> allBankTransactions = new ArrayList<>();
 
@@ -42,8 +45,8 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
     }
 
     @Override
-    public List<Transaction> getAllTransactions() {
-        return this.allBankTransactions;
+    public List<Transaction> getAll() {
+        return new LinkedList<>(this.allBankTransactions);
     }
 
     @Override
@@ -70,7 +73,7 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
                 Transaction transaction = new Transaction(
                         bankAccessCredentialDB
                                 .getAccountName(
-                                        authenticationProvider.getEmail(),
+                                        authenticationProvider.getUserId(),
                                         bankAccountBookings.getBankaccessid(),
                                         bankAccountBookings.getBankaccountid()),
                         bankAccountBookings.getBankaccountid(),
@@ -85,7 +88,18 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
 
     @Override
     public void addDataListeningObject(DataListening observer) {
+        if (this.dataListenings.isEmpty()) {
+            this.bankingDataManager.addObserver(this);
+        }
         this.dataListenings.add(observer);
+    }
+
+    @Override
+    public void deregister(DataListening observer) {
+        this.dataListenings.remove(observer);
+        if (this.dataListenings.isEmpty()){
+            this.bankingDataManager.deleteObserver(this);
+        }
     }
 
     @Override
@@ -97,7 +111,6 @@ public class BankTransactionSupplierImplementation implements BankTransactionSup
     @Override
     public void update(Observable observable, Object o) {
         this.onBookingsUpdated();
-        notifyObservers();
     }
 
     private void notifyObservers() {

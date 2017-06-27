@@ -3,11 +3,14 @@ package de.fau.amos.virtualledger.android.data;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
+import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
@@ -20,17 +23,13 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-import static de.fau.amos.virtualledger.android.data.BankingDataManager.SYNC_STATUS.NOT_SYNCED;
-import static de.fau.amos.virtualledger.android.data.BankingDataManager.SYNC_STATUS.SYNCED;
-import static de.fau.amos.virtualledger.android.data.BankingDataManager.SYNC_STATUS.SYNC_IN_PROGRESS;
+import static de.fau.amos.virtualledger.android.data.SyncStatus.NOT_SYNCED;
+import static de.fau.amos.virtualledger.android.data.SyncStatus.SYNCED;
+import static de.fau.amos.virtualledger.android.data.SyncStatus.SYNC_IN_PROGRESS;
 
 public class BankingDataManager extends Observable {
     private final static String TAG = BankingDataManager.class.getSimpleName();
 
-    @SuppressWarnings("WeakerAccess") //False positive
-    public enum SYNC_STATUS {
-        NOT_SYNCED, SYNC_IN_PROGRESS, SYNCED
-    }
     private final BankingProvider bankingProvider;
     private final BankAccessCredentialDB bankAccessCredentialDB;
     private final AuthenticationProvider authenticationProvider;
@@ -39,11 +38,12 @@ public class BankingDataManager extends Observable {
     private List<BankAccountBookings> bankAccountBookings;
 
     //Set if sync failed and thrown in getters
-    private BankingSyncFailedException bankingSyncFailedException = null;
+    private SyncFailedException syncFailedException = null;
 
-    private SYNC_STATUS syncStatus = NOT_SYNCED;
+    private SyncStatus syncStatus = NOT_SYNCED;
+    private AtomicInteger syncsActive = new AtomicInteger(0);
 
-    public BankingDataManager(final BankingProvider bankingProvider, final BankAccessCredentialDB bankAccessCredentialDB, final AuthenticationProvider authenticationProvider) {
+    public BankingDataManager(final BankingProvider bankingProvider, final SavingsProvider savingsProvider, final BankAccessCredentialDB bankAccessCredentialDB, final AuthenticationProvider authenticationProvider) {
         this.bankingProvider = bankingProvider;
         this.bankAccessCredentialDB = bankAccessCredentialDB;
         this.authenticationProvider = authenticationProvider;
@@ -55,8 +55,9 @@ public class BankingDataManager extends Observable {
      * Also notifies all Observers that changes were made.
      */
     public void sync() {
-        bankingSyncFailedException = null;
+        syncFailedException = null;
         syncStatus = SYNC_IN_PROGRESS;
+        syncsActive.addAndGet(1);
         bankingProvider.getBankingOverview()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -70,7 +71,7 @@ public class BankingDataManager extends Observable {
             @Override
             public void accept(@NonNull final Throwable throwable) throws Exception {
                 Log.e(TAG, "Failed getting bankOverview", throwable);
-                bankingSyncFailedException = new BankingSyncFailedException(throwable);
+                syncFailedException = new SyncFailedException(throwable);
                 onSyncComplete();
             }
         });
@@ -85,7 +86,7 @@ public class BankingDataManager extends Observable {
         final List<BankAccountSync> bankAccountSyncList = new ArrayList<>();
         for (BankAccess bankAccess : bankAccesses) {
             for (BankAccount bankAccount: bankAccess.getBankaccounts()) {
-                final String pin = bankAccessCredentialDB.getPin(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
+                final String pin = bankAccessCredentialDB.getPin(authenticationProvider.getUserId(), bankAccess.getId(), bankAccount.getBankid());
                 if(pin != null) {
                     final BankAccountSync bankAccountSync = new BankAccountSync(bankAccess.getId(), bankAccount.getBankid(), pin);
                     bankAccountSyncList.add(bankAccountSync);
@@ -105,16 +106,19 @@ public class BankingDataManager extends Observable {
             @Override
             public void accept(@NonNull final Throwable throwable) throws Exception {
                 Log.e(TAG, "Failed getting bookings", throwable);
-                bankingSyncFailedException = new BankingSyncFailedException(throwable);
+                syncFailedException = new SyncFailedException(throwable);
                 onSyncComplete();
             }
         });
     }
 
     private void onSyncComplete() {
-        syncStatus = SYNCED;
-        setChanged();
-        notifyObservers();
+        final int syncsLeft = syncsActive.decrementAndGet();
+        if(syncsLeft == 0) {
+            syncStatus = SYNCED;
+            setChanged();
+            notifyObservers();
+        }
     }
 
     /**
@@ -123,28 +127,28 @@ public class BankingDataManager extends Observable {
      * SYNC_IN_PROGRESS if the sync is in progress yet.
      * SYNCED if a sync was done.
      */
-    public SYNC_STATUS getSyncStatus() {
+    public SyncStatus getSyncStatus() {
         return syncStatus;
     }
 
     /**
      * get all synced bankAccesses
-     * @throws BankingSyncFailedException if something has gone wrong during the syncing process
-     * @throws BankingSyncFailedException if getter is called while sync is in progress.
+     * @throws SyncFailedException if something has gone wrong during the syncing process
+     * @throws SyncFailedException if getter is called while sync is in progress.
      */
-    public List<BankAccess> getBankAccesses() throws BankingSyncFailedException {
-        if(bankingSyncFailedException != null) throw bankingSyncFailedException;
+    public List<BankAccess> getBankAccesses() throws SyncFailedException {
+        if(syncFailedException != null) throw syncFailedException;
         if(syncStatus != SYNCED) throw new IllegalStateException("Sync not completed");
-        return bankAccesses;
+        return new LinkedList<>(bankAccesses);
     }
 
     /**
      * get all synced bankAccountBookings
-     * @throws BankingSyncFailedException if something has gone wrong during the syncing process
-     * @throws BankingSyncFailedException if getter is called while sync is in progress.
+     * @throws SyncFailedException if something has gone wrong during the syncing process
+     * @throws SyncFailedException if getter is called while sync is in progress.
      */
-    public List<BankAccountBookings> getBankAccountBookings() throws BankingSyncFailedException {
-        if(bankingSyncFailedException != null) throw bankingSyncFailedException;
+    public List<BankAccountBookings> getBankAccountBookings() throws SyncFailedException {
+        if(syncFailedException != null) throw syncFailedException;
         if(syncStatus != SYNCED) throw new IllegalStateException("Sync not completed");
         return bankAccountBookings;
     }
@@ -162,7 +166,7 @@ public class BankingDataManager extends Observable {
                     @Override
                     public void accept(@NonNull final BankAccess bankAccess) throws Exception {
                         for(BankAccount account: bankAccess.getBankaccounts()) {
-                            bankAccessCredentialDB.persist(authenticationProvider.getEmail(), bankAccessCredential.getPin(), bankAccess.getId(), account.getBankid(), bankAccess.getName(), account.getName());
+                            bankAccessCredentialDB.persist(authenticationProvider.getUserId(), bankAccessCredential.getPin(), bankAccess.getId(), account.getBankid(), bankAccess.getName(), account.getName());
                         }
                         BankingDataManager.this.sync();
                     }
@@ -189,7 +193,7 @@ public class BankingDataManager extends Observable {
                         for (final BankAccess bankAccess : bankAccesses) {
                             if (bankAccess.getId().equals(accessId)) {
                                 for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
-                                    bankAccessCredentialDB.delete(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
+                                    bankAccessCredentialDB.delete(authenticationProvider.getUserId(), bankAccess.getId(), bankAccount.getBankid());
                                 }
                             }
                         }
@@ -218,7 +222,7 @@ public class BankingDataManager extends Observable {
                         for (final BankAccess bankAccess : bankAccesses) {
                             for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
                                 if(bankAccount.getBankid().equals(accountId)) {
-                                    bankAccessCredentialDB.delete(authenticationProvider.getEmail(), bankAccess.getId(), bankAccount.getBankid());
+                                    bankAccessCredentialDB.delete(authenticationProvider.getUserId(), bankAccess.getId(), bankAccount.getBankid());
                                 }
                             }
                         }

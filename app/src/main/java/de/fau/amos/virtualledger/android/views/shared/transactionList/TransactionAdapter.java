@@ -37,7 +37,11 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         dateTextView.setText(formatter.format(transaction.booking().getDate()));
 
         TextView bankTextView = (TextView) convertView.findViewById(R.id.id_bankname);
-        bankTextView.setText(transaction.bankName());
+        String bankname = transaction.bankName();
+        if (bankname.length() > 18) {
+            bankname = bankname.substring(0, 16) + "...";
+        }
+        bankTextView.setText(bankname);
 
         setAmount(convertView, transaction);
 

@@ -6,10 +6,13 @@ import java.util.List;
 
 import de.fau.amos.virtualledger.android.api.Restapi;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
+import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.android.views.savings.SavingAccountsAdapter;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Callback;

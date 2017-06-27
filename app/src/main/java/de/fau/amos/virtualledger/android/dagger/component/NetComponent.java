@@ -11,11 +11,17 @@ import de.fau.amos.virtualledger.android.dagger.module.BankingDataModule;
 import de.fau.amos.virtualledger.android.dagger.module.BankingModule;
 import de.fau.amos.virtualledger.android.dagger.module.DatabaseModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
+import de.fau.amos.virtualledger.android.dagger.module.SavingsAccountsDataModule;
+import de.fau.amos.virtualledger.android.dagger.module.SavingsModule;
 import de.fau.amos.virtualledger.android.views.bankingOverview.addBankAccess.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.views.calendar.CaldroidBankingFragment;
 import de.fau.amos.virtualledger.android.views.menu.MainMenu;
+import de.fau.amos.virtualledger.android.views.savings.SavingAccountsFragment;
+import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
+import de.fau.amos.virtualledger.android.views.savings.SavingsSupplier;
+import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplierImplementation;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.TransactionListFragment;
@@ -27,8 +33,9 @@ import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOv
  */
 
 @Singleton
-@Component(modules = {AppModule.class, NetModule.class, AuthenticationModule.class, BankingModule.class, DatabaseModule.class, BankingDataModule.class})
+@Component(modules = {AppModule.class, NetModule.class, AuthenticationModule.class, BankingModule.class, DatabaseModule.class, BankingDataModule.class, SavingsModule.class, SavingsAccountsDataModule.class})
 public interface NetComponent {
+
 
     /**
      * @param activity
@@ -54,4 +61,10 @@ public interface NetComponent {
     void inject(TransactionListFragment caldroidBankingFragment);
 
     void inject(BankTransactionSupplierImplementation caldroidBankingFragment);
+
+    void inject(SavingAccountsFragment savingAccountsFragment);
+
+    void inject(AddSavingsAccountActivity addSavingsAccountActivity);
+
+    void inject(SavingsSupplier addSavingsAccountActivity);
 }

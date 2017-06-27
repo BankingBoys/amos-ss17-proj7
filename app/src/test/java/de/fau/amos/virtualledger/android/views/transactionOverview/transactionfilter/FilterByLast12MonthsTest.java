@@ -2,7 +2,6 @@ package de.fau.amos.virtualledger.android.views.transactionOverview.transactionf
 
 import org.junit.Test;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Transaction;
@@ -10,24 +9,27 @@ import de.fau.amos.virtualledger.dtos.Booking;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TransactionFilterByLast4WeeksTest {
+public class FilterByLast12MonthsTest {
 
     @Test
     public void teste_filter_withToday_shouldReturnStay() throws InterruptedException {
         Booking booking = new Booking();
         booking.setDate(new Date());
         Transaction transaction = new Transaction("TestBank", "some bank id", booking);
-        Last4Weeks component_under_test = new Last4Weeks();
+        Last12Months component_under_test = new Last12Months();
 
         assertThat(component_under_test.shouldBeRemoved(transaction)).isFalse();
     }
 
     @Test
-    public void teste_getWeeksDifference_with1Week_shouldReturnOneWeek() throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date start = sdf.parse("11/06/2017");
-        Date end = sdf.parse("04/06/2017");
+    public void teste_filter_withTooOldDate_shouldReturnLeave() throws InterruptedException {
+        Booking booking = new Booking();
+        Date date = new Date();
+        date.setYear(2001);
+        booking.setDate(date);
+        Transaction transaction = new Transaction("TestBank", "some bank id", booking);
+        Last12Months component_under_test = new Last12Months();
 
-        assertThat(Last4Weeks.getWeeksBetween(start, end)).isEqualTo(1);
+        assertThat(component_under_test.shouldBeRemoved(transaction)).isTrue();
     }
 }

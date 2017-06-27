@@ -7,9 +7,10 @@ import java.util.Properties;
 
 import de.fau.amos.virtualledger.android.config.PropertyReader;
 import de.fau.amos.virtualledger.android.dagger.component.DaggerNetComponent;
+import de.fau.amos.virtualledger.android.dagger.component.DaggerOidcAuthenticationComponent;
 import de.fau.amos.virtualledger.android.dagger.component.NetComponent;
+import de.fau.amos.virtualledger.android.dagger.component.OidcAuthenticationComponent;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
-import de.fau.amos.virtualledger.android.dagger.module.DatabaseModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 
 /**
@@ -24,6 +25,7 @@ public class App extends Application {
     private PropertyReader reader;
     private Properties properties;
     private Context context;
+    private OidcAuthenticationComponent oidcAuthenticationComponent;
 
     @Override
     public void onCreate() {
@@ -32,10 +34,18 @@ public class App extends Application {
         reader = new PropertyReader(context);
         properties = reader.getCustomProperties("config.properties");
         String ip = properties.getProperty("IPAddress");
+        String authorityIp = properties.getProperty("AuthorityIP");
+
+        AppModule appModule = new AppModule(this);
 
         netComponent = DaggerNetComponent.builder()
-                .appModule(new AppModule(this))
+                .appModule(appModule)
                 .netModule(new NetModule(ip))
+                .build();
+
+        oidcAuthenticationComponent = DaggerOidcAuthenticationComponent.builder()
+                .appModule(appModule)
+                .netModule(new NetModule(authorityIp))
                 .build();
     }
 
@@ -43,4 +53,11 @@ public class App extends Application {
         return netComponent;
     }
 
+    public OidcAuthenticationComponent getOidcAuthenticationComponent() {
+        return oidcAuthenticationComponent;
+    }
+
+    public String getOidcRegisterUrl() {
+        return properties.getProperty("AuthorityRegisterUrl");
+    }
 }

@@ -6,13 +6,15 @@ import java.util.List;
  * Created by sebastian on 17.06.17.
  */
 
-public interface BankTransactionSupplier {
+public interface Supplier<T> {
 
-    List<Transaction> getAllTransactions();
+    List<T> getAll();
 
     void onResume();
 
     void addDataListeningObject(DataListening observer);
+
+    void deregister(DataListening observer);
 
     void onPause();
 }

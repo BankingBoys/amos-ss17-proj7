@@ -10,7 +10,7 @@ import de.fau.amos.virtualledger.android.views.shared.transactionList.Transactio
  * Created by sebastian on 11.06.17.
  */
 
-public class LastNMonths implements TransactionFilter{
+public class LastNMonths implements Filter<Transaction> {
     private int numberOfMonths;
     public LastNMonths(int numberOfMonths){
         this.numberOfMonths = numberOfMonths;

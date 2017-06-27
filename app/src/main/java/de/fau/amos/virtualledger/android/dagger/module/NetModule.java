@@ -1,17 +1,30 @@
 package de.fau.amos.virtualledger.android.dagger.module;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 
-import javax.inject.Singleton;
+import org.apache.commons.lang3.math.NumberUtils;
+
+import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -41,7 +54,6 @@ public class NetModule {
      * @return cache
      */
     @Provides
-    @Singleton
     Cache provideHttpCache(Application application) {
         int cacheSize = 10 * 1024 * 1024;
         Cache cache = new Cache(application.getCacheDir(), cacheSize);
@@ -52,10 +64,28 @@ public class NetModule {
      * @return Gson
      */
     @Provides
-    @Singleton
     Gson provideGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+        gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        gsonBuilder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+            @Override
+            public Date deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+                //FIXME Quick fix to parse two different date formats. Should make sure the server only returns one format instead!
+                final String jsonString = json.getAsJsonPrimitive().getAsString();
+                if(NumberUtils.isParsable(jsonString)) {
+                    return new Date(NumberUtils.createLong(jsonString));
+                } else {
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
+                    try {
+                        return dateFormat.parse(jsonString.replaceAll("Z$", "+0000"));
+                    } catch (ParseException e) {
+                        Log.e("", "Failed parsing date");
+                        return null;
+                    }
+                }
+            }
+        });
         return gsonBuilder.create();
     }
 
@@ -64,10 +94,12 @@ public class NetModule {
      * @return OkHttpClient
      */
     @Provides
-    @Singleton
     OkHttpClient provideOkhttpClient(Cache cache) {
-        OkHttpClient.Builder client = new OkHttpClient.Builder();
-        client.cache(cache);
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .cache(cache);
         return client.build();
     }
 
@@ -77,7 +109,6 @@ public class NetModule {
      * @return Retrofit
      */
     @Provides
-    @Singleton
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
