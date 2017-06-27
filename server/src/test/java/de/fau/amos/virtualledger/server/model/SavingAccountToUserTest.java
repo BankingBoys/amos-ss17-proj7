@@ -10,10 +10,8 @@ public class SavingAccountToUserTest {
 
     @Test
     public void constructorTest() {
-        SavingAccountToUserTest testAccount = new SavingAccountToUserTest();
+        SavingsAccountToUser testAccount = new SavingsAccountToUser();
         Assertions.assertThat(testAccount).isNotNull();
     }
-
-    
 
 }
