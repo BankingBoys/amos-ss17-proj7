@@ -1,11 +1,13 @@
 package de.fau.amos.virtualledger.android.views.savings;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.support.v4.app.FragmentManager;
 
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.saving_accounts_list_item, parent, false);
         }
-        SavingsAccount savingsAccount = this.getItem(position);
+        final SavingsAccount savingsAccount = this.getItem(position);
 
         TextView name = (TextView) convertView.findViewById(R.id.id_name);
         name.setText(savingsAccount.getName());
@@ -42,6 +44,13 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
         TextView daysLeft = (TextView) convertView.findViewById(R.id.id_time_left);
         daysLeft.setText(savingsAccount.daysLeft() + " days left");
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SavingsAccountsDialogFragment dialog = SavingsAccountsDialogFragment.newInstance(savingsAccount.getName());
+                dialog.show(activity.getFragmentManager(), "DialogFragment");
+            }
+        });
         return convertView;
     }
 }
