@@ -39,4 +39,13 @@ public class UserCredentialTest {
         testCredential.setPassword(testPw2);
         Assertions.assertThat(testCredential.getPassword()).isEqualTo(testPw2);
     }
+
+    @Test
+    public void setAndGetFirstName() {
+        String testFirstName2 = "testFirstName2";
+        testCredential.setFirstname(testFirstName2);
+        Assertions.assertThat(testCredential.getFirstname()).isEqualTo(testFirstName2);
+    }
+
+
 }
