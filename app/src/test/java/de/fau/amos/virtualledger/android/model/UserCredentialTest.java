@@ -32,5 +32,11 @@ public class UserCredentialTest {
         testCredential.setEmail(testEmail2);
         Assertions.assertThat(testCredential.getEmail()).isEqualTo(testEmail2);
     }
-    
+
+    @Test
+    public void setAndGetPwTest() {
+        String testPw2 = "testPW2";
+        testCredential.setPassword(testPw2);
+        Assertions.assertThat(testCredential.getPassword()).isEqualTo(testPw2);
+    }
 }
