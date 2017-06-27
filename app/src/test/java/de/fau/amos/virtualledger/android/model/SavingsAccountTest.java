@@ -34,7 +34,32 @@ public class SavingsAccountTest {
         SavingsAccount savingsAccount = new SavingsAccount();
         assertThat(savingsAccount).isNotNull();
     }
-    
+
+    @Test
+    public void setterAndGetterTest() {
+        String id = "12345";
+        String name = "name2";
+        double goalBalance = 123.4555;
+        double currentBalance = 234.56755;
+        Date finalDate = new Date();
+
+        SavingsAccount savingsAccount = new SavingsAccount();
+
+        savingsAccount.setId(id);
+        assertThat(savingsAccount.getId()).isEqualTo(id);
+
+        savingsAccount.setName(name);
+        assertThat(savingsAccount.getName()).isEqualTo(name);
+
+        savingsAccount.setGoalbalance(goalBalance);
+        assertThat(savingsAccount.getGoalbalance()).isEqualTo(goalBalance);
+
+        savingsAccount.setCurrentbalance(currentBalance);
+        assertThat(savingsAccount.getCurrentbalance()).isEqualTo(currentBalance);
+
+        savingsAccount.setFinaldate(finalDate);
+        assertThat(savingsAccount.getFinaldate()).isEqualTo(finalDate);
+    }
 
 
     @Test
