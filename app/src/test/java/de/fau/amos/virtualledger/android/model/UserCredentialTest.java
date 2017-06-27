@@ -1,6 +1,8 @@
 package de.fau.amos.virtualledger.android.model;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Created by Simon on 27.06.2017.
@@ -17,5 +19,10 @@ public class UserCredentialTest {
     @Before
     public void setUp() {
         testCredential = new UserCredential(testEmail1, testPw1, testFirstName1, testLastName1);
+    }
+
+    @Test
+    public void constructorTest() {
+        Assertions.assertThat(testCredential).isNotNull();
     }
 }
