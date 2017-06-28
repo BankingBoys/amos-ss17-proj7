@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '1.5.4.RELEASE'
 }
+apply plugin: 'idea'
 
 group 'de.fau.amos.virtual-ledger'
 version '1.0-SNAPSHOT'
