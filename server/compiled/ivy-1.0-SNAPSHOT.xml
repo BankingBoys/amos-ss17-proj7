@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
-  <info organisation="de.fau.amos.virtual-ledger" module="server" revision="1.0-SNAPSHOT" status="integration" default="true" publication="20170530231429"/>
+  <info organisation="de.fau.amos.virtual-ledger" module="server" revision="1.0-SNAPSHOT" status="integration" default="true" publication="20170627230110"/>
   <configurations>
     <conf name="apiElements" visibility="private" extends="compile,runtime"/>
     <conf name="archives" visibility="public"/>
@@ -16,6 +16,7 @@
     <conf name="grettyRunnerJetty8" visibility="public"/>
     <conf name="grettyRunnerJetty9" visibility="public"/>
     <conf name="grettyRunnerJetty93" visibility="public"/>
+    <conf name="grettyRunnerJetty94" visibility="public"/>
     <conf name="grettyRunnerTomcat7" visibility="public"/>
     <conf name="grettyRunnerTomcat8" visibility="public"/>
     <conf name="grettySpringLoaded" visibility="public" transitive="false"/>
@@ -37,29 +38,28 @@
     <conf name="testRuntime" visibility="private" extends="runtime,testCompile"/>
     <conf name="testRuntimeClasspath" visibility="private" extends="testImplementation,testRuntime,testRuntimeOnly"/>
     <conf name="testRuntimeOnly" visibility="private" extends="runtimeOnly"/>
-    <conf name="versionManagement" visibility="public"/>
   </configurations>
   <publications>
     <artifact name="server" type="jar" ext="jar" conf="apiElements,runtime,runtimeElements"/>
     <artifact name="server" type="war" ext="war" conf="archives"/>
   </publications>
   <dependencies>
+    <dependency org="ch.qos.logback" name="logback-classic" rev="1.2.3" conf="compile-&gt;default"/>
     <dependency org="mysql" name="mysql-connector-java" rev="5.1.6" conf="compile-&gt;default"/>
     <dependency org="org.eclipse.persistence" name="eclipselink" rev="2.6.4" conf="compile-&gt;default"/>
     <dependency org="com.owlike" name="genson" rev="1.4" conf="compile-&gt;default"/>
-    <dependency org="com.sun.jersey" name="jersey-client" rev="1.19.3" conf="compile-&gt;default"/>
-    <dependency org="com.sun.jersey" name="jersey-json" rev="1.19.3" conf="compile-&gt;default"/>
     <dependency org="de.fau.amos.virtual-ledger" name="dtos" rev="1.0-SNAPSHOT" conf="compile-&gt;default"/>
     <dependency org="javax.servlet" name="javax.servlet-api" rev="3.1.0" conf="grettyProvidedCompile-&gt;default"/>
     <dependency org="javax.websocket" name="javax.websocket-api" rev="1.0" conf="grettyProvidedCompile-&gt;default"/>
-    <dependency org="org.akhikhl.gretty" name="gretty-runner-jetty7" rev="1.4.2" conf="grettyRunnerJetty7-&gt;default"/>
-    <dependency org="org.akhikhl.gretty" name="gretty-runner-jetty8" rev="1.4.2" conf="grettyRunnerJetty8-&gt;default"/>
-    <dependency org="org.akhikhl.gretty" name="gretty-runner-jetty9" rev="1.4.2" conf="grettyRunnerJetty9-&gt;default"/>
-    <dependency org="org.akhikhl.gretty" name="gretty-runner-jetty93" rev="1.4.2" conf="grettyRunnerJetty93-&gt;default"/>
-    <dependency org="org.akhikhl.gretty" name="gretty-runner-tomcat7" rev="1.4.2" conf="grettyRunnerTomcat7-&gt;default"/>
-    <dependency org="org.akhikhl.gretty" name="gretty-runner-tomcat8" rev="1.4.2" conf="grettyRunnerTomcat8-&gt;default"/>
+    <dependency org="org.akhikhl.gretty" name="gretty-runner-jetty7" rev="2.0.0" conf="grettyRunnerJetty7-&gt;default"/>
+    <dependency org="org.akhikhl.gretty" name="gretty-runner-jetty8" rev="2.0.0" conf="grettyRunnerJetty8-&gt;default"/>
+    <dependency org="org.akhikhl.gretty" name="gretty-runner-jetty9" rev="2.0.0" conf="grettyRunnerJetty9-&gt;default"/>
+    <dependency org="org.akhikhl.gretty" name="gretty-runner-jetty93" rev="2.0.0" conf="grettyRunnerJetty93-&gt;default"/>
+    <dependency org="org.akhikhl.gretty" name="gretty-runner-jetty94" rev="2.0.0" conf="grettyRunnerJetty94-&gt;default"/>
+    <dependency org="org.akhikhl.gretty" name="gretty-runner-tomcat7" rev="2.0.0" conf="grettyRunnerTomcat7-&gt;default"/>
+    <dependency org="org.akhikhl.gretty" name="gretty-runner-tomcat8" rev="2.0.0" conf="grettyRunnerTomcat8-&gt;default"/>
     <dependency org="org.springframework" name="springloaded" rev="1.2.5.RELEASE" conf="grettySpringLoaded-&gt;default"/>
-    <dependency org="org.akhikhl.gretty" name="gretty-starter" rev="1.4.2" conf="grettyStarter-&gt;default"/>
+    <dependency org="org.akhikhl.gretty" name="gretty-starter" rev="2.0.0" conf="grettyStarter-&gt;default"/>
     <dependency org="javax" name="javaee-api" rev="7.0" conf="providedCompile-&gt;default"/>
     <dependency org="junit" name="junit" rev="4.12" conf="testCompile-&gt;default"/>
     <dependency org="org.mockito" name="mockito-core" rev="1.10.19" conf="testCompile-&gt;default"/>
