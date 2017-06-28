@@ -38,9 +38,9 @@ dependencies {
     compile group: 'com.owlike', name: 'genson', version: '1.4'
 
     compile("org.springframework.boot:spring-boot-starter-web")
-    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    providedRuntime("org.springframework.boot:spring-boot-starter-jetty")
     compile("org.springframework.boot:spring-boot-starter-web")
-    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    providedRuntime("org.springframework.boot:spring-boot-starter-jetty")
 
     compile project(':dtos')
 
