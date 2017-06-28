@@ -2,15 +2,16 @@ package de.fau.amos.virtualledger.server.factories;
 
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import javax.enterprise.context.RequestScoped;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Georg on 20.05.2017.
- */
-@RequestScoped
+
+@Component
+@Scope("request")
 public class BankAccountFactory {
 
     public BankAccount createBankAccount(BankAccountBankingModel bankingModel)

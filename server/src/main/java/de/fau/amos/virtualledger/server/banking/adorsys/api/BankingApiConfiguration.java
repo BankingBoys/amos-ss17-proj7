@@ -1,17 +1,14 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api;
 
-/**
- *
- * Created by Georg on 18.05.2017.
- */
-
-import javax.enterprise.context.ApplicationScoped;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Class that holds all configuration required for the banking api access
  * examples: URL of the banking api, dummy configuration, ...
  */
-@ApplicationScoped
+@Component
+@Scope("request")
 public class BankingApiConfiguration {
 
 

@@ -1,29 +1,27 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api;
 
-/**
- *
- * Created by Georg on 18.05.2017.
- */
 
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
 import de.fau.amos.virtualledger.server.banking.model.BookingModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.List;
 
 /**
  * Class that can be used in other controllers to do interaction with banking api.
  */
-@ApplicationScoped
+@Component
+@Scope("request")
 public class BankingApiFacade {
 
 
     BankingApiBinder binder;
 
-    @Inject
+    @Autowired
     public BankingApiFacade(BankingApiBinder binder) {
         this.binder = binder;
     }

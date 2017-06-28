@@ -6,9 +6,10 @@ import de.fau.amos.virtualledger.server.model.Session;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.persistence.*;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
@@ -17,13 +18,14 @@ import java.util.Objects;
 /**
  * Repository class that allows CRUD operations on the databasse for UserCredentials
  */
-@RequestScoped
+@Component
+@Scope("request")
 public class UserCredentialRepository {
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     EntityManagerFactory entityManagerFactory;
 
-    @Inject
+    @Autowired
     public UserCredentialRepository(EntityManagerFactoryProvider entityManagerFactoryProvider) {
         this.entityManagerFactory = entityManagerFactoryProvider.getEntityManagerFactory();
     }

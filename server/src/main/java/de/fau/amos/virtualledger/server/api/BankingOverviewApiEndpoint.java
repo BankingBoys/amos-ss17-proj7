@@ -9,8 +9,8 @@ import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -18,10 +18,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
-
-/**
- * Created by Georg on 20.05.2017.
- */
 
 /**
  * Endpoints for basic banking logic
@@ -32,7 +28,7 @@ public class BankingOverviewApiEndpoint {
 
     private BankingOverviewController bankingOverviewController;
 
-    @Inject
+    @Autowired
     public BankingOverviewApiEndpoint(BankingOverviewController bankingOverviewController) {
         this.bankingOverviewController = bankingOverviewController;
     }

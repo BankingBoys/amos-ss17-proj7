@@ -1,28 +1,27 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint;
 
-import de.fau.amos.virtualledger.server.banking.adorsys.api.json.CreateUserJSONBankingModel;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvider;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.json.CreateUserJSONBankingModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Default;
-import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.lang.invoke.MethodHandles;
 
-/**
- * Created by Georg on 18.05.2017.
- */
-@RequestScoped @Default
+
+@Component
+@Scope("request")
 public class HttpUserEndpoint implements UserEndpoint {
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 
-    @Inject
+    @Autowired
     BankingApiUrlProvider urlProvider;
 
 

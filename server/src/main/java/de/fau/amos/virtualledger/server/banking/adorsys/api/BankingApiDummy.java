@@ -1,8 +1,5 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api;
 
-/**
- * Created by Georg on 18.05.2017.
- */
 
 import javax.inject.Qualifier;
 import java.lang.annotation.Retention;

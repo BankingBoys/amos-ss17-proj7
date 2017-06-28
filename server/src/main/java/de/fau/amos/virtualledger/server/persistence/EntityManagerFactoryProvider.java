@@ -1,15 +1,16 @@
 package de.fau.amos.virtualledger.server.persistence;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Georg on 26.05.2017.
- */
-@ApplicationScoped
+@Component
+@Scope("request")
 public class EntityManagerFactoryProvider {
 
     EntityManagerFactory entityManagerFactory;

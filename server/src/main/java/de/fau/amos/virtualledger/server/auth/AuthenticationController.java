@@ -6,26 +6,24 @@ import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiFacade;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
-
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Controller / Service class for authentication
  */
-@RequestScoped
+@Component
+@Scope("request")
 public class AuthenticationController {
 
-    /**
-     *
-     */
-    @Inject
+    @Autowired
     UserCredentialRepository userCredentialRepository;
 
-    @Inject
+    @Autowired
     SessionIdGenerator sessionIdGenerator;
 
-    @Inject
+    @Autowired
     BankingApiFacade bankingApiFacade;
 
     /**

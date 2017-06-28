@@ -1,23 +1,21 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
-/**
- * Created by Georg on 18.05.2017.
- */
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Class for providing URLs for adorsys api.
  * Uses the BankingApiConfiguration for building the URLs
  */
-@ApplicationScoped
+@Component
+@Scope("request")
 public class BankingApiUrlProvider {
 
     private BankingApiConfiguration configuration;
 
 
-    @Inject
+    @Autowired
     public BankingApiUrlProvider(BankingApiConfiguration configuration)
     {
         this.configuration = configuration;

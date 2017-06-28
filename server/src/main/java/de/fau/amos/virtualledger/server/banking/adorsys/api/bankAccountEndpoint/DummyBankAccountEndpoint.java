@@ -1,22 +1,19 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint;
 
-import java.util.*;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
-import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiDummy;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.DummyBankAccessEndpoint;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBalanceBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
 import de.fau.amos.virtualledger.server.banking.model.BookingModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-/**
- * Created by Georg on 18.05.2017.
- */
-@ApplicationScoped
+import java.util.*;
+
+@Component
+@Scope("singleton")
 @BankingApiDummy
 public class DummyBankAccountEndpoint implements BankAccountEndpoint {
 
@@ -30,7 +27,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
     // Seed "0" for predictability
     Random randomGenerator = new Random(0);
 
-    @Inject
+    @Autowired
     public DummyBankAccountEndpoint(@BankingApiDummy DummyBankAccessEndpoint dummyBankAccessEndpoint)
     {
         this.dummyBankAccessEndpoint = dummyBankAccessEndpoint;

@@ -1,29 +1,21 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api;
 
-/**
- * Created by Georg on 18.05.2017.
- */
-
 
 import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.BankAccessEndpoint;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.DummyBankAccessEndpoint;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.HttpBankAccessEndpoint;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.BankAccountEndpoint;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.DummyBankAccountEndpoint;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.HttpBankAccountEndpoint;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.DummyUserEndpoint;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.HttpUserEndpoint;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.UserEndpoint;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
-import javax.inject.Inject;
 
 /**
  * Class that is responsible for binding the right implementation of an interface for banking api
  * Chosen can be a dummy or the real implementation, which depends on BankingApiConfiguration test user name.
  */
-@ApplicationScoped
+@Component
+@Scope("request")
 public class BankingApiBinder {
 
 
@@ -37,14 +29,14 @@ public class BankingApiBinder {
 
     private BankingApiConfiguration bankingApiConfiguration;
 
-    @Inject
+    @Autowired
     public BankingApiBinder(
             BankingApiConfiguration bankingApiConfiguration,
-            @Default UserEndpoint httpUserEndpoint,
+            UserEndpoint httpUserEndpoint,
             @BankingApiDummy UserEndpoint dummyUserEndpoint,
-            @Default BankAccessEndpoint httpBankAccessEndpoint,
+            BankAccessEndpoint httpBankAccessEndpoint,
             @BankingApiDummy BankAccessEndpoint dummyBankAccessEndpoint,
-            @Default BankAccountEndpoint httpBankAccountEndpoint,
+            BankAccountEndpoint httpBankAccountEndpoint,
             @BankingApiDummy BankAccountEndpoint dummyBankAccountEndpoint)
     {
         this.bankingApiConfiguration = bankingApiConfiguration;

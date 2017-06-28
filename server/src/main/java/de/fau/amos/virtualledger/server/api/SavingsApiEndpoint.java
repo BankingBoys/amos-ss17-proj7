@@ -1,20 +1,20 @@
 package de.fau.amos.virtualledger.server.api;
 
-import de.fau.amos.virtualledger.server.model.SavingsAccount;
 import de.fau.amos.virtualledger.server.auth.Secured;
+import de.fau.amos.virtualledger.server.model.SavingsAccount;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
 import de.fau.amos.virtualledger.server.savings.SavingsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.lang.invoke.MethodHandles;
-import java.util.*;
+import java.util.List;
 
 /**
  * Endpoints for savings
@@ -25,7 +25,7 @@ public class SavingsApiEndpoint {
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private SavingsController savingsController;
 
-    @Inject
+    @Autowired
     public SavingsApiEndpoint(SavingsController savingsController) {
         this.savingsController = savingsController;
     }

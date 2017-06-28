@@ -3,24 +3,22 @@ package de.fau.amos.virtualledger.server.persistence;
 import de.fau.amos.virtualledger.server.model.DeletedBankAccount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.persistence.*;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 
-/**
- * Created by Georg on 22.05.2017.
- */
-
-@ApplicationScoped
+@Component
+@Scope("request")
 public class DeletedBankAccountsRepository {
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     EntityManagerFactory entityManagerFactory;
 
-    @Inject
+    @Autowired
     public DeletedBankAccountsRepository(EntityManagerFactoryProvider entityManagerFactoryProvider) {
         this.entityManagerFactory = entityManagerFactoryProvider.getEntityManagerFactory();
     }

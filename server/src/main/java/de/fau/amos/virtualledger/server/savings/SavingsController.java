@@ -2,17 +2,18 @@ package de.fau.amos.virtualledger.server.savings;
 
 import de.fau.amos.virtualledger.server.model.SavingsAccount;
 import de.fau.amos.virtualledger.server.persistence.SavingsAccountRepository;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import java.util.List;
 
-@ApplicationScoped
+@Component
+@Scope("request")
 public class SavingsController {
 
     private SavingsAccountRepository savingsAccountRepository;
 
-    @Inject
+    @Autowired
     public SavingsController(SavingsAccountRepository savingsAccountRepository) {
         this.savingsAccountRepository = savingsAccountRepository;
     }

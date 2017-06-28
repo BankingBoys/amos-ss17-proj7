@@ -11,8 +11,8 @@ import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -33,7 +33,7 @@ public class AuthApiEndpoint {
     AuthenticationController authenticationController;
     StringApiModelFactory stringApiModelFactory;
 
-    @Inject
+    @Autowired
     public AuthApiEndpoint(AuthenticationController authenticationController, StringApiModelFactory stringApiModelFactory) {
         this.authenticationController = authenticationController;
         this.stringApiModelFactory = stringApiModelFactory;

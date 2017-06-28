@@ -1,54 +1,53 @@
 package de.fau.amos.virtualledger.server.banking;
 
 import de.fau.amos.virtualledger.dtos.*;
-import de.fau.amos.virtualledger.server.banking.model.BankingException;
-import de.fau.amos.virtualledger.server.banking.model.BookingModel;
-import de.fau.amos.virtualledger.server.factories.*;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiFacade;
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import de.fau.amos.virtualledger.server.banking.model.BookingModel;
+import de.fau.amos.virtualledger.server.factories.*;
 import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
 import de.fau.amos.virtualledger.server.model.DeletedBankAccount;
 import de.fau.amos.virtualledger.server.persistence.DeletedBankAccessesRepository;
 import de.fau.amos.virtualledger.server.persistence.DeletedBankAccountsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by Georg on 20.05.2017.
- */
-@RequestScoped
+@Component
+@Scope("request")
 public class BankingOverviewController {
 
-    @Inject
+    @Autowired
     BankingApiFacade bankingApiFacade;
 
-    @Inject
+    @Autowired
     BankAccountFactory bankAccountFactory;
 
-    @Inject
+    @Autowired
     BankAccessBankingModelFactory bankAccessBankingModelFactory;
 
-    @Inject
+    @Autowired
     BankAccessFactory bankAccessFactory;
 
-    @Inject
+    @Autowired
     DeletedBankAccessesRepository deletedBankAccessesRepository;
 
-    @Inject
+    @Autowired
     DeletedBankAccountsRepository deletedBankAccountRepository;
 
-    @Inject
+    @Autowired
     DeletedBankAccessFactory deletedBankAccessFactory;
 
-    @Inject
+    @Autowired
     DeletedBankAccountFactory deletedBankAccountFactory;
 
-    @Inject
+    @Autowired
     BankAccountBookingsFactory bankAccountBookingsFactory;
 
     /**
