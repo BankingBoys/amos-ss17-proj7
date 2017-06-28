@@ -10,7 +10,7 @@ public class HelloWorldService {
 	private String name;
 
 	public String getHelloMessage() {
-		return "Hello " + this.name;
+		return "Hello " + this.name+" Georg";
 	}
 
 }
