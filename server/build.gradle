@@ -1,9 +1,12 @@
+plugins {
+    id 'org.springframework.boot' version '1.5.4.RELEASE'
+}
+
 group 'de.fau.amos.virtual-ledger'
 version '1.0-SNAPSHOT'
 description "Backend for the Virtual Ledger Android app"
 
 apply plugin: 'war'
-apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 sourceCompatibility = 1.8
 
@@ -21,6 +24,9 @@ uploadArchives {
 		}
 	}
 
+springBoot {
+    mainClass = 'de.fau.amos.virtualledger.server.VirtualLedgerJettyApplication'
+}
 
 dependencies {
     providedCompile group: 'javax', name: 'javaee-api', version:'7.0'
@@ -30,8 +36,11 @@ dependencies {
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
     compile group: 'org.eclipse.persistence', name: 'eclipselink', version: '2.6.4'
     compile group: 'com.owlike', name: 'genson', version: '1.4'
-    compile group: 'org.springframework', name:'spring-context', version: '4.+'
 
+    compile("org.springframework.boot:spring-boot-starter-web")
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 
     compile project(':dtos')
 
