@@ -97,7 +97,8 @@ public class BankAccess {
      *
      */
     public static Comparator<BankAccess> sortBankAccessByName = new Comparator<BankAccess>(){
-        public int compare(BankAccess access1, BankAccess access2) {
+        @Override
+		public int compare(BankAccess access1, BankAccess access2) {
             String access1Name = access1.getName().toUpperCase(Locale.GERMAN);
             String access2Name = access2.getName().toUpperCase(Locale.GERMAN);
             return access1Name.compareTo(access2Name);

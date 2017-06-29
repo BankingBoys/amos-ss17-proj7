@@ -74,7 +74,8 @@ public class BankAccount {
      *
      */
     public static Comparator<BankAccount> sortBankAccountByName = new Comparator<BankAccount>(){
-        public int compare(BankAccount account1, BankAccount account2) {
+        @Override
+		public int compare(BankAccount account1, BankAccount account2) {
             String account1Name = account1.getName().toUpperCase(Locale.GERMAN);
             String account2Name = account2.getName().toUpperCase(Locale.GERMAN);
             return account1Name.compareTo(account2Name);
