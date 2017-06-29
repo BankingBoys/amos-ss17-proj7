@@ -32,6 +32,6 @@ public class AddSavingsAccountAmountFragment extends AddSavingsAccountPage {
 
     @Override
     public void fillInData(final AddSavingsAccountData addSavingsAccountResult) {
-        addSavingsAccountResult.goalBalance = NumberUtils.toDouble(editText.getText().toString());
+        addSavingsAccountResult.setGoalBalance(NumberUtils.toDouble(editText.getText().toString()));
     }
 }

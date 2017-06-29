@@ -102,9 +102,9 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
             page.fillInData(result);
         }
         final DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
-        final String finalDateString = result.finalDate == null ? "" : dateFormat.format(result.finalDate);
+        final String finalDateString = result.getFinalDate() == null ? "" : dateFormat.format(result.getFinalDate());
         Toast.makeText(this, String.format(Locale.getDefault(), "Name: %s, Goal amount: %.2f, Final date: %s",
-                result.name, result.goalBalance, finalDateString),
+                result.getName(), result.getGoalBalance(), finalDateString),
                 Toast.LENGTH_LONG).show();
         savingsAccountsDataManager.addSavingsAccount(result);
         finish();

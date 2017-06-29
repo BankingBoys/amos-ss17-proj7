@@ -30,6 +30,6 @@ public class AddSavingsAccountNameFragment extends AddSavingsAccountPage {
 
     @Override
     public void fillInData(final AddSavingsAccountData addSavingsAccountResult) {
-        addSavingsAccountResult.name = editText.getText().toString();
+        addSavingsAccountResult.setName(editText.getText().toString());
     }
 }
