@@ -65,10 +65,10 @@ public class AuthenticationController {
 			throw new InvalidCredentialsException();
 		}
 		final String sessionId = sessionIdGenerator.generate();
-		userCredentialRepository.persistSessionId(loginData.email, sessionId);
+		userCredentialRepository.persistSessionId(loginData.getEmail(), sessionId);
 
 		final SessionData result = new SessionData();
-		result.setEmail(loginData.email);
+		result.setEmail(loginData.getEmail());
 		result.setSessionid(sessionId);
 		return result;
 	}

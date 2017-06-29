@@ -67,7 +67,7 @@ public class AuthenticationControllerTest {
 		SessionData result = component_under_test.login(validLoginData);
 		
 		//Assert
-		assertThat(result.getEmail()).isEqualTo(validLoginData.email);
+		assertThat(result.getEmail()).isEqualTo(validLoginData.getEmail());
 		assertThat(result.getSessionid()).isEqualTo(expectedSessionID());
 	}
 

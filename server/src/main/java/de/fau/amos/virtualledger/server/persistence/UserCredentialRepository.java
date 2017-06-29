@@ -88,13 +88,13 @@ public class UserCredentialRepository {
         final EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             final Query query = entityManager.createQuery("Select u FROM UserCredential u WHERE u.email = :email");
-            query.setParameter("email", loginData.email);
+            query.setParameter("email", loginData.getEmail());
             final List resultList = query.getResultList();
             if(resultList.size() == 0) {
                 return false;
             }
             final UserCredential userCredential = (UserCredential) resultList.get(0);
-            return Objects.equals(userCredential.getPassword(), loginData.password);
+            return Objects.equals(userCredential.getPassword(), loginData.getPassword());
         } finally {
             entityManager.close();
         }

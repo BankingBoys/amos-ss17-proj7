@@ -73,12 +73,12 @@ public class AuthApiEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/login")
     public Response loginEndpoint(final LoginData loginData) {
-        if(loginData.email == null || loginData.email.isEmpty() ||
-                loginData.password == null || loginData.password.isEmpty())
+        if(loginData.getEmail() == null || loginData.getEmail().isEmpty() ||
+                loginData.getPassword() == null || loginData.getPassword().isEmpty())
         {
             return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
         }
-        logger.info("Login of "+ loginData.email +" was requested.");
+        logger.info("Login of "+ loginData.getEmail() +" was requested.");
 
         return this.login(loginData);
     }

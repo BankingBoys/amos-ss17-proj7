@@ -65,7 +65,7 @@ public class UserCredentialRepositoryTest {
 		mockDatabase(component_under_test, Arrays.asList());
 
 		//Act
-		boolean result = component_under_test.existsUserCredentialEmail(loginData().email);
+		boolean result = component_under_test.existsUserCredentialEmail(loginData().getEmail());
 
 		///Assert
 		assertThat(result).isFalse();
@@ -78,7 +78,7 @@ public class UserCredentialRepositoryTest {
 		mockDatabase(component_under_test, Arrays.asList(new Object()));
 
 		//Act
-		boolean result = component_under_test.existsUserCredentialEmail(loginData().email);
+		boolean result = component_under_test.existsUserCredentialEmail(loginData().getEmail());
 
 		///Assert
 		assertThat(result).isTrue();
@@ -100,15 +100,15 @@ public class UserCredentialRepositoryTest {
 
 	private UserCredential matchingUserCredential() {
 		UserCredential userCredential = new UserCredential();
-		userCredential.setEmail(loginData().email);
-		userCredential.setPassword(loginData().password);
+		userCredential.setEmail(loginData().getEmail());
+		userCredential.setPassword(loginData().getPassword());
 		return userCredential;
 	}
 
 	private UserCredential notNatchingUserCredential() {
 		UserCredential userCredential = new UserCredential();
-		userCredential.setEmail(loginData().email);
-		userCredential.setPassword(loginData().password + "someOther");
+		userCredential.setEmail(loginData().getEmail());
+		userCredential.setPassword(loginData().getPassword() + "someOther");
 		return userCredential;
 	}
 }
