@@ -17,6 +17,7 @@ import com.roomorama.caldroid.CaldroidGridAdapter;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
@@ -84,12 +85,21 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
         // Set color of today
         if (dateTime.equals(getToday())) {
             styleToday();
+        } else {
+            dateTextView.setBackgroundColor(Color.WHITE);
         }
 
         styleDefault();
 
-        if (dateTime.getMonth() == month) {
-            dateTextView.setText("" + dateTime.getDay());
+        dateTextView.setText("" + dateTime.getDay());
+        if (dateTime.getMonth() == month && dateTime.getYear() == year) {
+            this.dateTextView.setTextColor(Color.DKGRAY);
+        } else {
+            this.dateTextView.setTextColor(Color.LTGRAY );
+        }
+
+
+        if (dateTime.getMonth() == month && dateTime.getYear() == year && bankingDateInformation != null) {
 
             // only show amount + amount delta if there are changes:
             if (amountDelta != 0.0) {
@@ -107,14 +117,23 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
                 }
             });
 
+        } else {
+            this.amountTextView.setText("");
+            int white = ContextCompat.getColor(cellView.getContext(), R.color.colorWhite);
+            amountTextView.setBackgroundColor(white);
+            amountDeltaTextView.setText("");
         }
-
 
         // Set custom color if required
         setCustomResources(dateTime, cellView, dateTextView);
 
         return cellView;
     }
+
+    private Logger logger() {
+        return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.hashCode() + "}");
+    }
+
 
     /**
      * opens a fragment through replacing another fragment
