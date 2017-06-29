@@ -46,6 +46,7 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
         this.savingsSupplier.addDataListeningObject(this);
         adapter = new SavingAccountsAdapter(getActivity(), R.id.savings_account_list, savingsSupplier.getAll());
         savingsAccountList.setAdapter(adapter);
+        this.adapter.sort(new SavingsComparator());
         this.savingsSupplier.onResume();
     }
 
@@ -82,6 +83,7 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
         logger().info("Refreshing savings overview with " + allSavingAccounts.size() + " accounts from"+this.savingsSupplier);
         this.adapter.addAll(allSavingAccounts);
         this.adapter.notifyDataSetChanged();
+        this.adapter.sort(new SavingsComparator());
     }
 
     @Override
