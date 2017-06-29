@@ -1,12 +1,15 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint;
 
-import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import javax.validation.constraints.AssertFalse;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+
+import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 
 
 public class DummyBankAccessEndpointTest {

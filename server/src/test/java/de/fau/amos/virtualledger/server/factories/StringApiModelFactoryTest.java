@@ -1,11 +1,10 @@
 package de.fau.amos.virtualledger.server.factories;
 
-import de.fau.amos.virtualledger.dtos.StringApiModel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.inject.Inject;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 
 /**
  * Created by Georg on 21.06.2017.

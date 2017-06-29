@@ -220,7 +220,6 @@ public class AuthApiEndpointTest {
     @Test
     public void loginEndpoint_controllerThrows() throws InvalidCredentialsException {
         // SETUP
-        SessionData sessionData = new SessionData("mock email", "mock token");
         when(authenticationController.login(any(LoginData.class)))
                 .thenThrow(new InvalidCredentialsException());
         AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);

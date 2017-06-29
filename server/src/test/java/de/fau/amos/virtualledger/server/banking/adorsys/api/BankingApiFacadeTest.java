@@ -22,91 +22,74 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class BankingApiFacadeTest {
 
-    @Mock
-    BankingApiBinder bankingApiBinder;
+	@Mock
+	BankingApiBinder bankingApiBinder;
 
+	@Test
+	public void createUser_binderCalled() {
+		// SETUP
+		DummyUserEndpoint endpoint = mock(DummyUserEndpoint.class);
+		when(bankingApiBinder.getUserEndpoint(anyString())).thenReturn(endpoint);
+		BankingApiFacade bankingApiFacade = new BankingApiFacade(bankingApiBinder);
 
-    @Test
-    public void createUser_binderCalled()
-    {
-        // SETUP
-        DummyUserEndpoint endpoint = mock(DummyUserEndpoint.class);
-        when(bankingApiBinder.getUserEndpoint(anyString()))
-                .thenReturn(endpoint);
-        BankingApiFacade bankingApiFacade = new BankingApiFacade(bankingApiBinder);
+		// ACT
+		bankingApiFacade.createUser("test");
 
-        // ACT
-        try {
-            bankingApiFacade.createUser("test");
-        } catch (BankingException ex) {
-            fail("An Banking Exception was thrown! " + ex.getMessage());
-        }
+		// ASSERT
+		Mockito.verify(bankingApiBinder, times(1)).getUserEndpoint(anyString());
+	}
 
-        // ASSERT
-        Mockito.verify(bankingApiBinder, times(1))
-                .getUserEndpoint(anyString());
-    }
+	@Test
+	public void getAccesses_binderCalled() {
+		// SETUP
+		DummyBankAccessEndpoint endpoint = mock(DummyBankAccessEndpoint.class);
+		when(bankingApiBinder.getBankAccessEndpoint(anyString())).thenReturn(endpoint);
+		BankingApiFacade bankingApiFacade = new BankingApiFacade(bankingApiBinder);
 
-    @Test
-    public void getAccesses_binderCalled()
-    {
-        // SETUP
-        DummyBankAccessEndpoint endpoint = mock(DummyBankAccessEndpoint.class);
-        when(bankingApiBinder.getBankAccessEndpoint(anyString()))
-                .thenReturn(endpoint);
-        BankingApiFacade bankingApiFacade = new BankingApiFacade(bankingApiBinder);
+		// ACT
+		try {
+			bankingApiFacade.getBankAccesses("test");
+		} catch (BankingException ex) {
+			fail("An Banking Exception was thrown! " + ex.getMessage());
+		}
 
-        // ACT
-        try {
-            bankingApiFacade.getBankAccesses("test");
-        } catch (BankingException ex) {
-            fail("An Banking Exception was thrown! " + ex.getMessage());
-        }
+		// ASSERT
+		Mockito.verify(bankingApiBinder, times(1)).getBankAccessEndpoint(anyString());
+	}
 
-        // ASSERT
-        Mockito.verify(bankingApiBinder, times(1))
-                .getBankAccessEndpoint(anyString());
-    }
+	@Test
+	public void getAccounts_binderCalled() {
+		// SETUP
+		DummyBankAccountEndpoint endpoint = mock(DummyBankAccountEndpoint.class);
+		when(bankingApiBinder.getBankAccountEndpoint(anyString())).thenReturn(endpoint);
+		BankingApiFacade bankingApiFacade = new BankingApiFacade(bankingApiBinder);
 
-    @Test
-    public void getAccounts_binderCalled()
-    {
-        // SETUP
-        DummyBankAccountEndpoint endpoint = mock(DummyBankAccountEndpoint.class);
-        when(bankingApiBinder.getBankAccountEndpoint(anyString()))
-                .thenReturn(endpoint);
-        BankingApiFacade bankingApiFacade = new BankingApiFacade(bankingApiBinder);
+		// ACT
+		try {
+			bankingApiFacade.getBankAccounts("test", "test");
+		} catch (BankingException ex) {
+			fail("An Banking Exception was thrown! " + ex.getMessage());
+		}
 
-        // ACT
-        try {
-            bankingApiFacade.getBankAccounts("test", "test");
-        } catch (BankingException ex) {
-            fail("An Banking Exception was thrown! " + ex.getMessage());
-        }
+		// ASSERT
+		Mockito.verify(bankingApiBinder, times(1)).getBankAccountEndpoint(anyString());
+	}
 
-        // ASSERT
-        Mockito.verify(bankingApiBinder, times(1))
-                .getBankAccountEndpoint(anyString());
-    }
+	@Test
+	public void syncAccount_binderCalled() {
+		// SETUP
+		DummyBankAccountEndpoint endpoint = mock(DummyBankAccountEndpoint.class);
+		when(bankingApiBinder.getBankAccountEndpoint(anyString())).thenReturn(endpoint);
+		BankingApiFacade bankingApiFacade = new BankingApiFacade(bankingApiBinder);
 
-    @Test
-    public void syncAccount_binderCalled()
-    {
-        // SETUP
-        DummyBankAccountEndpoint endpoint = mock(DummyBankAccountEndpoint.class);
-        when(bankingApiBinder.getBankAccountEndpoint(anyString()))
-                .thenReturn(endpoint);
-        BankingApiFacade bankingApiFacade = new BankingApiFacade(bankingApiBinder);
+		// ACT
+		try {
+			bankingApiFacade.syncBankAccount("test", "test", "test", "test");
+		} catch (BankingException ex) {
+			fail("An Banking Exception was thrown! " + ex.getMessage());
+		}
 
-        // ACT
-        try {
-            bankingApiFacade.syncBankAccount("test", "test", "test", "test");
-        } catch (BankingException ex) {
-            fail("An Banking Exception was thrown! " + ex.getMessage());
-        }
-
-        // ASSERT
-        Mockito.verify(bankingApiBinder, times(1))
-                .getBankAccountEndpoint(anyString());
-    }
+		// ASSERT
+		Mockito.verify(bankingApiBinder, times(1)).getBankAccountEndpoint(anyString());
+	}
 }

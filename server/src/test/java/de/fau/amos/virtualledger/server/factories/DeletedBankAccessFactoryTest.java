@@ -1,10 +1,10 @@
 package de.fau.amos.virtualledger.server.factories;
 
-import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
-import de.fau.amos.virtualledger.server.model.DeletedBankAccount;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
 
 /**
  * Created by Georg on 21.06.2017.
