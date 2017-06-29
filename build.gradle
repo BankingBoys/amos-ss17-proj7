@@ -1,6 +1,16 @@
 allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'idea'
+
+    apply plugin: 'findbugs'
+    tasks.withType(FindBugs) {
+        excludeFilter = file("findbugs-exclude.xml")
+        reports {
+            xml.enabled false
+            html.enabled true
+        }
+    }
+
     repositories {
         mavenCentral()
 	jcenter()

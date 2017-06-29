@@ -22,7 +22,6 @@ public class BankAccountTest {
     private BankAccount account3;
     private BankAccount account4;
     private double accountBalance1 = 100;
-    private double accountBalance2 = 300;
 
     /**
      *

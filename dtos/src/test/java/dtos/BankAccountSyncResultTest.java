@@ -26,7 +26,6 @@ public class BankAccountSyncResultTest {
     private BankAccountBookings bankAccountBookings1;
     private BankAccountBookings bankAccountBookings2;
     private BankAccountBookings bankAccountBookings3;
-    private BankAccountSyncResult syncResultTest;
 
     /**
      *
@@ -43,7 +42,6 @@ public class BankAccountSyncResultTest {
         bankAccountBookingsList.add(bankAccountBookings1);
         bankAccountBookingsList.add(bankAccountBookings2);
         bankAccountBookingsList.add(bankAccountBookings3);
-        syncResultTest = new BankAccountSyncResult(bankAccountBookingsList);
     }
 
     /**
