@@ -1,13 +1,13 @@
 package de.fau.amos.virtualledger.server.persistence;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 @Component
 @Scope("request")
