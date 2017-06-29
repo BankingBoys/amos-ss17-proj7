@@ -31,7 +31,7 @@ public class BankingApiFacade {
 
 
 
-    public void createUser(String userId) throws BankingException
+    public void createUser(String userId)
     {
         binder.getUserEndpoint(userId).createUser(userId);
     }

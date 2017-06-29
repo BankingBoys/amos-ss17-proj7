@@ -1,15 +1,14 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint;
 
-import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiDummy;
-import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
-import java.util.ArrayList;
-import java.util.List;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiDummy;
+import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
 
 @Component
 @Scope("singleton")

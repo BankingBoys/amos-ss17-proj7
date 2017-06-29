@@ -1,10 +1,9 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint;
 
-import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiDummy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.enterprise.context.RequestScoped;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiDummy;
 
 @Component
 @Scope("request")

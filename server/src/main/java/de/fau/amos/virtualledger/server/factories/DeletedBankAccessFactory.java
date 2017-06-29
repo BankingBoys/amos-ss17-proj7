@@ -1,11 +1,9 @@
 package de.fau.amos.virtualledger.server.factories;
 
-import de.fau.amos.virtualledger.dtos.BankAccess;
-import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.enterprise.context.RequestScoped;
+import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
 
 
 @Component

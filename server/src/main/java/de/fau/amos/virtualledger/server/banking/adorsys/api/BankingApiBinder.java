@@ -1,14 +1,13 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api;
 
 
-import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.BankAccessEndpoint;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.BankAccountEndpoint;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.UserEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.enterprise.inject.Default;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.BankAccessEndpoint;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.BankAccountEndpoint;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.UserEndpoint;
 
 /**
  * Class that is responsible for binding the right implementation of an interface for banking api

@@ -24,7 +24,7 @@ public class SavingsController {
         return savingsAccountRepository.getSavingsAccountsByUserEmail(email);
     }
 
-    public void addSavingAccount(String email, SavingsAccount savingsAccount) throws SavingsException {
+    public void addSavingAccount(String email, SavingsAccount savingsAccount) {
 
         savingsAccountRepository.createSavingsAccount(email, savingsAccount);
     }
