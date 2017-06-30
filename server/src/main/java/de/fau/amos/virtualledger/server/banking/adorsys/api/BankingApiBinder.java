@@ -2,6 +2,7 @@ package de.fau.amos.virtualledger.server.banking.adorsys.api;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -29,14 +30,13 @@ public class BankingApiBinder {
     private BankingApiConfiguration bankingApiConfiguration;
 
     @Autowired
-    public BankingApiBinder(
-            BankingApiConfiguration bankingApiConfiguration,
-            UserEndpoint httpUserEndpoint,
-            @BankingApiDummy UserEndpoint dummyUserEndpoint,
-            BankAccessEndpoint httpBankAccessEndpoint,
-            @BankingApiDummy BankAccessEndpoint dummyBankAccessEndpoint,
-            BankAccountEndpoint httpBankAccountEndpoint,
-            @BankingApiDummy BankAccountEndpoint dummyBankAccountEndpoint)
+    public BankingApiBinder( BankingApiConfiguration bankingApiConfiguration,
+                             @Qualifier("default") UserEndpoint httpUserEndpoint,
+                             @Qualifier("dummy") UserEndpoint dummyUserEndpoint,
+                             @Qualifier("default") BankAccessEndpoint httpBankAccessEndpoint,
+                             @Qualifier("dummy") BankAccessEndpoint dummyBankAccessEndpoint,
+                             @Qualifier("default") BankAccountEndpoint httpBankAccountEndpoint,
+                             @Qualifier("dummy") BankAccountEndpoint dummyBankAccountEndpoint)
     {
         this.bankingApiConfiguration = bankingApiConfiguration;
 

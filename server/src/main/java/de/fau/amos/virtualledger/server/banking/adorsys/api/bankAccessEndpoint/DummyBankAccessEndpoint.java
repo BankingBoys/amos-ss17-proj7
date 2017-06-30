@@ -3,16 +3,16 @@ package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiDummy;
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
 
 @Component
 @Scope("singleton")
-@BankingApiDummy
+@Qualifier("dummy")
 public class DummyBankAccessEndpoint implements BankAccessEndpoint {
 
     protected List<BankAccessBankingModel> bankingModels = new ArrayList<BankAccessBankingModel>();

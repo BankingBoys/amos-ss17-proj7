@@ -9,6 +9,7 @@ import de.fau.amos.virtualledger.server.banking.model.BookingModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Component
 @Scope("request")
+@Qualifier("default")
 public class HttpBankAccountEndpoint implements BankAccountEndpoint {
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 

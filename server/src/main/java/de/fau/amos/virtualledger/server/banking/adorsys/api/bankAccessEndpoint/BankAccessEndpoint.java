@@ -2,12 +2,11 @@ package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint;
 
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-/**
- * Created by Georg on 18.05.2017.
- */
+@Component
 public interface BankAccessEndpoint {
 
     public List<BankAccessBankingModel> getBankAccesses(String userId) throws BankingException;

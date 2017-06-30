@@ -5,7 +5,9 @@ import java.util.List;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
 import de.fau.amos.virtualledger.server.banking.model.BookingModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface BankAccountEndpoint {
 
     public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId) throws BankingException;
