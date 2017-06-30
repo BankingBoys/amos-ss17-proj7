@@ -24,7 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(new SecuredFilter(userCredentialRepository), BasicAuthenticationFilter.class)
             .antMatcher("/api/auth/logout")
-            .antMatcher("/api/banking/**");
+            .antMatcher("/api/banking/**")
+            .antMatcher("/api/savings/**");
         http.csrf().disable();
     }
 }

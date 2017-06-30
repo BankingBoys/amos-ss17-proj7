@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.server.api;
 
 import java.lang.invoke.MethodHandles;
+import java.security.Principal;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -20,11 +21,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.fau.amos.virtualledger.server.auth.Secured;
 import de.fau.amos.virtualledger.server.model.SavingsAccount;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Endpoints for savings
  */
-@Path("/savings")
+@RestController
 public class SavingsApiEndpoint {
 
 	private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -40,79 +45,69 @@ public class SavingsApiEndpoint {
 
 	/**
 	 * Gets all available saving accounts to the authenticated user
-	 * 
-	 * @param securityContext
 	 * @return
 	 */
-	@GET
-	@Secured
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getSavingAccountsEndpoint(@Context SecurityContext securityContext) {
-		if (securityContext.getUserPrincipal().getName() == null
-				|| securityContext.getUserPrincipal().getName().isEmpty()) {
-			return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.")
-					.build();
-		}
-		final String email = securityContext.getUserPrincipal().getName();
-		logger.info("getSavingAccountsEndpoint of " + email + " was requested");
+	@RequestMapping(method = RequestMethod.GET, value =  "api/savings", produces = "application/json")
+	public ResponseEntity<?> getSavingAccountsEndpoint() {
 
-		return this.getSavingAccounts(email);
+		String username = ((Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getName();
+		if(username == null || username.isEmpty())
+		{
+			return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);
+		}
+		logger.info("getSavingAccountsEndpoint of " + username + " was requested");
+
+		return this.getSavingAccounts(username);
 	}
 
 	/**
 	 * Adds a saving accounts to the authenticated user
-	 * 
-	 * @param securityContext
+	 *
 	 * @param savingsAccount
 	 * @return status 201 if successful
 	 */
-	@POST
-	@Secured
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addSavingAccountEndpoint(@Context SecurityContext securityContext, SavingsAccount savingsAccount) {
-		if (securityContext.getUserPrincipal().getName() == null
-				|| securityContext.getUserPrincipal().getName().isEmpty()) {
-			return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.")
-					.build();
+	@RequestMapping(method = RequestMethod.POST, value =  "api/savings", produces = "application/json", consumes = "application/json")
+	public ResponseEntity<?> addSavingAccountEndpoint(@RequestBody SavingsAccount savingsAccount) {
+
+		String username = ((Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getName();
+		if(username == null || username.isEmpty())
+		{
+			return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);
 		}
 		if (savingsAccount == null || savingsAccount.name == null || savingsAccount.name.isEmpty()
 				|| savingsAccount.finaldate == null) {
-			return Response.status(Response.Status.BAD_REQUEST)
-					.entity("Please check your inserted values. None of the parameters must be null or empty except id. Id must not been set!")
-					.build();
+			return new ResponseEntity<>("Please check your inserted values. None of the parameters must be null or empty except id. Id must not been set!", HttpStatus.BAD_REQUEST);
 		}
-		final String email = securityContext.getUserPrincipal().getName();
-		logger.info("getSavingAccountsEndpoint of " + email + " was requested");
+		logger.info("getSavingAccountsEndpoint of " + username + " was requested");
 
-		return this.addSavingAccount(email, savingsAccount);
+		return this.addSavingAccount(username, savingsAccount);
 	}
 
 	/**
 	 * Does the logic for adding a saving account to a specific user. Handles
 	 * exceptions and returns corresponding response codes.
 	 * 
-	 * @param email
+	 * @param username
 	 * @param savingsAccount
 	 * @return status 201 if successful
 	 */
-	private Response addSavingAccount(String email, SavingsAccount savingsAccount) {
+	private ResponseEntity<?> addSavingAccount(String username, SavingsAccount savingsAccount) {
 
-		savingsController.addSavingAccount(email, savingsAccount);
-		return Response.status(Response.Status.CREATED).build();
+		savingsController.addSavingAccount(username, savingsAccount);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 	/**
 	 * Does the logic for getting all saving accounts to a specific user.
 	 * Handles exceptions and returns corresponding response codes.
 	 * 
-	 * @param email
+	 * @param username
 	 * @return
 	 */
-	private Response getSavingAccounts(String email) {
+	private ResponseEntity<?> getSavingAccounts(String username) {
 
-		List<SavingsAccount> savingsAccountList = savingsController.getSavingAccounts(email);
-		return Response.ok(savingsAccountList).build();
+		List<SavingsAccount> savingsAccountList = savingsController.getSavingAccounts(username);
+		return new ResponseEntity<Object>(savingsAccountList, HttpStatus.OK);
 	}
 
 }
