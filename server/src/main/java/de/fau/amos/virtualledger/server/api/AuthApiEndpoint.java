@@ -12,11 +12,16 @@ import de.fau.amos.virtualledger.server.model.UserCredential;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -26,7 +31,7 @@ import java.lang.invoke.MethodHandles;
 /**
  * Endpoints for authentication / authorization
  */
-@Path("/auth")
+@RestController
 public class AuthApiEndpoint {
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
@@ -46,18 +51,15 @@ public class AuthApiEndpoint {
      * @param credential
      * @return
      */
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/register")
-    public Response registerEndpoint(UserCredential credential) {
+    @RequestMapping(method = RequestMethod.POST, value =  "api/auth/register", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<?> registerEndpoint(@RequestBody UserCredential credential) {
     	if(credential.getEmail() == null || credential.getEmail().isEmpty() ||
                 credential.getPassword() == null || credential.getPassword().isEmpty() ||
-                credential.getFirstName() == null || credential.getFirstName().isEmpty() ||
-                credential.getLastName() == null || credential.getLastName().isEmpty() ||
+                credential.getFirstname() == null || credential.getFirstname().isEmpty() ||
+                credential.getLastname() == null || credential.getLastname().isEmpty() ||
                 credential.getId() != 0)
         {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty, id has to be 0.").build();
+            return new ResponseEntity<>("Please check your inserted values. None of the parameters must be null or empty, id has to be 0.", HttpStatus.BAD_REQUEST);
         }
         logger.info("Registration for " + credential.getEmail() + " was requested.");
 
@@ -69,17 +71,14 @@ public class AuthApiEndpoint {
      * @param loginData
      * @return
      */
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/login")
-    public Response loginEndpoint(final LoginData loginData) {
+    @RequestMapping(method = RequestMethod.POST, value =  "api/auth/login", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<?> loginEndpoint(@RequestBody LoginData loginData) {
         if(loginData.getEmail() == null || loginData.getEmail().isEmpty() ||
                 loginData.getPassword() == null || loginData.getPassword().isEmpty())
         {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
+            return new ResponseEntity<>("Please check your inserted values. None of the parameters must be null or empty.", HttpStatus.BAD_REQUEST);
         }
         logger.info("Login of "+ loginData.getEmail() +" was requested.");
-
         return this.login(loginData);
     }
 
@@ -111,7 +110,7 @@ public class AuthApiEndpoint {
      * @param credential
      * @return a response with status code depending on result
      */
-    private Response register(UserCredential credential)
+    private ResponseEntity<?> register(UserCredential credential)
     {
         String responseMsg;
         try
@@ -120,10 +119,10 @@ public class AuthApiEndpoint {
         } catch(VirtualLedgerAuthenticationException ex)
         {
             logger.error("", ex);
-            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
         StringApiModel responseObj = stringApiModelFactory.createStringApiModel(responseMsg);
-        return Response.ok(responseObj).build();
+        return new ResponseEntity<>(responseObj, HttpStatus.OK);
     }
 
     /**
@@ -132,16 +131,16 @@ public class AuthApiEndpoint {
      * @param loginData
      * @return
      */
-    private Response login(LoginData loginData)
+    private ResponseEntity<?> login(LoginData loginData)
     {
         final SessionData sessionData;
         try {
             sessionData = authenticationController.login(loginData);
         } catch (InvalidCredentialsException ex) {
             logger.error("", ex);
-            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return Response.ok(sessionData).build();
+        return new ResponseEntity<>(sessionData, HttpStatus.OK);
     }
 
     /**

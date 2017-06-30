@@ -100,8 +100,8 @@ public class AuthenticationControllerTest {
 	private UserCredential getValidUserCredential() {
 		UserCredential credential = new UserCredential();
 		credential.setEmail("blablabl@bbla.de");
-		credential.setFirstName("some first name");
-		credential.setLastName("some last anme");
+		credential.setFirstname("some first name");
+		credential.setLastname("some last anme");
 		credential.setId(0);
 		credential.setPassword("some fancy passw");
 		return credential;

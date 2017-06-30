@@ -18,16 +18,16 @@ import java.lang.invoke.MethodHandles;
 import java.security.Principal;
 
 // TODO
-@Secured
-@Provider
-@Priority(Priorities.AUTHENTICATION)
-public class SecuredFilter implements ContainerRequestFilter {
+//@Secured
+//@Provider
+//@Priority(Priorities.AUTHENTICATION)
+public class SecuredFilter /* implements ContainerRequestFilter*/ {
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Autowired
     private UserCredentialRepository userCredentialRepository;
 
-    @Override
+    //@Override
     public void filter(final ContainerRequestContext requestContext) throws IOException {
         try {
 

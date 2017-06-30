@@ -14,6 +14,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -55,16 +57,16 @@ public class AuthApiEndpointTest {
         UserCredential credential = new UserCredential();
         credential.setEmail("test@test.de");
         credential.setPassword("password");
-        credential.setFirstName("abc");
-        credential.setLastName("def");
+        credential.setFirstname("abc");
+        credential.setLastname("def");
         credential.setId(1);
 
         // ACT
-        Response reponse = authApiEndpoint.registerEndpoint(credential);
+        ResponseEntity<?> reponse = authApiEndpoint.registerEndpoint(credential);
 
         // ASSERT
-        int expectedStatusCode = 400;
-        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
+        Assert.isTrue(reponse.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
         verify(authenticationController, times(0))
                 .register(any(UserCredential.class));
     }
@@ -79,16 +81,16 @@ public class AuthApiEndpointTest {
         UserCredential credential = new UserCredential();
         credential.setEmail("test@test.de");
         credential.setPassword("password");
-        credential.setFirstName("abc");
-        credential.setLastName("def");
+        credential.setFirstname("abc");
+        credential.setLastname("def");
         credential.setId(0);
 
         // ACT
-        Response reponse = authApiEndpoint.registerEndpoint(credential);
+        ResponseEntity<?> response = authApiEndpoint.registerEndpoint(credential);
 
         // ASSERT
-        int expectedStatusCode = 200;
-        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        HttpStatus expectedStatusCode = HttpStatus.OK;
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
         verify(authenticationController, times(1))
                 .register(any(UserCredential.class));
     }
@@ -103,16 +105,16 @@ public class AuthApiEndpointTest {
         UserCredential credential = new UserCredential();
         credential.setEmail("test@test.de");
         credential.setPassword("password");
-        credential.setFirstName("abc");
-        credential.setLastName("def");
+        credential.setFirstname("abc");
+        credential.setLastname("def");
         credential.setId(0);
 
         // ACT
-        Response reponse = authApiEndpoint.registerEndpoint(credential);
+        ResponseEntity<?> response = authApiEndpoint.registerEndpoint(credential);
 
         // ASSERT
-        int expectedStatusCode = 400;
-        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
         verify(authenticationController, times(1))
                 .register(any(UserCredential.class));
     }
@@ -128,11 +130,11 @@ public class AuthApiEndpointTest {
         LoginData loginData = new LoginData(null, "password");
 
         // ACT
-        Response reponse = authApiEndpoint.loginEndpoint(loginData);
+        ResponseEntity<?> response = authApiEndpoint.loginEndpoint(loginData);
 
         // ASSERT
-        int expectedStatusCode = 400;
-        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
         verify(authenticationController, times(0))
                 .login(any(LoginData.class));
     }
@@ -148,11 +150,11 @@ public class AuthApiEndpointTest {
         LoginData loginData = new LoginData("", "password");
 
         // ACT
-        Response reponse = authApiEndpoint.loginEndpoint(loginData);
+        ResponseEntity<?> response = authApiEndpoint.loginEndpoint(loginData);
 
         // ASSERT
-        int expectedStatusCode = 400;
-        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
         verify(authenticationController, times(0))
                 .login(any(LoginData.class));
     }
@@ -168,11 +170,11 @@ public class AuthApiEndpointTest {
         LoginData loginData = new LoginData("email", null);
 
         // ACT
-        Response reponse = authApiEndpoint.loginEndpoint(loginData);
+        ResponseEntity<?> response = authApiEndpoint.loginEndpoint(loginData);
 
         // ASSERT
-        int expectedStatusCode = 400;
-        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
         verify(authenticationController, times(0))
                 .login(any(LoginData.class));
     }
@@ -188,11 +190,11 @@ public class AuthApiEndpointTest {
         LoginData loginData = new LoginData("email", "");
 
         // ACT
-        Response reponse = authApiEndpoint.loginEndpoint(loginData);
+        ResponseEntity<?> response = authApiEndpoint.loginEndpoint(loginData);
 
         // ASSERT
-        int expectedStatusCode = 400;
-        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
         verify(authenticationController, times(0))
                 .login(any(LoginData.class));
     }
@@ -208,11 +210,11 @@ public class AuthApiEndpointTest {
         LoginData loginData = new LoginData("email", "password");
 
         // ACT
-        Response reponse = authApiEndpoint.loginEndpoint(loginData);
+        ResponseEntity<?> response = authApiEndpoint.loginEndpoint(loginData);
 
         // ASSERT
-        int expectedStatusCode = 200;
-        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        HttpStatus expectedStatusCode = HttpStatus.OK;
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
         verify(authenticationController, times(1))
                 .login(any(LoginData.class));
     }
@@ -227,11 +229,11 @@ public class AuthApiEndpointTest {
         LoginData loginData = new LoginData("email", "password");
 
         // ACT
-        Response reponse = authApiEndpoint.loginEndpoint(loginData);
+        ResponseEntity<?> response = authApiEndpoint.loginEndpoint(loginData);
 
         // ASSERT
-        int expectedStatusCode = 400;
-        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
         verify(authenticationController, times(1))
                 .login(any(LoginData.class));
     }

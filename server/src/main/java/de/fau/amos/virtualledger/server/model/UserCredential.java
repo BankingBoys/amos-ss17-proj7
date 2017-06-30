@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.lang.invoke.MethodHandles;
 import java.util.regex.Matcher;
@@ -28,8 +27,8 @@ public class UserCredential {
 	private static final String PASSWORD_MUST_NOT_BE_EMPTY = "Password must not be empty!";
 	private String email;
     private String password;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
 
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +45,6 @@ public class UserCredential {
         return email;
     }
 
-    @XmlElement(name="email")
     public void setEmail(String email) {
 
         if(email == null || ! this.isEmailPatternValid(email))
@@ -70,7 +68,6 @@ public class UserCredential {
      * @param password
      * @methodtype setter
      */
-    @XmlElement(name="password")
     public void setPassword(String password) {
 
         if(password == null || ! isPasswordPatternValid(password))
@@ -83,18 +80,17 @@ public class UserCredential {
 
     /**
      *
-     * @param firstName
+     * @param firstname
      * @methodtype setter
      */
-    @XmlElement(name="firstname")
-    public void setFirstName(String firstName) {
+    public void setFirstname(String firstname) {
 
-        if(firstName == null || ! this.isFirstNamePatternValid(firstName))
+        if(firstname == null || ! this.isFirstNamePatternValid(firstname))
         {
         	logger.warn(FIRST_NAME_MUST_NOT_BE_EMPTY);
             throw new IllegalArgumentException(FIRST_NAME_MUST_NOT_BE_EMPTY);
         }
-        this.firstName = firstName;
+        this.firstname = firstname;
     }
 
 
@@ -103,33 +99,32 @@ public class UserCredential {
      * @return
      * @methodtype getter
      */
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
     /**
      *
-     * @param lastName
+     * @param lastname
      * @methodtype setter
      */
-    @XmlElement(name="lastname")
-    public void setLastName(String lastName) {
+    public void setLastname(String lastname) {
 
-        if(lastName == null || ! this.isLastNamePatternValid(lastName))
+        if(lastname == null || ! this.isLastNamePatternValid(lastname))
         {
             logger.warn(LAST_NAME_MUST_NOT_BE_EMPTY);
             throw new IllegalArgumentException(LAST_NAME_MUST_NOT_BE_EMPTY);
         }
-        this.lastName = lastName;
+        this.lastname = lastname;
     }
 
     /**
      *
-     * @return lastName
+     * @return lastname
      * @methodtype getter
      */
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
     /**
@@ -199,6 +194,6 @@ public class UserCredential {
     
     @Override
     public String toString() {
-    	return super.toString()+"{"+this.getFirstName()+", "+this.getLastName()+"}";
+    	return super.toString()+"{"+this.getFirstname()+", "+this.getLastname()+"}";
     }
 }

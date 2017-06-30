@@ -36,7 +36,7 @@ public class AuthenticationController {
 	 */
 	public String register(UserCredential credential) throws VirtualLedgerAuthenticationException {
 		if (credential == null || credential.getEmail() == null || credential.getPassword() == null
-				|| credential.getFirstName() == null || credential.getLastName() == null) { // if
+				|| credential.getFirstname() == null || credential.getLastname() == null) { // if
 																							// not
 																							// null,
 																							// matches
