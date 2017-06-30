@@ -7,7 +7,7 @@ import de.fau.amos.virtualledger.dtos.StringApiModel;
 
 
 @Component
-@Scope("request")
+
 public class StringApiModelFactory {
 
     /**

@@ -14,7 +14,7 @@ import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
  * Controller / Service class for authentication
  */
 @Component
-@Scope("request")
+
 public class AuthenticationController {
 
 	@Autowired

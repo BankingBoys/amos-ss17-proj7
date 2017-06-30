@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Scope("request")
+
 @Qualifier("default")
 public class HttpBankAccountEndpoint implements BankAccountEndpoint {
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

@@ -19,7 +19,7 @@ import java.util.Objects;
  * Repository class that allows CRUD operations on the databasse for UserCredentials
  */
 @Component
-@Scope("request")
+
 public class UserCredentialRepository {
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 

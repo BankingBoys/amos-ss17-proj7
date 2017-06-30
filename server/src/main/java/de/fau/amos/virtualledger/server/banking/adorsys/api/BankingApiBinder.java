@@ -15,7 +15,7 @@ import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.UserEnd
  * Chosen can be a dummy or the real implementation, which depends on BankingApiConfiguration test user name.
  */
 @Component
-@Scope("request")
+
 public class BankingApiBinder {
 
 

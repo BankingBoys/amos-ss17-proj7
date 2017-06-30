@@ -7,7 +7,7 @@ import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 
 @Component
-@Scope("request")
+
 public class BankAccessBankingModelFactory {
 
     public BankAccessBankingModel createBankAccessBankingModel(String userId, BankAccessCredential bankAccessCredential)

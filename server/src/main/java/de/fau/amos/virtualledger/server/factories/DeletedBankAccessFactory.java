@@ -7,7 +7,7 @@ import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
 
 
 @Component
-@Scope("request")
+
 public class DeletedBankAccessFactory {
 
     public DeletedBankAccess createDeletedBankAccess(String email, String bankAccessId)

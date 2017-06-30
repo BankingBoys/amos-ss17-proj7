@@ -13,7 +13,7 @@ import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 @Component
-@Scope("request")
+
 public class SavingsAccountRepository {
 
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

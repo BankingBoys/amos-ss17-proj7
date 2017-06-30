@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope("request")
+
 @Qualifier("dummy")
 public class DummyUserEndpoint implements UserEndpoint {
 

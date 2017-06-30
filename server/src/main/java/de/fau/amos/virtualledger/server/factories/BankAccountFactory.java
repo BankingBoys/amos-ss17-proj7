@@ -11,7 +11,7 @@ import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 
 
 @Component
-@Scope("request")
+
 public class BankAccountFactory {
 
     public BankAccount createBankAccount(BankAccountBankingModel bankingModel)

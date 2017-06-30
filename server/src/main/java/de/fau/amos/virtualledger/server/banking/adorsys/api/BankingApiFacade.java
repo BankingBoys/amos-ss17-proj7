@@ -15,7 +15,7 @@ import java.util.List;
  * Class that can be used in other controllers to do interaction with banking api.
  */
 @Component
-@Scope("request")
+
 public class BankingApiFacade {
 
 

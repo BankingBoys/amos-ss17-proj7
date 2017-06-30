@@ -18,7 +18,7 @@ import java.lang.invoke.MethodHandles;
 
 @Component
 @Qualifier("default")
-@Scope("request")
+
 public class HttpUserEndpoint implements UserEndpoint {
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 

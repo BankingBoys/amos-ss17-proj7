@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@Scope("request")
+
 public class SavingsController {
 
     private SavingsAccountRepository savingsAccountRepository;

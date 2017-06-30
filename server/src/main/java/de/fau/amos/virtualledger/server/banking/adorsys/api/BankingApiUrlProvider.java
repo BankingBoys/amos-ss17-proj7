@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * Uses the BankingApiConfiguration for building the URLs
  */
 @Component
-@Scope("request")
+
 public class BankingApiUrlProvider {
 
     private BankingApiConfiguration configuration;

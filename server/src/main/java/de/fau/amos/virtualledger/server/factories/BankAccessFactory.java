@@ -11,7 +11,7 @@ import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 
 
 @Component
-@Scope("request")
+
 public class BankAccessFactory {
 
     public BankAccess createBankAccess(BankAccessBankingModel bankingModel)

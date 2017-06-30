@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Component
-@Scope("request")
+
 public class BankingOverviewController {
 
     @Autowired

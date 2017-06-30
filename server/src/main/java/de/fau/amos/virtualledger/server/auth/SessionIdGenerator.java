@@ -1,8 +1,11 @@
 package de.fau.amos.virtualledger.server.auth;
 
+import org.springframework.stereotype.Component;
+
 import java.security.SecureRandom;
 import java.util.Base64;
 
+@Component
 class SessionIdGenerator {
 
     private final SecureRandom secureRandom = new SecureRandom();

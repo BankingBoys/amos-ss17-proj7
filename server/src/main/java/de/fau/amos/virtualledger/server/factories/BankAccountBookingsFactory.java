@@ -12,7 +12,7 @@ import de.fau.amos.virtualledger.dtos.Booking;
 import de.fau.amos.virtualledger.server.banking.model.BookingModel;
 
 @Component
-@Scope("request")
+
 public class BankAccountBookingsFactory {
 
     public BankAccountBookings createBankAccountBookings(final List<BookingModel> bookingModels, final String bankAccessId, final String bankAccountId)

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * examples: URL of the banking api, dummy configuration, ...
  */
 @Component
-@Scope("request")
+
 public class BankingApiConfiguration {
 
 
