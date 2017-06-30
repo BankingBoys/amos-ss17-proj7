@@ -5,7 +5,6 @@ import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
 import de.fau.amos.virtualledger.server.auth.AuthenticationController;
 import de.fau.amos.virtualledger.server.auth.InvalidCredentialsException;
-import de.fau.amos.virtualledger.server.auth.Secured;
 import de.fau.amos.virtualledger.server.auth.VirtualLedgerAuthenticationException;
 import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.model.UserCredential;
@@ -14,19 +13,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 import java.lang.invoke.MethodHandles;
+import java.security.Principal;
 
 /**
  * Endpoints for authentication / authorization
@@ -87,20 +81,17 @@ public class AuthApiEndpoint {
      * @param securityContext
      * @return
      */
-    @POST
-    @Secured
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/logout")
-    public Response logoutEndpoint(@Context SecurityContext securityContext)
+    @RequestMapping(method = RequestMethod.POST, value =  "api/auth/logout", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<?> logoutEndpoint()
     {
-        if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
+        String username = ((Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getName();
+        if(username == null || username.isEmpty())
         {
-            return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
+            return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);
         }
-        final String email = securityContext.getUserPrincipal().getName();
-        logger.info("Logout of " + email + " was requested");
+        logger.info("Logout of " + username + " was requested");
 
-        return this.logout(email);
+        return this.logout(username);
     }
 
 
@@ -145,12 +136,12 @@ public class AuthApiEndpoint {
 
     /**
      * Does the logic operation for logging out a user
-     * @param email
+     * @param username
      * @return
      */
-    private Response logout(String email)
+    private ResponseEntity<?> logout(String username)
     {
-        authenticationController.logout(email);
-        return Response.ok(stringApiModelFactory.createStringApiModel("You were logged out! " + email)).build();
+        authenticationController.logout(username);
+        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel("You were logged out! " + username), HttpStatus.OK);
     }
 }

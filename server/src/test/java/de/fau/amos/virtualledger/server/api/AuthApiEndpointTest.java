@@ -5,6 +5,7 @@ import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
 import de.fau.amos.virtualledger.server.auth.AuthenticationController;
 import de.fau.amos.virtualledger.server.auth.InvalidCredentialsException;
+import de.fau.amos.virtualledger.server.auth.SimpleAuthentication;
 import de.fau.amos.virtualledger.server.auth.VirtualLedgerAuthenticationException;
 import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.model.UserCredential;
@@ -16,18 +17,15 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 
 import java.security.Principal;
 
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Created by Georg on 28.05.2017.
- */
 
 @RunWith(MockitoJUnitRunner.class)
 public class AuthApiEndpointTest {
@@ -241,20 +239,21 @@ public class AuthApiEndpointTest {
     @Test
     public void logoutEndpoint_securityContextPrincipalNameNull() {
         // SETUP
-        SecurityContext context = mock(SecurityContext.class);
         Principal principal = mock(Principal.class);
         when(principal.getName())
                 .thenReturn(null);
-        when(context.getUserPrincipal())
+        SimpleAuthentication authentication = mock(SimpleAuthentication.class);
+        when(authentication.getPrincipal())
                 .thenReturn(principal);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
 
         // ACT
-        Response reponse = authApiEndpoint.logoutEndpoint(context);
+        ResponseEntity<?> reponse = authApiEndpoint.logoutEndpoint();
 
         // ASSERT
-        int expectedStatusCode = 403;
-        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
+        Assert.isTrue(reponse.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
         verify(authenticationController, times(0))
                 .logout(any(String.class));
     }
@@ -262,20 +261,21 @@ public class AuthApiEndpointTest {
     @Test
     public void logoutEndpoint_securityContextPrincipalNameEmpty() {
         // SETUP
-        SecurityContext context = mock(SecurityContext.class);
         Principal principal = mock(Principal.class);
         when(principal.getName())
                 .thenReturn("");
-        when(context.getUserPrincipal())
+        SimpleAuthentication authentication = mock(SimpleAuthentication.class);
+        when(authentication.getPrincipal())
                 .thenReturn(principal);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
 
         // ACT
-        Response reponse = authApiEndpoint.logoutEndpoint(context);
+        ResponseEntity<?> reponse = authApiEndpoint.logoutEndpoint();
 
         // ASSERT
-        int expectedStatusCode = 403;
-        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
+        Assert.isTrue(reponse.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
         verify(authenticationController, times(0))
                 .logout(any(String.class));
     }
@@ -283,20 +283,21 @@ public class AuthApiEndpointTest {
     @Test
     public void logoutEndpoint_validInput() {
         // SETUP
-        SecurityContext context = mock(SecurityContext.class);
         Principal principal = mock(Principal.class);
         when(principal.getName())
                 .thenReturn("testUser");
-        when(context.getUserPrincipal())
+        SimpleAuthentication authentication = mock(SimpleAuthentication.class);
+        when(authentication.getPrincipal())
                 .thenReturn(principal);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
 
         // ACT
-        Response reponse = authApiEndpoint.logoutEndpoint(context);
+        ResponseEntity<?> reponse = authApiEndpoint.logoutEndpoint();
 
         // ASSERT
-        int expectedStatusCode = 200;
-        Assert.isTrue(reponse.getStatus() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatus());
+        HttpStatus expectedStatusCode = HttpStatus.OK;
+        Assert.isTrue(reponse.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
         verify(authenticationController, times(1))
                 .logout(any(String.class));
     }
