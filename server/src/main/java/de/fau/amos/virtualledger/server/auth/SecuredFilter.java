@@ -4,35 +4,38 @@ import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.SecurityContextProvider;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.annotation.Priority;
-import javax.ws.rs.Priorities;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerRequestFilter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.security.Principal;
+import java.util.Collection;
 
-// TODO
-//@Secured
-//@Provider
-//@Priority(Priorities.AUTHENTICATION)
-public class SecuredFilter /* implements ContainerRequestFilter*/ {
+public class SecuredFilter extends OncePerRequestFilter {
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    @Autowired
     private UserCredentialRepository userCredentialRepository;
 
-    //@Override
-    public void filter(final ContainerRequestContext requestContext) throws IOException {
+    public SecuredFilter(UserCredentialRepository userCredentialRepository) {
+        this.userCredentialRepository = userCredentialRepository;
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
 
-            final String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-
+            final String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
             final String email = userCredentialRepository.getEmailForSessionId(authorizationHeader);
 
             final SecurityContext newContext = new SecurityContext() {
@@ -57,11 +60,12 @@ public class SecuredFilter /* implements ContainerRequestFilter*/ {
                     return SecurityContext.BASIC_AUTH;
                 }
             };
-            requestContext.setSecurityContext(newContext);
+            Authentication authentication = new SimpleAuthentication(email);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
         } catch (InvalidCredentialsException e) {
-        	logger.info("", e);
-            requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).entity("Invalid Credentials").build());
+            logger.info("", e);
+            throw new SecurityException();
         }
     }
 }

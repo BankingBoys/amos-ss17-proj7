@@ -42,6 +42,7 @@ dependencies {
     providedRuntime("org.springframework.boot:spring-boot-starter-jetty")
     compile("org.springframework.boot:spring-boot-starter-web")
     providedRuntime("org.springframework.boot:spring-boot-starter-jetty")
+    compile("org.springframework.boot:spring-boot-starter-security")
 
     compile project(':dtos')
 
