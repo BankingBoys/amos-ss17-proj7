@@ -13,18 +13,11 @@ import java.util.List;
 @Component
 public class HelloWorldService {
 
-	@Value("${name:World}")
+	@Value("${name:User}")
 	private String name;
 
-	@Autowired
-	BankingOverviewController bankingOverviewController;
-
-	public List<BankAccess> getHelloMessage() {
-		try {
-			return bankingOverviewController.getBankingOverview("test@user.de");
-		} catch (BankingException e) {
-			return new ArrayList<BankAccess>();
-		}
+	public String getHelloMessage() {
+		return name;
 	}
 
 }

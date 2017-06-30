@@ -16,7 +16,7 @@ public class SampleController {
 
 	@GetMapping("/")
 	@ResponseBody
-	public List<BankAccess> helloWorld() {
+	public String helloWorld() {
 		return this.helloWorldService.getHelloMessage();
 	}
 
