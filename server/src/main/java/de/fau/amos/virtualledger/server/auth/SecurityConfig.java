@@ -23,7 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.addFilterBefore(new SecuredFilter(userCredentialRepository), BasicAuthenticationFilter.class)
-            .antMatcher("/api/auth/logout");
+            .antMatcher("/api/auth/logout")
+            .antMatcher("/api/banking/**");
         http.csrf().disable();
     }
 }
