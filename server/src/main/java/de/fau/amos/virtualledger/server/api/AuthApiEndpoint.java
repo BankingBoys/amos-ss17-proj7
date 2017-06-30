@@ -78,7 +78,6 @@ public class AuthApiEndpoint {
 
     /**
      * Endpoint for logging out. User must be authenticated.
-     * @param securityContext
      * @return
      */
     @RequestMapping(method = RequestMethod.POST, value =  "api/auth/logout", produces = "application/json", consumes = "application/json")

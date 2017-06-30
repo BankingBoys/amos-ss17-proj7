@@ -38,31 +38,10 @@ public class SecuredFilter extends OncePerRequestFilter {
             final String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
             final String email = userCredentialRepository.getEmailForSessionId(authorizationHeader);
 
-            final SecurityContext newContext = new SecurityContext() {
-
-                @Override
-                public Principal getUserPrincipal() {
-                    return () -> email;
-                }
-
-                @Override
-                public boolean isUserInRole(String role) {
-                    return true;
-                }
-
-                @Override
-                public boolean isSecure() {
-                    return true;
-                }
-
-                @Override
-                public String getAuthenticationScheme() {
-                    return SecurityContext.BASIC_AUTH;
-                }
-            };
             Authentication authentication = new SimpleAuthentication(email);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
+            filterChain.doFilter(request, response);
         } catch (InvalidCredentialsException e) {
             logger.info("", e);
             throw new SecurityException();
