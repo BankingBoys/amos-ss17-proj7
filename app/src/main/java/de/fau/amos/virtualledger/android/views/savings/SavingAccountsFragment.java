@@ -15,11 +15,8 @@ import android.widget.ListView;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.inject.Inject;
-
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
