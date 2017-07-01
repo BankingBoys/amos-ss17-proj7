@@ -39,7 +39,7 @@ public class ContactsSupplier implements de.fau.amos.virtualledger.android.views
 
     @Override
     public List<Contact> getAll() {
-        return null;
+        return new LinkedList<>(this.allContacts);
     }
 
     @Override
