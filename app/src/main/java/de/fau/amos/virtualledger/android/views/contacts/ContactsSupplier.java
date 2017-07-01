@@ -75,7 +75,10 @@ public class ContactsSupplier implements de.fau.amos.virtualledger.android.views
 
     @Override
     public void addDataListeningObject(DataListening observer) {
-
+        if (this.dataListenings.isEmpty()) {
+            this.contactsDataManager.addObserver(this);
+        }
+        this.dataListenings.add(observer);
     }
 
     @Override
