@@ -91,7 +91,8 @@ public class ContactsSupplier implements de.fau.amos.virtualledger.android.views
 
     @Override
     public void onPause() {
-
+        this.logger().log(Level.INFO, "De-Registering from contact data manager");
+        this.contactsDataManager.deleteObserver(this);
     }
 
     @Override
