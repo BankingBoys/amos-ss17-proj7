@@ -5,7 +5,6 @@ import android.util.Log;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.android.api.contacts.ContactsProvider;
 import de.fau.amos.virtualledger.android.model.Contact;
@@ -39,5 +38,53 @@ public class ContactsDataManager extends Observable {
     public ContactsDataManager(final ContactsProvider contactsProvider) {
         this.contactsProvider = contactsProvider;
     }
-    
+
+    /**
+     * Syncs all contacts with server.
+     * Therefore the syncStatus goes firs into SYNC_IN_PROGRESS and back into SYNCED when finished.
+     * Also notifies all Observers that changes were made.
+     */
+    public void sync() {
+        this.contactsList = new LinkedList<>();
+        syncFailedException = null;
+        syncStatus = SYNC_IN_PROGRESS;
+        syncsActive.addAndGet(1);
+        contactsProvider.getContacts()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<Contact>>() {
+                    @Override
+                    public void accept(@NonNull final List<Contact> contacts) throws Exception {
+                        ContactsDataManager.this.contactsList.addAll(contacts);
+                        onSyncComplete();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull final Throwable throwable) throws Exception {
+                        Log.e(TAG, "Failed getting contacts", throwable);
+                        syncFailedException = new SyncFailedException(throwable);
+                        onSyncComplete();
+                    }
+                });
+    }
+
+    private void onSyncComplete() {
+        final int syncsLeft = syncsActive.decrementAndGet();
+        if (syncsLeft == 0) {
+            syncStatus = SYNCED;
+            setChanged();
+            notifyObservers();
+        }
+    }
+
+    /**
+     * gets the status of the ContactsDataManager
+     * NOT_SYNCED if no sync was done yet.
+     * SYNC_IN_PROGRESS if the sync is in progress yet.
+     * SYNCED if a sync was done.
+     */
+    public SyncStatus getSyncStatus() {
+        return syncStatus;
+    }
+
 }
