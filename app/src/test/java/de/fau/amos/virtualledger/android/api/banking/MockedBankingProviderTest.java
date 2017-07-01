@@ -40,4 +40,11 @@ public class MockedBankingProviderTest {
         Observable testObservable = mockedBankingProvider.addBankAccess(new BankAccessCredential("1","1","1"));
         assertThat(testObservable).isNotNull();
     }
+
+    @Test
+    public void deleteBankAccessTest() {
+        Observable testObservable = mockedBankingProvider.deleteBankAccess("testId");
+        assertThat(testObservable).isNotNull();
+    }
+
 }
