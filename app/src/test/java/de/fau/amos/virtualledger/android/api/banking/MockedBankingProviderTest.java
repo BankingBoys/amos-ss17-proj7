@@ -47,4 +47,10 @@ public class MockedBankingProviderTest {
         assertThat(testObservable).isNotNull();
     }
 
+    @Test
+    public void deleteBankAccount() {
+        Observable testObservable = mockedBankingProvider.deleteBankAccount("testId", "testAccount");
+        assertThat(testObservable).isNotNull();
+    }
+
 }
