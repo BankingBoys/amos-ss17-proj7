@@ -10,7 +10,7 @@
         android:paddingLeft="@dimen/contact_padding_start_left">
 
         <TextView
-        android:id="@+id/id_name"
+        android:id="@+id/id_contactName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Contact"
