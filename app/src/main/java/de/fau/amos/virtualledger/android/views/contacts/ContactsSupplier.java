@@ -66,6 +66,13 @@ public class ContactsSupplier implements de.fau.amos.virtualledger.android.views
 
     }
 
+    private void notifyObservers() {
+        this.logger().info("Notify "+this.dataListenings.size()+" Contacts-Listener with "+this.allContacts.size()+"contacts");
+        for (DataListening dataListening : this.dataListenings) {
+            dataListening.notifyDataChanged();
+        }
+    }
+
     private Logger logger() {
         return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.toString() + "}");
     }
