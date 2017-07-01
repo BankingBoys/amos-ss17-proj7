@@ -26,90 +26,36 @@ import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListen
  */
 
 public class ContactsSupplier implements de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier<Contact>, Observer {
-    @Inject
-    ContactsDataManager contactsDataManager;
-
-    private Set<DataListening> dataListenings = new HashSet<>();
-
-    private List<Contact> allContacts = new ArrayList<>();
-
-    public ContactsSupplier(Activity activity) {
-        ((App) activity.getApplication()).getNetComponent().inject(this);
-    }
-
     @Override
     public List<Contact> getAll() {
-        return new LinkedList<>(this.allContacts);
+        return null;
     }
 
     @Override
     public void onResume() {
-        this.logger().log(Level.INFO, "Registering to contacts data manager");
-        contactsDataManager.addObserver(this);
-        this.logger().log(Level.INFO, "ContactsDataSyncStatus" + this.contactsDataManager.getSyncStatus());
-        switch (contactsDataManager.getSyncStatus()) {
-            case NOT_SYNCED:
-                contactsDataManager.sync();
-                break;
-            case SYNCED:
-                onSavingsUpdated();
-                break;
-        }
-    }
 
-    private void onSavingsUpdated() {
-        this.logger().info("Contacts loaded.");
-        this.allContacts.clear();
-        List<Contact> contacts= null;
-        try {
-            contacts = this.contactsDataManager.getContactsList();
-        } catch (SyncFailedException e) {
-            Log.e("", "Sync failed");
-            return;
-        }
-        if(contacts != null){
-            this.allContacts.addAll(contacts);
-        }
-        notifyObservers();
     }
 
     @Override
     public void addDataListeningObject(DataListening observer) {
-        if (this.dataListenings.isEmpty()) {
-            this.contactsDataManager.addObserver(this);
-        }
-        this.dataListenings.add(observer);
+
     }
 
     @Override
     public void deregister(DataListening observer) {
-        this.dataListenings.remove(observer);
-        if (this.dataListenings.isEmpty()) {
-            this.contactsDataManager.deleteObserver(this);
-        }
+
     }
 
     @Override
     public void onPause() {
-        this.logger().log(Level.INFO, "De-Registering from contact data manager");
-        this.contactsDataManager.deleteObserver(this);
+
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        this.onSavingsUpdated();
+
     }
 
-    private void notifyObservers() {
-        this.logger().info("Notify "+this.dataListenings.size()+" Contacts-Listener with "+this.allContacts.size()+"contacts");
-        for (DataListening dataListening : this.dataListenings) {
-            dataListening.notifyDataChanged();
-        }
-    }
-
-    private Logger logger() {
-        return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.toString() + "}");
-    }
 }
 
 
