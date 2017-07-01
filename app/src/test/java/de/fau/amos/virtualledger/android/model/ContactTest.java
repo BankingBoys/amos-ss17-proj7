@@ -13,5 +13,10 @@ public class ContactTest {
     private String email = "testEmail";
     private String firstName = "testFirstName";
     private String lastName = "testLastName";
+
+    @Before
+    public void setUp() {
+        contact = new Contact(email, firstName, lastName);
+    }
     
 }
