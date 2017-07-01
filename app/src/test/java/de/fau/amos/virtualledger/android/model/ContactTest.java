@@ -24,4 +24,20 @@ public class ContactTest {
     public void constructorTest() {
         assertThat(contact).isNotNull();
     }
+
+    @Test
+    public void setterAndGetterTest() {
+        String email2 = "testEmail2";
+        String firstName2 = "testFirstName2";
+        String lastName2 = "testLastName2";
+
+        contact.setEmail(email2);
+        contact.setFirstName(firstName2);
+        contact.setLastName(lastName2);
+
+        assertThat(contact.getEmail()).isEqualTo(email2);
+        assertThat(contact.getFirstName()).isEqualTo(firstName2);
+        assertThat(contact.getLastName()).isEqualTo(lastName2);
+    }
+
 }
