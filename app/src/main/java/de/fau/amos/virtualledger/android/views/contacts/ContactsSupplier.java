@@ -46,6 +46,22 @@ public class ContactsSupplier implements de.fau.amos.virtualledger.android.views
     public void onResume() {
     }
 
+    private void onSavingsUpdated() {
+        this.logger().info("Contacts loaded.");
+        this.allContacts.clear();
+        List<Contact> contacts= null;
+        try {
+            contacts = this.contactsDataManager.getContactsList();
+        } catch (SyncFailedException e) {
+            Log.e("", "Sync failed");
+            return;
+        }
+        if(contacts != null){
+            this.allContacts.addAll(contacts);
+        }
+        notifyObservers();
+    }
+
     @Override
     public void addDataListeningObject(DataListening observer) {
 
