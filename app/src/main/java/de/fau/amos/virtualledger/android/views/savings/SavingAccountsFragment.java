@@ -34,9 +34,6 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
     private ListView savingsAccountList;
     private Supplier<SavingsAccount> savingsSupplier;
 
-    @Inject
-    BankingDataManager bankingDataManager;
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
