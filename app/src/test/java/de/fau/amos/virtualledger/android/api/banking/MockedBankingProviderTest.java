@@ -3,6 +3,9 @@ package de.fau.amos.virtualledger.android.api.banking;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
+import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import io.reactivex.Observable;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,6 +25,12 @@ public class MockedBankingProviderTest {
     @Test
     public void getBankingOverviewTest() {
         Observable testObservable = mockedBankingProvider.getBankingOverview();
+        assertThat(testObservable).isNotNull();
+    }
+
+    @Test
+    public void getBankingTransactionTest() {
+        Observable testObservable = mockedBankingProvider.getBankingTransactions(new ArrayList<BankAccountSync>());
         assertThat(testObservable).isNotNull();
     }
 }
