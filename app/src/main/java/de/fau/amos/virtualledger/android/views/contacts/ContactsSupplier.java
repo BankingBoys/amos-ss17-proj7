@@ -44,6 +44,17 @@ public class ContactsSupplier implements de.fau.amos.virtualledger.android.views
 
     @Override
     public void onResume() {
+        this.logger().log(Level.INFO, "Registering to contacts data manager");
+        contactsDataManager.addObserver(this);
+        this.logger().log(Level.INFO, "ContactsDataSyncStatus" + this.contactsDataManager.getSyncStatus());
+        switch (contactsDataManager.getSyncStatus()) {
+            case NOT_SYNCED:
+                contactsDataManager.sync();
+                break;
+            case SYNCED:
+                onSavingsUpdated();
+                break;
+        }
     }
 
     private void onSavingsUpdated() {
