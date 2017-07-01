@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.android.api.contacts.ContactsProvider;
 import de.fau.amos.virtualledger.android.model.Contact;
@@ -86,5 +87,17 @@ public class ContactsDataManager extends Observable {
     public SyncStatus getSyncStatus() {
         return syncStatus;
     }
+
+    public List<Contact> getContactsList() throws SyncFailedException {
+        if (syncFailedException != null) throw syncFailedException;
+        if (syncStatus != SYNCED) throw new IllegalStateException("Sync not completed");
+        logger().info("Number of Contacts synct: " + this.contactsList.size());
+        return new LinkedList<>(contactsList);
+    }
+
+    private Logger logger() {
+        return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.hashCode() + "}");
+    }
+
 
 }
