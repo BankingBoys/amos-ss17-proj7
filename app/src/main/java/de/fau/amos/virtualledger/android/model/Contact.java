@@ -5,4 +5,9 @@ package de.fau.amos.virtualledger.android.model;
  */
 
 public class Contact {
+    private String email;
+    private String name;
+    private String firstName;
+    private String lastName;
+
 }
