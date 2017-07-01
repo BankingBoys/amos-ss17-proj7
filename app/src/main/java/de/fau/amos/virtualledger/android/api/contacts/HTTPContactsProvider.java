@@ -32,8 +32,35 @@ public class HTTPContactsProvider implements ContactsProvider{
 
     @Override
     public Observable<List<Contact>> getContacts() {
-        return null;
+
+        final retrofit2.Call<List<Contact>> responseMessage = retrofit.create(Restapi.class).getContacts(authenticationProvider.getToken());
+        final PublishSubject observable = PublishSubject.create();
+
+        responseMessage.enqueue(new Callback<List<Contact>>() {
+            @Override
+            public void onResponse(retrofit2.Call<List<Contact>> call, Response<List<Contact>> response) {
+                if (response.isSuccessful()) {
+                    List<Contact> contacts = response.body();
+                    Log.v(TAG, "Fetching of contacts was successful " + response.code());
+                    observable.onNext(contacts);
+                } else {
+                    Log.e(TAG, "Fetchin of contacts was not successful! ERROR " + response.code());
+                    observable.onError(new Throwable("Fetching of contacts was not successful!"));
+                }
+            }
+
+
+            @Override
+            public void onFailure(retrofit2.Call<List<Contact>> call, Throwable t) {
+
+                Log.e(TAG, "No connection to server!");
+                observable.onError(new Throwable("No connection to server!"));
+            }
+        });
+
+        return observable;
     }
+
 
     @Override
     public Observable<String> addContacts(Contact savingsAccount) {
