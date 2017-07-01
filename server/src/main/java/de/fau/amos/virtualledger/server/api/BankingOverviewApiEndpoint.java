@@ -4,7 +4,6 @@ import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
-import de.fau.amos.virtualledger.server.auth.Secured;
 import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
 import org.slf4j.Logger;
