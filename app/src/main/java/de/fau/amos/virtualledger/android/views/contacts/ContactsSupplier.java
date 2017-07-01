@@ -97,7 +97,7 @@ public class ContactsSupplier implements de.fau.amos.virtualledger.android.views
 
     @Override
     public void update(Observable o, Object arg) {
-
+        this.onSavingsUpdated();
     }
 
     private void notifyObservers() {
