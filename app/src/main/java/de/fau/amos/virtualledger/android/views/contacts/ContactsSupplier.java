@@ -83,7 +83,10 @@ public class ContactsSupplier implements de.fau.amos.virtualledger.android.views
 
     @Override
     public void deregister(DataListening observer) {
-
+        this.dataListenings.remove(observer);
+        if (this.dataListenings.isEmpty()) {
+            this.contactsDataManager.deleteObserver(this);
+        }
     }
 
     @Override
