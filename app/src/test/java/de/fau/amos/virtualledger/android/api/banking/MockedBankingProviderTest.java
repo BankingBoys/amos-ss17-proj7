@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import io.reactivex.Observable;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,6 +32,12 @@ public class MockedBankingProviderTest {
     @Test
     public void getBankingTransactionTest() {
         Observable testObservable = mockedBankingProvider.getBankingTransactions(new ArrayList<BankAccountSync>());
+        assertThat(testObservable).isNotNull();
+    }
+
+    @Test
+    public void addBankAccessTest() {
+        Observable testObservable = mockedBankingProvider.addBankAccess(new BankAccessCredential("1","1","1"));
         assertThat(testObservable).isNotNull();
     }
 }
