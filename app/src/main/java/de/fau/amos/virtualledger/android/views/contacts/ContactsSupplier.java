@@ -44,7 +44,6 @@ public class ContactsSupplier implements de.fau.amos.virtualledger.android.views
 
     @Override
     public void onResume() {
-
     }
 
     @Override
@@ -65,6 +64,10 @@ public class ContactsSupplier implements de.fau.amos.virtualledger.android.views
     @Override
     public void update(Observable o, Object arg) {
 
+    }
+
+    private Logger logger() {
+        return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.toString() + "}");
     }
 }
 
