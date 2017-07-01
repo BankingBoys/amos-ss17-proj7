@@ -56,4 +56,6 @@ public interface Restapi {
     @GET("/api/contacts")
     Call<List<Contact>> getContacts(@Header("Authorization") String token);
 
+    @POST("/api/savings")
+    Call<Void> addContacts(@Header("Authorization") String token, @Body Contact contacts);
 }
