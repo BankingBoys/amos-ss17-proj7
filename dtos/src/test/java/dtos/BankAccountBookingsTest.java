@@ -19,14 +19,18 @@ public class BankAccountBookingsTest {
     private final String bankaccountid = "testId";
     private List<Booking> bookings;
     private BankAccountBookings accountBookings;
+    private final int earlyDate = 1990;
+    private final double lowAmount = 50.01;
+    private final int lateDate = 1990;
+    private final double highAmount = 100000.01;
 
     /**
      *
      */
     @Before
     public void setUp() {
-        Booking booking1 = new Booking(new Date(1234), 111.1);
-        Booking booking2 = new Booking(new Date(5678), 111.1);
+        Booking booking1 = new Booking(new Date(earlyDate), lowAmount);
+        Booking booking2 = new Booking(new Date(lateDate), highAmount);
         bookings = new ArrayList<>();
         bookings.add(booking1);
         bookings.add(booking2);
@@ -67,8 +71,10 @@ public class BankAccountBookingsTest {
      */
     @Test
     public void getBookingListTest() {
-        Booking booking1new = new Booking(lateDate(), 1231.1);
-        Booking booking2new = new Booking(earlyDate(), 11231.1);
+        final double lowAmount = 30.01;
+        final double highAmount = 50000.01;
+        Booking booking1new = new Booking(lateDate(), lowAmount);
+        Booking booking2new = new Booking(earlyDate(), highAmount);
         List<Booking> newBookingList = new ArrayList<>();
         newBookingList.add(booking1new);
         newBookingList.add(booking2new);
@@ -77,11 +83,13 @@ public class BankAccountBookingsTest {
     }
 
     private Date earlyDate() {
-        return new Date(124124);
+        final int earlyDate = 124124;
+        return new Date(earlyDate);
     }
 
     private Date lateDate() {
-        return new Date(555666);
+        final int lateDate = 555666;
+        return new Date(lateDate);
     }
 
 }
