@@ -5,7 +5,6 @@ import android.util.Log;
 
 import org.apache.commons.lang3.NotImplementedException;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -229,7 +228,6 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     @Override
     public void persistLoginData(Context context) {
         /*deleteSavedLoginData(context);*/
-        File loginData = new File(FILENAME);
         FileOutputStream fileOutputStream = null;
         ObjectOutputStream objectOutputStream = null;
         try {
@@ -260,7 +258,6 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public void deleteSavedLoginData(Context context) {
-        File loginData = new File(FILENAME);
         FileOutputStream fileOutputStream = null;
         ObjectOutputStream objectOutputStream = null;
         try {
@@ -291,7 +288,6 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public void tryLoadLoginData(Context context) {
-        File file = new File(FILENAME);
         FileInputStream fileInputStream = null;
         ObjectInputStream objectInputStream = null;
         try {
