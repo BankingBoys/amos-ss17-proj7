@@ -20,12 +20,13 @@ public class BankAccess {
     /**
      *
      */
-    public BankAccess() { }
+    public BankAccess() {
+    }
 
     /**
      *
      */
-    public BankAccess(String id, String name, String bankcode, String banklogin, List<BankAccount> bankaccounts ) {
+    public BankAccess(String id, String name, String bankcode, String banklogin, List<BankAccount> bankaccounts) {
         this(id, name, bankcode, banklogin);
         this.bankaccounts = bankaccounts;
     }
@@ -73,7 +74,7 @@ public class BankAccess {
      */
     public double getBalance() {
         double balance = 0;
-        for (BankAccount bankAccount: this.bankaccounts) {
+        for (BankAccount bankAccount : this.bankaccounts) {
             balance += bankAccount.getBalance();
         }
         return balance;
@@ -96,9 +97,9 @@ public class BankAccess {
     /**
      *
      */
-    public static Comparator<BankAccess> sortBankAccessByName = new Comparator<BankAccess>(){
+    public static Comparator<BankAccess> sortBankAccessByName = new Comparator<BankAccess>() {
         @Override
-		public int compare(BankAccess access1, BankAccess access2) {
+        public int compare(BankAccess access1, BankAccess access2) {
             String access1Name = access1.getName().toUpperCase(Locale.GERMAN);
             String access2Name = access2.getName().toUpperCase(Locale.GERMAN);
             return access1Name.compareTo(access2Name);
