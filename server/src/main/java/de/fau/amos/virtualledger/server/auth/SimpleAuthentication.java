@@ -9,6 +9,10 @@ import java.util.Collection;
 
 public class SimpleAuthentication implements Authentication {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private String username;
 
     public SimpleAuthentication(String username) {

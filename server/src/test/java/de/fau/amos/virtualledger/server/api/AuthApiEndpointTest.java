@@ -1,5 +1,23 @@
 package de.fau.amos.virtualledger.server.api;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.security.Principal;
+
+import org.eclipse.persistence.jpa.jpql.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import de.fau.amos.virtualledger.dtos.LoginData;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
@@ -9,22 +27,6 @@ import de.fau.amos.virtualledger.server.auth.SimpleAuthentication;
 import de.fau.amos.virtualledger.server.auth.VirtualLedgerAuthenticationException;
 import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.model.UserCredential;
-import org.eclipse.persistence.jpa.jpql.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-
-import java.security.Principal;
-
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
 
 
 @RunWith(MockitoJUnitRunner.class)

@@ -32,7 +32,7 @@ public class UserCredentialRepository {
 
     @Autowired
     public UserCredentialRepository(EntityManagerFactoryProvider entityManagerFactoryProvider) {
-        this.entityManagerFactory = entityManagerFactoryProvider.getEntityManagerFactory();
+        this.setEntityManagerFactory(entityManagerFactoryProvider.getEntityManagerFactory());
     }
 
     protected UserCredentialRepository() {
@@ -166,5 +166,9 @@ public class UserCredentialRepository {
         } finally {
             entityManager.close();
         }
+    }
+
+    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
     }
 }

@@ -49,22 +49,22 @@ public class AuthenticationController {
             throw new VirtualLedgerAuthenticationException(
                     "Please check your inserts! At least one was not formatted correctly!");
         }
-        if (this.userCredentialRepository.existsUserCredentialEmail(credential.getEmail())) {
+        if (this.getUserCredentialRepository().existsUserCredentialEmail(credential.getEmail())) {
             throw new VirtualLedgerAuthenticationException("There already exists an account with this Email address.");
         }
-        this.bankingApiFacade.createUser(credential.getEmail());
-        this.userCredentialRepository.createUserCredential(credential);
+        this.getBankingApiFacade().createUser(credential.getEmail());
+        this.getUserCredentialRepository().createUserCredential(credential);
 
         return "You were registered! " + credential.getEmail();
     }
 
     public SessionData login(final LoginData loginData) throws InvalidCredentialsException {
-        final boolean valid = userCredentialRepository.checkLogin(loginData);
+        final boolean valid = getUserCredentialRepository().checkLogin(loginData);
         if (!valid) {
             throw new InvalidCredentialsException();
         }
-        final String sessionId = sessionIdGenerator.generate();
-        userCredentialRepository.persistSessionId(loginData.getEmail(), sessionId);
+        final String sessionId = getSessionIdGenerator().generate();
+        getUserCredentialRepository().persistSessionId(loginData.getEmail(), sessionId);
 
         final SessionData result = new SessionData();
         result.setEmail(loginData.getEmail());
@@ -73,6 +73,30 @@ public class AuthenticationController {
     }
 
     public void logout(final String email) {
-        userCredentialRepository.deleteSessionIdsByEmail(email);
+        getUserCredentialRepository().deleteSessionIdsByEmail(email);
+    }
+
+    public UserCredentialRepository getUserCredentialRepository() {
+        return userCredentialRepository;
+    }
+
+    public void setUserCredentialRepository(UserCredentialRepository userCredentialRepository) {
+        this.userCredentialRepository = userCredentialRepository;
+    }
+
+    public SessionIdGenerator getSessionIdGenerator() {
+        return sessionIdGenerator;
+    }
+
+    public void setSessionIdGenerator(SessionIdGenerator sessionIdGenerator) {
+        this.sessionIdGenerator = sessionIdGenerator;
+    }
+
+    public BankingApiFacade getBankingApiFacade() {
+        return bankingApiFacade;
+    }
+
+    public void setBankingApiFacade(BankingApiFacade bankingApiFacade) {
+        this.bankingApiFacade = bankingApiFacade;
     }
 }
