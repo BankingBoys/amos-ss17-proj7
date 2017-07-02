@@ -302,7 +302,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
             fileInputStream.close();
 
             // TODO: refactor savedSession to contain username + password!
-            if (savedSession.getEmail() == null || savedSession.getEmail().isEmpty() || savedSession.getSessionid() == null || savedSession.getSessionid().isEmpty()) {
+            if (nullOrEmpty(savedSession.getEmail())|| nullOrEmpty(savedSession.getSessionid())) {
                 throw new ClassNotFoundException("One of the loaded parameters was null or empty!");
             }
 
@@ -326,6 +326,10 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
                 Log.e(TAG, "Error while closing streams" + e.getMessage());
             }
         }
+    }
+
+    private boolean nullOrEmpty(String str){
+        return str == null || str.isEmpty();
     }
 
 }
