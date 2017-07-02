@@ -6,6 +6,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import de.fau.amos.virtualledger.android.dagger.component.NetComponentScope;
+import de.fau.amos.virtualledger.android.dagger.component.OidcAuthenticationScope;
 
 /**
  * Created by Simon on 07.05.2017. taken from https://adityaladwa.wordpress.com/2016/05/09/
