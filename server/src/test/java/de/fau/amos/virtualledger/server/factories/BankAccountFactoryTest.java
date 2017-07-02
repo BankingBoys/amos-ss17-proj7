@@ -15,17 +15,20 @@ import java.util.List;
  */
 public class BankAccountFactoryTest {
 
-    BankAccountFactory bankAccountFactory;
+    private BankAccountFactory bankAccountFactory;
+    private static final double DELTA = 0.01;
 
     @Before
-    public void setup() { bankAccountFactory = new BankAccountFactory(); }
+    public void setup() {
+        bankAccountFactory = new BankAccountFactory();
+    }
 
     @Test
-    public void create_success() {
+    public void createSuccess() {
         // SETUP
-        double amount = 123.22;
+        final double testAmount = 123.22;
         BankAccountBalanceBankingModel bankAccountBalanceBankingModel = new BankAccountBalanceBankingModel();
-        bankAccountBalanceBankingModel.setReadyHbciBalance(amount);
+        bankAccountBalanceBankingModel.setReadyHbciBalance(testAmount);
 
         String accessId = "accessID";
         String accountId = "accountId";
@@ -43,15 +46,16 @@ public class BankAccountFactoryTest {
         Assert.assertNotNull(bankAccount);
         Assert.assertEquals(accountId, bankAccount.getBankid());
         Assert.assertEquals(type, bankAccount.getName());
-        Assert.assertEquals(amount, bankAccount.getBalance(), 0.01);
+        Assert.assertEquals(testAmount, bankAccount.getBalance(), DELTA);
     }
 
     @Test
-    public void createList_success() {
+    public void createListSuccess() {
         // SETUP
-        double amount = 123.22;
+        final double testAmount = 123.22;
+        final int bankAccountActualSize = 1;
         BankAccountBalanceBankingModel bankAccountBalanceBankingModel = new BankAccountBalanceBankingModel();
-        bankAccountBalanceBankingModel.setReadyHbciBalance(amount);
+        bankAccountBalanceBankingModel.setReadyHbciBalance(testAmount);
 
         String accessId = "accessID";
         String accountId = "accountId";
@@ -70,9 +74,9 @@ public class BankAccountFactoryTest {
 
         // ASSERT
         Assert.assertNotNull(bankAccounts);
-        Assert.assertEquals(bankAccounts.size(), 1);
+        Assert.assertEquals(bankAccounts.size(), bankAccountActualSize);
         Assert.assertEquals(accountId, bankAccounts.get(0).getBankid());
         Assert.assertEquals(type, bankAccounts.get(0).getName());
-        Assert.assertEquals(amount, bankAccounts.get(0).getBalance(), 0.01);
+        Assert.assertEquals(testAmount, bankAccounts.get(0).getBalance(), DELTA);
     }
 }
