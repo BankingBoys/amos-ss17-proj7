@@ -18,17 +18,17 @@ import de.fau.amos.virtualledger.dtos.Booking;
 
 public class BankAccountSyncResultTest {
 
-    private final int earlyDate = 123123;
-    private final int middleDate = 555555;
-    private final int lateDate = 999999;
-    private final double lowAmount = 111.1;
-    private final double middleAmount = 555.1;
-    private final double highAmount = 999.1;
+    private static final int EARLY_DATE = 123123;
+    private static final int MIDDLE_DATE = 555555;
+    private static final int LATE_DATE = 999999;
+    private static final double LOW_AMOUNT = 111.1;
+    private static final double MIDDLE_AMOUNT = 555.1;
+    private static final double HIGH_AMOUNT = 999.1;
     private List<BankAccountBookings> bankAccountBookingsList;
     private List<Booking> bookings = new ArrayList<>();
-    private Booking booking1 = new Booking(new Date(earlyDate), lowAmount);
-    private Booking booking2 = new Booking(new Date(middleDate), middleAmount);
-    private Booking booking3 = new Booking(new Date(lateDate), highAmount);
+    private Booking booking1 = new Booking(new Date(EARLY_DATE), LOW_AMOUNT);
+    private Booking booking2 = new Booking(new Date(MIDDLE_DATE), MIDDLE_AMOUNT);
+    private Booking booking3 = new Booking(new Date(LATE_DATE), HIGH_AMOUNT);
     private BankAccountBookings bankAccountBookings1;
     private BankAccountBookings bankAccountBookings2;
     private BankAccountBookings bankAccountBookings3;
