@@ -59,4 +59,17 @@ public class ContactsFragment extends Fragment implements DataListening {
     private Logger logger() {
         return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.toString() + "}");
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.contactSupplier.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.contactSupplier.onResume();
+    }
+
 }
