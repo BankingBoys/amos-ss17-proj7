@@ -1,22 +1,50 @@
 package de.fau.amos.virtualledger.server.model;
 
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Table(name="SavingsAccountUser")
+@Table(name = "SavingsAccountUser")
 public class SavingsAccountToUser {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
-    public String email;
-    public int id_savingsaccount;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String email;
+    private int idSavingsaccount;
 
-    public SavingsAccountToUser(String email, int id_savingsaccount) {
-        this.email = email;
-        this.id_savingsaccount = id_savingsaccount;
+    public SavingsAccountToUser(String email, int idSavingsaccount) {
+        this.setEmail(email);
+        this.setIdSavingsaccount(idSavingsaccount);
     }
 
     public SavingsAccountToUser() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getIdSavingsaccount() {
+        return this.idSavingsaccount;
+    }
+
+    public void setIdSavingsaccount(int idSavingsaccount) {
+        this.idSavingsaccount = idSavingsaccount;
     }
 }

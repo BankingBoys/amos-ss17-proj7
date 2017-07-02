@@ -12,9 +12,9 @@ public class DeletedBankAccountFactory {
     public DeletedBankAccount createDeletedBankAccount(String email, String bankAccessId, String bankAccountId)
     {
         DeletedBankAccount deletedBankAccount = new DeletedBankAccount();
-        deletedBankAccount.userEmail = email;
-        deletedBankAccount.bankAccessId = bankAccessId;
-        deletedBankAccount.bankAccountId = bankAccountId;
+        deletedBankAccount.setUserEmail(email);
+        deletedBankAccount.setBankAccessId(bankAccessId);
+        deletedBankAccount.setBankAccountId(bankAccountId);
 
         return deletedBankAccount;
     }

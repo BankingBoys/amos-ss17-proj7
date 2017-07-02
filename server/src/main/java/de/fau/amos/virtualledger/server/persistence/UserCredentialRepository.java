@@ -32,7 +32,7 @@ public class UserCredentialRepository {
 
     @Autowired
     public UserCredentialRepository(EntityManagerFactoryProvider entityManagerFactoryProvider) {
-        this.entityManagerFactory = entityManagerFactoryProvider.getEntityManagerFactory();
+        this.setEntityManagerFactory(entityManagerFactoryProvider.getEntityManagerFactory());
     }
 
     protected UserCredentialRepository() {
@@ -106,8 +106,8 @@ public class UserCredentialRepository {
     public void persistSessionId(final String email, final String sessionId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         final Session session = new Session();
-        session.email = email;
-        session.sessionId = sessionId;
+        session.setEmail(email);
+        session.setSessionId(sessionId);
 
         try {
             final EntityTransaction entityTransaction = entityManager.getTransaction();
@@ -162,9 +162,13 @@ public class UserCredentialRepository {
                 throw new InvalidCredentialsException();
             }
             final Session session = (Session) resultList.get(0);
-            return session.email;
+            return session.getEmail();
         } finally {
             entityManager.close();
         }
+    }
+
+    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
     }
 }

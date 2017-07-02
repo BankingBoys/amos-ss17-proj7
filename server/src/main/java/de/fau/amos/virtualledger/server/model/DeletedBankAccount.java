@@ -14,15 +14,46 @@ public class DeletedBankAccount {
 
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
+    private int id;
 
-    public String userEmail;
+    private String userEmail;
 
-    public String bankAccessId;
+    private String bankAccessId;
 
-    public String bankAccountId;
-
+    private String bankAccountId;
 
     public DeletedBankAccount() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getBankAccessId() {
+        return bankAccessId;
+    }
+
+    public void setBankAccessId(String bankAccessId) {
+        this.bankAccessId = bankAccessId;
+    }
+
+    public String getBankAccountId() {
+        return bankAccountId;
+    }
+
+    public void setBankAccountId(String bankAccountId) {
+        this.bankAccountId = bankAccountId;
     }
 }

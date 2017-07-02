@@ -65,8 +65,8 @@ public class SavingsApiEndpoint {
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);
         }
-        if (savingsAccount == null || savingsAccount.name == null || savingsAccount.name.isEmpty()
-                || savingsAccount.finaldate == null) {
+        if (savingsAccount == null || savingsAccount.getName() == null || savingsAccount.getName().isEmpty()
+                || savingsAccount.getFinaldate() == null) {
             return new ResponseEntity<>(
                     "Please check your inserted values. None of the parameters must be null or empty except id. Id must not been set!",
                     HttpStatus.BAD_REQUEST);

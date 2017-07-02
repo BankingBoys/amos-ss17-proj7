@@ -91,7 +91,7 @@ public class UserCredentialRepositoryTest {
 		when(queryMock.getResultList()).thenReturn(dbResponse);
 		when(entityMangerMock.createQuery(anyString())).thenReturn(queryMock);
 		when(entityManagerFactoryMock.createEntityManager()).thenReturn(entityMangerMock);
-		component_under_test.entityManagerFactory = entityManagerFactoryMock;
+		component_under_test.setEntityManagerFactory(entityManagerFactoryMock);
 	}
 
 	private LoginData loginData() {
