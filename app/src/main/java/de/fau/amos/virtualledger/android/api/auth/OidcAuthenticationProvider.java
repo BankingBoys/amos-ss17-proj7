@@ -301,12 +301,15 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
             objectInputStream.close();
             fileInputStream.close();
 
+            // TODO: refactor savedSession to contain username + password!
             if (savedSession.getEmail() == null || savedSession.getEmail().isEmpty() || savedSession.getSessionid() == null || savedSession.getSessionid().isEmpty()) {
                 throw new ClassNotFoundException("One of the loaded parameters was null or empty!");
             }
 
             this.currentUsername = savedSession.getEmail();
             this.currentPassword = savedSession.getSessionid();
+            // TODO maybe change to Observable because it is async now
+            login(currentUsername, currentPassword);
         } catch (IOException e) {
             Log.e(TAG, "Error in reading persisted login data: " + e.getMessage());
         } catch (ClassNotFoundException e) {

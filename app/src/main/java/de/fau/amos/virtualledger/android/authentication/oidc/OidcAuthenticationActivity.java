@@ -57,6 +57,11 @@ public class OidcAuthenticationActivity extends AppCompatActivity {
 
         setContentView(R.layout.authentication_activity_login);
         ButterKnife.bind(this);
+
+        authenticationProvider.tryLoadLoginData(this);
+        if (authenticationProvider.isLoggedIn()) {
+            executeNextActivityMenu();
+        }
     }
 
     @OnClick(R.id.loginButton)
