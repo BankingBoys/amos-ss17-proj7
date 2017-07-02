@@ -10,7 +10,7 @@ import org.junit.Test;
  */
 public class DeletedBankAccountFactoryTest {
 
-    DeletedBankAccountFactory deletedBankAccountFactory;
+    private DeletedBankAccountFactory deletedBankAccountFactory;
 
     @Before
     public void setup() {
@@ -18,7 +18,7 @@ public class DeletedBankAccountFactoryTest {
     }
 
     @Test
-    public void create_successful() {
+    public void createSuccessful() {
         // SETUP
         String testEmail = "email";
         String accountId = "accountId";
