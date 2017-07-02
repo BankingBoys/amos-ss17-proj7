@@ -74,7 +74,7 @@ public class AuthApiEndpoint {
      * Endpoint for logging out. User must be authenticated.
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST, value = "api/auth/logout", produces = "application/json", consumes = "application/json")
+    @RequestMapping(method = RequestMethod.POST, value = "api/auth/logout", produces = "application/json")
     public ResponseEntity<?> logoutEndpoint() {
         KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = principal.getKeycloakSecurityContext().getToken().getEmail();

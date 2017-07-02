@@ -101,7 +101,7 @@ public class BankingOverviewApiEndpoint {
      * @param bankAccessId
      * @return
      */
-    @RequestMapping(method = RequestMethod.DELETE, value = "api/banking/{accessId}", produces = "application/json", consumes = "application/json")
+    @RequestMapping(method = RequestMethod.DELETE, value = "api/banking/{accessId}", produces = "application/json")
     public ResponseEntity<?> deleteBankAccessEndpoint(@PathVariable("accessId") String bankAccessId) {
         KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = principal.getKeycloakSecurityContext().getToken().getEmail();
@@ -127,7 +127,7 @@ public class BankingOverviewApiEndpoint {
      * @param bankAccountId
      * @return
      */
-    @RequestMapping(method = RequestMethod.DELETE, value = "api/banking/{accessId}/{accountId}", produces = "application/json", consumes = "application/json")
+    @RequestMapping(method = RequestMethod.DELETE, value = "api/banking/{accessId}/{accountId}", produces = "application/json")
     public ResponseEntity<?> deleteBankAccountEndpoint(@PathVariable("accessId") String bankAccessId,
             @PathVariable("accountId") String bankAccountId) {
         KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
