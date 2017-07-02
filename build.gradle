@@ -10,6 +10,16 @@ allprojects {
             html.enabled true
         }
     }
+    apply plugin: 'checkstyle'
+    tasks.withType(Checkstyle) {
+        reports {
+            xml.enabled false
+            html.enabled true
+	}
+    }
+    checkstyle{
+	toolVersion = '6.7'
+    }
 
     repositories {
         mavenCentral()

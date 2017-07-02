@@ -7,7 +7,7 @@ public class Booking {
     private Date date;
     private double amount;
 
-    //TODO change when adorsys fixed their api
+    // TODO change when adorsys fixed their api
     private String usage = "Test Usage";
 
     public Booking(Date date, double amount) {
@@ -45,6 +45,6 @@ public class Booking {
 
     @Override
     public String toString() {
-        return super.toString()+"{"+date+" "+amount+"}";
+        return super.toString() + "{" + date + " " + amount + "}";
     }
 }
