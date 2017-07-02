@@ -31,6 +31,8 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     private OidcData oidcData = null;
     private Date lastRefresh = null;
 
+    private String currentUsername;
+    private String currentPassword;
 
     public OidcAuthenticationProvider(Retrofit retrofit) {
         this.retrofit = retrofit;
@@ -43,7 +45,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public Observable<String> login(String username, String password) {
+    public Observable<String> login(final String username, final String password) {
         retrofit2.Call<OidcData> responseMessage = retrofit.create(KeycloakApi.class).login(username, password, CLIENT_ID, GRANT_TYPE_LOGIN);
         final PublishSubject observable = PublishSubject.create();
 
@@ -55,6 +57,8 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
                     oidcData = response.body();
                     lastRefresh = new Date();
                     observable.onNext("Login was successful!");
+                    currentUsername = username;
+                    currentPassword = password;
                 } else {
                     Log.e(TAG, "Login was not successful!");
                     observable.onError(new Throwable("Login was not successful!"));
