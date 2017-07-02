@@ -29,7 +29,7 @@ public class DeletedBankAccessFactoryTest {
 
         // ASSERT
         Assert.assertNotNull(deletedBankAccess);
-        Assert.assertEquals(testEmail, deletedBankAccess.userEmail);
-        Assert.assertEquals(accessId, deletedBankAccess.bankAccessId);
+        Assert.assertEquals(testEmail, deletedBankAccess.getUserEmail());
+        Assert.assertEquals(accessId, deletedBankAccess.getBankAccessId());
     }
 }

@@ -12,8 +12,8 @@ public class DeletedBankAccessFactory {
     public DeletedBankAccess createDeletedBankAccess(String email, String bankAccessId)
     {
         DeletedBankAccess deletedBankAccess = new DeletedBankAccess();
-        deletedBankAccess.userEmail = email;
-        deletedBankAccess.bankAccessId = bankAccessId;
+        deletedBankAccess.setUserEmail(email);
+        deletedBankAccess.setBankAccessId(bankAccessId);
 
         return deletedBankAccess;
     }

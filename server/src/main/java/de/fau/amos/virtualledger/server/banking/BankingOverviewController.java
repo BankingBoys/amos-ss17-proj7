@@ -194,7 +194,7 @@ public class BankingOverviewController {
         List<BankAccess> foundBankAccesses = new ArrayList<BankAccess>();
         for (DeletedBankAccess deletedAccess : deletedAccessList) {
             for (BankAccess bankAccess : bankAccessList) {
-                if (bankAccess.getId().equals(deletedAccess.bankAccessId)) {
+                if (bankAccess.getId().equals(deletedAccess.getBankAccessId())) {
                     foundBankAccesses.add(bankAccess);
                 }
             }
@@ -235,7 +235,7 @@ public class BankingOverviewController {
     private void filterBankAccountSyncWithDeleted(String email, List<BankAccountSync> bankAccountSyncList) {
         List<DeletedBankAccess> deletedAccessList = deletedBankAccessesRepository.getDeletedBankAccessIdsByEmail(email);
         for (DeletedBankAccess deletedBankAccess : deletedAccessList) {
-            bankAccountSyncList.removeIf(x -> x.getBankaccessid().equals(deletedBankAccess.bankAccessId));
+            bankAccountSyncList.removeIf(x -> x.getBankaccessid().equals(deletedBankAccess.getBankAccessId()));
         }
 
         // use iterator, so we can modify List while iterating over it
