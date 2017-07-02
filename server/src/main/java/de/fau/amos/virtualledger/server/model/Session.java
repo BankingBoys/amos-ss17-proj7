@@ -16,7 +16,7 @@ public class Session {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
+    private int id;
 
     public String getEmail() {
         return this.email;
@@ -32,5 +32,13 @@ public class Session {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

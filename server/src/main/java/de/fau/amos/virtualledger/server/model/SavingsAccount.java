@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="SavingsAccounts")
+@Table(name = "SavingsAccounts")
 public class SavingsAccount {
 
     @Id
@@ -20,7 +20,8 @@ public class SavingsAccount {
     private double currentbalance;
     private Date finaldate;
 
-    public SavingsAccount() {}
+    public SavingsAccount() {
+    }
 
     public SavingsAccount(int id, String name, double goalbalance, double currentbalance, Date finaldate) {
         this.setId(id);

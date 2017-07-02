@@ -217,7 +217,7 @@ public class BankingOverviewController {
         List<BankAccount> foundBankAccounts = new ArrayList<BankAccount>();
         for (DeletedBankAccount deletedAccount : deletedAccountList) {
             for (BankAccount bankAccount : bankAccountList) {
-                if (bankAccount.getBankid().equals(deletedAccount.bankAccountId)) {
+                if (bankAccount.getBankid().equals(deletedAccount.getBankAccountId())) {
                     foundBankAccounts.add(bankAccount);
                 }
             }
@@ -245,7 +245,7 @@ public class BankingOverviewController {
             List<DeletedBankAccount> deletedAccountList = deletedBankAccountRepository
                     .getDeletedBankAccountIdsByEmailAndAccessId(email, bankAccountSync.getBankaccessid());
             for (DeletedBankAccount deletedBankAccount : deletedAccountList) {
-                if (deletedBankAccount.bankAccountId.equals(bankAccountSync.getBankaccountid())) {
+                if (deletedBankAccount.getBankAccountId().equals(bankAccountSync.getBankaccountid())) {
                     iterator.remove();
                 }
             }

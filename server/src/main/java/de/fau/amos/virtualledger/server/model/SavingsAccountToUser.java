@@ -1,20 +1,24 @@
 package de.fau.amos.virtualledger.server.model;
 
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Table(name="SavingsAccountUser")
+@Table(name = "SavingsAccountUser")
 public class SavingsAccountToUser {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String email;
     private int idSavingsaccount;
 
     public SavingsAccountToUser(String email, int idSavingsaccount) {
         this.setEmail(email);
-        this.setId_savingsaccount(idSavingsaccount);
+        this.setIdSavingsaccount(idSavingsaccount);
     }
 
     public SavingsAccountToUser() {
@@ -36,11 +40,11 @@ public class SavingsAccountToUser {
         this.email = email;
     }
 
-    public int getId_savingsaccount() {
+    public int getIdSavingsaccount() {
         return this.idSavingsaccount;
     }
 
-    public void setId_savingsaccount(int id_savingsaccount) {
-        this.idSavingsaccount = id_savingsaccount;
+    public void setIdSavingsaccount(int idSavingsaccount) {
+        this.idSavingsaccount = idSavingsaccount;
     }
 }

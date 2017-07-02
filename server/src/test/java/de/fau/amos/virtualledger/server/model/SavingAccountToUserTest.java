@@ -21,6 +21,6 @@ public class SavingAccountToUserTest {
         SavingsAccountToUser testAccount = new SavingsAccountToUser(testEmail, savingsAccount);
         Assertions.assertThat(testAccount).isNotNull();
         Assertions.assertThat(testAccount.getEmail()).isEqualTo(testEmail);
-        Assertions.assertThat(testAccount.getId_savingsaccount()).isEqualTo(savingsAccount);
+        Assertions.assertThat(testAccount.getIdSavingsaccount()).isEqualTo(savingsAccount);
     }
 }
