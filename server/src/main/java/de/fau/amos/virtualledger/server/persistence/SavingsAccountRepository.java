@@ -41,7 +41,7 @@ public class SavingsAccountRepository {
                 entityTransaction.begin();
                 entityManager.persist(savingsAccount);
                 entityManager.flush();
-                entityManager.persist(new SavingsAccountToUser(email, savingsAccount.id));
+                entityManager.persist(new SavingsAccountToUser(email, savingsAccount.getId()));
                 entityTransaction.commit();
             } catch (EntityExistsException entityExistsException) {
                 LOGGER.info("Entity already exists: " + savingsAccount);
