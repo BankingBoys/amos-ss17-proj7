@@ -48,11 +48,11 @@ public class DummyBankAccessEndpointTest {
         BankAccessBankingModel bankAccessBankingModel = new BankAccessBankingModel();
         bankAccessBankingModel.setUserId(testUser);
 
-        DummyBankAccessEndpointTestMembersTest dummyBankAccessEndpoint = new DummyBankAccessEndpointTestMembersTest();
+        DummyBankAccessEndpoint dummyBankAccessEndpoint = new DummyBankAccessEndpoint();
 
         // ACT
         dummyBankAccessEndpoint.addBankAccess(testUser, bankAccessBankingModel);
-        List<BankAccessBankingModel> bankAccessBankingModelList = dummyBankAccessEndpoint.getList();
+        List<BankAccessBankingModel> bankAccessBankingModelList = dummyBankAccessEndpoint.getBankAccesses(null);
 
         assertNotNull(bankAccessBankingModelList);
         assertEquals(bankAccessBankingModelList.size(), 1);
@@ -66,10 +66,4 @@ public class DummyBankAccessEndpointTest {
         assertTrue(exists_post_change);
     }
 
-    private class DummyBankAccessEndpointTestMembersTest extends DummyBankAccessEndpoint {
-
-        public List<BankAccessBankingModel> getList() {
-            return super.bankingModels;
-        }
-    }
 }
