@@ -6,8 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class VirtualLedgerJettyApplication {
 
-	public static void main(String[] args) throws Exception {
-		SpringApplication.run(VirtualLedgerJettyApplication.class, args);
-	}
+    private VirtualLedgerJettyApplication() {
+    }
 
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(VirtualLedgerJettyApplication.class, args);
+    }
 }
