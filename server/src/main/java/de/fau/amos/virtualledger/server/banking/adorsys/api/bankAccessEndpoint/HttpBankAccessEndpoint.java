@@ -50,11 +50,11 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
             throw new BankingException("No connection to Adorsys Server!");
         }
         BankAccessJSONBankingModel reponseModel = response.readEntity(BankAccessJSONBankingModel.class);
-        if (reponseModel == null || reponseModel.get_embedded() == null) {
+        if (reponseModel == null || reponseModel.getEmbedded() == null) {
             LOGGER.info("No access found!");
             return new ArrayList<BankAccessBankingModel>();
         }
-        List<BankAccessBankingModel> result = reponseModel.get_embedded().getBankAccessEntityList();
+        List<BankAccessBankingModel> result = reponseModel.getEmbedded().getBankAccessEntityList();
         return result;
     }
 
