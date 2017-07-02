@@ -28,16 +28,6 @@ public class BookingTest {
      *
      */
     @Test
-    public void constructorTest() {
-        Assert.assertNotNull(booking);
-        Booking booking2 = new Booking();
-        Assert.assertNotNull(booking2);
-    }
-
-    /**
-     *
-     */
-    @Test
     public void setAndGetDateTest() {
         Date newDate = new Date(20170505);
         booking.setDate(newDate);
