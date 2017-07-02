@@ -10,5 +10,5 @@ import javax.inject.Scope;
  */
 @Scope
 @Retention(RetentionPolicy.RUNTIME)
-public @interface OidcAuthenticationScope {
+public @interface NetComponentScope {
 }

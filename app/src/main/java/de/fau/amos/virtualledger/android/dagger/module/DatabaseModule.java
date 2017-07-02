@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import de.fau.amos.virtualledger.android.dagger.component.NetComponentScope;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 
 /**
@@ -15,7 +16,7 @@ import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 public class DatabaseModule {
 
     @Provides
-    @Singleton
+    @NetComponentScope
     BankAccessCredentialDB provideBankAccessCredentialDB(Application application) {
         return new BankAccessCredentialDB(application);
     }
