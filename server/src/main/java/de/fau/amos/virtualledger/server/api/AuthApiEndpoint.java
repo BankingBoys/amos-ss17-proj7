@@ -27,35 +27,43 @@ import java.security.Principal;
  */
 @RestController
 public class AuthApiEndpoint {
-    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    AuthenticationController authenticationController;
-    StringApiModelFactory stringApiModelFactory;
+    private AuthenticationController authenticationController;
+    private StringApiModelFactory stringApiModelFactory;
 
     @Autowired
-    public AuthApiEndpoint(AuthenticationController authenticationController, StringApiModelFactory stringApiModelFactory) {
+    public AuthApiEndpoint(AuthenticationController authenticationController,
+            StringApiModelFactory stringApiModelFactory) {
         this.authenticationController = authenticationController;
         this.stringApiModelFactory = stringApiModelFactory;
     }
-    protected AuthApiEndpoint() { }
 
+    protected AuthApiEndpoint() {
+    }
 
     /**
-     * Endpoint for registering a new user. Parameters must not be null or empty, id has to be null or 0.
+     * Endpoint for registering a new user. Parameters must not be null or
+     * empty, id has to be null or 0.
      * @param credential
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST, value =  "api/auth/register", produces = "application/json", consumes = "application/json")
+    @RequestMapping(method = RequestMethod.POST, value = "api/auth/register", produces = "application/json", consumes = "application/json")
     public ResponseEntity<?> registerEndpoint(@RequestBody UserCredential credential) {
-    	if(credential.getEmail() == null || credential.getEmail().isEmpty() ||
-                credential.getPassword() == null || credential.getPassword().isEmpty() ||
-                credential.getFirstname() == null || credential.getFirstname().isEmpty() ||
-                credential.getLastname() == null || credential.getLastname().isEmpty() ||
-                credential.getId() != 0)
-        {
-            return new ResponseEntity<>("Please check your inserted values. None of the parameters must be null or empty, id has to be 0.", HttpStatus.BAD_REQUEST);
+        if (credential.getEmail() == null//
+                || credential.getEmail().isEmpty()//
+                || credential.getPassword() == null//
+                || credential.getPassword().isEmpty()//
+                || credential.getFirstname() == null//
+                || credential.getFirstname().isEmpty()//
+                || credential.getLastname() == null//
+                || credential.getLastname().isEmpty()//
+                || credential.getId() != 0) {
+            return new ResponseEntity<>(
+                    "Please check your inserted values. None of the parameters must be null or empty, id has to be 0.",
+                    HttpStatus.BAD_REQUEST);
         }
-        logger.info("Registration for " + credential.getEmail() + " was requested.");
+        LOGGER.info("Registration for " + credential.getEmail() + " was requested.");
 
         return this.register(credential);
     }
@@ -65,14 +73,15 @@ public class AuthApiEndpoint {
      * @param loginData
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST, value =  "api/auth/login", produces = "application/json", consumes = "application/json")
+    @RequestMapping(method = RequestMethod.POST, value = "api/auth/login", produces = "application/json", consumes = "application/json")
     public ResponseEntity<?> loginEndpoint(@RequestBody LoginData loginData) {
-        if(loginData.getEmail() == null || loginData.getEmail().isEmpty() ||
-                loginData.getPassword() == null || loginData.getPassword().isEmpty())
-        {
-            return new ResponseEntity<>("Please check your inserted values. None of the parameters must be null or empty.", HttpStatus.BAD_REQUEST);
+        if (loginData.getEmail() == null || loginData.getEmail().isEmpty() || loginData.getPassword() == null
+                || loginData.getPassword().isEmpty()) {
+            return new ResponseEntity<>(
+                    "Please check your inserted values. None of the parameters must be null or empty.",
+                    HttpStatus.BAD_REQUEST);
         }
-        logger.info("Login of "+ loginData.getEmail() +" was requested.");
+        LOGGER.info("Login of " + loginData.getEmail() + " was requested.");
         return this.login(loginData);
     }
 
@@ -80,35 +89,29 @@ public class AuthApiEndpoint {
      * Endpoint for logging out. User must be authenticated.
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST, value =  "api/auth/logout", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> logoutEndpoint()
-    {
+    @RequestMapping(method = RequestMethod.POST, value = "api/auth/logout", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<?> logoutEndpoint() {
         String username = ((Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getName();
-        if(username == null || username.isEmpty())
-        {
+        if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);
         }
-        logger.info("Logout of " + username + " was requested");
+        LOGGER.info("Logout of " + username + " was requested");
 
         return this.logout(username);
     }
 
-
     /**
-     * Does the logic operation for registering the user.
-     * Also does exception handling.
+     * Does the logic operation for registering the user. Also does exception
+     * handling.
      * @param credential
      * @return a response with status code depending on result
      */
-    private ResponseEntity<?> register(UserCredential credential)
-    {
+    private ResponseEntity<?> register(UserCredential credential) {
         String responseMsg;
-        try
-        {
+        try {
             responseMsg = authenticationController.register(credential);
-        } catch(VirtualLedgerAuthenticationException ex)
-        {
-            logger.error("", ex);
+        } catch (VirtualLedgerAuthenticationException ex) {
+            LOGGER.error("", ex);
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
         StringApiModel responseObj = stringApiModelFactory.createStringApiModel(responseMsg);
@@ -116,18 +119,17 @@ public class AuthApiEndpoint {
     }
 
     /**
-     * Does the logic operation for logging in a user.
-     * Also does exception handling.
+     * Does the logic operation for logging in a user. Also does exception
+     * handling.
      * @param loginData
      * @return
      */
-    private ResponseEntity<?> login(LoginData loginData)
-    {
+    private ResponseEntity<?> login(LoginData loginData) {
         final SessionData sessionData;
         try {
             sessionData = authenticationController.login(loginData);
         } catch (InvalidCredentialsException ex) {
-            logger.error("", ex);
+            LOGGER.error("", ex);
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(sessionData, HttpStatus.OK);
@@ -138,9 +140,9 @@ public class AuthApiEndpoint {
      * @param username
      * @return
      */
-    private ResponseEntity<?> logout(String username)
-    {
+    private ResponseEntity<?> logout(String username) {
         authenticationController.logout(username);
-        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel("You were logged out! " + username), HttpStatus.OK);
+        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel("You were logged out! " + username),
+                HttpStatus.OK);
     }
 }
