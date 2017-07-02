@@ -5,24 +5,24 @@ package de.fau.amos.virtualledger.dtos;
  */
 public class StringApiModel {
 
-	/**
-	 *
-	 */
-	private String data;
+    /**
+     *
+     */
+    private String data;
 
-	/**
-	 *
-	 * @return
-	 */
-	public String getData() {
-		return data;
-	}
+    /**
+     *
+     * @return
+     */
+    public String getData() {
+        return data;
+    }
 
-	/**
-	 *
-	 * @param data
-	 */
-	public void setData(String data) {
-		this.data = data;
-	}
+    /**
+     *
+     * @param data
+     */
+    public void setData(String data) {
+        this.data = data;
+    }
 }
