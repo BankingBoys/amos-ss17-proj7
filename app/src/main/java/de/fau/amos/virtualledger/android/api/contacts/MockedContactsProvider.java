@@ -20,18 +20,12 @@ public class MockedContactsProvider implements ContactsProvider {
 
         final List<Contact> contactsList = new ArrayList<>();
 
-        Contact contact= new Contact("dummyEmail", "Gustav", "Gans");
-        Contact contact2 = new Contact("dummyEmail2", "Tick", "Gans");
-        Contact contact3 = new Contact("dummyEmail3", "Donald", "Duck");
-        Contact contact4 = new Contact("dummyEmail4", "Daniel", "Düsentrieb");
-        Contact contact5 = new Contact("dummyEmail5", "Gundula", "Gause");
-        Contact contact6 = new Contact("dummyEmail6", "Primus", "vonQuack");
-        contactsList.add(contact);
-        contactsList.add(contact2);
-        contactsList.add(contact3);
-        contactsList.add(contact4);
-        contactsList.add(contact5);
-        contactsList.add(contact6);
+        contactsList.add(new Contact("dummyEmail", "Gustav", "Gans"));
+        contactsList.add(new Contact("dummyEmail2", "Tick", "Gans"));
+        contactsList.add(new Contact("dummyEmail3", "Donald", "Duck"));
+        contactsList.add(new Contact("dummyEmail4", "Daniel", "Düsentrieb"));
+        contactsList.add(new Contact("dummyEmail5", "Gundula", "Gause"));
+        contactsList.add(new Contact("dummyEmail6", "Primus", "vonQuack"));
 
 
         final PublishSubject observable = PublishSubject.create();
