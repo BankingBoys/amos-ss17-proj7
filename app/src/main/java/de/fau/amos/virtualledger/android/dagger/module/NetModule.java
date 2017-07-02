@@ -44,18 +44,10 @@ public class NetModule {
      */
     private String baseUrl;
 
-    /**
-     * @param baseUrl
-     * @methodtype constructor
-     */
     public NetModule(String baseUrl) {
         this.baseUrl = baseUrl;
     }
 
-    /**
-     * @param application
-     * @return cache
-     */
     @Provides
     Cache provideHttpCache(Application application) {
         int cacheSize = 10 * 1024 * 1024;
@@ -63,9 +55,6 @@ public class NetModule {
         return cache;
     }
 
-    /**
-     * @return Gson
-     */
     @Provides
     Gson provideGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -92,10 +81,6 @@ public class NetModule {
         return gsonBuilder.create();
     }
 
-    /**
-     * @param cache
-     * @return OkHttpClient
-     */
     @Provides
     OkHttpClient provideOkhttpClient(Cache cache) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -106,11 +91,6 @@ public class NetModule {
         return client.build();
     }
 
-    /**
-     * @param gson
-     * @param okHttpClient
-     * @return Retrofit
-     */
     @Provides
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
