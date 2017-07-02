@@ -18,20 +18,21 @@ import de.fau.amos.virtualledger.dtos.BankAccount;
 
 public class BankAccessTest {
 
+    private final int three = 3;
     private List<BankAccount> testAccountList;
     private BankAccount account1;
     private BankAccount account2;
     private BankAccess testAccess;
-    private double accountBalance1 = 100;
-    private double accountBalance2 = 300;
+    private final double bankaccountBalance = 100;
+    private final double bankaccountBalance2 = 300;
 
     /**
      *
      */
     @Before
     public void setUp() {
-        account1 = new BankAccount("123", "test1", accountBalance1);
-        account2 = new BankAccount("456", "test2", accountBalance2);
+        account1 = new BankAccount("123", "test1", bankaccountBalance);
+        account2 = new BankAccount("456", "test2", bankaccountBalance2);
         testAccountList = new ArrayList<>();
         testAccountList.add(account1);
         testAccountList.add(account2);
@@ -71,7 +72,7 @@ public class BankAccessTest {
      */
     @Test
     public void getBalanceTest() {
-        Assert.assertEquals(accountBalance1 + accountBalance2, testAccess.getBalance(), 0);
+        Assert.assertEquals(bankaccountBalance + bankaccountBalance2, testAccess.getBalance(), 0);
     }
 
     /**
@@ -126,7 +127,7 @@ public class BankAccessTest {
         Assert.assertEquals(testAccess2, listAccesses.get(0));
         Assert.assertEquals(testAccess, listAccesses.get(1));
         Assert.assertEquals(testAccess4, listAccesses.get(2));
-        Assert.assertEquals(testAccess3, listAccesses.get(3));
+        Assert.assertEquals(testAccess3, listAccesses.get(three));
     }
 
 }
