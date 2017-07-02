@@ -1,6 +1,5 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
