@@ -1,6 +1,5 @@
 package de.fau.amos.virtualledger.server.factories;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import de.fau.amos.virtualledger.server.model.DeletedBankAccount;
