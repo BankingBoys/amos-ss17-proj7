@@ -12,8 +12,9 @@ import java.util.Date;
  */
 public class BookingTest {
 
-    private Date date = new Date(19930501);
-    private double amount = 13123.3;
+    private final int lateDate = 19930501;
+    private final Date date = new Date(lateDate);
+    private final double testAmount = 13123.3;
     private Booking booking;
 
     /**
@@ -21,7 +22,7 @@ public class BookingTest {
      */
     @Before
     public void setUp() {
-        booking = new Booking(date, amount);
+        booking = new Booking(date, testAmount);
     }
 
     /**
@@ -29,7 +30,8 @@ public class BookingTest {
      */
     @Test
     public void setAndGetDateTest() {
-        Date newDate = new Date(20170505);
+        final int lateDate = 20170505;
+        final Date newDate = new Date(lateDate);
         booking.setDate(newDate);
         Assert.assertEquals(newDate, booking.getDate());
     }
@@ -39,7 +41,7 @@ public class BookingTest {
      */
     @Test
     public void setAndGetAmountTest() {
-        double newAmount = 5555;
+        final double newAmount = 5555;
         booking.setAmount(newAmount);
         Assert.assertEquals(newAmount, booking.getAmount(), 0);
     }
@@ -49,9 +51,9 @@ public class BookingTest {
      */
     @Test
     public void setAndGetUsageTest() {
-        String newTestUsage = "TestUsage2";
+        final String newTestUsage = "TestUsage2";
         booking.setUsage(newTestUsage);
-        String testUsage = booking.getUsage();
+        final String testUsage = booking.getUsage();
         Assert.assertEquals(newTestUsage, testUsage);
     }
 
