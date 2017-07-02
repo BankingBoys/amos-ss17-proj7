@@ -22,28 +22,28 @@ public class BankAccountBalanceBankingModelTest {
     }
 
     @Test
-    public void setAndGetAvailableHbciBalance() {
+    public void setAndGetAvailableHbciBalanceTest() {
         double testBalance = 5;
         testModel.setAvailableHbciBalance(testBalance);
         Assertions.assertThat(testModel.getAvailableHbciBalance()).isEqualTo(testBalance);
     }
 
     @Test
-    public void setAndGetReadyHbciBalance() {
+    public void setAndGetReadyHbciBalanceTest() {
         final double testBalance = 6;
         testModel.setReadyHbciBalance(testBalance);
         Assertions.assertThat(testModel.getReadyHbciBalance()).isEqualTo(testBalance);
     }
 
     @Test
-    public void setAndGetUnreadyHbciBalance() {
+    public void setAndGetUnreadyHbciBalanceTest() {
         final double testBalance = 7;
         testModel.setUnreadyHbciBalance(testBalance);
         Assertions.assertThat(testModel.getUnreadyHbciBalance()).isEqualTo(testBalance);
     }
 
     @Test
-    public void setAndusedHbciBalance() {
+    public void setAndGetusedHbciBalanceTest() {
         final double testBalance = 7;
         testModel.setUsedHbciBalance(testBalance);
         Assertions.assertThat(testModel.getUsedHbciBalance()).isEqualTo(testBalance);
