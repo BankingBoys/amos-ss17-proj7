@@ -9,6 +9,7 @@ import de.fau.amos.virtualledger.android.dagger.module.AppModule;
 import de.fau.amos.virtualledger.android.dagger.module.AuthenticationModule;
 import de.fau.amos.virtualledger.android.dagger.module.BankingDataModule;
 import de.fau.amos.virtualledger.android.dagger.module.BankingModule;
+import de.fau.amos.virtualledger.android.dagger.module.ContactsDataModule;
 import de.fau.amos.virtualledger.android.dagger.module.ContactsModule;
 import de.fau.amos.virtualledger.android.dagger.module.DatabaseModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
@@ -36,7 +37,7 @@ import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOv
  */
 
 @Singleton
-@Component(modules = {AppModule.class, NetModule.class, AuthenticationModule.class, BankingModule.class, DatabaseModule.class, BankingDataModule.class, SavingsModule.class, SavingsAccountsDataModule.class, ContactsModule.class})
+@Component(modules = {AppModule.class, NetModule.class, AuthenticationModule.class, BankingModule.class, DatabaseModule.class, BankingDataModule.class, SavingsModule.class, SavingsAccountsDataModule.class, ContactsModule.class, ContactsDataModule.class})
 public interface NetComponent {
 
 
@@ -71,7 +72,7 @@ public interface NetComponent {
 
     void inject(SavingsSupplier addSavingsAccountActivity);
 
-  /*  void inject(ContactsFragment contactsFragment);
+    void inject(ContactsFragment contactsFragment);
 
-    void inject(ContactsSupplier contactsSupplier);*/
+    void inject(ContactsSupplier contactsSupplier);
 }
