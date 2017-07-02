@@ -10,12 +10,11 @@ import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 
-@Module(includes = {BankingModule.class, DatabaseModule.class, AuthenticationModule.class, SavingsModule.class})
+@Module(includes = {BankingModule.class, DatabaseModule.class, SavingsModule.class})
 public class BankingDataModule {
 
 
     @Provides
-    @Singleton
     BankingDataManager provideBankingDataManager(BankingProvider bankingProvider, SavingsProvider savingsProvider, BankAccessCredentialDB bankAccessCredentialDB, AuthenticationProvider authenticationProvider) {
         return new BankingDataManager(bankingProvider, savingsProvider, bankAccessCredentialDB, authenticationProvider);
     }

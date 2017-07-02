@@ -20,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.inject.Named;
+
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
@@ -34,6 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * dagger-2-with-retrofit-and-okhttp-and-gson/)
  */
 @Module
+@Named("apiModule")
 public class NetModule {
 
     /**
@@ -67,7 +70,7 @@ public class NetModule {
     Gson provideGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-        gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        //gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         gsonBuilder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
             @Override
             public Date deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {

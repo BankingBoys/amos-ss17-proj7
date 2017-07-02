@@ -7,6 +7,7 @@ import dagger.Provides;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.auth.HTTPAuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.auth.OidcAuthenticationProvider;
+import de.fau.amos.virtualledger.android.dagger.component.OidcAuthenticationScope;
 import retrofit2.Retrofit;
 
 /**

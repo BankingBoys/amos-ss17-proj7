@@ -11,7 +11,6 @@ import de.fau.amos.virtualledger.android.data.SavingsAccountsDataManager;
 public class SavingsAccountsDataModule {
 
     @Provides
-    @Singleton
     SavingsAccountsDataManager provideBankingDataManager(final SavingsProvider savingsProvider) {
         return new SavingsAccountsDataManager(savingsProvider);
     }

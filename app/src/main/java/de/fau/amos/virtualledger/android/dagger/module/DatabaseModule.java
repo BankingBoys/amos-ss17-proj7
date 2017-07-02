@@ -15,7 +15,6 @@ import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 public class DatabaseModule {
 
     @Provides
-    @Singleton
     BankAccessCredentialDB provideBankAccessCredentialDB(Application application) {
         return new BankAccessCredentialDB(application);
     }

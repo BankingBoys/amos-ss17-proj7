@@ -13,10 +13,9 @@ import retrofit2.Retrofit;
  * Created by Simon on 01.07.2017.
  */
 
-@Module(includes = {NetModule.class, AuthenticationModule.class})
+@Module(includes = {NetModule.class})
 public class ContactsModule {
     @Provides
-    @Singleton
     ContactsProvider provideContactsProvider(Retrofit retrofit, AuthenticationProvider authenticationProvider) {
         return new HTTPContactsProvider(retrofit, authenticationProvider);
     }

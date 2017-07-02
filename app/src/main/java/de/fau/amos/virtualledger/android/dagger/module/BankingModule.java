@@ -13,7 +13,7 @@ import retrofit2.Retrofit;
  * Created by Georg on 21.05.2017.
  */
 
-@Module(includes = {NetModule.class, AuthenticationModule.class})
+@Module(includes = {NetModule.class})
 public class BankingModule {
 
     /**
@@ -21,7 +21,6 @@ public class BankingModule {
      * @return
      */
     @Provides
-    @Singleton
     BankingProvider provideBankingProvider(Retrofit retrofit, AuthenticationProvider authenticationProvider) {
         return new HTTPBankingProvider(retrofit, authenticationProvider);
     }

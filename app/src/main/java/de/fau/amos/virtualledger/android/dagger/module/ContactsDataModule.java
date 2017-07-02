@@ -15,7 +15,7 @@ import de.fau.amos.virtualledger.android.data.ContactsDataManager;
 public class ContactsDataModule {
 
     @Provides
-    @Singleton
+
     ContactsDataManager provideContactsDataManager (final ContactsProvider contactsProvider) {
         return new ContactsDataManager(contactsProvider);
     }
