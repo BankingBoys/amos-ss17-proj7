@@ -30,10 +30,10 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         super.configure(http);
         http
                 .authorizeRequests()
-                .antMatchers("/api/auth/logout*").permitAll()
-                .antMatchers("/api/banking*").permitAll()
-                .antMatchers("/api/savings*").permitAll()
-                .antMatchers("/api/contacts*").permitAll();
+                .antMatchers("/api/auth/logout").permitAll()
+                .antMatchers("/api/banking/**").permitAll()
+                .antMatchers("/api/savings/**").permitAll()
+                .antMatchers("/api/contacts/**").permitAll();
     }
 
     /**
