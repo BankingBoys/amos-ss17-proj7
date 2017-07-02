@@ -1,11 +1,12 @@
 package de.fau.amos.virtualledger.server.savings;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import de.fau.amos.virtualledger.server.model.SavingsAccount;
 import de.fau.amos.virtualledger.server.persistence.SavingsAccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-import java.util.List;
 
 @Component
 
@@ -17,7 +18,9 @@ public class SavingsController {
     public SavingsController(SavingsAccountRepository savingsAccountRepository) {
         this.savingsAccountRepository = savingsAccountRepository;
     }
-    protected  SavingsController () { }
+
+    protected SavingsController() {
+    }
 
     public List<SavingsAccount> getSavingAccounts(String email) {
 
@@ -29,4 +32,3 @@ public class SavingsController {
         savingsAccountRepository.createSavingsAccount(email, savingsAccount);
     }
 }
-
