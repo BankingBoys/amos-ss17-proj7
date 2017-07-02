@@ -8,6 +8,8 @@ import de.fau.amos.virtualledger.server.auth.InvalidCredentialsException;
 import de.fau.amos.virtualledger.server.auth.VirtualLedgerAuthenticationException;
 import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.model.UserCredential;
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.KeycloakSecurityContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,29 +71,14 @@ public class AuthApiEndpoint {
     }
 
     /**
-     * Endpoint for logging in. Parameters must not be null or empty.
-     * @param loginData
-     * @return
-     */
-    @RequestMapping(method = RequestMethod.POST, value = "api/auth/login", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> loginEndpoint(@RequestBody LoginData loginData) {
-        if (loginData.getEmail() == null || loginData.getEmail().isEmpty() || loginData.getPassword() == null
-                || loginData.getPassword().isEmpty()) {
-            return new ResponseEntity<>(
-                    "Please check your inserted values. None of the parameters must be null or empty.",
-                    HttpStatus.BAD_REQUEST);
-        }
-        LOGGER.info("Login of " + loginData.getEmail() + " was requested.");
-        return this.login(loginData);
-    }
-
-    /**
      * Endpoint for logging out. User must be authenticated.
      * @return
      */
     @RequestMapping(method = RequestMethod.POST, value = "api/auth/logout", produces = "application/json", consumes = "application/json")
     public ResponseEntity<?> logoutEndpoint() {
-        String username = ((Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getName();
+        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
+
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);
         }
@@ -116,23 +103,6 @@ public class AuthApiEndpoint {
         }
         StringApiModel responseObj = stringApiModelFactory.createStringApiModel(responseMsg);
         return new ResponseEntity<>(responseObj, HttpStatus.OK);
-    }
-
-    /**
-     * Does the logic operation for logging in a user. Also does exception
-     * handling.
-     * @param loginData
-     * @return
-     */
-    private ResponseEntity<?> login(LoginData loginData) {
-        final SessionData sessionData;
-        try {
-            sessionData = authenticationController.login(loginData);
-        } catch (InvalidCredentialsException ex) {
-            LOGGER.error("", ex);
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(sessionData, HttpStatus.OK);
     }
 
     /**
