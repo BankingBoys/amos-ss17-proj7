@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccessComparator;
 import de.fau.amos.virtualledger.dtos.BankAccount;
+import de.fau.amos.virtualledger.dtos.BankAccountComparator;
 
 /**
  * Created by Simon on 15.06.2017.
@@ -30,7 +32,7 @@ public class BankingOverviewHandler {
      *
      */
     public List<BankAccess> sortAccesses(List<BankAccess> bankAccessList) {
-        Collections.sort(bankAccessList, BankAccess.sortBankAccessByName);
+        Collections.sort(bankAccessList, new BankAccessComparator());
         return bankAccessList;
     }
 
@@ -38,7 +40,7 @@ public class BankingOverviewHandler {
      *
      */
     public List<BankAccount> sortAccounts(List<BankAccount> accounts) {
-        Collections.sort(accounts, BankAccount.sortBankAccountByName);
+        Collections.sort(accounts, new BankAccountComparator());
         return accounts;
     }
 

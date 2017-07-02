@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.fau.amos.virtualledger.dtos.BankAccount;
+import de.fau.amos.virtualledger.dtos.BankAccountComparator;
 
 /**
  * Created by Simon on 30.05.2017.
@@ -84,7 +85,7 @@ public class BankAccountTest {
         testAccountList.add(account3);
         testAccountList.add(account4);
 
-        Collections.sort(testAccountList, BankAccount.sortBankAccountByName);
+        Collections.sort(testAccountList, new BankAccountComparator());
 
         Assert.assertEquals(account2, testAccountList.get(0));
         Assert.assertEquals(account4, testAccountList.get(1));

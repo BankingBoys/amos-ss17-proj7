@@ -18,7 +18,8 @@ public class LoginData {
      *
      * @methodtype constructor
      */
-    public LoginData() {}
+    public LoginData() {
+    }
 
     /**
      *
@@ -26,30 +27,30 @@ public class LoginData {
      * @param email
      * @param password
      */
-    public LoginData(String email, String password){
+    public LoginData(String email, String password) {
         this.setEmail(email);
         this.setPassword(password);
-	}
-    
-    @Override
-    public String toString() {
-    	return super.toString()+"{"+this.getEmail()+"}";
     }
 
-	public String getEmail() {
-		return email;
-	}
+    @Override
+    public String toString() {
+        return super.toString() + "{" + this.getEmail() + "}";
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
 }
