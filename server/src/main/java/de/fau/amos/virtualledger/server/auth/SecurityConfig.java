@@ -30,6 +30,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .antMatchers("/api/banking/**").permitAll()
                 .antMatchers("/api/savings/**").permitAll()
                 .antMatchers("/api/contacts/**").permitAll();
+        http.csrf().disable();
     }
 
     /**
