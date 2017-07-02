@@ -1,29 +1,24 @@
 package de.fau.amos.virtualledger.server.auth;
 
-import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.support.SecurityContextProvider;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
+import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.SecurityContext;
-import java.io.IOException;
-import java.lang.invoke.MethodHandles;
-import java.security.Principal;
-import java.util.Collection;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
 
 public class SecuredFilter extends OncePerRequestFilter {
-    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private UserCredentialRepository userCredentialRepository;
 
@@ -43,7 +38,7 @@ public class SecuredFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         } catch (InvalidCredentialsException e) {
-            logger.info("", e);
+            LOGGER.info("", e);
             throw new SecurityException();
         }
     }
