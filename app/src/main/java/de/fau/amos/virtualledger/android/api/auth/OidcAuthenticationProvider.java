@@ -9,6 +9,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -161,11 +165,27 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.SECOND, oidcData.expires_in);
         if(lastRefresh.after(cal.getTime())) {
-            // TODO deal with asynchronity -> wait until refresh was successful or also return observable
-            refreshToken();
+            final PublishSubject observable = PublishSubject.create();
+            refreshToken()
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<String>() {
+                        @Override
+                        public void accept(@NonNull String s) throws Exception {
+                            observable.onNext(oidcData.access_token);
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(@NonNull final Throwable throwable) throws Exception {
+                            // did not get any token
+                            Log.e(TAG, throwable.getMessage());
+                            observable.onError(new Throwable("No authentication token available!"));
+                        }
+                    });
+            return observable;
+        } else {
+            return Observable.just(oidcData.access_token);
         }
-
-        return Observable.just(oidcData.access_token);
     }
 
     @Override
