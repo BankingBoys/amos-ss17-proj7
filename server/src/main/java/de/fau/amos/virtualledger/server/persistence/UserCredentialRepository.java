@@ -1,54 +1,60 @@
 package de.fau.amos.virtualledger.server.persistence;
 
-import de.fau.amos.virtualledger.dtos.LoginData;
-import de.fau.amos.virtualledger.server.auth.InvalidCredentialsException;
-import de.fau.amos.virtualledger.server.model.Session;
-import de.fau.amos.virtualledger.server.model.UserCredential;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import javax.persistence.*;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import de.fau.amos.virtualledger.dtos.LoginData;
+import de.fau.amos.virtualledger.server.auth.InvalidCredentialsException;
+import de.fau.amos.virtualledger.server.model.Session;
+import de.fau.amos.virtualledger.server.model.UserCredential;
+
 /**
- * Repository class that allows CRUD operations on the databasse for UserCredentials
+ * Repository class that allows CRUD operations on the databasse for
+ * UserCredentials
  */
 @Component
 public class UserCredentialRepository {
-    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    EntityManagerFactory entityManagerFactory;
+    private EntityManagerFactory entityManagerFactory;
 
     @Autowired
     public UserCredentialRepository(EntityManagerFactoryProvider entityManagerFactoryProvider) {
         this.entityManagerFactory = entityManagerFactoryProvider.getEntityManagerFactory();
     }
-    protected UserCredentialRepository() { };
+
+    protected UserCredentialRepository() {
+    };
 
     /**
      * looks up, if an user exists with a specific email address
+     * 
      * @param email
      * @return
      */
-    public boolean existsUserCredentialEmail(String email)
-    {
+    public boolean existsUserCredentialEmail(String email) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         int countUserCredentials;
         try {
             Query query = entityManager.createQuery("Select u FROM UserCredential u WHERE u.email = :email");
             query.setParameter("email", email);
             countUserCredentials = query.getResultList().size();
-        } catch (Exception ex)
-        {
-        	logger.warn("", ex);
+        } catch (Exception ex) {
+            LOGGER.warn("", ex);
             throw ex;
-        } finally
-        {
+        } finally {
             entityManager.close();
         }
         return countUserCredentials != 0;
@@ -56,40 +62,38 @@ public class UserCredentialRepository {
 
     /**
      * creates a new UserCredential in the database
+     * 
      * @param credential
      */
-    public void createUserCredential(UserCredential credential)
-    {
+    public void createUserCredential(UserCredential credential) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try{
+        try {
             EntityTransaction entityTransaction = entityManager.getTransaction();
             try {
                 entityTransaction.begin();
                 entityManager.persist(credential);
                 entityTransaction.commit();
-            } catch(EntityExistsException entityExistsException) {
-            	logger.info("Entity already exists: "+credential);
+            } catch (EntityExistsException entityExistsException) {
+                LOGGER.info("Entity already exists: " + credential);
                 entityTransaction.rollback();
                 throw entityExistsException;
-            } catch(IllegalArgumentException persistenceException) {
-            	logger.warn("", persistenceException);
+            } catch (IllegalArgumentException persistenceException) {
+                LOGGER.warn("", persistenceException);
                 entityTransaction.rollback();
                 throw persistenceException;
             }
-        }
-        finally {
+        } finally {
             entityManager.close();
         }
     }
 
-    public boolean checkLogin(final LoginData loginData)
-    {
+    public boolean checkLogin(final LoginData loginData) {
         final EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             final Query query = entityManager.createQuery("Select u FROM UserCredential u WHERE u.email = :email");
             query.setParameter("email", loginData.getEmail());
             final List resultList = query.getResultList();
-            if(resultList.size() == 0) {
+            if (resultList.size() == 0) {
                 return false;
             }
             final UserCredential userCredential = (UserCredential) resultList.get(0);
@@ -105,28 +109,26 @@ public class UserCredentialRepository {
         session.email = email;
         session.sessionId = sessionId;
 
-        try{
+        try {
             final EntityTransaction entityTransaction = entityManager.getTransaction();
             try {
                 entityTransaction.begin();
                 entityManager.persist(session);
                 entityTransaction.commit();
-            } catch(final Exception e) {
-            	logger.warn("", e);
+            } catch (final Exception e) {
+                LOGGER.warn("", e);
                 entityTransaction.rollback();
                 throw e;
             }
-        }
-        finally {
+        } finally {
             entityManager.close();
         }
     }
 
-    public void deleteSessionIdsByEmail(final String email)
-    {
+    public void deleteSessionIdsByEmail(final String email) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        try{
+        try {
             final EntityTransaction entityTransaction = entityManager.getTransaction();
             try {
                 entityTransaction.begin();
@@ -135,36 +137,34 @@ public class UserCredentialRepository {
                 query.setParameter("email", email);
                 List<Session> sessions = query.getResultList();
 
-                for(int i = 0; i < sessions.size(); ++i)
-                {
+                for (int i = 0; i < sessions.size(); ++i) {
                     Session session = sessions.get(i);
                     entityManager.remove(session);
                 }
                 entityTransaction.commit();
-            } catch(final Exception e) {
-            	logger.warn("", e);
+            } catch (final Exception e) {
+                LOGGER.warn("", e);
                 entityTransaction.rollback();
                 throw e;
             }
-        }
-        finally {
+        } finally {
             entityManager.close();
         }
     }
 
     public String getEmailForSessionId(final String sessionId) throws InvalidCredentialsException {
-            final EntityManager entityManager = entityManagerFactory.createEntityManager();
-            try {
-                final Query query = entityManager.createQuery("Select s FROM Session s WHERE s.sessionId = :sessionId");
-                query.setParameter("sessionId", sessionId);
-                final List resultList = query.getResultList();
-                if(resultList.size() == 0) {
-                    throw new InvalidCredentialsException();
-                }
-                final Session session = (Session) resultList.get(0);
-                return session.email;
-            } finally {
-                entityManager.close();
+        final EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            final Query query = entityManager.createQuery("Select s FROM Session s WHERE s.sessionId = :sessionId");
+            query.setParameter("sessionId", sessionId);
+            final List resultList = query.getResultList();
+            if (resultList.size() == 0) {
+                throw new InvalidCredentialsException();
             }
+            final Session session = (Session) resultList.get(0);
+            return session.email;
+        } finally {
+            entityManager.close();
+        }
     }
 }
