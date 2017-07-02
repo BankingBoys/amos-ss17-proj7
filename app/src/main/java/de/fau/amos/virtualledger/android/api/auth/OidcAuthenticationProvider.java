@@ -220,10 +220,10 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     @Override
     public String getUserId() {
 
-        if(oidcData == null) {
+        if(oidcData == null || currentUsername == null) {
             throw new IllegalStateException("Cannot get user id if nobody is logged in!");
         }
-        return oidcData.id_token;
+        return currentUsername;
     }
 
     @Override
