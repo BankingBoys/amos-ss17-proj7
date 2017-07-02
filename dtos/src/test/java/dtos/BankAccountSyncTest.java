@@ -11,11 +11,11 @@ import de.fau.amos.virtualledger.dtos.BankAccountSync;
  */
 
 public class BankAccountSyncTest {
-    
-    private String bankaccessid = "TestAccessId";
-    private String bankaccountid = "TestAccountID";
-    private String pin = "TestPin";
-    BankAccountSync syncTest;
+
+    private final String bankaccessid = "TestAccessId";
+    private final String bankaccountid = "TestAccountID";
+    private final String pin = "TestPin";
+    private BankAccountSync syncTest;
 
     /**
      *

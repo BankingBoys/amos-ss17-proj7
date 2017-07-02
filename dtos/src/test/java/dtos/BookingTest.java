@@ -14,7 +14,7 @@ public class BookingTest {
 
     private Date date = new Date(19930501);
     private double amount = 13123.3;
-    Booking booking;
+    private Booking booking;
 
     /**
      *
