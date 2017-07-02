@@ -14,9 +14,9 @@ public class LoginDataTest {
 
 
     @Test
-    public void teste_toString() {
-        LoginData component_under_test = new LoginData("testEmail", "testPw");
-        Assertions.assertThat(component_under_test.toString()).isEqualTo("LoginData{testEmail}");
+    public void testeToString() {
+        LoginData componentUnderTest = new LoginData("testEmail", "testPw");
+        Assertions.assertThat(componentUnderTest.toString()).isEqualTo("LoginData{testEmail}");
     }
 
 }
