@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class SampleController {
 
-	@Autowired
-	private HelloWorldService helloWorldService;
+    @Autowired
+    private HelloWorldService helloWorldService;
 
-	@GetMapping("/")
-	@ResponseBody
-	public String helloWorld() {
-		return this.helloWorldService.getHelloMessage();
-	}
+    @GetMapping("/")
+    @ResponseBody
+    public String helloWorld() {
+        return this.helloWorldService.getHelloMessage();
+    }
 
 }
