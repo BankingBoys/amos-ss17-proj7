@@ -65,7 +65,10 @@ public class SavingsApiEndpointTest {
         // SETUP
         setupPrincipalUserName(null);
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
-        SavingsAccount savingsAccount = new SavingsAccount(123, "dummy", 123.23, 453.23, new Date());
+        final int Id = 123;
+        final double goalBalance = 123.23;
+        final double currentBalance= 453.23;
+        SavingsAccount savingsAccount = new SavingsAccount(Id, "dummy", goalBalance, currentBalance, new Date());
 
         // ACT
         ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
@@ -82,7 +85,10 @@ public class SavingsApiEndpointTest {
         // SETUP
         setupPrincipalUserName("");
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
-        SavingsAccount savingsAccount = new SavingsAccount(123, "dummy", 123.23, 453.23, new Date());
+        final int Id = 123;
+        final double goalBalance = 123.23;
+        final double currentBalance= 453.23;
+        SavingsAccount savingsAccount = new SavingsAccount(Id, "dummy", goalBalance, currentBalance, new Date());
 
         // ACT
         ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
@@ -116,7 +122,10 @@ public class SavingsApiEndpointTest {
         // SETUP
         setupPrincipalUserName("test@test.de");
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
-        SavingsAccount savingsAccount = new SavingsAccount(123, null, 123.43, 543.43, new Date());
+        final int Id = 123;
+        final double goalBalance = 123.43;
+        final double currentBalance= 543.43;
+        SavingsAccount savingsAccount = new SavingsAccount(Id, null, goalBalance, currentBalance, new Date());
 
         // ACT
         ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
@@ -133,7 +142,10 @@ public class SavingsApiEndpointTest {
         // SETUP
         setupPrincipalUserName("test@test.de");
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
-        SavingsAccount savingsAccount = new SavingsAccount(123, "", 123.43, 543.43, new Date());
+        final int Id = 123;
+        final double goalBalance = 123.43;
+        final double currentBalance= 543.43;
+        SavingsAccount savingsAccount = new SavingsAccount(Id, "", goalBalance, currentBalance, new Date());
 
         // ACT
         ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
@@ -150,7 +162,10 @@ public class SavingsApiEndpointTest {
         // SETUP
         setupPrincipalUserName("test@test.de");
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
-        SavingsAccount savingsAccount = new SavingsAccount(123, "test", 123.43, 543.43, null);
+        final int Id = 123;
+        final double goalBalance = 123.43;
+        final double currentBalance= 543.43;
+        SavingsAccount savingsAccount = new SavingsAccount(Id, "test", goalBalance, currentBalance, null);
 
         // ACT
         ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
