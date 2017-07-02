@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 public class TestRestProvider {
 
     @Autowired
-    BankingApiFacade bankingFacade;
+    private BankingApiFacade bankingFacade;
 
 
     /**
