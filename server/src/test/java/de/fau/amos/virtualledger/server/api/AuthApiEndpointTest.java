@@ -28,30 +28,26 @@ import de.fau.amos.virtualledger.server.auth.VirtualLedgerAuthenticationExceptio
 import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class AuthApiEndpointTest {
 
     @Mock
-    AuthenticationController authenticationController;
+    private AuthenticationController authenticationController;
 
     @Mock
-    StringApiModelFactory stringApiModelFactory;
+    private StringApiModelFactory stringApiModelFactory;
 
     @Before
     public void setup() {
         StringApiModel stringApiModel = new StringApiModel();
         stringApiModel.setData("mock string api model factory");
-        when(stringApiModelFactory.createStringApiModel(any(String.class)))
-                .thenReturn(stringApiModel);
+        when(stringApiModelFactory.createStringApiModel(any(String.class))).thenReturn(stringApiModel);
     }
 
-
     @Test
-    public void registerEndpoint_credentialIdNotZero() throws VirtualLedgerAuthenticationException {
+    public void registerEndpointCredentialIdNotZero() throws VirtualLedgerAuthenticationException {
         // SETUP
-        when(authenticationController.register(any(UserCredential.class)))
-                .thenReturn("mock");
+        when(authenticationController.register(any(UserCredential.class))).thenReturn("mock");
         AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
 
         UserCredential credential = new UserCredential();
@@ -66,16 +62,15 @@ public class AuthApiEndpointTest {
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
-        Assert.isTrue(reponse.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(authenticationController, times(0))
-                .register(any(UserCredential.class));
+        Assert.isTrue(reponse.getStatusCode() == expectedStatusCode,
+                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
+        verify(authenticationController, times(0)).register(any(UserCredential.class));
     }
 
     @Test
-    public void registerEndpoint_credentialIdZero() throws VirtualLedgerAuthenticationException {
+    public void registerEndpointCredentialIdZero() throws VirtualLedgerAuthenticationException {
         // SETUP
-        when(authenticationController.register(any(UserCredential.class)))
-                .thenReturn("mock");
+        when(authenticationController.register(any(UserCredential.class))).thenReturn("mock");
         AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
 
         UserCredential credential = new UserCredential();
@@ -90,13 +85,13 @@ public class AuthApiEndpointTest {
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.OK;
-        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
-        verify(authenticationController, times(1))
-                .register(any(UserCredential.class));
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode,
+                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
+        verify(authenticationController, times(1)).register(any(UserCredential.class));
     }
 
     @Test
-    public void registerEndpoint_controllerThrows() throws VirtualLedgerAuthenticationException {
+    public void registerEndpointControllerThrows() throws VirtualLedgerAuthenticationException {
         // SETUP
         when(authenticationController.register(any(UserCredential.class)))
                 .thenThrow(new VirtualLedgerAuthenticationException("mock"));
@@ -114,17 +109,16 @@ public class AuthApiEndpointTest {
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
-        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
-        verify(authenticationController, times(1))
-                .register(any(UserCredential.class));
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode,
+                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
+        verify(authenticationController, times(1)).register(any(UserCredential.class));
     }
 
     @Test
-    public void loginEndpoint_emailNull() throws InvalidCredentialsException {
+    public void loginEndpointEmailNull() throws InvalidCredentialsException {
         // SETUP
         SessionData sessionData = new SessionData("mock email", "mock token");
-        when(authenticationController.login(any(LoginData.class)))
-                .thenReturn(sessionData);
+        when(authenticationController.login(any(LoginData.class))).thenReturn(sessionData);
         AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
 
         LoginData loginData = new LoginData(null, "password");
@@ -134,17 +128,16 @@ public class AuthApiEndpointTest {
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
-        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
-        verify(authenticationController, times(0))
-                .login(any(LoginData.class));
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode,
+                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
+        verify(authenticationController, times(0)).login(any(LoginData.class));
     }
 
     @Test
-    public void loginEndpoint_emailEmpty() throws InvalidCredentialsException {
+    public void loginEndpointEmailEmpty() throws InvalidCredentialsException {
         // SETUP
         SessionData sessionData = new SessionData("mock email", "mock token");
-        when(authenticationController.login(any(LoginData.class)))
-                .thenReturn(sessionData);
+        when(authenticationController.login(any(LoginData.class))).thenReturn(sessionData);
         AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
 
         LoginData loginData = new LoginData("", "password");
@@ -154,17 +147,16 @@ public class AuthApiEndpointTest {
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
-        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
-        verify(authenticationController, times(0))
-                .login(any(LoginData.class));
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode,
+                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
+        verify(authenticationController, times(0)).login(any(LoginData.class));
     }
 
     @Test
-    public void loginEndpoint_passwordNull() throws InvalidCredentialsException {
+    public void loginEndpointPasswordNull() throws InvalidCredentialsException {
         // SETUP
         SessionData sessionData = new SessionData("mock email", "mock token");
-        when(authenticationController.login(any(LoginData.class)))
-                .thenReturn(sessionData);
+        when(authenticationController.login(any(LoginData.class))).thenReturn(sessionData);
         AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
 
         LoginData loginData = new LoginData("email", null);
@@ -174,17 +166,16 @@ public class AuthApiEndpointTest {
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
-        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
-        verify(authenticationController, times(0))
-                .login(any(LoginData.class));
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode,
+                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
+        verify(authenticationController, times(0)).login(any(LoginData.class));
     }
 
     @Test
-    public void loginEndpoint_passwordEmpty() throws InvalidCredentialsException {
+    public void loginEndpointPasswordEmpty() throws InvalidCredentialsException {
         // SETUP
         SessionData sessionData = new SessionData("mock email", "mock token");
-        when(authenticationController.login(any(LoginData.class)))
-                .thenReturn(sessionData);
+        when(authenticationController.login(any(LoginData.class))).thenReturn(sessionData);
         AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
 
         LoginData loginData = new LoginData("email", "");
@@ -194,17 +185,16 @@ public class AuthApiEndpointTest {
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
-        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
-        verify(authenticationController, times(0))
-                .login(any(LoginData.class));
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode,
+                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
+        verify(authenticationController, times(0)).login(any(LoginData.class));
     }
 
     @Test
-    public void loginEndpoint_validInput() throws InvalidCredentialsException {
+    public void loginEndpointValidInput() throws InvalidCredentialsException {
         // SETUP
         SessionData sessionData = new SessionData("mock email", "mock token");
-        when(authenticationController.login(any(LoginData.class)))
-                .thenReturn(sessionData);
+        when(authenticationController.login(any(LoginData.class))).thenReturn(sessionData);
         AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
 
         LoginData loginData = new LoginData("email", "password");
@@ -214,16 +204,15 @@ public class AuthApiEndpointTest {
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.OK;
-        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
-        verify(authenticationController, times(1))
-                .login(any(LoginData.class));
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode,
+                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
+        verify(authenticationController, times(1)).login(any(LoginData.class));
     }
 
     @Test
-    public void loginEndpoint_controllerThrows() throws InvalidCredentialsException {
+    public void loginEndpointControllerThrows() throws InvalidCredentialsException {
         // SETUP
-        when(authenticationController.login(any(LoginData.class)))
-                .thenThrow(new InvalidCredentialsException());
+        when(authenticationController.login(any(LoginData.class))).thenThrow(new InvalidCredentialsException());
         AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
 
         LoginData loginData = new LoginData("email", "password");
@@ -233,20 +222,18 @@ public class AuthApiEndpointTest {
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
-        Assert.isTrue(response.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
-        verify(authenticationController, times(1))
-                .login(any(LoginData.class));
+        Assert.isTrue(response.getStatusCode() == expectedStatusCode,
+                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
+        verify(authenticationController, times(1)).login(any(LoginData.class));
     }
 
     @Test
-    public void logoutEndpoint_securityContextPrincipalNameNull() {
+    public void logoutEndpointSecurityContextPrincipalNameNull() {
         // SETUP
         Principal principal = mock(Principal.class);
-        when(principal.getName())
-                .thenReturn(null);
+        when(principal.getName()).thenReturn(null);
         SimpleAuthentication authentication = mock(SimpleAuthentication.class);
-        when(authentication.getPrincipal())
-                .thenReturn(principal);
+        when(authentication.getPrincipal()).thenReturn(principal);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
 
@@ -255,20 +242,18 @@ public class AuthApiEndpointTest {
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
-        Assert.isTrue(reponse.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(authenticationController, times(0))
-                .logout(any(String.class));
+        Assert.isTrue(reponse.getStatusCode() == expectedStatusCode,
+                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
+        verify(authenticationController, times(0)).logout(any(String.class));
     }
 
     @Test
-    public void logoutEndpoint_securityContextPrincipalNameEmpty() {
+    public void logoutEndpointSecurityContextPrincipalNameEmpty() {
         // SETUP
         Principal principal = mock(Principal.class);
-        when(principal.getName())
-                .thenReturn("");
+        when(principal.getName()).thenReturn("");
         SimpleAuthentication authentication = mock(SimpleAuthentication.class);
-        when(authentication.getPrincipal())
-                .thenReturn(principal);
+        when(authentication.getPrincipal()).thenReturn(principal);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
 
@@ -277,20 +262,18 @@ public class AuthApiEndpointTest {
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
-        Assert.isTrue(reponse.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(authenticationController, times(0))
-                .logout(any(String.class));
+        Assert.isTrue(reponse.getStatusCode() == expectedStatusCode,
+                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
+        verify(authenticationController, times(0)).logout(any(String.class));
     }
 
     @Test
-    public void logoutEndpoint_validInput() {
+    public void logoutEndpointValidInput() {
         // SETUP
         Principal principal = mock(Principal.class);
-        when(principal.getName())
-                .thenReturn("testUser");
+        when(principal.getName()).thenReturn("testUser");
         SimpleAuthentication authentication = mock(SimpleAuthentication.class);
-        when(authentication.getPrincipal())
-                .thenReturn(principal);
+        when(authentication.getPrincipal()).thenReturn(principal);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         AuthApiEndpoint authApiEndpoint = new AuthApiEndpoint(authenticationController, stringApiModelFactory);
 
@@ -299,8 +282,8 @@ public class AuthApiEndpointTest {
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.OK;
-        Assert.isTrue(reponse.getStatusCode() == expectedStatusCode, "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(authenticationController, times(1))
-                .logout(any(String.class));
+        Assert.isTrue(reponse.getStatusCode() == expectedStatusCode,
+                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
+        verify(authenticationController, times(1)).logout(any(String.class));
     }
 }

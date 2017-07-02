@@ -79,6 +79,10 @@
         <module name="LocalVariableName"/>
         <module name="MemberName"/>
         <module name="MethodName"/>
+	<module name="MethodName">
+    		<property name="id" value="*Test"/>
+    		<property name="format" value="^[a-z][a-zA-Z0-9_]*$"/>
+	</module>
         <module name="PackageName"/>
         <module name="ParameterName"/>
         <module name="StaticVariableName"/>
