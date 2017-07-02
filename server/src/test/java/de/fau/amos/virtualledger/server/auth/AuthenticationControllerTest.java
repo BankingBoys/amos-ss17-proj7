@@ -15,34 +15,34 @@ import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
 
 public class AuthenticationControllerTest {
     @Test(expected = VirtualLedgerAuthenticationException.class)
-    public void test_register_withExistingUser_shouldThrowException() throws Exception {
+    public void testRegisterWithExistingUserShouldThrowException() throws Exception {
         // Arrange
-        AuthenticationController component_under_test = new AuthenticationController();
+        AuthenticationController componentUnderTest = new AuthenticationController();
 
         UserCredentialRepository userCredentialRepositoryMock = mock(UserCredentialRepository.class);
         when(userCredentialRepositoryMock.existsUserCredentialEmail(someEmail())).thenReturn(Boolean.TRUE);
-        component_under_test.setUserCredentialRepository(userCredentialRepositoryMock);
+        componentUnderTest.setUserCredentialRepository(userCredentialRepositoryMock);
 
         UserCredential credential = getValidUserCredential();
         credential.setEmail(someEmail());
 
         // Act
-        component_under_test.register(credential);
+        componentUnderTest.register(credential);
     }
 
     @Test
-    public void test_register_withValidUser_shouldRegister() throws Exception {
+    public void testRegisterWithValidUserShouldRegister() throws Exception {
         // Arrange
-        AuthenticationController component_under_test = new AuthenticationController();
+        AuthenticationController componentUnderTest = new AuthenticationController();
 
         UserCredentialRepository userCredentialRepositoryMock = mock(UserCredentialRepository.class);
-        component_under_test.setUserCredentialRepository(userCredentialRepositoryMock);
+        componentUnderTest.setUserCredentialRepository(userCredentialRepositoryMock);
 
         BankingApiFacade bankingFacadeMock = mock(BankingApiFacade.class);
-        component_under_test.setBankingApiFacade(bankingFacadeMock);
+        componentUnderTest.setBankingApiFacade(bankingFacadeMock);
 
         // Act
-        String result = component_under_test.register(getValidUserCredential());
+        String result = componentUnderTest.register(getValidUserCredential());
 
         // Assert
         assertThat(result).isEqualTo("You were registered! blablabl@bbla.de");
@@ -50,21 +50,21 @@ public class AuthenticationControllerTest {
     }
 
     @Test
-    public void test_login_withValidLoginData_shouldLogIn() throws Exception {
+    public void testLoginWithValidLoginDataShouldLogIn() throws Exception {
         // Arrange
-        AuthenticationController component_under_test = new AuthenticationController();
+        AuthenticationController componentUnderTest = new AuthenticationController();
 
         LoginData validLoginData = validLoginData();
         UserCredentialRepository userCredentialRepositoryMock = mock(UserCredentialRepository.class);
         when(userCredentialRepositoryMock.checkLogin(validLoginData)).thenReturn(Boolean.TRUE);
-        component_under_test.setUserCredentialRepository(userCredentialRepositoryMock);
+        componentUnderTest.setUserCredentialRepository(userCredentialRepositoryMock);
 
         SessionIdGenerator generatorMock = mock(SessionIdGenerator.class);
         when(generatorMock.generate()).thenReturn(expectedSessionID());
-        component_under_test.setSessionIdGenerator(generatorMock);
+        componentUnderTest.setSessionIdGenerator(generatorMock);
 
         // Act
-        SessionData result = component_under_test.login(validLoginData);
+        SessionData result = componentUnderTest.login(validLoginData);
 
         // Assert
         assertThat(result.getEmail()).isEqualTo(validLoginData.getEmail());
@@ -72,17 +72,17 @@ public class AuthenticationControllerTest {
     }
 
     @Test(expected = InvalidCredentialsException.class)
-    public void test_login_withInvalidLoginData_shouldThrowException() throws Exception {
+    public void testLoginWithInvalidLoginDataShouldThrowException() throws Exception {
         // Arrange
-        AuthenticationController component_under_test = new AuthenticationController();
+        AuthenticationController componentUnderTest = new AuthenticationController();
 
         LoginData validLoginData = validLoginData();
         UserCredentialRepository userCredentialRepositoryMock = mock(UserCredentialRepository.class);
         when(userCredentialRepositoryMock.checkLogin(validLoginData)).thenReturn(Boolean.FALSE);
-        component_under_test.setUserCredentialRepository(userCredentialRepositoryMock);
+        componentUnderTest.setUserCredentialRepository(userCredentialRepositoryMock);
 
         // Act
-        component_under_test.login(validLoginData);
+        componentUnderTest.login(validLoginData);
     }
 
     private String expectedSessionID() {
