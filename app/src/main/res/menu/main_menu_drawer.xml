@@ -14,6 +14,10 @@
             android:id="@+id/main_menu_nav_saving_accounts"
             android:icon="@drawable/ic_saving_accounts"
             android:title="@string/main_menu_drawer_saving_accounts"/>
+        <item
+            android:id="@+id/main_menu_nav_contacts"
+            android:icon="@drawable/ic_contacts"
+            android:title="@string/main_menu_drawer_contacts"/>
 
     </group>
     <group android:id="@+id/nav_group_misc">
