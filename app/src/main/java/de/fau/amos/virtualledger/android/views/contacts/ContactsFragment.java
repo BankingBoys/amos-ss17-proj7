@@ -31,8 +31,9 @@ public class ContactsFragment extends Fragment implements DataListening {
 
         this.contactSupplier = new ContactsSupplier(getActivity());
         this.contactSupplier.addDataListeningObject(this);
-        /*adapter = new ContactsAdapter(getActivity(), R.id.contacts_list, null);
-        contactListView.setAdapter(adapter);*/
+        adapter = new ContactsAdapter(getActivity(), R.id.contacts_list, contactSupplier.getAll());
+        contactListView.setAdapter(adapter);
+        this.contactSupplier.onResume();
     }
 
     @Override
@@ -44,6 +45,5 @@ public class ContactsFragment extends Fragment implements DataListening {
 
     @Override
     public void notifyDataChanged() {
-
     }
 }
