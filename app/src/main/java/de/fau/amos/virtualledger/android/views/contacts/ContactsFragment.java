@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import java.util.List;
+import java.util.logging.Logger;
+
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.model.Contact;
@@ -45,5 +49,14 @@ public class ContactsFragment extends Fragment implements DataListening {
 
     @Override
     public void notifyDataChanged() {
+        this.adapter.clear();
+        List<Contact> allContacts= this.contactSupplier.getAll();
+        logger().info("Refreshing contacts overview with " + allContacts.size() + " contacts from"+this.contactSupplier);
+        this.adapter.addAll(allContacts);
+        this.adapter.notifyDataSetChanged();
+    }
+
+    private Logger logger() {
+        return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.toString() + "}");
     }
 }
