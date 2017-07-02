@@ -77,11 +77,11 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
             throw new BankingException("No connection to Adorsys Server!");
         }
         BankAccountSyncJSONBankingModel responseModel = response.readEntity(BankAccountSyncJSONBankingModel.class);
-        if (responseModel == null || responseModel.get_embedded() == null) {
+        if (responseModel == null || responseModel.getEmbedded() == null) {
             LOGGER.warn("No bookings found");
             return new ArrayList<>();
         }
-        return responseModel.get_embedded().getBookingEntityList();
+        return responseModel.getEmbedded().getBookingEntityList();
 
     }
 
