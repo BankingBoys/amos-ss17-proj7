@@ -67,7 +67,7 @@ public class SavingsApiEndpointTest {
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
         final int Id = 123;
         final double goalBalance = 123.23;
-        final double currentBalance= 453.23;
+        final double currentBalance = 453.23;
         SavingsAccount savingsAccount = new SavingsAccount(Id, "dummy", goalBalance, currentBalance, new Date());
 
         // ACT
@@ -87,7 +87,7 @@ public class SavingsApiEndpointTest {
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
         final int Id = 123;
         final double goalBalance = 123.23;
-        final double currentBalance= 453.23;
+        final double currentBalance = 453.23;
         SavingsAccount savingsAccount = new SavingsAccount(Id, "dummy", goalBalance, currentBalance, new Date());
 
         // ACT
@@ -124,7 +124,7 @@ public class SavingsApiEndpointTest {
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
         final int Id = 123;
         final double goalBalance = 123.43;
-        final double currentBalance= 543.43;
+        final double currentBalance = 543.43;
         SavingsAccount savingsAccount = new SavingsAccount(Id, null, goalBalance, currentBalance, new Date());
 
         // ACT
@@ -144,7 +144,7 @@ public class SavingsApiEndpointTest {
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
         final int Id = 123;
         final double goalBalance = 123.43;
-        final double currentBalance= 543.43;
+        final double currentBalance = 543.43;
         SavingsAccount savingsAccount = new SavingsAccount(Id, "", goalBalance, currentBalance, new Date());
 
         // ACT
@@ -164,7 +164,7 @@ public class SavingsApiEndpointTest {
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(savingsController);
         final int Id = 123;
         final double goalBalance = 123.43;
-        final double currentBalance= 543.43;
+        final double currentBalance = 543.43;
         SavingsAccount savingsAccount = new SavingsAccount(Id, "test", goalBalance, currentBalance, null);
 
         // ACT
