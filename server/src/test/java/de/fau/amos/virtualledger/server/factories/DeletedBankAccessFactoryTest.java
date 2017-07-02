@@ -11,7 +11,7 @@ import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
  */
 public class DeletedBankAccessFactoryTest {
 
-    DeletedBankAccessFactory deletedBankAccessFactory;
+    private DeletedBankAccessFactory deletedBankAccessFactory;
 
     @Before
     public void setup() {
@@ -19,7 +19,7 @@ public class DeletedBankAccessFactoryTest {
     }
 
     @Test
-    public void create_successful() {
+    public void createSuccessful() {
         // SETUP
         String testEmail = "email";
         String accessId = "accessId";
