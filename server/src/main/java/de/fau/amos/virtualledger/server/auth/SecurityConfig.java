@@ -21,8 +21,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     private UserCredentialRepository userCredentialRepository;
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception
-    {
+    protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http
                 .authorizeRequests()

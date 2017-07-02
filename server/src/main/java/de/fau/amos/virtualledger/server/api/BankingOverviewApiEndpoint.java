@@ -1,9 +1,11 @@
 package de.fau.amos.virtualledger.server.api;
 
-import java.lang.invoke.MethodHandles;
-import java.security.Principal;
-import java.util.List;
-
+import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccessCredential;
+import de.fau.amos.virtualledger.dtos.BankAccountSync;
+import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
+import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.slf4j.Logger;
@@ -11,22 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import de.fau.amos.virtualledger.dtos.BankAccess;
-import de.fau.amos.virtualledger.dtos.BankAccessCredential;
-import de.fau.amos.virtualledger.dtos.BankAccountSync;
-import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
-import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
-import de.fau.amos.virtualledger.server.banking.model.BankingException;
-
-import javax.ws.rs.core.Context;
+import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 /**
  * Endpoints for basic banking logic

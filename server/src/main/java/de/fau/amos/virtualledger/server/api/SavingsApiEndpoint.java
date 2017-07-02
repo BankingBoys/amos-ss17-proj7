@@ -1,9 +1,7 @@
 package de.fau.amos.virtualledger.server.api;
 
-import java.lang.invoke.MethodHandles;
-import java.security.Principal;
-import java.util.List;
-
+import de.fau.amos.virtualledger.server.model.SavingsAccount;
+import de.fau.amos.virtualledger.server.savings.SavingsController;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.slf4j.Logger;
@@ -17,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.fau.amos.virtualledger.server.model.SavingsAccount;
-import de.fau.amos.virtualledger.server.savings.SavingsController;
+import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 /**
  * Endpoints for savings

@@ -1,10 +1,7 @@
 package de.fau.amos.virtualledger.server.api;
 
-import de.fau.amos.virtualledger.dtos.LoginData;
-import de.fau.amos.virtualledger.dtos.SessionData;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
 import de.fau.amos.virtualledger.server.auth.AuthenticationController;
-import de.fau.amos.virtualledger.server.auth.InvalidCredentialsException;
 import de.fau.amos.virtualledger.server.auth.VirtualLedgerAuthenticationException;
 import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.model.UserCredential;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.invoke.MethodHandles;
-import java.security.Principal;
 
 /**
  * Endpoints for authentication / authorization
