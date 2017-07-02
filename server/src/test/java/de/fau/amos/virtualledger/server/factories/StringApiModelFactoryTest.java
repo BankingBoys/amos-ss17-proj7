@@ -11,7 +11,7 @@ import de.fau.amos.virtualledger.dtos.StringApiModel;
  */
 public class StringApiModelFactoryTest {
 
-    StringApiModelFactory stringApiModelFactory;
+    private StringApiModelFactory stringApiModelFactory;
 
     @Before
     public void setup() {
@@ -19,7 +19,7 @@ public class StringApiModelFactoryTest {
     }
 
     @Test
-    public void create_successful() {
+    public void createSuccessful() {
         // SETUP
         String testString = "test";
 
