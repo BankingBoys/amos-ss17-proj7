@@ -18,7 +18,7 @@ public interface AuthenticationProvider {
 
     boolean isLoggedIn();
 
-    String getToken();
+    Observable<String> getToken();
 
     String getUserId();
 

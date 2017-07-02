@@ -23,18 +23,13 @@ public class MockedAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Observable<String> login(String username, String password) {
         this.token = username+"_"+password;
-        final PublishSubject observable = PublishSubject.create();
-        observable.onNext("Logged in (Dummy)");
-        return observable;
+        return Observable.just("Logged in (Dummy)");
     }
 
     @Override
     public Observable<String> logout() {
         this.token = "";
-
-        final PublishSubject observable = PublishSubject.create();
-        observable.onNext("Logged out (Dummy)");
-        return observable;
+        return Observable.just("Logged out (Dummy)");
     }
 
     @Override
@@ -43,8 +38,8 @@ public class MockedAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public String getToken() {
-        return this.token;
+    public Observable<String> getToken() {
+        return Observable.just(this.token);
     }
 
     @Override

@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.concurrent.TimeUnit;
 
 import de.fau.amos.virtualledger.android.api.Restapi;
 import de.fau.amos.virtualledger.android.model.UserCredential;
@@ -138,8 +139,9 @@ public class HTTPAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public String getToken() {
-        return this.token;
+    public Observable<String> getToken() {
+
+        return Observable.just(this.token);
     }
 
     @Override
