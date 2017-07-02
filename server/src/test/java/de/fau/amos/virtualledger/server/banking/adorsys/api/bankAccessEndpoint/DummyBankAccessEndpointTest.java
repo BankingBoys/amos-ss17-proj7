@@ -11,11 +11,10 @@ import org.junit.Test;
 
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 
-
 public class DummyBankAccessEndpointTest {
 
     @Test
-    public void workflow_working() throws Exception {
+    public void workflowWorking() throws Exception {
 
         // SETUP
         String testUser = "user";
@@ -40,7 +39,7 @@ public class DummyBankAccessEndpointTest {
     }
 
     @Test
-    public void exists_working() throws Exception {
+    public void existsWorking() throws Exception {
 
         // SETUP
         String testUser = "user";
@@ -57,13 +56,13 @@ public class DummyBankAccessEndpointTest {
         assertNotNull(bankAccessBankingModelList);
         assertEquals(bankAccessBankingModelList.size(), 1);
 
-        boolean exists_pre_change = dummyBankAccessEndpoint.existsBankAccess(testId);
+        boolean existsPreChange = dummyBankAccessEndpoint.existsBankAccess(testId);
         bankAccessBankingModelList.get(0).setId(testId);
-        boolean exists_post_change = dummyBankAccessEndpoint.existsBankAccess(testId);
+        boolean existsPostChange = dummyBankAccessEndpoint.existsBankAccess(testId);
 
         // ASSERT
-        assertFalse(exists_pre_change);
-        assertTrue(exists_post_change);
+        assertFalse(existsPreChange);
+        assertTrue(existsPostChange);
     }
 
 }

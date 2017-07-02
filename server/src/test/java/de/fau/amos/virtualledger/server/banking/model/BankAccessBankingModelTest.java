@@ -1,16 +1,12 @@
 package de.fau.amos.virtualledger.server.banking.model;
 
-import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Created by Simon on 21.06.2017.
- */
 public class BankAccessBankingModelTest {
 
-    BankAccessBankingModel model;
+    private BankAccessBankingModel model;
 
     @Before
     public void setUp() {
@@ -46,8 +42,8 @@ public class BankAccessBankingModelTest {
     @Test
     public void setAndGetBankPassportState() {
         String passPortState = "testPassportState";
-        model.setPassportState(passPortState );
-        Assert.assertEquals(passPortState , model.getPassportState());
+        model.setPassportState(passPortState);
+        Assert.assertEquals(passPortState, model.getPassportState());
     }
 
     @Test
