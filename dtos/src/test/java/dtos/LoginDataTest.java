@@ -1,7 +1,7 @@
 package dtos;
 
-import org.assertj.core.api.Assertions;
-import org.junit.Assert;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Test;
 
 import de.fau.amos.virtualledger.dtos.LoginData;
@@ -16,7 +16,7 @@ public class LoginDataTest {
     @Test
     public void testeToString() {
         LoginData componentUnderTest = new LoginData("testEmail", "testPw");
-        Assertions.assertThat(componentUnderTest.toString()).isEqualTo("LoginData{testEmail}");
+        assertThat(componentUnderTest.toString()).isEqualTo("LoginData{testEmail}");
     }
 
 }
