@@ -5,6 +5,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface UserEndpoint {
 
-    public void createUser(String userId);
+    void createUser(String userId);
 
 }
