@@ -6,29 +6,30 @@ import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
 
 public class EntityManagerFactoryProvider {
 
-    EntityManagerFactory entityManagerFactory;
+    private EntityManagerFactory entityManagerFactory;
 
-    public EntityManagerFactoryProvider()
-    {
-        if(entityManagerFactory == null) {
+    public EntityManagerFactoryProvider() {
+        if (entityManagerFactory == null) {
             initEntityManagerFactory();
         }
     }
 
     /**
-     * Provides a configured EntityManagerFactory that requires a environment variable VIRTUAL_LEDGER_DB_PASSWORD with the password of the database "auth-db"
+     * Provides a configured EntityManagerFactory that requires a environment
+     * variable VIRTUAL_LEDGER_DB_PASSWORD with the password of the database
+     * "auth-db"
+     * 
      * @return
      */
     public EntityManagerFactory getEntityManagerFactory() {
 
-        if(entityManagerFactory == null) {
+        if (entityManagerFactory == null) {
             initEntityManagerFactory();
         }
         return entityManagerFactory;
