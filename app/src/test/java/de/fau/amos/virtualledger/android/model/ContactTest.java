@@ -21,11 +21,6 @@ public class ContactTest {
     }
 
     @Test
-    public void constructorTest() {
-        assertThat(contact).isNotNull();
-    }
-
-    @Test
     public void setterAndGetterTest() {
         String email2 = "testEmail2";
         String firstName2 = "testFirstName2";
