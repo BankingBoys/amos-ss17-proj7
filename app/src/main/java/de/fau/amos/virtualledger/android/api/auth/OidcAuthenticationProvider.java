@@ -87,7 +87,26 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
         cal.add(Calendar.SECOND, oidcData.refresh_expires_in);
         if(lastRefresh.after(cal.getTime())) {
             // refresh token expired
-            // TODO load data from persistence and to automatic login // do something else
+            if(currentUsername == null || currentPassword == null) throw new IllegalStateException("refreshToken() was called but no username + password was found in order to login after refresh token expiration");
+
+            final PublishSubject observable = PublishSubject.create();
+            login(currentUsername, currentPassword)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<String>() {
+                        @Override
+                        public void accept(@NonNull String s) throws Exception {
+                            observable.onNext("Refresh over temporarily stored username + password successful");
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(@NonNull final Throwable throwable) throws Exception {
+                            // did not get any token
+                            Log.e(TAG, throwable.getMessage());
+                            observable.onError(new Throwable("No authentication token available (unable to refresh token via temporarily stored username + password)!"));
+                        }
+                    });
+            return observable;
         }
 
         retrofit2.Call<OidcData> responseMessage = retrofit.create(KeycloakApi.class).refreshToken(oidcData.refresh_token, CLIENT_ID, GRANT_TYPE_REFRESH);
