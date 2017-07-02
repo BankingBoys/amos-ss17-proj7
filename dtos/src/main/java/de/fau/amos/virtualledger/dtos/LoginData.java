@@ -34,7 +34,7 @@ public class LoginData {
 
     @Override
     public String toString() {
-        return super.toString() + "{" + this.getEmail() + "}";
+        return "LoginData" + "{" + this.getEmail() + "}";
     }
 
     public String getEmail() {
