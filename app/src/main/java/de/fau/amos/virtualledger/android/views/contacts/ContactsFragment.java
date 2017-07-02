@@ -21,6 +21,7 @@ public class ContactsFragment extends Fragment implements DataListening {
 
     private ContactsAdapter adapter;
     private ListView contactListView;
+    private Supplier<Contact> contactSupplier;
 
 
     @Override
@@ -28,15 +29,14 @@ public class ContactsFragment extends Fragment implements DataListening {
         /*((App) getActivity().getApplication()).getNetComponent().inject(this);*/
         super.onActivityCreated(savedInstanceState);
 
-/*        this.contactSupplier = new ContactsSupplier(getActivity());
+        this.contactSupplier = new ContactsSupplier(getActivity());
         this.contactSupplier.addDataListeningObject(this);
-        adapter = new ContactsAdapter(getActivity(), R.id.contacts_list, null);
+        /*adapter = new ContactsAdapter(getActivity(), R.id.contacts_list, null);
         contactListView.setAdapter(adapter);*/
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.contacts_list, container, false);
         this.contactListView = (ListView) view.findViewById(R.id.contacts_list);
         return view;
