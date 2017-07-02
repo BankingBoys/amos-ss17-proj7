@@ -168,6 +168,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             case R.id.main_menu_nav_logout:
                 executeLogout();
                 break;
+            case R.id.main_menu_nav_contacts:
+                switchToFragment(AppFragment.CONTACTS);
             default:
                 Log.e(TAG, "Unhandled menu item: " + item.getTitle());
                 break;
