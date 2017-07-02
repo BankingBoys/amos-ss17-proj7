@@ -201,7 +201,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
                     .subscribe(new Consumer<String>() {
                         @Override
                         public void accept(@NonNull String s) throws Exception {
-                            observable.onNext(oidcData.access_token);
+                            observable.onNext("Bearer " + oidcData.access_token);
                         }
                     }, new Consumer<Throwable>() {
                         @Override
@@ -213,7 +213,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
                     });
             return observable;
         } else {
-            return Observable.just(oidcData.access_token);
+            return Observable.just("Bearer " + oidcData.access_token);
         }
     }
 
