@@ -22,14 +22,14 @@ public class BankAccountTest {
     private BankAccount account2;
     private BankAccount account3;
     private BankAccount account4;
-    private final double accountBalance1 = 100;
+    private static final double ACCOUNT_BALANCE_1 = 100;
 
     /**
      *
      */
     @Before
     public void setUp() {
-        account1 = new BankAccount("123", "ghiTest", accountBalance1);
+        account1 = new BankAccount("123", "ghiTest", ACCOUNT_BALANCE_1);
         testAccountList = new ArrayList<>();
     }
 

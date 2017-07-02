@@ -12,9 +12,9 @@ import de.fau.amos.virtualledger.dtos.BankAccountSync;
 
 public class BankAccountSyncTest {
 
-    private final String bankaccessid = "TestAccessId";
-    private final String bankaccountid = "TestAccountID";
-    private final String pin = "TestPin";
+    private static final String BANKACCESSID = "TestAccessId";
+    private static final String BANKACCOUNTID = "TestAccountID";
+    private static final String PIN = "TestPin";
     private BankAccountSync syncTest;
 
     /**
@@ -22,7 +22,7 @@ public class BankAccountSyncTest {
      */
     @Before
     public void setUp() {
-        syncTest = new BankAccountSync(bankaccessid, bankaccountid, pin);
+        syncTest = new BankAccountSync(BANKACCESSID, BANKACCOUNTID, PIN);
     }
 
     /**
@@ -30,7 +30,7 @@ public class BankAccountSyncTest {
      */
     @Test
     public void constructorTest() {
-        BankAccountSync syncTest2 = new BankAccountSync(bankaccessid, bankaccountid, pin);
+        BankAccountSync syncTest2 = new BankAccountSync(BANKACCESSID, BANKACCOUNTID, PIN);
         Assert.assertNotNull(syncTest2);
     }
 

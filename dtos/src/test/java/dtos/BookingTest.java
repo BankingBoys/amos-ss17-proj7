@@ -12,9 +12,9 @@ import java.util.Date;
  */
 public class BookingTest {
 
-    private final int lateDate = 19930501;
-    private final Date date = new Date(lateDate);
-    private final double testAmount = 13123.3;
+    private static final int LATE_DATE = 19930501;
+    private final Date date = new Date(LATE_DATE);
+    private static final double TEST_AMOUNT = 13123.3;
     private Booking booking;
 
     /**
@@ -22,7 +22,7 @@ public class BookingTest {
      */
     @Before
     public void setUp() {
-        booking = new Booking(date, testAmount);
+        booking = new Booking(date, TEST_AMOUNT);
     }
 
     /**
