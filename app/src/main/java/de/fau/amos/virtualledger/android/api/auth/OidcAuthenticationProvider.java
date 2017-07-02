@@ -147,7 +147,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public String getToken() {
+    public Observable<String> getToken() {
 
         if(oidcData == null) {
             throw new IllegalStateException("Cannot get token if nobody is logged in!");
@@ -159,7 +159,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
             refreshToken();
         }
 
-        return oidcData.access_token;
+        return Observable.just(oidcData.access_token);
     }
 
     @Override
