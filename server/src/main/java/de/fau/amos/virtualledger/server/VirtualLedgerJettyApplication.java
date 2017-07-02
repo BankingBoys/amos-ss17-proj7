@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class VirtualLedgerJettyApplication {
 
-    private VirtualLedgerJettyApplication() {
+    protected VirtualLedgerJettyApplication() {
     }
 
     public static void main(String[] args) throws Exception {

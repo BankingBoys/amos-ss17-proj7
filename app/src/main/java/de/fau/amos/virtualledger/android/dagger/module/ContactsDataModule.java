@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import de.fau.amos.virtualledger.android.api.contacts.ContactsProvider;
+import de.fau.amos.virtualledger.android.dagger.component.NetComponentScope;
 import de.fau.amos.virtualledger.android.data.ContactsDataManager;
 
 /**
@@ -15,7 +16,7 @@ import de.fau.amos.virtualledger.android.data.ContactsDataManager;
 public class ContactsDataModule {
 
     @Provides
-    @Singleton
+    @NetComponentScope
     ContactsDataManager provideContactsDataManager (final ContactsProvider contactsProvider) {
         return new ContactsDataManager(contactsProvider);
     }

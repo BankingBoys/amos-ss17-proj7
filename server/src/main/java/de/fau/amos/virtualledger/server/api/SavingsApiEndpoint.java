@@ -1,9 +1,9 @@
 package de.fau.amos.virtualledger.server.api;
 
-import java.lang.invoke.MethodHandles;
-import java.security.Principal;
-import java.util.List;
-
+import de.fau.amos.virtualledger.server.model.SavingsAccount;
+import de.fau.amos.virtualledger.server.savings.SavingsController;
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.KeycloakSecurityContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.fau.amos.virtualledger.server.model.SavingsAccount;
-import de.fau.amos.virtualledger.server.savings.SavingsController;
+import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 /**
  * Endpoints for savings
@@ -42,8 +42,9 @@ public class SavingsApiEndpoint {
      */
     @RequestMapping(method = RequestMethod.GET, value = "api/savings", produces = "application/json")
     public ResponseEntity<?> getSavingAccountsEndpoint() {
+        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
 
-        String username = ((Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getName();
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);
         }
@@ -60,8 +61,9 @@ public class SavingsApiEndpoint {
      */
     @RequestMapping(method = RequestMethod.POST, value = "api/savings", produces = "application/json", consumes = "application/json")
     public ResponseEntity<?> addSavingAccountEndpoint(@RequestBody SavingsAccount savingsAccount) {
+        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
 
-        String username = ((Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getName();
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);
         }

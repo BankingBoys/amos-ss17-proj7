@@ -44,6 +44,8 @@ dependencies {
     providedRuntime("org.springframework.boot:spring-boot-starter-jetty")
     compile("org.springframework.boot:spring-boot-starter-security")
 
+    compile group: 'org.keycloak', name: 'keycloak-spring-security-adapter', version: '3.2.0.CR1'
+
     compile project(':dtos')
 
     testCompile group: 'junit', name: 'junit', version: '4.12'

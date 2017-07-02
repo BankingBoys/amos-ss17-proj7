@@ -6,7 +6,6 @@ import dagger.Component;
 import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity;
 import de.fau.amos.virtualledger.android.authentication.demo.registration.RegisterActivity;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
-import de.fau.amos.virtualledger.android.dagger.module.AuthenticationModule;
 import de.fau.amos.virtualledger.android.dagger.module.BankingDataModule;
 import de.fau.amos.virtualledger.android.dagger.module.BankingModule;
 import de.fau.amos.virtualledger.android.dagger.module.ContactsDataModule;
@@ -15,6 +14,10 @@ import de.fau.amos.virtualledger.android.dagger.module.DatabaseModule;
 import de.fau.amos.virtualledger.android.dagger.module.NetModule;
 import de.fau.amos.virtualledger.android.dagger.module.SavingsAccountsDataModule;
 import de.fau.amos.virtualledger.android.dagger.module.SavingsModule;
+import de.fau.amos.virtualledger.android.data.BankingDataManager;
+import de.fau.amos.virtualledger.android.data.ContactsDataManager;
+import de.fau.amos.virtualledger.android.data.SavingsAccountsDataManager;
+import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.bankingOverview.addBankAccess.AddBankAccessActivity;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
@@ -23,7 +26,6 @@ import de.fau.amos.virtualledger.android.views.contacts.ContactsFragment;
 import de.fau.amos.virtualledger.android.views.contacts.ContactsSupplier;
 import de.fau.amos.virtualledger.android.views.menu.MainMenu;
 import de.fau.amos.virtualledger.android.views.savings.SavingAccountsFragment;
-import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
 import de.fau.amos.virtualledger.android.views.savings.SavingsSupplier;
 import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
@@ -36,10 +38,14 @@ import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOv
  * dagger-2-with-retrofit-and-okhttp-and-gson/)
  */
 
-@Singleton
-@Component(modules = {AppModule.class, NetModule.class, AuthenticationModule.class, BankingModule.class, DatabaseModule.class, BankingDataModule.class, SavingsModule.class, SavingsAccountsDataModule.class, ContactsModule.class, ContactsDataModule.class})
+@NetComponentScope
+@Component(modules = {AppModule.class, NetModule.class, BankingModule.class, DatabaseModule.class, BankingDataModule.class, SavingsModule.class, SavingsAccountsDataModule.class, ContactsModule.class, ContactsDataModule.class}, dependencies = {OidcAuthenticationComponent.class})
 public interface NetComponent {
 
+    BankAccessCredentialDB bankAccessCredentialDB();
+    BankingDataManager bankingDataManager();
+    SavingsAccountsDataManager savingsAccountsDataManager();
+    ContactsDataManager contactsDataManager();
 
     /**
      * @param activity
