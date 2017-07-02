@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccessComparator;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 
 /**
@@ -119,7 +120,7 @@ public class BankAccessTest {
         listAccesses.add(testAccess2);
         listAccesses.add(testAccess4);
 
-        Collections.sort(listAccesses, BankAccess.sortBankAccessByName);
+        Collections.sort(listAccesses, new BankAccessComparator());
 
         Assert.assertEquals(testAccess2, listAccesses.get(0));
         Assert.assertEquals(testAccess, listAccesses.get(1));

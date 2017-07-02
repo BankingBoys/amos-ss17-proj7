@@ -5,9 +5,16 @@ import android.util.Log;
 
 import org.apache.commons.lang3.NotImplementedException;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
+import de.fau.amos.virtualledger.dtos.SessionData;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -23,6 +30,9 @@ import retrofit2.Retrofit;
  */
 
 public class OidcAuthenticationProvider implements AuthenticationProvider {
+
+
+    private static final String FILENAME = "login.save";
 
     private static final String TAG = "OidcAuthenticationProvi";
 
@@ -87,7 +97,26 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
         cal.add(Calendar.SECOND, oidcData.refresh_expires_in);
         if(lastRefresh.after(cal.getTime())) {
             // refresh token expired
-            // TODO load data from persistence and to automatic login // do something else
+            if(currentUsername == null || currentPassword == null) throw new IllegalStateException("refreshToken() was called but no username + password was found in order to login after refresh token expiration");
+
+            final PublishSubject observable = PublishSubject.create();
+            login(currentUsername, currentPassword)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<String>() {
+                        @Override
+                        public void accept(@NonNull String s) throws Exception {
+                            observable.onNext("Refresh over temporarily stored username + password successful");
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(@NonNull final Throwable throwable) throws Exception {
+                            // did not get any token
+                            Log.e(TAG, throwable.getMessage());
+                            observable.onError(new Throwable("No authentication token available (unable to refresh token via temporarily stored username + password)!"));
+                        }
+                    });
+            return observable;
         }
 
         retrofit2.Call<OidcData> responseMessage = retrofit.create(KeycloakApi.class).refreshToken(oidcData.refresh_token, CLIENT_ID, GRANT_TYPE_REFRESH);
@@ -199,19 +228,101 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public void persistLoginData(Context context) {
+        /*deleteSavedLoginData(context);*/
+        File loginData = new File(FILENAME);
+        FileOutputStream fileOutputStream = null;
+        ObjectOutputStream objectOutputStream = null;
+        try {
+            fileOutputStream = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(new SessionData(currentUsername, currentPassword));
+            objectOutputStream.close();
+            fileOutputStream.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Error in persisting login data: " + e.getMessage());
+        } finally {
+            {
+                try {
+                    if (fileOutputStream != null) {
+                        fileOutputStream.close();
+                    }
+                    if (objectOutputStream != null) {
+                        objectOutputStream.close();
+                    }
+                } catch (IOException e) {
+                    Log.e(TAG, "Error while closing streams" + e.getMessage());
+                }
 
-        throw new NotImplementedException("Coming soon...");
+
+            }
+        }
     }
 
     @Override
     public void deleteSavedLoginData(Context context) {
+        File loginData = new File(FILENAME);
+        FileOutputStream fileOutputStream = null;
+        ObjectOutputStream objectOutputStream = null;
+        try {
+            fileOutputStream = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(new SessionData("", ""));
+            objectOutputStream.close();
+            fileOutputStream.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Error in persisting login data: " + e.getMessage());
+        } finally {
 
-        throw new NotImplementedException("Coming soon...");
+            try {
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+                if (objectOutputStream != null) {
+                    objectOutputStream.close();
+                }
+            } catch (IOException e) {
+                Log.e(TAG, "Error while closing streams" + e.getMessage());
+            }
+        }
+        this.currentUsername = "";
+        this.currentPassword = "";
+
     }
 
     @Override
     public void tryLoadLoginData(Context context) {
+        File file = new File(FILENAME);
+        FileInputStream fileInputStream = null;
+        ObjectInputStream objectInputStream = null;
+        try {
+            fileInputStream = context.openFileInput(FILENAME);
+            objectInputStream = new ObjectInputStream(fileInputStream);
+            SessionData savedSession = (SessionData) objectInputStream.readObject();
+            objectInputStream.close();
+            fileInputStream.close();
 
-        throw new NotImplementedException("Coming soon...");
+            if (savedSession.getEmail() == null || savedSession.getEmail().isEmpty() || savedSession.getSessionid() == null || savedSession.getSessionid().isEmpty()) {
+                throw new ClassNotFoundException("One of the loaded parameters was null or empty!");
+            }
+
+            this.currentUsername = savedSession.getEmail();
+            this.currentPassword = savedSession.getSessionid();
+        } catch (IOException e) {
+            Log.e(TAG, "Error in reading persisted login data: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            Log.e(TAG, "Error in reading persisted login data: " + e.getMessage());
+        } finally {
+            try {
+                if (fileInputStream != null) {
+                    fileInputStream.close();
+                }
+                if (objectInputStream != null) {
+                    objectInputStream.close();
+                }
+            } catch (IOException e) {
+                Log.e(TAG, "Error while closing streams" + e.getMessage());
+            }
+        }
     }
+
 }
