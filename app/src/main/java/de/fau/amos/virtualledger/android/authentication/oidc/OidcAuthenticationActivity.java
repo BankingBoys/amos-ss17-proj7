@@ -6,7 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import javax.inject.Inject;
 
@@ -19,10 +21,12 @@ import de.fau.amos.virtualledger.android.api.auth.OidcAuthenticationProvider;
 import de.fau.amos.virtualledger.android.config.PropertyReader;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.dagger.component.OidcAuthenticationScope;
+import de.fau.amos.virtualledger.android.views.menu.MainMenu;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class OidcAuthenticationActivity extends AppCompatActivity {
@@ -34,6 +38,13 @@ public class OidcAuthenticationActivity extends AppCompatActivity {
 
     @BindView(R.id.SecretField)
     EditText secretField;
+
+    @BindView(R.id.textViewFailLogin)
+    TextView textviewLoginFail;
+
+    @BindView(R.id.loginCheckBox)
+    CheckBox checkBoxStayLoggedIn;
+
 
     @Inject
     AuthenticationProvider authenticationProvider;
@@ -57,32 +68,32 @@ public class OidcAuthenticationActivity extends AppCompatActivity {
         authenticationProvider.login(userID, password)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-
+                .subscribe(new Consumer<String>() {
                     @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(@NonNull String s) {
+                    public void accept(@NonNull String s) throws Exception {
                         if (authenticationProvider.isLoggedIn()) {
-
+                            executeNextActivityMenu();
+                            if (checkBoxStayLoggedIn.isChecked()) {
+                                authenticationProvider.persistLoginData(OidcAuthenticationActivity.this);
+                            }
                         } else {
-
+                            textviewLoginFail.setText(s);
                         }
                     }
-
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onError(@NonNull Throwable e) {
-
+                    public void accept(@NonNull Throwable throwable) {
+                        Log.e(TAG, "Error occured in Observable from login.");
+                        textviewLoginFail.setText(throwable.getMessage());
                     }
+                }
+            );
+    }
 
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+    private void executeNextActivityMenu() {
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
+        finish();
     }
 
     @OnClick(R.id.textViewLogin_RegisterFirst)
