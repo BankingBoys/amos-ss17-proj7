@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.server.api;
 
+import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.server.contacts.ContactsController;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,8 +45,26 @@ public class ContactsApiEndpoint {
         return this.getContacts(username);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "api/contacts", produces = "application/json")
+    public ResponseEntity<?> addContactEndpoint(@RequestBody final Contact contact) {
+        final KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final String username = principal.getKeycloakSecurityContext().getToken().getEmail();
+
+        if (username == null || username.isEmpty()) {
+            return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
+        }
+        LOGGER.info("addContactEndpoint of " + username + " was requested");
+
+        return this.addContact(contact, username);
+    }
+
     private ResponseEntity<?> getContacts(final String username) {
         return new ResponseEntity<>(contactsController.getContactsByEmail(username), HttpStatus.OK);
+    }
+
+    private ResponseEntity<?> addContact(final Contact contact, final String username) {
+        contactsController.addContact(contact, username);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }
