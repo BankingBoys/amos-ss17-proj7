@@ -1,7 +1,7 @@
 package de.fau.amos.virtualledger.server.persistence;
 
 import de.fau.amos.virtualledger.dtos.Contact;
-import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
+import de.fau.amos.virtualledger.server.model.ContactsEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class ContactsRepository {
         }
     }
 
-    public List<DeletedBankAccess> getContactsByEmail(final String email) {
+    public List<ContactsEntity> getContactsByEmail(final String email) {
         final EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             final Query query = entityManager
