@@ -40,6 +40,8 @@
     <string name="banking_overview_enable_all_accounts_checkbox">Enable all bank accounts</string>
 
     <string name="contacts_title">Contacts</string>
+    <string name="contacts_no_contacts_saved_text">No contacts added yet</string>
+    <string name="contacts_no_contacts_button_text">Add Bank Contacts</string>
 
     <string name="transaction_overview_title">Transactions</string>
     <string name="transaction_overview_app_bar_refresh">Refresh</string>
