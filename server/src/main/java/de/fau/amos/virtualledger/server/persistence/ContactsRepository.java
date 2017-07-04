@@ -39,20 +39,13 @@ public class ContactsRepository {
                 throw new IllegalArgumentException("User does not exist");
             }
             userId = (int) resultList.get(0);
-        } catch (final Exception ex) {
-            LOGGER.warn("", ex);
-            throw ex;
-        } finally {
-            entityManager.close();
-        }
 
-        final ContactsEntity contactsEntity = new ContactsEntity();
-        contactsEntity.setUserId(userId);
-        contactsEntity.setEmail(contact.getEmail());
-        contactsEntity.setFirstname(contact.getFirstName());
-        contactsEntity.setLastname(contact.getLastName());
+            final ContactsEntity contactsEntity = new ContactsEntity();
+            contactsEntity.setUserId(userId);
+            contactsEntity.setEmail(contact.getEmail());
+            contactsEntity.setFirstname(contact.getFirstName());
+            contactsEntity.setLastname(contact.getLastName());
 
-        try {
             final EntityTransaction entityTransaction = entityManager.getTransaction();
             try {
                 entityTransaction.begin();
@@ -63,9 +56,13 @@ public class ContactsRepository {
                 entityTransaction.rollback();
                 throw entityExistsException;
             }
+        } catch (final Exception ex) {
+            LOGGER.warn("", ex);
+            throw ex;
         } finally {
             entityManager.close();
         }
+
     }
 
     public List<ContactsEntity> getContactsByEmail(final String email) {
