@@ -29,4 +29,8 @@ public class ContactsController {
         final List<ContactsEntity> contactEntities = contactsRepository.getContactsByEmail(email);
         return contactEntities.stream().map(entity -> new Contact(entity.getEmail(), entity.getFirstname(), entity.getLastname())).collect(toList());
     }
+
+    public void addContact(final Contact contact, final String userEmail) {
+        contactsRepository.createContact(contact, userEmail);
+    }
 }
