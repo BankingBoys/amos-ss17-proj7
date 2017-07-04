@@ -142,6 +142,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 navigationView.setCheckedItem(R.id.main_menu_nav_contacts);
                 final ContactsFragment contactsFragment = new ContactsFragment();
                 openFragment(contactsFragment);
+                break;
             default:
                 Log.e(TAG, "Trying to change to unhandled fragment " + fragment.name());
                 break;
@@ -162,14 +163,15 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             case R.id.main_menu_nav_saving_accounts:
                 switchToFragment(AppFragment.SAVING_ACCOUNTS);
                 break;
+            case R.id.main_menu_nav_contacts:
+                switchToFragment(AppFragment.CONTACTS);
+                break;
             case R.id.main_menu_nav_settings:
                 startActivity(new Intent(MainMenu.this, SettingsActivity.class));
                 break;
             case R.id.main_menu_nav_logout:
                 executeLogout();
                 break;
-            case R.id.main_menu_nav_contacts:
-                switchToFragment(AppFragment.CONTACTS);
             default:
                 Log.e(TAG, "Unhandled menu item: " + item.getTitle());
                 break;
