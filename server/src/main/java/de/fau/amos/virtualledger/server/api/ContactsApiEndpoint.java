@@ -40,7 +40,7 @@ public class ContactsApiEndpoint {
      * 
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET, value = "api/savings", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "api/contacts", produces = "application/json")
     public ResponseEntity<?> getSavingAccountsEndpoint() {
         KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = principal.getKeycloakSecurityContext().getToken().getEmail();
@@ -59,8 +59,8 @@ public class ContactsApiEndpoint {
      * @param savingsAccount
      * @return status 201 if successful
      */
-    @RequestMapping(method = RequestMethod.POST, value = "api/savings", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> addSavingAccountEndpoint(@RequestBody SavingsAccount savingsAccount) {
+    @RequestMapping(method = RequestMethod.POST, value = "api/contacts", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<?> addContactsAccountEndpoint(@RequestBody SavingsAccount savingsAccount) {
         KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = principal.getKeycloakSecurityContext().getToken().getEmail();
 
