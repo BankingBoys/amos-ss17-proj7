@@ -12,9 +12,9 @@ import de.fau.amos.virtualledger.dtos.SessionData;
 
 public class SessionDataTest {
 
-    String email = "testEmail";
-    String sessionId = "testID";
-    SessionData testData;
+    private String email = "testEmail";
+    private String sessionId = "testID";
+    private SessionData testData;
 
     @Before
     public void setUp() {
@@ -26,7 +26,7 @@ public class SessionDataTest {
      */
     @Test
     public void constructorTest() {
-        SessionData data = new SessionData(email,sessionId);
+        SessionData data = new SessionData(email, sessionId);
         Assert.assertNotNull(data);
     }
 

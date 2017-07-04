@@ -4,280 +4,272 @@ import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
-import de.fau.amos.virtualledger.server.auth.Secured;
 import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.KeycloakSecurityContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 /**
- * Created by Georg on 20.05.2017.
- */
-
-/**
  * Endpoints for basic banking logic
  */
-@Path("/banking")
+@RestController
 public class BankingOverviewApiEndpoint {
-    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private BankingOverviewController bankingOverviewController;
 
-    @Inject
+    @Autowired
     public BankingOverviewApiEndpoint(BankingOverviewController bankingOverviewController) {
         this.bankingOverviewController = bankingOverviewController;
     }
-    protected BankingOverviewApiEndpoint() { }
 
+    protected BankingOverviewApiEndpoint() {
+    }
 
     /**
      * Endpoint for getting banking overview data (bankaccesses + bankaccunts).
      * User must be authenticated.
-     * @param securityContext
+     * 
      * @return
      */
-    @GET
-    @Secured
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getBankingOverviewEndpoint(@Context SecurityContext securityContext)
-    {
-        if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
-        {
-            return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
-        }
-        final String email = securityContext.getUserPrincipal().getName();
-        logger.info("getBankingOverviewEndpoint of " + email + " was requested");
+    @RequestMapping(method = RequestMethod.GET, value = "api/banking", produces = "application/json")
+    public ResponseEntity<?> getBankingOverviewEndpoint() {
+        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
 
-        return this.getBankingOverview(email);
+        if (username == null || username.isEmpty()) {
+            return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
+        }
+        LOGGER.info("getBankingOverviewEndpoint of " + username + " was requested");
+
+        return this.getBankingOverview(username);
     }
 
     /**
-     * Endpoint for adding a bank access. Sent parameters must not be null or empty.
-     * User must be authenticated.
-     * @param securityContext
+     * Endpoint for adding a bank access. Sent parameters must not be null or
+     * empty. User must be authenticated.
+     * 
      * @param bankAccessCredential
      * @return
      */
-    @POST
-    @Secured
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response addBankAccessEndpoint(@Context SecurityContext securityContext, BankAccessCredential bankAccessCredential)
-    {
-        if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
-        {
-            return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
-        } if(bankAccessCredential.getBankcode() == null || bankAccessCredential.getBankcode().isEmpty() ||
-            bankAccessCredential.getBanklogin() == null || bankAccessCredential.getBanklogin().isEmpty() ||
-            bankAccessCredential.getPin() == null || bankAccessCredential.getPin().isEmpty())
-        {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
-        }
-        final String email = securityContext.getUserPrincipal().getName();
-        logger.info("addBankAccessEndpoint was requested by " + email);
+    @RequestMapping(method = RequestMethod.POST, value = "api/banking", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<?> addBankAccessEndpoint(@RequestBody BankAccessCredential bankAccessCredential) {
+        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
 
-        return this.addBankAccess(email, bankAccessCredential);
+        if (username == null || username.isEmpty()) {
+            return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
+        }
+        if (bankAccessCredential.getBankcode() == null//
+                || bankAccessCredential.getBankcode().isEmpty()//
+                || bankAccessCredential.getBanklogin() == null//
+                || bankAccessCredential.getBanklogin().isEmpty()//
+                || bankAccessCredential.getPin() == null//
+                || bankAccessCredential.getPin().isEmpty()) {
+            return new ResponseEntity<>(
+                    "Please check your inserted values. None of the parameters must be null or empty.",
+                    HttpStatus.BAD_REQUEST);
+        }
+        LOGGER.info("addBankAccessEndpoint was requested by " + username);
+
+        return this.addBankAccess(username, bankAccessCredential);
     }
 
     /**
-     * Endpoint for deleting a bank access. bankAccessId must not be null or empty.
-     * User must be authenticated.
-     * @param securityContext
+     * Endpoint for deleting a bank access. bankAccessId must not be null or
+     * empty. User must be authenticated.
+     * 
      * @param bankAccessId
      * @return
      */
-    @DELETE
-    @Path("/{bankAccessId}")
-    @Secured
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteBankAccessEndpoint(@Context SecurityContext securityContext, @PathParam("bankAccessId") String bankAccessId)
-    {
-        if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
-        {
-            return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
-        } if(bankAccessId == null || bankAccessId.isEmpty())
-        {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
-        }
-        final String email = securityContext.getUserPrincipal().getName();
-        logger.info("deleteBankAccessEndpoint was requested by " + email);
+    @RequestMapping(method = RequestMethod.DELETE, value = "api/banking/{accessId}", produces = "application/json")
+    public ResponseEntity<?> deleteBankAccessEndpoint(@PathVariable("accessId") String bankAccessId) {
+        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
 
-        return this.deleteBankAccess(email, bankAccessId);
+        if (username == null || username.isEmpty()) {
+            return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
+        }
+        if (bankAccessId == null || bankAccessId.isEmpty()) {
+            return new ResponseEntity<>(
+                    "Please check your inserted values. None of the parameters must be null or empty.",
+                    HttpStatus.BAD_REQUEST);
+        }
+        LOGGER.info("deleteBankAccessEndpoint was requested by " + username);
+
+        return this.deleteBankAccess(username, bankAccessId);
     }
 
     /**
-     * Endpoint for deleting a bank account. bankAccessId and bankAccountId must not be null or empty.
-     * User must be authenticated.
-     * @param securityContext
+     * Endpoint for deleting a bank account. bankAccessId and bankAccountId must
+     * not be null or empty. User must be authenticated.
+     * 
      * @param bankAccessId
      * @param bankAccountId
      * @return
      */
-    @DELETE
-    @Path("/{bankAccessId}/{bankAccountId}")
-    @Secured
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteBankAccountEndpoint(@Context SecurityContext securityContext, @PathParam("bankAccessId") String bankAccessId, @PathParam("bankAccountId") String bankAccountId)
-    {
-        if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
-        {
-            return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
-        } if(bankAccessId == null || bankAccessId.isEmpty() ||
-            bankAccountId == null || bankAccountId.isEmpty())
-        {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
-        }
-        final String email = securityContext.getUserPrincipal().getName();
-        logger.info("deleteBankAccountEndpoint was requested by " + email);
+    @RequestMapping(method = RequestMethod.DELETE, value = "api/banking/{accessId}/{accountId}", produces = "application/json")
+    public ResponseEntity<?> deleteBankAccountEndpoint(@PathVariable("accessId") String bankAccessId,
+            @PathVariable("accountId") String bankAccountId) {
+        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
 
-        return this.deleteBankAccount(email, bankAccessId, bankAccountId);
+        if (username == null || username.isEmpty()) {
+            return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
+        }
+        if (bankAccessId == null || bankAccessId.isEmpty() || bankAccountId == null || bankAccountId.isEmpty()) {
+            return new ResponseEntity<>(
+                    "Please check your inserted values. None of the parameters must be null or empty.",
+                    HttpStatus.BAD_REQUEST);
+        }
+        LOGGER.info("deleteBankAccountEndpoint was requested by " + username);
+
+        return this.deleteBankAccount(username, bankAccessId, bankAccountId);
     }
 
     /**
-     * Endpoint for synchronizing bank accounts. bankAccountSyncList must not be null, all BankAccountSync must contain parameters that are not null or empty.
-     * User must be authenticated.
-     * @param securityContext
+     * Endpoint for synchronizing bank accounts. bankAccountSyncList must not be
+     * null, all BankAccountSync must contain parameters that are not null or
+     * empty. User must be authenticated.
+     * 
      * @param bankAccountSyncList
      * @return
      */
-    @PUT
-    @Path("/sync")
-    @Secured
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response syncBankAccountsEndpoint(@Context SecurityContext securityContext, List<BankAccountSync> bankAccountSyncList)
-    {
-        if(securityContext.getUserPrincipal().getName() == null || securityContext.getUserPrincipal().getName().isEmpty())
-        {
-            return Response.status(Response.Status.FORBIDDEN).entity("Authentication failed! Your email wasn't found.").build();
-        } if(bankAccountSyncList == null)
-        {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null.").build();
+    @RequestMapping(method = RequestMethod.PUT, value = "api/banking/sync", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<?> syncBankAccountsEndpoint(@RequestBody List<BankAccountSync> bankAccountSyncList) {
+        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
+
+        if (username == null || username.isEmpty()) {
+            return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
         }
-        for(BankAccountSync bankAccountSync: bankAccountSyncList)
-        {
-            if(bankAccountSync == null ||
-                    bankAccountSync.getBankaccessid() == null || bankAccountSync.getBankaccessid().isEmpty()||
-                    bankAccountSync.getBankaccountid() == null || bankAccountSync.getBankaccountid().isEmpty()||
-                    bankAccountSync.getPin() == null || bankAccountSync.getPin().isEmpty())
-            {
-                return Response.status(Response.Status.BAD_REQUEST).entity("Please check your inserted values. None of the parameters must be null or empty.").build();
+        if (bankAccountSyncList == null) {
+            return new ResponseEntity<>(
+                    "Please check your inserted values. None of the parameters must be null or empty.",
+                    HttpStatus.BAD_REQUEST);
+        }
+        for (BankAccountSync bankAccountSync : bankAccountSyncList) {
+            if (bankAccountSync == null || bankAccountSync.getBankaccessid() == null
+                    || bankAccountSync.getBankaccessid().isEmpty() || bankAccountSync.getBankaccountid() == null
+                    || bankAccountSync.getBankaccountid().isEmpty() || bankAccountSync.getPin() == null
+                    || bankAccountSync.getPin().isEmpty()) {
+                return new ResponseEntity<>(
+                        "Please check your inserted values. None of the parameters must be null or empty.",
+                        HttpStatus.BAD_REQUEST);
             }
         }
 
-        final String email = securityContext.getUserPrincipal().getName();
-        logger.info("syncBankAccountsEndpoint was requested by " + email);
+        LOGGER.info("syncBankAccountsEndpoint was requested by " + username);
 
-        return this.syncBankAccounts(email, bankAccountSyncList);
+        return this.syncBankAccounts(username, bankAccountSyncList);
     }
 
-
     /**
-     * Does the logic for getting the banking overview data.
-     * Handles exceptions and returns corresponding response codes.
-     * @param email
+     * Does the logic for getting the banking overview data. Handles exceptions
+     * and returns corresponding response codes.
+     * 
+     * @param username
      * @return
      */
-    private Response getBankingOverview(String email)
-    {
+    private ResponseEntity<?> getBankingOverview(String username) {
         List<BankAccess> bankAccesses = null;
-        try
-        {
-            bankAccesses = bankingOverviewController.getBankingOverview(email);
-        } catch (BankingException ex)
-        {
-            logger.error("", ex);
-            return Response.status(Response.Status.BAD_REQUEST).build();
+        try {
+            bankAccesses = bankingOverviewController.getBankingOverview(username);
+        } catch (BankingException ex) {
+            LOGGER.error("", ex);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return Response.ok(bankAccesses).build();
+        return new ResponseEntity<>(bankAccesses, HttpStatus.OK);
     }
 
     /**
-     * Does the logic for adding a bank access.
-     * Handles exceptions and returns corresponding response codes.
-     * @param email
+     * Does the logic for adding a bank access. Handles exceptions and returns
+     * corresponding response codes.
+     * 
+     * @param username
      * @param bankAccessCredential
      * @return
      */
-    private Response addBankAccess(String email, BankAccessCredential bankAccessCredential)
-    {
+    private ResponseEntity<?> addBankAccess(String username, BankAccessCredential bankAccessCredential) {
         try {
-            BankAccess addedBankAccess = bankingOverviewController.addBankAccess(email, bankAccessCredential);
-            return Response.status(Response.Status.CREATED).entity(addedBankAccess).build();
-        } catch (BankingException ex)
-        {
-            logger.error("", ex);
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            BankAccess addedBankAccess = bankingOverviewController.addBankAccess(username, bankAccessCredential);
+            return new ResponseEntity<>(addedBankAccess, HttpStatus.CREATED);
+        } catch (BankingException ex) {
+            LOGGER.error("", ex);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     /**
-     * Does the logic for deleting a bank access.
-     * Handles exceptions and returns corresponding response codes.
-     * @param email
+     * Does the logic for deleting a bank access. Handles exceptions and returns
+     * corresponding response codes.
+     * 
+     * @param username
      * @param bankAccessId
      * @return
      */
-    private Response deleteBankAccess(String email, String bankAccessId)
-    {
-        try
-        {
-            bankingOverviewController.deleteBankAccess(email, bankAccessId);
-        } catch (BankingException ex)
-        {
-            logger.error("", ex);
-            return Response.status(Response.Status.BAD_REQUEST).build();
+    private ResponseEntity<?> deleteBankAccess(String username, String bankAccessId) {
+        try {
+            bankingOverviewController.deleteBankAccess(username, bankAccessId);
+        } catch (BankingException ex) {
+            LOGGER.error("", ex);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return Response.status(Response.Status.OK).build();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
-     * Does the logic for deleting a bank account.
-     * Handles exceptions and returns corresponding response codes.
-     * @param email
+     * Does the logic for deleting a bank account. Handles exceptions and
+     * returns corresponding response codes.
+     * 
+     * @param username
      * @param bankAccessId
      * @param bankAccountId
      * @return
      */
-    private Response deleteBankAccount(String email, String bankAccessId, String bankAccountId)
-    {
-        try
-        {
-            bankingOverviewController.deleteBankAccount(email, bankAccessId, bankAccountId);
-        } catch (BankingException ex)
-        {
-            logger.error("", ex);
-            return Response.status(Response.Status.BAD_REQUEST).build();
+    private ResponseEntity<?> deleteBankAccount(String username, String bankAccessId, String bankAccountId) {
+        try {
+            bankingOverviewController.deleteBankAccount(username, bankAccessId, bankAccountId);
+        } catch (BankingException ex) {
+            LOGGER.error("", ex);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return Response.status(Response.Status.OK).build();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
-     * Does the logic for synchronizing a list of bank accounts.
-     * Handles exceptions and returns corresponding response codes.
-     * @param email
+     * Does the logic for synchronizing a list of bank accounts. Handles
+     * exceptions and returns corresponding response codes.
+     * 
+     * @param username
      * @param bankAccountSyncList
      * @return
      */
-    private Response syncBankAccounts(String email, List<BankAccountSync> bankAccountSyncList)
-    {
-        try
-        {
-            final BankAccountSyncResult result = bankingOverviewController.syncBankAccounts(email, bankAccountSyncList);
-            return Response.status(Response.Status.OK).entity(result).build();
-        } catch (BankingException ex)
-        {
-            logger.error("", ex);
-            return Response.status(Response.Status.BAD_REQUEST).build();
+    private ResponseEntity<?> syncBankAccounts(String username, List<BankAccountSync> bankAccountSyncList) {
+        try {
+            final BankAccountSyncResult result = bankingOverviewController.syncBankAccounts(username,
+                    bankAccountSyncList);
+
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (BankingException ex) {
+            LOGGER.error("", ex);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

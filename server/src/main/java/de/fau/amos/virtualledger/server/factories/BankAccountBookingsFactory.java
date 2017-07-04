@@ -1,15 +1,17 @@
 package de.fau.amos.virtualledger.server.factories;
 
-import de.fau.amos.virtualledger.dtos.BankAccountBookings;
-import de.fau.amos.virtualledger.dtos.Booking;
-import de.fau.amos.virtualledger.server.banking.model.BookingModel;
-
-import javax.enterprise.context.RequestScoped;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@RequestScoped
+import org.springframework.stereotype.Component;
+
+import de.fau.amos.virtualledger.dtos.BankAccountBookings;
+import de.fau.amos.virtualledger.dtos.Booking;
+import de.fau.amos.virtualledger.server.banking.model.BookingModel;
+
+@Component
+
 public class BankAccountBookingsFactory {
 
     public BankAccountBookings createBankAccountBookings(final List<BookingModel> bookingModels, final String bankAccessId, final String bankAccountId)

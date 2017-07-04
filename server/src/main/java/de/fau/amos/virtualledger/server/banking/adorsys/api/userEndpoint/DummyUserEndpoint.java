@@ -1,13 +1,11 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint;
 
-import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiDummy;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
-import javax.enterprise.context.RequestScoped;
+@Component
 
-/**
- * Created by Georg on 18.05.2017.
- */
-@RequestScoped @BankingApiDummy
+@Qualifier("dummy")
 public class DummyUserEndpoint implements UserEndpoint {
 
     @Override

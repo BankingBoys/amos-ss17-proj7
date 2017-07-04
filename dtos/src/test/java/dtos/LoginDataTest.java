@@ -1,6 +1,7 @@
 package dtos;
 
-import org.junit.Assert;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Test;
 
 import de.fau.amos.virtualledger.dtos.LoginData;
@@ -11,17 +12,11 @@ import de.fau.amos.virtualledger.dtos.LoginData;
 
 public class LoginDataTest {
 
-    LoginData testData = new LoginData("testEmail", "testPw");
 
     @Test
-    public void constructorTest() {
-        Assert.assertNotNull(testData);
-    }
-
-    @Test
-    public void toStringTest() {
-        String test = testData.toString();
-        Assert.assertNotEquals(test, "");
+    public void testeToString() {
+        LoginData componentUnderTest = new LoginData("testEmail", "testPw");
+        assertThat(componentUnderTest.toString()).isEqualTo("LoginData{testEmail}");
     }
 
 }

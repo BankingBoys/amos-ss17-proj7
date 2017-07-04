@@ -1,10 +1,15 @@
 package dtos;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
-import org.junit.*;
+
 /**
  * Created by Simon on 05.06.2017.
  */
+
 public class BankAccessCredentialTest {
 
     private String bankcode = "testCode";
@@ -58,8 +63,5 @@ public class BankAccessCredentialTest {
         credential.setPin(testPin);
         Assert.assertEquals(testPin, credential.getPin());
     }
-
-
-
 
 }

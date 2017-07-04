@@ -38,14 +38,17 @@ public class App extends Application {
 
         AppModule appModule = new AppModule(this);
 
-        netComponent = DaggerNetComponent.builder()
-                .appModule(appModule)
-                .netModule(new NetModule(ip))
-                .build();
+
 
         oidcAuthenticationComponent = DaggerOidcAuthenticationComponent.builder()
                 .appModule(appModule)
                 .netModule(new NetModule(authorityIp))
+                .build();
+
+        netComponent = DaggerNetComponent.builder()
+                .appModule(appModule)
+                .netModule(new NetModule(ip))
+                .oidcAuthenticationComponent(oidcAuthenticationComponent)
                 .build();
     }
 

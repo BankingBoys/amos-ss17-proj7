@@ -5,7 +5,12 @@ package de.fau.amos.virtualledger.server.banking.model;
  */
 public class BankingException extends Exception {
 
-   public BankingException(String s) {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    public BankingException(String s) {
         super(s);
     }
 }

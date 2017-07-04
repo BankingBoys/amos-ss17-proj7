@@ -1,26 +1,26 @@
 package de.fau.amos.virtualledger.server.factories;
 
-import de.fau.amos.virtualledger.dtos.BankAccess;
-import de.fau.amos.virtualledger.dtos.BankAccount;
-import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankAccountBalanceBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 
 public class BankAccessFactoryTest {
 
-    BankAccessFactory bankAccessFactory;
+    private BankAccessFactory bankAccessFactory;
 
     @Before
-    public void setup() { bankAccessFactory = new BankAccessFactory(); }
+    public void setup() {
+        bankAccessFactory = new BankAccessFactory();
+    }
 
     @Test
-    public void create_success() {
+    public void createSuccess() {
         // SETUP
         String accessId = "accessID";
         String bankName = "bankName";
@@ -44,7 +44,7 @@ public class BankAccessFactoryTest {
     }
 
     @Test
-    public void createList_success() {
+    public void createListSuccess() {
         // SETUP
         String accessId = "accessID";
         String bankName = "bankName";

@@ -14,8 +14,7 @@ public class StringApiModel {
      *
      * @return
      */
-    public String getData()
-    {
+    public String getData() {
         return data;
     }
 
@@ -23,8 +22,7 @@ public class StringApiModel {
      *
      * @param data
      */
-    public void setData(String data)
-    {
+    public void setData(String data) {
         this.data = data;
     }
 }

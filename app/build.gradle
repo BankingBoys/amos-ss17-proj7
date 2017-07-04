@@ -4,16 +4,24 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.6.0'
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'jacoco'
-apply plugin: 'com.vanniktech.android.junit.jacoco'
+apply plugin: 'com.android.application'
+apply plugin: 'jacoco-android'
 
+jacocoAndroidUnitTestReport {
+    excludes += ['**/dagger/**/*.*']
+    html.enabled true
+    xml.enabled true
+}
+check.dependsOn {
+		jacocoTestReport
+	}
 
 repositories {
     mavenCentral()

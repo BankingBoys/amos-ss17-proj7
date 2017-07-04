@@ -1,18 +1,20 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint;
 
-import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import javax.validation.constraints.AssertFalse;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
+import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 
 public class DummyBankAccessEndpointTest {
 
     @Test
-    public void workflow_working() throws Exception {
+    public void workflowWorking() throws Exception {
 
         // SETUP
         String testUser = "user";
@@ -37,7 +39,7 @@ public class DummyBankAccessEndpointTest {
     }
 
     @Test
-    public void exists_working() throws Exception {
+    public void existsWorking() throws Exception {
 
         // SETUP
         String testUser = "user";
@@ -45,28 +47,22 @@ public class DummyBankAccessEndpointTest {
         BankAccessBankingModel bankAccessBankingModel = new BankAccessBankingModel();
         bankAccessBankingModel.setUserId(testUser);
 
-        DummyBankAccessEndpointTestMembersTest dummyBankAccessEndpoint = new DummyBankAccessEndpointTestMembersTest();
+        DummyBankAccessEndpoint dummyBankAccessEndpoint = new DummyBankAccessEndpoint();
 
         // ACT
         dummyBankAccessEndpoint.addBankAccess(testUser, bankAccessBankingModel);
-        List<BankAccessBankingModel> bankAccessBankingModelList = dummyBankAccessEndpoint.getList();
+        List<BankAccessBankingModel> bankAccessBankingModelList = dummyBankAccessEndpoint.getBankAccesses(null);
 
         assertNotNull(bankAccessBankingModelList);
         assertEquals(bankAccessBankingModelList.size(), 1);
 
-        boolean exists_pre_change = dummyBankAccessEndpoint.existsBankAccess(testId);
+        boolean existsPreChange = dummyBankAccessEndpoint.existsBankAccess(testId);
         bankAccessBankingModelList.get(0).setId(testId);
-        boolean exists_post_change = dummyBankAccessEndpoint.existsBankAccess(testId);
+        boolean existsPostChange = dummyBankAccessEndpoint.existsBankAccess(testId);
 
         // ASSERT
-        assertFalse(exists_pre_change);
-        assertTrue(exists_post_change);
+        assertFalse(existsPreChange);
+        assertTrue(existsPostChange);
     }
 
-    private class DummyBankAccessEndpointTestMembersTest extends DummyBankAccessEndpoint {
-
-        public List<BankAccessBankingModel> getList() {
-            return super.bankingModels;
-        }
-    }
 }

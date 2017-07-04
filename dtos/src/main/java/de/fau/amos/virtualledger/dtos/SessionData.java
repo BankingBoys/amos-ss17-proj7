@@ -5,12 +5,11 @@ import java.io.Serializable;
 /**
  *
  */
-public class SessionData implements Serializable{
+public class SessionData implements Serializable {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/**
+     */
+    private static final long serialVersionUID = 1L;
+    /**
      *
      */
     private String email;
@@ -22,15 +21,15 @@ public class SessionData implements Serializable{
     /**
      *
      */
-    public SessionData() { }
+    public SessionData() {
+    }
 
     /**
      *
      * @param email
      * @param token
      */
-    public SessionData(String email, String token)
-    {
+    public SessionData(String email, String token) {
         this.email = email;
         this.sessionid = token;
     }

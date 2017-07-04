@@ -27,6 +27,7 @@ import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
+import de.fau.amos.virtualledger.android.views.contacts.ContactsFragment;
 import de.fau.amos.virtualledger.android.views.savings.SavingAccountsFragment;
 import de.fau.amos.virtualledger.android.views.settings.SettingsActivity;
 import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOverviewFragment;
@@ -42,7 +43,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     private boolean recentlyAddedAccess = false;
 
     public enum AppFragment {
-        BANK_ACCESSES, TRANSACTION_OVERVIEW, SAVING_ACCOUNTS
+        BANK_ACCESSES, TRANSACTION_OVERVIEW, SAVING_ACCOUNTS, CONTACTS
     }
 
     @Inject
@@ -136,6 +137,12 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 final SavingAccountsFragment savingAccountsFragment = new SavingAccountsFragment();
                 openFragment(savingAccountsFragment);
                 break;
+            case CONTACTS:
+                setTitle(R.string.contacts_title);
+                navigationView.setCheckedItem(R.id.main_menu_nav_contacts);
+                final ContactsFragment contactsFragment = new ContactsFragment();
+                openFragment(contactsFragment);
+                break;
             default:
                 Log.e(TAG, "Trying to change to unhandled fragment " + fragment.name());
                 break;
@@ -155,6 +162,9 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 break;
             case R.id.main_menu_nav_saving_accounts:
                 switchToFragment(AppFragment.SAVING_ACCOUNTS);
+                break;
+            case R.id.main_menu_nav_contacts:
+                switchToFragment(AppFragment.CONTACTS);
                 break;
             case R.id.main_menu_nav_settings:
                 startActivity(new Intent(MainMenu.this, SettingsActivity.class));

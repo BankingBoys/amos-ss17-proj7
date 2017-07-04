@@ -1,13 +1,15 @@
 package dtos;
 
-import org.junit.Test;
-import org.junit.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
 import de.fau.amos.virtualledger.dtos.BankAccess;
+import de.fau.amos.virtualledger.dtos.BankAccessComparator;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 
 /**
@@ -16,24 +18,25 @@ import de.fau.amos.virtualledger.dtos.BankAccount;
 
 public class BankAccessTest {
 
+    private static final int THREE = 3;
     private List<BankAccount> testAccountList;
     private BankAccount account1;
     private BankAccount account2;
     private BankAccess testAccess;
-    private double accountBalance1 = 100;
-    private double accountBalance2 = 300;
+    private static final double BANKACCOUNT_BALANCE = 100;
+    private static final double BANKACCOUNT_BALANCE_2 = 300;
 
     /**
      *
      */
     @Before
     public void setUp() {
-        account1 = new BankAccount("123", "test1", accountBalance1);
-        account2 = new BankAccount("456", "test2", accountBalance2);
+        account1 = new BankAccount("123", "test1", BANKACCOUNT_BALANCE);
+        account2 = new BankAccount("456", "test2", BANKACCOUNT_BALANCE_2);
         testAccountList = new ArrayList<>();
         testAccountList.add(account1);
         testAccountList.add(account2);
-        testAccess = new BankAccess("123","defName", "1231312", "123", testAccountList);
+        testAccess = new BankAccess("123", "defName", "1231312", "123", testAccountList);
     }
 
     /**
@@ -69,7 +72,7 @@ public class BankAccessTest {
      */
     @Test
     public void getBalanceTest() {
-        Assert.assertEquals(accountBalance1+accountBalance2, testAccess.getBalance(), 0);
+        Assert.assertEquals(BANKACCOUNT_BALANCE + BANKACCOUNT_BALANCE_2, testAccess.getBalance(), 0);
     }
 
     /**
@@ -78,8 +81,8 @@ public class BankAccessTest {
     @Test
     public void setAndGetBankAccountsTest() {
         List<BankAccount> test = new ArrayList<BankAccount>();
-        test.add(new BankAccount("test1234","testaccount1", 0));
-        test.add(new BankAccount("test456","testaccount2", 0));
+        test.add(new BankAccount("test1234", "testaccount1", 0));
+        test.add(new BankAccount("test456", "testaccount2", 0));
         testAccess.setBankaccounts(test);
         Assert.assertEquals(test, testAccess.getBankaccounts());
     }
@@ -109,9 +112,9 @@ public class BankAccessTest {
      */
     @Test
     public void comparatorTest() {
-        BankAccess testAccess2 = new BankAccess("456","abcName", "12", "56", testAccountList);
-        BankAccess testAccess3 = new BankAccess("789","jklName", "34", "12", testAccountList);
-        BankAccess testAccess4 = new BankAccess("101112","ghiName", "56", "62", testAccountList);
+        BankAccess testAccess2 = new BankAccess("456", "abcName", "12", "56", testAccountList);
+        BankAccess testAccess3 = new BankAccess("789", "jklName", "34", "12", testAccountList);
+        BankAccess testAccess4 = new BankAccess("101112", "ghiName", "56", "62", testAccountList);
 
         List<BankAccess> listAccesses = new ArrayList<>();
         listAccesses.add(testAccess);
@@ -119,12 +122,12 @@ public class BankAccessTest {
         listAccesses.add(testAccess2);
         listAccesses.add(testAccess4);
 
-        Collections.sort(listAccesses, BankAccess.sortBankAccessByName);
+        Collections.sort(listAccesses, new BankAccessComparator());
 
         Assert.assertEquals(testAccess2, listAccesses.get(0));
         Assert.assertEquals(testAccess, listAccesses.get(1));
         Assert.assertEquals(testAccess4, listAccesses.get(2));
-        Assert.assertEquals(testAccess3, listAccesses.get(3));
+        Assert.assertEquals(testAccess3, listAccesses.get(THREE));
     }
 
 }

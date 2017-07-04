@@ -38,4 +38,6 @@
     <dimen name="banking_overview_no_bank_accesses_button_margin_left_right">16dp</dimen>
 
     <dimen name="main_menu_sliding_tab_list_view_width">150dp</dimen>
+
+    <dimen name="contact_padding_start_left">6dp</dimen>
 </resources>

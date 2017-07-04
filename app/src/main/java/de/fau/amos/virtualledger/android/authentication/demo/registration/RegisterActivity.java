@@ -82,8 +82,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(@NonNull String s) {
-                        /*textView.setTextColor(Color.GREEN);
-                        textView.setText(s);*/
                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                         startActivity(intent);
                     }

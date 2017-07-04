@@ -20,10 +20,6 @@
         <activity android:name=".android.authentication.demo.login.LoginActivity"
                   android:screenOrientation="portrait">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".android.authentication.demo.registration.RegisterActivity"
@@ -51,7 +47,13 @@
         <activity
             android:name=".android.authentication.oidc.OidcAuthenticationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" >
+
+                <intent-filter>
+                    <action android:name="android.intent.action.MAIN" />
+                    <category android:name="android.intent.category.LAUNCHER" />
+                </intent-filter>
+           </activity>
 
 
         <service android:name="org.jboss.aerogear.android.authorization.oauth2.OAuth2AuthzService"/>

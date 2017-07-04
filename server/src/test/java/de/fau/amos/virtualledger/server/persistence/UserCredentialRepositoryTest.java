@@ -18,97 +18,97 @@ import de.fau.amos.virtualledger.dtos.LoginData;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 
 public class UserCredentialRepositoryTest {
-	@Test
-	public void teste_checkLogIn_withExistingCredentials_shouldLogIn() {
-		// Arrange
-		UserCredentialRepository component_under_test = new UserCredentialRepository();
+    @Test
+    public void testeCheckLogInWithExistingCredentialsShouldLogIn() {
+        // Arrange
+        UserCredentialRepository componentUnderTest = new UserCredentialRepository();
 
-		mockDatabase(component_under_test, Arrays.asList(matchingUserCredential()));
-		
-		//Act
-		boolean result = component_under_test.checkLogin(loginData());
+        mockDatabase(componentUnderTest, Arrays.asList(matchingUserCredential()));
 
-		//Assert
-		assertThat(result).isTrue();
-	}
+        // Act
+        boolean result = componentUnderTest.checkLogin(loginData());
 
-	@Test
-	public void test_checkLogin_withExistingCredentialsAndWrongPassword_shouldNotLogIn() {
-		// Arrange
-		UserCredentialRepository component_under_test = new UserCredentialRepository();
-		mockDatabase(component_under_test, Arrays.asList(notNatchingUserCredential()));
+        // Assert
+        assertThat(result).isTrue();
+    }
 
-		//Act
-		boolean result = component_under_test.checkLogin(loginData());
+    @Test
+    public void testCheckLoginWithExistingCredentialsAndWrongPasswordShouldNotLogIn() {
+        // Arrange
+        UserCredentialRepository componentUnderTest = new UserCredentialRepository();
+        mockDatabase(componentUnderTest, Arrays.asList(notNatchingUserCredential()));
 
-		//Assert
-		assertThat(result).isFalse();
-	}
+        // Act
+        boolean result = componentUnderTest.checkLogin(loginData());
 
-	@Test
-	public void test_checkLogin_withNoExistingData_shouldNotLogIn() {
-		// Arrange
-		UserCredentialRepository component_under_test = new UserCredentialRepository();
-		mockDatabase(component_under_test, Arrays.asList());
+        // Assert
+        assertThat(result).isFalse();
+    }
 
-		//Act
-		boolean result = component_under_test.checkLogin(loginData());
+    @Test
+    public void testCheckLoginWithNoExistingDataShouldNotLogIn() {
+        // Arrange
+        UserCredentialRepository componentUnderTest = new UserCredentialRepository();
+        mockDatabase(componentUnderTest, Arrays.asList());
 
-		//Assert
-		assertThat(result).isFalse();
-	}
+        // Act
+        boolean result = componentUnderTest.checkLogin(loginData());
 
-	@Test
-	public void test_existsLogIn_withNoExistingData_shouldReturnFalse() {
-		// Arrange
-		UserCredentialRepository component_under_test = new UserCredentialRepository();
-		mockDatabase(component_under_test, Arrays.asList());
+        // Assert
+        assertThat(result).isFalse();
+    }
 
-		//Act
-		boolean result = component_under_test.existsUserCredentialEmail(loginData().email);
+    @Test
+    public void testExistsLogInWithNoExistingDataShouldReturnFalse() {
+        // Arrange
+        UserCredentialRepository componentUnderTest = new UserCredentialRepository();
+        mockDatabase(componentUnderTest, Arrays.asList());
 
-		///Assert
-		assertThat(result).isFalse();
-	}
+        // Act
+        boolean result = componentUnderTest.existsUserCredentialEmail(loginData().getEmail());
 
-	@Test
-	public void test_existsLogIn_withExistingData_shouldReturnTrue() {
-		// Arrange
-		UserCredentialRepository component_under_test = new UserCredentialRepository();
-		mockDatabase(component_under_test, Arrays.asList(new Object()));
+        /// Assert
+        assertThat(result).isFalse();
+    }
 
-		//Act
-		boolean result = component_under_test.existsUserCredentialEmail(loginData().email);
+    @Test
+    public void testExistsLogInWithExistingDataShouldReturnTrue() {
+        // Arrange
+        UserCredentialRepository componentUnderTest = new UserCredentialRepository();
+        mockDatabase(componentUnderTest, Arrays.asList(new Object()));
 
-		///Assert
-		assertThat(result).isTrue();
-	}
+        // Act
+        boolean result = componentUnderTest.existsUserCredentialEmail(loginData().getEmail());
 
-	private void mockDatabase(UserCredentialRepository component_under_test, List<Object> dbResponse) {
-		EntityManagerFactory entityManagerFactoryMock = mock(EntityManagerFactory.class);
-		EntityManager entityMangerMock = mock(EntityManager.class);
-		Query queryMock = mock(Query.class);
-		when(queryMock.getResultList()).thenReturn(dbResponse);
-		when(entityMangerMock.createQuery(anyString())).thenReturn(queryMock);
-		when(entityManagerFactoryMock.createEntityManager()).thenReturn(entityMangerMock);
-		component_under_test.entityManagerFactory = entityManagerFactoryMock;
-	}
+        /// Assert
+        assertThat(result).isTrue();
+    }
 
-	private LoginData loginData() {
-		return new LoginData("some@e.mail", "some pw");
-	}
+    private void mockDatabase(UserCredentialRepository componentUnderTest, List<Object> dbResponse) {
+        EntityManagerFactory entityManagerFactoryMock = mock(EntityManagerFactory.class);
+        EntityManager entityMangerMock = mock(EntityManager.class);
+        Query queryMock = mock(Query.class);
+        when(queryMock.getResultList()).thenReturn(dbResponse);
+        when(entityMangerMock.createQuery(anyString())).thenReturn(queryMock);
+        when(entityManagerFactoryMock.createEntityManager()).thenReturn(entityMangerMock);
+        componentUnderTest.setEntityManagerFactory(entityManagerFactoryMock);
+    }
 
-	private UserCredential matchingUserCredential() {
-		UserCredential userCredential = new UserCredential();
-		userCredential.setEmail(loginData().email);
-		userCredential.setPassword(loginData().password);
-		return userCredential;
-	}
+    private LoginData loginData() {
+        return new LoginData("some@e.mail", "some pw");
+    }
 
-	private UserCredential notNatchingUserCredential() {
-		UserCredential userCredential = new UserCredential();
-		userCredential.setEmail(loginData().email);
-		userCredential.setPassword(loginData().password + "someOther");
-		return userCredential;
-	}
+    private UserCredential matchingUserCredential() {
+        UserCredential userCredential = new UserCredential();
+        userCredential.setEmail(loginData().getEmail());
+        userCredential.setPassword(loginData().getPassword());
+        return userCredential;
+    }
+
+    private UserCredential notNatchingUserCredential() {
+        UserCredential userCredential = new UserCredential();
+        userCredential.setEmail(loginData().getEmail());
+        userCredential.setPassword(loginData().getPassword() + "someOther");
+        return userCredential;
+    }
 }

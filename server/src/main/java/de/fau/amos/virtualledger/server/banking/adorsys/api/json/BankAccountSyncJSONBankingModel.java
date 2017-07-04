@@ -2,16 +2,16 @@ package de.fau.amos.virtualledger.server.banking.adorsys.api.json;
 
 public class BankAccountSyncJSONBankingModel {
 
-    private EmbeddedBankAccountSyncJSONBankingModel _embedded;
+    private EmbeddedBankAccountSyncJSONBankingModel embedded;
 
     public BankAccountSyncJSONBankingModel() {
     }
 
-    public EmbeddedBankAccountSyncJSONBankingModel get_embedded() {
-        return _embedded;
+    public EmbeddedBankAccountSyncJSONBankingModel getEmbedded() {
+        return this.embedded;
     }
 
-    public void set_embedded(EmbeddedBankAccountSyncJSONBankingModel _embedded) {
-        this._embedded = _embedded;
+    public void setEmbedded(EmbeddedBankAccountSyncJSONBankingModel embedded) {
+        this.embedded = embedded;
     }
 }

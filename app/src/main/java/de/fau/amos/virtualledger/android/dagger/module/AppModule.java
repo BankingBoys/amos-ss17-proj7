@@ -2,8 +2,6 @@ package de.fau.amos.virtualledger.android.dagger.module;
 
 import android.app.Application;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -15,16 +13,10 @@ import dagger.Provides;
 public class AppModule {
     Application virtualLedger;
 
-    /**
-     * @param virtualLedger constructor
-     */
     public AppModule(Application virtualLedger) {
         this.virtualLedger = virtualLedger;
     }
 
-    /**
-     * @return
-     */
     @Provides
     Application provideApplication() {
         return virtualLedger;

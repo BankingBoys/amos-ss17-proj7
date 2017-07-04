@@ -1,7 +1,8 @@
 package de.fau.amos.virtualledger.server.savings;
 
-
 public class SavingsException extends Exception {
+
+    private static final long serialVersionUID = 1L;
 
     public SavingsException() {
     }

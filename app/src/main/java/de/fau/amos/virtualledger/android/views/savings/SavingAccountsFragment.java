@@ -15,11 +15,8 @@ import android.widget.ListView;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.inject.Inject;
-
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
@@ -34,9 +31,6 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
     private ListView savingsAccountList;
     private Supplier<SavingsAccount> savingsSupplier;
 
-    @Inject
-    BankingDataManager bankingDataManager;
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -46,6 +40,7 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
         this.savingsSupplier.addDataListeningObject(this);
         adapter = new SavingAccountsAdapter(getActivity(), R.id.savings_account_list, savingsSupplier.getAll());
         savingsAccountList.setAdapter(adapter);
+        this.adapter.sort(new SavingsComparator());
         this.savingsSupplier.onResume();
     }
 
@@ -82,6 +77,7 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
         logger().info("Refreshing savings overview with " + allSavingAccounts.size() + " accounts from"+this.savingsSupplier);
         this.adapter.addAll(allSavingAccounts);
         this.adapter.notifyDataSetChanged();
+        this.adapter.sort(new SavingsComparator());
     }
 
     @Override

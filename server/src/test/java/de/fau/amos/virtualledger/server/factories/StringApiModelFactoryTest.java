@@ -1,18 +1,17 @@
 package de.fau.amos.virtualledger.server.factories;
 
-import de.fau.amos.virtualledger.dtos.StringApiModel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.inject.Inject;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 
 /**
  * Created by Georg on 21.06.2017.
  */
 public class StringApiModelFactoryTest {
 
-    StringApiModelFactory stringApiModelFactory;
+    private StringApiModelFactory stringApiModelFactory;
 
     @Before
     public void setup() {
@@ -20,7 +19,7 @@ public class StringApiModelFactoryTest {
     }
 
     @Test
-    public void create_successful() {
+    public void createSuccessful() {
         // SETUP
         String testString = "test";
 

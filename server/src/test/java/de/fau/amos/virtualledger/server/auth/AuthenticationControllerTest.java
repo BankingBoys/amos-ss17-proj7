@@ -14,100 +14,96 @@ import de.fau.amos.virtualledger.server.model.UserCredential;
 import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
 
 public class AuthenticationControllerTest {
-	@Test(expected = VirtualLedgerAuthenticationException.class)
-	public void test_register_withExistingUser_shouldThrowException() throws Exception {
-		//Arrange
-		AuthenticationController component_under_test = new AuthenticationController();
+    @Test(expected = VirtualLedgerAuthenticationException.class)
+    public void testRegisterWithExistingUserShouldThrowException() throws Exception {
+        // Arrange
+        AuthenticationController componentUnderTest = new AuthenticationController();
 
-		UserCredentialRepository userCredentialRepositoryMock = mock(UserCredentialRepository.class);
-		when(userCredentialRepositoryMock.existsUserCredentialEmail(someEmail())).thenReturn(Boolean.TRUE);
-		component_under_test.userCredentialRepository = userCredentialRepositoryMock;
+        UserCredentialRepository userCredentialRepositoryMock = mock(UserCredentialRepository.class);
+        when(userCredentialRepositoryMock.existsUserCredentialEmail(someEmail())).thenReturn(Boolean.TRUE);
+        componentUnderTest.setUserCredentialRepository(userCredentialRepositoryMock);
 
-		UserCredential credential = getValidUserCredential();
-		credential.setEmail(someEmail());
+        UserCredential credential = getValidUserCredential();
+        credential.setEmail(someEmail());
 
-		//Act
-		component_under_test.register(credential);
-	}
+        // Act
+        componentUnderTest.register(credential);
+    }
 
-	@Test
-	public void test_register_withValidUser_shouldRegister() throws Exception {
-		//Arrange
-		AuthenticationController component_under_test = new AuthenticationController();
+    @Test
+    public void testRegisterWithValidUserShouldRegister() throws Exception {
+        // Arrange
+        AuthenticationController componentUnderTest = new AuthenticationController();
 
-		UserCredentialRepository userCredentialRepositoryMock = mock(UserCredentialRepository.class);
-		component_under_test.userCredentialRepository = userCredentialRepositoryMock;
+        UserCredentialRepository userCredentialRepositoryMock = mock(UserCredentialRepository.class);
+        componentUnderTest.setUserCredentialRepository(userCredentialRepositoryMock);
 
-		BankingApiFacade bankingFacadeMock = mock(BankingApiFacade.class);
-		component_under_test.bankingApiFacade = bankingFacadeMock;
+        BankingApiFacade bankingFacadeMock = mock(BankingApiFacade.class);
+        componentUnderTest.setBankingApiFacade(bankingFacadeMock);
 
-		//Act
-		String result = component_under_test.register(getValidUserCredential());
+        // Act
+        String result = componentUnderTest.register(getValidUserCredential());
 
-		//Assert
-		assertThat(result).isEqualTo("You were registered! blablabl@bbla.de");
-		verify(bankingFacadeMock).createUser(getValidUserCredential().getEmail());
-	}
-	
-	@Test
-	public void test_login_withValidLoginData_shouldLogIn() throws Exception {
-		//Arrange
-		AuthenticationController component_under_test = new AuthenticationController();
-		
-		LoginData validLoginData = validLoginData();
-		UserCredentialRepository userCredentialRepositoryMock = mock(UserCredentialRepository.class);
-		when(userCredentialRepositoryMock.checkLogin(validLoginData)).thenReturn(Boolean.TRUE);
-		component_under_test.userCredentialRepository= userCredentialRepositoryMock;
-		
-		SessionIdGenerator generatorMock = mock(SessionIdGenerator.class);
-		when(generatorMock.generate()).thenReturn(expectedSessionID());
-		component_under_test.sessionIdGenerator = generatorMock;
-		
-		//Act
-		SessionData result = component_under_test.login(validLoginData);
-		
-		//Assert
-		assertThat(result.getEmail()).isEqualTo(validLoginData.email);
-		assertThat(result.getSessionid()).isEqualTo(expectedSessionID());
-	}
+        // Assert
+        assertThat(result).isEqualTo("You were registered! blablabl@bbla.de");
+        verify(bankingFacadeMock).createUser(getValidUserCredential().getEmail());
+    }
 
-	@Test(expected=InvalidCredentialsException.class)
-	public void test_login_withInvalidLoginData_shouldThrowException() throws Exception {
-		// Arrange
-		AuthenticationController component_under_test = new AuthenticationController();
-		
-		LoginData validLoginData = validLoginData();
-		UserCredentialRepository userCredentialRepositoryMock = mock(UserCredentialRepository.class);
-		when(userCredentialRepositoryMock.checkLogin(validLoginData)).thenReturn(Boolean.FALSE);
-		component_under_test.userCredentialRepository= userCredentialRepositoryMock;
-		
-		//Act
-		component_under_test.login(validLoginData);
-	}
+    @Test
+    public void testLoginWithValidLoginDataShouldLogIn() throws Exception {
+        // Arrange
+        AuthenticationController componentUnderTest = new AuthenticationController();
 
-	
-	
-	private String expectedSessionID() {
-		return "some session id";
-	}
+        LoginData validLoginData = validLoginData();
+        UserCredentialRepository userCredentialRepositoryMock = mock(UserCredentialRepository.class);
+        when(userCredentialRepositoryMock.checkLogin(validLoginData)).thenReturn(Boolean.TRUE);
+        componentUnderTest.setUserCredentialRepository(userCredentialRepositoryMock);
 
-	private LoginData validLoginData() {
-		return new LoginData("some@mail.de", "fancy fancy");
-	}
-	
-	
+        SessionIdGenerator generatorMock = mock(SessionIdGenerator.class);
+        when(generatorMock.generate()).thenReturn(expectedSessionID());
+        componentUnderTest.setSessionIdGenerator(generatorMock);
 
-	private UserCredential getValidUserCredential() {
-		UserCredential credential = new UserCredential();
-		credential.setEmail("blablabl@bbla.de");
-		credential.setFirstName("some first name");
-		credential.setLastName("some last anme");
-		credential.setId(0);
-		credential.setPassword("some fancy passw");
-		return credential;
-	}
+        // Act
+        SessionData result = componentUnderTest.login(validLoginData);
 
-	private String someEmail() {
-		return "this@specific.email";
-	}
+        // Assert
+        assertThat(result.getEmail()).isEqualTo(validLoginData.getEmail());
+        assertThat(result.getSessionid()).isEqualTo(expectedSessionID());
+    }
+
+    @Test(expected = InvalidCredentialsException.class)
+    public void testLoginWithInvalidLoginDataShouldThrowException() throws Exception {
+        // Arrange
+        AuthenticationController componentUnderTest = new AuthenticationController();
+
+        LoginData validLoginData = validLoginData();
+        UserCredentialRepository userCredentialRepositoryMock = mock(UserCredentialRepository.class);
+        when(userCredentialRepositoryMock.checkLogin(validLoginData)).thenReturn(Boolean.FALSE);
+        componentUnderTest.setUserCredentialRepository(userCredentialRepositoryMock);
+
+        // Act
+        componentUnderTest.login(validLoginData);
+    }
+
+    private String expectedSessionID() {
+        return "some session id";
+    }
+
+    private LoginData validLoginData() {
+        return new LoginData("some@mail.de", "fancy fancy");
+    }
+
+    private UserCredential getValidUserCredential() {
+        UserCredential credential = new UserCredential();
+        credential.setEmail("blablabl@bbla.de");
+        credential.setFirstname("some first name");
+        credential.setLastname("some last anme");
+        credential.setId(0);
+        credential.setPassword("some fancy passw");
+        return credential;
+    }
+
+    private String someEmail() {
+        return "this@specific.email";
+    }
 }

@@ -8,17 +8,18 @@ public class LoginData {
     /**
      *
      */
-    public String email;
+    private String email;
     /**
      *
      */
-    public String password;
+    private String password;
 
     /**
      *
      * @methodtype constructor
      */
-    public LoginData() {}
+    public LoginData() {
+    }
 
     /**
      *
@@ -26,14 +27,30 @@ public class LoginData {
      * @param email
      * @param password
      */
-    public LoginData(String email, String password){
-        this.email = email;
-        this.password = password;
-	}
-    
+    public LoginData(String email, String password) {
+        this.setEmail(email);
+        this.setPassword(password);
+    }
+
     @Override
     public String toString() {
-    	return super.toString()+"{"+this.email+"}";
+        return "LoginData" + "{" + this.getEmail() + "}";
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

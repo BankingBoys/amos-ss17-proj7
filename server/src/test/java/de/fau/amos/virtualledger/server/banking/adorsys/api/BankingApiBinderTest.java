@@ -1,5 +1,16 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.eclipse.persistence.jpa.jpql.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
 import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.BankAccessEndpoint;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.DummyBankAccessEndpoint;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.HttpBankAccessEndpoint;
@@ -9,40 +20,24 @@ import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.
 import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.DummyUserEndpoint;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.HttpUserEndpoint;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.UserEndpoint;
-import org.eclipse.persistence.jpa.jpql.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-/**
- * Created by Georg on 18.05.2017.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class BankingApiBinderTest {
 
     @Mock
-    BankingApiConfiguration bankingApiConfiguration;
+    private BankingApiConfiguration bankingApiConfiguration;
 
     @Before
-    public void setUp()
-    {
-        when(bankingApiConfiguration.getTestUserName())
-                .thenReturn("test@user.de");
+    public void setUp() {
+        when(bankingApiConfiguration.getTestUserName()).thenReturn("test@user.de");
     }
 
-
     @Test
-    public void getUserEndpoint_dummy()
-    {
+    public void getUserEndpointDummy() {
         // SETUP
         String username = "test@user.de";
-        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, new HttpUserEndpoint(), new DummyUserEndpoint(), null, null, null, null);
+        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, new HttpUserEndpoint(),
+                new DummyUserEndpoint(), null, null, null, null);
 
         // EXECUTE
         UserEndpoint endpoint = bankingApiBinder.getUserEndpoint(username);
@@ -50,17 +45,15 @@ public class BankingApiBinderTest {
         // ASSERT
         Assert.isNotNull(endpoint, "endpoint was null!");
         Assert.isTrue(endpoint instanceof DummyUserEndpoint, "endpoint was not a dummy endpoint!");
-        verify(bankingApiConfiguration, times(1))
-                .getTestUserName();
+        verify(bankingApiConfiguration, times(1)).getTestUserName();
     }
 
-
     @Test
-    public void getUserEndpoint_http()
-    {
+    public void getUserEndpointHttp() {
         // SETUP
         String username = "!test@user.de";
-        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, new HttpUserEndpoint(), new DummyUserEndpoint(), null, null, null, null);
+        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, new HttpUserEndpoint(),
+                new DummyUserEndpoint(), null, null, null, null);
 
         // EXECUTE
         UserEndpoint endpoint = bankingApiBinder.getUserEndpoint(username);
@@ -68,16 +61,15 @@ public class BankingApiBinderTest {
         // ASSERT
         Assert.isNotNull(endpoint, "endpoint was null!");
         Assert.isTrue(endpoint instanceof HttpUserEndpoint, "endpoint was not a http endpoint!");
-        verify(bankingApiConfiguration, times(1))
-                .getTestUserName();
+        verify(bankingApiConfiguration, times(1)).getTestUserName();
     }
 
     @Test
-    public void getBankAccountEndpoint_dummy()
-    {
+    public void getBankAccountEndpointDummy() {
         // SETUP
         String username = "test@user.de";
-        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, null, null, null, null, new HttpBankAccountEndpoint(), new DummyBankAccountEndpoint(null));
+        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, null, null, null, null,
+                new HttpBankAccountEndpoint(), new DummyBankAccountEndpoint(null));
 
         // EXECUTE
         BankAccountEndpoint endpoint = bankingApiBinder.getBankAccountEndpoint(username);
@@ -85,17 +77,15 @@ public class BankingApiBinderTest {
         // ASSERT
         Assert.isNotNull(endpoint, "endpoint was null!");
         Assert.isTrue(endpoint instanceof DummyBankAccountEndpoint, "endpoint was not a dummy endpoint!");
-        verify(bankingApiConfiguration, times(1))
-                .getTestUserName();
+        verify(bankingApiConfiguration, times(1)).getTestUserName();
     }
 
-
     @Test
-    public void getBankAccountEndpoint_http()
-    {
+    public void getBankAccountEndpointHttp() {
         // SETUP
         String username = "!test@user.de";
-        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, null, null, null, null, new HttpBankAccountEndpoint(), new DummyBankAccountEndpoint(null));
+        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, null, null, null, null,
+                new HttpBankAccountEndpoint(), new DummyBankAccountEndpoint(null));
 
         // EXECUTE
         BankAccountEndpoint endpoint = bankingApiBinder.getBankAccountEndpoint(username);
@@ -103,16 +93,15 @@ public class BankingApiBinderTest {
         // ASSERT
         Assert.isNotNull(endpoint, "endpoint was null!");
         Assert.isTrue(endpoint instanceof HttpBankAccountEndpoint, "endpoint was not a http endpoint!");
-        verify(bankingApiConfiguration, times(1))
-                .getTestUserName();
+        verify(bankingApiConfiguration, times(1)).getTestUserName();
     }
 
     @Test
-    public void getBankAccessEndpoint_dummy()
-    {
+    public void getBankAccessEndpointDummy() {
         // SETUP
         String username = "test@user.de";
-        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, null, null, new HttpBankAccessEndpoint(), new DummyBankAccessEndpoint(), null, null);
+        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, null, null,
+                new HttpBankAccessEndpoint(), new DummyBankAccessEndpoint(), null, null);
 
         // EXECUTE
         BankAccessEndpoint endpoint = bankingApiBinder.getBankAccessEndpoint(username);
@@ -120,17 +109,15 @@ public class BankingApiBinderTest {
         // ASSERT
         Assert.isNotNull(endpoint, "endpoint was null!");
         Assert.isTrue(endpoint instanceof DummyBankAccessEndpoint, "endpoint was not a dummy endpoint!");
-        verify(bankingApiConfiguration, times(1))
-                .getTestUserName();
+        verify(bankingApiConfiguration, times(1)).getTestUserName();
     }
 
-
     @Test
-    public void getBankAccessEndpoint_http()
-    {
+    public void getBankAccessEndpointHttp() {
         // SETUP
         String username = "!test@user.de";
-        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, null, null, new HttpBankAccessEndpoint(), new DummyBankAccessEndpoint(), null, null);
+        BankingApiBinder bankingApiBinder = new BankingApiBinder(this.bankingApiConfiguration, null, null,
+                new HttpBankAccessEndpoint(), new DummyBankAccessEndpoint(), null, null);
 
         // EXECUTE
         BankAccessEndpoint endpoint = bankingApiBinder.getBankAccessEndpoint(username);
@@ -138,7 +125,6 @@ public class BankingApiBinderTest {
         // ASSERT
         Assert.isNotNull(endpoint, "endpoint was null!");
         Assert.isTrue(endpoint instanceof HttpBankAccessEndpoint, "endpoint was not a http endpoint!");
-        verify(bankingApiConfiguration, times(1))
-                .getTestUserName();
+        verify(bankingApiConfiguration, times(1)).getTestUserName();
     }
 }

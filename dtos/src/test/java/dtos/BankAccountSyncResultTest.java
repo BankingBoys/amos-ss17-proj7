@@ -18,15 +18,20 @@ import de.fau.amos.virtualledger.dtos.Booking;
 
 public class BankAccountSyncResultTest {
 
+    private static final int EARLY_DATE = 123123;
+    private static final int MIDDLE_DATE = 555555;
+    private static final int LATE_DATE = 999999;
+    private static final double LOW_AMOUNT = 111.1;
+    private static final double MIDDLE_AMOUNT = 555.1;
+    private static final double HIGH_AMOUNT = 999.1;
     private List<BankAccountBookings> bankAccountBookingsList;
     private List<Booking> bookings = new ArrayList<>();
-    private Booking booking1 = new Booking(new Date(123123), 123.1);
-    private Booking booking2 = new Booking(new Date(123123123), 2123.1);
-    private Booking booking3 = new Booking(new Date(12312333), 123.1123);
+    private Booking booking1 = new Booking(new Date(EARLY_DATE), LOW_AMOUNT);
+    private Booking booking2 = new Booking(new Date(MIDDLE_DATE), MIDDLE_AMOUNT);
+    private Booking booking3 = new Booking(new Date(LATE_DATE), HIGH_AMOUNT);
     private BankAccountBookings bankAccountBookings1;
     private BankAccountBookings bankAccountBookings2;
     private BankAccountBookings bankAccountBookings3;
-    private BankAccountSyncResult syncResultTest;
 
     /**
      *
@@ -43,7 +48,6 @@ public class BankAccountSyncResultTest {
         bankAccountBookingsList.add(bankAccountBookings1);
         bankAccountBookingsList.add(bankAccountBookings2);
         bankAccountBookingsList.add(bankAccountBookings3);
-        syncResultTest = new BankAccountSyncResult(bankAccountBookingsList);
     }
 
     /**

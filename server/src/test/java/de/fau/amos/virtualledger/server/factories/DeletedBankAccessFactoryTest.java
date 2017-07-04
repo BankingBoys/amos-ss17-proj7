@@ -1,17 +1,17 @@
 package de.fau.amos.virtualledger.server.factories;
 
-import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
-import de.fau.amos.virtualledger.server.model.DeletedBankAccount;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
 
 /**
  * Created by Georg on 21.06.2017.
  */
 public class DeletedBankAccessFactoryTest {
 
-    DeletedBankAccessFactory deletedBankAccessFactory;
+    private DeletedBankAccessFactory deletedBankAccessFactory;
 
     @Before
     public void setup() {
@@ -19,7 +19,7 @@ public class DeletedBankAccessFactoryTest {
     }
 
     @Test
-    public void create_successful() {
+    public void createSuccessful() {
         // SETUP
         String testEmail = "email";
         String accessId = "accessId";
@@ -29,7 +29,7 @@ public class DeletedBankAccessFactoryTest {
 
         // ASSERT
         Assert.assertNotNull(deletedBankAccess);
-        Assert.assertEquals(testEmail, deletedBankAccess.userEmail);
-        Assert.assertEquals(accessId, deletedBankAccess.bankAccessId);
+        Assert.assertEquals(testEmail, deletedBankAccess.getUserEmail());
+        Assert.assertEquals(accessId, deletedBankAccess.getBankAccessId());
     }
 }

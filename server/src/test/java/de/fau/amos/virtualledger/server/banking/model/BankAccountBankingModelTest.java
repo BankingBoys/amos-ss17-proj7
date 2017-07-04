@@ -9,7 +9,7 @@ import org.junit.Test;
  */
 public class BankAccountBankingModelTest {
 
-    BankAccountBankingModel testModel;
+    private BankAccountBankingModel testModel;
 
     @Before
     public void setUp() {

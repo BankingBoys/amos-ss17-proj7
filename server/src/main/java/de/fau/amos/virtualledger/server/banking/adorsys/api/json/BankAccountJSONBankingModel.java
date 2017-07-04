@@ -1,20 +1,17 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.json;
 
-/**
- * Created by Georg on 21.05.2017.
- */
 public class BankAccountJSONBankingModel {
 
-    private EmbeddedBankAccountJSONBankingModel _embedded;
+    private EmbeddedBankAccountJSONBankingModel embedded;
 
     public BankAccountJSONBankingModel() {
     }
 
-    public EmbeddedBankAccountJSONBankingModel get_embedded() {
-        return _embedded;
+    public EmbeddedBankAccountJSONBankingModel getEmbedded() {
+        return this.embedded;
     }
 
-    public void set_embedded(EmbeddedBankAccountJSONBankingModel _embedded) {
-        this._embedded = _embedded;
+    public void setEmbedded(EmbeddedBankAccountJSONBankingModel embedded) {
+        this.embedded = embedded;
     }
 }

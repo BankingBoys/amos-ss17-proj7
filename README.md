@@ -13,7 +13,7 @@ Restarting the computer/server may be required after setting it!
 
 ### Install workspace for eclipse
 
-Open terminal in the rootproject and type
+Open terminal in the rootproject and run
 
 	gradle eclipse
 
@@ -26,22 +26,24 @@ Go to eclipse
 5. select all projects
 6. click "Finish"
 
+
+### Install workspace for IDEA
+
+Open terminal in the rootproject and run
+
+	gradle idea
+
+Then import the project in idea.
+
 ### Use Jetty-Server
 
 Open Terminal in server-workspace.
 
 Run the command
 
-	gradle jettyRunWar
+	gradle clean bootRun
 
-you build the server-war-file and run it on an embedded jetty server. Changes on the Java-files automatically triggers the server reload (typically < 1 sec).
-
-If you only want to run the server (no war-file build) use:
-
-	gradle jettyRun
-
-
-Test url: http://localhost:8080/virtual-ledger-server/TestServlet
+you build the server-war-file and run it on an embedded jetty server.
 
 ## Use test coverage
 

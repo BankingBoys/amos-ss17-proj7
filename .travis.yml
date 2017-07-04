@@ -12,7 +12,7 @@ install:
   - pip install
   - cd /home/travis/build/BankingBoys/
   - sudo apt install unzip   
-  - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
+  - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip >> log.txt
   - unzip tools_r25.2.3-linux.zip
   - ls
   - export ANDROID_HOME=/home/travis/build/BankingBoys/
@@ -20,9 +20,9 @@ install:
   - export PATH=$PATH://home/travis/build/BankingBoys/platform-tools
   - cd tools
 
-  - echo y | ./android update sdk --no-ui --all --filter "build-tools-25.0.5" 
-  - echo y | ./android update sdk --no-ui --all --filter "tool,extra-android-m2repository,extra-android-support,extra-google-google_play_services,extra-google-m2repository" 
-  - echo y | $ANDROID_HOME/tools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
+  - echo y | ./android update sdk --no-ui --all --filter "build-tools-25.0.5" >> log.txt
+  - echo y | ./android update sdk --no-ui --all --filter "tool,extra-android-m2repository,extra-android-support,extra-google-google_play_services,extra-google-m2repository" >> log.txt
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2" >> log.txt
   - cd /home/travis/build/BankingBoys/amos-ss17-proj7/
 addons:
   ssh_known_hosts: "13.58.185.7"

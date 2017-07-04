@@ -1,33 +1,35 @@
 package de.fau.amos.virtualledger.server.persistence;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Georg on 26.05.2017.
- */
-@ApplicationScoped
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.springframework.stereotype.Component;
+
+@Component
+
 public class EntityManagerFactoryProvider {
 
-    EntityManagerFactory entityManagerFactory;
+    private EntityManagerFactory entityManagerFactory;
 
-    public EntityManagerFactoryProvider()
-    {
-        if(entityManagerFactory == null) {
+    public EntityManagerFactoryProvider() {
+        if (entityManagerFactory == null) {
             initEntityManagerFactory();
         }
     }
 
     /**
-     * Provides a configured EntityManagerFactory that requires a environment variable VIRTUAL_LEDGER_DB_PASSWORD with the password of the database "auth-db"
+     * Provides a configured EntityManagerFactory that requires a environment
+     * variable VIRTUAL_LEDGER_DB_PASSWORD with the password of the database
+     * "auth-db"
+     * 
      * @return
      */
     public EntityManagerFactory getEntityManagerFactory() {
 
-        if(entityManagerFactory == null) {
+        if (entityManagerFactory == null) {
             initEntityManagerFactory();
         }
         return entityManagerFactory;

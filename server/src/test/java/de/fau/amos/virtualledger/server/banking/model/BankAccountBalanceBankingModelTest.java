@@ -9,7 +9,7 @@ import org.junit.Test;
  */
 public class BankAccountBalanceBankingModelTest {
 
-    BankAccountBalanceBankingModel testModel;
+    private BankAccountBalanceBankingModel testModel;
 
     @Before
     public void setUP() {
@@ -22,29 +22,29 @@ public class BankAccountBalanceBankingModelTest {
     }
 
     @Test
-    public void setAndGetAvailableHbciBalance() {
-        double testBalance = 5;
+    public void setAndGetAvailableHbciBalanceTest() {
+        final double testBalance = 5;
         testModel.setAvailableHbciBalance(testBalance);
         Assertions.assertThat(testModel.getAvailableHbciBalance()).isEqualTo(testBalance);
     }
 
     @Test
-    public void setAndGetReadyHbciBalance() {
-        double testBalance = 6;
+    public void setAndGetReadyHbciBalanceTest() {
+        final double testBalance = 6;
         testModel.setReadyHbciBalance(testBalance);
         Assertions.assertThat(testModel.getReadyHbciBalance()).isEqualTo(testBalance);
     }
 
     @Test
-    public void setAndGetUnreadyHbciBalance() {
-        double testBalance = 7;
+    public void setAndGetUnreadyHbciBalanceTest() {
+        final double testBalance = 7;
         testModel.setUnreadyHbciBalance(testBalance);
         Assertions.assertThat(testModel.getUnreadyHbciBalance()).isEqualTo(testBalance);
     }
 
     @Test
-    public void setAndusedHbciBalance() {
-        double testBalance = 7;
+    public void setAndGetusedHbciBalanceTest() {
+        final double testBalance = 7;
         testModel.setUsedHbciBalance(testBalance);
         Assertions.assertThat(testModel.getUsedHbciBalance()).isEqualTo(testBalance);
     }

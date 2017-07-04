@@ -8,24 +8,26 @@ import java.util.Date;
 
 public class SavingsAccountTest {
 
+    private static final double DELTA = 0.01;
+
     @Test
-    public void constructor_getters_match() {
+    public void constructorGettersMatch() {
         // SETUP
-        int id = 123;
+        final int testId = 123;
         String name = "name";
-        double goalBalance = 123.45;
-        double currentBalance = 234.567;
+        final double goalBalance = 123.45;
+        final double currentBalance = 234.567;
         Date finalDate = new Date();
 
         // ACT
-        SavingsAccount savingsAccount = new SavingsAccount(id, name, goalBalance, currentBalance, finalDate);
+        SavingsAccount savingsAccount = new SavingsAccount(testId, name, goalBalance, currentBalance, finalDate);
 
         // ASSERT
         Assert.assertNotNull(savingsAccount);
-        Assert.assertEquals(id, savingsAccount.id);
-        Assert.assertEquals(name, savingsAccount.name);
-        Assert.assertEquals(goalBalance, savingsAccount.goalbalance, 0.01);
-        Assert.assertEquals(currentBalance, savingsAccount.currentbalance, 0.01);
-        Assert.assertEquals(finalDate, savingsAccount.finaldate);
+        Assert.assertEquals(testId, savingsAccount.getId());
+        Assert.assertEquals(name, savingsAccount.getName());
+        Assert.assertEquals(goalBalance, savingsAccount.getGoalbalance(), DELTA);
+        Assert.assertEquals(currentBalance, savingsAccount.getCurrentbalance(), DELTA);
+        Assert.assertEquals(finalDate, savingsAccount.getFinaldate());
     }
 }

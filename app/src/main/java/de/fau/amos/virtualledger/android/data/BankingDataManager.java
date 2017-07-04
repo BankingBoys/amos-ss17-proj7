@@ -10,7 +10,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
-import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
@@ -43,7 +42,7 @@ public class BankingDataManager extends Observable {
     private SyncStatus syncStatus = NOT_SYNCED;
     private AtomicInteger syncsActive = new AtomicInteger(0);
 
-    public BankingDataManager(final BankingProvider bankingProvider, final SavingsProvider savingsProvider, final BankAccessCredentialDB bankAccessCredentialDB, final AuthenticationProvider authenticationProvider) {
+    public BankingDataManager(final BankingProvider bankingProvider, final BankAccessCredentialDB bankAccessCredentialDB, final AuthenticationProvider authenticationProvider) {
         this.bankingProvider = bankingProvider;
         this.bankAccessCredentialDB = bankAccessCredentialDB;
         this.authenticationProvider = authenticationProvider;

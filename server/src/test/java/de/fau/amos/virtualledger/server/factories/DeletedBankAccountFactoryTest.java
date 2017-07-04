@@ -10,7 +10,7 @@ import org.junit.Test;
  */
 public class DeletedBankAccountFactoryTest {
 
-    DeletedBankAccountFactory deletedBankAccountFactory;
+    private DeletedBankAccountFactory deletedBankAccountFactory;
 
     @Before
     public void setup() {
@@ -18,7 +18,7 @@ public class DeletedBankAccountFactoryTest {
     }
 
     @Test
-    public void create_successful() {
+    public void createSuccessful() {
         // SETUP
         String testEmail = "email";
         String accountId = "accountId";
@@ -29,8 +29,8 @@ public class DeletedBankAccountFactoryTest {
 
         // ASSERT
         Assert.assertNotNull(deletedBankAccount);
-        Assert.assertEquals(testEmail, deletedBankAccount.userEmail);
-        Assert.assertEquals(accountId, deletedBankAccount.bankAccountId);
-        Assert.assertEquals(accessId, deletedBankAccount.bankAccessId);
+        Assert.assertEquals(testEmail, deletedBankAccount.getUserEmail());
+        Assert.assertEquals(accountId, deletedBankAccount.getBankAccountId());
+        Assert.assertEquals(accessId, deletedBankAccount.getBankAccessId());
     }
 }

@@ -1,37 +1,44 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint;
 
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvider;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccountJSONBankingModel;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccountSyncJSONBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
 import de.fau.amos.virtualledger.server.banking.model.BookingModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Default;
-import javax.inject.Inject;
-import javax.ws.rs.client.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.List;
+@Component
 
-/**
- * Created by Georg on 18.05.2017.
- */
-@RequestScoped @Default
+@Qualifier("default")
 public class HttpBankAccountEndpoint implements BankAccountEndpoint {
-    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final int HTTP_OK = 200;
 
-    @Inject
-    BankingApiUrlProvider urlProvider;
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    @Autowired
+    private BankingApiUrlProvider urlProvider;
 
     @Override
-    public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId) throws BankingException {
+    public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId)
+            throws BankingException {
 
         // Create Jersey client
         Client client = ClientBuilder.newClient();
@@ -41,21 +48,21 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
         Response response = invocationBuilder.get();
 
-        if (response.getStatus() != 200) {
-        	logger.warn("No connection to Adorsys Server!");
+        if (response.getStatus() != HTTP_OK) {
+            LOGGER.warn("No connection to Adorsys Server!");
             throw new BankingException("No connection to Adorsys Server!");
         }
         BankAccountJSONBankingModel reponseModel = response.readEntity(BankAccountJSONBankingModel.class);
-        if(reponseModel == null || reponseModel.get_embedded() == null)
-        { 
-        	logger.info("No accounts found");
+        if (reponseModel == null || reponseModel.getEmbedded() == null) {
+            LOGGER.info("No accounts found");
             return new ArrayList<>();
         }
-        return reponseModel.get_embedded().getBankAccountEntityList();
+        return reponseModel.getEmbedded().getBankAccountEntityList();
     }
 
     @Override
-    public List<BookingModel> syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin) throws BankingException {
+    public List<BookingModel> syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin)
+            throws BankingException {
 
         // Create Jersey client
         Client client = ClientBuilder.newClient();
@@ -65,18 +72,17 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
         Response response = invocationBuilder.put(Entity.entity(pin, MediaType.TEXT_PLAIN_TYPE));
 
-        if (response.getStatus() != 200) {
-            logger.warn("No connection to Adorsys Server!");
+        if (response.getStatus() != HTTP_OK) {
+            LOGGER.warn("No connection to Adorsys Server!");
             throw new BankingException("No connection to Adorsys Server!");
         }
         BankAccountSyncJSONBankingModel responseModel = response.readEntity(BankAccountSyncJSONBankingModel.class);
-        if(responseModel == null || responseModel.get_embedded() == null) {
-            logger.warn("No bookings found");
+        if (responseModel == null || responseModel.getEmbedded() == null) {
+            LOGGER.warn("No bookings found");
             return new ArrayList<>();
         }
-        return responseModel.get_embedded().getBookingEntityList();
+        return responseModel.getEmbedded().getBookingEntityList();
 
     }
-
 
 }
