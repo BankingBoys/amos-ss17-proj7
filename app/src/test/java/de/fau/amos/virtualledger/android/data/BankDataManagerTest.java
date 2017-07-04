@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
+import de.fau.amos.virtualledger.dtos.BankAccess;
 import io.reactivex.Scheduler;
 import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.annotations.NonNull;
@@ -163,9 +164,10 @@ public class BankDataManagerTest {
 
 
     @Test
-    public void teste_getBankAccesses_shouldReturnItems_afterSyncComplete() {
+    public void teste_getBankAccesses_shouldReturnItems_afterSyncComplete() throws Exception {
         // SETUP
-        StubbedBankingProvider bankingProvider = new StubbedBankingProvider();
+        BankAccess access = new BankAccess();
+        StubbedBankingProvider bankingProvider = new StubbedBankingProvider(access);
         BankingDataManager component_under_test = new BankingDataManager(bankingProvider, //
                 Mockito.mock(BankAccessCredentialDB.class),//
                 Mockito.mock(AuthenticationProvider.class));
@@ -178,7 +180,7 @@ public class BankDataManagerTest {
         bankingProvider.notifyOnComplete();
 
         // ASSERT
-        Assertions.assertThat(o.isNotified()).isTrue();
+        Assertions.assertThat(component_under_test.getBankAccesses()).containsOnly(access);
     }
 }
 

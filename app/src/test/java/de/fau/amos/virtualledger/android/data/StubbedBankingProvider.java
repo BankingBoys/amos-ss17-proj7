@@ -18,6 +18,16 @@ import io.reactivex.Observer;
 public class StubbedBankingProvider extends Observable<List<BankAccess>> implements BankingProvider {
     private Observer<? super List<BankAccess>> observer;
     private BankingTransactionsObservable bankingTransactionsObservable;
+    private ArrayList<BankAccess> bankAccess = new ArrayList<>();
+
+    public StubbedBankingProvider(){
+
+    }
+    public StubbedBankingProvider(BankAccess access){
+        this.bankAccess.add(access);
+    }
+
+
     @Override
     public Observable<List<BankAccess>> getBankingOverview() {
         return this;
@@ -54,7 +64,7 @@ public class StubbedBankingProvider extends Observable<List<BankAccess>> impleme
     }
 
     public void notifyNext(){
-        this.observer.onNext(new ArrayList<BankAccess>());
+        this.observer.onNext(this.bankAccess);
         this.bankingTransactionsObservable.notifyNext();
     }
 }
