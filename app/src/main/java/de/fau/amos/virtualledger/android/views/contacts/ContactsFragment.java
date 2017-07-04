@@ -1,6 +1,8 @@
 package de.fau.amos.virtualledger.android.views.contacts;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -51,6 +53,10 @@ public class ContactsFragment extends Fragment implements DataListening {
     public void notifyDataChanged() {
         this.adapter.clear();
         List<Contact> allContacts= this.contactSupplier.getAll();
+        if(allContacts != null && allContacts.size() == 0) {
+            final Fragment fragment = new NoContactsFragment();
+            openFragment(fragment);
+        }
         logger().info("Refreshing contacts overview with " + allContacts.size() + " contacts from"+this.contactSupplier);
         this.adapter.addAll(allContacts);
         this.adapter.notifyDataSetChanged();
@@ -70,6 +76,19 @@ public class ContactsFragment extends Fragment implements DataListening {
     public void onResume() {
         super.onResume();
         this.contactSupplier.onResume();
+    }
+
+    /**
+     * opens a fragment through replacing another fragment
+     */
+    private void openFragment(final Fragment fragment) {
+        if (null != fragment) {
+            final FragmentManager manager = getFragmentManager();
+            final FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.main_menu_content, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 
 }
