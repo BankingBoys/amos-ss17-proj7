@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.ContactsDataManager;
 import de.fau.amos.virtualledger.android.data.SyncFailedException;
-import de.fau.amos.virtualledger.android.model.Contact;
+import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
 
 /**

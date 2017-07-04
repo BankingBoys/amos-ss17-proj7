@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.android.api.contacts.ContactsProvider;
-import de.fau.amos.virtualledger.android.model.Contact;
+import de.fau.amos.virtualledger.dtos.Contact;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;

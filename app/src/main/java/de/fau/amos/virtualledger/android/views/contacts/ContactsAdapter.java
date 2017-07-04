@@ -14,7 +14,7 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.model.Contact;
+import de.fau.amos.virtualledger.dtos.Contact;
 
 /**
  * Created by Simon on 01.07.2017.

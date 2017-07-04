@@ -3,7 +3,7 @@ package de.fau.amos.virtualledger.android.api.contacts;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.fau.amos.virtualledger.android.model.Contact;
+import de.fau.amos.virtualledger.dtos.Contact;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 

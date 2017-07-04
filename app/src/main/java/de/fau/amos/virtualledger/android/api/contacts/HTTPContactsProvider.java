@@ -6,7 +6,7 @@ import java.util.List;
 
 import de.fau.amos.virtualledger.android.api.Restapi;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
-import de.fau.amos.virtualledger.android.model.Contact;
+import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;

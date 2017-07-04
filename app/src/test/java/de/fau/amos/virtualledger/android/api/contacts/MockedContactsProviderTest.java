@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import de.fau.amos.virtualledger.android.model.Contact;
+import de.fau.amos.virtualledger.dtos.Contact;
 import io.reactivex.Observable;
 import static org.assertj.core.api.Assertions.assertThat;
 
