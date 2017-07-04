@@ -1,6 +1,5 @@
 package de.fau.amos.virtualledger.server.persistence;
 
-import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.server.model.ContactsEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,16 +26,16 @@ public class ContactsRepository {
         this.entityManagerFactory = entityManagerFactoryProvider.getEntityManagerFactory();
     }
 
-    public void createContact(final Contact contact) {
+    public void createContact(final ContactsEntity contactsEntity) {
         final EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             final EntityTransaction entityTransaction = entityManager.getTransaction();
             try {
                 entityTransaction.begin();
-                entityManager.persist(contact);
+                entityManager.persist(contactsEntity);
                 entityTransaction.commit();
             } catch (final EntityExistsException entityExistsException) {
-                LOGGER.warn("Entity already exists: " + contact);
+                LOGGER.warn("Entity already exists: " + contactsEntity);
                 entityTransaction.rollback();
                 throw entityExistsException;
             }
