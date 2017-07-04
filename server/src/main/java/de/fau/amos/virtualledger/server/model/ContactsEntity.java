@@ -13,6 +13,7 @@ public class ContactsEntity {
     private String email;
     private String firstname;
     private String lastname;
+    private Integer userId;
 
     @Id
     @Column(name = "id")
@@ -53,4 +54,15 @@ public class ContactsEntity {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
+
+    @Basic
+    @Column(name = "userId")
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
 }
