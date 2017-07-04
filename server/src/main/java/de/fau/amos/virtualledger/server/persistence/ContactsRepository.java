@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.server.persistence;
 
 import de.fau.amos.virtualledger.dtos.Contact;
+import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 @Component
 public class ContactsRepository {
@@ -37,6 +40,18 @@ public class ContactsRepository {
                 entityTransaction.rollback();
                 throw entityExistsException;
             }
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    public List<DeletedBankAccess> getContactsByEmail(final String email) {
+        final EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            final Query query = entityManager
+                    .createQuery("Select contacts FROM ContactsEntity contacts JOIN UserCredential user ON contacts.userId = user.id WHERE user.email = :email");
+            query.setParameter("email", email);
+            return query.getResultList();
         } finally {
             entityManager.close();
         }
