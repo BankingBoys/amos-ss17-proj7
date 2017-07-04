@@ -1,6 +1,6 @@
-.idea
-.gradle
-build
-out
+/.idea/
+/.gradle/
+/build/
+/out/
 /bin/
 /compiled/
