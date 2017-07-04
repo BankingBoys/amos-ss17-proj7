@@ -2,7 +2,7 @@ package de.fau.amos.virtualledger.android.api;
 
 import java.util.List;
 
-import de.fau.amos.virtualledger.android.model.Contact;
+import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
@@ -56,6 +56,6 @@ public interface Restapi {
     @GET("/api/contacts")
     Call<List<Contact>> getContacts(@Header("Authorization") String token);
 
-    @POST("/api/savings")
+    @POST("/api/contacts")
     Call<Void> addContacts(@Header("Authorization") String token, @Body Contact contacts);
 }

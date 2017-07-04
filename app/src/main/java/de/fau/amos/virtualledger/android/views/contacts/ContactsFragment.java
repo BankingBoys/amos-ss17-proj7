@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.android.model.Contact;
+import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
 
