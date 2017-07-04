@@ -20,5 +20,19 @@ public class AddSavingsAccountDataTest {
     public void setUp() {
         componentUnderTest = new AddSavingsAccountData();
     }
-    
+
+    @Test
+    public void setterAndGetterTest() {
+        final String name = "testName";
+        final double balance = 50.1;
+        final int testDateNr = 19930505;
+        final Date date = new Date(testDateNr);
+        componentUnderTest.setFinalDate(date);
+        assertThat(componentUnderTest.getFinalDate()).isEqualTo(date);
+        componentUnderTest.setName(name);
+        assertThat(componentUnderTest.getName()).isEqualTo(name);
+        componentUnderTest.setGoalBalance(balance);
+        assertThat(componentUnderTest.getGoalBalance()).isEqualTo(balance);
+    }
+
 }
