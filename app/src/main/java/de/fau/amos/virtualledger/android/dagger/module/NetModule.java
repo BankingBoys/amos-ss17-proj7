@@ -58,7 +58,7 @@ public class NetModule {
     @Provides
     Gson provideGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.IDENTITY);
         //gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         gsonBuilder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
             @Override
