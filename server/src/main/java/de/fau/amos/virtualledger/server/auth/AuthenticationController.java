@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.server.auth;
 
+import de.fau.amos.virtualledger.server.model.User;
 import de.fau.amos.virtualledger.server.model.UserCredential;
 import de.fau.amos.virtualledger.server.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,8 @@ public class AuthenticationController {
         if (this.userRepository.existsUserWithEmail(credential.getEmail())) {
             throw new VirtualLedgerAuthenticationException("There already exists an account with this Email address.");
         }
-        this.userRepository.createUser(credential);
+        User user = new User(credential.getEmail(), credential.getFirstname(), credential.getLastname());
+        this.userRepository.createUser(user);
 
         return "You were registered! " + credential.getEmail();
     }

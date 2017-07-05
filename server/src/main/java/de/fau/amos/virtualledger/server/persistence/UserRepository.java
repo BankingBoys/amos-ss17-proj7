@@ -1,6 +1,6 @@
 package de.fau.amos.virtualledger.server.persistence;
 
-import de.fau.amos.virtualledger.server.model.UserCredential;
+import de.fau.amos.virtualledger.server.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,18 +55,18 @@ public class UserRepository {
     /**
      * creates a new UserCredential in the database
      * 
-     * @param credential
+     * @param user
      */
-    public void createUser(UserCredential credential) {
+    public void createUser(User user) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             EntityTransaction entityTransaction = entityManager.getTransaction();
             try {
                 entityTransaction.begin();
-                entityManager.persist(credential);
+                entityManager.persist(user);
                 entityTransaction.commit();
             } catch (EntityExistsException entityExistsException) {
-                LOGGER.info("Entity already exists: " + credential);
+                LOGGER.info("Entity already exists: " + user);
                 entityTransaction.rollback();
                 throw entityExistsException;
             } catch (IllegalArgumentException persistenceException) {
