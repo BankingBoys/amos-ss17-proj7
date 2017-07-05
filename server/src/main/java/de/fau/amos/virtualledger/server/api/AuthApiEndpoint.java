@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.lang.invoke.MethodHandles;
 
@@ -59,8 +60,8 @@ public class AuthApiEndpoint {
                     HttpStatus.BAD_REQUEST);
         }
         LOGGER.info("Registration for " + credential.getEmail() + " was requested.");
-
-        return this.register(credential);
+        throw new NotImplementedException();
+        //return this.register(credential);
     }
 
     /**
