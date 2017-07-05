@@ -2,12 +2,15 @@ plugins {
     id 'org.springframework.boot' version '1.5.4.RELEASE'
 }
 apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'war'
 
+applicationName = 'VirtualLedgerServer'
 group 'de.fau.amos.virtual-ledger'
 version '1.0-SNAPSHOT'
 description "Backend for the Virtual Ledger Android app"
 
-apply plugin: 'war'
 
 sourceCompatibility = 1.8
 
