@@ -1,6 +1,6 @@
 package de.fau.amos.virtualledger.server.auth;
 
-import de.fau.amos.virtualledger.server.model.UserCredential;
+import de.fau.amos.virtualledger.server.model.User;
 import de.fau.amos.virtualledger.server.persistence.UserRepository;
 import org.junit.Test;
 
@@ -18,11 +18,11 @@ public class AuthenticationControllerTest {
 
         AuthenticationController componentUnderTest = new AuthenticationController(userRepositoryMock);
 
-        UserCredential credential = getValidUserCredential();
-        credential.setEmail(someEmail());
+        User user = getValidUserCredential();
+        user.setEmail(someEmail());
 
         // Act
-        componentUnderTest.register(credential);
+        componentUnderTest.register(user);
     }
 
     @Test
@@ -40,14 +40,13 @@ public class AuthenticationControllerTest {
         assertThat(result).isEqualTo("You were registered! blablabl@bbla.de");
     }
 
-    private UserCredential getValidUserCredential() {
-        UserCredential credential = new UserCredential();
-        credential.setEmail("blablabl@bbla.de");
-        credential.setFirstname("some first name");
-        credential.setLastname("some last anme");
-        credential.setId(0);
-        credential.setPassword("some fancy passw");
-        return credential;
+    private User getValidUserCredential() {
+        User user = new User();
+        user.setEmail("blablabl@bbla.de");
+        user.setFirstName("some first name");
+        user.setLastName("some last anme");
+        user.setId(0);
+        return user;
     }
 
     private String someEmail() {
