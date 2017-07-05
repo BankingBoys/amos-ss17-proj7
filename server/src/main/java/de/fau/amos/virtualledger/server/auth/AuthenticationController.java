@@ -28,14 +28,14 @@ public class AuthenticationController {
      * @return
      * @throws VirtualLedgerAuthenticationException
      */
-    public String register(User user) throws VirtualLedgerAuthenticationException {
+    public String register(User user) throws VirtualLedgerAuthenticationException, UserAlreadyExistsException {
         if (user == null || user.getEmail() == null
                 || user.getFirstName() == null || user.getLastName() == null) {
             throw new VirtualLedgerAuthenticationException(
                     "Please check your inserts! At least one was not formatted correctly!");
         }
         if (this.userRepository.existsUserWithEmail(user.getEmail())) {
-            throw new VirtualLedgerAuthenticationException("There already exists an account with this Email address.");
+            throw new UserAlreadyExistsException();
         }
         this.userRepository.createUser(user);
 
