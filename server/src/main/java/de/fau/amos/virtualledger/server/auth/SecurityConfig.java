@@ -1,7 +1,6 @@
 package de.fau.amos.virtualledger.server.auth;
 
 
-import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;
@@ -23,9 +22,6 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @EnableWebSecurity
 @ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
-
-    @Autowired
-    private UserCredentialRepository userCredentialRepository;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
