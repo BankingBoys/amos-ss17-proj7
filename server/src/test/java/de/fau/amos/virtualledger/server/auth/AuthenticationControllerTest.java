@@ -9,7 +9,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class AuthenticationControllerTest {
-    @Test(expected = VirtualLedgerAuthenticationException.class)
+    @Test(expected = UserAlreadyExistsException.class)
     public void testRegisterWithExistingUserShouldThrowException() throws Exception {
         // Arrange
 
