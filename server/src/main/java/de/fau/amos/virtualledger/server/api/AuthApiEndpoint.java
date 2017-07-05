@@ -67,23 +67,6 @@ public class AuthApiEndpoint {
     }
 
     /**
-     * Endpoint for logging out. User must be authenticated.
-     * @return
-     */
-    @RequestMapping(method = RequestMethod.POST, value = "api/auth/logout", produces = "application/json")
-    public ResponseEntity<?> logoutEndpoint() {
-        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
-
-        if (username == null || username.isEmpty()) {
-            return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);
-        }
-        LOGGER.info("Logout of " + username + " was requested");
-
-        return this.logout(username);
-    }
-
-    /**
      * Does the logic operation for registering the user. Also does exception
      * handling.
      * @param credential
@@ -101,14 +84,4 @@ public class AuthApiEndpoint {
         return new ResponseEntity<>(responseObj, HttpStatus.OK);
     }
 
-    /**
-     * Does the logic operation for logging out a user
-     * @param username
-     * @return
-     */
-    private ResponseEntity<?> logout(String username) {
-        authenticationController.logout(username);
-        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel("You were logged out! " + username),
-                HttpStatus.OK);
-    }
 }
