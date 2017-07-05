@@ -1,7 +1,0 @@
-{
-  "realm": "multibanking",
-  "auth-server-url": "https://multibanking-keycloak.dev.adorsys.de/auth",
-  "ssl-required": "external",
-  "resource": "multibanking-client",
-  "public-client": true
-}
