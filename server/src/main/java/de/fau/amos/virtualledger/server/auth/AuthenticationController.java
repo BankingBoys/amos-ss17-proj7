@@ -1,7 +1,7 @@
 package de.fau.amos.virtualledger.server.auth;
 
 import de.fau.amos.virtualledger.server.model.UserCredential;
-import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
+import de.fau.amos.virtualledger.server.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthenticationController {
 
-    private UserCredentialRepository userCredentialRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public AuthenticationController(UserCredentialRepository userCredentialRepository) {
-        this.userCredentialRepository = userCredentialRepository;
+    public AuthenticationController(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
     protected AuthenticationController() {
     }
@@ -34,10 +34,10 @@ public class AuthenticationController {
             throw new VirtualLedgerAuthenticationException(
                     "Please check your inserts! At least one was not formatted correctly!");
         }
-        if (this.userCredentialRepository.existsUserCredentialEmail(credential.getEmail())) {
+        if (this.userRepository.existsUserWithEmail(credential.getEmail())) {
             throw new VirtualLedgerAuthenticationException("There already exists an account with this Email address.");
         }
-        this.userCredentialRepository.createUserCredential(credential);
+        this.userRepository.createUser(credential);
 
         return "You were registered! " + credential.getEmail();
     }

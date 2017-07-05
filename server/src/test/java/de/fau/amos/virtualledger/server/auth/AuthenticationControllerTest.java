@@ -1,7 +1,7 @@
 package de.fau.amos.virtualledger.server.auth;
 
 import de.fau.amos.virtualledger.server.model.UserCredential;
-import de.fau.amos.virtualledger.server.persistence.UserCredentialRepository;
+import de.fau.amos.virtualledger.server.persistence.UserRepository;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,10 +13,10 @@ public class AuthenticationControllerTest {
     public void testRegisterWithExistingUserShouldThrowException() throws Exception {
         // Arrange
 
-        UserCredentialRepository userCredentialRepositoryMock = mock(UserCredentialRepository.class);
-        when(userCredentialRepositoryMock.existsUserCredentialEmail(someEmail())).thenReturn(Boolean.TRUE);
+        UserRepository userRepositoryMock = mock(UserRepository.class);
+        when(userRepositoryMock.existsUserWithEmail(someEmail())).thenReturn(Boolean.TRUE);
 
-        AuthenticationController componentUnderTest = new AuthenticationController(userCredentialRepositoryMock);
+        AuthenticationController componentUnderTest = new AuthenticationController(userRepositoryMock);
 
         UserCredential credential = getValidUserCredential();
         credential.setEmail(someEmail());
@@ -29,9 +29,9 @@ public class AuthenticationControllerTest {
     public void testRegisterWithValidUserShouldRegister() throws Exception {
         // Arrange
 
-        UserCredentialRepository userCredentialRepositoryMock = mock(UserCredentialRepository.class);
+        UserRepository userRepositoryMock = mock(UserRepository.class);
 
-        AuthenticationController componentUnderTest = new AuthenticationController(userCredentialRepositoryMock);
+        AuthenticationController componentUnderTest = new AuthenticationController(userRepositoryMock);
 
         // Act
         String result = componentUnderTest.register(getValidUserCredential());
