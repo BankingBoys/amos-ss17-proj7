@@ -45,6 +45,14 @@ Run the command
 
 you build the server-war-file and run it on an embedded jetty server.
 
+## Build spring boot application
+
+Open terminal in the rootproject and run:
+
+	gradle clean build
+	
+The compiled jar-file can be found in build/libs 
+
 ## Use test coverage
 
 ### Local test coverage 
