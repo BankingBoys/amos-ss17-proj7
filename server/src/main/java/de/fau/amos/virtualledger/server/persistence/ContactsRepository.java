@@ -32,7 +32,7 @@ public class ContactsRepository {
 
         final int userId;
         try {
-            final Query query = entityManager.createQuery("Select u.id FROM UserCredential u WHERE u.email = :email");
+            final Query query = entityManager.createQuery("Select u.id FROM User u WHERE u.email = :email");
             query.setParameter("email", userEmail);
             final List resultList = query.getResultList();
             if (resultList.isEmpty()) {
@@ -69,7 +69,7 @@ public class ContactsRepository {
         final EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             final Query query = entityManager
-                    .createQuery("Select contacts FROM ContactsEntity contacts JOIN UserCredential user ON contacts.userId = user.id WHERE user.email = :email");
+                    .createQuery("Select contacts FROM ContactsEntity contacts JOIN User user ON contacts.userId = user.id WHERE user.email = :email");
             query.setParameter("email", email);
             return query.getResultList();
         } finally {

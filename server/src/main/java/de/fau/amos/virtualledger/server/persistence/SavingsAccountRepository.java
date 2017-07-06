@@ -61,7 +61,7 @@ public class SavingsAccountRepository {
         final EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             final Query query = entityManager.createQuery(
-                    "Select u FROM SavingsAccount u JOIN SavingsAccountToUser s WHERE u.id = s.id_savingsaccount AND s.email = :email");
+                    "Select u FROM SavingsAccount u JOIN SavingsAccountToUser s WHERE u.id = s.idSavingsaccount AND s.email = :email");
             query.setParameter("email", email);
             final List resultList = query.getResultList();
             return resultList;
@@ -87,8 +87,8 @@ public class SavingsAccountRepository {
                 }
 
                 query = entityManager.createQuery(
-                        "Select s FROM SavingsAccountToUser s WHERE s.id_savingsaccount = :id_savingsaccount");
-                query.setParameter("id_savingsaccount", id);
+                        "Select s FROM SavingsAccountToUser s WHERE s.idSavingsaccount = :idSavingsaccount");
+                query.setParameter("idSavingsaccount", id);
                 List<SavingsAccountToUser> savingsAccountToUserList = query.getResultList();
                 for (int i = 0; i < savingsAccountToUserList.size(); ++i) {
                     SavingsAccountToUser savingsAccountToUser = savingsAccountToUserList.get(i);
