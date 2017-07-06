@@ -4,7 +4,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.eclipse.persistence.jpa.jpql.Assert;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,8 +43,8 @@ public class BankingApiBinderTest {
         UserEndpoint endpoint = bankingApiBinder.getUserEndpoint(username);
 
         // ASSERT
-        Assert.isNotNull(endpoint, "endpoint was null!");
-        Assert.isTrue(endpoint instanceof DummyUserEndpoint, "endpoint was not a dummy endpoint!");
+        Assert.assertNotNull(endpoint);
+        Assert.assertTrue(endpoint instanceof DummyUserEndpoint);
         verify(bankingApiConfiguration, times(1)).getTestUserName();
     }
 
@@ -59,8 +59,8 @@ public class BankingApiBinderTest {
         UserEndpoint endpoint = bankingApiBinder.getUserEndpoint(username);
 
         // ASSERT
-        Assert.isNotNull(endpoint, "endpoint was null!");
-        Assert.isTrue(endpoint instanceof HttpUserEndpoint, "endpoint was not a http endpoint!");
+        Assert.assertNotNull(endpoint);
+        Assert.assertTrue(endpoint instanceof HttpUserEndpoint);
         verify(bankingApiConfiguration, times(1)).getTestUserName();
     }
 
@@ -75,8 +75,8 @@ public class BankingApiBinderTest {
         BankAccountEndpoint endpoint = bankingApiBinder.getBankAccountEndpoint(username);
 
         // ASSERT
-        Assert.isNotNull(endpoint, "endpoint was null!");
-        Assert.isTrue(endpoint instanceof DummyBankAccountEndpoint, "endpoint was not a dummy endpoint!");
+        Assert.assertNotNull(endpoint);
+        Assert.assertTrue(endpoint instanceof DummyBankAccountEndpoint);
         verify(bankingApiConfiguration, times(1)).getTestUserName();
     }
 
@@ -91,8 +91,8 @@ public class BankingApiBinderTest {
         BankAccountEndpoint endpoint = bankingApiBinder.getBankAccountEndpoint(username);
 
         // ASSERT
-        Assert.isNotNull(endpoint, "endpoint was null!");
-        Assert.isTrue(endpoint instanceof HttpBankAccountEndpoint, "endpoint was not a http endpoint!");
+        Assert.assertNotNull(endpoint);
+        Assert.assertTrue(endpoint instanceof HttpBankAccountEndpoint);
         verify(bankingApiConfiguration, times(1)).getTestUserName();
     }
 
@@ -107,8 +107,8 @@ public class BankingApiBinderTest {
         BankAccessEndpoint endpoint = bankingApiBinder.getBankAccessEndpoint(username);
 
         // ASSERT
-        Assert.isNotNull(endpoint, "endpoint was null!");
-        Assert.isTrue(endpoint instanceof DummyBankAccessEndpoint, "endpoint was not a dummy endpoint!");
+        Assert.assertNotNull(endpoint);
+        Assert.assertTrue(endpoint instanceof DummyBankAccessEndpoint);
         verify(bankingApiConfiguration, times(1)).getTestUserName();
     }
 
@@ -123,8 +123,8 @@ public class BankingApiBinderTest {
         BankAccessEndpoint endpoint = bankingApiBinder.getBankAccessEndpoint(username);
 
         // ASSERT
-        Assert.isNotNull(endpoint, "endpoint was null!");
-        Assert.isTrue(endpoint instanceof HttpBankAccessEndpoint, "endpoint was not a http endpoint!");
+        Assert.assertNotNull(endpoint);
+        Assert.assertTrue(endpoint instanceof HttpBankAccessEndpoint);
         verify(bankingApiConfiguration, times(1)).getTestUserName();
     }
 }
