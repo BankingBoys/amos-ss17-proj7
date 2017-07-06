@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +25,7 @@ import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity;
+import de.fau.amos.virtualledger.android.authentication.oidc.OidcAuthenticationActivity;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
@@ -31,6 +33,9 @@ import de.fau.amos.virtualledger.android.views.contacts.ContactsFragment;
 import de.fau.amos.virtualledger.android.views.savings.SavingAccountsFragment;
 import de.fau.amos.virtualledger.android.views.settings.SettingsActivity;
 import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOverviewFragment;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -191,12 +196,28 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     private void executeLogout() {
-        authenticationProvider.logout();
-        authenticationProvider.deleteSavedLoginData(this);
-        final Intent intent = new Intent(this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        authenticationProvider.logout()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                               @Override
+                               public void accept(@io.reactivex.annotations.NonNull String s) throws Exception {
+
+                                   authenticationProvider.deleteSavedLoginData(getApplicationContext());
+                                   final Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                   startActivity(intent);
+                                   finish();
+                               }
+                           }, new Consumer<Throwable>() {
+                               @Override
+                               public void accept(@io.reactivex.annotations.NonNull Throwable throwable) {
+                                   Log.e(TAG, "Error occured in Observable from logout.");
+                                   Toast toast = Toast.makeText(getApplicationContext(), throwable.getMessage(), Toast.LENGTH_SHORT);
+                                   toast.show();
+                               }
+                           }
+                );
     }
 
     public void switchToTransactionOverview(final HashMap<String, Boolean> checkedBankAccounts) {
