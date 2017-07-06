@@ -35,6 +35,8 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
 
     private static final String TAG = "OidcAuthenticationProvi";
 
+    private static final int REFRESHDELTA = 15;
+
     private Retrofit retrofit;
 
     private final String CLIENT_ID = "multibanking-client";
@@ -190,9 +192,11 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
         if(oidcData == null) {
             throw new IllegalStateException("Cannot get token if nobody is logged in!");
         }
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, oidcData.expires_in);
-        if(lastRefresh.after(cal.getTime())) {
+        Calendar now = Calendar.getInstance();
+        Calendar nextNeccessaryRefresh = Calendar.getInstance();
+        nextNeccessaryRefresh.setTime(lastRefresh);
+        nextNeccessaryRefresh.add(Calendar.SECOND, oidcData.expires_in - REFRESHDELTA);
+        if(now.getTime().after(nextNeccessaryRefresh.getTime())) {
             final PublishSubject observable = PublishSubject.create();
             refreshToken()
                     .subscribeOn(Schedulers.newThread())
