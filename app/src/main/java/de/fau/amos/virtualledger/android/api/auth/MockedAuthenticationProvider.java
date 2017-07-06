@@ -58,8 +58,9 @@ public class MockedAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public void tryLoadLoginData(Context context) {
+    public Observable<String> tryLoadLoginData(Context context) {
 
+        return Observable.error(new Throwable("Dummy supports no permanent login!"));
     }
 
 }

@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
+import de.adorsys.android.securestoragelibrary.SecurePreferences;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -31,10 +32,9 @@ import retrofit2.Retrofit;
 public class OidcAuthenticationProvider implements AuthenticationProvider {
 
 
-    private static final String FILENAME = "login.save";
-
+    private static final String SECURE_PREFERENCES_USERNAME = "VirtualLedger_Secure_Preferences_Username";
+    private static final String SECURE_PREFERENCES_PASSWORD = "VirtualLedger_Secure_Preferences_Password";
     private static final String TAG = "OidcAuthenticationProvi";
-
     private static final int REFRESHDELTA = 15;
 
     private Retrofit retrofit;
@@ -233,17 +233,44 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public void persistLoginData(Context context) {
-
+        SecurePreferences.setValue(SECURE_PREFERENCES_USERNAME, currentUsername, context);
+        SecurePreferences.setValue(SECURE_PREFERENCES_PASSWORD, currentPassword, context);
     }
 
     @Override
     public void deleteSavedLoginData(Context context) {
-
+        SecurePreferences.removeValue(SECURE_PREFERENCES_USERNAME, context);
+        SecurePreferences.removeValue(SECURE_PREFERENCES_PASSWORD, context);
     }
 
     @Override
-    public void tryLoadLoginData(Context context) {
+    public Observable<String> tryLoadLoginData(final Context context) {
 
+        String storedUsername = SecurePreferences.getStringValue(SECURE_PREFERENCES_USERNAME, context, null);
+        String storedPassword = SecurePreferences.getStringValue(SECURE_PREFERENCES_PASSWORD, context, null);
+
+        if(storedUsername == null || storedPassword == null) {
+            deleteSavedLoginData(context);
+            return Observable.error(new Throwable("Could not restore saved login data!"));
+        } else {
+            final PublishSubject observable = PublishSubject.create();
+            login(storedUsername, storedPassword)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<String>() {
+                        @Override
+                        public void accept(@NonNull String s) throws Exception {
+                            observable.onNext(s);
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(@NonNull final Throwable throwable) throws Exception {
+                            deleteSavedLoginData(context);
+                            observable.onError(new Throwable("The login didn't work!"));
+                        }
+                    });
+            return observable;
+        }
     }
 
 }

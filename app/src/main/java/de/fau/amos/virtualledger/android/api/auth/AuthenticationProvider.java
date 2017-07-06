@@ -30,5 +30,5 @@ public interface AuthenticationProvider {
      * tries to load the login data from storage
      * check afterwards with isLoggedIn() if it worked
      */
-    void tryLoadLoginData(Context context);
+    Observable<String> tryLoadLoginData(Context context);
 }
