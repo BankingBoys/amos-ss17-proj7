@@ -227,105 +227,17 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public void persistLoginData(Context context) {
-        /*deleteSavedLoginData(context);*/
-        FileOutputStream fileOutputStream = null;
-        ObjectOutputStream objectOutputStream = null;
-        try {
-            fileOutputStream = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
-            objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(new SessionData(currentUsername, currentPassword));
-            objectOutputStream.close();
-            fileOutputStream.close();
-        } catch (IOException e) {
-            Log.e(TAG, "Error in persisting login data: " + e.getMessage());
-        } finally {
-            {
-                try {
-                    if (fileOutputStream != null) {
-                        fileOutputStream.close();
-                    }
-                    if (objectOutputStream != null) {
-                        objectOutputStream.close();
-                    }
-                } catch (IOException e) {
-                    Log.e(TAG, "Error while closing streams" + e.getMessage());
-                }
 
-
-            }
-        }
     }
 
     @Override
     public void deleteSavedLoginData(Context context) {
-        FileOutputStream fileOutputStream = null;
-        ObjectOutputStream objectOutputStream = null;
-        try {
-            fileOutputStream = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
-            objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(new SessionData("", ""));
-            objectOutputStream.close();
-            fileOutputStream.close();
-        } catch (IOException e) {
-            Log.e(TAG, "Error in persisting login data: " + e.getMessage());
-        } finally {
-
-            try {
-                if (fileOutputStream != null) {
-                    fileOutputStream.close();
-                }
-                if (objectOutputStream != null) {
-                    objectOutputStream.close();
-                }
-            } catch (IOException e) {
-                Log.e(TAG, "Error while closing streams" + e.getMessage());
-            }
-        }
-        this.currentUsername = "";
-        this.currentPassword = "";
 
     }
 
     @Override
     public void tryLoadLoginData(Context context) {
-        FileInputStream fileInputStream = null;
-        ObjectInputStream objectInputStream = null;
-        try {
-            fileInputStream = context.openFileInput(FILENAME);
-            objectInputStream = new ObjectInputStream(fileInputStream);
-            SessionData savedSession = (SessionData) objectInputStream.readObject();
-            objectInputStream.close();
-            fileInputStream.close();
 
-            // TODO: refactor savedSession to contain username + password!
-            if (nullOrEmpty(savedSession.getEmail())|| nullOrEmpty(savedSession.getSessionid())) {
-                throw new ClassNotFoundException("One of the loaded parameters was null or empty!");
-            }
-
-            this.currentUsername = savedSession.getEmail();
-            this.currentPassword = savedSession.getSessionid();
-            // TODO maybe change to Observable because it is async now
-            login(currentUsername, currentPassword);
-        } catch (IOException e) {
-            Log.e(TAG, "Error in reading persisted login data: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            Log.e(TAG, "Error in reading persisted login data: " + e.getMessage());
-        } finally {
-            try {
-                if (fileInputStream != null) {
-                    fileInputStream.close();
-                }
-                if (objectInputStream != null) {
-                    objectInputStream.close();
-                }
-            } catch (IOException e) {
-                Log.e(TAG, "Error while closing streams" + e.getMessage());
-            }
-        }
-    }
-
-    private boolean nullOrEmpty(String str){
-        return str == null || str.isEmpty();
     }
 
 }
