@@ -1,5 +1,7 @@
 package de.fau.amos.virtualledger.android.dagger.module;
 
+import android.app.Application;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -13,7 +15,7 @@ import retrofit2.Retrofit;
  * Created by Georg on 26.06.2017.
  */
 
-@Module(includes = {NetModule.class})
+@Module(includes = {NetModule.class, AppModule.class})
 public class OidcAuthenticationModule {
 
     /**
@@ -22,7 +24,8 @@ public class OidcAuthenticationModule {
      */
     @Provides
     @OidcAuthenticationScope
-    AuthenticationProvider provideLoginProvider(Retrofit retrofit) {
-        return new OidcAuthenticationProvider(retrofit);
+    AuthenticationProvider provideLoginProvider(Application context, Retrofit retrofit) {
+        return new OidcAuthenticationProvider(context, retrofit);
+
     }
 }

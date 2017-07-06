@@ -37,6 +37,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     private static final String TAG = "OidcAuthenticationProvi";
     private static final int REFRESHDELTA = 15;
 
+    private final Context context;
     private Retrofit retrofit;
 
     private final String CLIENT_ID = "multibanking-client";
@@ -49,7 +50,8 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     private String currentUsername;
     private String currentPassword;
 
-    public OidcAuthenticationProvider(Retrofit retrofit) {
+    public OidcAuthenticationProvider(Context context, Retrofit retrofit) {
+        this.context = context;
         this.retrofit = retrofit;
     }
 
@@ -232,25 +234,25 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public void persistLoginData(Context context) {
+    public void persistLoginData() {
         SecurePreferences.setValue(SECURE_PREFERENCES_USERNAME, currentUsername, context);
         SecurePreferences.setValue(SECURE_PREFERENCES_PASSWORD, currentPassword, context);
     }
 
     @Override
-    public void deleteSavedLoginData(Context context) {
+    public void deleteSavedLoginData() {
         SecurePreferences.removeValue(SECURE_PREFERENCES_USERNAME, context);
         SecurePreferences.removeValue(SECURE_PREFERENCES_PASSWORD, context);
     }
 
     @Override
-    public Observable<String> tryLoadLoginData(final Context context) {
+    public Observable<String> tryLoadLoginData() {
 
         String storedUsername = SecurePreferences.getStringValue(SECURE_PREFERENCES_USERNAME, context, null);
         String storedPassword = SecurePreferences.getStringValue(SECURE_PREFERENCES_PASSWORD, context, null);
 
         if(storedUsername == null || storedPassword == null) {
-            deleteSavedLoginData(context);
+            deleteSavedLoginData();
             return Observable.error(new Throwable("Could not restore saved login data!"));
         } else {
             final PublishSubject observable = PublishSubject.create();
@@ -265,7 +267,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(@NonNull final Throwable throwable) throws Exception {
-                            deleteSavedLoginData(context);
+                            deleteSavedLoginData();
                             observable.onError(new Throwable("The login didn't work!"));
                         }
                     });

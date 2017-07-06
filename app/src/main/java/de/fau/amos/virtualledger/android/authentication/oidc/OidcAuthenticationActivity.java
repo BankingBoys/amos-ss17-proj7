@@ -58,7 +58,7 @@ public class OidcAuthenticationActivity extends AppCompatActivity {
         setContentView(R.layout.authentication_activity_login);
         ButterKnife.bind(this);
 
-        authenticationProvider.tryLoadLoginData(this)
+        authenticationProvider.tryLoadLoginData()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
@@ -94,7 +94,7 @@ public class OidcAuthenticationActivity extends AppCompatActivity {
                         if (authenticationProvider.isLoggedIn()) {
                             executeNextActivityMenu();
                             if (checkBoxStayLoggedIn.isChecked()) {
-                                authenticationProvider.persistLoginData(OidcAuthenticationActivity.this);
+                                authenticationProvider.persistLoginData();
                             }
                         } else {
                             textviewLoginFail.setText(s);

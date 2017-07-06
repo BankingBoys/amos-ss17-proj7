@@ -48,17 +48,17 @@ public class MockedAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public void persistLoginData(Context context) {
+    public void persistLoginData() {
 
     }
 
     @Override
-    public void deleteSavedLoginData(Context context) {
+    public void deleteSavedLoginData() {
 
     }
 
     @Override
-    public Observable<String> tryLoadLoginData(Context context) {
+    public Observable<String> tryLoadLoginData() {
 
         return Observable.error(new Throwable("Dummy supports no permanent login!"));
     }
