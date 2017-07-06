@@ -3,15 +3,14 @@ package de.fau.amos.virtualledger.server.persistence;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
+import javax.persistence.EntityExistsException;
 import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import de.fau.amos.virtualledger.server.model.DeletedBankAccount;
@@ -21,18 +20,10 @@ import de.fau.amos.virtualledger.server.model.DeletedBankAccount;
 public class DeletedBankAccountsRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private EntityManagerFactory entityManagerFactory;
-
-    @Autowired
-    public DeletedBankAccountsRepository(EntityManagerFactoryProvider entityManagerFactoryProvider) {
-        this.entityManagerFactory = entityManagerFactoryProvider.getEntityManagerFactory();
-    }
-
-    protected DeletedBankAccountsRepository() {
-    };
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public void createDeletedBankAccount(DeletedBankAccount deletedBankAccount) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             EntityTransaction entityTransaction = entityManager.getTransaction();
             try {
@@ -54,7 +45,6 @@ public class DeletedBankAccountsRepository {
     }
 
     public void deleteDeletedBankAccountByEmailAndAccessId(final String email, final String accessId) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         try {
             final EntityTransaction entityTransaction = entityManager.getTransaction();
@@ -84,7 +74,6 @@ public class DeletedBankAccountsRepository {
 
     public List<DeletedBankAccount> getDeletedBankAccountIdsByEmailAndAccessId(final String email,
             final String accessId) {
-        final EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             final Query query = entityManager.createQuery(
                     "Select u FROM DeletedBankAccount u WHERE u.userEmail = :email AND u.bankAccessId = :accessId");

@@ -4,13 +4,12 @@ import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.server.model.ContactsEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
+import javax.persistence.EntityExistsException;
 import javax.persistence.Query;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
@@ -20,15 +19,11 @@ public class ContactsRepository {
     @SuppressWarnings("unused")
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private final EntityManagerFactory entityManagerFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    @Autowired
-    public ContactsRepository(final EntityManagerFactoryProvider entityManagerFactoryProvider) {
-        this.entityManagerFactory = entityManagerFactoryProvider.getEntityManagerFactory();
-    }
 
     public void createContact(final Contact contact, final String userEmail) {
-        final EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         final int userId;
         try {
@@ -66,7 +61,6 @@ public class ContactsRepository {
     }
 
     public List<ContactsEntity> getContactsByEmail(final String email) {
-        final EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             final Query query = entityManager
                     .createQuery("Select contacts FROM ContactsEntity contacts JOIN User user ON contacts.userId = user.id WHERE user.email = :email");

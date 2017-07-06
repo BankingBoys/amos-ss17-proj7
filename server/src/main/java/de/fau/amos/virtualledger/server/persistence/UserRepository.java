@@ -3,14 +3,13 @@ package de.fau.amos.virtualledger.server.persistence;
 import de.fau.amos.virtualledger.server.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
+import javax.persistence.PersistenceContext;
 import javax.persistence.EntityExistsException;
+import javax.persistence.Query;
 import java.lang.invoke.MethodHandles;
 
 /**
@@ -21,14 +20,19 @@ import java.lang.invoke.MethodHandles;
 public class UserRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private EntityManagerFactory entityManagerFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    @Autowired
-    public UserRepository(EntityManagerFactoryProvider entityManagerFactoryProvider) {
-        this.entityManagerFactory = entityManagerFactoryProvider.getEntityManagerFactory();
+    public UserRepository() {
     }
-    protected UserRepository() {
-    };
+
+    /**
+     * Constructor for testing -> inject EntityManager
+     * @param entityManager
+     */
+    protected UserRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     /**
      * looks up, if an user exists with a specific email address
@@ -37,7 +41,6 @@ public class UserRepository {
      * @return
      */
     public boolean existsUserWithEmail(String email) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         int countUserCredentials;
         try {
             Query query = entityManager.createQuery("Select u FROM UserCredential u WHERE u.email = :email");
@@ -58,7 +61,6 @@ public class UserRepository {
      * @param user
      */
     public void createUser(User user) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             EntityTransaction entityTransaction = entityManager.getTransaction();
             try {

@@ -48,13 +48,18 @@ public class UserRepositoryTest {
         when(entityMangerMock.createQuery(anyString())).thenReturn(queryMock);
         when(entityManagerFactoryMock.createEntityManager()).thenReturn(entityMangerMock);
 
-        EntityManagerFactoryProvider entityManagerFactoryProvider = mock(EntityManagerFactoryProvider.class);
-        when(entityManagerFactoryProvider.getEntityManagerFactory()).thenReturn(entityManagerFactoryMock);
-
-        return new UserRepository(entityManagerFactoryProvider);
+        return new UserRepositoryUnderTest(entityMangerMock);
     }
 
     private LoginData loginData() {
         return new LoginData("some@e.mail", "some pw");
+    }
+
+
+    private class UserRepositoryUnderTest extends UserRepository {
+
+        public UserRepositoryUnderTest(EntityManager entityManager) {
+            super(entityManager);
+        }
     }
 }

@@ -1,21 +1,18 @@
 package de.fau.amos.virtualledger.server.persistence;
 
-import java.lang.invoke.MethodHandles;
-import java.util.List;
-
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import de.fau.amos.virtualledger.server.model.SavingsAccount;
 import de.fau.amos.virtualledger.server.model.SavingsAccountToUser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
+import javax.persistence.EntityExistsException;
+import javax.persistence.Query;
+import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 @Component
 
@@ -23,18 +20,10 @@ public class SavingsAccountRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private EntityManagerFactory entityManagerFactory;
-
-    @Autowired
-    public SavingsAccountRepository(EntityManagerFactoryProvider entityManagerFactoryProvider) {
-        this.entityManagerFactory = entityManagerFactoryProvider.getEntityManagerFactory();
-    }
-
-    protected SavingsAccountRepository() {
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public void createSavingsAccount(String email, SavingsAccount savingsAccount) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             EntityTransaction entityTransaction = entityManager.getTransaction();
             try {
@@ -58,7 +47,6 @@ public class SavingsAccountRepository {
     }
 
     public List<SavingsAccount> getSavingsAccountsByUserEmail(final String email) {
-        final EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             final Query query = entityManager.createQuery(
                     "Select u FROM SavingsAccount u JOIN SavingsAccountToUser s WHERE u.id = s.idSavingsaccount AND s.email = :email");
@@ -71,7 +59,6 @@ public class SavingsAccountRepository {
     }
 
     public void deleteSavingsAccountById(final int id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         try {
             final EntityTransaction entityTransaction = entityManager.getTransaction();
