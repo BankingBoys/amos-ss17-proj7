@@ -24,7 +24,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
-import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity;
 import de.fau.amos.virtualledger.android.authentication.oidc.OidcAuthenticationActivity;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
@@ -204,7 +203,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                                public void accept(@io.reactivex.annotations.NonNull String s) throws Exception {
 
                                    authenticationProvider.deleteSavedLoginData(getApplicationContext());
-                                   final Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                   final Intent intent = new Intent(getApplicationContext(), OidcAuthenticationActivity.class);
                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                    startActivity(intent);
                                    finish();
