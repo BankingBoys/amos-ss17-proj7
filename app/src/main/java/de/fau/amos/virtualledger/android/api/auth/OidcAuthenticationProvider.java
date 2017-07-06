@@ -94,9 +94,11 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
         if(oidcData == null) {
             throw new IllegalStateException("refreshToken() was called but nobody was logged in!");
         }
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, oidcData.refresh_expires_in);
-        if(lastRefresh.after(cal.getTime())) {
+        Calendar now = Calendar.getInstance();
+        Calendar nextLoginRefresh = Calendar.getInstance();
+        nextLoginRefresh.setTime(lastRefresh);
+        nextLoginRefresh.add(Calendar.SECOND, oidcData.refresh_expires_in - REFRESHDELTA);
+        if(now.getTime().after(nextLoginRefresh.getTime())) {
             // refresh token expired
             if(currentUsername == null || currentPassword == null) throw new IllegalStateException("refreshToken() was called but no username + password was found in order to login after refresh token expiration");
 
