@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="de.fau.amos.virtualledger">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        tools:replace="android:allowBackup"
         android:name=".android.dagger.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -53,12 +55,8 @@
                     <action android:name="android.intent.action.MAIN" />
                     <category android:name="android.intent.category.LAUNCHER" />
                 </intent-filter>
-           </activity>
-
-
-        <service android:name="org.jboss.aerogear.android.authorization.oauth2.OAuth2AuthzService"/>
+       </activity>
 
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
