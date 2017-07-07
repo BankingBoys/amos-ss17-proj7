@@ -9,6 +9,7 @@ buildscript {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
+
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.android.application'
@@ -20,8 +21,8 @@ jacocoAndroidUnitTestReport {
     xml.enabled true
 }
 check.dependsOn {
-		jacocoTestReport
-	}
+    jacocoTestReport
+}
 
 repositories {
     mavenCentral()
@@ -50,9 +51,9 @@ android {
         abortOnError true
         disable('InvalidPackage')
     }
-	dexOptions {
-		javaMaxHeapSize "4g"
-	}
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
 
 }
 dependencies {
@@ -110,5 +111,5 @@ dependencies {
     androidTestCompile 'com.android.support:support-annotations:25.3.1'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     apt 'com.google.dagger:dagger-compiler:2.8'
-    provided 'javax.annotation:jsr250-api:1.0'	
+    provided 'javax.annotation:jsr250-api:1.0'
 }
