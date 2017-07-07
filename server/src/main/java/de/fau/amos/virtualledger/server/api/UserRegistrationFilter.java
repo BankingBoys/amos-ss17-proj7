@@ -56,5 +56,6 @@ public class UserRegistrationFilter extends GenericFilterBean {
         } catch (VirtualLedgerAuthenticationException e) {
             throw new ServletException(e);
         }
+        chain.doFilter(request, response);
     }
 }
