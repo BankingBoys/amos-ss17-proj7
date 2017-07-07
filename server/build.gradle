@@ -4,7 +4,6 @@ plugins {
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'application'
-apply plugin: 'war'
 
 applicationName = 'VirtualLedgerServer'
 group 'de.fau.amos.virtual-ledger'
@@ -40,15 +39,12 @@ dependencies {
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
     compile group: 'com.owlike', name: 'genson', version: '1.4'
 
-
     compile("org.springframework.boot:spring-boot-starter-web")
-
     compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
 
     compile group: 'org.keycloak', name: 'keycloak-spring-boot-starter', version: '3.2.0.CR1'
     compile group: 'org.keycloak.bom', name: 'keycloak-adapter-bom', version: '3.1.0.Final', ext: 'pom'
-
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
 
     compile project(':dtos')
 
