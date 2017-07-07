@@ -10,6 +10,9 @@ buildscript {
     }
 }
 
+plugins {
+    id "org.sonarqube" version "2.2"
+}
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.android.application'
