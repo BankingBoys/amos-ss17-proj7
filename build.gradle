@@ -31,7 +31,6 @@ allprojects {
 
 project(':server'){
 	apply plugin: 'java'
-	apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 	apply plugin: 'jacoco'
 
 	check.dependsOn {

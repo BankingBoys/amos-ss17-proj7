@@ -15,9 +15,6 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    maven {
-        url 'http://download.eclipse.org/rt/eclipselink/maven.repo'
-    }
 }
 uploadArchives {
 	repositories {
@@ -26,10 +23,6 @@ uploadArchives {
 			}
 		}
 	}
-
-springBoot {
-    mainClass = 'de.fau.amos.virtualledger.server.VirtualLedgerJettyApplication'
-}
 
 dependencies {
     compile 'ch.qos.logback:logback-classic:1.2.3'
