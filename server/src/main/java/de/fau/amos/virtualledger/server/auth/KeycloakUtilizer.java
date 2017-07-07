@@ -26,6 +26,36 @@ public class KeycloakUtilizer {
         return token.getEmail();
     }
 
+    /**
+     * extracts the first name from the keycloak context.
+     * returns null if not successful.
+     * @return
+     */
+    public String getFirstName() {
+        AccessToken token = null;
+        try {
+            token = getAccessToken();
+        } catch (ServletException e) {
+            return null;
+        }
+        return token.getGivenName();
+    }
+
+    /**
+     * extracts the last name from the keycloak context.
+     * returns null if not successful.
+     * @return
+     */
+    public String getLastName() {
+        AccessToken token = null;
+        try {
+            token = getAccessToken();
+        } catch (ServletException e) {
+            return null;
+        }
+        return token.getFamilyName();
+    }
+
     private AccessToken getAccessToken() throws ServletException {
         AccessToken token;
         try {
