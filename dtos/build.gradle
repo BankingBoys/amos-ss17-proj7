@@ -2,15 +2,28 @@ group 'de.fau.amos.virtual-ledger'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'jacoco'
 
 targetCompatibility = '1.7'
 sourceCompatibility = '1.7'
 
-
-
-
 repositories {
     mavenCentral()
+}
+
+check.dependsOn jacocoTestReport
+
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: 'META-INF/**')
+        }
+        )}
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.destination "${buildDir}/jacocoHtml"
+    }
 }
 
 dependencies {
