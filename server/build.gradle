@@ -1,6 +1,9 @@
 plugins {
     id 'org.springframework.boot' version '1.5.4.RELEASE'
 }
+plugins {
+    id "org.sonarqube" version "2.2"
+}
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'jacoco'
