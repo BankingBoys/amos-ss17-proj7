@@ -1,13 +1,10 @@
 package de.fau.amos.virtualledger.server.api;
 
 import de.fau.amos.virtualledger.server.auth.AuthenticationController;
+import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
 import de.fau.amos.virtualledger.server.auth.UserAlreadyExistsException;
 import de.fau.amos.virtualledger.server.auth.VirtualLedgerAuthenticationException;
 import de.fau.amos.virtualledger.server.model.User;
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.KeycloakSecurityContext;
-import org.keycloak.representations.IDToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -21,24 +18,20 @@ import java.io.IOException;
  */
 public class UserRegistrationFilter extends GenericFilterBean {
 
+    private KeycloakUtilizer keycloakUtilizer;
     private AuthenticationController authenticationController;
 
-    public UserRegistrationFilter(AuthenticationController authenticationController) {
+    public UserRegistrationFilter(KeycloakUtilizer keycloakUtilizer, AuthenticationController authenticationController) {
+        this.keycloakUtilizer = keycloakUtilizer;
         this.authenticationController = authenticationController;
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        IDToken token = null;
-        try {
-            KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            token = principal.getKeycloakSecurityContext().getToken();
-        } catch (Exception ex) {
-            throw new ServletException("Failure at getting data about the user by the identity token!");
-        }
-        String email = token.getEmail();
-        String firstName = token.getGivenName();
-        String lastName = token.getFamilyName();
+
+        String email = keycloakUtilizer.getEmail();
+        String firstName = keycloakUtilizer.getFirstName();
+        String lastName = keycloakUtilizer.getLastName();
         if (email == null || email.isEmpty()) {
             throw new ServletException("Username provided by authority must be specified");
         }

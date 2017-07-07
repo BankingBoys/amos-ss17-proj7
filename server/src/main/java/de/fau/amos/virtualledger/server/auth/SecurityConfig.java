@@ -28,6 +28,9 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationController authenticationController;
 
+    @Autowired
+    private KeycloakUtilizer keycloakUtilizer;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
@@ -37,7 +40,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .antMatchers("/api/savings/**").permitAll()
                 .antMatchers("/api/contacts/**").permitAll();
         http
-                .addFilterAfter(new UserRegistrationFilter(authenticationController), FilterSecurityInterceptor.class);
+                .addFilterAfter(new UserRegistrationFilter(keycloakUtilizer, authenticationController), FilterSecurityInterceptor.class);
         http.csrf().disable();
     }
 
