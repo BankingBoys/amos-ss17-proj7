@@ -7,7 +7,6 @@ import de.fau.amos.virtualledger.server.model.User;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.representations.IDToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -22,8 +21,11 @@ import java.io.IOException;
  */
 public class UserRegistrationFilter extends GenericFilterBean {
 
-    @Autowired
     private AuthenticationController authenticationController;
+
+    public UserRegistrationFilter(AuthenticationController authenticationController) {
+        this.authenticationController = authenticationController;
+    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

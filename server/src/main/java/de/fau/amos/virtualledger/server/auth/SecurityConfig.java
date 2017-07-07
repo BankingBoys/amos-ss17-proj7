@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.server.auth;
 
 
+import de.fau.amos.virtualledger.server.api.UserRegistrationFilter;
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
@@ -23,15 +25,19 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
+    @Autowired
+    private AuthenticationController authenticationController;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http
                 .authorizeRequests()
-                .antMatchers("/api/auth/logout").permitAll()
                 .antMatchers("/api/banking/**").permitAll()
                 .antMatchers("/api/savings/**").permitAll()
                 .antMatchers("/api/contacts/**").permitAll();
+        http
+                .addFilterAfter(new UserRegistrationFilter(authenticationController), FilterSecurityInterceptor.class);
         http.csrf().disable();
     }
 
