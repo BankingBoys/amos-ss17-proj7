@@ -1,8 +1,8 @@
-group 'de.fau.amos.virtual-ledger'
-version '1.0-SNAPSHOT'
-
 apply plugin: 'java'
 apply plugin: 'jacoco'
+
+group 'de.fau.amos.virtual-ledger'
+version '1.0-SNAPSHOT'
 
 targetCompatibility = '1.7'
 sourceCompatibility = '1.7'
