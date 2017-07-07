@@ -11,8 +11,18 @@ import javax.servlet.ServletException;
 @Component
 public class KeycloakUtilizer {
 
-    public String getEmail() throws ServletException {
-        AccessToken token = getAccessToken();
+    /**
+     * extracts the email adress from the keycloak context.
+     * returns null if not successful.
+     * @return
+     */
+    public String getEmail() {
+        AccessToken token = null;
+        try {
+            token = getAccessToken();
+        } catch (ServletException e) {
+            return null;
+        }
         return token.getEmail();
     }
 
