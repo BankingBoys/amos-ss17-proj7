@@ -1,3 +1,8 @@
+applicationName = 'VirtualLedgerServer'
+group 'de.fau.amos.virtual-ledger'
+version '1.0-SNAPSHOT'
+description "Backend for the Virtual Ledger Android app"
+
 plugins {
     id 'org.springframework.boot' version '1.5.4.RELEASE'
 }
@@ -5,12 +10,6 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'jacoco'
 apply plugin: 'application'
-
-applicationName = 'VirtualLedgerServer'
-group 'de.fau.amos.virtual-ledger'
-version '1.0-SNAPSHOT'
-description "Backend for the Virtual Ledger Android app"
-
 
 sourceCompatibility = 1.8
 
@@ -31,8 +30,8 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
             fileTree(dir: it, exclude: 'META-INF/**')
-        }
-        )}
+        })
+    }
     reports {
         xml.enabled true
         csv.enabled false

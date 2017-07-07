@@ -15,14 +15,14 @@ allprojects {
         reports {
             xml.enabled false
             html.enabled true
-		}
+        }
     }
-    checkstyle{
-	toolVersion = '6.7'
+    checkstyle {
+        toolVersion = '6.7'
     }
 
     repositories {
         mavenCentral()
-	jcenter()
+        jcenter()
     }
 }
