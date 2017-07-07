@@ -37,7 +37,7 @@ public class AuthenticationController {
         if (this.userRepository.existsUserWithEmail(user.getEmail())) {
             throw new UserAlreadyExistsException();
         }
-        this.userRepository.createUser(user);
+        this.userRepository.save(user);
 
         return "You were registered! " + user.getEmail();
     }
