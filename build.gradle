@@ -15,7 +15,9 @@ allprojects {
         reports {
             xml.enabled false
             html.enabled true
-	}
+		}
+		// Spring uses public methods in CRUD Repositories -> disabled
+		exclude '**/de/fau/amos/virtualledger/server/persistence/**Repository**'
     }
     checkstyle{
 	toolVersion = '6.7'
