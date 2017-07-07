@@ -17,6 +17,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import java.io.IOException;
 
+/**
+ * Filter that makes sure that the user is registered in the database, because registration is over 3rd party provider
+ */
 public class UserRegistrationFilter extends GenericFilterBean {
 
     @Autowired
