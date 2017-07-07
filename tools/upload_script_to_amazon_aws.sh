@@ -6,13 +6,10 @@ if [ "$DEPLOY_SERVER" != "TRUE" ]; then
 	exit 0;
 fi
 echo "Uploading new version to amazon aws"
-./gradlew server:uploadArchives
+./gradlew server:assemble
 cd app
 cd build
 eval "$(ssh-agent -s)"
 chmod 400 /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh
 ssh-add /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh
-scp -rp -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh /home/travis/build/BankingBoys/amos-ss17-proj7/server/compiled/server-1.0-SNAPSHOT.war ubuntu@$AWS_SERVER:/home/ubuntu/
-ssh -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh ubuntu@$AWS_SERVER "/home/ubuntu/pay/payara41/bin/asadmin start-domain"
-ssh -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh ubuntu@$AWS_SERVER "/home/ubuntu/pay/payara41/bin/asadmin --user admin --passwordfile ~/payPW deploy --force --name server-1.0-SNAPSHOT server-1.0-SNAPSHOT.war"
-
+scp -rp -i /home/travis/build/BankingBoys/amos-ss17-proj7/keyssh /home/travis/build/BankingBoys/amos-ss17-proj7/server/build/libs/server-1.0-SNAPSHOT.jar ubuntu@$AWS_SERVER:/home/ubuntu/
