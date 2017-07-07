@@ -17,7 +17,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import java.io.IOException;
 
-public class UserFilter extends GenericFilterBean {
+public class UserRegistrationFilter extends GenericFilterBean {
 
     @Autowired
     private AuthenticationController authenticationController;
