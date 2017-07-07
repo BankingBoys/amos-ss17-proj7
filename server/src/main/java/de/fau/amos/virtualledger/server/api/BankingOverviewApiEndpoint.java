@@ -37,9 +37,6 @@ public class BankingOverviewApiEndpoint {
         this.bankingOverviewController = bankingOverviewController;
     }
 
-    protected BankingOverviewApiEndpoint() {
-    }
-
     /**
      * Endpoint for getting banking overview data (bankaccesses + bankaccunts).
      * User must be authenticated.
