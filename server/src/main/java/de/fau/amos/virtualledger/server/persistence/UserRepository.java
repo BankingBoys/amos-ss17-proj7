@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
 
-    @Query("select count(u)>0 from User u where u.email=:email")
-    public boolean existsUserWithEmail(@Param("email") String email);
+    @Query(value = "select count(*)>0 from Users u where u.email=:email", nativeQuery = true)
+    boolean existsUserWithEmail(@Param("email") String email);
 }
