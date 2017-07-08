@@ -11,6 +11,6 @@ import de.fau.amos.virtualledger.dtos.Contact;
 public class ContactsComparator implements Comparator<Contact>{
     @Override
     public int compare(Contact c1, Contact c2) {
-        return c1.getFirstName().compareTo(c2.getFirstName());
+        return c1.getFirstName().compareToIgnoreCase(c2.getFirstName());
     }
 }
