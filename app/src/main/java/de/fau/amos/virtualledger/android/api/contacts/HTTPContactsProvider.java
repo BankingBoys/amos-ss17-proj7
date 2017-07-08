@@ -41,7 +41,17 @@ public class HTTPContactsProvider implements ContactsProvider{
     }
 
     @Override
-    public Observable<Void> addContact(final String Email) {
-        throw new UnsupportedOperationException("Not implemented");
+    public Observable<Void> addContact(final String email) {
+        final PublishSubject<Void> observable = PublishSubject.create();
+
+        callWithToken.callWithToken(observable, new TokenCallback() {
+            @Override
+            public void onReceiveToken(final String token) {
+                // got token
+                restApi.addContact(token, email).enqueue(new RetrofitCallback<>(observable));
+            }
+        });
+
+        return observable;
     }
 }
