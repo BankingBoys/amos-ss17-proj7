@@ -41,11 +41,15 @@ public class BankingApiBinder {
     }
 
     BankAccessEndpoint getBankAccessEndpoint(final String userId) {
-        return bankingApiConfiguration.getTestUserName().equals(userId) ? dummyBankAccessEndpoint : httpBankAccessEndpoint;
+        return isTestUser(userId) ? dummyBankAccessEndpoint : httpBankAccessEndpoint;
     }
 
     BankAccountEndpoint getBankAccountEndpoint(final String userId) {
-        return bankingApiConfiguration.getTestUserName().equals(userId) ? dummyBankAccountEndpoint : httpBankAccountEndpoint;
+        return isTestUser(userId) ? dummyBankAccountEndpoint : httpBankAccountEndpoint;
+    }
+
+    private boolean isTestUser(final String userId) {
+        return bankingApiConfiguration.getTestUserName().equals(userId);
     }
 
 }
