@@ -69,6 +69,24 @@ public class ContactsDataManager extends Observable {
                 });
     }
 
+    public void addContact(String email) {
+        contactsProvider.addContact(email)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Void>() {
+                    @Override
+                    public void accept(@NonNull final Void mVoid) throws Exception {
+                        ContactsDataManager.this.logger().info("Refreshing database of contacts after adding contacts");
+                        ContactsDataManager.this.sync();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull final Throwable throwable) throws Exception {
+                        Log.e(TAG, "Failed adding contacts", throwable);
+                    }
+                });
+    }
+
     private void onSyncComplete() {
         final int syncsLeft = syncsActive.decrementAndGet();
         if (syncsLeft == 0) {
