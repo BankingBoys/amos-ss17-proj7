@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 
 public class BankingApiUrlProvider {
 
-    private BankingApiConfiguration configuration;
+    private final BankingApiConfiguration configuration;
 
     @Autowired
-    public BankingApiUrlProvider(BankingApiConfiguration configuration) {
+    public BankingApiUrlProvider(final BankingApiConfiguration configuration) {
         this.configuration = configuration;
     }
 
@@ -27,16 +27,16 @@ public class BankingApiUrlProvider {
         return configuration.getBankingApiUrlAbsolute() + configuration.getBankAccessApiUrlRelative();
     }
 
-    public String getBankAccountEndpointUrl(String bankAccessId) {
+    public String getBankAccountEndpointUrl(final String bankAccessId) {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccountApiUrlRelative();
-        url = url.replaceAll("\\{accessId\\}", bankAccessId);
+        url = url.replaceAll("\\{accessId}", bankAccessId);
         return url;
     }
 
-    public String getBankAccountSyncEndpointUrl(String bankAccessId, String bankAccountId) {
+    public String getBankAccountSyncEndpointUrl(final String bankAccessId, final String bankAccountId) {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccountSyncApiUrlRelative();
-        url = url.replaceAll("\\{accessId\\}", bankAccessId);
-        url = url.replaceAll("\\{accountId\\}", bankAccountId);
+        url = url.replaceAll("\\{accessId}", bankAccessId);
+        url = url.replaceAll("\\{accountId}", bankAccountId);
         return url;
     }
 }
