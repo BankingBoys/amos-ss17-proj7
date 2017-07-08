@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
  * Class that holds all configuration required for the banking api access
  * examples: URL of the banking api, dummy configuration, ...
  */
+@SuppressWarnings("SpellCheckingInspection")
 @Component
-
 public class BankingApiConfiguration {
 
 
@@ -23,24 +23,24 @@ public class BankingApiConfiguration {
 
 
 
-    public String getBankingApiUrlAbsolute() {
+    String getBankingApiUrlAbsolute() {
         return BANKING_API_URL_ABSOLUTE;
     }
 
-    public String getBankAccessApiUrlRelative() {
+    String getBankAccessApiUrlRelative() {
         return BANK_ACCESS_API_URL_RELATIVE;
     }
 
-    public String getBankAccountApiUrlRelative() {
+    String getBankAccountApiUrlRelative() {
         return BANK_ACCOUNT_API_URL_RELATIVE;
     }
 
-    public String getBankAccountSyncApiUrlRelative() {
+    String getBankAccountSyncApiUrlRelative() {
         return BANK_ACCOUNT_SYNC_API_URL_RELATIVE;
     }
 
 
-    public String getTestUserName() {
+    String getTestUserName() {
         return TEST_USER_NAME;
     }
 }
