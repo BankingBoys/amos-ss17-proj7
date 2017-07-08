@@ -58,30 +58,7 @@ public class HTTPBankingProvider implements BankingProvider {
             @Override
             public void onReceiveToken(final String token) {
                 // got token
-                final retrofit2.Call<BankAccountSyncResult> responseMessage = retrofit.create(Restapi.class).getBookings(token, bankAccountSyncList);
-
-                responseMessage.enqueue(new Callback<BankAccountSyncResult>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<BankAccountSyncResult> call, Response<BankAccountSyncResult> response) {
-                        // got response from server
-                        if (response.isSuccessful()) {
-                            BankAccountSyncResult syncResult = response.body();
-                            Log.v(TAG, "Getting Bookings was successful " + response.code());
-                            observable.onNext(syncResult);
-                        } else {
-                            Log.e(TAG, "Getting Bookings was not successful!  ERROR " + response.code());
-                            observable.onError(new Throwable("Getting Bookings was not successful!"));
-                        }
-                    }
-
-
-                    @Override
-                    public void onFailure(retrofit2.Call<BankAccountSyncResult> call, Throwable t) {
-                        // response of server failed
-                        Log.e(TAG, "No connection to server!");
-                        observable.onError(new Throwable("No connection to server!"));
-                    }
-                });
+                retrofit.create(Restapi.class).getBookings(token, bankAccountSyncList).enqueue(new RetrofitCallback<>(observable));
             }
         });
 
@@ -96,30 +73,7 @@ public class HTTPBankingProvider implements BankingProvider {
             @Override
             public void onReceiveToken(final String token) {
                 // got token
-                final retrofit2.Call<BankAccess> responseMessage = retrofit.create(Restapi.class).addBankAccess(token, bankAccessCredential);
-
-                responseMessage.enqueue(new Callback<BankAccess>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<BankAccess> call, Response<BankAccess> response) {
-                        // got response from server
-                        if (response.isSuccessful()) {
-                            BankAccess bankAccess = response.body();
-                            Log.v(TAG, "Adding bank accesses was successful " + response.code());
-                            observable.onNext(bankAccess);
-                        } else {
-                            Log.e(TAG, "Adding bank accesses was not successful! ERROR " + response.code());
-                            observable.onError(new Throwable("Adding bank accesses was not successful!"));
-                        }
-                    }
-
-
-                    @Override
-                    public void onFailure(retrofit2.Call<BankAccess> call, Throwable t) {
-                        // response of server failed
-                        Log.e(TAG, "No connection to server!");
-                        observable.onError(new Throwable("No connection to server!"));
-                    }
-                });
+                retrofit.create(Restapi.class).addBankAccess(token, bankAccessCredential).enqueue(new RetrofitCallback<>(observable));
             }
         });
 
