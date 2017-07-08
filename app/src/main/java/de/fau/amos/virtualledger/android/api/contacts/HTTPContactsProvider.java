@@ -41,7 +41,7 @@ public class HTTPContactsProvider implements ContactsProvider{
     }
 
     @Override
-    public Observable<Void> addContacts(final Contact savingsAccount) {
+    public Observable<Void> addContact(final String Email) {
         throw new UnsupportedOperationException("Not implemented");
     }
 }
