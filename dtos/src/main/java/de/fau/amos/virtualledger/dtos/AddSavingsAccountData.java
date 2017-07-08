@@ -6,6 +6,7 @@ public class AddSavingsAccountData {
     private String name;
     private double goalBalance;
     private Date finalDate;
+    private Date goalFinishedDate;
 
     public String getName() {
         return name;
@@ -29,6 +30,14 @@ public class AddSavingsAccountData {
 
     public void setFinalDate(Date finalDate) {
         this.finalDate = finalDate;
+    }
+
+    public Date getGoalFinishedDate() {
+        return this.goalFinishedDate;
+    }
+
+    public void setGoalFinishedDate(Date newGoalFinishedDate) {
+        this.goalFinishedDate = newGoalFinishedDate;
     }
 
 }
