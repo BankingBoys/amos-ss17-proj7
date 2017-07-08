@@ -1,11 +1,10 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api;
 
+import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.BankAccessEndpoint;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.BankAccountEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.BankAccessEndpoint;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.BankAccountEndpoint;
 
 /**
  * Class that is responsible for binding the right implementation of an
@@ -25,11 +24,11 @@ public class BankingApiBinder {
     private BankingApiConfiguration bankingApiConfiguration;
 
     @Autowired
-    public BankingApiBinder(BankingApiConfiguration bankingApiConfiguration,
-            @Qualifier("default") BankAccessEndpoint httpBankAccessEndpoint,
-            @Qualifier("dummy") BankAccessEndpoint dummyBankAccessEndpoint,
-            @Qualifier("default") BankAccountEndpoint httpBankAccountEndpoint,
-            @Qualifier("dummy") BankAccountEndpoint dummyBankAccountEndpoint) {
+    public BankingApiBinder(final BankingApiConfiguration bankingApiConfiguration,
+                            @Qualifier("default") final BankAccessEndpoint httpBankAccessEndpoint,
+                            @Qualifier("dummy") final BankAccessEndpoint dummyBankAccessEndpoint,
+                            @Qualifier("default") final BankAccountEndpoint httpBankAccountEndpoint,
+                            @Qualifier("dummy") final BankAccountEndpoint dummyBankAccountEndpoint) {
         this.bankingApiConfiguration = bankingApiConfiguration;
 
         this.httpBankAccessEndpoint = httpBankAccessEndpoint;
@@ -41,7 +40,7 @@ public class BankingApiBinder {
     protected BankingApiBinder() {
     }
 
-    public BankAccessEndpoint getBankAccessEndpoint(String userId) {
+    BankAccessEndpoint getBankAccessEndpoint(final String userId) {
 
         if (bankingApiConfiguration.getTestUserName().equals(userId)) {
             return dummyBankAccessEndpoint;
@@ -50,7 +49,7 @@ public class BankingApiBinder {
         }
     }
 
-    public BankAccountEndpoint getBankAccountEndpoint(String userId) {
+    BankAccountEndpoint getBankAccountEndpoint(final String userId) {
         if (bankingApiConfiguration.getTestUserName().equals(userId)) {
             return dummyBankAccountEndpoint;
         } else {
