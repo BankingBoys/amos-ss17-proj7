@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.BankAccessEndpoint;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.BankAccountEndpoint;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.UserEndpoint;
 
 /**
  * Class that is responsible for binding the right implementation of an
@@ -18,8 +17,6 @@ import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.UserEnd
 public class BankingApiBinder {
 
     // all injected by constructor
-    private UserEndpoint httpUserEndpoint;
-    private UserEndpoint dummyUserEndpoint;
     private BankAccessEndpoint httpBankAccessEndpoint;
     private BankAccessEndpoint dummyBankAccessEndpoint;
     private BankAccountEndpoint httpBankAccountEndpoint;
@@ -29,15 +26,12 @@ public class BankingApiBinder {
 
     @Autowired
     public BankingApiBinder(BankingApiConfiguration bankingApiConfiguration,
-            @Qualifier("default") UserEndpoint httpUserEndpoint, @Qualifier("dummy") UserEndpoint dummyUserEndpoint,
             @Qualifier("default") BankAccessEndpoint httpBankAccessEndpoint,
             @Qualifier("dummy") BankAccessEndpoint dummyBankAccessEndpoint,
             @Qualifier("default") BankAccountEndpoint httpBankAccountEndpoint,
             @Qualifier("dummy") BankAccountEndpoint dummyBankAccountEndpoint) {
         this.bankingApiConfiguration = bankingApiConfiguration;
 
-        this.httpUserEndpoint = httpUserEndpoint;
-        this.dummyUserEndpoint = dummyUserEndpoint;
         this.httpBankAccessEndpoint = httpBankAccessEndpoint;
         this.dummyBankAccessEndpoint = dummyBankAccessEndpoint;
         this.httpBankAccountEndpoint = httpBankAccountEndpoint;
@@ -45,15 +39,6 @@ public class BankingApiBinder {
     }
 
     protected BankingApiBinder() {
-    }
-
-    public UserEndpoint getUserEndpoint(String userId) {
-
-        if (bankingApiConfiguration.getTestUserName().equals(userId)) {
-            return dummyUserEndpoint;
-        } else {
-            return httpUserEndpoint;
-        }
     }
 
     public BankAccessEndpoint getBankAccessEndpoint(String userId) {

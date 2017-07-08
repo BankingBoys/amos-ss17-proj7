@@ -23,10 +23,6 @@ public class BankingApiUrlProvider {
         this(null);
     }
 
-    public String getUserEndpointUrl() {
-        return configuration.getBankingApiUrlAbsolute() + configuration.getUserApiUrlRelative();
-    }
-
     public String getBankAccessEndpointUrl(String userId) {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccessApiUrlRelative();
         url = url.replaceAll("\\{userId\\}", userId);
