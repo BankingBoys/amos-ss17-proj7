@@ -18,11 +18,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.views.contacts.add.AddContactsActivity;
-import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
+import de.fau.amos.virtualledger.dtos.Contact;
 
 /**
  * Created by Simon on 01.07.2017.
@@ -80,7 +79,7 @@ public class ContactsFragment extends Fragment implements DataListening {
             final Fragment fragment = new NoContactsFragment();
             openFragment(fragment);
         }
-        logger().info("Refreshing contacts overview with " + allContacts.size() + " contacts from"+this.contactSupplier);
+        logger().info("Refreshing contacts overview with " + allContacts + " contacts from: "+this.contactSupplier);
         this.adapter.addAll(allContacts);
         this.adapter.notifyDataSetChanged();
     }
