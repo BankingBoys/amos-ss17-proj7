@@ -4,5 +4,6 @@
 /out/
 /bin/
 /compiled/
+/classes/
 /*.iml
 /.project
