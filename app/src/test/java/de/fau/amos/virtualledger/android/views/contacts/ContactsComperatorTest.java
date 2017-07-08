@@ -14,7 +14,7 @@ public class ContactsComperatorTest {
 
     @Test
     public void testCompareWithEqualNamesReturnZero() {
-        ContactsComperator component_under_test = new ContactsComperator();
+        ContactsComparator component_under_test = new ContactsComparator();
         Contact contact1 = new Contact();
         Contact contact2 = new Contact();
         final String testFirstName = "Albert";
