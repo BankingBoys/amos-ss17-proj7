@@ -41,7 +41,7 @@ public class AddContactsActivity extends AppCompatActivity {
     void submit() {
         final String email = emailAdr.getText().toString();
 
-        //Todo: contactsDataManager.addContact(email);
+        contactsDataManager.addContact(email);
 
         final Intent intent = new Intent(this, MainMenu.class);
         final Bundle bundle = new Bundle();
