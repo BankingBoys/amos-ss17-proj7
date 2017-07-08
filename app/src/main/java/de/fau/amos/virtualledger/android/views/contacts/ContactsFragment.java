@@ -6,6 +6,8 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -47,6 +49,11 @@ public class ContactsFragment extends Fragment implements DataListening {
         View view = inflater.inflate(R.layout.contacts_list, container, false);
         this.contactListView = (ListView) view.findViewById(R.id.contacts_list);
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        inflater.inflate(R.menu.contacts_add_bar, menu);
     }
 
     @Override
