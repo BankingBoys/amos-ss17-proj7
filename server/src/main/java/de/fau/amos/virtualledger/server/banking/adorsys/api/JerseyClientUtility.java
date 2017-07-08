@@ -16,7 +16,7 @@ public class JerseyClientUtility {
     }
 
     public static Client getLoggingClient(final Logger logger) {
-        final Feature feature = new LoggingFeature(new JavaLoggerFacade(logger), Level.FINE, null, null);
+        final Feature feature = new LoggingFeature(new JavaLoggerFacade(logger), Level.INFO, null, null);
 
         return ClientBuilder.newBuilder()
                 .register(feature)
@@ -32,8 +32,8 @@ public class JerseyClientUtility {
         }
 
         @Override
-        public void fine(final String msg) {
-            logger.debug(msg);
+        public void info(final String msg) {
+            logger.info(msg);
         }
     }
 }
