@@ -11,9 +11,9 @@ public class RetrofitCallback<T> implements Callback<T> {
 
     private static final String TAG = RetrofitCallback.class.getSimpleName();
 
-    final PublishSubject observable;
+    private final PublishSubject<T> observable;
 
-    public RetrofitCallback(final PublishSubject observable) {
+    public RetrofitCallback(final PublishSubject<T> observable) {
         this.observable = observable;
     }
 
@@ -22,7 +22,7 @@ public class RetrofitCallback<T> implements Callback<T> {
         // got response from server
         final String requestString = "Request " + call.request().method() + " " + call.request().url() + " ";
         if (response.isSuccessful()) {
-            T result = response.body();
+            final T result = response.body();
             Log.v(TAG, requestString + "was successful: " + response.code());
             observable.onNext(result);
         } else {

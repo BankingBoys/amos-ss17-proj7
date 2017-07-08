@@ -36,7 +36,7 @@ public class HTTPBankingProvider implements BankingProvider {
 
     @Override
     public Observable<List<BankAccess>> getBankingOverview() {
-        final PublishSubject observable = PublishSubject.create();
+        final PublishSubject<List<BankAccess>> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override
