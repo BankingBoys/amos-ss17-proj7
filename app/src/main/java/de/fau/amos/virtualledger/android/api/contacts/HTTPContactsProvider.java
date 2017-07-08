@@ -35,7 +35,7 @@ public class HTTPContactsProvider implements ContactsProvider{
     @Override
     public Observable<List<Contact>> getContacts() {
 
-        final PublishSubject observable = PublishSubject.create();
+        final PublishSubject<List<Contact>> observable = PublishSubject.create();
 
         authenticationProvider.getToken()
                 .subscribeOn(Schedulers.newThread())
