@@ -74,5 +74,6 @@
     <string name="add_savings_account_deposit_type_shared">Shared</string>
     <string name="add_savings_account_choose_accounts_button">Choose Accounts</string>
     <string name="add_savings_account_choose_accounts_text">Choose accounts that are enabled for the transaction of money to this deposit</string>
+    <string name="add_savings_account_choose_finish_goal_date">When will you have spent the money?</string>
 
 </resources>
