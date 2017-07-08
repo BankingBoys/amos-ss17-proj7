@@ -102,9 +102,9 @@ public class SavingsAccountsDataManager extends Observable {
         savingsProvider.addSavingAccount(savingsAccount)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
+                .subscribe(new Consumer<Void>() {
                     @Override
-                    public void accept(@NonNull final String result) throws Exception {
+                    public void accept(@NonNull final Void mVoid) throws Exception {
                         SavingsAccountsDataManager.this.logger().info("Refreshing database of Saving Accounts after adding savings account");
                         SavingsAccountsDataManager.this.sync();
                     }

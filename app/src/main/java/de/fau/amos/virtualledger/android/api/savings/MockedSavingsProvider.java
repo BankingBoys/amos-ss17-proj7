@@ -43,7 +43,7 @@ public class MockedSavingsProvider implements SavingsProvider {
     }
 
     @Override
-    public Observable<String> addSavingAccount(SavingsAccount savingsAccount) {
+    public Observable<Void> addSavingAccount(SavingsAccount savingsAccount) {
         final PublishSubject observable = PublishSubject.create();
         Thread th = new Thread(new Runnable() {
             @Override

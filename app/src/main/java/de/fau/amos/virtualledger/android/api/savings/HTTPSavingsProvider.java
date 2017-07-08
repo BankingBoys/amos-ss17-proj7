@@ -80,7 +80,7 @@ public class HTTPSavingsProvider implements SavingsProvider {
     }
 
     @Override
-    public Observable<String> addSavingAccount(final SavingsAccount savingsAccount) {
+    public Observable<Void> addSavingAccount(final SavingsAccount savingsAccount) {
 
         final PublishSubject observable = PublishSubject.create();
 
