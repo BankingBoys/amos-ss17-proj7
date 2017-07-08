@@ -56,8 +56,13 @@ public class KeycloakUtilizer {
         return token.getFamilyName();
     }
 
+    public String getTokenString() {
+        //noinspection unchecked
+        return ((KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getKeycloakSecurityContext().getTokenString();
+    }
+
     private AccessToken getAccessToken() throws ServletException {
-        AccessToken token;
+        final AccessToken token;
         try {
             KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             token = principal.getKeycloakSecurityContext().getToken();
