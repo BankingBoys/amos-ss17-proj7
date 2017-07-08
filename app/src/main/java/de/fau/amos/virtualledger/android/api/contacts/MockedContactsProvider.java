@@ -50,6 +50,23 @@ public class MockedContactsProvider implements ContactsProvider {
 
     @Override
     public Observable<Void> addContact(String Email) {
-        return null;
+        final PublishSubject observable = PublishSubject.create();
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //Wait until subject is subscribed
+                    Thread.sleep(DELAY_TIME_MILLISECONDS);
+                } catch (Exception e) {
+
+                }
+                // publish accounts to subject
+                observable.onNext("Contact was added! Dummy Implementation");
+                observable.onComplete();
+            }
+        });
+        th.start();
+
+        return observable;
     }
 }
