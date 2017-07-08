@@ -28,6 +28,7 @@ public class AddSavingsAccountFinalDateMoneyUsedFragment extends AddSavingsAccou
         final View view = inflater.inflate(R.layout.saving_accounts_add_fragment_final_date, container, false);
         TextView textView = (TextView) view.findViewById(R.id.add_savings_account_text_view_enter_final_date);
         textView.setText(R.string.add_savings_account_choose_finish_goal_date);
+
         ButterKnife.bind(this, view);
 
         return view;
@@ -40,6 +41,6 @@ public class AddSavingsAccountFinalDateMoneyUsedFragment extends AddSavingsAccou
         final int year = datePicker.getYear();
         final Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
-        addSavingsAccountResult.setFinalDate(calendar.getTime());
+        addSavingsAccountResult.setGoalFinishedDate(calendar.getTime());
     }
 }
