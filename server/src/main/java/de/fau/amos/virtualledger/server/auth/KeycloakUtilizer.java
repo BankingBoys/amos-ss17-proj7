@@ -35,16 +35,19 @@ public class KeycloakUtilizer {
         return getAccessToken().getFamilyName();
     }
 
-    public String getTokenString() {
-        //noinspection unchecked
-        return ((KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getKeycloakSecurityContext().getTokenString();
+    private AccessToken getAccessToken() throws ServletException {
+        return getKeycloakSecurityContext().getToken();
     }
 
-    private AccessToken getAccessToken() throws ServletException {
+    public String getTokenString() throws ServletException {
+        return getKeycloakSecurityContext().getTokenString();
+    }
+
+    private KeycloakSecurityContext getKeycloakSecurityContext() throws ServletException {
         try {
-            @SuppressWarnings("unchecked") final KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            return principal.getKeycloakSecurityContext().getToken();
-        } catch (final Exception ex) {
+            //noinspection unchecked
+            return ((KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getKeycloakSecurityContext();
+        } catch (final Exception e) {
             throw new ServletException("Failure at getting data about the user by the identity token!");
         }
     }
