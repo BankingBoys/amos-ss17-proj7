@@ -12,9 +12,9 @@ public class BankingApiConfiguration {
 
 
     private final String bankingApiUrlAbsolute = "https://multibanking-service.dev.adorsys.de:443/api/v1/";
-    private final String bankAccessApiUrlRelative = "users/{userId}/bankaccesses";
-    private final String bankAccountApiUrlRelative = "users/{userId}/bankaccesses/{accessId}/accounts";
-    private final String bankAccountSyncApiUrlRelative = "users/{userId}/bankaccesses/{accessId}/accounts/{accountId}/sync";
+    private final String bankAccessApiUrlRelative = "bankaccesses";
+    private final String bankAccountApiUrlRelative = "bankaccesses/{accessId}/accounts";
+    private final String bankAccountSyncApiUrlRelative = "bankaccesses/{accessId}/accounts/{accountId}/sync";
 
     /**
      * username of the test user that does not use adorsys api but dummies
