@@ -1,7 +1,5 @@
 package de.fau.amos.virtualledger.android.api.banking;
 
-import android.util.Log;
-
 import java.util.List;
 
 import de.fau.amos.virtualledger.android.api.Restapi;
@@ -14,8 +12,6 @@ import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 
 /**
@@ -89,29 +85,7 @@ public class HTTPBankingProvider implements BankingProvider {
             @Override
             public void onReceiveToken(final String token) {
                 // got token
-                final retrofit2.Call<Void> responseMessage = retrofit.create(Restapi.class).deleteBankAccess(token, accessId);
-
-                responseMessage.enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
-                        // got response from server
-                        if (response.isSuccessful()) {
-                            Log.v(TAG, "Deleting bank accesses was successful " + response.code());
-                            observable.onNext(response.body());
-                        } else {
-                            Log.e(TAG, "Deleting bank accesses was not successful! ERROR " + response.code());
-                            observable.onError(new Throwable("Deleting bank accesses was not successful!"));
-                        }
-                    }
-
-
-                    @Override
-                    public void onFailure(retrofit2.Call<Void> call, Throwable t) {
-                        // response from server failed
-                        Log.e(TAG, "No connection to server!");
-                        observable.onError(new Throwable("No connection to server!"));
-                    }
-                });
+                retrofit.create(Restapi.class).deleteBankAccess(token, accessId).enqueue(new RetrofitCallback<>(observable));
             }
         });
 
@@ -127,29 +101,7 @@ public class HTTPBankingProvider implements BankingProvider {
             @Override
             public void onReceiveToken(final String token) {
                 // got token
-                final retrofit2.Call<Void> responseMessage = retrofit.create(Restapi.class).deleteBankAccount(token, accessId, accountId);
-
-                responseMessage.enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
-                        // got response from server
-                        if (response.isSuccessful()) {
-                            Log.v(TAG, "Deleting bank account was successful " + response.code());
-                            observable.onNext(response.body());
-                        } else {
-                            Log.e(TAG, "Deleting bank account was not successful! ERROR " + response.code());
-                            observable.onError(new Throwable("Deleting bank account was not successful!"));
-                        }
-                    }
-
-
-                    @Override
-                    public void onFailure(retrofit2.Call<Void> call, Throwable t) {
-                        // response from server failed
-                        Log.e(TAG, "No connection to server!");
-                        observable.onError(new Throwable("No connection to server!"));
-                    }
-                });
+                retrofit.create(Restapi.class).deleteBankAccount(token, accessId, accountId).enqueue(new RetrofitCallback<>(observable));
             }
         });
 
