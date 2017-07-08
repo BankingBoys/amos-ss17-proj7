@@ -2,7 +2,6 @@ package de.fau.amos.virtualledger.server.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  * Class that represents user information.
@@ -14,10 +13,8 @@ public class User {
     @javax.persistence.Id
     private String email;
 
-    @NotNull
     private String firstName;
 
-    @NotNull
     private String lastName;
 
     public User(String email, String firstName, String lastName) {
