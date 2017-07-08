@@ -6,6 +6,7 @@ import java.util.List;
 
 import de.fau.amos.virtualledger.android.api.Restapi;
 import de.fau.amos.virtualledger.android.api.shared.CallWithToken;
+import de.fau.amos.virtualledger.android.api.shared.RetrofitCallback;
 import de.fau.amos.virtualledger.android.api.shared.TokenCallback;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
@@ -41,30 +42,7 @@ public class HTTPBankingProvider implements BankingProvider {
             @Override
             public void onReceiveToken(final String token) {
                 // got token
-                final retrofit2.Call<List<BankAccess>> responseMessage = retrofit.create(Restapi.class).getBankAccesses(token);
-
-                responseMessage.enqueue(new Callback<List<BankAccess>>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<List<BankAccess>> call, Response<List<BankAccess>> response) {
-                        // got response from server
-                        if (response.isSuccessful()) {
-                            List<BankAccess> bankAccesses = response.body();
-                            Log.v(TAG, "Fetching of bank accesses was successful " + response.code());
-                            observable.onNext(bankAccesses);
-                        } else {
-                            Log.e(TAG, "Fetchin of bank accesses was not successful! ERROR " + response.code());
-                            observable.onError(new Throwable("Fetching of bank accesses was not successful!"));
-                        }
-                    }
-
-
-                    @Override
-                    public void onFailure(retrofit2.Call<List<BankAccess>> call, Throwable t) {
-                        // response of server failed
-                        Log.e(TAG, "No connection to server!");
-                        observable.onError(new Throwable("No connection to server!"));
-                    }
-                });
+                retrofit.create(Restapi.class).getBankAccesses(token).enqueue(new RetrofitCallback<List<BankAccess>>(observable));
             }
         });
 
