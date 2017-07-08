@@ -13,7 +13,7 @@ public class CallWithToken {
 
     private static final String TAG = CallWithToken.class.getSimpleName();
 
-    final AuthenticationProvider authenticationProvider;
+    private final AuthenticationProvider authenticationProvider;
 
     public CallWithToken(final AuthenticationProvider authenticationProvider) {
         this.authenticationProvider = authenticationProvider;
@@ -32,8 +32,8 @@ public class CallWithToken {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
                         // did not get any token
-                        Log.e(TAG, throwable.getMessage());
-                        observable.onError(new Throwable("No authentication token available!"));
+                        Log.e(TAG, "Failed to retrieve token", throwable);
+                        observable.onError(throwable);
                     }
                 });
 
