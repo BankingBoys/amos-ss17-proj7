@@ -186,9 +186,9 @@ public class BankingDataManager extends Observable {
         bankingProvider.deleteBankAccess(accessId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
+                .subscribe(new Consumer<Void>() {
                     @Override
-                    public void accept(@NonNull final String string) throws Exception {
+                    public void accept(@NonNull final Void mVoid) throws Exception {
                         for (final BankAccess bankAccess : bankAccesses) {
                             if (bankAccess.getId().equals(accessId)) {
                                 for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
@@ -215,9 +215,9 @@ public class BankingDataManager extends Observable {
         bankingProvider.deleteBankAccount(accessId, accountId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
+                .subscribe(new Consumer<Void>() {
                     @Override
-                    public void accept(@NonNull final String string) throws Exception {
+                    public void accept(@NonNull final Void mVoid) throws Exception {
                         for (final BankAccess bankAccess : bankAccesses) {
                             for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
                                 if(bankAccount.getBankid().equals(accountId)) {

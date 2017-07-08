@@ -82,8 +82,8 @@ public class HTTPBankingProvider implements BankingProvider {
     }
 
     @Override
-    public Observable<String> deleteBankAccess(final String accessId) {
-        final PublishSubject<String> observable = PublishSubject.create();
+    public Observable<Void> deleteBankAccess(final String accessId) {
+        final PublishSubject<Void> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override
@@ -97,7 +97,7 @@ public class HTTPBankingProvider implements BankingProvider {
                         // got response from server
                         if (response.isSuccessful()) {
                             Log.v(TAG, "Deleting bank accesses was successful " + response.code());
-                            observable.onNext("Deleting bank access was successful");
+                            observable.onNext(response.body());
                         } else {
                             Log.e(TAG, "Deleting bank accesses was not successful! ERROR " + response.code());
                             observable.onError(new Throwable("Deleting bank accesses was not successful!"));
@@ -120,8 +120,8 @@ public class HTTPBankingProvider implements BankingProvider {
     }
 
     @Override
-    public Observable<String> deleteBankAccount(final String accessId, final String accountId) {
-        final PublishSubject<String> observable = PublishSubject.create();
+    public Observable<Void> deleteBankAccount(final String accessId, final String accountId) {
+        final PublishSubject<Void> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override
@@ -135,7 +135,7 @@ public class HTTPBankingProvider implements BankingProvider {
                         // got response from server
                         if (response.isSuccessful()) {
                             Log.v(TAG, "Deleting bank account was successful " + response.code());
-                            observable.onNext("Deleting bank account was successful");
+                            observable.onNext(response.body());
                         } else {
                             Log.e(TAG, "Deleting bank account was not successful! ERROR " + response.code());
                             observable.onError(new Throwable("Deleting bank account was not successful!"));

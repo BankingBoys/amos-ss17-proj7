@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccount;
@@ -142,7 +141,7 @@ public class MockedBankingProvider implements BankingProvider {
     }
 
     @Override
-    public Observable<String> deleteBankAccess(String accessId) {
+    public Observable<Void> deleteBankAccess(String accessId) {
         final PublishSubject observable = PublishSubject.create();
         Thread th = new Thread(new Runnable() {
             @Override
@@ -164,7 +163,7 @@ public class MockedBankingProvider implements BankingProvider {
     }
 
     @Override
-    public Observable<String> deleteBankAccount(String accessId, String accountId) {
+    public Observable<Void> deleteBankAccount(String accessId, String accountId) {
         final PublishSubject observable = PublishSubject.create();
         Thread th = new Thread(new Runnable() {
             @Override
