@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint;
 
+import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvider;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.JerseyClientUtility;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccessJSONBankingModel;
@@ -31,10 +32,12 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final BankingApiUrlProvider urlProvider;
+    private final KeycloakUtilizer keycloakUtilizer;
 
     @Autowired
-    public HttpBankAccessEndpoint(final BankingApiUrlProvider urlProvider) {
+    public HttpBankAccessEndpoint(final BankingApiUrlProvider urlProvider, final KeycloakUtilizer keycloakUtilizer) {
         this.urlProvider = urlProvider;
+        this.keycloakUtilizer = keycloakUtilizer;
     }
 
     @Override
@@ -45,7 +48,8 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
 
         final String url = urlProvider.getBankAccessEndpointUrl();
         final WebTarget webTarget = client.target(url);
-        final Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", token);
+        final String authorizationHeader = "Bearer " + keycloakUtilizer.getTokenString();
+        final Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", authorizationHeader);
         final Response response = invocationBuilder.get();
 
         if (response.getStatus() != HTTP_OK) {

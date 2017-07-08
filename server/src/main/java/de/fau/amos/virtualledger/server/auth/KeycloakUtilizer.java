@@ -6,8 +6,6 @@ import org.keycloak.representations.AccessToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
-
 @Component
 public class KeycloakUtilizer {
 
@@ -39,7 +37,7 @@ public class KeycloakUtilizer {
         return getKeycloakSecurityContext().getToken();
     }
 
-    public String getTokenString() throws ServletException {
+    public String getTokenString() {
         return getKeycloakSecurityContext().getTokenString();
     }
 

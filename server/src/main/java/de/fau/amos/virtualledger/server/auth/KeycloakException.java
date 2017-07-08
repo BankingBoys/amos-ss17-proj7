@@ -1,6 +1,6 @@
 package de.fau.amos.virtualledger.server.auth;
 
-public class KeycloakException extends RuntimeException {
+class KeycloakException extends RuntimeException {
     KeycloakException() {
         super();
     }
