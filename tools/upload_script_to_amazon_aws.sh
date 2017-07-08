@@ -5,6 +5,15 @@ if [ "$DEPLOY_SERVER" != "TRUE" ]; then
 	echo "No auto deploy of "$TRAVIS_COMMIT_MESSAGE
 	exit 0;
 fi
+
+if [[ $TRAVIS_COMMIT_MESSAGE != *"#serverdeploy"* ]]; then
+	echo "Commit message does not contain #serverdeploy"
+	echo "Commit message was:"$TRAVIS_COMMIT_MESSAGE
+	echo "No server deploy happens"
+	exit 0;
+fi
+
+
 echo "Uploading new version to amazon aws"
 ./gradlew server:assemble
 cd app
