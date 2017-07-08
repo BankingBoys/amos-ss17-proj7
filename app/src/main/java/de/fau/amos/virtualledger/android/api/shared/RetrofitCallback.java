@@ -2,6 +2,8 @@ package de.fau.amos.virtualledger.android.api.shared;
 
 import android.util.Log;
 
+import java.io.IOException;
+
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +29,7 @@ public class RetrofitCallback<T> implements Callback<T> {
             observable.onNext(result);
         } else {
             Log.e(TAG, requestString + "was not successful! ERROR " + response.code());
-            observable.onError(new Throwable(requestString + " was not successful!"));
+            observable.onError(new IOException(requestString + " was not successful!"));
         }
     }
 
