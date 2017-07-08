@@ -1,8 +1,14 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint;
 
-import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.List;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvider;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccessJSONBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -11,17 +17,9 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
-import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvider;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccessJSONBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 
@@ -41,7 +39,7 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
         // Create Jersey client
         Client client = ClientBuilder.newClient();
 
-        String url = urlProvider.getBankAccessEndpointUrl(userId);
+        String url = urlProvider.getBankAccessEndpointUrl();
         WebTarget webTarget = client.target(url);
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
         Response response = invocationBuilder.get();
@@ -64,7 +62,7 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
         // Create Jersey client
         Client client = ClientBuilder.newClient();
 
-        String url = urlProvider.getBankAccessEndpointUrl(userId);
+        String url = urlProvider.getBankAccessEndpointUrl();
         WebTarget webTarget = client.target(url);
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
         Response response = invocationBuilder.post(Entity.entity(bankAccess, MediaType.APPLICATION_JSON_TYPE));

@@ -1,8 +1,16 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint;
 
-import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.List;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvider;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccountJSONBankingModel;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccountSyncJSONBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import de.fau.amos.virtualledger.server.banking.model.BookingModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -11,19 +19,9 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
-import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvider;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccountJSONBankingModel;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccountSyncJSONBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankingException;
-import de.fau.amos.virtualledger.server.banking.model.BookingModel;
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 
@@ -43,7 +41,7 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
         // Create Jersey client
         Client client = ClientBuilder.newClient();
 
-        String url = urlProvider.getBankAccountEndpointUrl(userId, bankingAccessId);
+        String url = urlProvider.getBankAccountEndpointUrl(bankingAccessId);
         WebTarget webTarget = client.target(url);
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
         Response response = invocationBuilder.get();
@@ -67,7 +65,7 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
         // Create Jersey client
         Client client = ClientBuilder.newClient();
 
-        String url = urlProvider.getBankAccountSyncEndpointUrl(userId, bankAccessId, bankAccountId);
+        String url = urlProvider.getBankAccountSyncEndpointUrl(bankAccessId, bankAccountId);
         WebTarget webTarget = client.target(url);
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
         Response response = invocationBuilder.put(Entity.entity(pin, MediaType.TEXT_PLAIN_TYPE));

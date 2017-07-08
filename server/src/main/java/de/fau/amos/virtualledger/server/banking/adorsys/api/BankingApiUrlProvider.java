@@ -23,22 +23,18 @@ public class BankingApiUrlProvider {
         this(null);
     }
 
-    public String getBankAccessEndpointUrl(String userId) {
-        String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccessApiUrlRelative();
-        url = url.replaceAll("\\{userId\\}", userId);
-        return url;
+    public String getBankAccessEndpointUrl() {
+        return configuration.getBankingApiUrlAbsolute() + configuration.getBankAccessApiUrlRelative();
     }
 
-    public String getBankAccountEndpointUrl(String userId, String bankAccessId) {
+    public String getBankAccountEndpointUrl(String bankAccessId) {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccountApiUrlRelative();
-        url = url.replaceAll("\\{userId\\}", userId);
         url = url.replaceAll("\\{accessId\\}", bankAccessId);
         return url;
     }
 
-    public String getBankAccountSyncEndpointUrl(String userId, String bankAccessId, String bankAccountId) {
+    public String getBankAccountSyncEndpointUrl(String bankAccessId, String bankAccountId) {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccountSyncApiUrlRelative();
-        url = url.replaceAll("\\{userId\\}", userId);
         url = url.replaceAll("\\{accessId\\}", bankAccessId);
         url = url.replaceAll("\\{accountId\\}", bankAccountId);
         return url;
