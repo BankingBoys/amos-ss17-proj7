@@ -28,4 +28,22 @@ public class ContactsComperatorTest {
         assertThat(component_under_test.compare(contact1, contact2)).isEqualTo(expectedValue);
     }
 
+    @Test
+    public void testCompareFirstStringLexicographicallyLess() {
+        ContactsComparator component_under_test = new ContactsComparator();
+        Contact contact1 = new Contact();
+        Contact contact2 = new Contact();
+        final String testFirstName = "Albert";
+        final String testLastName = "Quack";
+        final String testFirstName2 = "Daniel";
+        final String testLastName2 = "Düsentrieb";
+        contact1.setFirstName(testFirstName);
+        contact1.setLastName(testLastName);
+        contact2.setFirstName(testFirstName2);
+        contact2.setLastName(testLastName2);
+        final int referencedValue = 0;
+
+        assertThat(component_under_test.compare(contact1, contact2)).isLessThan(referencedValue);
+    }
+
 }
