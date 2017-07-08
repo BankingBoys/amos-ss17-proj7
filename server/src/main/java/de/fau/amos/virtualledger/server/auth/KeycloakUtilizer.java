@@ -14,13 +14,12 @@ public class KeycloakUtilizer {
     /**
      * extracts the email adress from the keycloak context.
      * returns null if not successful.
-     * @return
      */
     public String getEmail() {
-        AccessToken token = null;
+        final AccessToken token;
         try {
             token = getAccessToken();
-        } catch (ServletException e) {
+        } catch (final ServletException e) {
             return null;
         }
         return token.getEmail();
@@ -29,13 +28,12 @@ public class KeycloakUtilizer {
     /**
      * extracts the first name from the keycloak context.
      * returns null if not successful.
-     * @return
      */
     public String getFirstName() {
-        AccessToken token = null;
+        final AccessToken token;
         try {
             token = getAccessToken();
-        } catch (ServletException e) {
+        } catch (final ServletException e) {
             return null;
         }
         return token.getGivenName();
@@ -44,13 +42,12 @@ public class KeycloakUtilizer {
     /**
      * extracts the last name from the keycloak context.
      * returns null if not successful.
-     * @return
      */
     public String getLastName() {
-        AccessToken token = null;
+        final AccessToken token;
         try {
             token = getAccessToken();
-        } catch (ServletException e) {
+        } catch (final ServletException e) {
             return null;
         }
         return token.getFamilyName();
@@ -64,9 +61,9 @@ public class KeycloakUtilizer {
     private AccessToken getAccessToken() throws ServletException {
         final AccessToken token;
         try {
-            KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            @SuppressWarnings("unchecked") final KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             token = principal.getKeycloakSecurityContext().getToken();
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             throw new ServletException("Failure at getting data about the user by the identity token!");
         }
         return token;
