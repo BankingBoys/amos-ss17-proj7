@@ -18,11 +18,6 @@ public class BankingApiUrlProvider {
         this.configuration = configuration;
     }
 
-    // protected empty constructor required for server to init it
-    protected BankingApiUrlProvider() {
-        this(null);
-    }
-
     public String getBankAccessEndpointUrl() {
         return configuration.getBankingApiUrlAbsolute() + configuration.getBankAccessApiUrlRelative();
     }
