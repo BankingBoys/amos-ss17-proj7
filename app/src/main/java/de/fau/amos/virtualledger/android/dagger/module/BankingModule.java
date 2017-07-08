@@ -5,6 +5,7 @@ import dagger.Provides;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
 import de.fau.amos.virtualledger.android.api.banking.HTTPBankingProvider;
+import de.fau.amos.virtualledger.android.api.shared.CallWithToken;
 import de.fau.amos.virtualledger.android.dagger.component.NetComponentScope;
 import retrofit2.Retrofit;
 
@@ -13,7 +14,7 @@ public class BankingModule {
 
     @Provides
     @NetComponentScope
-    BankingProvider provideBankingProvider(Retrofit retrofit, AuthenticationProvider authenticationProvider) {
-        return new HTTPBankingProvider(retrofit, authenticationProvider);
+    BankingProvider provideBankingProvider(Retrofit retrofit, AuthenticationProvider authenticationProvider, CallWithToken callWithToken) {
+        return new HTTPBankingProvider(retrofit, authenticationProvider, callWithToken);
     }
 }
