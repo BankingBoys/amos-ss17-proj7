@@ -1,26 +1,24 @@
 package de.fau.amos.virtualledger.server.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.validation.constraints.NotNull;
 
 /**
  * Class that represents user information.
  */
-@XmlRootElement
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class User {
 
-    private String email;
-    private String firstName;
-    private String lastName;
-
     @javax.persistence.Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String email;
+
+    @NotNull
+    private String firstName;
+
+    @NotNull
+    private String lastName;
 
     public User(String email, String firstName, String lastName) {
         this.email = email;
@@ -53,13 +51,5 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }
