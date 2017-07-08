@@ -63,7 +63,7 @@ public class BankingOverviewApiEndpointTest {
         HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
         Assert.isTrue(reponse.getStatusCode() == expectedStatusCode,
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(bankingOverviewController, times(0)).getBankingOverview(any(String.class),any(String.class));
+        verify(bankingOverviewController, times(0)).getBankingOverview(any(String.class), any(String.class));
     }
 
     @Test
@@ -97,7 +97,7 @@ public class BankingOverviewApiEndpointTest {
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
         Assert.isTrue(reponse.getStatusCode() == expectedStatusCode,
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(bankingOverviewController, times(1)).getBankingOverview(any(String.class),any(String.class));
+        verify(bankingOverviewController, times(1)).getBankingOverview(any(String.class), any(String.class));
     }
 
     @Test
