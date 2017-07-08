@@ -13,5 +13,5 @@ public interface UserRepository extends CrudRepository<User, String> {
     boolean existsUserWithEmail(@Param("email") String email);
 
     @Query("SELECT u FROM User u LEFT JOIN FETCH u.savingsAccounts WHERE u.email = (:email)")
-    public User findAndLoadSavingsAccounts(@Param("email") String email);
+    User findAndLoadSavingsAccounts(@Param("email") String email);
 }
