@@ -33,7 +33,7 @@ public class HTTPSavingsProvider implements SavingsProvider {
 
     @Override
     public Observable<List<SavingsAccount>> getSavingAccounts() {
-        final PublishSubject observable = PublishSubject.create();
+        final PublishSubject<List<SavingsAccount>> observable = PublishSubject.create();
 
         authenticationProvider.getToken()
                 .subscribeOn(Schedulers.newThread())
@@ -82,7 +82,7 @@ public class HTTPSavingsProvider implements SavingsProvider {
     @Override
     public Observable<Void> addSavingAccount(final SavingsAccount savingsAccount) {
 
-        final PublishSubject observable = PublishSubject.create();
+        final PublishSubject<Void> observable = PublishSubject.create();
 
         authenticationProvider.getToken()
                 .subscribeOn(Schedulers.newThread())
@@ -99,7 +99,7 @@ public class HTTPSavingsProvider implements SavingsProvider {
                                 // got resoinse from server
                                 if (response.code() == 201) {
                                     Log.v(TAG, "Adding Saving Accounts was successful " + response.code());
-                                    observable.onNext("Adding Saving Accounts was successful");
+                                    observable.onNext(response.body());
                                 } else {
                                     Log.e(TAG, "Adding Saving Accounts was not successful! ERROR " + response.code());
                                     observable.onError(new Throwable("Adding Saving Accounts was not successful!"));
