@@ -3,6 +3,7 @@ package de.fau.amos.virtualledger.android.api.contacts;
 import java.util.List;
 
 import de.fau.amos.virtualledger.android.api.RestApi;
+import de.fau.amos.virtualledger.android.api.banking.HTTPBankingProvider;
 import de.fau.amos.virtualledger.android.api.shared.CallWithToken;
 import de.fau.amos.virtualledger.android.api.shared.RetrofitCallback;
 import de.fau.amos.virtualledger.android.api.shared.TokenCallback;
@@ -10,18 +11,15 @@ import de.fau.amos.virtualledger.dtos.Contact;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
-/**
- * Created by Simon on 01.07.2017.
- */
-
 public class HTTPContactsProvider implements ContactsProvider{
 
-    private static final String TAG = "HTTPContactsProvider";
+    @SuppressWarnings("unused")
+    private static final String TAG = HTTPBankingProvider.class.getSimpleName();
 
-    private RestApi restApi;
-    private CallWithToken callWithToken;
+    private final RestApi restApi;
+    private final CallWithToken callWithToken;
 
-    public HTTPContactsProvider(RestApi restApi, final CallWithToken callWithToken) {
+    public HTTPContactsProvider(final RestApi restApi, final CallWithToken callWithToken) {
         this.restApi = restApi;
         this.callWithToken = callWithToken;
     }
@@ -42,9 +40,8 @@ public class HTTPContactsProvider implements ContactsProvider{
         return observable;
     }
 
-
     @Override
-    public Observable<Void> addContacts(Contact savingsAccount) {
-        return null;
+    public Observable<Void> addContacts(final Contact savingsAccount) {
+        throw new UnsupportedOperationException("Not implemented");
     }
 }
