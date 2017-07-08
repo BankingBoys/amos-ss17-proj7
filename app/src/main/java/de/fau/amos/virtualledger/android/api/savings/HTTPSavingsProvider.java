@@ -13,10 +13,11 @@ import io.reactivex.subjects.PublishSubject;
 
 public class HTTPSavingsProvider implements SavingsProvider {
 
-    private static final String TAG = "HTTPSavingsProvider";
+    @SuppressWarnings("unused")
+    private static final String TAG = HTTPSavingsProvider.class.getSimpleName();
 
-    private RestApi restApi;
-    private CallWithToken callWithToken;
+    private final RestApi restApi;
+    private final CallWithToken callWithToken;
 
 
     public HTTPSavingsProvider(final RestApi restApi, final CallWithToken callWithToken) {
