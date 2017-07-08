@@ -64,4 +64,21 @@ public class ContactsComperatorTest {
         assertThat(component_under_test.compare(contact1, contact2)).isGreaterThan(referencedValue);
     }
 
+    @Test
+    public void testIgnoringCases() {
+        ContactsComparator component_under_test = new ContactsComparator();
+        Contact contact1 = new Contact();
+        Contact contact2 = new Contact();
+        final String testFirstName = "Gundula";
+        final String testLastName = "Gause";
+        final String testFirstName2 = "gundula";
+        final String testLastName2 = "gause";
+        contact1.setFirstName(testFirstName);
+        contact1.setLastName(testLastName);
+        contact2.setFirstName(testFirstName2);
+        contact2.setLastName(testLastName2);
+        final int expectedValue = 0;
+
+        assertThat(component_under_test.compare(contact1, contact2)).isEqualTo(expectedValue);
+    }
 }
