@@ -49,6 +49,7 @@ public class ContactsFragment extends Fragment implements DataListening {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.contacts_list, container, false);
         this.contactListView = (ListView) view.findViewById(R.id.contacts_list);
         return view;
