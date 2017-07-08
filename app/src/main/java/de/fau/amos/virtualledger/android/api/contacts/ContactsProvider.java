@@ -13,6 +13,6 @@ public interface ContactsProvider {
 
     Observable<List<Contact>> getContacts();
 
-    Observable<String> addContacts(Contact savingsAccount);
+    Observable<Void> addContacts(Contact savingsAccount);
 
 }
