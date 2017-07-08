@@ -3,6 +3,7 @@ package de.fau.amos.virtualledger.android.dagger.module;
 
 import dagger.Module;
 import dagger.Provides;
+import de.fau.amos.virtualledger.android.api.RestApi;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.savings.HTTPSavingsProvider;
 import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
@@ -15,6 +16,6 @@ public class SavingsModule {
     @Provides
     @NetComponentScope
     SavingsProvider provideSavingsProvider(Retrofit retrofit, AuthenticationProvider authenticationProvider) {
-        return new HTTPSavingsProvider(retrofit, authenticationProvider);
+        return new HTTPSavingsProvider(retrofit.create(RestApi.class), authenticationProvider);
     }
 }

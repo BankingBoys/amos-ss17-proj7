@@ -16,17 +16,17 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class HTTPSavingsProvider implements SavingsProvider {
 
     private static final String TAG = "HTTPSavingsProvider";
 
-    private Retrofit retrofit;
+    private RestApi restApi;
     private AuthenticationProvider authenticationProvider;
 
-    public HTTPSavingsProvider(Retrofit retrofit, AuthenticationProvider authenticationProvider) {
-        this.retrofit = retrofit;
+
+    public HTTPSavingsProvider(final RestApi restApi, final AuthenticationProvider authenticationProvider) {
+        this.restApi = restApi;
         this.authenticationProvider = authenticationProvider;
     }
 
@@ -42,7 +42,7 @@ public class HTTPSavingsProvider implements SavingsProvider {
                     @Override
                     public void accept(@NonNull final String token) throws Exception {
                         // got token
-                        final retrofit2.Call<List<SavingsAccount>> responseMessage = retrofit.create(RestApi.class).getSavingAccounts(token);
+                        final retrofit2.Call<List<SavingsAccount>> responseMessage = restApi.getSavingAccounts(token);
 
                         responseMessage.enqueue(new Callback<List<SavingsAccount>>() {
                             @Override
@@ -91,7 +91,7 @@ public class HTTPSavingsProvider implements SavingsProvider {
                     @Override
                     public void accept(@NonNull final String token) throws Exception {
                         // got token
-                        final retrofit2.Call<Void> responseMessage = retrofit.create(RestApi.class).addSavingAccounts(token, savingsAccount);
+                        final retrofit2.Call<Void> responseMessage = restApi.addSavingAccounts(token, savingsAccount);
 
                         responseMessage.enqueue(new Callback<Void>() {
                             @Override
