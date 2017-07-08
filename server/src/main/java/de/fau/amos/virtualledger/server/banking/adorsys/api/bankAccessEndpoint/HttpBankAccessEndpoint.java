@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint;
 
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvider;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.JerseyClientUtility;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccessJSONBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
@@ -38,10 +39,10 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
     }
 
     @Override
-    public List<BankAccessBankingModel> getBankAccesses(String userId) throws BankingException {
+    public List<BankAccessBankingModel> getBankAccesses(final String userId) throws BankingException {
 
         // Create Jersey client
-        Client client = ClientBuilder.newClient();
+        final Client client = JerseyClientUtility.getLoggingClient(LOGGER);
 
         String url = urlProvider.getBankAccessEndpointUrl();
         WebTarget webTarget = client.target(url);
