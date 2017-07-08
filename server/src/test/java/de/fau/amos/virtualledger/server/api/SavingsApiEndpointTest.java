@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 
+import javax.servlet.ServletException;
 import java.util.Date;
 
 import static org.mockito.Matchers.any;
@@ -26,7 +27,7 @@ public class SavingsApiEndpointTest {
     private SavingsController savingsController;
 
     @Test
-    public void getSavingAccountsEndpointUserPrincipalNameNull() {
+    public void getSavingAccountsEndpointUserPrincipalNameNull() throws ServletException {
         // SETUP
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(null), savingsController);
 
@@ -41,7 +42,7 @@ public class SavingsApiEndpointTest {
     }
 
     @Test
-    public void getSavingAccountsEndpointUserPrincipalNameEmpty() {
+    public void getSavingAccountsEndpointUserPrincipalNameEmpty() throws ServletException {
         // SETUP
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(""), savingsController);
 
@@ -56,7 +57,7 @@ public class SavingsApiEndpointTest {
     }
 
     @Test
-    public void addSavingAccountsEndpointUserPrincipalNameNull() {
+    public void addSavingAccountsEndpointUserPrincipalNameNull() throws ServletException {
         // SETUP
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(null), savingsController);
         final int Id = 123;
@@ -75,7 +76,7 @@ public class SavingsApiEndpointTest {
     }
 
     @Test
-    public void addSavingAccountsEndpointUserPrincipalNameEmpty() {
+    public void addSavingAccountsEndpointUserPrincipalNameEmpty() throws ServletException {
         // SETUP
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(""), savingsController);
         final int Id = 123;
@@ -94,7 +95,7 @@ public class SavingsApiEndpointTest {
     }
 
     @Test
-    public void addSavingAccountsEndpointSavingsAccountNull() {
+    public void addSavingAccountsEndpointSavingsAccountNull() throws ServletException {
         // SETUP
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
         SavingsAccount savingsAccount = null;
@@ -110,7 +111,7 @@ public class SavingsApiEndpointTest {
     }
 
     @Test
-    public void addSavingAccountsEndpointSavingsAccountNameNull() {
+    public void addSavingAccountsEndpointSavingsAccountNameNull() throws ServletException {
         // SETUP
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
         final int Id = 123;
@@ -129,7 +130,7 @@ public class SavingsApiEndpointTest {
     }
 
     @Test
-    public void addSavingAccountsEndpointSavingsAccountNameEmpty() {
+    public void addSavingAccountsEndpointSavingsAccountNameEmpty() throws ServletException {
         // SETUP
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
         final int Id = 123;
@@ -148,7 +149,7 @@ public class SavingsApiEndpointTest {
     }
 
     @Test
-    public void addSavingAccountsEndpointSavingsAccountfinalDateNull() {
+    public void addSavingAccountsEndpointSavingsAccountfinalDateNull() throws ServletException {
         // SETUP
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
         final int Id = 123;
@@ -166,7 +167,7 @@ public class SavingsApiEndpointTest {
         verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class));
     }
 
-    private KeycloakUtilizer setupKeycloakUtilizer(String username)  {
+    private KeycloakUtilizer setupKeycloakUtilizer(String username) throws ServletException {
 
         KeycloakUtilizer keycloakUtilizerMock = mock(KeycloakUtilizer.class);
         when(keycloakUtilizerMock.getEmail()).thenReturn(username);

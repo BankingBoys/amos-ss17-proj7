@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.ServletException;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class SavingsApiEndpoint {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "api/savings", produces = "application/json")
-    public ResponseEntity<?> getSavingAccountsEndpoint() {
+    public ResponseEntity<?> getSavingAccountsEndpoint() throws ServletException {
         String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
@@ -57,7 +58,7 @@ public class SavingsApiEndpoint {
      * @return status 201 if successful
      */
     @RequestMapping(method = RequestMethod.POST, value = "api/savings", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> addSavingAccountEndpoint(@RequestBody SavingsAccount savingsAccount) {
+    public ResponseEntity<?> addSavingAccountEndpoint(@RequestBody SavingsAccount savingsAccount) throws ServletException {
         String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {

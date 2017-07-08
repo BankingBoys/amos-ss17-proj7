@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.ServletException;
 import java.lang.invoke.MethodHandles;
 
 /**
@@ -33,7 +34,7 @@ public class ContactsApiEndpoint {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "api/contacts", produces = "application/json")
-    public ResponseEntity<?> getContactsEndpoint() {
+    public ResponseEntity<?> getContactsEndpoint() throws ServletException {
         final String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
@@ -45,7 +46,7 @@ public class ContactsApiEndpoint {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "api/contacts", produces = "application/json")
-    public ResponseEntity<?> addContactEndpoint(@RequestBody final Contact contact) {
+    public ResponseEntity<?> addContactEndpoint(@RequestBody final Contact contact) throws ServletException {
         final String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {

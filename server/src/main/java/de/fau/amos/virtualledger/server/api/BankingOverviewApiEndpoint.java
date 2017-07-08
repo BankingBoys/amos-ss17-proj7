@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.servlet.ServletException;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class BankingOverviewApiEndpoint {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "api/banking", produces = "application/json")
-    public ResponseEntity<?> getBankingOverviewEndpoint() {
+    public ResponseEntity<?> getBankingOverviewEndpoint() throws ServletException {
         String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
@@ -63,7 +64,7 @@ public class BankingOverviewApiEndpoint {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST, value = "api/banking", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> addBankAccessEndpoint(@RequestBody BankAccessCredential bankAccessCredential) {
+    public ResponseEntity<?> addBankAccessEndpoint(@RequestBody BankAccessCredential bankAccessCredential) throws ServletException {
         String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
@@ -92,7 +93,7 @@ public class BankingOverviewApiEndpoint {
      * @return
      */
     @RequestMapping(method = RequestMethod.DELETE, value = "api/banking/{accessId}", produces = "application/json")
-    public ResponseEntity<?> deleteBankAccessEndpoint(@PathVariable("accessId") String bankAccessId) {
+    public ResponseEntity<?> deleteBankAccessEndpoint(@PathVariable("accessId") String bankAccessId) throws ServletException {
         String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
@@ -118,7 +119,7 @@ public class BankingOverviewApiEndpoint {
      */
     @RequestMapping(method = RequestMethod.DELETE, value = "api/banking/{accessId}/{accountId}", produces = "application/json")
     public ResponseEntity<?> deleteBankAccountEndpoint(@PathVariable("accessId") String bankAccessId,
-            @PathVariable("accountId") String bankAccountId) {
+            @PathVariable("accountId") String bankAccountId) throws ServletException {
         String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
@@ -143,7 +144,7 @@ public class BankingOverviewApiEndpoint {
      * @return
      */
     @RequestMapping(method = RequestMethod.PUT, value = "api/banking/sync", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> syncBankAccountsEndpoint(@RequestBody List<BankAccountSync> bankAccountSyncList) {
+    public ResponseEntity<?> syncBankAccountsEndpoint(@RequestBody List<BankAccountSync> bankAccountSyncList) throws ServletException {
         String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {

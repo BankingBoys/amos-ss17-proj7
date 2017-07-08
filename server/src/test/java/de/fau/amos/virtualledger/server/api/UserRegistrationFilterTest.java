@@ -165,7 +165,7 @@ public class UserRegistrationFilterTest {
 
 
 
-    private KeycloakUtilizer setupKeycloakUtilizer(String email, String firstName, String lastName) {
+    private KeycloakUtilizer setupKeycloakUtilizer(String email, String firstName, String lastName) throws ServletException {
 
         KeycloakUtilizer keycloakUtilizerMock = mock(KeycloakUtilizer.class);
         when(keycloakUtilizerMock.getEmail()).thenReturn(email);
