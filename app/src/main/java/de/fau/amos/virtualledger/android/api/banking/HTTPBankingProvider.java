@@ -42,7 +42,7 @@ public class HTTPBankingProvider implements BankingProvider {
             @Override
             public void onReceiveToken(final String token) {
                 // got token
-                retrofit.create(Restapi.class).getBankAccesses(token).enqueue(new RetrofitCallback<List<BankAccess>>(observable));
+                retrofit.create(Restapi.class).getBankAccesses(token).enqueue(new RetrofitCallback<>(observable));
             }
         });
 
@@ -52,7 +52,7 @@ public class HTTPBankingProvider implements BankingProvider {
     @Override
     public Observable<BankAccountSyncResult> getBankingTransactions(final List<BankAccountSync> bankAccountSyncList) {
 
-        final PublishSubject observable = PublishSubject.create();
+        final PublishSubject<BankAccountSyncResult> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override
@@ -90,7 +90,7 @@ public class HTTPBankingProvider implements BankingProvider {
 
     @Override
     public Observable<BankAccess> addBankAccess(final BankAccessCredential bankAccessCredential) {
-        final PublishSubject observable = PublishSubject.create();
+        final PublishSubject<BankAccess> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override
@@ -129,7 +129,7 @@ public class HTTPBankingProvider implements BankingProvider {
 
     @Override
     public Observable<String> deleteBankAccess(final String accessId) {
-        final PublishSubject observable = PublishSubject.create();
+        final PublishSubject<String> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override
@@ -167,7 +167,7 @@ public class HTTPBankingProvider implements BankingProvider {
 
     @Override
     public Observable<String> deleteBankAccount(final String accessId, final String accountId) {
-        final PublishSubject observable = PublishSubject.create();
+        final PublishSubject<String> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override
