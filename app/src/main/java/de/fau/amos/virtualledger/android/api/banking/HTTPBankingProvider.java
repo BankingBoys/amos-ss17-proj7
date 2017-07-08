@@ -17,7 +17,7 @@ import retrofit2.Retrofit;
 public class HTTPBankingProvider implements BankingProvider {
 
     @SuppressWarnings("unused")
-    private static final String TAG = "HTTPBankingProvider";
+    private static final String TAG = HTTPBankingProvider.class.getSimpleName();
 
     private final Retrofit retrofit;
     private final CallWithToken callWithToken;
