@@ -4,10 +4,9 @@ import android.util.Log;
 
 import java.util.List;
 
-import de.fau.amos.virtualledger.android.api.Restapi;
+import de.fau.amos.virtualledger.android.api.RestApi;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.dtos.Contact;
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -46,7 +45,7 @@ public class HTTPContactsProvider implements ContactsProvider{
                     @Override
                     public void accept(@NonNull final String token) throws Exception {
                         // got token
-                        final retrofit2.Call<List<Contact>> responseMessage = retrofit.create(Restapi.class).getContacts(token);
+                        final retrofit2.Call<List<Contact>> responseMessage = retrofit.create(RestApi.class).getContacts(token);
 
                         responseMessage.enqueue(new Callback<List<Contact>>() {
                             @Override

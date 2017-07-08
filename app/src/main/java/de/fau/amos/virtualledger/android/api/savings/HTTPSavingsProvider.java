@@ -5,7 +5,7 @@ import android.util.Log;
 
 import java.util.List;
 
-import de.fau.amos.virtualledger.android.api.Restapi;
+import de.fau.amos.virtualledger.android.api.RestApi;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import io.reactivex.Observable;
@@ -42,7 +42,7 @@ public class HTTPSavingsProvider implements SavingsProvider {
                     @Override
                     public void accept(@NonNull final String token) throws Exception {
                         // got token
-                        final retrofit2.Call<List<SavingsAccount>> responseMessage = retrofit.create(Restapi.class).getSavingAccounts(token);
+                        final retrofit2.Call<List<SavingsAccount>> responseMessage = retrofit.create(RestApi.class).getSavingAccounts(token);
 
                         responseMessage.enqueue(new Callback<List<SavingsAccount>>() {
                             @Override
@@ -91,7 +91,7 @@ public class HTTPSavingsProvider implements SavingsProvider {
                     @Override
                     public void accept(@NonNull final String token) throws Exception {
                         // got token
-                        final retrofit2.Call<Void> responseMessage = retrofit.create(Restapi.class).addSavingAccounts(token, savingsAccount);
+                        final retrofit2.Call<Void> responseMessage = retrofit.create(RestApi.class).addSavingAccounts(token, savingsAccount);
 
                         responseMessage.enqueue(new Callback<Void>() {
                             @Override

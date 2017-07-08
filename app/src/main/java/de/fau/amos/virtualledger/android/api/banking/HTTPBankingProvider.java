@@ -2,7 +2,7 @@ package de.fau.amos.virtualledger.android.api.banking;
 
 import java.util.List;
 
-import de.fau.amos.virtualledger.android.api.Restapi;
+import de.fau.amos.virtualledger.android.api.RestApi;
 import de.fau.amos.virtualledger.android.api.shared.CallWithToken;
 import de.fau.amos.virtualledger.android.api.shared.RetrofitCallback;
 import de.fau.amos.virtualledger.android.api.shared.TokenCallback;
@@ -18,12 +18,12 @@ public class HTTPBankingProvider implements BankingProvider {
     @SuppressWarnings("unused")
     private static final String TAG = HTTPBankingProvider.class.getSimpleName();
 
-    private final Restapi restapi;
+    private final RestApi restApi;
     private final CallWithToken callWithToken;
 
-    public HTTPBankingProvider(final Restapi restapi, final CallWithToken callWithToken) {
+    public HTTPBankingProvider(final RestApi restApi, final CallWithToken callWithToken) {
         this.callWithToken = callWithToken;
-        this.restapi = restapi;
+        this.restApi = restApi;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class HTTPBankingProvider implements BankingProvider {
             @Override
             public void onReceiveToken(final String token) {
                 // got token
-                restapi.getBankAccesses(token).enqueue(new RetrofitCallback<>(observable));
+                restApi.getBankAccesses(token).enqueue(new RetrofitCallback<>(observable));
             }
         });
 
@@ -50,7 +50,7 @@ public class HTTPBankingProvider implements BankingProvider {
             @Override
             public void onReceiveToken(final String token) {
                 // got token
-                restapi.getBookings(token, bankAccountSyncList).enqueue(new RetrofitCallback<>(observable));
+                restApi.getBookings(token, bankAccountSyncList).enqueue(new RetrofitCallback<>(observable));
             }
         });
 
@@ -65,7 +65,7 @@ public class HTTPBankingProvider implements BankingProvider {
             @Override
             public void onReceiveToken(final String token) {
                 // got token
-                restapi.addBankAccess(token, bankAccessCredential).enqueue(new RetrofitCallback<>(observable));
+                restApi.addBankAccess(token, bankAccessCredential).enqueue(new RetrofitCallback<>(observable));
             }
         });
 
@@ -81,7 +81,7 @@ public class HTTPBankingProvider implements BankingProvider {
             @Override
             public void onReceiveToken(final String token) {
                 // got token
-                restapi.deleteBankAccess(token, accessId).enqueue(new RetrofitCallback<>(observable));
+                restApi.deleteBankAccess(token, accessId).enqueue(new RetrofitCallback<>(observable));
             }
         });
 
@@ -97,7 +97,7 @@ public class HTTPBankingProvider implements BankingProvider {
             @Override
             public void onReceiveToken(final String token) {
                 // got token
-                restapi.deleteBankAccount(token, accessId, accountId).enqueue(new RetrofitCallback<>(observable));
+                restApi.deleteBankAccount(token, accessId, accountId).enqueue(new RetrofitCallback<>(observable));
             }
         });
 

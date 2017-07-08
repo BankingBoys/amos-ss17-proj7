@@ -17,7 +17,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-public interface Restapi {
+public interface RestApi {
 
     @GET("/api/banking")
     Call<List<BankAccess>> getBankAccesses(@Header("Authorization") String token);
