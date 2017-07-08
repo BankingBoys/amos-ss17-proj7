@@ -14,18 +14,15 @@ import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Retrofit;
 
-/**
- * Created by sebastian on 14.05.17.
- */
-
 public class HTTPBankingProvider implements BankingProvider {
 
+    @SuppressWarnings("unused")
     private static final String TAG = "HTTPBankingProvider";
 
-    private Retrofit retrofit;
-    private CallWithToken callWithToken;
+    private final Retrofit retrofit;
+    private final CallWithToken callWithToken;
 
-    public HTTPBankingProvider(Retrofit retrofit, final CallWithToken callWithToken) {
+    public HTTPBankingProvider(final Retrofit retrofit, final CallWithToken callWithToken) {
         this.retrofit = retrofit;
         this.callWithToken = callWithToken;
     }
