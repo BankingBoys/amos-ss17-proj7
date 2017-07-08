@@ -10,6 +10,11 @@ import java.util.logging.Level;
 
 public class JerseyClientUtility {
 
+
+    private JerseyClientUtility() {
+    //nothing to do, because utility class
+    }
+
     public static Client getLoggingClient(final Logger logger) {
         final Feature feature = new LoggingFeature(new JavaLoggerFacade(logger), Level.FINE, null, null);
 
