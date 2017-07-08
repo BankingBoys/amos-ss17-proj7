@@ -1,12 +1,5 @@
 package de.fau.amos.virtualledger.server.banking;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccount;
@@ -28,6 +21,12 @@ import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
 import de.fau.amos.virtualledger.server.model.DeletedBankAccount;
 import de.fau.amos.virtualledger.server.persistence.DeletedBankAccessesRepository;
 import de.fau.amos.virtualledger.server.persistence.DeletedBankAccountsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Component
 public class BankingOverviewController {
@@ -68,8 +67,8 @@ public class BankingOverviewController {
      * @return
      * @throws BankingException
      */
-    public List<BankAccess> getBankingOverview(String email) throws BankingException {
-        List<BankAccessBankingModel> bankingModelList = bankingApiFacade.getBankAccesses(email);
+    public List<BankAccess> getBankingOverview(String email, final String token) throws BankingException {
+        List<BankAccessBankingModel> bankingModelList = bankingApiFacade.getBankAccesses(token);
         List<BankAccess> bankAccessesList = bankAccessFactory.createBankAccesses(bankingModelList);
 
         filterBankAccessWithDeleted(email, bankAccessesList);
@@ -92,15 +91,15 @@ public class BankingOverviewController {
      * @return the added BankAccess with containing all added BankAccounts
      * @throws BankingException
      */
-    public BankAccess addBankAccess(String email, BankAccessCredential bankAccessCredential) throws BankingException {
+    public BankAccess addBankAccess(String email, BankAccessCredential bankAccessCredential, final String token) throws BankingException {
 
-        List<BankAccess> allBankAccessesBeforeAdd = getBankingOverview(email);
+        List<BankAccess> allBankAccessesBeforeAdd = getBankingOverview(email, token);
 
         BankAccessBankingModel bankAccessBankingModel = bankAccessBankingModelFactory
                 .createBankAccessBankingModel(email, bankAccessCredential);
         bankingApiFacade.addBankAccess(email, bankAccessBankingModel);
 
-        List<BankAccess> allBankAccessesAfterAdd = getBankingOverview(email);
+        List<BankAccess> allBankAccessesAfterAdd = getBankingOverview(email, token);
 
         if (allBankAccessesAfterAdd.size() != allBankAccessesBeforeAdd.size() + 1) {
             throw new BankingException(

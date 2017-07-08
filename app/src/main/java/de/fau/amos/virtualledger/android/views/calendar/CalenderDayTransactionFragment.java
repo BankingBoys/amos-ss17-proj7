@@ -45,11 +45,11 @@ public class CalenderDayTransactionFragment extends Fragment {
         if (amountBundle == 0) {
             amount.setText(getFormatedDouble(amountDayBundle));
             changeAmountTextColor(amountDayBundle);
-            this.header.setText("Total Amount");
+            this.header.setText(R.string.total_amount);
         } else {
             amount.setText(getFormatedDouble(amountBundle));
             changeAmountTextColor(amountBundle);
-            this.header.setText("Amount");
+            this.header.setText(R.string.amount);
         }
     }
 

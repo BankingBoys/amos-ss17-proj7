@@ -6,8 +6,6 @@ import org.keycloak.representations.AccessToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
-
 @Component
 public class KeycloakUtilizer {
 
@@ -15,7 +13,7 @@ public class KeycloakUtilizer {
      * extracts the email adress from the keycloak context.
      * returns null if not successful.
      */
-    public String getEmail() throws ServletException {
+    public String getEmail() {
         return getAccessToken().getEmail();
     }
 
@@ -23,7 +21,7 @@ public class KeycloakUtilizer {
      * extracts the first name from the keycloak context.
      * returns null if not successful.
      */
-    public String getFirstName() throws ServletException {
+    public String getFirstName() {
         return getAccessToken().getGivenName();
     }
 
@@ -31,24 +29,24 @@ public class KeycloakUtilizer {
      * extracts the last name from the keycloak context.
      * returns null if not successful.
      */
-    public String getLastName() throws ServletException {
+    public String getLastName() {
         return getAccessToken().getFamilyName();
     }
 
-    private AccessToken getAccessToken() throws ServletException {
+    private AccessToken getAccessToken() {
         return getKeycloakSecurityContext().getToken();
     }
 
-    public String getTokenString() throws ServletException {
+    public String getTokenString() {
         return getKeycloakSecurityContext().getTokenString();
     }
 
-    private KeycloakSecurityContext getKeycloakSecurityContext() throws ServletException {
+    private KeycloakSecurityContext getKeycloakSecurityContext() {
         try {
             //noinspection unchecked
             return ((KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getKeycloakSecurityContext();
         } catch (final Exception e) {
-            throw new ServletException("Failure at getting data about the user by the identity token!");
+            throw new KeycloakException("Failure at getting data about the user by the identity token!");
         }
     }
 }

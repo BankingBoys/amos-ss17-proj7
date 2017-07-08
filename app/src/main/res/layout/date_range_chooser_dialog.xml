@@ -15,7 +15,7 @@
         android:gravity="center_vertical|center_horizontal"
         android:paddingLeft="6pt"
         android:paddingTop="3pt"
-        android:text="Please specify your date range. Select your first day and your last day of transactions.\n"
+        android:text="@string/date_range_chosser_title"
         android:textColor="@color/colorBankingOverview"
         android:textSize="@dimen/spinner_item_size" />
 
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
-            android:text="From: "
+            android:text="@string/from"
             android:textAlignment="viewEnd"
             android:textSize="@dimen/spinner_item_size"
             android:background="@color/caldroid_transparent"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="(choose)"
+            android:text="@string/choose_button_text"
             android:textSize="@dimen/spinner_item_size"
             android:background="@drawable/button_border"
             android:textColor="@color/colorBankingOverview" />
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
-            android:text="To: "
+            android:text="@string/to"
             android:textAlignment="textEnd"
             android:textSize="@dimen/spinner_item_size"
             android:background="@color/caldroid_transparent"
@@ -67,7 +67,7 @@
             android:layout_weight="1"
             android:background="@drawable/button_border"
             android:gravity="center"
-            android:text="(choose)"
+            android:text="@string/choose_button_text"
             android:layout_marginRight="6pt"
             android:textSize="@dimen/spinner_item_size"
             android:textColor="@color/colorBankingOverview" />
