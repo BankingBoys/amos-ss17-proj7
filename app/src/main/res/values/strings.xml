@@ -83,4 +83,10 @@
 
     <string name="contact">Contact</string>
 
+    <string name="date_range_chosser_title">Please specify your date range. Select your first day and your last day of transactions.\n</string>
+
+    <string name="from">From: </string>
+    <string name="choose_button_text">(choose)</string>
+    <string name="to">To: </string>
+
 </resources>
