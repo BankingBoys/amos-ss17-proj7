@@ -37,7 +37,7 @@ public class AddContactsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick(R.id.contacts_add_button)
+    @OnClick(R.id.button_addContacts_submit)
     void submit() {
         final String email = emailAdr.getText().toString();
 
