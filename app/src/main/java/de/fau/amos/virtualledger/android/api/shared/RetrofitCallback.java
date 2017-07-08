@@ -35,6 +35,6 @@ public class RetrofitCallback<T> implements Callback<T> {
     public void onFailure(final Call<T> call, final Throwable t) {
         // response of server failed
         Log.e(TAG, "No connection to server!");
-        observable.onError(new Throwable("No connection to server!"));
+        observable.onError(t);
     }
 }
