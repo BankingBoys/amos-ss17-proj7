@@ -42,6 +42,9 @@
     <string name="contacts_title">Contacts</string>
     <string name="contacts_no_contacts_saved_text">No contacts added yet</string>
     <string name="contacts_no_contacts_button_text">Add Contacts</string>
+    <string name="contacts_add_contacts_title">Add Contacts</string>
+    <string name="contacts_add_contacts_button">Add Contact</string>
+    <string name="contacts_add_contacts_email_hint">E-Mail</string>
 
     <string name="transaction_overview_title">Transactions</string>
     <string name="transaction_overview_app_bar_refresh">Refresh</string>
