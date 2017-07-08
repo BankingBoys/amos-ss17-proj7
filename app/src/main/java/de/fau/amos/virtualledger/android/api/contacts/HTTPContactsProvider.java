@@ -15,7 +15,6 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * Created by Simon on 01.07.2017.
@@ -25,11 +24,11 @@ public class HTTPContactsProvider implements ContactsProvider{
 
     private static final String TAG = "HTTPContactsProvider";
 
-    private Retrofit retrofit;
+    private RestApi restApi;
     private AuthenticationProvider authenticationProvider;
 
-    public HTTPContactsProvider(Retrofit retrofit, AuthenticationProvider authenticationProvider) {
-        this.retrofit = retrofit;
+    public HTTPContactsProvider(RestApi restApi, AuthenticationProvider authenticationProvider) {
+        this.restApi = restApi;
         this.authenticationProvider = authenticationProvider;
     }
 
@@ -45,7 +44,7 @@ public class HTTPContactsProvider implements ContactsProvider{
                     @Override
                     public void accept(@NonNull final String token) throws Exception {
                         // got token
-                        final retrofit2.Call<List<Contact>> responseMessage = retrofit.create(RestApi.class).getContacts(token);
+                        final retrofit2.Call<List<Contact>> responseMessage = restApi.getContacts(token);
 
                         responseMessage.enqueue(new Callback<List<Contact>>() {
                             @Override
