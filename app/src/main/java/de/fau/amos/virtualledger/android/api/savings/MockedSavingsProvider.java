@@ -14,22 +14,21 @@ import static de.fau.amos.virtualledger.android.api.banking.MockedBankingProvide
 public class MockedSavingsProvider implements SavingsProvider {
 
 
-
     @Override
     public Observable<List<SavingsAccount>> getSavingAccounts() {
         final List<SavingsAccount> savingsAccountList = new ArrayList<>();
 
-        SavingsAccount savingsAccount = new SavingsAccount("1", "dummy1", 100.00, 12.23, new Date());
+        SavingsAccount savingsAccount = new SavingsAccount("1", "dummy1", 100.00, 12.23, new Date(), new Date());
         savingsAccountList.add(savingsAccount);
 
         final PublishSubject observable = PublishSubject.create();
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
+                try {
                     //Wait until subject is subscribed
-                    Thread.sleep(DELAY_TIME_MILLISECONDS);}
-                catch (Exception e){
+                    Thread.sleep(DELAY_TIME_MILLISECONDS);
+                } catch (Exception e) {
 
                 }
                 // publish accounts to subject
@@ -48,10 +47,10 @@ public class MockedSavingsProvider implements SavingsProvider {
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
+                try {
                     //Wait until subject is subscribed
-                    Thread.sleep(DELAY_TIME_MILLISECONDS);}
-                catch (Exception e){
+                    Thread.sleep(DELAY_TIME_MILLISECONDS);
+                } catch (Exception e) {
 
                 }
                 // publish accounts to subject

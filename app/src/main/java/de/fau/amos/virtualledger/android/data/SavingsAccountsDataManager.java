@@ -98,7 +98,7 @@ public class SavingsAccountsDataManager extends Observable {
 
     public void addSavingsAccount(final AddSavingsAccountData addSavingsAccountData) {
         //TODO use dtos from library for everything
-        final SavingsAccount savingsAccount = new SavingsAccount("", addSavingsAccountData.getName(), addSavingsAccountData.getGoalBalance(), 0, addSavingsAccountData.getFinalDate());
+        final SavingsAccount savingsAccount = new SavingsAccount("", addSavingsAccountData.getName(), addSavingsAccountData.getGoalBalance(), 0, addSavingsAccountData.getFinalDate(), addSavingsAccountData.getGoalFinishedDate());
         savingsProvider.addSavingAccount(savingsAccount)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
