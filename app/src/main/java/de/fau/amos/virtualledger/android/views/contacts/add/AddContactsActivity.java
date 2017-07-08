@@ -12,5 +12,11 @@ import de.fau.amos.virtualledger.android.data.ContactsDataManager;
  */
 
 public class AddContactsActivity extends AppCompatActivity {
+   @SuppressWarnings("unused")
+    private static final String tag = AddContactsActivity.class.getSimpleName();
+
+    @Inject
+    ContactsDataManager contactsDataManager;
+
 
 }
