@@ -5,7 +5,6 @@ import android.util.Log;
 import java.util.List;
 
 import de.fau.amos.virtualledger.android.api.Restapi;
-import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.shared.CallWithToken;
 import de.fau.amos.virtualledger.android.api.shared.TokenCallback;
 import de.fau.amos.virtualledger.dtos.BankAccess;
@@ -27,12 +26,10 @@ public class HTTPBankingProvider implements BankingProvider {
     private static final String TAG = "HTTPBankingProvider";
 
     private Retrofit retrofit;
-    private AuthenticationProvider authenticationProvider;
     private CallWithToken callWithToken;
 
-    public HTTPBankingProvider(Retrofit retrofit, AuthenticationProvider authenticationProvider, final CallWithToken callWithToken) {
+    public HTTPBankingProvider(Retrofit retrofit, final CallWithToken callWithToken) {
         this.retrofit = retrofit;
-        this.authenticationProvider = authenticationProvider;
         this.callWithToken = callWithToken;
     }
 
