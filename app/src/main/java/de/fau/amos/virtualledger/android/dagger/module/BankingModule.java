@@ -14,7 +14,7 @@ public class BankingModule {
 
     @Provides
     @NetComponentScope
-    BankingProvider provideBankingProvider(Retrofit retrofit, CallWithToken callWithToken) {
+    BankingProvider provideBankingProvider(final Retrofit retrofit, final CallWithToken callWithToken) {
         return new HTTPBankingProvider(retrofit.create(RestApi.class), callWithToken);
     }
 }
