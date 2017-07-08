@@ -9,6 +9,6 @@ public interface ContactsProvider {
 
     Observable<List<Contact>> getContacts();
 
-    Observable<Void> addContacts(Contact savingsAccount);
+    Observable<Void> addContact(String email);
 
 }

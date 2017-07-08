@@ -49,7 +49,7 @@ public class MockedContactsProvider implements ContactsProvider {
     }
 
     @Override
-    public Observable<Void> addContacts(Contact savingsAccount) {
+    public Observable<Void> addContact(String Email) {
         return null;
     }
 }
