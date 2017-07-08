@@ -1,20 +1,23 @@
 package de.fau.amos.virtualledger.server.model;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "SavingsAccounts")
+@Table(name = "savings_accounts")
 public class SavingsAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
     private double goalbalance;
     private double currentbalance;
@@ -70,4 +73,5 @@ public class SavingsAccount {
     public void setFinaldate(Date finaldate) {
         this.finaldate = finaldate;
     }
+
 }
