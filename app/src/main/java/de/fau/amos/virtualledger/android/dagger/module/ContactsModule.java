@@ -3,9 +3,9 @@ package de.fau.amos.virtualledger.android.dagger.module;
 import dagger.Module;
 import dagger.Provides;
 import de.fau.amos.virtualledger.android.api.RestApi;
-import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.contacts.ContactsProvider;
 import de.fau.amos.virtualledger.android.api.contacts.HTTPContactsProvider;
+import de.fau.amos.virtualledger.android.api.shared.CallWithToken;
 import de.fau.amos.virtualledger.android.dagger.component.NetComponentScope;
 import retrofit2.Retrofit;
 
@@ -13,7 +13,7 @@ import retrofit2.Retrofit;
 public class ContactsModule {
     @Provides
     @NetComponentScope
-    ContactsProvider provideContactsProvider(Retrofit retrofit, AuthenticationProvider authenticationProvider) {
-        return new HTTPContactsProvider(retrofit.create(RestApi.class), authenticationProvider);
+    ContactsProvider provideContactsProvider(final Retrofit retrofit, final CallWithToken callWithToken) {
+        return new HTTPContactsProvider(retrofit.create(RestApi.class), callWithToken);
     }
 }
