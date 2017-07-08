@@ -6,13 +6,11 @@ import java.util.List;
 
 import de.fau.amos.virtualledger.android.api.Restapi;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
-import de.fau.amos.virtualledger.android.views.savings.SavingAccountsAdapter;
+import de.fau.amos.virtualledger.android.api.shared.CallWithToken;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
-import de.fau.amos.virtualledger.dtos.StringApiModel;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -33,12 +31,13 @@ public class HTTPBankingProvider implements BankingProvider {
 
     private Retrofit retrofit;
     private AuthenticationProvider authenticationProvider;
+    private CallWithToken callWithToken;
 
-    public HTTPBankingProvider(Retrofit retrofit, AuthenticationProvider authenticationProvider) {
+    public HTTPBankingProvider(Retrofit retrofit, AuthenticationProvider authenticationProvider, final CallWithToken callWithToken) {
         this.retrofit = retrofit;
         this.authenticationProvider = authenticationProvider;
+        this.callWithToken = callWithToken;
     }
-
 
     @Override
     public Observable<List<BankAccess>> getBankingOverview() {
