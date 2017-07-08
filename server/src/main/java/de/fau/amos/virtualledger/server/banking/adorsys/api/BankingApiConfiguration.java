@@ -11,36 +11,36 @@ import org.springframework.stereotype.Component;
 public class BankingApiConfiguration {
 
 
-    private final String bankingApiUrlAbsolute = "https://multibanking-service.dev.adorsys.de:443/api/v1/";
-    private final String bankAccessApiUrlRelative = "bankaccesses";
-    private final String bankAccountApiUrlRelative = "bankaccesses/{accessId}/accounts";
-    private final String bankAccountSyncApiUrlRelative = "bankaccesses/{accessId}/accounts/{accountId}/sync";
+    private static final String BANKING_API_URL_ABSOLUTE = "https://multibanking-service.dev.adorsys.de:443/api/v1/";
+    private static final String BANK_ACCESS_API_URL_RELATIVE = "bankaccesses";
+    private static final String BANK_ACCOUNT_API_URL_RELATIVE = "bankaccesses/{accessId}/accounts";
+    private static final String BANK_ACCOUNT_SYNC_API_URL_RELATIVE = "bankaccesses/{accessId}/accounts/{accountId}/sync";
 
     /**
      * username of the test user that does not use adorsys api but dummies
      */
-    private final String testUserName = "test@user.de";
+    private static final String TEST_USER_NAME = "test@user.de";
 
 
 
     public String getBankingApiUrlAbsolute() {
-        return bankingApiUrlAbsolute;
+        return BANKING_API_URL_ABSOLUTE;
     }
 
     public String getBankAccessApiUrlRelative() {
-        return bankAccessApiUrlRelative;
+        return BANK_ACCESS_API_URL_RELATIVE;
     }
 
     public String getBankAccountApiUrlRelative() {
-        return bankAccountApiUrlRelative;
+        return BANK_ACCOUNT_API_URL_RELATIVE;
     }
 
     public String getBankAccountSyncApiUrlRelative() {
-        return bankAccountSyncApiUrlRelative;
+        return BANK_ACCOUNT_SYNC_API_URL_RELATIVE;
     }
 
 
     public String getTestUserName() {
-        return testUserName;
+        return TEST_USER_NAME;
     }
 }
