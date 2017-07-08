@@ -13,7 +13,7 @@
         android:id="@+id/id_contactName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Contact"
+        android:text="@string/contact"
         android:textColor="@color/colorBankingOverview"
         android:textSize="@dimen/fontSizeL" />
 
