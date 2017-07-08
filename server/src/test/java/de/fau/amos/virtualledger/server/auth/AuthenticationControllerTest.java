@@ -45,7 +45,6 @@ public class AuthenticationControllerTest {
         user.setEmail("blablabl@bbla.de");
         user.setFirstName("some first name");
         user.setLastName("some last anme");
-        user.setId(0);
         return user;
     }
 

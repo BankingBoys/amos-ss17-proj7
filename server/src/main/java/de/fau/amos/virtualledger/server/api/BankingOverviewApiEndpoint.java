@@ -47,13 +47,14 @@ public class BankingOverviewApiEndpoint {
     @RequestMapping(method = RequestMethod.GET, value = "api/banking", produces = "application/json")
     public ResponseEntity<?> getBankingOverviewEndpoint() throws ServletException {
         String username = keycloakUtilizer.getEmail();
+        final String token = keycloakUtilizer.getTokenString();
 
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
         }
         LOGGER.info("getBankingOverviewEndpoint of " + username + " was requested");
 
-        return this.getBankingOverview(username);
+        return this.getBankingOverview(username, token);
     }
 
     /**
@@ -66,6 +67,7 @@ public class BankingOverviewApiEndpoint {
     @RequestMapping(method = RequestMethod.POST, value = "api/banking", produces = "application/json", consumes = "application/json")
     public ResponseEntity<?> addBankAccessEndpoint(@RequestBody BankAccessCredential bankAccessCredential) throws ServletException {
         String username = keycloakUtilizer.getEmail();
+        final String token = keycloakUtilizer.getTokenString();
 
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
@@ -82,7 +84,7 @@ public class BankingOverviewApiEndpoint {
         }
         LOGGER.info("addBankAccessEndpoint was requested by " + username);
 
-        return this.addBankAccess(username, bankAccessCredential);
+        return this.addBankAccess(username, bankAccessCredential, token);
     }
 
     /**
@@ -178,10 +180,10 @@ public class BankingOverviewApiEndpoint {
      * @param username
      * @return
      */
-    private ResponseEntity<?> getBankingOverview(String username) {
+    private ResponseEntity<?> getBankingOverview(String username, final String token) {
         List<BankAccess> bankAccesses = null;
         try {
-            bankAccesses = bankingOverviewController.getBankingOverview(username);
+            bankAccesses = bankingOverviewController.getBankingOverview(username, token);
         } catch (BankingException ex) {
             LOGGER.error("", ex);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -197,9 +199,9 @@ public class BankingOverviewApiEndpoint {
      * @param bankAccessCredential
      * @return
      */
-    private ResponseEntity<?> addBankAccess(String username, BankAccessCredential bankAccessCredential) {
+    private ResponseEntity<?> addBankAccess(String username, BankAccessCredential bankAccessCredential, final String token) {
         try {
-            BankAccess addedBankAccess = bankingOverviewController.addBankAccess(username, bankAccessCredential);
+            BankAccess addedBankAccess = bankingOverviewController.addBankAccess(username, bankAccessCredential, token);
             return new ResponseEntity<>(addedBankAccess, HttpStatus.CREATED);
         } catch (BankingException ex) {
             LOGGER.error("", ex);
