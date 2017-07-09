@@ -23,14 +23,14 @@ public class MockedSavingsProviderTest {
     }
 
     @Test
-    public void getSavingAccountsTest() {
-        Observable testObservable = mockedSavingsProvider.getSavingAccounts();
+    public void get() {
+        Observable testObservable = mockedSavingsProvider.get();
         assertThat(testObservable).isNotNull();
     }
 
     @Test
-    public void addSavingAccount() {
-        Observable testObservable = mockedSavingsProvider.addSavingAccount(new SavingsAccount("1", "name", 0, 0, new Date(12312), new Date(12312)));
+    public void add() {
+        Observable testObservable = mockedSavingsProvider.add(new SavingsAccount("1", "name", 0, 0, new Date(12312), new Date(12312)));
         assertThat(testObservable).isNotNull();
     }
 

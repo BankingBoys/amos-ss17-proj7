@@ -1,14 +1,9 @@
 package de.fau.amos.virtualledger.android.api.savings;
 
 
-import java.util.List;
-
+import de.fau.amos.virtualledger.android.api.sync.DataProvider;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
-import io.reactivex.Observable;
 
-public interface SavingsProvider {
+public interface SavingsProvider extends DataProvider<SavingsAccount> {
 
-    Observable<List<SavingsAccount>> getSavingAccounts();
-
-    Observable<Void> addSavingAccount(SavingsAccount savingsAccount);
 }

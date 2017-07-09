@@ -15,7 +15,7 @@ public class MockedSavingsProvider implements SavingsProvider {
 
 
     @Override
-    public Observable<List<SavingsAccount>> getSavingAccounts() {
+    public Observable<List<SavingsAccount>> get() {
         final List<SavingsAccount> savingsAccountList = new ArrayList<>();
 
         SavingsAccount savingsAccount = new SavingsAccount("1", "dummy1", 100.00, 12.23, new Date(), new Date());
@@ -42,7 +42,7 @@ public class MockedSavingsProvider implements SavingsProvider {
     }
 
     @Override
-    public Observable<Void> addSavingAccount(SavingsAccount savingsAccount) {
+    public Observable<Void> add(SavingsAccount savingsAccount) {
         final PublishSubject observable = PublishSubject.create();
         Thread th = new Thread(new Runnable() {
             @Override

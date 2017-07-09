@@ -11,7 +11,7 @@ public class SyncFailedException extends IOException {
         super(message);
     }
 
-    SyncFailedException(final Throwable cause) {
+    public SyncFailedException(final Throwable cause) {
         super(cause);
     }
 
