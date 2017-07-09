@@ -15,7 +15,6 @@
 
     <string name="calendar_view_daily_transaction_aggregated_amount">Amount</string>
 
-    <string name="main_menu_content_description_image">Icon Items</string>
     <string name="main_menu_drawer_opened">open</string>
     <string name="main_menu_drawer_closed">closed</string>
     <string name="main_menu_drawer_bank_accesses">Bank Accesses</string>
@@ -66,7 +65,6 @@
     <string name="add_savings_account_enter_amount_text">Enter the goal balance</string>
     <string name="add_savings_account_button_submit">Submit</string>
     <string name="add_savings_account_enter_final_date_text">Enter the termination date for this account</string>
-    <string name="add_savings_account_enter_final_date_hint">Termination date</string>
     <string name="add_savings_account_choose_time_type">Choose a type of goal</string>
     <string name="add_savings_account_time_type_one_time">One time</string>
     <string name="add_savings_account_time_type_periodic">Periodic</string>
