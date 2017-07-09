@@ -47,14 +47,13 @@ public class BankingOverviewApiEndpoint {
     @RequestMapping(method = RequestMethod.GET, value = "api/banking", produces = "application/json")
     public ResponseEntity<?> getBankingOverviewEndpoint() throws ServletException {
         String username = keycloakUtilizer.getEmail();
-        final String token = keycloakUtilizer.getTokenString();
 
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
         }
         LOGGER.info("getBankingOverviewEndpoint of " + username + " was requested");
 
-        return this.getBankingOverview(username, token);
+        return this.getBankingOverview(username);
     }
 
     /**
@@ -180,10 +179,10 @@ public class BankingOverviewApiEndpoint {
      * @param username
      * @return
      */
-    private ResponseEntity<?> getBankingOverview(String username, final String token) {
-        List<BankAccess> bankAccesses = null;
+    private ResponseEntity<?> getBankingOverview(String username) {
+        List<BankAccess> bankAccesses;
         try {
-            bankAccesses = bankingOverviewController.getBankingOverview(username, token);
+            bankAccesses = bankingOverviewController.getBankingOverview(username);
         } catch (BankingException ex) {
             LOGGER.error("", ex);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

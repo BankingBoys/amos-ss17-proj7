@@ -28,8 +28,8 @@ public class BankingApiFacade {
     protected BankingApiFacade() {
     }
 
-    public List<BankAccessBankingModel> getBankAccesses(final String token) throws BankingException {
-        return binder.getBankAccessEndpoint(token).getBankAccesses(token);
+    public List<BankAccessBankingModel> getBankAccesses(final String userId) throws BankingException {
+        return binder.getBankAccessEndpoint(userId).getBankAccesses(userId);
     }
 
     public List<BankAccountBankingModel> getBankAccounts(final String userId, final String bankAccessId) throws BankingException {

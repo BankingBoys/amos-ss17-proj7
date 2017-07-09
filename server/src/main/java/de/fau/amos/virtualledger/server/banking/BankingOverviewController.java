@@ -59,23 +59,23 @@ public class BankingOverviewController {
     private BankAccountBookingsFactory bankAccountBookingsFactory;
 
     /**
-     * loads all the bank accesses and accounts embedded matching to the email
+     * loads all the bank accesses and accounts embedded matching to the userId
      * from adorsys api (or from dummies, depending on configuration) also
      * filters the received data to only return the not deleted ones
      * 
-     * @param email
+     * @param userId
      * @return
      * @throws BankingException
      */
-    public List<BankAccess> getBankingOverview(String email, final String token) throws BankingException {
-        List<BankAccessBankingModel> bankingModelList = bankingApiFacade.getBankAccesses(token);
+    public List<BankAccess> getBankingOverview(String userId) throws BankingException {
+        List<BankAccessBankingModel> bankingModelList = bankingApiFacade.getBankAccesses(userId);
         List<BankAccess> bankAccessesList = bankAccessFactory.createBankAccesses(bankingModelList);
 
-        filterBankAccessWithDeleted(email, bankAccessesList);
+        filterBankAccessWithDeleted(userId, bankAccessesList);
 
         for (BankAccess bankAccess : bankAccessesList) {
-            List<BankAccount> bankAccounts = this.getBankingAccounts(email, bankAccess.getId());
-            filterBankAccountsWithDeleted(email, bankAccess.getId(), bankAccounts);
+            List<BankAccount> bankAccounts = this.getBankingAccounts(userId, bankAccess.getId());
+            filterBankAccountsWithDeleted(userId, bankAccess.getId(), bankAccounts);
             bankAccess.setBankaccounts(bankAccounts);
         }
 
@@ -93,13 +93,13 @@ public class BankingOverviewController {
      */
     public BankAccess addBankAccess(String email, BankAccessCredential bankAccessCredential, final String token) throws BankingException {
 
-        List<BankAccess> allBankAccessesBeforeAdd = getBankingOverview(email, token);
+        List<BankAccess> allBankAccessesBeforeAdd = getBankingOverview(email);
 
         BankAccessBankingModel bankAccessBankingModel = bankAccessBankingModelFactory
                 .createBankAccessBankingModel(email, bankAccessCredential);
         bankingApiFacade.addBankAccess(email, bankAccessBankingModel);
 
-        List<BankAccess> allBankAccessesAfterAdd = getBankingOverview(email, token);
+        List<BankAccess> allBankAccessesAfterAdd = getBankingOverview(email);
 
         if (allBankAccessesAfterAdd.size() != allBankAccessesBeforeAdd.size() + 1) {
             throw new BankingException(
