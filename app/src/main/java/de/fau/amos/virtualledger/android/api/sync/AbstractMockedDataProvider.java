@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.android.api.sync;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -15,7 +16,7 @@ public class AbstractMockedDataProvider<T> implements DataProvider<T> {
     private List<T> providedItems;
 
     public AbstractMockedDataProvider(T... items){
-        this.providedItems = Arrays.asList(items);
+        this.providedItems = new LinkedList<>(Arrays.asList(items));
     }
 
     @Override
