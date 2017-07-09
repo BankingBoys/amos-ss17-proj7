@@ -50,7 +50,9 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
 
         final String url = urlProvider.getBankAccountEndpointUrl(userId, bankingAccessId);
         final WebTarget webTarget = client.target(url);
-        final Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
+        final Invocation.Builder invocationBuilder = webTarget
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .header("Authorization", keycloakUtilizer.getAuthorizationHeader());
         final Response response = invocationBuilder.get();
 
         if (response.getStatus() != HTTP_OK) {
@@ -74,7 +76,9 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
 
         final String url = urlProvider.getBankAccountSyncEndpointUrl(userId, bankAccessId, bankAccountId);
         final WebTarget webTarget = client.target(url);
-        final Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
+        final Invocation.Builder invocationBuilder = webTarget
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .header("Authorization", keycloakUtilizer.getAuthorizationHeader());
         final Response response = invocationBuilder.put(Entity.entity(pin, MediaType.TEXT_PLAIN_TYPE));
 
         if (response.getStatus() != HTTP_OK) {
