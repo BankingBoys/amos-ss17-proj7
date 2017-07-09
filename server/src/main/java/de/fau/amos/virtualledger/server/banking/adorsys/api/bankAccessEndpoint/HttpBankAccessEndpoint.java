@@ -41,12 +41,12 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
     }
 
     @Override
-    public List<BankAccessBankingModel> getBankAccesses(final String token) throws BankingException {
+    public List<BankAccessBankingModel> getBankAccesses(final String userId) throws BankingException {
 
         // Create Jersey client
         final Client client = JerseyClientUtility.getLoggingClient(LOGGER);
 
-        final String url = urlProvider.getBankAccessEndpointUrl();
+        final String url = urlProvider.getBankAccessEndpointUrl(userId);
         final WebTarget webTarget = client.target(url);
         final String authorizationHeader = "Bearer " + keycloakUtilizer.getTokenString();
         final Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", authorizationHeader);
@@ -69,7 +69,7 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
         // Create Jersey client
         final Client client = JerseyClientUtility.getLoggingClient(LOGGER);
 
-        final String url = urlProvider.getBankAccessEndpointUrl();
+        final String url = urlProvider.getBankAccessEndpointUrl(userId);
         final WebTarget webTarget = client.target(url);
         final Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
         final Response response = invocationBuilder.post(Entity.entity(bankAccess, MediaType.APPLICATION_JSON_TYPE));
