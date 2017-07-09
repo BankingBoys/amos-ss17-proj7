@@ -22,7 +22,6 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.SavingsAccountsDataManager;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
-import de.fau.amos.virtualledger.dtos.AddSavingsAccountData;
 
 public class AddSavingsAccountActivity extends AppCompatActivity {
     @SuppressWarnings("unused")
@@ -99,17 +98,15 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     }
 
     private void submit() {
-        final AddSavingsAccountData result = new AddSavingsAccountData();
+        final SavingsAccount result = new SavingsAccount();
         for (final AddSavingsAccountPage page : pages) {
             page.fillInData(result);
         }
         final DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
-        final String finalDateString = result.getFinalDate() == null ? "" : dateFormat.format(result.getFinalDate());
         Toast.makeText(this, String.format(Locale.getDefault(), "Savings acctount \"%s\" added.",
                 result.getName()),
                 Toast.LENGTH_LONG).show();
-        final SavingsAccount savingsAccount = new SavingsAccount("", result.getName(), result.getGoalBalance(), 0, result.getFinalDate(), result.getGoalFinishedDate());
-        savingsAccountsDataManager.add(savingsAccount);
+        savingsAccountsDataManager.add(result);
         finish();
     }
 }

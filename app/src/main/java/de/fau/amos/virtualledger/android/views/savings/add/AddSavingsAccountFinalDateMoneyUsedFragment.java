@@ -13,7 +13,7 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.dtos.AddSavingsAccountData;
+import de.fau.amos.virtualledger.android.model.SavingsAccount;
 
 public class AddSavingsAccountFinalDateMoneyUsedFragment extends AddSavingsAccountPage {
     @SuppressWarnings("unused")
@@ -35,12 +35,12 @@ public class AddSavingsAccountFinalDateMoneyUsedFragment extends AddSavingsAccou
     }
 
     @Override
-    public void fillInData(final AddSavingsAccountData addSavingsAccountResult) {
+    public void fillInData(final SavingsAccount savingsAccount) {
         final int day = datePicker.getDayOfMonth();
         final int month = datePicker.getMonth();
         final int year = datePicker.getYear();
         final Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
-        addSavingsAccountResult.setGoalFinishedDate(calendar.getTime());
+        savingsAccount.setFinalGoalFinishedDate(calendar.getTime());
     }
 }
