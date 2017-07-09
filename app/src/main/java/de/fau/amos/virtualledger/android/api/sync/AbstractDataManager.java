@@ -57,7 +57,7 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
                 .subscribe(new Consumer<List<T>>() {
                     @Override
                     public void accept(@NonNull final List<T> savingsAccounts) throws Exception {
-                        AbstractDataManager.this.savingsAccounts.addAll(savingsAccounts);//FIXME Incomment this if server works correctly
+                        AbstractDataManager.this.savingsAccounts.addAll(savingsAccounts);
                         onSyncComplete();
                     }
                 }, new Consumer<Throwable>() {

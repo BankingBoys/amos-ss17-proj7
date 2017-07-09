@@ -12,5 +12,5 @@ public interface DataProvider<T> {
 
     Observable<List<T>> get();
 
-    Observable<Void> add(T savingsAccount);
+    Observable<Void> add(T newItem);
 }
