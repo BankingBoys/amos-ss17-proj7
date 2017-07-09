@@ -38,7 +38,7 @@ public class KeycloakUtilizer {
     }
 
     public String getAuthorizationHeader() {
-        return "Bearer: " + getTokenString();
+        return "Bearer " + getTokenString();
     }
 
     public String getTokenString() {
