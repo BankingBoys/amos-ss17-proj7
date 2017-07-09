@@ -16,7 +16,7 @@ public class MockedContactsProvider implements ContactsProvider {
     public static final int DELAY_TIME_MILLISECONDS = 300;
 
     @Override
-    public Observable<List<Contact>> getContacts() {
+    public Observable<List<Contact>> get() {
 
         final List<Contact> contactsList = new ArrayList<>();
 
@@ -49,7 +49,7 @@ public class MockedContactsProvider implements ContactsProvider {
     }
 
     @Override
-    public Observable<Void> addContact(String Email) {
+    public Observable<Void> add(Contact contact) {
         final PublishSubject observable = PublishSubject.create();
         Thread th = new Thread(new Runnable() {
             @Override

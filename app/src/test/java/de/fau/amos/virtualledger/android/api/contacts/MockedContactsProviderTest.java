@@ -7,7 +7,6 @@ import java.util.List;
 
 import de.fau.amos.virtualledger.dtos.Contact;
 import io.reactivex.Observable;
-import io.reactivex.internal.operators.observable.ObservableTake;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,14 +25,14 @@ public class MockedContactsProviderTest {
 
     @Test
     public void getContactsTest() {
-        Observable<List<Contact>> testObservable = mockedContactsProvider.getContacts();
+        Observable<List<Contact>> testObservable = mockedContactsProvider.get();
         assertThat(testObservable).isNotNull();
     }
 
     @Test
     public void addContactsTest() {
         final String testEmail = "testEmail";
-        Observable<Void> testObservable = mockedContactsProvider.addContact(testEmail);
+        Observable<Void> testObservable = mockedContactsProvider.add(new Contact(testEmail));
         assertThat(testObservable).isNotNull();
     }
 }

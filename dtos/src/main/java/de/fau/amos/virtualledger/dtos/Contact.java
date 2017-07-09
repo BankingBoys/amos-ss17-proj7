@@ -15,6 +15,10 @@ public class Contact {
         this.lastName = lastName;
     }
 
+    public Contact(final String email) {
+        this.email = email;
+    }
+
     public String getEmail() {
         return email;
     }

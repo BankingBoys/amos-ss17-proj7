@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
@@ -13,7 +14,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import java.util.Observable;
 
 import static de.fau.amos.virtualledger.android.data.SyncStatus.NOT_SYNCED;
 import static de.fau.amos.virtualledger.android.data.SyncStatus.SYNCED;
@@ -50,7 +50,7 @@ public class ContactsDataManager extends Observable {
         syncFailedException = null;
         syncStatus = SYNC_IN_PROGRESS;
         syncsActive.addAndGet(1);
-        contactsProvider.getContacts()
+        contactsProvider.get()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<Contact>>() {
@@ -70,7 +70,7 @@ public class ContactsDataManager extends Observable {
     }
 
     public void addContact(String email) {
-        contactsProvider.addContact(email)
+        contactsProvider.add(new Contact(email))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Void>() {
