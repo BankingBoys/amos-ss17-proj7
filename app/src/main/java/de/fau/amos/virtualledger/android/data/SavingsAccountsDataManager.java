@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
 import de.fau.amos.virtualledger.android.api.sync.DataManager;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
-import de.fau.amos.virtualledger.dtos.AddSavingsAccountData;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -113,12 +112,4 @@ public class SavingsAccountsDataManager extends Observable implements DataManage
                     }
                 });
     }
-
-    public void add(final AddSavingsAccountData addSavingsAccountData) {
-        //TODO use dtos from library for everything
-        final SavingsAccount savingsAccount = new SavingsAccount("", addSavingsAccountData.getName(), addSavingsAccountData.getGoalBalance(), 0, addSavingsAccountData.getFinalDate(), addSavingsAccountData.getGoalFinishedDate());
-        this.add(savingsAccount);
-    }
-
-
 }

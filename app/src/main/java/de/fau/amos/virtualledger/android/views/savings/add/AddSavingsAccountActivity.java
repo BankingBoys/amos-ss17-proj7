@@ -21,6 +21,7 @@ import butterknife.OnPageChange;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.SavingsAccountsDataManager;
+import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.AddSavingsAccountData;
 
 public class AddSavingsAccountActivity extends AppCompatActivity {
@@ -107,7 +108,8 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         Toast.makeText(this, String.format(Locale.getDefault(), "Savings acctount \"%s\" added.",
                 result.getName()),
                 Toast.LENGTH_LONG).show();
-        savingsAccountsDataManager.add(result);
+        final SavingsAccount savingsAccount = new SavingsAccount("", result.getName(), result.getGoalBalance(), 0, result.getFinalDate(), result.getGoalFinishedDate());
+        savingsAccountsDataManager.add(savingsAccount);
         finish();
     }
 }
