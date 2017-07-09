@@ -8,7 +8,6 @@ import java.util.Observable;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
-import de.fau.amos.virtualledger.android.data.SavingsAccountsDataManager;
 import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.data.SyncStatus;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -25,9 +24,9 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
 
     private DataProvider<T> dataProvider;
 
-    private final static String TAG = SavingsAccountsDataManager.class.getSimpleName();
+    private final static String TAG = AbstractDataManager.class.getSimpleName();
 
-    private List<T> savingsAccounts = new LinkedList<>();
+    private List<T> allCachedItems = new LinkedList<>();
 
     //Set if sync failed and thrown in getters
     private SyncFailedException syncFailedException = null;
@@ -47,7 +46,7 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
      */
     @Override
     public void sync() {
-        this.savingsAccounts = new LinkedList<>();
+        this.allCachedItems = new LinkedList<>();
         syncFailedException = null;
         syncStatus = SYNC_IN_PROGRESS;
         syncsActive.addAndGet(1);
@@ -56,14 +55,14 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<T>>() {
                     @Override
-                    public void accept(@NonNull final List<T> savingsAccounts) throws Exception {
-                        AbstractDataManager.this.savingsAccounts.addAll(savingsAccounts);
+                    public void accept(@NonNull final List<T> itemList) throws Exception {
+                        AbstractDataManager.this.allCachedItems.addAll(itemList);
                         onSyncComplete();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
-                        Log.e(TAG, "Failed getting savings accounts", throwable);
+                        Log.e(TAG, "Failed getting items", throwable);
                         syncFailedException = new SyncFailedException(throwable);
                         onSyncComplete();
                     }
@@ -89,8 +88,8 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
     public List<T> getAll() throws SyncFailedException {
         if (syncFailedException != null) throw syncFailedException;
         if (syncStatus != SYNCED) throw new IllegalStateException("Sync not completed");
-        logger().info("Number of Saving accounts synct: " + this.savingsAccounts.size());
-        return new LinkedList<>(savingsAccounts);
+        logger().info("Number items synct: " + this.allCachedItems.size());
+        return new LinkedList<>(allCachedItems);
     }
 
     private Logger logger() {
@@ -105,13 +104,13 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
                 .subscribe(new Consumer<Void>() {
                     @Override
                     public void accept(@NonNull final Void mVoid) throws Exception {
-                        AbstractDataManager.this.logger().info("Refreshing database of Saving Accounts after adding savings account");
+                        AbstractDataManager.this.logger().info("Refreshing database");
                         AbstractDataManager.this.sync();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
-                        Log.e(TAG, "Failed adding savings account", throwable);
+                        Log.e(TAG, "Failed adding item", throwable);
                     }
                 });
     }
