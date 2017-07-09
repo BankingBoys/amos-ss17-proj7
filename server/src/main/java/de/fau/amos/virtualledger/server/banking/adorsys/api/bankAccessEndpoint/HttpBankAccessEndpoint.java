@@ -48,8 +48,9 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
 
         final String url = urlProvider.getBankAccessEndpointUrl(userId);
         final WebTarget webTarget = client.target(url);
-        final String authorizationHeader = "Bearer " + keycloakUtilizer.getTokenString();
-        final Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", authorizationHeader);
+        final Invocation.Builder invocationBuilder = webTarget
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .header("Authorization", keycloakUtilizer.getAuthorizationHeader());
         final Response response = invocationBuilder.get();
 
         if (response.getStatus() != HTTP_OK) {
@@ -71,7 +72,9 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
 
         final String url = urlProvider.getBankAccessEndpointUrl(userId);
         final WebTarget webTarget = client.target(url);
-        final Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
+        final Invocation.Builder invocationBuilder = webTarget
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .header("Authorization", keycloakUtilizer.getAuthorizationHeader());
         final Response response = invocationBuilder.post(Entity.entity(bankAccess, MediaType.APPLICATION_JSON_TYPE));
 
         if (response.getStatus() != HTTP_OK_RESPONSE) {
