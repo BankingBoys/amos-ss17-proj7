@@ -14,6 +14,7 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.ContactsDataManager;
 import de.fau.amos.virtualledger.android.views.menu.MainMenu;
+import de.fau.amos.virtualledger.dtos.Contact;
 
 /**
  * Created by Simon on 08.07.2017.
@@ -41,7 +42,7 @@ public class AddContactsActivity extends AppCompatActivity {
     void submit() {
         final String email = emailAdr.getText().toString();
 
-        contactsDataManager.addContact(email);
+        contactsDataManager.add(new Contact(email));
 
         final Intent intent = new Intent(this, MainMenu.class);
         final Bundle bundle = new Bundle();

@@ -64,7 +64,7 @@ public class ContactsSupplier implements de.fau.amos.virtualledger.android.views
         this.contactsList.clear();
         List<Contact> savingAccounts = null;
         try {
-            savingAccounts = this.contactsDataManager.getContactsList();
+            savingAccounts = this.contactsDataManager.getAll();
         } catch (SyncFailedException e) {
             Log.e("", "Sync failed");
             return;
