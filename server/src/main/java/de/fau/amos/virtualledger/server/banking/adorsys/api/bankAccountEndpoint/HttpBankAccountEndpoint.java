@@ -41,7 +41,7 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
         // Create Jersey client
         Client client = ClientBuilder.newClient();
 
-        String url = urlProvider.getBankAccountEndpointUrl(bankingAccessId);
+        String url = urlProvider.getBankAccountEndpointUrl(userId, bankingAccessId);
         WebTarget webTarget = client.target(url);
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
         Response response = invocationBuilder.get();
@@ -65,7 +65,7 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
         // Create Jersey client
         Client client = ClientBuilder.newClient();
 
-        String url = urlProvider.getBankAccountSyncEndpointUrl(bankAccessId, bankAccountId);
+        String url = urlProvider.getBankAccountSyncEndpointUrl(userId, bankAccessId, bankAccountId);
         WebTarget webTarget = client.target(url);
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
         Response response = invocationBuilder.put(Entity.entity(pin, MediaType.TEXT_PLAIN_TYPE));

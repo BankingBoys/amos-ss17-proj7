@@ -12,9 +12,9 @@ public class BankingApiConfiguration {
 
 
     private static final String BANKING_API_URL_ABSOLUTE = "https://multibanking-service.dev.adorsys.de:443/api/v1/";
-    private static final String BANK_ACCESS_API_URL_RELATIVE = "bankaccesses";
-    private static final String BANK_ACCOUNT_API_URL_RELATIVE = "bankaccesses/{accessId}/accounts";
-    private static final String BANK_ACCOUNT_SYNC_API_URL_RELATIVE = "bankaccesses/{accessId}/accounts/{accountId}/sync";
+    private static final String BANK_ACCESS_API_URL_RELATIVE = "users/{userId}/bankaccesses";
+    private static final String BANK_ACCOUNT_API_URL_RELATIVE = "users/{userId}/bankaccesses/{accessId}/accounts";
+    private static final String BANK_ACCOUNT_SYNC_API_URL_RELATIVE = "users/{userId}/bankaccesses/{accessId}/accounts/{accountId}/sync";
 
     /**
      * username of the test user that does not use adorsys api but dummies

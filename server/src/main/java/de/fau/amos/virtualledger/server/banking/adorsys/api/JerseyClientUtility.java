@@ -10,30 +10,16 @@ import java.util.logging.Level;
 
 public class JerseyClientUtility {
 
-
     private JerseyClientUtility() {
-    //nothing to do, because utility class
+        //nothing to do, because utility class
     }
 
     public static Client getLoggingClient(final Logger logger) {
-        final Feature feature = new LoggingFeature(new JavaLoggerFacade(logger), Level.INFO, null, null);
+        final Feature feature = new LoggingFeature(java.util.logging.Logger.getLogger(logger.getName()), Level.INFO, null, null);
 
         return ClientBuilder.newBuilder()
                 .register(feature)
                 .build();
     }
 
-    private static class JavaLoggerFacade extends java.util.logging.Logger {
-        private final Logger logger;
-
-        JavaLoggerFacade(final Logger logger) {
-            super("Jersey", null);
-            this.logger = logger;
-        }
-
-        @Override
-        public void info(final String msg) {
-            logger.info(msg);
-        }
-    }
 }
