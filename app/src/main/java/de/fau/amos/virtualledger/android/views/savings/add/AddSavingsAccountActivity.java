@@ -107,7 +107,7 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         Toast.makeText(this, String.format(Locale.getDefault(), "Savings acctount \"%s\" added.",
                 result.getName()),
                 Toast.LENGTH_LONG).show();
-        savingsAccountsDataManager.addSavingsAccount(result);
+        savingsAccountsDataManager.add(result);
         finish();
     }
 }

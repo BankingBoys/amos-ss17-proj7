@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.android.api.savings.SavingsProvider;
+import de.fau.amos.virtualledger.android.api.sync.DataManager;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.AddSavingsAccountData;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -20,7 +21,7 @@ import static de.fau.amos.virtualledger.android.data.SyncStatus.NOT_SYNCED;
 import static de.fau.amos.virtualledger.android.data.SyncStatus.SYNCED;
 import static de.fau.amos.virtualledger.android.data.SyncStatus.SYNC_IN_PROGRESS;
 
-public class SavingsAccountsDataManager extends Observable {
+public class SavingsAccountsDataManager extends Observable implements DataManager<SavingsAccount> {
     private final static String TAG = SavingsAccountsDataManager.class.getSimpleName();
 
     private final SavingsProvider savingsProvider;
@@ -42,6 +43,7 @@ public class SavingsAccountsDataManager extends Observable {
      * Therefore the syncStatus goes firs into SYNC_IN_PROGRESS and back into SYNCED when finished.
      * Also notifies all Observers that changes were made.
      */
+    @Override
     public void sync() {
         this.savingsAccounts = new LinkedList<>();
         syncFailedException = null;
@@ -75,17 +77,14 @@ public class SavingsAccountsDataManager extends Observable {
         }
     }
 
-    /**
-     * gets the status of the BankingDataManager.
-     * NOT_SYNCED if no sync was done yet.
-     * SYNC_IN_PROGRESS if the sync is in progress yet.
-     * SYNCED if a sync was done.
-     */
+
+    @Override
     public SyncStatus getSyncStatus() {
         return syncStatus;
     }
 
-    public List<SavingsAccount> getSavingsAccounts() throws SyncFailedException {
+    @Override
+    public List<SavingsAccount> getAll() throws SyncFailedException {
         if (syncFailedException != null) throw syncFailedException;
         if (syncStatus != SYNCED) throw new IllegalStateException("Sync not completed");
         logger().info("Number of Saving accounts synct: " + this.savingsAccounts.size());
@@ -96,9 +95,8 @@ public class SavingsAccountsDataManager extends Observable {
         return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.hashCode() + "}");
     }
 
-    public void addSavingsAccount(final AddSavingsAccountData addSavingsAccountData) {
-        //TODO use dtos from library for everything
-        final SavingsAccount savingsAccount = new SavingsAccount("", addSavingsAccountData.getName(), addSavingsAccountData.getGoalBalance(), 0, addSavingsAccountData.getFinalDate(), addSavingsAccountData.getGoalFinishedDate());
+    @Override
+    public void add(final SavingsAccount savingsAccount){
         savingsProvider.addSavingAccount(savingsAccount)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -114,6 +112,12 @@ public class SavingsAccountsDataManager extends Observable {
                         Log.e(TAG, "Failed adding savings account", throwable);
                     }
                 });
+    }
+
+    public void add(final AddSavingsAccountData addSavingsAccountData) {
+        //TODO use dtos from library for everything
+        final SavingsAccount savingsAccount = new SavingsAccount("", addSavingsAccountData.getName(), addSavingsAccountData.getGoalBalance(), 0, addSavingsAccountData.getFinalDate(), addSavingsAccountData.getGoalFinishedDate());
+        this.add(savingsAccount);
     }
 
 

@@ -64,7 +64,7 @@ public class SavingsSupplier implements de.fau.amos.virtualledger.android.views.
         this.allSavings.clear();
         List<SavingsAccount> savingAccounts = null;
         try {
-            savingAccounts = this.savingsAccountsDataManager.getSavingsAccounts();
+            savingAccounts = this.savingsAccountsDataManager.getAll();
         } catch (SyncFailedException e) {
             Log.e("", "Sync failed");
             return;
