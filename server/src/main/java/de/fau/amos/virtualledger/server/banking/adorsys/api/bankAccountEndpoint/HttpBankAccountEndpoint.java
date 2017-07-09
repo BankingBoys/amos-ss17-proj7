@@ -34,51 +34,51 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
     private final BankingApiUrlProvider urlProvider;
 
     @Autowired
-    public HttpBankAccountEndpoint(BankingApiUrlProvider urlProvider) {
+    public HttpBankAccountEndpoint(final BankingApiUrlProvider urlProvider) {
         this.urlProvider = urlProvider;
     }
 
     @Override
-    public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId)
+    public List<BankAccountBankingModel> getBankAccounts(final String userId, final String bankingAccessId)
             throws BankingException {
 
         // Create Jersey client
-        Client client = ClientBuilder.newClient();
+        final Client client = ClientBuilder.newClient();
 
-        String url = urlProvider.getBankAccountEndpointUrl(userId, bankingAccessId);
-        WebTarget webTarget = client.target(url);
-        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
-        Response response = invocationBuilder.get();
+        final String url = urlProvider.getBankAccountEndpointUrl(userId, bankingAccessId);
+        final WebTarget webTarget = client.target(url);
+        final Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
+        final Response response = invocationBuilder.get();
 
         if (response.getStatus() != HTTP_OK) {
             LOGGER.warn("No connection to Adorsys Server!");
             throw new BankingException("No connection to Adorsys Server!");
         }
-        BankAccountJSONBankingModel reponseModel = response.readEntity(BankAccountJSONBankingModel.class);
-        if (reponseModel == null || reponseModel.getEmbedded() == null) {
+        final BankAccountJSONBankingModel responseModel = response.readEntity(BankAccountJSONBankingModel.class);
+        if (responseModel == null || responseModel.getEmbedded() == null) {
             LOGGER.info("No accounts found");
             return new ArrayList<>();
         }
-        return reponseModel.getEmbedded().getBankAccountEntityList();
+        return responseModel.getEmbedded().getBankAccountEntityList();
     }
 
     @Override
-    public List<BookingModel> syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin)
+    public List<BookingModel> syncBankAccount(final String userId, final String bankAccessId, final String bankAccountId, final String pin)
             throws BankingException {
 
         // Create Jersey client
-        Client client = ClientBuilder.newClient();
+        final Client client = ClientBuilder.newClient();
 
-        String url = urlProvider.getBankAccountSyncEndpointUrl(userId, bankAccessId, bankAccountId);
-        WebTarget webTarget = client.target(url);
-        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
-        Response response = invocationBuilder.put(Entity.entity(pin, MediaType.TEXT_PLAIN_TYPE));
+        final String url = urlProvider.getBankAccountSyncEndpointUrl(userId, bankAccessId, bankAccountId);
+        final WebTarget webTarget = client.target(url);
+        final Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
+        final Response response = invocationBuilder.put(Entity.entity(pin, MediaType.TEXT_PLAIN_TYPE));
 
         if (response.getStatus() != HTTP_OK) {
             LOGGER.warn("No connection to Adorsys Server!");
             throw new BankingException("No connection to Adorsys Server!");
         }
-        BankAccountSyncJSONBankingModel responseModel = response.readEntity(BankAccountSyncJSONBankingModel.class);
+        final BankAccountSyncJSONBankingModel responseModel = response.readEntity(BankAccountSyncJSONBankingModel.class);
         if (responseModel == null || responseModel.getEmbedded() == null) {
             LOGGER.warn("No bookings found");
             return new ArrayList<>();
