@@ -31,8 +31,12 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    private final BankingApiUrlProvider urlProvider;
+
     @Autowired
-    private BankingApiUrlProvider urlProvider;
+    public HttpBankAccountEndpoint(BankingApiUrlProvider urlProvider) {
+        this.urlProvider = urlProvider;
+    }
 
     @Override
     public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId)
