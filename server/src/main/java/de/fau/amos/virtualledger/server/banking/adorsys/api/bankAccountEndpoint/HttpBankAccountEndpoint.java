@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint;
 
+import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvider;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccountJSONBankingModel;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccountSyncJSONBankingModel;
@@ -32,10 +33,12 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final BankingApiUrlProvider urlProvider;
+    private final KeycloakUtilizer keycloakUtilizer;
 
     @Autowired
-    public HttpBankAccountEndpoint(final BankingApiUrlProvider urlProvider) {
+    public HttpBankAccountEndpoint(final BankingApiUrlProvider urlProvider, final KeycloakUtilizer keycloakUtilizer) {
         this.urlProvider = urlProvider;
+        this.keycloakUtilizer = keycloakUtilizer;
     }
 
     @Override
