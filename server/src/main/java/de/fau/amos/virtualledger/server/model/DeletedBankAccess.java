@@ -1,34 +1,31 @@
 package de.fau.amos.virtualledger.server.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
 
-/**
- * Created by Georg on 22.05.2017.
- */
+
 @Entity
-@Table(name = "DeletedBankAccesses")
+@Table(name = "deleted_bank_accesses")
 public class DeletedBankAccess {
 
+
     @javax.persistence.Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    private String userEmail;
-
     private String bankAccessId;
+
+    @ManyToMany
+    private Set<User> users = new HashSet<>();
 
     public DeletedBankAccess() {
     }
-
-    public String getUserEmail() {
-        return userEmail;
+    public DeletedBankAccess(String bankAccessId, Set<User> users) {
+        this.bankAccessId = bankAccessId;
+        this.users = users;
     }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public DeletedBankAccess(String bankAccessId) {
+        this.bankAccessId = bankAccessId;
     }
 
     public String getBankAccessId() {
@@ -39,12 +36,11 @@ public class DeletedBankAccess {
         this.bankAccessId = bankAccessId;
     }
 
-    public int getId() {
-        return id;
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
-
 }

@@ -1,85 +1,16 @@
 package de.fau.amos.virtualledger.server.persistence;
 
 import de.fau.amos.virtualledger.server.model.DeletedBankAccess;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
-import javax.persistence.EntityExistsException;
-import javax.persistence.Query;
-import java.lang.invoke.MethodHandles;
 import java.util.List;
 
-@Component
+@Repository
+public interface DeletedBankAccessesRepository extends CrudRepository<DeletedBankAccess, String> {
 
-public class DeletedBankAccessesRepository {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    public void createDeletedBankAccess(DeletedBankAccess deletedBankAccess) {
-        try {
-            EntityTransaction entityTransaction = entityManager.getTransaction();
-            try {
-                entityTransaction.begin();
-                entityManager.persist(deletedBankAccess);
-                entityTransaction.commit();
-            } catch (EntityExistsException entityExistsException) {
-                LOGGER.info("Entity already exists: " + deletedBankAccess);
-                entityTransaction.rollback();
-                throw entityExistsException;
-            } catch (IllegalArgumentException persistenceException) {
-                LOGGER.warn("", persistenceException);
-                entityTransaction.rollback();
-                throw persistenceException;
-            }
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    public void deleteDeletedBankAccessByEmailAndId(final String email, final String accessId) {
-
-        try {
-            final EntityTransaction entityTransaction = entityManager.getTransaction();
-            try {
-                entityTransaction.begin();
-
-                Query query = entityManager.createQuery(
-                        "Select s FROM DeletedBankAccess s WHERE s.userEmail = :email AND s.bankAccessId = :accessId");
-                query.setParameter("email", email);
-                query.setParameter("accessId", accessId);
-                List<DeletedBankAccess> deletedBankAccessList = query.getResultList();
-
-                for (int i = 0; i < deletedBankAccessList.size(); ++i) {
-                    DeletedBankAccess deletedBankAccess = deletedBankAccessList.get(i);
-                    entityManager.remove(deletedBankAccess);
-                }
-                entityTransaction.commit();
-            } catch (final Exception e) {
-                LOGGER.warn("", e);
-                entityTransaction.rollback();
-                throw e;
-            }
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    public List<DeletedBankAccess> getDeletedBankAccessIdsByEmail(final String email) {
-        try {
-            final Query query = entityManager
-                    .createQuery("Select u FROM DeletedBankAccess u WHERE u.userEmail = :email");
-            query.setParameter("email", email);
-            final List resultList = query.getResultList();
-            return resultList;
-        } finally {
-            entityManager.close();
-        }
-    }
-
+    @Query("SELECT d FROM DeletedBankAccess d LEFT JOIN FETCH d.users AS u WHERE u.email = (:email)")
+    List<DeletedBankAccess> findAllByUserEmail(@Param("email") String email);
 }
