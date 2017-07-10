@@ -20,7 +20,7 @@ import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
  * Created by sebastian on 10.07.17.
  */
 
-public abstract class ConcreteSupplier<T> implements Observer, Supplier<T>{
+public abstract class AbstractSupplier<T> implements Observer, Supplier<T> {
 
     private Set<DataListening> dataListenings = new HashSet<>();
 
@@ -33,9 +33,9 @@ public abstract class ConcreteSupplier<T> implements Observer, Supplier<T>{
 
     @Override
     public void onResume() {
-        this.logger().log(Level.INFO, "Registering to contacts data manager");
+        this.logger().log(Level.INFO, "On Resume");
         dataManager().addObserver(this);
-        this.logger().log(Level.INFO, "ContactsDataManagerSyncStatus" + this.dataManager().getSyncStatus());
+        this.logger().log(Level.INFO, "Syncstatus: " + this.dataManager().getSyncStatus());
         switch (dataManager().getSyncStatus()) {
             case NOT_SYNCED:
                 this.dataManager().sync();
@@ -48,7 +48,7 @@ public abstract class ConcreteSupplier<T> implements Observer, Supplier<T>{
 
 
     private void onSavingsUpdated() {
-        this.logger().info("Contacts loaded.");
+        this.logger().info("Data loading finished");
         this.itemList.clear();
         List<T> savingAccounts = null;
         try {
@@ -81,7 +81,7 @@ public abstract class ConcreteSupplier<T> implements Observer, Supplier<T>{
 
     @Override
     public void onPause() {
-        this.logger().log(Level.INFO, "De-Registering from contacts data manager");
+        this.logger().log(Level.INFO, "De-Registering from data manager");
         this.dataManager().deleteObserver(this);
     }
 
@@ -91,7 +91,7 @@ public abstract class ConcreteSupplier<T> implements Observer, Supplier<T>{
     }
 
     private void notifyObservers() {
-        this.logger().info("Notify " + this.dataListenings.size() + " Contacts-Listener with " + this.itemList.size() + " Contacts");
+        this.logger().info("Notify " + this.dataListenings.size() + " DataListening-Objects with " + this.itemList.size() + " items");
         for (DataListening dataListening : this.dataListenings) {
             dataListening.notifyDataChanged();
         }

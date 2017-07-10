@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import javax.inject.Inject;
 
-import de.fau.amos.virtualledger.android.api.sync.ConcreteSupplier;
+import de.fau.amos.virtualledger.android.api.sync.AbstractSupplier;
 import de.fau.amos.virtualledger.android.api.sync.DataManager;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.ContactsDataManager;
@@ -14,7 +14,7 @@ import de.fau.amos.virtualledger.dtos.Contact;
  * Created by Simon on 01.07.2017.
  */
 
-public class ContactsSupplier extends ConcreteSupplier<Contact> {
+public class ContactsSupplier extends AbstractSupplier<Contact> {
 
     @Inject
     ContactsDataManager contactsDataManager;

@@ -7,7 +7,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
-import de.fau.amos.virtualledger.android.api.sync.ConcreteSupplier;
+import de.fau.amos.virtualledger.android.api.sync.AbstractSupplier;
 import de.fau.amos.virtualledger.android.api.sync.DataManager;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
@@ -18,7 +18,7 @@ import de.fau.amos.virtualledger.dtos.BankAccountBookings;
  * Created by sebastian on 17.06.17.
  */
 
-public class BankTransactionSupplierImplementation extends ConcreteSupplier<Transaction> {
+public class BankTransactionSupplierImplementation extends AbstractSupplier<Transaction> {
     @Inject
     BankingDataManager bankingDataManager;
     @Inject
