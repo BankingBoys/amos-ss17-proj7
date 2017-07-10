@@ -20,17 +20,11 @@ import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
  * Created by sebastian on 10.07.17.
  */
 
-public class ConcreteSupplier<T> implements Observer, Supplier<T>{
-
-    DataManager<T> dataManager;
+public abstract class ConcreteSupplier<T> implements Observer, Supplier<T>{
 
     private Set<DataListening> dataListenings = new HashSet<>();
 
     private List<T> itemList = new ArrayList<>();
-
-    public ConcreteSupplier(DataManager<T> dataManager) {
-        this.dataManager = dataManager;
-    }
 
     @Override
     public List<T> getAll() {
@@ -40,11 +34,11 @@ public class ConcreteSupplier<T> implements Observer, Supplier<T>{
     @Override
     public void onResume() {
         this.logger().log(Level.INFO, "Registering to contacts data manager");
-        dataManager.addObserver(this);
-        this.logger().log(Level.INFO, "ContactsDataManagerSyncStatus" + this.dataManager.getSyncStatus());
-        switch (dataManager.getSyncStatus()) {
+        dataManager().addObserver(this);
+        this.logger().log(Level.INFO, "ContactsDataManagerSyncStatus" + this.dataManager().getSyncStatus());
+        switch (dataManager().getSyncStatus()) {
             case NOT_SYNCED:
-                this.dataManager.sync();
+                this.dataManager().sync();
                 break;
             case SYNCED:
                 onSavingsUpdated();
@@ -58,7 +52,7 @@ public class ConcreteSupplier<T> implements Observer, Supplier<T>{
         this.itemList.clear();
         List<T> savingAccounts = null;
         try {
-            savingAccounts = this.dataManager.getAll();
+            savingAccounts = this.dataManager().getAll();
         } catch (SyncFailedException e) {
             Log.e("", "Sync failed");
             return;
@@ -72,7 +66,7 @@ public class ConcreteSupplier<T> implements Observer, Supplier<T>{
     @Override
     public void addDataListeningObject(DataListening observer) {
         if (this.dataListenings.isEmpty()) {
-            this.dataManager.addObserver(this);
+            this.dataManager().addObserver(this);
         }
         this.dataListenings.add(observer);
     }
@@ -81,14 +75,14 @@ public class ConcreteSupplier<T> implements Observer, Supplier<T>{
     public void deregister(DataListening observer) {
         this.dataListenings.remove(observer);
         if (this.dataListenings.isEmpty()) {
-            this.dataManager.deleteObserver(this);
+            this.dataManager().deleteObserver(this);
         }
     }
 
     @Override
     public void onPause() {
         this.logger().log(Level.INFO, "De-Registering from contacts data manager");
-        this.dataManager.deleteObserver(this);
+        this.dataManager().deleteObserver(this);
     }
 
     @Override
@@ -106,4 +100,6 @@ public class ConcreteSupplier<T> implements Observer, Supplier<T>{
     private Logger logger() {
         return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.toString() + "}");
     }
+
+    protected abstract DataManager<T> dataManager();
 }
