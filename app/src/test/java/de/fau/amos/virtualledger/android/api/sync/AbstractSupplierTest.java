@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.data.SyncStatus;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
 import de.fau.amos.virtualledger.dtos.Contact;
 import io.reactivex.Scheduler;
 import io.reactivex.android.plugins.RxAndroidPlugins;
@@ -86,22 +87,41 @@ public class AbstractSupplierTest {
 
 
     @Test
-    public void teste_onResume_withNotSyncedDataManager_shouldCallSync() {
+    public void teste_onResume_withNotSyncedDataManager_shouldCallSync_and_notDataListenings() {
         StubbedDataManager dataManager = new StubbedDataManager();
-
         FullfilledSupplier componenet_under_test = new FullfilledSupplier(dataManager);
+        DummyDataListening dataListening = new DummyDataListening();
+        componenet_under_test.addDataListeningObject(dataListening);
+
         componenet_under_test.onResume();
 
         assertThat(dataManager.syncCalled()).isEqualTo(1);
+        assertThat(dataListening.timesCalled()).isZero();
     }
+
     @Test
     public void teste_onResume_withSyncedDataManager_shouldNotCallSync() {
         StubbedDataManager dataManager = new StubbedDataManager();
         dataManager.setStatus(SyncStatus.SYNCED);
         FullfilledSupplier componenet_under_test = new FullfilledSupplier(dataManager);
+
         componenet_under_test.onResume();
 
         assertThat(dataManager.syncCalled()).isZero();
+    }
+
+
+    @Test
+    public void teste_onResume_withSyncedDataManager_shouldCallNotifyOnRegisteredObserversOnce() {
+        StubbedDataManager dataManager = new StubbedDataManager();
+        dataManager.setStatus(SyncStatus.SYNCED);
+        FullfilledSupplier componenet_under_test = new FullfilledSupplier(dataManager);
+        DummyDataListening dataListening = new DummyDataListening();
+        componenet_under_test.addDataListeningObject(dataListening);
+
+        componenet_under_test.onResume();
+
+        assertThat(dataListening.timesCalled()).isEqualTo(1);
     }
 
 
@@ -176,5 +196,19 @@ class StubbedDataManager implements DataManager<Contact> {
     @Override
     public void deleteObserver(Observer o) {
         this.observers.remove(0);
+    }
+}
+
+class DummyDataListening implements DataListening {
+    private int called = 0;
+
+
+    int timesCalled() {
+        return this.called;
+    }
+
+    @Override
+    public void notifyDataChanged() {
+        this.called++;
     }
 }
