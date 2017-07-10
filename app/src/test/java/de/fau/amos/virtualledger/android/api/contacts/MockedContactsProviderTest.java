@@ -15,9 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 
 public class MockedContactsProviderTest {
-
     private MockedContactsProvider mockedContactsProvider;
-
     @Before
     public void setUp() {
         mockedContactsProvider = new MockedContactsProvider();
