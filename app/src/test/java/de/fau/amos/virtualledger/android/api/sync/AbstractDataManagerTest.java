@@ -113,6 +113,40 @@ public class AbstractDataManagerTest {
 
 
     @Test(expected = IllegalStateException.class)
+    public void test_getAll_withStartetSync_shouldThrowIllegalStateException() throws Exception{
+        FullfilledDataManager component_under_test = new FullfilledDataManager(new StubbedSavingsProvider());
+
+        component_under_test.sync();
+        component_under_test.getAll();
+    }
+
+    @Test
+    public void test_getAll_WithSyncCompleteCall_shouldReturnListFromDataProvider() throws Exception{
+        SavingsAccount savingsAccount = new SavingsAccount();
+        StubbedSavingsProvider dataProvider = new StubbedSavingsProvider(savingsAccount);
+        FullfilledDataManager component_under_test = new FullfilledDataManager(dataProvider);
+
+        component_under_test.sync();
+        dataProvider.fireOnNextEvent();
+
+        assertThat(component_under_test.getAll()).containsExactly(savingsAccount);
+    }
+
+
+    @Test
+    public void test_add_shouldAddItemOnDataProvider() throws Exception{
+        StubbedSavingsProvider dataProvider = new StubbedSavingsProvider();
+        FullfilledDataManager component_under_test = new FullfilledDataManager(dataProvider);
+
+        SavingsAccount savingsAccount = new SavingsAccount();
+        component_under_test.add(savingsAccount);
+
+        assertThat(dataProvider.accounts()).containsExactly(savingsAccount);
+    }
+
+
+
+    @Test(expected = IllegalStateException.class)
     public void test_initialState_get_shouldThrowIllegalArgumentException() throws Exception{
         FullfilledDataManager component_under_test = new FullfilledDataManager(new StubbedSavingsProvider());
 
@@ -148,7 +182,8 @@ class StubbedSavingsProvider implements DataProvider<SavingsAccount>{
     @Override
     public Observable<Void> add(SavingsAccount newItem) {
         this.savings.add(newItem);
-        return null;
+        observable = PublishSubject.create();
+        return this.observable;
     }
 
     public List<SavingsAccount> accounts(){
