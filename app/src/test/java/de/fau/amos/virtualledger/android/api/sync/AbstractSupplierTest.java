@@ -126,6 +126,20 @@ public class AbstractSupplierTest {
     }
 
     @Test
+    public void teste_onResume_withFailedSync_shouldNotCallDataListenings() {
+        StubbedDataManager dataManager = new ExceptinoDataManager();
+        FullfilledSupplier componenet_under_test = new FullfilledSupplier(dataManager);
+        DummyDataListening dataListening = new DummyDataListening();
+        componenet_under_test.addDataListeningObject(dataListening);
+
+        componenet_under_test.onResume();
+
+        assertThat(dataListening.timesCalled()).isZero();
+    }
+
+
+
+    @Test
     public void teste_onResume_withObserver_shouldObserveDataListing() {
         StubbedDataManager dataManager = new StubbedDataManager();
         FullfilledSupplier componenet_under_test = new FullfilledSupplier(dataManager);
@@ -229,10 +243,6 @@ class StubbedDataManager implements DataManager<Contact> {
         return this.contacts;
     }
 
-    List<Contact> contacts() {
-        return this.contacts;
-    }
-
     @Override
     public void add(Contact newItem) {
         this.contacts.add(newItem);
@@ -252,7 +262,13 @@ class StubbedDataManager implements DataManager<Contact> {
         return this.observers;
     }
 }
+class ExceptinoDataManager extends StubbedDataManager{
 
+    @Override
+    public List<Contact> getAll()throws SyncFailedException {
+        throw new SyncFailedException();
+    }
+}
 
 class DummyDataListening implements DataListening {
     private int called = 0;

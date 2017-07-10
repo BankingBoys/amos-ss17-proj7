@@ -3,7 +3,7 @@ package de.fau.amos.virtualledger.android.data;
 import java.io.IOException;
 
 public class SyncFailedException extends IOException {
-    SyncFailedException() {
+    public SyncFailedException() {
         super();
     }
 
