@@ -1,15 +1,13 @@
 package de.fau.amos.virtualledger.server.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "Contacts", schema = "amos5db")
+@Table(name = "contacts")
 public class ContactsEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @OneToOne
@@ -19,7 +17,6 @@ public class ContactsEntity {
     private User contact;
 
 
-    @Id
     @Column(name = "id")
     public int getId() {
         return id;
