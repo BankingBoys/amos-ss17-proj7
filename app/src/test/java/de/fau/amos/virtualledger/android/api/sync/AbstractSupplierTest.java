@@ -3,11 +3,12 @@ package de.fau.amos.virtualledger.android.api.sync;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observer;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -124,6 +125,55 @@ public class AbstractSupplierTest {
         assertThat(dataListening.timesCalled()).isEqualTo(1);
     }
 
+    @Test
+    public void teste_onResume_withObserver_shouldObserveDataListing() {
+        StubbedDataManager dataManager = new StubbedDataManager();
+        FullfilledSupplier componenet_under_test = new FullfilledSupplier(dataManager);
+        DummyDataListening dataListening = new DummyDataListening();
+        componenet_under_test.addDataListeningObject(dataListening);
+
+        componenet_under_test.onResume();
+
+        assertThat(dataManager.observers()).containsExactly(componenet_under_test);
+    }
+
+
+    @Test
+    public void teste_onPause_withObserver_shouldDeregisterItselfFromDataListening() {
+        StubbedDataManager dataManager = new StubbedDataManager();
+        FullfilledSupplier componenet_under_test = new FullfilledSupplier(dataManager);
+        DummyDataListening dataListening = new DummyDataListening();
+        componenet_under_test.addDataListeningObject(dataListening);
+
+        componenet_under_test.onResume();
+        componenet_under_test.onPause();
+
+        assertThat(dataManager.observers()).isEmpty();
+    }
+
+    @Test
+    public void teste_addDataListening_shouldRegisterItselfOnDataManager() {
+        StubbedDataManager dataManager = new StubbedDataManager();
+        FullfilledSupplier componenet_under_test = new FullfilledSupplier(dataManager);
+        DummyDataListening dataListening = new DummyDataListening();
+        componenet_under_test.addDataListeningObject(dataListening);
+
+
+        assertThat(dataManager.observers()).containsExactly(componenet_under_test);
+    }
+
+    @Test
+    public void teste_removeDataListening_withLastListening_shouldDeRegisterItselfOnDataManager() {
+        StubbedDataManager dataManager = new StubbedDataManager();
+        FullfilledSupplier componenet_under_test = new FullfilledSupplier(dataManager);
+        DummyDataListening dataListening = new DummyDataListening();
+
+        componenet_under_test.addDataListeningObject(dataListening);
+        componenet_under_test.deregister(dataListening);
+
+        assertThat(dataManager.observers()).isEmpty();
+    }
+
 
 }
 
@@ -150,7 +200,7 @@ class StubbedDataManager implements DataManager<Contact> {
 
     private List<Contact> contacts;
 
-    private List<Observer> observers = new ArrayList<>();
+    private Set<Observer> observers = new HashSet<>();
 
     StubbedDataManager(Contact... contacts) {
         this.contacts = new LinkedList<>(Arrays.asList(contacts));
@@ -195,9 +245,14 @@ class StubbedDataManager implements DataManager<Contact> {
 
     @Override
     public void deleteObserver(Observer o) {
-        this.observers.remove(0);
+        this.observers.remove(o);
+    }
+
+    Set<Observer> observers(){
+        return this.observers;
     }
 }
+
 
 class DummyDataListening implements DataListening {
     private int called = 0;
