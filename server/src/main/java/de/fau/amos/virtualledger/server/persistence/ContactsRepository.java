@@ -15,6 +15,6 @@ public interface ContactsRepository extends CrudRepository<ContactsEntity, Integ
     @Query(value = "select case when count(c) > 0 then true else false end from ContactsEntity c where c.owner=:owner AND c.contact=:contact")
     boolean existsContactwithEmail(@Param("owner") User owner, @Param("contact") User contact);
 
-    @Query("SELECT c FROM ContactsEntity c LEFT JOIN FETCH c.contacts AS c WHERE c.owner = (:owner)")
+    @Query("SELECT c FROM ContactsEntity c LEFT JOIN FETCH c.owner AS u WHERE c.owner = (:owner)")
     List<ContactsEntity> findAllByOwner(@Param("owner") User owner);
 }
