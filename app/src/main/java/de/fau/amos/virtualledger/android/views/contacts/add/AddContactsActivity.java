@@ -44,9 +44,8 @@ public class AddContactsActivity extends AppCompatActivity {
 
         contactsDataManager.add(new Contact(email));
 
-        final Intent intent = new Intent(this, MainMenu.class);
-        final Bundle bundle = new Bundle();
-        bundle.putSerializable(MainMenu.EXTRA_STARTING_FRAGMENT, MainMenu.AppFragment.CONTACTS);
+        Intent intent = new Intent(this, MainMenu.class);
+        intent.putExtra(MainMenu.EXTRA_STARTING_FRAGMENT, MainMenu.AppFragment.CONTACTS);
         startActivity(intent);
 
         finish();
