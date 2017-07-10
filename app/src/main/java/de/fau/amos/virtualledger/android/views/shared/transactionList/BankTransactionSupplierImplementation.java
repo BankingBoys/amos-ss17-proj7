@@ -2,40 +2,29 @@ package de.fau.amos.virtualledger.android.views.shared.transactionList;
 
 import android.app.Activity;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
+import de.fau.amos.virtualledger.android.api.sync.AbstractSupplier;
+import de.fau.amos.virtualledger.android.api.sync.DataManager;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
-import de.fau.amos.virtualledger.dtos.Booking;
 
 /**
  * Created by sebastian on 17.06.17.
  */
 
-public class BankTransactionSupplierImplementation implements Supplier<Transaction>, Observer {
+public class BankTransactionSupplierImplementation extends AbstractSupplier<Transaction> {
     @Inject
     BankingDataManager bankingDataManager;
     @Inject
     BankAccessCredentialDB bankAccessCredentialDB;
     @Inject
     AuthenticationProvider authenticationProvider;
-
-    private Set<DataListening> dataListenings = new HashSet<>();
-
-    private ArrayList<Transaction> allBankTransactions = new ArrayList<>();
 
     private List<BankAccountBookings> bankAccountBookingsList;
 
@@ -45,81 +34,7 @@ public class BankTransactionSupplierImplementation implements Supplier<Transacti
     }
 
     @Override
-    public List<Transaction> getAll() {
-        return new LinkedList<>(this.allBankTransactions);
-    }
-
-    @Override
-    public void onResume() {
-        this.logger().log(Level.INFO, "Registering to bank data manager");
-        bankingDataManager.addObserver(this);
-        this.logger().log(Level.INFO, "BankDataMangerSyncStatus" + this.bankingDataManager.getSyncStatus());
-        switch (bankingDataManager.getSyncStatus()) {
-            case NOT_SYNCED:
-                bankingDataManager.sync();
-                break;
-            case SYNCED:
-                onBookingsUpdated();
-                break;
-        }
-    }
-
-
-    private void onBookingsUpdated() {
-        this.logger().info("bookings loaded. Compiling it to transactions");
-        this.allBankTransactions.clear();
-        for (BankAccountBookings bankAccountBookings : bankAccountBookingsList) {
-            for (Booking booking : bankAccountBookings.getBookings()) {
-                Transaction transaction = new Transaction(
-                        bankAccessCredentialDB
-                                .getAccountName(
-                                        authenticationProvider.getUserId(),
-                                        bankAccountBookings.getBankaccessid(),
-                                        bankAccountBookings.getBankaccountid()),
-                        bankAccountBookings.getBankaccountid(),
-                        booking);
-
-                this.allBankTransactions.add(transaction);
-            }
-        }
-        this.logger().info("Notifying observers: " + dataListenings.size() + " with number of transactions: " + this.allBankTransactions.size());
-        notifyObservers();
-    }
-
-    @Override
-    public void addDataListeningObject(DataListening observer) {
-        if (this.dataListenings.isEmpty()) {
-            this.bankingDataManager.addObserver(this);
-        }
-        this.dataListenings.add(observer);
-    }
-
-    @Override
-    public void deregister(DataListening observer) {
-        this.dataListenings.remove(observer);
-        if (this.dataListenings.isEmpty()){
-            this.bankingDataManager.deleteObserver(this);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        this.logger().log(Level.INFO, "De-Registering from bank data manager");
-        this.bankingDataManager.deleteObserver(this);
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        this.onBookingsUpdated();
-    }
-
-    private void notifyObservers() {
-        for (DataListening dataListening : this.dataListenings) {
-            dataListening.notifyDataChanged();
-        }
-    }
-
-    private Logger logger() {
-        return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.toString() + "}");
+    protected DataManager<Transaction> dataManager() {
+        return new TransactionDataManagerAdapter(this.bankAccountBookingsList, this.bankingDataManager, this.authenticationProvider, this.bankAccessCredentialDB);
     }
 }

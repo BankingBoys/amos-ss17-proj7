@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.android.api.sync;
 
 import java.util.List;
+import java.util.Observer;
 
 import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.data.SyncStatus;
@@ -30,4 +31,8 @@ public interface DataManager<T> {
     List<T> getAll() throws SyncFailedException;
 
     void add(T newItem);
+
+    void addObserver(Observer o);
+
+    void deleteObserver(Observer o);
 }
