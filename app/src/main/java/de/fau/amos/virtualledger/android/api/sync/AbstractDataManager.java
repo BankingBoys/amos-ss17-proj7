@@ -12,6 +12,7 @@ import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.data.SyncStatus;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -101,16 +102,10 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
         dataProvider.add(savingsAccount)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Void>() {
+                .doOnComplete(new Action() {
                     @Override
-                    public void accept(@NonNull final Void mVoid) throws Exception {
-                        AbstractDataManager.this.logger().info("Refreshing database");
+                    public void run() throws Exception {
                         AbstractDataManager.this.sync();
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull final Throwable throwable) throws Exception {
-                        Log.e(TAG, "Failed adding item", throwable);
                     }
                 });
     }
