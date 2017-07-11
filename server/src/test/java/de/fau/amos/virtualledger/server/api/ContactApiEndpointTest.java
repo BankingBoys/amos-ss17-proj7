@@ -87,6 +87,30 @@ public class ContactApiEndpointTest {
         }
     }
 
+    @Test
+    public void addContactsEndpointEndpointUserPrincipalNameEmpty() throws ServletException {
+
+        ContactsApiEndpoint contactsApiEndpoint = new ContactsApiEndpoint(setupKeycloakUtilizer(""), contactsController);
+
+        Contact contact = new Contact();
+        final String email = "testEmail";
+        final String firstName = "testFirstName";
+        final String lastName = "testLastName";
+        contact.setEmail(email);
+        contact.setFirstName(firstName);
+        contact.setLastName(lastName);
+
+        ResponseEntity<?> response = contactsApiEndpoint.addContactEndpoint(contact);
+
+        HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
+        assertThat(response.getStatusCode()).isEqualTo(expectedStatusCode);
+        try {
+            verify(contactsController, times(0)).addContact(any(Contact.class), any(String.class));
+        } catch (Exception e) {
+            //Do nothing
+        }
+    }
+
     private KeycloakUtilizer setupKeycloakUtilizer(String username) throws ServletException {
 
         KeycloakUtilizer keycloakUtilizerMock = mock(KeycloakUtilizer.class);
