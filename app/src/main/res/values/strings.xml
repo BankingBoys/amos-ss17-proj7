@@ -15,7 +15,6 @@
 
     <string name="calendar_view_daily_transaction_aggregated_amount">Amount</string>
 
-    <string name="main_menu_content_description_image">Icon Items</string>
     <string name="main_menu_drawer_opened">open</string>
     <string name="main_menu_drawer_closed">closed</string>
     <string name="main_menu_drawer_bank_accesses">Bank Accesses</string>
@@ -42,6 +41,10 @@
     <string name="contacts_title">Contacts</string>
     <string name="contacts_no_contacts_saved_text">No contacts added yet</string>
     <string name="contacts_no_contacts_button_text">Add Contacts</string>
+    <string name="contacts_add_contacts_title">Add Contacts</string>
+    <string name="contacts_add_contacts_button">Add Contact</string>
+    <string name="contacts_add_contacts_email_hint">E-Mail</string>
+    <string name="contacts_app_bar_add">Add contacts</string>
 
     <string name="transaction_overview_title">Transactions</string>
     <string name="transaction_overview_app_bar_refresh">Refresh</string>
@@ -62,7 +65,6 @@
     <string name="add_savings_account_enter_amount_text">Enter the goal balance</string>
     <string name="add_savings_account_button_submit">Submit</string>
     <string name="add_savings_account_enter_final_date_text">Enter the termination date for this account</string>
-    <string name="add_savings_account_enter_final_date_hint">Termination date</string>
     <string name="add_savings_account_choose_time_type">Choose a type of goal</string>
     <string name="add_savings_account_time_type_one_time">One time</string>
     <string name="add_savings_account_time_type_periodic">Periodic</string>
@@ -71,5 +73,18 @@
     <string name="add_savings_account_deposit_type_shared">Shared</string>
     <string name="add_savings_account_choose_accounts_button">Choose Accounts</string>
     <string name="add_savings_account_choose_accounts_text">Choose accounts that are enabled for the transaction of money to this deposit</string>
+    <string name="add_savings_account_choose_finish_goal_date">When will you have spent the money?</string>
+
+    <string name="amount">Amount</string>
+    <string name="total_amount">Total Amount</string>
+
+
+    <string name="contact">Contact</string>
+
+    <string name="date_range_chosser_title">Please specify your date range. Select your first day and your last day of transactions.\n</string>
+
+    <string name="from">From: </string>
+    <string name="choose_button_text">(choose)</string>
+    <string name="to">To: </string>
 
 </resources>

@@ -4,22 +4,21 @@ import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
+import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
 import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.KeycloakSecurityContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.servlet.ServletException;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 
@@ -30,14 +29,13 @@ import java.util.List;
 public class BankingOverviewApiEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    private KeycloakUtilizer keycloakUtilizer;
     private BankingOverviewController bankingOverviewController;
 
     @Autowired
-    public BankingOverviewApiEndpoint(BankingOverviewController bankingOverviewController) {
+    public BankingOverviewApiEndpoint(KeycloakUtilizer keycloakUtilizer, BankingOverviewController bankingOverviewController) {
+        this.keycloakUtilizer = keycloakUtilizer;
         this.bankingOverviewController = bankingOverviewController;
-    }
-
-    protected BankingOverviewApiEndpoint() {
     }
 
     /**
@@ -47,9 +45,8 @@ public class BankingOverviewApiEndpoint {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "api/banking", produces = "application/json")
-    public ResponseEntity<?> getBankingOverviewEndpoint() {
-        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
+    public ResponseEntity<?> getBankingOverviewEndpoint() throws ServletException {
+        String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
@@ -67,9 +64,9 @@ public class BankingOverviewApiEndpoint {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST, value = "api/banking", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> addBankAccessEndpoint(@RequestBody BankAccessCredential bankAccessCredential) {
-        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
+    public ResponseEntity<?> addBankAccessEndpoint(@RequestBody BankAccessCredential bankAccessCredential) throws ServletException {
+        String username = keycloakUtilizer.getEmail();
+        final String token = keycloakUtilizer.getTokenString();
 
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
@@ -86,7 +83,7 @@ public class BankingOverviewApiEndpoint {
         }
         LOGGER.info("addBankAccessEndpoint was requested by " + username);
 
-        return this.addBankAccess(username, bankAccessCredential);
+        return this.addBankAccess(username, bankAccessCredential, token);
     }
 
     /**
@@ -97,9 +94,8 @@ public class BankingOverviewApiEndpoint {
      * @return
      */
     @RequestMapping(method = RequestMethod.DELETE, value = "api/banking/{accessId}", produces = "application/json")
-    public ResponseEntity<?> deleteBankAccessEndpoint(@PathVariable("accessId") String bankAccessId) {
-        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
+    public ResponseEntity<?> deleteBankAccessEndpoint(@PathVariable("accessId") String bankAccessId) throws ServletException {
+        String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
@@ -124,9 +120,8 @@ public class BankingOverviewApiEndpoint {
      */
     @RequestMapping(method = RequestMethod.DELETE, value = "api/banking/{accessId}/{accountId}", produces = "application/json")
     public ResponseEntity<?> deleteBankAccountEndpoint(@PathVariable("accessId") String bankAccessId,
-            @PathVariable("accountId") String bankAccountId) {
-        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
+            @PathVariable("accountId") String bankAccountId) throws ServletException {
+        String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
@@ -150,9 +145,8 @@ public class BankingOverviewApiEndpoint {
      * @return
      */
     @RequestMapping(method = RequestMethod.PUT, value = "api/banking/sync", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> syncBankAccountsEndpoint(@RequestBody List<BankAccountSync> bankAccountSyncList) {
-        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
+    public ResponseEntity<?> syncBankAccountsEndpoint(@RequestBody List<BankAccountSync> bankAccountSyncList) throws ServletException {
+        String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
@@ -186,7 +180,7 @@ public class BankingOverviewApiEndpoint {
      * @return
      */
     private ResponseEntity<?> getBankingOverview(String username) {
-        List<BankAccess> bankAccesses = null;
+        List<BankAccess> bankAccesses;
         try {
             bankAccesses = bankingOverviewController.getBankingOverview(username);
         } catch (BankingException ex) {
@@ -204,9 +198,9 @@ public class BankingOverviewApiEndpoint {
      * @param bankAccessCredential
      * @return
      */
-    private ResponseEntity<?> addBankAccess(String username, BankAccessCredential bankAccessCredential) {
+    private ResponseEntity<?> addBankAccess(String username, BankAccessCredential bankAccessCredential, final String token) {
         try {
-            BankAccess addedBankAccess = bankingOverviewController.addBankAccess(username, bankAccessCredential);
+            BankAccess addedBankAccess = bankingOverviewController.addBankAccess(username, bankAccessCredential, token);
             return new ResponseEntity<>(addedBankAccess, HttpStatus.CREATED);
         } catch (BankingException ex) {
             LOGGER.error("", ex);

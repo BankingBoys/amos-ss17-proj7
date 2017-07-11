@@ -10,7 +10,7 @@ import android.widget.RadioButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.dtos.AddSavingsAccountData;
+import de.fau.amos.virtualledger.android.model.SavingsAccount;
 
 public class AddSavingsAccountGoalTypeFragment extends AddSavingsAccountPage {
     @SuppressWarnings("unused")
@@ -32,7 +32,7 @@ public class AddSavingsAccountGoalTypeFragment extends AddSavingsAccountPage {
     }
 
     @Override
-    public void fillInData(final AddSavingsAccountData addSavingsAccountResult) {
+    public void fillInData(final SavingsAccount addSavingsAccountResult) {
         //TODO
     }
 }

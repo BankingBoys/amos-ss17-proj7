@@ -1,27 +1,26 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint;
 
-import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
+import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvider;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.JerseyClientUtility;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccessJSONBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvider;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccessJSONBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 
@@ -32,42 +31,51 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    private final BankingApiUrlProvider urlProvider;
+    private final KeycloakUtilizer keycloakUtilizer;
+
     @Autowired
-    private BankingApiUrlProvider urlProvider;
+    public HttpBankAccessEndpoint(final BankingApiUrlProvider urlProvider, final KeycloakUtilizer keycloakUtilizer) {
+        this.urlProvider = urlProvider;
+        this.keycloakUtilizer = keycloakUtilizer;
+    }
 
     @Override
-    public List<BankAccessBankingModel> getBankAccesses(String userId) throws BankingException {
+    public List<BankAccessBankingModel> getBankAccesses(final String userId) throws BankingException {
 
         // Create Jersey client
-        Client client = ClientBuilder.newClient();
+        final Client client = JerseyClientUtility.getLoggingClient(LOGGER);
 
-        String url = urlProvider.getBankAccessEndpointUrl(userId);
-        WebTarget webTarget = client.target(url);
-        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
-        Response response = invocationBuilder.get();
+        final String url = urlProvider.getBankAccessEndpointUrl(userId);
+        final WebTarget webTarget = client.target(url);
+        final Invocation.Builder invocationBuilder = webTarget
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .header("Authorization", keycloakUtilizer.getAuthorizationHeader());
+        final Response response = invocationBuilder.get();
 
         if (response.getStatus() != HTTP_OK) {
             throw new BankingException("No connection to Adorsys Server!");
         }
-        BankAccessJSONBankingModel reponseModel = response.readEntity(BankAccessJSONBankingModel.class);
-        if (reponseModel == null || reponseModel.getEmbedded() == null) {
+        final BankAccessJSONBankingModel responseModel = response.readEntity(BankAccessJSONBankingModel.class);
+        if (responseModel == null || responseModel.getEmbedded() == null) {
             LOGGER.info("No access found!");
-            return new ArrayList<BankAccessBankingModel>();
+            return new ArrayList<>();
         }
-        List<BankAccessBankingModel> result = reponseModel.getEmbedded().getBankAccessEntityList();
-        return result;
+        return responseModel.getEmbedded().getBankAccessEntityList();
     }
 
     @Override
-    public void addBankAccess(String userId, BankAccessBankingModel bankAccess) throws BankingException {
+    public void addBankAccess(final String userId, final BankAccessBankingModel bankAccess) throws BankingException {
 
         // Create Jersey client
-        Client client = ClientBuilder.newClient();
+        final Client client = JerseyClientUtility.getLoggingClient(LOGGER);
 
-        String url = urlProvider.getBankAccessEndpointUrl(userId);
-        WebTarget webTarget = client.target(url);
-        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
-        Response response = invocationBuilder.post(Entity.entity(bankAccess, MediaType.APPLICATION_JSON_TYPE));
+        final String url = urlProvider.getBankAccessEndpointUrl(userId);
+        final WebTarget webTarget = client.target(url);
+        final Invocation.Builder invocationBuilder = webTarget
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .header("Authorization", keycloakUtilizer.getAuthorizationHeader());
+        final Response response = invocationBuilder.post(Entity.entity(bankAccess, MediaType.APPLICATION_JSON_TYPE));
 
         if (response.getStatus() != HTTP_OK_RESPONSE) {
             throw new BankingException("Creating Banking Access failed!");

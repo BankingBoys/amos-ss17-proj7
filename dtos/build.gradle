@@ -1,16 +1,44 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
+    }
+}
+
+//Workaround for Android Studio being unable to sync
+if(getRootProject().name == "amos-ss17-proj5") {
+    apply plugin: 'org.sonarqube'
+}
+apply plugin: 'java'
+apply plugin: 'jacoco'
+
 group 'de.fau.amos.virtual-ledger'
 version '1.0-SNAPSHOT'
-
-apply plugin: 'java'
 
 targetCompatibility = '1.7'
 sourceCompatibility = '1.7'
 
-
-
-
 repositories {
     mavenCentral()
+}
+
+check.dependsOn jacocoTestReport
+
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: 'META-INF/**')
+        })
+    }
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.destination "${buildDir}/jacocoHtml"
+    }
 }
 
 dependencies {

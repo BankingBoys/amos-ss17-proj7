@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
+import de.adorsys.android.securestoragelibrary.SecurePreferences;
 import de.fau.amos.virtualledger.dtos.SessionData;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -31,10 +32,12 @@ import retrofit2.Retrofit;
 public class OidcAuthenticationProvider implements AuthenticationProvider {
 
 
-    private static final String FILENAME = "login.save";
-
+    private static final String SECURE_PREFERENCES_USERNAME = "VirtualLedger_Secure_Preferences_Username";
+    private static final String SECURE_PREFERENCES_PASSWORD = "VirtualLedger_Secure_Preferences_Password";
     private static final String TAG = "OidcAuthenticationProvi";
+    private static final int REFRESHDELTA = 15;
 
+    private final Context context;
     private Retrofit retrofit;
 
     private final String CLIENT_ID = "multibanking-client";
@@ -47,7 +50,8 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     private String currentUsername;
     private String currentPassword;
 
-    public OidcAuthenticationProvider(Retrofit retrofit) {
+    public OidcAuthenticationProvider(Context context, Retrofit retrofit) {
+        this.context = context;
         this.retrofit = retrofit;
     }
 
@@ -92,9 +96,11 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
         if(oidcData == null) {
             throw new IllegalStateException("refreshToken() was called but nobody was logged in!");
         }
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, oidcData.refresh_expires_in);
-        if(lastRefresh.after(cal.getTime())) {
+        Calendar now = Calendar.getInstance();
+        Calendar nextLoginRefresh = Calendar.getInstance();
+        nextLoginRefresh.setTime(lastRefresh);
+        nextLoginRefresh.add(Calendar.SECOND, oidcData.refresh_expires_in - REFRESHDELTA);
+        if(now.getTime().after(nextLoginRefresh.getTime())) {
             // refresh token expired
             if(currentUsername == null || currentPassword == null) throw new IllegalStateException("refreshToken() was called but no username + password was found in order to login after refresh token expiration");
 
@@ -190,9 +196,11 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
         if(oidcData == null) {
             throw new IllegalStateException("Cannot get token if nobody is logged in!");
         }
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, oidcData.expires_in);
-        if(lastRefresh.after(cal.getTime())) {
+        Calendar now = Calendar.getInstance();
+        Calendar nextNeccessaryRefresh = Calendar.getInstance();
+        nextNeccessaryRefresh.setTime(lastRefresh);
+        nextNeccessaryRefresh.add(Calendar.SECOND, oidcData.expires_in - REFRESHDELTA);
+        if(now.getTime().after(nextNeccessaryRefresh.getTime())) {
             final PublishSubject observable = PublishSubject.create();
             refreshToken()
                     .subscribeOn(Schedulers.newThread())
@@ -226,106 +234,45 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public void persistLoginData(Context context) {
-        /*deleteSavedLoginData(context);*/
-        FileOutputStream fileOutputStream = null;
-        ObjectOutputStream objectOutputStream = null;
-        try {
-            fileOutputStream = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
-            objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(new SessionData(currentUsername, currentPassword));
-            objectOutputStream.close();
-            fileOutputStream.close();
-        } catch (IOException e) {
-            Log.e(TAG, "Error in persisting login data: " + e.getMessage());
-        } finally {
-            {
-                try {
-                    if (fileOutputStream != null) {
-                        fileOutputStream.close();
-                    }
-                    if (objectOutputStream != null) {
-                        objectOutputStream.close();
-                    }
-                } catch (IOException e) {
-                    Log.e(TAG, "Error while closing streams" + e.getMessage());
-                }
-
-
-            }
-        }
+    public void persistLoginData() {
+        SecurePreferences.setValue(SECURE_PREFERENCES_USERNAME, currentUsername, context);
+        SecurePreferences.setValue(SECURE_PREFERENCES_PASSWORD, currentPassword, context);
     }
 
     @Override
-    public void deleteSavedLoginData(Context context) {
-        FileOutputStream fileOutputStream = null;
-        ObjectOutputStream objectOutputStream = null;
-        try {
-            fileOutputStream = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
-            objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(new SessionData("", ""));
-            objectOutputStream.close();
-            fileOutputStream.close();
-        } catch (IOException e) {
-            Log.e(TAG, "Error in persisting login data: " + e.getMessage());
-        } finally {
-
-            try {
-                if (fileOutputStream != null) {
-                    fileOutputStream.close();
-                }
-                if (objectOutputStream != null) {
-                    objectOutputStream.close();
-                }
-            } catch (IOException e) {
-                Log.e(TAG, "Error while closing streams" + e.getMessage());
-            }
-        }
-        this.currentUsername = "";
-        this.currentPassword = "";
-
+    public void deleteSavedLoginData() {
+        SecurePreferences.removeValue(SECURE_PREFERENCES_USERNAME, context);
+        SecurePreferences.removeValue(SECURE_PREFERENCES_PASSWORD, context);
     }
 
     @Override
-    public void tryLoadLoginData(Context context) {
-        FileInputStream fileInputStream = null;
-        ObjectInputStream objectInputStream = null;
-        try {
-            fileInputStream = context.openFileInput(FILENAME);
-            objectInputStream = new ObjectInputStream(fileInputStream);
-            SessionData savedSession = (SessionData) objectInputStream.readObject();
-            objectInputStream.close();
-            fileInputStream.close();
+    public Observable<String> tryLoadLoginData() {
 
-            // TODO: refactor savedSession to contain username + password!
-            if (nullOrEmpty(savedSession.getEmail())|| nullOrEmpty(savedSession.getSessionid())) {
-                throw new ClassNotFoundException("One of the loaded parameters was null or empty!");
-            }
+        String storedUsername = SecurePreferences.getStringValue(SECURE_PREFERENCES_USERNAME, context, null);
+        String storedPassword = SecurePreferences.getStringValue(SECURE_PREFERENCES_PASSWORD, context, null);
 
-            this.currentUsername = savedSession.getEmail();
-            this.currentPassword = savedSession.getSessionid();
-            // TODO maybe change to Observable because it is async now
-            login(currentUsername, currentPassword);
-        } catch (IOException e) {
-            Log.e(TAG, "Error in reading persisted login data: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            Log.e(TAG, "Error in reading persisted login data: " + e.getMessage());
-        } finally {
-            try {
-                if (fileInputStream != null) {
-                    fileInputStream.close();
-                }
-                if (objectInputStream != null) {
-                    objectInputStream.close();
-                }
-            } catch (IOException e) {
-                Log.e(TAG, "Error while closing streams" + e.getMessage());
-            }
+        if(storedUsername == null || storedPassword == null) {
+            deleteSavedLoginData();
+            return Observable.error(new Throwable("Could not restore saved login data!"));
+        } else {
+            final PublishSubject observable = PublishSubject.create();
+            login(storedUsername, storedPassword)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<String>() {
+                        @Override
+                        public void accept(@NonNull String s) throws Exception {
+                            observable.onNext(s);
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(@NonNull final Throwable throwable) throws Exception {
+                            deleteSavedLoginData();
+                            observable.onError(new Throwable("The login didn't work!"));
+                        }
+                    });
+            return observable;
         }
-    }
-
-    private boolean nullOrEmpty(String str){
-        return str == null || str.isEmpty();
     }
 
 }

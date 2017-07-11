@@ -5,10 +5,10 @@ import org.junit.Test;
 
 import java.util.Date;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import io.reactivex.Observable;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by Simon on 01.07.2017.
@@ -19,18 +19,18 @@ public class MockedSavingsProviderTest {
 
     @Before
     public void setUp() {
-        mockedSavingsProvider= new MockedSavingsProvider();
+        mockedSavingsProvider = new MockedSavingsProvider();
     }
 
     @Test
-    public void getSavingAccountsTest() {
-        Observable testObservable = mockedSavingsProvider.getSavingAccounts();
+    public void get() {
+        Observable testObservable = mockedSavingsProvider.get();
         assertThat(testObservable).isNotNull();
     }
 
     @Test
-    public void addSavingAccount() {
-        Observable testObservable = mockedSavingsProvider.addSavingAccount(new SavingsAccount("1","name", 0, 0, new Date(12312)));
+    public void add() {
+        Observable testObservable = mockedSavingsProvider.add(new SavingsAccount("1", "name", 0, 0, new Date(12312), new Date(12312)));
         assertThat(testObservable).isNotNull();
     }
 

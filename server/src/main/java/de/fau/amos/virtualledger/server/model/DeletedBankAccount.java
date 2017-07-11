@@ -1,59 +1,49 @@
 package de.fau.amos.virtualledger.server.model;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
 
-/**
- * Created by Georg on 22.05.2017.
- */
+
 @Entity
-@Table(name = "DeletedBankAccounts")
+@Table(name = "deleted_bank_accounts")
 public class DeletedBankAccount {
 
-    @javax.persistence.Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @EmbeddedId
+    private DeletedBankAccountId id;
 
-    private String userEmail;
+    @ManyToMany
+    private Set<User> users = new HashSet<>();
 
-    private String bankAccessId;
-
-    private String bankAccountId;
 
     public DeletedBankAccount() {
     }
 
-    public int getId() {
-        return id;
+    public DeletedBankAccount(DeletedBankAccountId id, Set<User> users) {
+        this.id = id;
+        this.users = users;
     }
 
-    public void setId(int id) {
+    public DeletedBankAccount(DeletedBankAccountId id) {
         this.id = id;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public DeletedBankAccountId getId() {
+        return id;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setId(DeletedBankAccountId id) {
+        this.id = id;
     }
 
-    public String getBankAccessId() {
-        return bankAccessId;
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setBankAccessId(String bankAccessId) {
-        this.bankAccessId = bankAccessId;
-    }
-
-    public String getBankAccountId() {
-        return bankAccountId;
-    }
-
-    public void setBankAccountId(String bankAccountId) {
-        this.bankAccountId = bankAccountId;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }

@@ -1,7 +1,6 @@
 <resources>
     <dimen name="fontSizeExpandableGroup">18sp</dimen>
     <dimen name="fontSizeExpandableDetail">13sp</dimen>
-    <dimen name="fontSizeOverviewBalance">25sp</dimen>
     <dimen name="fontSizeTransactionOverview">18sp</dimen>
     <dimen name="fontSizeTotalAmountHeader">15sp</dimen>
     <dimen name="fontSizeTotalAmountBalance">30sp</dimen>

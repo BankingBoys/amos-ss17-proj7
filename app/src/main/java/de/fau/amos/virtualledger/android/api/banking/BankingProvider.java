@@ -2,7 +2,6 @@ package de.fau.amos.virtualledger.android.api.banking;
 
 import java.util.List;
 
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
@@ -17,8 +16,8 @@ public interface BankingProvider {
 
     Observable<BankAccess> addBankAccess(BankAccessCredential bankAccessCredential);
 
-    Observable<String> deleteBankAccess(String accessId);
+    Observable<Void> deleteBankAccess(String accessId);
 
-    Observable<String> deleteBankAccount(String accessId, String accountId);
+    Observable<Void> deleteBankAccount(String accessId, String accountId);
 
 }

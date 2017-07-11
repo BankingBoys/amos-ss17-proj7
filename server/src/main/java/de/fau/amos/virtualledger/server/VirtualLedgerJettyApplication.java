@@ -12,4 +12,5 @@ public class VirtualLedgerJettyApplication {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(VirtualLedgerJettyApplication.class, args);
     }
+
 }

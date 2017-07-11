@@ -26,6 +26,17 @@ install:
   - cd /home/travis/build/BankingBoys/amos-ss17-proj7/
 addons:
   ssh_known_hosts: "13.58.185.7"
+  sonarcloud:
+    organization: "bankingboys"
+    token:
+      secure: "$SONAR_TOKEN"
+    branches:
+      - dev
+      - master
+
+script:
+- ./gradlew check
+- ./gradlew sonarqube
 
 after_script:
  -  chmod 777 tools/upload_script_to_amazon_aws.sh 

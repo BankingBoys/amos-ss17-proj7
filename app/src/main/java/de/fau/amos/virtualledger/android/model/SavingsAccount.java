@@ -13,15 +13,18 @@ public class SavingsAccount {
     private double goalbalance;
     private double currentbalance;
     private Date finaldate;
+    private Date finalGoalFinishedDate;
 
-    public SavingsAccount() {}
+    public SavingsAccount() {
+    }
 
-    public SavingsAccount(String id, String name, double goalbalance, double currentbalance, Date finaldate) {
+    public SavingsAccount(String id, String name, double goalbalance, double currentbalance, Date finaldate, Date finalGoalFinishedDate) {
         this.id = id;
         this.name = name;
         this.goalbalance = goalbalance;
         this.currentbalance = currentbalance;
         this.finaldate = finaldate;
+        this.finalGoalFinishedDate = finalGoalFinishedDate;
     }
 
     public String getId() {
@@ -36,7 +39,15 @@ public class SavingsAccount {
         return goalbalance;
     }
 
-    public int daysLeft(){
+    public Date getFinalGoalFinishedDate() {
+        return this.finalGoalFinishedDate;
+    }
+
+    public void setFinalGoalFinishedDate(Date newGoalFinishedDate) {
+        this.finalGoalFinishedDate = newGoalFinishedDate;
+    }
+
+    public int daysLeft() {
         Calendar cal1 = new GregorianCalendar();
         Calendar cal2 = new GregorianCalendar();
 
@@ -46,12 +57,12 @@ public class SavingsAccount {
         return daysBetween(cal1.getTime(), cal2.getTime());
     }
 
-    private int daysBetween(Date d1, Date d2){
-        return (int)( (d1.getTime() - d2.getTime()) / (1000 * 60 * 60 * 24));
+    private int daysBetween(Date d1, Date d2) {
+        return (int) ((d1.getTime() - d2.getTime()) / (1000 * 60 * 60 * 24));
     }
 
     @VisibleForTesting
-    Date today(){
+    Date today() {
         return new Date();
     }
 

@@ -45,12 +45,12 @@ public class StubbedBankingProvider extends Observable<List<BankAccess>> impleme
     }
 
     @Override
-    public Observable<String> deleteBankAccess(String accessId) {
+    public Observable<Void> deleteBankAccess(String accessId) {
         return null;
     }
 
     @Override
-    public Observable<String> deleteBankAccount(String accessId, String accountId) {
+    public Observable<Void> deleteBankAccount(String accessId, String accountId) {
         return null;
     }
 

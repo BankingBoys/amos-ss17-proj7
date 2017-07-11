@@ -19,7 +19,7 @@ public class SavingsAccountTest {
         Date finalDate = new Date();
 
         // ACT
-        SavingsAccount savingsAccount = new SavingsAccount(id, name, goalBalance, currentBalance, finalDate);
+        SavingsAccount savingsAccount = new SavingsAccount(id, name, goalBalance, currentBalance, finalDate, new Date());
 
         // ASSERT
         assertThat(savingsAccount.getId()).isEqualTo(id);
@@ -84,7 +84,7 @@ public class SavingsAccountTest {
 class SavingsAccountMocked extends SavingsAccount {
 
     public SavingsAccountMocked(String id, String name, double goalbalance, double currentbalance, Date finaldate) {
-        super(id, name, goalbalance, currentbalance, finaldate);
+        super(id, name, goalbalance, currentbalance, finaldate, new Date());
     }
 
     @Override

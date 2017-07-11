@@ -1,20 +1,19 @@
 package de.fau.amos.virtualledger.server.api;
 
+import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
 import de.fau.amos.virtualledger.server.model.SavingsAccount;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.KeycloakSecurityContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.ServletException;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 
@@ -25,15 +24,15 @@ import java.util.List;
 public class SavingsApiEndpoint {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private KeycloakUtilizer keycloakUtilizer;
     private SavingsController savingsController;
 
     @Autowired
-    public SavingsApiEndpoint(SavingsController savingsController) {
+    public SavingsApiEndpoint(KeycloakUtilizer keycloakUtilizer, SavingsController savingsController) {
+        this.keycloakUtilizer = keycloakUtilizer;
         this.savingsController = savingsController;
     }
 
-    protected SavingsApiEndpoint() {
-    }
 
     /**
      * Gets all available saving accounts to the authenticated user
@@ -41,9 +40,8 @@ public class SavingsApiEndpoint {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "api/savings", produces = "application/json")
-    public ResponseEntity<?> getSavingAccountsEndpoint() {
-        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
+    public ResponseEntity<?> getSavingAccountsEndpoint() throws ServletException {
+        String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);
@@ -60,9 +58,8 @@ public class SavingsApiEndpoint {
      * @return status 201 if successful
      */
     @RequestMapping(method = RequestMethod.POST, value = "api/savings", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> addSavingAccountEndpoint(@RequestBody SavingsAccount savingsAccount) {
-        KeycloakPrincipal principal = (KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = principal.getKeycloakSecurityContext().getToken().getEmail();
+    public ResponseEntity<?> addSavingAccountEndpoint(@RequestBody SavingsAccount savingsAccount) throws ServletException {
+        String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);

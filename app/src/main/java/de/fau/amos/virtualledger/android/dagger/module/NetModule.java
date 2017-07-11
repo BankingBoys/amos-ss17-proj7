@@ -10,6 +10,9 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -78,6 +81,18 @@ public class NetModule {
                 }
             }
         });
+        gsonBuilder.registerTypeAdapter(Date.class, new JsonSerializer<Date>() {
+            @Override
+            public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
+                if(src == null) {
+                    return null;
+                }
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
+                String formatted = dateFormat.format(src);
+                return new JsonPrimitive(formatted);
+            }
+        });
+
         return gsonBuilder.create();
     }
 

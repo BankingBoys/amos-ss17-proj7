@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         init();
 
 
-        authenticationProvider.tryLoadLoginData(this);
+        authenticationProvider.tryLoadLoginData();
         if (authenticationProvider.isLoggedIn()) {
             executeNextActivityMenu();
         }
@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                                         if (authenticationProvider.isLoggedIn()) {
                                             executeNextActivityMenu();
                                             if (checkBoxStayLoggedIn.isChecked()) {
-                                                authenticationProvider.persistLoginData(context);
+                                                authenticationProvider.persistLoginData();
                                             }
                                         } else {
                                             textviewLoginFail.setText(s);

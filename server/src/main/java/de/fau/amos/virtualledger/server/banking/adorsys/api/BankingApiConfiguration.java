@@ -6,46 +6,41 @@ import org.springframework.stereotype.Component;
  * Class that holds all configuration required for the banking api access
  * examples: URL of the banking api, dummy configuration, ...
  */
+@SuppressWarnings("SpellCheckingInspection")
 @Component
-
 public class BankingApiConfiguration {
 
 
-    private final String bankingApiUrlAbsolute = "https://multibanking-service.dev.adorsys.de:443/api/v1/";
-    private final String userApiUrlRelative = "users";
-    private final String bankAccessApiUrlRelative = "users/{userId}/bankaccesses";
-    private final String bankAccountApiUrlRelative = "users/{userId}/bankaccesses/{accessId}/accounts";
-    private final String bankAccountSyncApiUrlRelative = "users/{userId}/bankaccesses/{accessId}/accounts/{accountId}/sync";
+    private static final String BANKING_API_URL_ABSOLUTE = "https://multibanking-service.dev.adorsys.de:443/api/v1/";
+    private static final String BANK_ACCESS_API_URL_RELATIVE = "users/{userId}/bankaccesses";
+    private static final String BANK_ACCOUNT_API_URL_RELATIVE = "users/{userId}/bankaccesses/{accessId}/accounts";
+    private static final String BANK_ACCOUNT_SYNC_API_URL_RELATIVE = "users/{userId}/bankaccesses/{accessId}/accounts/{accountId}/sync";
 
     /**
      * username of the test user that does not use adorsys api but dummies
      */
-    private final String testUserName = "test@user.de";
+    private static final String TEST_USER_NAME = "test@user.de";
 
 
 
-    public String getBankingApiUrlAbsolute() {
-        return bankingApiUrlAbsolute;
+    String getBankingApiUrlAbsolute() {
+        return BANKING_API_URL_ABSOLUTE;
     }
 
-    public String getUserApiUrlRelative() {
-        return userApiUrlRelative;
+    String getBankAccessApiUrlRelative() {
+        return BANK_ACCESS_API_URL_RELATIVE;
     }
 
-    public String getBankAccessApiUrlRelative() {
-        return bankAccessApiUrlRelative;
+    String getBankAccountApiUrlRelative() {
+        return BANK_ACCOUNT_API_URL_RELATIVE;
     }
 
-    public String getBankAccountApiUrlRelative() {
-        return bankAccountApiUrlRelative;
-    }
-
-    public String getBankAccountSyncApiUrlRelative() {
-        return bankAccountSyncApiUrlRelative;
+    String getBankAccountSyncApiUrlRelative() {
+        return BANK_ACCOUNT_SYNC_API_URL_RELATIVE;
     }
 
 
-    public String getTestUserName() {
-        return testUserName;
+    String getTestUserName() {
+        return TEST_USER_NAME;
     }
 }

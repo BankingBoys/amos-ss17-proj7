@@ -1,55 +1,57 @@
 plugins {
     id 'org.springframework.boot' version '1.5.4.RELEASE'
 }
+plugins {
+    id "org.sonarqube" version "2.2"
+}
 apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'application'
 
+applicationName = 'VirtualLedgerServer'
 group 'de.fau.amos.virtual-ledger'
 version '1.0-SNAPSHOT'
 description "Backend for the Virtual Ledger Android app"
-
-apply plugin: 'war'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    maven {
-        url 'http://download.eclipse.org/rt/eclipselink/maven.repo'
-    }
 }
-uploadArchives {
-	repositories {
-		flatDir {
-			dirs 'compiled'
-			}
-		}
-	}
 
-springBoot {
-    mainClass = 'de.fau.amos.virtualledger.server.VirtualLedgerJettyApplication'
+check.dependsOn jacocoTestReport
+
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: 'META-INF/**')
+        })
+    }
+    reports {
+        xml.setEnabled true
+        csv.setEnabled false
+        html.destination "${buildDir}/jacocoHtml"
+    }
 }
 
 dependencies {
-    providedCompile group: 'javax', name: 'javaee-api', version:'7.0'
-
     compile 'ch.qos.logback:logback-classic:1.2.3'
 
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
-    compile group: 'org.eclipse.persistence', name: 'eclipselink', version: '2.6.4'
     compile group: 'com.owlike', name: 'genson', version: '1.4'
 
     compile("org.springframework.boot:spring-boot-starter-web")
-    providedRuntime("org.springframework.boot:spring-boot-starter-jetty")
-    compile("org.springframework.boot:spring-boot-starter-web")
-    providedRuntime("org.springframework.boot:spring-boot-starter-jetty")
     compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile('org.springframework.boot:spring-boot-starter-jersey')
 
-    compile group: 'org.keycloak', name: 'keycloak-spring-security-adapter', version: '3.2.0.CR1'
+    compile group: 'org.keycloak', name: 'keycloak-spring-boot-starter', version: '3.2.0.CR1'
+    compile group: 'org.keycloak.bom', name: 'keycloak-adapter-bom', version: '3.1.0.Final', ext: 'pom'
 
     compile project(':dtos')
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: '2.25.1'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.+'
 }

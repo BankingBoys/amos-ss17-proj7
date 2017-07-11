@@ -11,40 +11,31 @@ import org.springframework.stereotype.Component;
 
 public class BankingApiUrlProvider {
 
-    private BankingApiConfiguration configuration;
+    private final BankingApiConfiguration configuration;
 
     @Autowired
-    public BankingApiUrlProvider(BankingApiConfiguration configuration) {
+    public BankingApiUrlProvider(final BankingApiConfiguration configuration) {
         this.configuration = configuration;
     }
 
-    // protected empty constructor required for server to init it
-    protected BankingApiUrlProvider() {
-        this(null);
-    }
-
-    public String getUserEndpointUrl() {
-        return configuration.getBankingApiUrlAbsolute() + configuration.getUserApiUrlRelative();
-    }
-
-    public String getBankAccessEndpointUrl(String userId) {
+    public String getBankAccessEndpointUrl(final String userId) {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccessApiUrlRelative();
-        url = url.replaceAll("\\{userId\\}", userId);
+        url = url.replaceAll("\\{userId}", userId);
         return url;
     }
 
-    public String getBankAccountEndpointUrl(String userId, String bankAccessId) {
+    public String getBankAccountEndpointUrl(final String userId, final String bankAccessId) {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccountApiUrlRelative();
-        url = url.replaceAll("\\{userId\\}", userId);
-        url = url.replaceAll("\\{accessId\\}", bankAccessId);
+        url = url.replaceAll("\\{userId}", userId);
+        url = url.replaceAll("\\{accessId}", bankAccessId);
         return url;
     }
 
-    public String getBankAccountSyncEndpointUrl(String userId, String bankAccessId, String bankAccountId) {
+    public String getBankAccountSyncEndpointUrl(final String userId, final String bankAccessId, final String bankAccountId) {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccountSyncApiUrlRelative();
-        url = url.replaceAll("\\{userId\\}", userId);
-        url = url.replaceAll("\\{accessId\\}", bankAccessId);
-        url = url.replaceAll("\\{accountId\\}", bankAccountId);
+        url = url.replaceAll("\\{userId}", userId);
+        url = url.replaceAll("\\{accessId}", bankAccessId);
+        url = url.replaceAll("\\{accountId}", bankAccountId);
         return url;
     }
 }

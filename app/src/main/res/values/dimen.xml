@@ -9,11 +9,6 @@
     <dimen name="authentication_register_text_field_name_margin_top">70dp</dimen>
     <dimen name="authentication_register_button_width">350dp</dimen>
 
-    <dimen name="main_menu_image_view_width">40dp</dimen>
-    <dimen name="main_menu_image_view_height">40dp</dimen>
-    <dimen name="main_menu_image_view_magin_left">10dp</dimen>
-    <dimen name="main_menu_text_view_margin_left">10dp</dimen>
-
     <dimen name="banking_overview_expandablelist_detail_layout_height">50dp</dimen>
     <dimen name="banking_overview_expandablelist_detail_layout_margin_top">5dp</dimen>
     <dimen name="banking_overview_expandablelist_detail_layout_padding_start_left">30dp</dimen>
@@ -36,8 +31,6 @@
 
     <dimen name="banking_overview_no_bank_accesses_button_margin_bottom">30dp</dimen>
     <dimen name="banking_overview_no_bank_accesses_button_margin_left_right">16dp</dimen>
-
-    <dimen name="main_menu_sliding_tab_list_view_width">150dp</dimen>
 
     <dimen name="contact_padding_start_left">6dp</dimen>
 </resources>

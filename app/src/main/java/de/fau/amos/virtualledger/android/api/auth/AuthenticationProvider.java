@@ -22,13 +22,13 @@ public interface AuthenticationProvider {
 
     String getUserId();
 
-    void persistLoginData(Context context);
+    void persistLoginData();
 
-    void deleteSavedLoginData(Context context);
+    void deleteSavedLoginData();
 
     /**
      * tries to load the login data from storage
-     * check afterwards with isLoggedIn() if it worked
+     * and tries to login if data was found.
      */
-    void tryLoadLoginData(Context context);
+    Observable<String> tryLoadLoginData();
 }

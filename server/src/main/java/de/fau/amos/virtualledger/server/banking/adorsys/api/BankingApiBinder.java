@@ -1,12 +1,10 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api;
 
+import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.BankAccessEndpoint;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.BankAccountEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.BankAccessEndpoint;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint.BankAccountEndpoint;
-import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.UserEndpoint;
 
 /**
  * Class that is responsible for binding the right implementation of an
@@ -18,8 +16,6 @@ import de.fau.amos.virtualledger.server.banking.adorsys.api.userEndpoint.UserEnd
 public class BankingApiBinder {
 
     // all injected by constructor
-    private UserEndpoint httpUserEndpoint;
-    private UserEndpoint dummyUserEndpoint;
     private BankAccessEndpoint httpBankAccessEndpoint;
     private BankAccessEndpoint dummyBankAccessEndpoint;
     private BankAccountEndpoint httpBankAccountEndpoint;
@@ -28,16 +24,13 @@ public class BankingApiBinder {
     private BankingApiConfiguration bankingApiConfiguration;
 
     @Autowired
-    public BankingApiBinder(BankingApiConfiguration bankingApiConfiguration,
-            @Qualifier("default") UserEndpoint httpUserEndpoint, @Qualifier("dummy") UserEndpoint dummyUserEndpoint,
-            @Qualifier("default") BankAccessEndpoint httpBankAccessEndpoint,
-            @Qualifier("dummy") BankAccessEndpoint dummyBankAccessEndpoint,
-            @Qualifier("default") BankAccountEndpoint httpBankAccountEndpoint,
-            @Qualifier("dummy") BankAccountEndpoint dummyBankAccountEndpoint) {
+    public BankingApiBinder(final BankingApiConfiguration bankingApiConfiguration,
+                            @Qualifier("default") final BankAccessEndpoint httpBankAccessEndpoint,
+                            @Qualifier("dummy") final BankAccessEndpoint dummyBankAccessEndpoint,
+                            @Qualifier("default") final BankAccountEndpoint httpBankAccountEndpoint,
+                            @Qualifier("dummy") final BankAccountEndpoint dummyBankAccountEndpoint) {
         this.bankingApiConfiguration = bankingApiConfiguration;
 
-        this.httpUserEndpoint = httpUserEndpoint;
-        this.dummyUserEndpoint = dummyUserEndpoint;
         this.httpBankAccessEndpoint = httpBankAccessEndpoint;
         this.dummyBankAccessEndpoint = dummyBankAccessEndpoint;
         this.httpBankAccountEndpoint = httpBankAccountEndpoint;
@@ -47,30 +40,16 @@ public class BankingApiBinder {
     protected BankingApiBinder() {
     }
 
-    public UserEndpoint getUserEndpoint(String userId) {
-
-        if (bankingApiConfiguration.getTestUserName().equals(userId)) {
-            return dummyUserEndpoint;
-        } else {
-            return httpUserEndpoint;
-        }
+    BankAccessEndpoint getBankAccessEndpoint(final String userId) {
+        return isTestUser(userId) ? dummyBankAccessEndpoint : httpBankAccessEndpoint;
     }
 
-    public BankAccessEndpoint getBankAccessEndpoint(String userId) {
-
-        if (bankingApiConfiguration.getTestUserName().equals(userId)) {
-            return dummyBankAccessEndpoint;
-        } else {
-            return httpBankAccessEndpoint;
-        }
+    BankAccountEndpoint getBankAccountEndpoint(final String userId) {
+        return isTestUser(userId) ? dummyBankAccountEndpoint : httpBankAccountEndpoint;
     }
 
-    public BankAccountEndpoint getBankAccountEndpoint(String userId) {
-        if (bankingApiConfiguration.getTestUserName().equals(userId)) {
-            return dummyBankAccountEndpoint;
-        } else {
-            return httpBankAccountEndpoint;
-        }
+    private boolean isTestUser(final String userId) {
+        return bankingApiConfiguration.getTestUserName().equals(userId);
     }
 
 }
