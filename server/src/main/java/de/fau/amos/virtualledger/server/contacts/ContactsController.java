@@ -8,7 +8,6 @@ import de.fau.amos.virtualledger.server.persistence.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Component;
 
 import java.lang.invoke.MethodHandles;
@@ -48,20 +47,28 @@ public class ContactsController {
         return contactList;
     }
 
-    public void addContact(final Contact contact, final String userEmail) {
-        User user = userRepository.findOne(userEmail);
-        /*assertUserNotNull(user);*/
+    public void addContact(final Contact contact, final String userEmail) throws UserNotFoundException, ContactAlreadyExistsException {
+        User owner = userRepository.findOne(userEmail);
+        assertUserNotNull(owner);
         User userContact = userRepository.findOne(contact.getEmail());
-/*        assertUserNotNull(userContact);*/
+        assertUserNotNull(userContact);
+        assertContactDoesNotExist(owner, userContact);
         ContactsEntity addedContact = new ContactsEntity();
-        addedContact.setOwner(user);
+        addedContact.setOwner(owner);
         addedContact.setContact(userContact);
         contactsRepository.save(addedContact);
     }
 
-/*    private void assertUserNotNull(User user) throws UserNotFoundException {
-        if(user == null) {
+    private void assertUserNotNull(User user) throws UserNotFoundException {
+        if (user == null) {
             throw new UserNotFoundException("User/Contact could not be found");
         }
-    }*/
+    }
+
+    private void assertContactDoesNotExist(User owner, User contact) throws ContactAlreadyExistsException {
+        boolean exists = contactsRepository.existsContactwithEmail(owner, contact);
+        if (exists) {
+            throw new ContactAlreadyExistsException("Contact was already added before");
+        }
+    }
 }

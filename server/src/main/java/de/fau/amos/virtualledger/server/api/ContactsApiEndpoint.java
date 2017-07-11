@@ -69,7 +69,11 @@ public class ContactsApiEndpoint {
     }
 
     private ResponseEntity<?> addContact(final Contact contact, final String username) {
-        contactsController.addContact(contact, username);
+        try {
+            contactsController.addContact(contact, username);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Authentication failed!" + e.getMessage(), HttpStatus.FORBIDDEN);
+        }
         return new ResponseEntity(HttpStatus.OK);
     }
 
