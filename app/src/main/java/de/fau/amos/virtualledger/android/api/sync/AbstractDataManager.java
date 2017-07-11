@@ -36,7 +36,7 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
     private AtomicInteger syncsActive = new AtomicInteger(0);
 
 
-    public AbstractDataManager(DataProvider<T> dataProvider){
+    public AbstractDataManager(DataProvider<T> dataProvider) {
         this.dataProvider = dataProvider;
     }
 
@@ -102,24 +102,18 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
         dataProvider.add(savingsAccount)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete(new Action() {
+                .subscribe(new Consumer<String>() {
                     @Override
-                    public void run() throws Exception {
+                    public void accept(@NonNull String s) throws Exception {
                         AbstractDataManager.this.sync();
                     }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        Log.e(TAG, "Failed getting items", throwable);
+                        AbstractDataManager.this.sync(); //FIXME: figure out why Exception is thrown when adding
+                    }
                 });
-        Thread th = new Thread(new Runnable() {
-            @Override
-            public void run() {//FIXME make observables work again
-                try {//FIXME make observables work again
-                    Thread.sleep(150);//FIXME make observables work again
-                }catch(Exception e){//FIXME make observables work again
-                    e.printStackTrace();//FIXME make observables work again
-                }//FIXME make observables work again
-                AbstractDataManager.this.sync();//FIXME make observables work again
-            }//FIXME make observables work again
-        });//FIXME make observables work again
-        th.start();//FIXME make observables work again
     }
 }
 
