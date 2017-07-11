@@ -48,7 +48,7 @@ public class HTTPContactsProvider implements ContactsProvider{
             @Override
             public void onReceiveToken(final String token) {
                 // got token
-                restApi.addContact(token, contact.getEmail()).enqueue(new RetrofitCallback<>(observable));
+                restApi.addContact(token, contact).enqueue(new RetrofitCallback<>(observable));
             }
         });
 

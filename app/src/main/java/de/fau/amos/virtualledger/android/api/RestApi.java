@@ -44,5 +44,5 @@ public interface RestApi {
     Call<List<Contact>> getContacts(@Header("Authorization") String token);
 
     @POST("/api/contacts")
-    Call<Void> addContact(@Header("Authorization") String token, @Body String email);
+    Call<Void> addContact(@Header("Authorization") String token, @Body Contact contact);
 }
