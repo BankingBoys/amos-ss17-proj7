@@ -49,6 +49,19 @@ public class ContactsController {
     }
 
     public void addContact(final Contact contact, final String userEmail) {
-
+        User user = userRepository.findOne(userEmail);
+        /*assertUserNotNull(user);*/
+        User userContact = userRepository.findOne(contact.getEmail());
+/*        assertUserNotNull(userContact);*/
+        ContactsEntity addedContact = new ContactsEntity();
+        addedContact.setOwner(user);
+        addedContact.setContact(userContact);
+        contactsRepository.save(addedContact);
     }
+
+/*    private void assertUserNotNull(User user) throws UserNotFoundException {
+        if(user == null) {
+            throw new UserNotFoundException("User/Contact could not be found");
+        }
+    }*/
 }
