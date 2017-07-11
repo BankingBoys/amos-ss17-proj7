@@ -2,6 +2,9 @@ package de.fau.amos.virtualledger.android.views.contacts;
 
 import android.app.Activity;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.inject.Inject;
 
 import de.fau.amos.virtualledger.android.api.sync.AbstractSupplier;
@@ -27,5 +30,10 @@ public class ContactsSupplier extends AbstractSupplier<Contact> {
     @Override
     protected DataManager<Contact> dataManager() {
         return this.contactsDataManager;
+    }
+
+    public void syncUnusual(){
+        Logger.getLogger(this.getClass().getCanonicalName()).log(Level.SEVERE,"SYNC UNUSUAL");
+        dataManager().sync();
     }
 }

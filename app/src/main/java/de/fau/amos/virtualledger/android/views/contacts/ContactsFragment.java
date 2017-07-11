@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.views.contacts.add.AddContactsActivity;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
-import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
 import de.fau.amos.virtualledger.dtos.Contact;
 
 /**
@@ -31,7 +30,7 @@ public class ContactsFragment extends Fragment implements DataListening {
 
     private ContactsAdapter adapter;
     private ListView contactListView;
-    private Supplier<Contact> contactSupplier;
+    private ContactsSupplier contactSupplier;
 
 
     @Override
@@ -101,6 +100,7 @@ public class ContactsFragment extends Fragment implements DataListening {
     public void onResume() {
         super.onResume();
         this.contactSupplier.onResume();
+        this.contactSupplier.syncUnusual();
     }
 
     /**
