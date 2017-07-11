@@ -108,6 +108,18 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
                         AbstractDataManager.this.sync();
                     }
                 });
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {//FIXME make observables work again
+                try {//FIXME make observables work again
+                    Thread.sleep(150);//FIXME make observables work again
+                }catch(Exception e){//FIXME make observables work again
+                    e.printStackTrace();//FIXME make observables work again
+                }//FIXME make observables work again
+                AbstractDataManager.this.sync();//FIXME make observables work again
+            }//FIXME make observables work again
+        });//FIXME make observables work again
+        th.start();//FIXME make observables work again
     }
 }
 
