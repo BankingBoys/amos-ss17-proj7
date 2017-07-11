@@ -42,7 +42,7 @@ public class AbstractMockedDataProvider<T> implements DataProvider<T> {
     }
 
     @Override
-    public Observable<Void> add(T newItem) {
+    public Observable<String> add(T newItem) {
         this.providedItems.add(newItem);
         final PublishSubject observable = PublishSubject.create();
         Thread th = new Thread(new Runnable() {

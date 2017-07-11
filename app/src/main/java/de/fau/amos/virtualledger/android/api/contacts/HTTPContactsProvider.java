@@ -41,8 +41,8 @@ public class HTTPContactsProvider implements ContactsProvider{
     }
 
     @Override
-    public Observable<Void> add(final Contact contact) {
-        final PublishSubject<Void> observable = PublishSubject.create();
+    public Observable<String> add(final Contact contact) {
+        final PublishSubject<String> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override

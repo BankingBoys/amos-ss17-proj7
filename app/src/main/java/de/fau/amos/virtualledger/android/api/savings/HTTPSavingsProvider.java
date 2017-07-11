@@ -42,9 +42,9 @@ public class HTTPSavingsProvider implements SavingsProvider {
     }
 
     @Override
-    public Observable<Void> add(final SavingsAccount savingsAccount) {
+    public Observable<String> add(final SavingsAccount savingsAccount) {
 
-        final PublishSubject<Void> observable = PublishSubject.create();
+        final PublishSubject<String> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override

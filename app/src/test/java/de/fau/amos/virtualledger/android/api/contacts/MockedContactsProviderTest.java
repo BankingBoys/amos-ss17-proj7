@@ -30,7 +30,7 @@ public class MockedContactsProviderTest {
     @Test
     public void addContactsTest() {
         final String testEmail = "testEmail";
-        Observable<Void> testObservable = mockedContactsProvider.add(new Contact(testEmail));
+        Observable<String> testObservable = mockedContactsProvider.add(new Contact(testEmail));
         assertThat(testObservable).isNotNull();
     }
 }

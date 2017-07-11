@@ -38,11 +38,11 @@ public interface RestApi {
     Call<List<SavingsAccount>> getSavingAccounts(@Header("Authorization") String token);
 
     @POST("/api/savings")
-    Call<Void> addSavingAccounts(@Header("Authorization") String token, @Body SavingsAccount savingsAccounts);
+    Call<String> addSavingAccounts(@Header("Authorization") String token, @Body SavingsAccount savingsAccounts);
 
     @GET("/api/contacts")
     Call<List<Contact>> getContacts(@Header("Authorization") String token);
 
     @POST("/api/contacts")
-    Call<Void> addContact(@Header("Authorization") String token, @Body Contact contact);
+    Call<String> addContact(@Header("Authorization") String token, @Body Contact contact);
 }

@@ -180,7 +180,7 @@ class StubbedSavingsProvider implements DataProvider<SavingsAccount>{
     }
 
     @Override
-    public Observable<Void> add(SavingsAccount newItem) {
+    public Observable<String> add(SavingsAccount newItem) {
         this.savings.add(newItem);
         observable = PublishSubject.create();
         return this.observable;
