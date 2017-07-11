@@ -45,6 +45,23 @@ public class ContactApiEndpointTest {
         }
     }
 
+    @Test
+    public void getContactsEndpointUserPrincipalNameEmpty() throws ServletException {
+
+        ContactsApiEndpoint contactsApiEndpoint = new ContactsApiEndpoint(setupKeycloakUtilizer(""), contactsController);
+
+        ResponseEntity<?> reponse = contactsApiEndpoint.getContactsEndpoint();
+
+
+        HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
+        assertThat(reponse.getStatusCode()).isEqualTo(expectedStatusCode);
+        try {
+            verify(contactsController, times(0)).getContactsByEmail(any(String.class));
+        } catch (Exception e) {
+            //Do nothing
+        }
+    }
+
     private KeycloakUtilizer setupKeycloakUtilizer(String username) throws ServletException {
 
         KeycloakUtilizer keycloakUtilizerMock = mock(KeycloakUtilizer.class);
