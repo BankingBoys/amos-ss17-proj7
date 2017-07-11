@@ -12,8 +12,11 @@ import org.springframework.http.ResponseEntity;
 import javax.servlet.ServletException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 /**
  * Created by Simon on 11.07.2017.
@@ -26,16 +29,20 @@ public class ContactApiEndpointTest {
     private ContactsController contactsController;
 
     @Test
-    public void getContactsAccountEndpointUserNameNull() throws ServletException {
-        //Setup
+    public void getContactsEndpointUserNameNull() throws ServletException {
         ContactsApiEndpoint contactsApiEndpoint = new ContactsApiEndpoint(setupKeycloakUtilizer(null), contactsController);
 
-        //ACT
+
         ResponseEntity<?> responseEntity = contactsApiEndpoint.getContactsEndpoint();
 
-        //ASSERT
+
         HttpStatus expected = HttpStatus.FORBIDDEN;
         assertThat(responseEntity.getStatusCode()).isEqualTo(expected);
+        try {
+            verify(contactsController, times(0)).getContactsByEmail(any(String.class));
+        } catch (Exception e) {
+            //Do nothing
+        }
     }
 
     private KeycloakUtilizer setupKeycloakUtilizer(String username) throws ServletException {
@@ -44,5 +51,4 @@ public class ContactApiEndpointTest {
         when(keycloakUtilizerMock.getEmail()).thenReturn(username);
         return keycloakUtilizerMock;
     }
-
 }
