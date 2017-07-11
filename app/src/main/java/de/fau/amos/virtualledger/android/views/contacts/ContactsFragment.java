@@ -100,7 +100,6 @@ public class ContactsFragment extends Fragment implements DataListening {
     public void onResume() {
         super.onResume();
         this.contactSupplier.onResume();
-        this.contactSupplier.syncUnusual();
     }
 
     /**
