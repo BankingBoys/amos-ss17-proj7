@@ -3,6 +3,8 @@ package de.fau.amos.virtualledger.android.api.shared;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Call;
@@ -25,7 +27,12 @@ public class RetrofitCallback<T> implements Callback<T> {
         final String requestString = "Request " + call.request().method() + " " + call.request().url() + " ";
         if (response.isSuccessful()) {
             final T result = response.body();
+            Logger.getLogger("TEST").log(Level.INFO, "#####'Body" + result);//TODO
             Log.v(TAG, requestString + "was successful: " + response.code());
+            if (result == null) {
+                observable.onComplete();
+                return;
+            }
             observable.onNext(result);
         } else {
             Log.e(TAG, requestString + "was not successful! ERROR " + response.code());

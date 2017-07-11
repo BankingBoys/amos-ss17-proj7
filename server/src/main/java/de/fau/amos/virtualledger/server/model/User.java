@@ -1,11 +1,8 @@
 package de.fau.amos.virtualledger.server.model;
 
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.Set;
 
 /**
  * Class that represents user information.
@@ -19,9 +16,6 @@ public class User {
 
     private String firstName;
     private String lastName;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    private Set<SavingsAccount> savingsAccounts;
 
     public User(String email, String firstName, String lastName) {
         this.email = email;
@@ -56,11 +50,4 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Set<SavingsAccount> getSavingsAccounts() {
-        return savingsAccounts;
-    }
-
-    public void setSavingsAccounts(Set<SavingsAccount> savingsAccounts) {
-        this.savingsAccounts = savingsAccounts;
-    }
 }

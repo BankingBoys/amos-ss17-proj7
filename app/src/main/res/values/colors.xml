@@ -7,6 +7,5 @@
     <color name="colorBankingOverviewLightGreen">#52BF90</color>
     <color name="colorNegativeAmount">#ff0000</color>
     <color name="colorBankingOverviewButton">#F08080</color>
-    <color name="colorLightGray">#EEEEEE</color>
     <color name="colorWhite">#FFFFFF</color>
 </resources>

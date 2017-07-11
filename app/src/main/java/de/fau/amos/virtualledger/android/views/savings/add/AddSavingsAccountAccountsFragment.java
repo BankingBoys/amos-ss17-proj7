@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.dtos.AddSavingsAccountData;
+import de.fau.amos.virtualledger.android.model.SavingsAccount;
 
 public class AddSavingsAccountAccountsFragment extends AddSavingsAccountPage {
     @SuppressWarnings("unused")
@@ -30,7 +30,7 @@ public class AddSavingsAccountAccountsFragment extends AddSavingsAccountPage {
     }
 
     @Override
-    public void fillInData(final AddSavingsAccountData addSavingsAccountResult) {
+    public void fillInData(final SavingsAccount addSavingsAccountResult) {
         //TODO
     }
 }

@@ -25,7 +25,7 @@ public class HTTPContactsProvider implements ContactsProvider{
     }
 
     @Override
-    public Observable<List<Contact>> getContacts() {
+    public Observable<List<Contact>> get() {
 
         final PublishSubject<List<Contact>> observable = PublishSubject.create();
 
@@ -41,14 +41,14 @@ public class HTTPContactsProvider implements ContactsProvider{
     }
 
     @Override
-    public Observable<Void> addContact(final String email) {
-        final PublishSubject<Void> observable = PublishSubject.create();
+    public Observable<String> add(final Contact contact) {
+        final PublishSubject<String> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override
             public void onReceiveToken(final String token) {
                 // got token
-                restApi.addContact(token, email).enqueue(new RetrofitCallback<>(observable));
+                restApi.addContact(token, contact).enqueue(new RetrofitCallback<>(observable));
             }
         });
 

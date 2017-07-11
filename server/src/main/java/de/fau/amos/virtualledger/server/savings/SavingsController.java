@@ -1,6 +1,5 @@
 package de.fau.amos.virtualledger.server.savings;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.fau.amos.virtualledger.server.model.User;
@@ -29,16 +28,13 @@ public class SavingsController {
 
     public List<SavingsAccount> getSavingAccounts(String email) {
 
-        User user = userRepository.findAndLoadSavingsAccounts(email);
-        List<SavingsAccount> savingAccountList = new ArrayList<>();
-        savingAccountList.addAll(user.getSavingsAccounts());
-        return savingAccountList;
+        return savingsAccountRepository.findByUserEmail(email);
     }
 
     public void addSavingAccount(String email, SavingsAccount savingsAccount) {
 
-        User user = userRepository.findAndLoadSavingsAccounts(email);
-        user.getSavingsAccounts().add(savingsAccount);
+        User user = userRepository.findOne(email);
+        savingsAccount.getUsers().add(user);
         savingsAccountRepository.save(savingsAccount);
     }
 }

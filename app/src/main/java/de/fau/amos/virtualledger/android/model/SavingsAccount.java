@@ -43,6 +43,10 @@ public class SavingsAccount {
         return this.finalGoalFinishedDate;
     }
 
+    public void setFinalGoalFinishedDate(Date newGoalFinishedDate) {
+        this.finalGoalFinishedDate = newGoalFinishedDate;
+    }
+
     public int daysLeft() {
         Calendar cal1 = new GregorianCalendar();
         Calendar cal2 = new GregorianCalendar();

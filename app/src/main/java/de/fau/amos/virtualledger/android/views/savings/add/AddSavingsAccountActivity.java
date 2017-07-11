@@ -21,7 +21,7 @@ import butterknife.OnPageChange;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.SavingsAccountsDataManager;
-import de.fau.amos.virtualledger.dtos.AddSavingsAccountData;
+import de.fau.amos.virtualledger.android.model.SavingsAccount;
 
 public class AddSavingsAccountActivity extends AppCompatActivity {
     @SuppressWarnings("unused")
@@ -67,7 +67,7 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     @OnClick(R.id.add_savings_account_button_previous)
     void onClickPrevious() {
         final int currentItem = viewPager.getCurrentItem();
-        if(currentItem > 0) {
+        if (currentItem > 0) {
             viewPager.setCurrentItem(currentItem - 1);
         }
     }
@@ -75,7 +75,7 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     @OnClick(R.id.add_savings_account_button_next)
     void onClickNext() {
         final int currentItem = viewPager.getCurrentItem();
-        if(currentItem < pagerAdapter.getCount() - 1) {
+        if (currentItem < pagerAdapter.getCount() - 1) {
             viewPager.setCurrentItem(currentItem + 1);
         } else {
             submit();
@@ -98,16 +98,15 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     }
 
     private void submit() {
-        final AddSavingsAccountData result = new AddSavingsAccountData();
+        final SavingsAccount result = new SavingsAccount();
         for (final AddSavingsAccountPage page : pages) {
             page.fillInData(result);
         }
         final DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
-        final String finalDateString = result.getFinalDate() == null ? "" : dateFormat.format(result.getFinalDate());
-        Toast.makeText(this, String.format(Locale.getDefault(), "Name: %s, Goal amount: %.2f, Final date: %s",
-                result.getName(), result.getGoalBalance(), finalDateString),
+        Toast.makeText(this, String.format(Locale.getDefault(), "Savings acctount \"%s\" added.",
+                result.getName()),
                 Toast.LENGTH_LONG).show();
-        savingsAccountsDataManager.addSavingsAccount(result);
+        savingsAccountsDataManager.add(result);
         finish();
     }
 }

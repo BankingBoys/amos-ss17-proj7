@@ -3,6 +3,7 @@ package de.fau.amos.virtualledger.server.api;
 import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
 import de.fau.amos.virtualledger.server.contacts.ContactsController;
+import de.fau.amos.virtualledger.server.contacts.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,13 @@ public class ContactsApiEndpoint {
         }
         LOGGER.info("getContactsEndpoint of " + username + " was requested");
 
-        return this.getContacts(username);
+        ResponseEntity<?> entity;
+        try {
+            entity = this.getContacts(username);
+        } catch (UserNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }
+        return entity;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "api/contacts", produces = "application/json")
@@ -57,12 +64,16 @@ public class ContactsApiEndpoint {
         return this.addContact(contact, username);
     }
 
-    private ResponseEntity<?> getContacts(final String username) {
+    private ResponseEntity<?> getContacts(final String username) throws UserNotFoundException {
         return new ResponseEntity<>(contactsController.getContactsByEmail(username), HttpStatus.OK);
     }
 
     private ResponseEntity<?> addContact(final Contact contact, final String username) {
-        contactsController.addContact(contact, username);
+        try {
+            contactsController.addContact(contact, username);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Authentication failed!" + e.getMessage(), HttpStatus.FORBIDDEN);
+        }
         return new ResponseEntity(HttpStatus.OK);
     }
 
