@@ -1,26 +1,39 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint;
 
+import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankingException;
-
+/**
+ * Class that manages dummy data, but only for the test user.
+ * So it isn't distinguished which user sends the request.
+ * Make sure only the test user accesses this class.
+ */
 @Component
-@Scope("singleton")
 @Qualifier("dummy")
 public class DummyBankAccessEndpoint implements BankAccessEndpoint {
+
+    @Inject
+    private DummyBankAccessEndpointRepository bankAccessEndpointRepository;
 
     private List<BankAccessBankingModel> bankingModels = new ArrayList<BankAccessBankingModel>();
     private int number = 0;
 
+    public DummyBankAccessEndpoint(DummyBankAccessEndpointRepository bankAccessEndpointRepository) {
+        this.bankAccessEndpointRepository = bankAccessEndpointRepository;
+    }
+
+    public DummyBankAccessEndpoint() {
+    }
+
     @Override
     public List<BankAccessBankingModel> getBankAccesses(String userId) throws BankingException {
-        return bankingModels;
+        return bankAccessEndpointRepository.findAll();
     }
 
     @Override
@@ -35,19 +48,11 @@ public class DummyBankAccessEndpoint implements BankAccessEndpoint {
         bankAccessBankingModel.setPin(null);
         bankAccessBankingModel.setPassportState("testPassportState");
 
-        this.bankingModels.add(bankAccessBankingModel);
+        bankAccessEndpointRepository.save(bankAccessBankingModel);
         number++;
     }
 
     public boolean existsBankAccess(String bankAccessId) {
-        boolean result = false;
-
-        for (BankAccessBankingModel bankAccessBankingModel : this.bankingModels) {
-            if (bankAccessBankingModel.getId().equals(bankAccessId)) {
-                result = true;
-                break;
-            }
-        }
-        return result;
+        return bankAccessEndpointRepository.exists(bankAccessId);
     }
 }

@@ -1,15 +1,21 @@
 package de.fau.amos.virtualledger.server.banking.model;
 
-/**
- * Created by Georg on 20.05.2017.
- */
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "dummies_bank_access_banking_models")
 public class BankAccessBankingModel {
 
     private String bankName = null;
     private String bankLogin = null;
     private String bankCode = null;
     private String passportState = null;
+
+    @Id
     private String id = null;
+
     private String userId = null;
     private String pin = null;
 
