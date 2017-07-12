@@ -6,6 +6,7 @@ import java.util.Observer;
 
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.sync.DataManager;
+import de.fau.amos.virtualledger.android.api.sync.ServerCallStatusHandler;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.data.SyncStatus;
@@ -65,7 +66,7 @@ class TransactionDataManagerAdapter implements DataManager<Transaction> {
     }
 
     @Override
-    public void add(Transaction newItem) {
+    public void add(Transaction newItem, ServerCallStatusHandler h) {
     }
 
     @Override

@@ -40,6 +40,8 @@ public class RetrofitCallback<T> implements Callback<T> {
         }
     }
 
+    
+
     @Override
     public void onFailure(final Call<T> call, final Throwable t) {
         // response of server failed

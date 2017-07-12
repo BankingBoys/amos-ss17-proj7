@@ -30,7 +30,7 @@ public interface DataManager<T> {
 
     List<T> getAll() throws SyncFailedException;
 
-    void add(T newItem);
+    void add(T newItem, ServerCallStatusHandler h);
 
     void addObserver(Observer o);
 
