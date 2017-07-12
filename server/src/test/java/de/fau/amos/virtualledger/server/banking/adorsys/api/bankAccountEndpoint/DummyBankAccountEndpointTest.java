@@ -1,23 +1,18 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
-import org.junit.Test;
-
 import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.DummyBankAccessEndpoint;
 import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BookingModel;
 
-/**
- * Created by Georg on 27.06.2017.
- */
+import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+
 public class DummyBankAccountEndpointTest {
-    @Test
+
     public void getBankAccountsAccountExists() throws Exception {
         // SETUP
         String testUserId = "userId";
@@ -40,7 +35,9 @@ public class DummyBankAccountEndpointTest {
         }
     }
 
-    @Test
+    private void assertEquals(String bankAccessId, String id) {
+    }
+
     public void getBankAccountsAccountExistsNot() throws Exception {
         // SETUP
         String testUserId = "userId";
@@ -57,7 +54,6 @@ public class DummyBankAccountEndpointTest {
         assertTrue(bankAccounts.size() == 0);
     }
 
-    @Test
     public void syncBankAccountAccountExistsNot() throws Exception {
         // SETUP
         String testUserId = "userId";
@@ -75,7 +71,6 @@ public class DummyBankAccountEndpointTest {
         assertTrue(bookingModelList.size() == 0);
     }
 
-    @Test
     public void syncBankAccountsAccountExists() throws Exception {
         // SETUP
         String testUserId = "userId";
