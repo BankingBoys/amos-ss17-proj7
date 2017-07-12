@@ -139,7 +139,7 @@ public class AbstractDataManagerTest {
         FullfilledDataManager component_under_test = new FullfilledDataManager(dataProvider);
 
         SavingsAccount savingsAccount = new SavingsAccount();
-        component_under_test.add(savingsAccount);
+        component_under_test.add(savingsAccount, null);
 
         assertThat(dataProvider.accounts()).containsExactly(savingsAccount);
     }

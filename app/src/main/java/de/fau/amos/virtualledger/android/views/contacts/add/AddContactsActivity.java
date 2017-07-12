@@ -42,7 +42,7 @@ public class AddContactsActivity extends AppCompatActivity {
     void submit() {
         final String email = emailAdr.getText().toString();
 
-        contactsDataManager.add(new Contact(email));
+        contactsDataManager.add(new Contact(email), null);
 
         Intent intent = new Intent(this, MainMenu.class);
         intent.putExtra(MainMenu.EXTRA_STARTING_FRAGMENT, MainMenu.AppFragment.CONTACTS);

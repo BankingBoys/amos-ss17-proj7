@@ -12,7 +12,6 @@ import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.data.SyncStatus;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -98,7 +97,7 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
     }
 
     @Override
-    public void add(final T savingsAccount) {
+    public void add(final T savingsAccount, ServerCallStatusHandler handler) {
         dataProvider.add(savingsAccount)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
