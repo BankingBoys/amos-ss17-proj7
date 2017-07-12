@@ -5,9 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -19,6 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnPageChange;
 import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.android.api.sync.Toaster;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.SavingsAccountsDataManager;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
@@ -102,11 +101,11 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         for (final AddSavingsAccountPage page : pages) {
             page.fillInData(result);
         }
-        final DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
-        Toast.makeText(this, String.format(Locale.getDefault(), "Savings acctount \"%s\" added.",
-                result.getName()),
-                Toast.LENGTH_LONG).show();
-        savingsAccountsDataManager.add(result,null);
+        Toaster toaster = new Toaster(getApplicationContext())//
+                .pushSuccessMessage(String.format(Locale.getDefault(), "Savings acctount \"%s\" added.",
+                        result.getName()));
+
+        savingsAccountsDataManager.add(result, toaster);
         finish();
     }
 }
