@@ -9,6 +9,7 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
@@ -59,6 +60,10 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         pages.add(new AddSavingsAccountAssignPeopleFragment());
         pages.add(new AddSavingsAccountAccountsFragment());
 
+        for (AddSavingsAccountPage page : this.pages) {
+            page.consumeDataModel(this.savingsAccountState);
+        }
+
         pagerAdapter = new AddSavingsAccountPagerAdapter(getSupportFragmentManager(), pages);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(0);
@@ -76,14 +81,18 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     @OnClick(R.id.add_savings_account_button_next)
     void onClickNext() {
         final int currentItem = viewPager.getCurrentItem();
+        logger().info("Filling in data of:" + this.pages.get(currentItem));
         this.pages.get(currentItem).fillInData(this.savingsAccountState);
-
         if (currentItem < pagerAdapter.getCount() - 1) {
             this.pages.get(currentItem + 1).consumeDataModel(this.savingsAccountState);
             viewPager.setCurrentItem(currentItem + 1);
         } else {
             submit();
         }
+    }
+
+    private Logger logger() {
+        return Logger.getLogger(this.getClass().getCanonicalName());
     }
 
     @OnPageChange(R.id.add_savings_account_pager)
