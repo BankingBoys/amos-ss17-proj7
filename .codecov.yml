@@ -6,5 +6,5 @@ coverage:
         threshold: 10%
     project:
       default:
-        target: 30% 
+        target: 28% 
         threshold: 10%
