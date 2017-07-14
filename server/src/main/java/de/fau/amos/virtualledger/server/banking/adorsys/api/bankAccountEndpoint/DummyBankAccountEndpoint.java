@@ -1,24 +1,23 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
+import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.DummyBankAccessBankingModelEntity;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.DummyBankAccessEndpoint;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.DummyBankAccessEndpointRepository;
+import de.fau.amos.virtualledger.server.banking.model.BankAccountBalanceBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import de.fau.amos.virtualledger.server.banking.model.BookingModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.DummyBankAccessEndpoint;
-import de.fau.amos.virtualledger.server.banking.model.BankAccountBalanceBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankingException;
-import de.fau.amos.virtualledger.server.banking.model.BookingModel;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Random;
 
 @Component
 @Scope("singleton")
@@ -26,26 +25,28 @@ import de.fau.amos.virtualledger.server.banking.model.BookingModel;
 public class DummyBankAccountEndpoint implements BankAccountEndpoint {
 
     private static final int MAX_AMOUNT_ABS = 100;
-
     private static final int DATE_DIFFERENCE = 3;
-
     private static final int PREDICTED_MAX_DAYS = 30;
-
-    private static final int NUMBER_OF_GENERATED_ITEMS = 5;
-
+    private static final int NUMBER_OF_GENERATED_ITEMS = 3;
     private static final int PREDICTABILITY_SEED = 0;
 
+
+    private DummyBankAccessEndpointRepository bankAccessEndpointRepository;
     private DummyBankAccessEndpoint dummyBankAccessEndpoint;
+    private DummyBankAccountBanlanceBankingModelRepository bankAccountBanlanceBankingModelRepository;
+    private DummyBankAccountBookingBankingModelRepository bankAccountBookingBankingModelRepository;
+    private DummyBankAccountBankingModelRepository bankAccountBankingModelRepository;
 
-    private Map<String, List<BankAccountBankingModel>> bankAccountMap = new HashMap<String, List<BankAccountBankingModel>>();
+
     private int numberBankAccount = 0;
-
-    private Map<BankAccountBankingModel, List<BookingModel>> bankBookingMap = new HashMap<BankAccountBankingModel, List<BookingModel>>();
-
     private Random randomGenerator = new Random(PREDICTABILITY_SEED);
 
     @Autowired
-    public DummyBankAccountEndpoint(@Qualifier("dummy") DummyBankAccessEndpoint dummyBankAccessEndpoint) {
+    public DummyBankAccountEndpoint(DummyBankAccountBankingModelRepository bankAccountBankingModelRepository, DummyBankAccountBanlanceBankingModelRepository bankAccountBanlanceBankingModelRepository, DummyBankAccountBookingBankingModelRepository bankAccountBookingBankingModelRepository, DummyBankAccessEndpointRepository bankAccessEndpointRepository, @Qualifier("dummy") DummyBankAccessEndpoint dummyBankAccessEndpoint) {
+        this.bankAccountBankingModelRepository = bankAccountBankingModelRepository;
+        this.bankAccountBanlanceBankingModelRepository = bankAccountBanlanceBankingModelRepository;
+        this.bankAccountBookingBankingModelRepository = bankAccountBookingBankingModelRepository;
+        this.bankAccessEndpointRepository = bankAccessEndpointRepository;
         this.dummyBankAccessEndpoint = dummyBankAccessEndpoint;
     }
 
@@ -61,38 +62,39 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
             // inconsistency -> on app can be accesses persisted that are not in
             // local storage of server
             return new ArrayList<BankAccountBankingModel>(); // TODO? better
-                                                             // solution?
+            // solution?
         }
-        if (!bankAccountMap.containsKey(bankingAccessId)) {
+        if (!bankAccountBankingModelRepository.existBankAccountsForAccessId(bankingAccessId)) {
             this.generateDummyBankAccountModels(bankingAccessId);
         }
-        return bankAccountMap.get(bankingAccessId);
+        List<DummyBankAccountBankingModelEntity> allByAccessIdAndLoadRecursive = bankAccountBankingModelRepository.findAllByAccessIdAndLoadBalances(bankingAccessId);
+        List<BankAccountBankingModel> bankAccountBankingModelList = new ArrayList<>();
+        for (DummyBankAccountBankingModelEntity bankAccountBankingModelEntity : allByAccessIdAndLoadRecursive) {
+            bankAccountBankingModelList.add(bankAccountBankingModelEntity.transformIntoBankAccountBankingModel());
+        }
+
+        return bankAccountBankingModelList;
     }
 
     @Override
     public List<BookingModel> syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin)
             throws BankingException {
 
-        List<BankAccountBankingModel> bankAccountBankingModelList = this.getBankAccounts(userId, bankAccessId);
-        BankAccountBankingModel matchingBankAccountBankingModel;
-        try {
-            matchingBankAccountBankingModel = this.findBankAccountBankingModel(bankAccountBankingModelList,
-                    bankAccountId);
-        } catch (BankingException ex) { // inconsistency -> on app can be
-                                        // accesses persisted that are not in
-                                        // local storage of server
-            return new ArrayList<BookingModel>(); // TODO? better solution?
-        }
-        if (!bankBookingMap.containsKey(matchingBankAccountBankingModel)) {
+        List<BankAccountBankingModel> bankAccountBankingModelList = getBankAccounts(userId, bankAccessId);
+        if (!bankAccountBookingBankingModelRepository.existsForAccountId(bankAccountId)) {
             return new ArrayList<BookingModel>();
         }
-        return bankBookingMap.get(matchingBankAccountBankingModel);
+        List<DummyBankAccountBookingModelEntity> bankAccountBookingModelEntityList = bankAccountBookingBankingModelRepository.findAllForAccountId(bankAccountId);
+        List<BookingModel> bankAccountBookingList = new ArrayList<>();
+        for (DummyBankAccountBookingModelEntity bankAccountBookingModelEntity : bankAccountBookingModelEntityList) {
+            bankAccountBookingList.add(bankAccountBookingModelEntity.transformToBookingModel());
+        }
+        return bankAccountBookingList;
     }
 
     /**
-     *
      * generates a BankAccountBankingModel with dummy data
-     * 
+     *
      * @param bankingAccessId
      * @return
      */
@@ -120,60 +122,58 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
     }
 
     /**
-     *
      * generates a few BankAccountBankingModel and inserts them into
      * bankAccountMap; for the last 6 months, 5 bookings each are generated
-     * 
+     *
      * @param bankingAccessId
      * @return
      */
     private void generateDummyBankAccountModels(String bankingAccessId) {
-        List<BankAccountBankingModel> bankAccountBankingModelList = new ArrayList<BankAccountBankingModel>();
+        List<DummyBankAccountBankingModelEntity> bankAccountBankingModelEntityList = new ArrayList<>();
+        DummyBankAccessBankingModelEntity bankAccessBankingModelEntity = bankAccessEndpointRepository.findOne(bankingAccessId);
         for (int i = 0; i < NUMBER_OF_GENERATED_ITEMS; ++i) {
             BankAccountBankingModel bankAccountBankingModel = this.generateDummyBankAccountModel(bankingAccessId);
-            this.generateDummyBookingModels(bankAccountBankingModel);
-            this.updateAccountBalance(bankAccountBankingModel);
-            bankAccountBankingModelList.add(bankAccountBankingModel);
+            List<DummyBankAccountBookingModelEntity> bankAccountBookingModelEntities = generateDummyBookingModels(bankAccountBankingModel);
+            DummyBankAccountBankingModelEntity dummyBankAccountBankingModelEntity = new DummyBankAccountBankingModelEntity(bankAccountBankingModel, bankAccountBookingModelEntities, bankAccessBankingModelEntity);
+            updateAccountBalance(dummyBankAccountBankingModelEntity);
+            bankAccountBankingModelEntityList.add(dummyBankAccountBankingModelEntity);
         }
-
-        this.bankAccountMap.put(bankingAccessId, bankAccountBankingModelList);
+        bankAccountBankingModelRepository.save(bankAccountBankingModelEntityList);
     }
 
     /**
-     * generates a few BookingModel and inserts them into bankBookingMap
-     * 
+     * generates a few BookingModel and returns them
+     *
      * @param bankAccountBankingModel
      */
-    private void generateDummyBookingModels(BankAccountBankingModel bankAccountBankingModel) {
-        List<BookingModel> bookingModelList = new ArrayList<BookingModel>();
+    private List<DummyBankAccountBookingModelEntity> generateDummyBookingModels(BankAccountBankingModel bankAccountBankingModel) {
+        List<DummyBankAccountBookingModelEntity> bookingModelEntityList = new ArrayList<>();
         Date now = new Date();
 
         for (int i = 0; i <= NUMBER_OF_GENERATED_ITEMS; ++i) { // bookings for
-                                                               // last 6 months
+            // last 6 months
             int month = Calendar.getInstance().get(Calendar.MONTH) - i;
 
             for (int day = PREDICTED_MAX_DAYS; day >= 0; day -= DATE_DIFFERENCE) { // day
-                                                                                   // of
-                                                                                   // the
-                                                                                   // booking
+                // of
+                // the
+                // booking
                 long targetDateLong = this.getDate(day, month, Calendar.getInstance().get(Calendar.YEAR));
                 Date targetDate = new Date(targetDateLong);
 
                 if (!targetDate.after(now)) {
                     // no bookings in future!
                     BookingModel bookingModel = this.generateDummyBookingModel(month, day);
-                    bookingModelList.add(bookingModel);
+                    bookingModelEntityList.add(new DummyBankAccountBookingModelEntity(bookingModel));
                 }
             }
         }
-
-        this.bankBookingMap.put(bankAccountBankingModel, bookingModelList);
+        return bookingModelEntityList;
     }
 
     /**
-     *
      * generates a BookingModel with dummy data
-     * 
+     *
      * @param month
      * @param day
      * @return
@@ -194,7 +194,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
 
     /**
      * generates a data in long format (milliseconds);
-     * 
+     *
      * @param day
      * @param month
      * @param year
@@ -206,46 +206,22 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
         return calendar.getTimeInMillis();
     }
 
-    /**
-     * finds account by bankAccountId in bankAccountBankingModelList
-     * 
-     * @param bankAccountBankingModelList
-     * @param bankAccountId
-     * @return
-     * @throws BankingException
-     *             if bankAccount with id does not exist
-     */
-    private BankAccountBankingModel findBankAccountBankingModel(
-            List<BankAccountBankingModel> bankAccountBankingModelList, String bankAccountId) throws BankingException {
-        BankAccountBankingModel matchingBankAccountBankingModel = null;
-        for (BankAccountBankingModel bankAccountBankingModel : bankAccountBankingModelList) {
-            if (bankAccountBankingModel.getId().equals(bankAccountId)) {
-                matchingBankAccountBankingModel = bankAccountBankingModel;
-                break;
-            }
-        }
-
-        if (matchingBankAccountBankingModel == null) {
-            throw new BankingException("Dummy found no existing BankAccount for Operation Sync!");
-        }
-        return matchingBankAccountBankingModel;
-    }
 
     /**
-     * updates the bankAccountBankingModel by the bookings in bankBookingMap
-     * 
+     * updates the bankAccountBankingModel by the bookings in bankAccountBankingModel
+     *
      * @param bankAccountBankingModel
      */
-    private void updateAccountBalance(BankAccountBankingModel bankAccountBankingModel) {
-        List<BookingModel> bookingModelList = this.bankBookingMap.get(bankAccountBankingModel);
+    private void updateAccountBalance(DummyBankAccountBankingModelEntity bankAccountBankingModel) {
+        List<DummyBankAccountBookingModelEntity> bookingModelEntityList = bankAccountBankingModel.getBookingsList();
 
-        for (BookingModel bookingModel : bookingModelList) {
-            BankAccountBalanceBankingModel bankAccountBalanceBankingModel = bankAccountBankingModel
+        for (DummyBankAccountBookingModelEntity bookingModelEntity : bookingModelEntityList) {
+            DummyBankAccountBalanceBankingModelEntity bankAccountBalanceBankingModel = bankAccountBankingModel
                     .getBankAccountBalance();
             double oldAvailableBalance = bankAccountBalanceBankingModel.getAvailableHbciBalance();
-            bankAccountBalanceBankingModel.setAvailableHbciBalance(oldAvailableBalance + bookingModel.getAmount());
+            bankAccountBalanceBankingModel.setAvailableHbciBalance(oldAvailableBalance + bookingModelEntity.getAmount());
             double oldReadyBalance = bankAccountBalanceBankingModel.getReadyHbciBalance();
-            bankAccountBalanceBankingModel.setReadyHbciBalance(oldReadyBalance + bookingModel.getAmount());
+            bankAccountBalanceBankingModel.setReadyHbciBalance(oldReadyBalance + bookingModelEntity.getAmount());
         }
     }
 }
