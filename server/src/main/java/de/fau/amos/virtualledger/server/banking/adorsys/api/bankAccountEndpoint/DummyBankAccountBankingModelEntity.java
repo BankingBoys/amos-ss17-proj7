@@ -1,16 +1,15 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint;
 
 import de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint.DummyBankAccessBankingModelEntity;
+import de.fau.amos.virtualledger.server.banking.model.BankAccountBalanceBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import de.fau.amos.virtualledger.server.banking.model.BookingModel;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,13 +20,10 @@ public class DummyBankAccountBankingModelEntity {
     @ManyToOne
     private DummyBankAccessBankingModelEntity bankAccess = null;
 
-    @OneToOne
-    @Cascade(CascadeType.ALL)
-    private DummyBankAccountBalanceBankingModelEntity bankAccountBalance = null;
-
-    @OneToMany
-    @Cascade(CascadeType.ALL)
-    private List<DummyBankAccountBookingModelEntity> bookingsList = new ArrayList<>();
+    @Transient
+    private BankAccountBalanceBankingModel bankAccountBalance = null;
+    @Transient
+    private List<BookingModel> bookingsList = new ArrayList<>();
 
     private String bicHbciAccount = null;
     private String blzHbciAccount = null;
@@ -49,10 +45,8 @@ public class DummyBankAccountBankingModelEntity {
     public DummyBankAccountBankingModelEntity() {
     }
 
-    public DummyBankAccountBankingModelEntity(BankAccountBankingModel bankAccountBankingModel, List<DummyBankAccountBookingModelEntity> dummyBankAccountBookingModelEntityList, DummyBankAccessBankingModelEntity dummyBankAccessBankingModelEntity) {
+    public DummyBankAccountBankingModelEntity(BankAccountBankingModel bankAccountBankingModel, DummyBankAccessBankingModelEntity dummyBankAccessBankingModelEntity) {
         bankAccess = dummyBankAccessBankingModelEntity;
-        bookingsList = dummyBankAccountBookingModelEntityList;
-        bankAccountBalance = new DummyBankAccountBalanceBankingModelEntity(bankAccountBankingModel.getBankAccountBalance());
         bicHbciAccount = bankAccountBankingModel.getBicHbciAccount();
         blzHbciAccount = bankAccountBankingModel.getBlzHbciAccount();
         countryHbciAccount = bankAccountBankingModel.getCountryHbciAccount();
@@ -71,14 +65,6 @@ public class DummyBankAccountBankingModelEntity {
 
     public void setBankAccess(DummyBankAccessBankingModelEntity bankAccess) {
         this.bankAccess = bankAccess;
-    }
-
-    public DummyBankAccountBalanceBankingModelEntity getBankAccountBalance() {
-        return bankAccountBalance;
-    }
-
-    public void setBankAccountBalance(DummyBankAccountBalanceBankingModelEntity bankAccountBalance) {
-        this.bankAccountBalance = bankAccountBalance;
     }
 
     public String getBicHbciAccount() {
@@ -153,17 +139,24 @@ public class DummyBankAccountBankingModelEntity {
         this.typeHbciAccount = typeHbciAccount;
     }
 
-    public List<DummyBankAccountBookingModelEntity> getBookingsList() {
+    public BankAccountBalanceBankingModel getBankAccountBalance() {
+        return bankAccountBalance;
+    }
+
+    public void setBankAccountBalance(BankAccountBalanceBankingModel bankAccountBalance) {
+        this.bankAccountBalance = bankAccountBalance;
+    }
+
+    public List<BookingModel> getBookingsList() {
         return bookingsList;
     }
 
-    public void setBookingsList(List<DummyBankAccountBookingModelEntity> bookingsList) {
+    public void setBookingsList(List<BookingModel> bookingsList) {
         this.bookingsList = bookingsList;
     }
 
     public BankAccountBankingModel transformIntoBankAccountBankingModel() {
         BankAccountBankingModel bankAccountBankingModel = new BankAccountBankingModel();
-        bankAccountBankingModel.setBankAccountBalance(bankAccountBalance.transformToBankAccountBalanceBankingModel());
         bankAccountBankingModel.setBicHbciAccount(bicHbciAccount);
         bankAccountBankingModel.setBlzHbciAccount(blzHbciAccount);
         bankAccountBankingModel.setCountryHbciAccount(countryHbciAccount);

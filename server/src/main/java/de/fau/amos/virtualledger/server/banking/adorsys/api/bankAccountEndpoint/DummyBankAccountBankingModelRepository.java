@@ -12,6 +12,6 @@ public interface DummyBankAccountBankingModelRepository extends JpaRepository<Du
     boolean existBankAccountsForAccessId(@Param("accessId") String accessId);
 
 
-    @Query("SELECT a FROM DummyBankAccountBankingModelEntity a LEFT JOIN FETCH a.bankAccountBalance AS b WHERE a.bankAccess.id=:accessId")
-    List<DummyBankAccountBankingModelEntity> findAllByAccessIdAndLoadBalances(@Param("accessId") String accessId);
+    @Query("SELECT a FROM DummyBankAccountBankingModelEntity a WHERE a.bankAccess.id=:accessId")
+    List<DummyBankAccountBankingModelEntity> findAllByAccessId(@Param("accessId") String accessId);
 }
