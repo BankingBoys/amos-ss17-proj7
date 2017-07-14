@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,16 @@ import de.fau.amos.virtualledger.android.model.SavingsAccount;
 public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage {
     @SuppressWarnings("unused")
     private static final String TAG = AddSavingsAccountAssignPeopleFragment.class.getSimpleName();
+    private PeopleAssignedListener peopleAssignetListener;
+    private SavingsAccount dataModel;
+
+    @Override
+    public void consumeDataModel(SavingsAccount account) {
+        this.dataModel = account;
+        if (this.peopleAssignetListener != null){
+            this.peopleAssignetListener.updateText();
+        }
+    }
 
     @Nullable
     @Override
@@ -25,10 +36,15 @@ public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage
 
         ListView peopleList = (ListView) view.findViewById(R.id.list);
         ArrayList<String> exampleList = new ArrayList<>();
-        exampleList.add("Person 1");
-        exampleList.add("Person 2");
+        exampleList.add("Me");
+        exampleList.add("Donald Duck");
+        exampleList.add("Dagorbert Duck");
 
-        peopleList.setAdapter(new PeopleAdapter(getActivity(), R.id.list, exampleList));
+
+        TextView conclusionTextView = (TextView) view.findViewById(R.id.conclusion_text);
+
+        this.peopleAssignetListener = new PeopleAssignedListener(conclusionTextView, conclusionTextView.getText().toString(), this.dataModel);
+        peopleList.setAdapter(new PeopleAdapter(getActivity(), R.id.list, exampleList, peopleAssignetListener));
         return view;
     }
 
