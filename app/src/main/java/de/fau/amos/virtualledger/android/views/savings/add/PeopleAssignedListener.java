@@ -9,13 +9,13 @@ import java.util.logging.Logger;
  * Created by sebastian on 14.07.17.
  */
 
-public class PeopleAssignetListener {
+public class PeopleAssignedListener {
     private int peopleSelected = 0;
     private TextView textView;
     private String baseText;
     private int totalAmount;
 
-    public PeopleAssignetListener(TextView textView, String baseText, int totalAmount) {
+    public PeopleAssignedListener(TextView textView, String baseText, int totalAmount) {
         this.textView = textView;
         this.baseText = baseText;
         this.totalAmount = totalAmount;
@@ -28,7 +28,7 @@ public class PeopleAssignetListener {
 
     private void updateText() {
         int amount = (int) this.totalAmount / peopleSelected;
-        String newConclusionText = new Formatter().format(this.baseText, this.peopleSelected, amount).toString();
+        String newConclusionText = new Formatter().format(this.baseText, this.peopleSelected + "", amount + "").toString();
         logger().info("People changed. Updating new conclusion text to: " + newConclusionText);
         this.textView.setText(newConclusionText);
     }

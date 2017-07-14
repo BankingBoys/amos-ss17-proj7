@@ -6,4 +6,8 @@ import de.fau.amos.virtualledger.android.model.SavingsAccount;
 
 public abstract class AddSavingsAccountPage extends Fragment {
     abstract void fillInData(SavingsAccount addSavingsAccountResult);
+
+    boolean navigatePossible(){
+        return true;
+    }
 }

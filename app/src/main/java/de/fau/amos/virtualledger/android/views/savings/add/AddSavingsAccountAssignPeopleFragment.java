@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,10 @@ public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage
         exampleList.add("Donald Duck");
         exampleList.add("Dagorbert Duck");
 
-        peopleList.setAdapter(new PeopleAdapter(getActivity(), R.id.list, exampleList));
+
+        TextView conclusionTextView = (TextView) view.findViewById(R.id.conclusion_text);
+        PeopleAssignedListener peopleAssignetListener = new PeopleAssignedListener(conclusionTextView, conclusionTextView.getText().toString(), 800);
+        peopleList.setAdapter(new PeopleAdapter(getActivity(), R.id.list, exampleList, peopleAssignetListener));
         return view;
     }
 
