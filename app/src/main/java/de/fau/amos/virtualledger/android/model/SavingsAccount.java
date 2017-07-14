@@ -93,4 +93,10 @@ public class SavingsAccount {
     public void setFinaldate(Date finaldate) {
         this.finaldate = finaldate;
     }
+
+    @Override
+    public String toString() {
+        return "SavingsAccount[" + super.hashCode() + "]:{name=" +
+                this.getName() + ", amount=" + this.getGoalbalance() + "}";
+    }
 }

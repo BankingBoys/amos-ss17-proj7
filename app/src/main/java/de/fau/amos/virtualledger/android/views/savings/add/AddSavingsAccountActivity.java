@@ -25,6 +25,7 @@ import de.fau.amos.virtualledger.android.model.SavingsAccount;
 public class AddSavingsAccountActivity extends AppCompatActivity {
     @SuppressWarnings("unused")
     private static final String TAG = AddSavingsAccountActivity.class.getSimpleName();
+    private SavingsAccount savingsAccountState = new SavingsAccount();
 
     @Inject
     SavingsAccountsDataManager savingsAccountsDataManager;
@@ -75,7 +76,10 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     @OnClick(R.id.add_savings_account_button_next)
     void onClickNext() {
         final int currentItem = viewPager.getCurrentItem();
+        this.pages.get(currentItem).fillInData(this.savingsAccountState);
+
         if (currentItem < pagerAdapter.getCount() - 1) {
+            this.pages.get(currentItem + 1).consumeDataModel(this.savingsAccountState);
             viewPager.setCurrentItem(currentItem + 1);
         } else {
             submit();
@@ -98,15 +102,11 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     }
 
     private void submit() {
-        final SavingsAccount result = new SavingsAccount();
-        for (final AddSavingsAccountPage page : pages) {
-            page.fillInData(result);
-        }
         Toaster toaster = new Toaster(getApplicationContext())//
                 .pushSuccessMessage(String.format(Locale.getDefault(), "Savings acctount \"%s\" added.",
-                        result.getName()));
+                        this.savingsAccountState.getName()));
 
-        savingsAccountsDataManager.add(result, toaster);
+        savingsAccountsDataManager.add(this.savingsAccountState, toaster);
         finish();
     }
 }
