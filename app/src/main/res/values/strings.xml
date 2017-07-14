@@ -74,6 +74,8 @@
     <string name="add_savings_account_choose_accounts_button">Choose Accounts</string>
     <string name="add_savings_account_choose_accounts_text">Choose accounts that are enabled for the transaction of money to this deposit</string>
     <string name="add_savings_account_choose_finish_goal_date">When will you have spent the money?</string>
+    <string name="add_savings_account_choose_assignment">Assign the saving goal to ...</string>
+    <string name="add_savings_account_choose_assignment_amount_per_person">You assigned {0} persons to the savings goal. The amount per person is {1}€.</string>
 
     <string name="amount">Amount</string>
     <string name="total_amount">Total Amount</string>
@@ -86,5 +88,7 @@
     <string name="from">From: </string>
     <string name="choose_button_text">(choose)</string>
     <string name="to">To: </string>
+
+    <string name="test_contact_name">Gundula Düsentieb</string>
 
 </resources>
