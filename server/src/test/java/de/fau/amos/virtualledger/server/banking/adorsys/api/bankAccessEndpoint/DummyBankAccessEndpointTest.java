@@ -35,7 +35,7 @@ public class DummyBankAccessEndpointTest {
         dummyBankAccessEndpoint.addBankAccess(testUser, bankAccessBankingModel);
 
         // ASSERT
-        verify(dummyBankAccessEndpointRepository, times(1)).save(any(BankAccessBankingModel.class));
+        verify(dummyBankAccessEndpointRepository, times(1)).save(any(DummyBankAccessBankingModelEntity.class));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class DummyBankAccessEndpointTest {
         String testId = "test";
 
         DummyBankAccessEndpointRepository dummyBankAccessEndpointRepository = mock(DummyBankAccessEndpointRepository.class);
-        when(dummyBankAccessEndpointRepository.findAll()).thenReturn(new ArrayList<BankAccessBankingModel>());
+        when(dummyBankAccessEndpointRepository.findAll()).thenReturn(new ArrayList<DummyBankAccessBankingModelEntity>());
 
         DummyBankAccessEndpoint dummyBankAccessEndpoint = new DummyBankAccessEndpoint(dummyBankAccessEndpointRepository);
 

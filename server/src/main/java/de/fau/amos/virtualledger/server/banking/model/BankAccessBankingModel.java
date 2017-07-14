@@ -1,11 +1,5 @@
 package de.fau.amos.virtualledger.server.banking.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "dummies_bank_access_banking_models")
 public class BankAccessBankingModel {
 
     private String bankName = null;
@@ -13,7 +7,6 @@ public class BankAccessBankingModel {
     private String bankCode = null;
     private String passportState = null;
 
-    @Id
     private String id = null;
 
     private String userId = null;
