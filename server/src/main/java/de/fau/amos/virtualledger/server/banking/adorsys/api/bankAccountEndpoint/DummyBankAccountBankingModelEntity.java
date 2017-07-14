@@ -157,6 +157,12 @@ public class DummyBankAccountBankingModelEntity {
 
     public BankAccountBankingModel transformIntoBankAccountBankingModel() {
         BankAccountBankingModel bankAccountBankingModel = new BankAccountBankingModel();
+
+        BankAccountBalanceBankingModel bankAccountBalanceBankingModel = new BankAccountBalanceBankingModel();
+        bankAccountBalanceBankingModel.setReadyHbciBalance(bankAccountBalance.getReadyHbciBalance());
+        bankAccountBalanceBankingModel.setAvailableHbciBalance(bankAccountBalance.getAvailableHbciBalance());
+        bankAccountBankingModel.setBankAccountBalance(bankAccountBalanceBankingModel);
+
         bankAccountBankingModel.setBicHbciAccount(bicHbciAccount);
         bankAccountBankingModel.setBlzHbciAccount(blzHbciAccount);
         bankAccountBankingModel.setCountryHbciAccount(countryHbciAccount);
