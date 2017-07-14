@@ -23,6 +23,7 @@
         android:layout_weight="1">
 
         <ListView
+            android:id="@+id/list"
             android:layout_width="387dp"
             android:layout_height="479dp"
             android:layout_alignParentEnd="true"

@@ -26,7 +26,7 @@ class PeopleAdapter  extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.transaction_list_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.people_list_item, parent, false);
         }
 
         return convertView;
