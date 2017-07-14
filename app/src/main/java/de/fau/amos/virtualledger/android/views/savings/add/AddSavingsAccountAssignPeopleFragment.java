@@ -18,11 +18,13 @@ public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.saving_accounts_add_friends, container, false);
-
         ButterKnife.bind(this, view);
 
         return view;
     }
+
+
+
 
     @Override
     public void fillInData(final SavingsAccount savingsAccount) {
