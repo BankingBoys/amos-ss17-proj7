@@ -98,6 +98,10 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
     public List<BookingModel> syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin)
             throws BankingException {
 
+        if (!bookingModelMap.containsKey(bankAccountId)) {
+            generateDummyBookingModels(bankAccountId);
+            updateAccountBalance(bankAccountId);
+        }
         return bookingModelMap.get(bankAccountId);
     }
 
