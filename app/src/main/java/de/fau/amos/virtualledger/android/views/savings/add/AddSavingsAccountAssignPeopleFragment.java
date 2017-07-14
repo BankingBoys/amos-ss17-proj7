@@ -25,8 +25,9 @@ public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage
 
         ListView peopleList = (ListView) view.findViewById(R.id.list);
         ArrayList<String> exampleList = new ArrayList<>();
-        exampleList.add("Person 1");
-        exampleList.add("Person 2");
+        exampleList.add("Me");
+        exampleList.add("Donald Duck");
+        exampleList.add("Dagorbert Duck");
 
         peopleList.setAdapter(new PeopleAdapter(getActivity(), R.id.list, exampleList));
         return view;
