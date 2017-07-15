@@ -45,7 +45,7 @@ public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage
 
         TextView conclusionTextView = (TextView) view.findViewById(R.id.conclusion_text);
 
-        this.peopleAssignetListener = new PeopleAssignedListener(conclusionTextView, conclusionTextView.getText().toString(), this.dataModel);
+        this.peopleAssignetListener = new PeopleAssignedListener(getContext(), conclusionTextView, conclusionTextView.getText().toString(), this.dataModel);
         peopleList.setAdapter(new PeopleAdapter(getActivity(), R.id.list, exampleList, peopleAssignetListener));
         return view;
     }

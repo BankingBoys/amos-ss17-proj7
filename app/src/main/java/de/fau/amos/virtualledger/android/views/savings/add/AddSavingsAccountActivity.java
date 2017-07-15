@@ -95,6 +95,11 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
             this.pages.get(currentItem + 1).consumeDataModel(this.savingsAccountState);
             viewPager.setCurrentItem(currentItem + 1);
         } else {
+            for (AddSavingsAccountPage page : this.pages) {
+                if (!page.navigatePossible()) {
+                    return;
+                }
+            }
             submit();
         }
     }
