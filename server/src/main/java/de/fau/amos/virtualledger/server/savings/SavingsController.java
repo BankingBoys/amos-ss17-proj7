@@ -1,14 +1,15 @@
 package de.fau.amos.virtualledger.server.savings;
 
-import java.util.List;
-
+import de.fau.amos.virtualledger.server.model.BankAccountIdentifier;
+import de.fau.amos.virtualledger.server.model.SavingsAccount;
+import de.fau.amos.virtualledger.server.model.SavingsAccountUserRelation;
 import de.fau.amos.virtualledger.server.model.User;
+import de.fau.amos.virtualledger.server.persistence.SavingsAccountRepository;
 import de.fau.amos.virtualledger.server.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import de.fau.amos.virtualledger.server.model.SavingsAccount;
-import de.fau.amos.virtualledger.server.persistence.SavingsAccountRepository;
+import java.util.List;
 
 @Component
 
@@ -28,13 +29,14 @@ public class SavingsController {
 
     public List<SavingsAccount> getSavingAccounts(String email) {
 
-        return savingsAccountRepository.findByUserEmail(email);
+        return savingsAccountRepository.findByUserEmailAndLoadUserRelations(email);
     }
 
-    public void addSavingAccount(String email, SavingsAccount savingsAccount) {
+    public void addSavingAccount(String email, SavingsAccount savingsAccount, List<BankAccountIdentifier> bankAccountIdentifierList) {
 
         User user = userRepository.findOne(email);
-        savingsAccount.getUsers().add(user);
+        SavingsAccountUserRelation savingsAccountUserRelation = new SavingsAccountUserRelation(user, bankAccountIdentifierList);
+        savingsAccount.getUserRelations().add(savingsAccountUserRelation);
         savingsAccountRepository.save(savingsAccount);
     }
 }
