@@ -18,17 +18,17 @@ public class BankingApiUrlProvider {
         this.configuration = configuration;
     }
 
-    public String getBankAccessEndpointUrl(final String userId) {
+    public String getBankAccessEndpointUrl() {
         return configuration.getBankingApiUrlAbsolute() + configuration.getBankAccessApiUrlRelative();
     }
 
-    public String getBankAccountEndpointUrl(final String userId, final String bankAccessId) {
+    public String getBankAccountEndpointUrl(final String bankAccessId) {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccountApiUrlRelative();
         url = url.replaceAll("\\{accessId}", bankAccessId);
         return url;
     }
 
-    public String getBankAccountSyncEndpointUrl(final String userId, final String bankAccessId, final String bankAccountId) {
+    public String getBankAccountSyncEndpointUrl(final String bankAccessId, final String bankAccountId) {
         String url = configuration.getBankingApiUrlAbsolute() + configuration.getBankAccountSyncApiUrlRelative();
         url = url.replaceAll("\\{accessId}", bankAccessId);
         url = url.replaceAll("\\{accountId}", bankAccountId);

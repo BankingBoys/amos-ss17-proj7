@@ -31,7 +31,7 @@ public class DummyBankAccessEndpoint implements BankAccessEndpoint {
     }
 
     @Override
-    public List<BankAccessBankingModel> getBankAccesses(String userId) throws BankingException {
+    public List<BankAccessBankingModel> getBankAccesses() throws BankingException {
         List<DummyBankAccessBankingModelEntity> dummyBankAccessBankingModelEntities = bankAccessEndpointRepository.findAll();
         List<BankAccessBankingModel> bankAccessBankingModelList = new ArrayList<>();
         for (DummyBankAccessBankingModelEntity dummyBankAccessBankingModelEntity : dummyBankAccessBankingModelEntities) {
@@ -41,13 +41,12 @@ public class DummyBankAccessEndpoint implements BankAccessEndpoint {
     }
 
     @Override
-    public BankAccessBankingModel addBankAccess(String userId, BankAccessBankingModel bankAccess) throws BankingException {
+    public BankAccessBankingModel addBankAccess(BankAccessBankingModel bankAccess) throws BankingException {
 
         BankAccessBankingModel bankAccessBankingModel = new BankAccessBankingModel();
         bankAccessBankingModel.setId("TestID" + number + "_" + System.nanoTime());
         bankAccessBankingModel.setBankLogin(bankAccess.getBankLogin());
         bankAccessBankingModel.setBankCode(bankAccess.getBankCode());
-        bankAccessBankingModel.setUserId(userId);
         bankAccessBankingModel.setBankName("TestBank" + number);
         bankAccessBankingModel.setPin(null);
         bankAccessBankingModel.setPassportState("testPassportState");

@@ -32,7 +32,7 @@ public class DummyBankAccessEndpointTest {
         DummyBankAccessEndpoint dummyBankAccessEndpoint = new DummyBankAccessEndpoint(dummyBankAccessEndpointRepository);
 
         // ACT
-        dummyBankAccessEndpoint.addBankAccess(testUser, bankAccessBankingModel);
+        dummyBankAccessEndpoint.addBankAccess(bankAccessBankingModel);
 
         // ASSERT
         verify(dummyBankAccessEndpointRepository, times(1)).save(any(DummyBankAccessBankingModelEntity.class));
@@ -68,7 +68,7 @@ public class DummyBankAccessEndpointTest {
         DummyBankAccessEndpoint dummyBankAccessEndpoint = new DummyBankAccessEndpoint(dummyBankAccessEndpointRepository);
 
         // ACT
-        List<BankAccessBankingModel> bankAccessBankingModelList = dummyBankAccessEndpoint.getBankAccesses(testId);
+        List<BankAccessBankingModel> bankAccessBankingModelList = dummyBankAccessEndpoint.getBankAccesses();
 
         // ASSERT
         verify(dummyBankAccessEndpointRepository, times(1)).findAll();

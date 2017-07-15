@@ -29,7 +29,7 @@ public class BankingApiFacade {
     }
 
     public List<BankAccessBankingModel> getBankAccesses(final String userId) throws BankingException {
-        return binder.getBankAccessEndpoint(userId).getBankAccesses(userId);
+        return binder.getBankAccessEndpoint(userId).getBankAccesses();
     }
 
     public List<BankAccountBankingModel> getBankAccounts(final String userId, final String bankAccessId) throws BankingException {
@@ -42,7 +42,7 @@ public class BankingApiFacade {
     }
 
     public BankAccessBankingModel addBankAccess(final String userId, final BankAccessBankingModel bankAccess) throws BankingException {
-        return binder.getBankAccessEndpoint(userId).addBankAccess(userId, bankAccess);
+        return binder.getBankAccessEndpoint(userId).addBankAccess(bankAccess);
     }
 
 }
