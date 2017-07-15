@@ -34,14 +34,14 @@ public class DummyBankAccessEndpoint implements BankAccessEndpoint {
     public List<BankAccessBankingModel> getBankAccesses(String userId) throws BankingException {
         List<DummyBankAccessBankingModelEntity> dummyBankAccessBankingModelEntities = bankAccessEndpointRepository.findAll();
         List<BankAccessBankingModel> bankAccessBankingModelList = new ArrayList<>();
-        for (DummyBankAccessBankingModelEntity dummyBankAccessBankingModelEntity: dummyBankAccessBankingModelEntities) {
+        for (DummyBankAccessBankingModelEntity dummyBankAccessBankingModelEntity : dummyBankAccessBankingModelEntities) {
             bankAccessBankingModelList.add(dummyBankAccessBankingModelEntity.transformToBankAccessBankingModel());
         }
         return bankAccessBankingModelList;
     }
 
     @Override
-    public void addBankAccess(String userId, BankAccessBankingModel bankAccess) throws BankingException {
+    public BankAccessBankingModel addBankAccess(String userId, BankAccessBankingModel bankAccess) throws BankingException {
 
         BankAccessBankingModel bankAccessBankingModel = new BankAccessBankingModel();
         bankAccessBankingModel.setId("TestID" + number + "_" + System.nanoTime());
@@ -54,6 +54,7 @@ public class DummyBankAccessEndpoint implements BankAccessEndpoint {
 
         bankAccessEndpointRepository.save(new DummyBankAccessBankingModelEntity(bankAccessBankingModel));
         number++;
+        return bankAccessBankingModel;
     }
 
     public boolean existsBankAccess(String bankAccessId) {
