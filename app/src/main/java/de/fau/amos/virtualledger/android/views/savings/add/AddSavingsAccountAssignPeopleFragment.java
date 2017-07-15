@@ -9,10 +9,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.Contact;
 
 public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage {
     @SuppressWarnings("unused")
@@ -23,7 +25,7 @@ public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage
     @Override
     public void consumeDataModel(SavingsAccount account) {
         this.dataModel = account;
-        if (this.peopleAssignetListener != null){
+        if (this.peopleAssignetListener != null) {
             this.peopleAssignetListener.updateText();
         }
     }
@@ -35,10 +37,10 @@ public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage
         ButterKnife.bind(this, view);
 
         ListView peopleList = (ListView) view.findViewById(R.id.list);
-        ArrayList<String> exampleList = new ArrayList<>();
-        exampleList.add("Me");
-        exampleList.add("Donald Duck");
-        exampleList.add("Dagorbert Duck");
+        ArrayList<Contact> exampleList = new ArrayList<>();
+        exampleList.add(new Contact("", "Me", ""));
+        exampleList.add(new Contact("", "Donald", "Duck"));
+        exampleList.add(new Contact("", "Dagorbert", "Duck"));
 
 
         TextView conclusionTextView = (TextView) view.findViewById(R.id.conclusion_text);
@@ -51,6 +53,10 @@ public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage
 
     @Override
     public void fillInData(final SavingsAccount savingsAccount) {
+        logger().info("Contacts already synced into data model:" + dataModel.getAdditionalAssignedContacts());
+    }
 
+    private Logger logger() {
+        return Logger.getLogger(this.getClass().getCanonicalName());
     }
 }

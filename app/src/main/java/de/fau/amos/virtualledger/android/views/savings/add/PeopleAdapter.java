@@ -11,25 +11,31 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.dtos.Contact;
 
 
-class PeopleAdapter extends ArrayAdapter<String> {
+class PeopleAdapter extends ArrayAdapter<Contact> {
 
-    private Activity activity;
     private PeopleAssignedListener listener;
 
-    PeopleAdapter(Activity activity, int layout, ArrayList<String> data, PeopleAssignedListener listener) {
+    PeopleAdapter(Activity activity, int layout, ArrayList<Contact> data, PeopleAssignedListener listener) {
         super(activity, layout, data);
-        this.activity = activity;
         this.listener = listener;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        String personName = super.getItem(position);
+        final Contact person = super.getItem(position);
+
+        String personName = person.getFirstName() + " " + person.getLastName();
+        if ("Me".equals(person.getFirstName())) {
+            personName = "Me";
+        }
+
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.people_list_item, parent, false);
         }
+
         final CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
         checkBox.setText(personName);
         logger().info("PersonName:" + personName);
@@ -37,15 +43,15 @@ class PeopleAdapter extends ArrayAdapter<String> {
             checkBox.setClickable(false);
             checkBox.setEnabled(false);
             checkBox.setChecked(true);
-            this.listener.seĺectPerson();
+            this.listener.seĺectPerson(person);
         } else {
             checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (checkBox.isChecked()) {
-                        PeopleAdapter.this.listener.seĺectPerson();
+                        PeopleAdapter.this.listener.seĺectPerson(person);
                     } else {
-                        PeopleAdapter.this.listener.deselectPerson();
+                        PeopleAdapter.this.listener.deselectPerson(person);
                     }
                 }
             });
