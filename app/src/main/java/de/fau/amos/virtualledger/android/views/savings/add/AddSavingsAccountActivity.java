@@ -82,7 +82,14 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     void onClickNext() {
         final int currentItem = viewPager.getCurrentItem();
         logger().info("Filling in data of:" + this.pages.get(currentItem));
+
+        if (!this.pages.get(currentItem).navigatePossible()) {
+            return;
+        }
+
         this.pages.get(currentItem).fillInData(this.savingsAccountState);
+
+
         if (currentItem < pagerAdapter.getCount() - 1) {
             this.pages.get(currentItem + 1).consumeDataModel(this.savingsAccountState);
             viewPager.setCurrentItem(currentItem + 1);
