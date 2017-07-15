@@ -11,5 +11,5 @@ public interface BankAccessEndpoint {
 
     List<BankAccessBankingModel> getBankAccesses(String userId) throws BankingException;
 
-    void addBankAccess(String userId, BankAccessBankingModel bankAccess) throws BankingException;
+    BankAccessBankingModel addBankAccess(String userId, BankAccessBankingModel bankAccess) throws BankingException;
 }

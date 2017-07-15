@@ -65,7 +65,9 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
     }
 
     @Override
-    public void addBankAccess(final String userId, final BankAccessBankingModel bankAccess) throws BankingException {
+    public BankAccessBankingModel addBankAccess(final String userId, final BankAccessBankingModel bankAccess) throws BankingException {
+
+        List<BankAccessBankingModel> accessBeforeAdd = getBankAccesses(userId);
 
         // Create Jersey client
         final Client client = JerseyClientUtility.getLoggingClient(LOGGER);
@@ -80,5 +82,16 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
         if (response.getStatus() != HTTP_OK_RESPONSE) {
             throw new BankingException("Creating Banking Access failed!");
         }
+
+        // find the added BankAccessBankingModel
+        List<BankAccessBankingModel> accessAfterAdd = getBankAccesses(userId);
+        for (BankAccessBankingModel bankAccessBeforeAdd : accessBeforeAdd) {
+            accessAfterAdd.removeIf(p -> p.getId().equals(bankAccessBeforeAdd.getId()));
+        }
+        if (accessAfterAdd.size() != 1) {
+            throw new BankingException("Inconsistency after add! Added access was not found!");
+        }
+        return accessAfterAdd.get(0);
+
     }
 }

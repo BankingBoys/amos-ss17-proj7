@@ -60,7 +60,7 @@ public class BankingOverviewController {
      * loads all the bank accesses and accounts embedded matching to the userId
      * from adorsys api (or from dummies, depending on configuration) also
      * filters the received data to only return the not deleted ones
-     * 
+     *
      * @param userId
      * @return
      * @throws BankingException
@@ -83,7 +83,7 @@ public class BankingOverviewController {
     /**
      * adds a bank access, uses adorsys api if configured to store on user with
      * email as username
-     * 
+     *
      * @param email
      * @param bankAccessCredential
      * @return the added BankAccess with containing all added BankAccounts
@@ -91,37 +91,26 @@ public class BankingOverviewController {
      */
     public BankAccess addBankAccess(String email, BankAccessCredential bankAccessCredential, final String token) throws BankingException {
 
-        List<BankAccess> allBankAccessesBeforeAdd = getBankingOverview(email);
-
         BankAccessBankingModel bankAccessBankingModel = bankAccessBankingModelFactory
                 .createBankAccessBankingModel(email, bankAccessCredential);
-        bankingApiFacade.addBankAccess(email, bankAccessBankingModel);
+        BankAccessBankingModel addedBankAccessBankingModel = bankingApiFacade.addBankAccess(email, bankAccessBankingModel);
 
-        List<BankAccess> allBankAccessesAfterAdd = getBankingOverview(email);
+        BankAccess bankAccess = bankAccessFactory.createBankAccess(addedBankAccessBankingModel);
+        List<BankAccess> bankAccessList = new ArrayList<>();
+        bankAccessList.add(bankAccess);
+        filterBankAccessWithDeleted(email, bankAccessList);
 
-        if (allBankAccessesAfterAdd.size() != allBankAccessesBeforeAdd.size() + 1) {
-            throw new BankingException(
-                    "Inconsistency after add! Before add there were " + allBankAccessesBeforeAdd.size()
-                            + " accesses and after there are " + allBankAccessesAfterAdd.size());
-        }
+        List<BankAccount> bankAccounts = this.getBankingAccounts(email, bankAccess.getId());
+        filterBankAccountsWithDeleted(email, bankAccess.getId(), bankAccounts);
+        bankAccess.setBankaccounts(bankAccounts);
 
-        // find the one BankAccess that is in allBankAccessesAfterAdd but not in
-        // bankAccessBankingModel
-        for (BankAccess bankAccessBeforeAdd : allBankAccessesBeforeAdd) {
-            allBankAccessesAfterAdd.removeIf(p -> p.getId().equals(bankAccessBeforeAdd.getId()));
-        }
-
-        if (allBankAccessesAfterAdd.size() != 1) {
-            throw new BankingException("Inconsistency after add! Added access was not found!");
-        }
-
-        return allBankAccessesAfterAdd.get(0);
+        return bankAccess;
     }
 
     /**
      * deletes a bank access. In fact, no real delete is done, but entries are
      * made into db so that filtering works when getBankingOverview is called.
-     * 
+     *
      * @param email
      * @param bankAccessId
      * @throws BankingException
@@ -139,7 +128,7 @@ public class BankingOverviewController {
     /**
      * deletes a bank account. In fact, no real delete is done, but entries are
      * made into db so that filtering works when getBankingOverview is called.
-     * 
+     *
      * @param email
      * @param bankAccessId
      * @param bankAccountId
@@ -175,7 +164,7 @@ public class BankingOverviewController {
      * loads all the bank accounts matching to the email from adorsys api (or
      * from dummies, depending on configuration) also filters the received data
      * to only return the not deleted ones
-     * 
+     *
      * @param email
      * @param bankAccesId
      * @return
@@ -190,7 +179,7 @@ public class BankingOverviewController {
     /**
      * filters a list of bank accesses with the ones in database that are marked
      * as deleted
-     * 
+     *
      * @param email
      * @param bankAccessList
      */
@@ -211,7 +200,7 @@ public class BankingOverviewController {
     /**
      * filters a list of bank accounts with the ones in database that are marked
      * as deleted
-     * 
+     *
      * @param email
      * @param bankAccessId
      * @param bankAccountList
@@ -234,7 +223,7 @@ public class BankingOverviewController {
     /**
      * filters a list of BankAccountSync objects with accesses and accounts that
      * are marked as deleted in database
-     * 
+     *
      * @param email
      * @param bankAccountSyncList
      */
