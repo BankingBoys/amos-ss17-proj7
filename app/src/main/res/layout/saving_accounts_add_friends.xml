@@ -3,40 +3,51 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/add_savings_account_choose_assignment"
-        android:textAlignment="center"
-        android:textSize="24sp" />
-
-    <FrameLayout
-        android:id="@+id/transaction_list_placeholder"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:gravity="top"
+        android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/list"
-            android:layout_width="387dp"
-            android:layout_height="479dp"
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/add_savings_account_choose_assignment"
+            android:textSize="@dimen/fontSizeL" />
+
+        <FrameLayout
+            android:id="@+id/transaction_list_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1">
+
+            <ListView
+                android:id="@+id/list"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/list"
+                android:layout_margin="10dp" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/conclusion_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/list" />
-    </FrameLayout>
+            android:layout_alignParentStart="true"
+            android:text="@string/add_savings_account_choose_assignment_amount_per_person"
+            android:textAlignment="center"
+            android:textSize="@dimen/fontSizeL" />
 
-    <TextView
-        android:id="@+id/conclusion_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:text="@string/add_savings_account_choose_assignment_amount_per_person" />
+    </LinearLayout>
 
 </LinearLayout>
