@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface SavingsAccountRepository extends CrudRepository<SavingsAccount, Integer> {
 
-    @Query("SELECT s FROM SavingsAccount s LEFT JOIN FETCH s.users AS u WHERE u.email = (:email)")
-    List<SavingsAccount> findByUserEmail(@Param("email") String email);
+    @Query("SELECT saving FROM SavingsAccount saving LEFT JOIN FETCH saving.userRelations AS relation JOIN relation.user AS user WHERE user.email = (:email)")
+    List<SavingsAccount> findByUserEmailAndLoadUserRelations(@Param("email") String email);
 }

@@ -1,5 +1,8 @@
 package de.fau.amos.virtualledger.server.model;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +27,8 @@ public class SavingsAccount {
     private Date finaldate;
 
     @ManyToMany
-    private Set<User> users = new HashSet<>();
+    @Cascade(CascadeType.ALL)
+    private Set<SavingsAccountUserRelation> userRelations = new HashSet<>();
 
     public SavingsAccount() {
     }
@@ -37,12 +41,12 @@ public class SavingsAccount {
         this.setFinaldate(finaldate);
     }
 
-    public SavingsAccount(String name, double goalbalance, double currentbalance, Date finaldate, Set<User> users) {
+    public SavingsAccount(String name, double goalbalance, double currentbalance, Date finaldate, Set<SavingsAccountUserRelation> userRelations) {
         this.name = name;
         this.goalbalance = goalbalance;
         this.currentbalance = currentbalance;
         this.finaldate = finaldate;
-        this.users = users;
+        this.userRelations = userRelations;
     }
 
     public int getId() {
@@ -85,11 +89,11 @@ public class SavingsAccount {
         this.finaldate = finaldate;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public Set<SavingsAccountUserRelation> getUserRelations() {
+        return userRelations;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setUserRelations(Set<SavingsAccountUserRelation> userRelations) {
+        this.userRelations = userRelations;
     }
 }
