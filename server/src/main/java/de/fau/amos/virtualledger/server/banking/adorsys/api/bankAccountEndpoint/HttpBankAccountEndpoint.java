@@ -2,6 +2,7 @@ package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccountEndpoint
 
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.BankingApiUrlProvider;
+import de.fau.amos.virtualledger.server.banking.adorsys.api.JerseyClientUtility;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccountJSONBankingModel;
 import de.fau.amos.virtualledger.server.banking.adorsys.api.json.BankAccountSyncJSONBankingModel;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
@@ -46,7 +46,7 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
             throws BankingException {
 
         // Create Jersey client
-        final Client client = ClientBuilder.newClient();
+        final Client client = JerseyClientUtility.getLoggingClient(LOGGER);
 
         final String url = urlProvider.getBankAccountEndpointUrl(bankingAccessId);
         final WebTarget webTarget = client.target(url);
@@ -72,7 +72,7 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
             throws BankingException {
 
         // Create Jersey client
-        final Client client = ClientBuilder.newClient();
+        final Client client = JerseyClientUtility.getLoggingClient(LOGGER);
 
         final String url = urlProvider.getBankAccountSyncEndpointUrl(bankAccessId, bankAccountId);
         final WebTarget webTarget = client.target(url);
