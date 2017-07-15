@@ -40,7 +40,10 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .antMatchers("/api/savings/**").permitAll()
                 .antMatchers("/api/contacts/**").permitAll();
         http
-                .addFilterAfter(new UserRegistrationFilter(keycloakUtilizer, authenticationController), FilterSecurityInterceptor.class);
+                .addFilterAfter(new UserRegistrationFilter(keycloakUtilizer, authenticationController), FilterSecurityInterceptor.class)
+                .antMatcher("/api/banking/**")
+                .antMatcher("/api/savings/**")
+                .antMatcher("/api/contacts/**");
         http.csrf().disable();
     }
 
