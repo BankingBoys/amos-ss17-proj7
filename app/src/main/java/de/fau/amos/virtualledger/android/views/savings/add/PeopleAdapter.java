@@ -16,12 +16,10 @@ import de.fau.amos.virtualledger.dtos.Contact;
 
 class PeopleAdapter extends ArrayAdapter<Contact> {
 
-    private Activity activity;
     private PeopleAssignedListener listener;
 
     PeopleAdapter(Activity activity, int layout, ArrayList<Contact> data, PeopleAssignedListener listener) {
         super(activity, layout, data);
-        this.activity = activity;
         this.listener = listener;
     }
 
