@@ -1,7 +1,9 @@
 package de.fau.amos.virtualledger.server.api;
 
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
+import de.fau.amos.virtualledger.server.model.BankAccountIdentifier;
 import de.fau.amos.virtualledger.server.model.SavingsAccount;
+import de.fau.amos.virtualledger.server.model.SavingsAccountAddWrapper;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 
 import javax.servlet.ServletException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -63,16 +67,18 @@ public class SavingsApiEndpointTest {
         final int Id = 123;
         final double goalBalance = 123.23;
         final double currentBalance = 453.23;
+        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
+        bankAccountIdentifierList.add(new BankAccountIdentifier());
         SavingsAccount savingsAccount = new SavingsAccount(Id, "dummy", goalBalance, currentBalance, new Date());
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccount, bankAccountIdentifierList));
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class));
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class));
     }
 
     @Test
@@ -82,16 +88,19 @@ public class SavingsApiEndpointTest {
         final int Id = 123;
         final double goalBalance = 123.23;
         final double currentBalance = 453.23;
+        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
+        bankAccountIdentifierList.add(new BankAccountIdentifier());
         SavingsAccount savingsAccount = new SavingsAccount(Id, "dummy", goalBalance, currentBalance, new Date());
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccount, bankAccountIdentifierList));
+
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class));
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class));
     }
 
     @Test
@@ -99,15 +108,18 @@ public class SavingsApiEndpointTest {
         // SETUP
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
         SavingsAccount savingsAccount = null;
+        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
+        bankAccountIdentifierList.add(new BankAccountIdentifier());
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccount, bankAccountIdentifierList));
+
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class));
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class));
     }
 
     @Test
@@ -117,16 +129,19 @@ public class SavingsApiEndpointTest {
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
+        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
+        bankAccountIdentifierList.add(new BankAccountIdentifier());
         SavingsAccount savingsAccount = new SavingsAccount(Id, null, goalBalance, currentBalance, new Date());
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccount, bankAccountIdentifierList));
+
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class));
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class));
     }
 
     @Test
@@ -136,16 +151,19 @@ public class SavingsApiEndpointTest {
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
+        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
+        bankAccountIdentifierList.add(new BankAccountIdentifier());
         SavingsAccount savingsAccount = new SavingsAccount(Id, "", goalBalance, currentBalance, new Date());
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccount, bankAccountIdentifierList));
+
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class));
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class));
     }
 
     @Test
@@ -155,16 +173,61 @@ public class SavingsApiEndpointTest {
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
+        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
+        bankAccountIdentifierList.add(new BankAccountIdentifier());
         SavingsAccount savingsAccount = new SavingsAccount(Id, "test", goalBalance, currentBalance, null);
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccount, bankAccountIdentifierList));
+
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class));
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class));
+    }
+
+    @Test
+    public void addSavingAccountsEndpointSavingsAccountIdentifierListNull() throws ServletException {
+        // SETUP
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
+        final int Id = 123;
+        final double goalBalance = 123.43;
+        final double currentBalance = 543.43;
+        List<BankAccountIdentifier> bankAccountIdentifierList = null;
+        SavingsAccount savingsAccount = new SavingsAccount(Id, "test", goalBalance, currentBalance, new Date());
+
+        // ACT
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccount, bankAccountIdentifierList));
+
+
+        // ASSERT
+        HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
+        Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
+                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class));
+    }
+
+    @Test
+    public void addSavingAccountsEndpointSavingsAccountIdentifierListEmpty() throws ServletException {
+        // SETUP
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
+        final int Id = 123;
+        final double goalBalance = 123.43;
+        final double currentBalance = 543.43;
+        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
+        SavingsAccount savingsAccount = new SavingsAccount(Id, "test", goalBalance, currentBalance, new Date());
+
+        // ACT
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccount, bankAccountIdentifierList));
+
+
+        // ASSERT
+        HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
+        Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
+                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class));
     }
 
     private KeycloakUtilizer setupKeycloakUtilizer(String username) throws ServletException {
