@@ -1,12 +1,11 @@
 package de.fau.amos.virtualledger.server.factories;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
 import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.server.banking.model.BankAccountBankingModel;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 
@@ -18,7 +17,7 @@ public class BankAccountFactory {
             balance = bankingModel.getBankAccountBalance().getReadyHbciBalance();
         }
 
-        BankAccount bankAccount = new BankAccount(bankingModel.getId(), bankingModel.getTypeHbciAccount(), balance);
+        BankAccount bankAccount = new BankAccount(bankingModel.getId(), bankingModel.getTypeHbciAccount() != null ? bankingModel.getTypeHbciAccount() : "", balance);
         return bankAccount;
     }
 
