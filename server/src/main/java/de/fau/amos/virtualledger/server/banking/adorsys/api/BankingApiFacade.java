@@ -33,12 +33,12 @@ public class BankingApiFacade {
     }
 
     public List<BankAccountBankingModel> getBankAccounts(final String userId, final String bankAccessId) throws BankingException {
-        return binder.getBankAccountEndpoint(userId).getBankAccounts(userId, bankAccessId);
+        return binder.getBankAccountEndpoint(userId).getBankAccounts(bankAccessId);
     }
 
     public List<BookingModel> syncBankAccount(final String userId, final String bankAccessId, final String bankAccountId, final String pin)
             throws BankingException {
-        return binder.getBankAccountEndpoint(userId).syncBankAccount(userId, bankAccessId, bankAccountId, pin);
+        return binder.getBankAccountEndpoint(userId).syncBankAccount(bankAccessId, bankAccountId, pin);
     }
 
     public BankAccessBankingModel addBankAccess(final String userId, final BankAccessBankingModel bankAccess) throws BankingException {

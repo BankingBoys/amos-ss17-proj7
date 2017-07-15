@@ -42,7 +42,7 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
     }
 
     @Override
-    public List<BankAccountBankingModel> getBankAccounts(final String userId, final String bankingAccessId)
+    public List<BankAccountBankingModel> getBankAccounts(final String bankingAccessId)
             throws BankingException {
 
         // Create Jersey client
@@ -68,7 +68,7 @@ public class HttpBankAccountEndpoint implements BankAccountEndpoint {
     }
 
     @Override
-    public List<BookingModel> syncBankAccount(final String userId, final String bankAccessId, final String bankAccountId, final String pin)
+    public List<BookingModel> syncBankAccount(final String bankAccessId, final String bankAccountId, final String pin)
             throws BankingException {
 
         // Create Jersey client

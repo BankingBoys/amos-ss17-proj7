@@ -59,13 +59,12 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
      * Generates accounts if there weren't ones created.
      * Generates bookings if there weren't ones created (or saved).
      *
-     * @param userId
      * @param bankingAccessId
      * @return
      * @throws BankingException
      */
     @Override
-    public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId)
+    public List<BankAccountBankingModel> getBankAccounts(String bankingAccessId)
             throws BankingException {
         if (!dummyBankAccessEndpoint.existsBankAccess(bankingAccessId)) {
             // throw new BankingException("Dummy found no existing BankAccess
@@ -95,7 +94,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
     }
 
     @Override
-    public List<BookingModel> syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin)
+    public List<BookingModel> syncBankAccount(String bankAccessId, String bankAccountId, String pin)
             throws BankingException {
 
         if (!bookingModelMap.containsKey(bankAccountId)) {

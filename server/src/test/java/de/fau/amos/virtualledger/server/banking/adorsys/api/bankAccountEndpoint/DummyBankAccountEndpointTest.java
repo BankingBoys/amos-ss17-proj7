@@ -40,7 +40,7 @@ public class DummyBankAccountEndpointTest {
         DummyBankAccountEndpoint dummyBankAccountEndpoint = new DummyBankAccountEndpoint(dummyBankAccountBankingModelRepository, dummyBankAccessEndpointRepository, dummyBankAccessEndpoint);
 
         // ACT
-        List<BankAccountBankingModel> bankAccounts = dummyBankAccountEndpoint.getBankAccounts(testUserId,
+        List<BankAccountBankingModel> bankAccounts = dummyBankAccountEndpoint.getBankAccounts(
                 "bankAccessId");
 
         // ASSERT
@@ -64,7 +64,7 @@ public class DummyBankAccountEndpointTest {
         DummyBankAccountEndpoint dummyBankAccountEndpoint = new DummyBankAccountEndpoint(dummyBankAccountBankingModelRepository, dummyBankAccessEndpointRepository, dummyBankAccessEndpoint);
 
         // ACT
-        List<BankAccountBankingModel> bankAccounts = dummyBankAccountEndpoint.getBankAccounts(testUserId,
+        List<BankAccountBankingModel> bankAccounts = dummyBankAccountEndpoint.getBankAccounts(
                 "bankAccessId");
 
         // ASSERT
@@ -86,7 +86,7 @@ public class DummyBankAccountEndpointTest {
         DummyBankAccountEndpoint dummyBankAccountEndpoint = new DummyBankAccountEndpoint(dummyBankAccountBankingModelRepository, dummyBankAccessEndpointRepository, dummyBankAccessEndpoint);
 
         // ACT
-        List<BookingModel> bookings = dummyBankAccountEndpoint.syncBankAccount(testUserId,
+        List<BookingModel> bookings = dummyBankAccountEndpoint.syncBankAccount(
                 "bankAccessId", "bankAccountId", "pin");
 
         // ASSERT
