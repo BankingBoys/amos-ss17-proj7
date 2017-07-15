@@ -81,12 +81,13 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     @OnClick(R.id.add_savings_account_button_next)
     void onClickNext() {
         final int currentItem = viewPager.getCurrentItem();
-        logger().info("Filling in data of:" + this.pages.get(currentItem));
 
         if (!this.pages.get(currentItem).navigatePossible()) {
+            logger().info("Navigation is not possible because of missing data in the assistant page.");
             return;
         }
 
+        logger().info("Filling in data of:" + this.pages.get(currentItem));
         this.pages.get(currentItem).fillInData(this.savingsAccountState);
 
 
