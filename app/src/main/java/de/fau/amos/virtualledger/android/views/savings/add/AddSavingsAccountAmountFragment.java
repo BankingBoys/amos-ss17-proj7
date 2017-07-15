@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -33,5 +34,19 @@ public class AddSavingsAccountAmountFragment extends AddSavingsAccountPage {
     @Override
     public void fillInData(final SavingsAccount savingsAccount) {
         savingsAccount.setGoalbalance(NumberUtils.toDouble(editText.getText().toString()));
+    }
+
+    @Override
+    public boolean navigatePossible() {
+        if (editText.getText().toString().isEmpty()) {
+            Toast.makeText(AddSavingsAccountAmountFragment.super.getContext(), R.string.add_savings_account_enter_goal_info_needed_message, Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if (Float.parseFloat(editText.getText().toString()) == 0.0) {
+            Toast.makeText(AddSavingsAccountAmountFragment.super.getContext(), R.string.add_savings_account_enter_goal_info_needed_message_not_zero, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
     }
 }
