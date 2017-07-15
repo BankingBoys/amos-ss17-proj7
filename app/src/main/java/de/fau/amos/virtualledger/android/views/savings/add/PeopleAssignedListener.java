@@ -4,8 +4,10 @@ import android.content.Context;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -69,6 +71,13 @@ public class PeopleAssignedListener {
     }
 
     private void syncToSavingsAccount() {
-        this.account.setAdditionalAssignedContacts(this.peopleSelected);
+        List<Contact> contacts = new ArrayList<>();
+        for (Contact contact : this.peopleSelected) {
+            if ("Me".equals(contact.getFirstName())) {
+                continue;
+            }
+            contacts.add(contact);
+        }
+        this.account.setAdditionalAssignedContacts(contacts);
     }
 }
