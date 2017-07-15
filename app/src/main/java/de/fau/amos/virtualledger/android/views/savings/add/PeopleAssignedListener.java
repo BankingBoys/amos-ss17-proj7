@@ -57,9 +57,13 @@ public class PeopleAssignedListener {
             this.textView.setText(R.string.add_savings_account_enter_goal_info_needed_message);
             return;
         }
+        String personString = this.peopleSelected.size() + " " + "persons";
+        if (this.peopleSelected.size() == 1) {
+            personString = "one person";
+        }
 
         int amount = (int) goalAmount / peopleSelected.size();
-        String newConclusionText = new Formatter().format(this.baseText, this.peopleSelected.size() + "", amount + "").toString();
+        String newConclusionText = new Formatter().format(this.baseText, personString, amount + "").toString();
         logger().info("People changed. Updating new conclusion text to: " + newConclusionText);
         this.textView.setText(newConclusionText);
     }
