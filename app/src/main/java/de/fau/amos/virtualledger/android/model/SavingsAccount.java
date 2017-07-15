@@ -2,9 +2,14 @@ package de.fau.amos.virtualledger.android.model;
 
 import android.support.annotation.VisibleForTesting;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
+
+import de.fau.amos.virtualledger.dtos.Contact;
 
 public class SavingsAccount {
 
@@ -14,6 +19,7 @@ public class SavingsAccount {
     private double currentbalance;
     private Date finaldate;
     private Date finalGoalFinishedDate;
+    private List<Contact> additionalAssignedContacts = new ArrayList<>();
 
     public SavingsAccount() {
     }
@@ -99,4 +105,15 @@ public class SavingsAccount {
         return "SavingsAccount[" + super.hashCode() + "]:{name=" +
                 this.getName() + ", amount=" + this.getGoalbalance() + "}";
     }
+
+    public void setAdditionalAssignedContacts(Collection<Contact> contacts) {
+        this.additionalAssignedContacts.clear();
+        this.additionalAssignedContacts.addAll(contacts);
+    }
+
+    public List<Contact> getAdditionalAssignedContacts() {
+        return this.additionalAssignedContacts;
+    }
+
+
 }

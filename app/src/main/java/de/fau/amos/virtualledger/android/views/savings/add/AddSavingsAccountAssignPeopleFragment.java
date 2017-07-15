@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
@@ -52,6 +53,10 @@ public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage
 
     @Override
     public void fillInData(final SavingsAccount savingsAccount) {
+        logger().info("Contacts already synced into data model:" + dataModel.getAdditionalAssignedContacts());
+    }
 
+    private Logger logger() {
+        return Logger.getLogger(this.getClass().getCanonicalName());
     }
 }

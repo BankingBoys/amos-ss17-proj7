@@ -26,9 +26,21 @@ public class PeopleAssignedListener {
         this.account = account;
     }
 
+    private Logger logger() {
+        return Logger.getLogger(this.getClass().getCanonicalName());
+    }
+
     public void seĺectPerson(Contact person) {
         this.logger().info("Selecting:" + person);
         this.peopleSelected.add(person);
+        this.syncToSavingsAccount();
+        this.updateText();
+    }
+
+    public void deselectPerson(Contact person) {
+        this.logger().info("Deselecting: " + person);
+        this.peopleSelected.remove(person);
+        this.syncToSavingsAccount();
         this.updateText();
     }
 
@@ -45,13 +57,7 @@ public class PeopleAssignedListener {
         this.textView.setText(newConclusionText);
     }
 
-    private Logger logger() {
-        return Logger.getLogger(this.getClass().getCanonicalName());
-    }
-
-    public void deselectPerson(Contact person) {
-        this.logger().info("Deselecting: " + person);
-        this.peopleSelected.remove(person);
-        this.updateText();
+    private void syncToSavingsAccount(){
+        this.account.setAdditionalAssignedContacts(this.peopleSelected);
     }
 }
