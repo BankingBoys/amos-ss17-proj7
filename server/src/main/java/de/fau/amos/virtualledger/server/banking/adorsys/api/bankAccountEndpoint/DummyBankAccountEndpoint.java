@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -198,7 +199,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
         amount += randomGenerator.nextInt(MAX_AMOUNT_ABS) / new Double(MAX_AMOUNT_ABS).doubleValue();
         bookingModel.setAmount(amount);
 
-        long date = this.getDate(day, month, Calendar.getInstance().get(Calendar.YEAR));
+        List<Integer> date = Arrays.asList(Calendar.getInstance().get(Calendar.YEAR), month, day);
         bookingModel.setBookingDate(date);
 
         return bookingModel;

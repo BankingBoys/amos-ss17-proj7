@@ -1,18 +1,20 @@
 package de.fau.amos.virtualledger.server.banking.model;
 
+import java.util.List;
+
 public class BookingModel {
 
-    private Long bookingDate;
+    private List<Integer> bookingDate;
     private Double amount;
 
     public BookingModel() {
     }
 
-    public Long getBookingDate() {
+    public List<Integer> getBookingDate() {
         return bookingDate;
     }
 
-    public void setBookingDate(Long bookingDate) {
+    public void setBookingDate(List<Integer> bookingDate) {
         this.bookingDate = bookingDate;
     }
 
