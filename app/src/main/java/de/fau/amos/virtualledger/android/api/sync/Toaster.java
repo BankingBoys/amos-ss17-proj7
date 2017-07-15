@@ -37,16 +37,16 @@ public class Toaster implements ServerCallStatusHandler {
 
     @Override
     public void onTechnicalError() {
-        Toast.makeText(this.context, this.technicalErrorMessage, Toast.LENGTH_LONG);
+        Toast.makeText(this.context, this.technicalErrorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onConceptualError() {
-        Toast.makeText(this.context, this.conceptualErrorMessage, Toast.LENGTH_LONG);
+        Toast.makeText(this.context, this.conceptualErrorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onOk() {
-        Toast.makeText(this.context, this.successMessage, Toast.LENGTH_LONG);
+        Toast.makeText(this.context, this.successMessage, Toast.LENGTH_LONG).show();
     }
 }
