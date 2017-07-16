@@ -59,6 +59,18 @@ public class ContactsController {
         contactsRepository.save(addedContact);
     }
 
+    public void deleteContact(final Contact contact, final String userEmail) throws UserNotFoundException, ContactNotFoundException {
+        User owner = userRepository.findOne(userEmail);
+        assertUserNotNull(owner);
+        User userContact = userRepository.findOne(contact.getEmail());
+        assertUserNotNull(userContact);
+        assertContactDoesExist(owner, userContact);
+        ContactsEntity contactToDelete = new ContactsEntity();
+        contactToDelete.setOwner(owner);
+        contactToDelete.setContact(userContact);
+        contactsRepository.delete(contactToDelete);
+    }
+
     private void assertUserNotNull(User user) throws UserNotFoundException {
         if (user == null) {
             throw new UserNotFoundException("User/Contact could not be found");
@@ -69,6 +81,12 @@ public class ContactsController {
         boolean exists = contactsRepository.existsContactwithEmail(owner, contact);
         if (exists) {
             throw new ContactAlreadyExistsException("Contact was already added before");
+        }
+    }
+
+    private void assertContactDoesExist(User owner, User contact) throws  ContactNotFoundException {
+        if (!contactsRepository.existsContactwithEmail(owner, contact)) {
+            throw new ContactNotFoundException("Contact is not in the database!");
         }
     }
 }
