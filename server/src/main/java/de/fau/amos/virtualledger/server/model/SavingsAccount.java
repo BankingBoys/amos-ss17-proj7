@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Date;
 import java.util.HashSet;
@@ -26,6 +27,10 @@ public class SavingsAccount {
     private double goalbalance;
     private double currentbalance;
     private Date finaldate;
+
+    @OneToMany
+    @Cascade(CascadeType.ALL)
+    private Set<SingleGoal> singleGoals = new HashSet<>();
 
     @ManyToMany
     @Cascade(CascadeType.ALL)
@@ -98,4 +103,11 @@ public class SavingsAccount {
         this.userRelations = userRelations;
     }
 
+    public Set<SingleGoal> getSingleGoals() {
+        return singleGoals;
+    }
+
+    public void setSingleGoals(Set<SingleGoal> singleGoals) {
+        this.singleGoals = singleGoals;
+    }
 }
