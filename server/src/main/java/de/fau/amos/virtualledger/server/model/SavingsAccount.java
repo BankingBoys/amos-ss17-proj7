@@ -39,12 +39,13 @@ public class SavingsAccount {
     public SavingsAccount() {
     }
 
-    public SavingsAccount(int id, String name, double goalbalance, double currentbalance, Date finaldate) {
+    public SavingsAccount(int id, String name, double goalbalance, double currentbalance, Date finaldate, Set<SingleGoal> singleGoals) {
         this.setId(id);
         this.setName(name);
         this.setGoalbalance(goalbalance);
         this.setCurrentbalance(currentbalance);
         this.setFinaldate(finaldate);
+        this.setSingleGoals(singleGoals);
     }
 
     public SavingsAccount(String name, double goalbalance, double currentbalance, Date finaldate, Set<SavingsAccountUserRelation> userRelations) {
