@@ -24,9 +24,8 @@ import java.lang.invoke.MethodHandles;
 public class ContactsApiEndpoint {
     @SuppressWarnings("unused")
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
-    private KeycloakUtilizer keycloakUtilizer;
     private final ContactsController contactsController;
+    private KeycloakUtilizer keycloakUtilizer;
 
     @Autowired
     public ContactsApiEndpoint(KeycloakUtilizer keycloakUtilizer, final ContactsController contactsController) {
@@ -64,6 +63,16 @@ public class ContactsApiEndpoint {
         return this.addContact(contact, username);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "api/contacts", produces = "application/json")
+    public ResponseEntity<?> deleteContactEndpoint(@RequestBody final Contact contact) throws ServletException {
+        final String username = keycloakUtilizer.getEmail();
+        if (username == null || username.isEmpty()) {
+            return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
+        }
+        LOGGER.info("deleteContactEndpoint of " + username + " was requested");
+        return this.deleteContact(contact, username);
+    }
+
     private ResponseEntity<?> getContacts(final String username) throws UserNotFoundException {
         return new ResponseEntity<>(contactsController.getContactsByEmail(username), HttpStatus.OK);
     }
@@ -77,4 +86,12 @@ public class ContactsApiEndpoint {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    private ResponseEntity<?> deleteContact(final Contact contact, final String username) {
+        try {
+            contactsController.deleteContact(contact, username);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<>("Deleting of Contact successful", HttpStatus.OK);
+    }
 }
