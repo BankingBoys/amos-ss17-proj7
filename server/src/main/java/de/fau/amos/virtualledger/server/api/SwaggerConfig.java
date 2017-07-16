@@ -7,9 +7,8 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.AuthorizationScope;
 import springfox.documentation.service.GrantType;
-import springfox.documentation.service.ImplicitGrant;
-import springfox.documentation.service.LoginEndpoint;
 import springfox.documentation.service.OAuth;
+import springfox.documentation.service.ResourceOwnerPasswordCredentialsGrant;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.ApiKeyVehicle;
@@ -38,9 +37,8 @@ public class SwaggerConfig {
         authorizationScopeList.add(new AuthorizationScope("multibanking-client", "Multibanking Client"));
 
         List<GrantType> grantTypes = new ArrayList<>();
-        LoginEndpoint loginEndpoint = new LoginEndpoint("https://multibanking-keycloak.dev.adorsys.de/auth/realms/multibanking/protocol/openid-connect/auth");
-        ImplicitGrant implicitGrant = new ImplicitGrant(loginEndpoint, "access_token");
-        grantTypes.add(implicitGrant);
+        GrantType grantType = new ResourceOwnerPasswordCredentialsGrant("https://multibanking-keycloak.dev.adorsys.de/auth/realms/multibanking/protocol/openid-connect/token");
+        grantTypes.add(grantType);
 
         return new OAuthBuilder()
                 .name("oauth2")
@@ -54,5 +52,4 @@ public class SwaggerConfig {
         return new SecurityConfiguration(
                 "multibanking-client", "foo", "multibanking", "foo", "foo", ApiKeyVehicle.HEADER, "api_key", ",");
     }
-
 }
