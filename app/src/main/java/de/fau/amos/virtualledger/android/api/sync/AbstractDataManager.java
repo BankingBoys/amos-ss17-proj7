@@ -97,19 +97,19 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
     }
 
     @Override
-    public void add(final T savingsAccount, final ServerCallStatusHandler handler) {
-        dataProvider.add(savingsAccount)
+    public void add(final T element, final ServerCallStatusHandler handler) {
+        dataProvider.add(element)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
-                    public void accept(@NonNull String s) throws Exception {
+                    public void accept(@NonNull final String s) throws Exception {
                         handler.onOk();
                         AbstractDataManager.this.sync();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
+                    public void accept(@NonNull final Throwable throwable) throws Exception {
                         Log.e(TAG, "Failed getting items", throwable);
                         handler.onTechnicalError();
                         AbstractDataManager.this.sync(); //FIXME: figure out why Exception is thrown when adding
