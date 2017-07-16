@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.android.views.savings.add;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.android.views.contacts.add.AddContactsActivity;
 import de.fau.amos.virtualledger.dtos.Contact;
 
 public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage {
@@ -64,5 +66,7 @@ public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage
     @OnClick(R.id.add_contacts)
     public void onClickAddContacts() {
         logger().info("Add contacts called");
+        Intent addContactsIntent = new Intent(getActivity(), AddContactsActivity.class);
+        startActivity(addContactsIntent);
     }
 }
