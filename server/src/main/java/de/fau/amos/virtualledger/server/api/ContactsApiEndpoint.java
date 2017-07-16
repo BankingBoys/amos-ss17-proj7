@@ -83,7 +83,7 @@ public class ContactsApiEndpoint {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity("Adding of Contacts Successful", HttpStatus.OK);
+        return new ResponseEntity<>("Adding of Contacts Successful", HttpStatus.OK);
     }
 
     private ResponseEntity<?> deleteContact(final Contact contact, final String username) {
