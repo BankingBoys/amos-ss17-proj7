@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -59,13 +60,12 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
      * Generates accounts if there weren't ones created.
      * Generates bookings if there weren't ones created (or saved).
      *
-     * @param userId
      * @param bankingAccessId
      * @return
      * @throws BankingException
      */
     @Override
-    public List<BankAccountBankingModel> getBankAccounts(String userId, String bankingAccessId)
+    public List<BankAccountBankingModel> getBankAccounts(String bankingAccessId)
             throws BankingException {
         if (!dummyBankAccessEndpoint.existsBankAccess(bankingAccessId)) {
             // throw new BankingException("Dummy found no existing BankAccess
@@ -95,7 +95,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
     }
 
     @Override
-    public List<BookingModel> syncBankAccount(String userId, String bankAccessId, String bankAccountId, String pin)
+    public List<BookingModel> syncBankAccount(String bankAccessId, String bankAccountId, String pin)
             throws BankingException {
 
         if (!bookingModelMap.containsKey(bankAccountId)) {
@@ -199,7 +199,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
         amount += randomGenerator.nextInt(MAX_AMOUNT_ABS) / new Double(MAX_AMOUNT_ABS).doubleValue();
         bookingModel.setAmount(amount);
 
-        long date = this.getDate(day, month, Calendar.getInstance().get(Calendar.YEAR));
+        List<Integer> date = Arrays.asList(Calendar.getInstance().get(Calendar.YEAR), month, day);
         bookingModel.setBookingDate(date);
 
         return bookingModel;

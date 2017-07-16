@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.android.views.contacts;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.ContactsDataManager;
 import de.fau.amos.virtualledger.android.data.SyncFailedException;
+import de.fau.amos.virtualledger.android.views.contacts.add.AddContactsActivity;
 
 /**
  * Created by Simon on 04.07.2017.
@@ -36,7 +38,8 @@ public class NoContactsFragment extends Fragment implements Observer{
         addButton.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        //TODO: handle click
+                        Intent addContactsIntent = new Intent(getActivity(), AddContactsActivity.class);
+                        startActivity(addContactsIntent);
                     }
                 }
         );
