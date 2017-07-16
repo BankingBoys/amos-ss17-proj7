@@ -2,7 +2,6 @@ package de.fau.amos.virtualledger.android.views.savings.add;
 
 import android.content.Context;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Formatter;
@@ -55,7 +54,6 @@ public class PeopleAssignedListener {
         int goalAmount = (int) this.account.getGoalbalance();
         if (goalAmount == 0) {
             Logger.getLogger(this.getClass().getCanonicalName()).warning("No Amount set!");
-            Toast.makeText(this.context, R.string.add_savings_account_enter_goal_info_needed_message, Toast.LENGTH_LONG).show();
             this.textView.setText(R.string.add_savings_account_enter_goal_info_needed_message);
             return;
         }
