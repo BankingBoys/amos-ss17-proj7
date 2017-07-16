@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.server.model;
 
+import de.fau.amos.virtualledger.dtos.SingleGoal;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -25,6 +26,7 @@ public class SavingsAccount {
     private double goalbalance;
     private double currentbalance;
     private Date finaldate;
+    private Set<SingleGoal> goalList;
 
     @ManyToMany
     @Cascade(CascadeType.ALL)
