@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="top"
@@ -17,19 +18,49 @@
         android:textSize="@dimen/fontSizeL" />
 
     <FrameLayout
-        android:id="@+id/transaction_list_placeholder"
+        android:id="@+id/some_frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="5dp"
         android:layout_weight="1">
 
-        <ListView
-            android:id="@+id/list"
-            android:layout_width="wrap_content"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/list"
-            android:layout_margin="10dp" />
+            android:gravity="top"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/transaction_list_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1">
+
+                <ListView
+                    android:id="@+id/list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/list"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"></ListView>
+
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/contacts_add_contacts_title"
+                tools:text="@string/contacts_add_contacts_title" />
+
+        </LinearLayout>
+
     </FrameLayout>
 
     <TextView
