@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.dtos;
+package de.fau.amos.virtualledger.server.model;
 
 /**
  * Created by Simon on 16.07.2017.

@@ -1,6 +1,6 @@
-package dtos;
+package de.fau.amos.virtualledger.server.model;
 
-import de.fau.amos.virtualledger.dtos.SingleGoal;
+
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class SingleGoalTest {
     @Test
-    public void getterAndSetterTest () {
+    public void getterAndSetterTest() {
         //Setup
         SingleGoal singleGoal = new SingleGoal();
         final String testName = "testName";
