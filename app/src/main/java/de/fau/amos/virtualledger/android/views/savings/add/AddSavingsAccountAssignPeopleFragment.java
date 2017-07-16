@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.Contact;
@@ -58,5 +59,10 @@ public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage
 
     private Logger logger() {
         return Logger.getLogger(this.getClass().getCanonicalName());
+    }
+
+    @OnClick(R.id.add_contacts)
+    public void onClickAddContacts() {
+        logger().info("Add contacts called");
     }
 }

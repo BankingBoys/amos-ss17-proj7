@@ -50,7 +50,7 @@
             </FrameLayout>
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/add_contacts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
