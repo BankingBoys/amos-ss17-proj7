@@ -62,7 +62,7 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
-                        Log.e(TAG, "Failed getting items", throwable);
+                        Log.e(TAG, "Failed loading items", throwable);
                         syncFailedException = new SyncFailedException(throwable);
                         onSyncComplete();
                     }
