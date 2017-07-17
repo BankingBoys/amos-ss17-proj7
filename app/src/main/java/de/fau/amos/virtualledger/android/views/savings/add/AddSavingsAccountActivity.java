@@ -43,6 +43,9 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     private AddSavingsAccountPagerAdapter pagerAdapter;
     private final List<AddSavingsAccountPage> pages = new ArrayList<>();
 
+    private final AddSavingsAccountAmountFragment addSavingsAccountAmountFragment = new AddSavingsAccountAmountFragment();
+    private final AddSavingsAccountAmountSplitFragment addSavingsAccountAmountSplitFragment = new AddSavingsAccountAmountSplitFragment();
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +58,8 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         pages.add(new AddSavingsAccountGoalTypeFragment());
         pages.add(new AddSavingsAccountFinalDateFragment());
         pages.add(new AddSavingsAccountFinalDateMoneyUsedFragment());
-        pages.add(new AddSavingsAccountAmountFragment());
-        pages.add(new AddSavingsAccountAmountSplitFragment());
+        pages.add(new AddSavingsAccountAmountTypeFragment());
+        pages.add(addSavingsAccountAmountFragment);
         pages.add(new AddSavingsAccountAssignPeopleFragment());
         pages.add(new AddSavingsAccountAccountsFragment());
 
@@ -68,6 +71,13 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(0);
         updateBottomBar();
+    }
+
+    public void setSplitGoals(final boolean splitGoals) {
+        pages.remove(addSavingsAccountAmountFragment);
+        pages.remove(addSavingsAccountAmountSplitFragment);
+        pages.add(5, splitGoals ? addSavingsAccountAmountSplitFragment : addSavingsAccountAmountFragment);
+        pagerAdapter.notifyDataSetChanged();
     }
 
     @OnClick(R.id.add_savings_account_button_previous)

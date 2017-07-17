@@ -95,5 +95,8 @@
     <string name="add_savings_account_button_add_sub_goal">Add</string>
     <string name="add_savings_account_edit_text_enter_sub_goal_name">Sub goal name</string>
     <string name="add_savings_account_text_view_sub_goal_total">Total goal balance: %.2f</string>
+    <string name="add_savings_account_text_view_choose_amount_type">Choose a type of balance goal</string>
+    <string name="add_savings_account_radio_button_amount_type_normal">A single balance goal</string>
+    <string name="add_savings_account_radio_button_amount_type_split">Several subgoals</string>
 
 </resources>
