@@ -56,6 +56,7 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         pages.add(new AddSavingsAccountFinalDateFragment());
         pages.add(new AddSavingsAccountFinalDateMoneyUsedFragment());
         pages.add(new AddSavingsAccountAmountFragment());
+        pages.add(new AddSavingsAccountAmountSplitFragment());
         pages.add(new AddSavingsAccountAssignPeopleFragment());
         pages.add(new AddSavingsAccountAccountsFragment());
 
