@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 
@@ -22,6 +23,7 @@ public class SavingsAccount {
     private Date finalGoalFinishedDate;
     private List<Contact> additionalAssignedContacts = new ArrayList<>();
     private List<SavingsAccountSubGoal> subGoals;
+    private List<BankAccount> assignedBankAccounts = new ArrayList<>();
 
     public SavingsAccount() {
     }
@@ -124,5 +126,14 @@ public class SavingsAccount {
 
     public void setSubGoals(final List<SavingsAccountSubGoal> subGoals) {
         this.subGoals = subGoals;
+    }
+
+    public void setAssignedBankAccounts(Collection<BankAccount> bankAccounts) {
+        this.assignedBankAccounts.clear();
+        this.assignedBankAccounts.addAll(bankAccounts);
+    }
+
+    public List<BankAccount> getAssignedBankAccounts() {
+        return this.assignedBankAccounts;
     }
 }
