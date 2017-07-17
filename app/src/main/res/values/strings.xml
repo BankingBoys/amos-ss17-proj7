@@ -90,5 +90,10 @@
     <string name="to">To: </string>
 
     <string name="test_contact_name">Gundula Düsentieb</string>
+    <string name="add_savings_account_enter_sub_goal">Enter a sub goal</string>
+    <string name="add_savings_account_edit_text_enter_sub_goal_balance">Sub goal balance</string>
+    <string name="add_savings_account_button_add_sub_goal">Add</string>
+    <string name="add_savings_account_edit_text_enter_sub_goal_name">Sub goal name</string>
+    <string name="add_savings_account_text_view_enter_sub_goals_total">Total goal balance:</string>
 
 </resources>
