@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +32,7 @@ public class AddSavingsAccountAmountSplitFragment extends AddSavingsAccountPage 
     ListView listViewSubGoals;
 
     @BindView(R.id.add_savings_account_text_view_sub_goal_total)
-    ListView textViewSubGoalTotal;
+    TextView textViewSubGoalTotal;
 
     @Nullable
     @Override
