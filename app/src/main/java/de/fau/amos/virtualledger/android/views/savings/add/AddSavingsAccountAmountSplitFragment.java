@@ -53,6 +53,12 @@ public class AddSavingsAccountAmountSplitFragment extends AddSavingsAccountPage 
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        updateUi();
+    }
+
+    @Override
     public void fillInData(final SavingsAccount savingsAccount) {
 
     }
