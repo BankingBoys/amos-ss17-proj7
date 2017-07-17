@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,6 +42,8 @@ public class AddSavingsAccountAmountSplitFragment extends AddSavingsAccountPage 
     @BindView(R.id.add_savings_account_text_view_sub_goal_total)
     TextView textViewSubGoalTotal;
 
+    private ArrayAdapter<SavingsAccountSubGoal> adapter;
+
     private final List<SavingsAccountSubGoal> subGoals = new ArrayList<>();
 
     @Nullable
@@ -48,6 +51,9 @@ public class AddSavingsAccountAmountSplitFragment extends AddSavingsAccountPage 
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.saving_accounts_add_fragment_amount_split, container, false);
         ButterKnife.bind(this, view);
+
+        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, subGoals);
+        listViewSubGoals.setAdapter(adapter);
 
         return view;
     }
@@ -65,6 +71,7 @@ public class AddSavingsAccountAmountSplitFragment extends AddSavingsAccountPage 
 
     private void updateUi() {
         textViewSubGoalTotal.setText(getString(R.string.add_savings_account_text_view_sub_goal_total, getTotal()));
+        adapter.notifyDataSetChanged();
     }
 
     private double getTotal() {
