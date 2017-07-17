@@ -112,7 +112,6 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
                     public void accept(@NonNull final Throwable throwable) throws Exception {
                         Log.e(TAG, "Failed getting items", throwable);
                         handler.onTechnicalError();
-                        AbstractDataManager.this.sync(); //FIXME: figure out why Exception is thrown when adding
                     }
                 });
     }
