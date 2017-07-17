@@ -60,7 +60,7 @@ public class AddSavingsAccountAmountSplitFragment extends AddSavingsAccountPage 
 
     @Override
     public void fillInData(final SavingsAccount savingsAccount) {
-
+        savingsAccount.setSubGoals(subGoals);
     }
 
     private void updateUi() {
