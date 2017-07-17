@@ -56,7 +56,6 @@ public class SavingsApiEndpoint {
     /**
      * Adds a saving accounts to the authenticated user
      *
-     * @param savingsAccount
      * @return status 201 if successful
      */
     @RequestMapping(method = RequestMethod.POST, value = "api/savings", produces = "application/json", consumes = "application/json")
