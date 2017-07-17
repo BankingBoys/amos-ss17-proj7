@@ -82,7 +82,7 @@ public class SavingsApiEndpointTest {
         HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), usersEmails);
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), any(List.class));
     }
 
     @Test
@@ -105,7 +105,7 @@ public class SavingsApiEndpointTest {
         HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), usersEmails);
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), any(List.class));
     }
 
     @Test
@@ -124,7 +124,7 @@ public class SavingsApiEndpointTest {
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), usersEmails);
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), any(List.class));
     }
 
     @Test
@@ -147,7 +147,7 @@ public class SavingsApiEndpointTest {
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), usersEmails);
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), any(List.class));
     }
 
     @Test
@@ -170,7 +170,7 @@ public class SavingsApiEndpointTest {
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), usersEmails);
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), any(List.class));
     }
 
     @Test
@@ -193,7 +193,7 @@ public class SavingsApiEndpointTest {
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), usersEmails);
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), any(List.class));
     }
 
     @Test
@@ -215,7 +215,7 @@ public class SavingsApiEndpointTest {
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), usersEmails);
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), any(List.class));
     }
 
     @Test
@@ -237,7 +237,7 @@ public class SavingsApiEndpointTest {
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), usersEmails);
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class), any(List.class), any(List.class));
     }
 
     private KeycloakUtilizer setupKeycloakUtilizer(String username) throws ServletException {
