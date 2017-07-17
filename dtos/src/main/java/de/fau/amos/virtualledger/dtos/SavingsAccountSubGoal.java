@@ -1,5 +1,7 @@
 package de.fau.amos.virtualledger.dtos;
 
+import java.util.Locale;
+
 public class SavingsAccountSubGoal {
 
     private String name;
@@ -27,5 +29,10 @@ public class SavingsAccountSubGoal {
 
     public void setAmount(final Double amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        return name + ": " + String.format(Locale.getDefault(), "%.2f", amount);
     }
 }
