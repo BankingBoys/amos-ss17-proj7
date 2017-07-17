@@ -98,6 +98,7 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
 
     @Override
     public void add(final T element, final ServerCallStatusHandler handler) {
+        logger().info("Adding element: " + element);
         dataProvider.add(element)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -105,12 +106,17 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
                     @Override
                     public void accept(@NonNull final String s) throws Exception {
                         handler.onOk();
+                        logger().info("Trigger resync after succesful add");
                         AbstractDataManager.this.sync();
+                    }
+
+                    private Logger logger() {
+                        return Logger.getLogger(this.getClass().getCanonicalName());
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
-                        Log.e(TAG, "Failed getting items", throwable);
+                        Log.e(TAG, "Failed adding items", throwable);
                         handler.onTechnicalError();
                     }
                 });
