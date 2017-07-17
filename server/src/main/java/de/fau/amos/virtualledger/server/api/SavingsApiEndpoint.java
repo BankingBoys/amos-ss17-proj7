@@ -69,10 +69,12 @@ public class SavingsApiEndpoint {
 
         SavingsAccount savingsAccount = savingsAccountAddWrapper.getSavingsAccount();
         List<BankAccountIdentifier> bankAccountIdentifierList = savingsAccountAddWrapper.getBankAccountIdentifierList();
+        final List<String> usersEmails = savingsAccountAddWrapper.getUsersEmails();
         if (savingsAccount == null || savingsAccount.getName() == null || savingsAccount.getName().isEmpty()
                 || savingsAccount.getFinaldate() == null
                 || bankAccountIdentifierList == null
-                || bankAccountIdentifierList.size() == 0) {
+                || bankAccountIdentifierList.size() == 0
+                || usersEmails == null) {
             return new ResponseEntity<>(
                     "Please check your inserted values. None of the parameters must be null or empty except id. Id must not been set!",
                     HttpStatus.BAD_REQUEST);
