@@ -32,6 +32,7 @@ public class AddSavingsAccountAmountSplitFragment extends AddSavingsAccountPage 
     @OnClick(R.id.add_savings_account_button_add_sub_goal)
     void onClickButtonAddSubGoal() {
         subGoals.add(new SavingsAccountSubGoal(editTextSubGoalName.getText().toString(), Double.valueOf(editTextSubGoalAmount.getText().toString())));
+        updateUi();
     }
 
     @BindView(R.id.add_savings_account_list_view_sub_goals)
@@ -54,5 +55,17 @@ public class AddSavingsAccountAmountSplitFragment extends AddSavingsAccountPage 
     @Override
     public void fillInData(final SavingsAccount savingsAccount) {
 
+    }
+
+    private void updateUi() {
+        textViewSubGoalTotal.setText(getString(R.string.add_savings_account_text_view_sub_goal_total, getTotal()));
+    }
+
+    private double getTotal() {
+        double total = 0;
+        for (final SavingsAccountSubGoal subGoal : subGoals) {
+            total += subGoal.getAmount();
+        }
+        return total;
     }
 }
