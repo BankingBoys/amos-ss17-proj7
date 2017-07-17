@@ -3,12 +3,12 @@ package de.fau.amos.virtualledger.dtos;
 public class SavingsAccountSubGoal {
 
     private String name;
-    private String amount;
+    private Double amount;
 
     public SavingsAccountSubGoal() {
     }
 
-    public SavingsAccountSubGoal(final String name, final String amount) {
+    public SavingsAccountSubGoal(final String name, final Double amount) {
         this.name = name;
         this.amount = amount;
     }
@@ -21,11 +21,11 @@ public class SavingsAccountSubGoal {
         this.name = name;
     }
 
-    public String getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(final String amount) {
+    public void setAmount(final Double amount) {
         this.amount = amount;
     }
 }
