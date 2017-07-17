@@ -5,7 +5,11 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
@@ -13,6 +17,21 @@ import de.fau.amos.virtualledger.android.model.SavingsAccount;
 public class AddSavingsAccountAmountSplitFragment extends AddSavingsAccountPage {
     @SuppressWarnings("unused")
     private static final String TAG = AddSavingsAccountAmountSplitFragment.class.getSimpleName();
+
+    @BindView(R.id.add_savings_account_edit_text_sub_goal_name)
+    EditText editTextSubGoalName;
+
+    @BindView(R.id.add_savings_account_edit_text_sub_goal_amount)
+    EditText editTextSubGoalAmount;
+
+    @BindView(R.id.add_savings_account_button_add_sub_goal)
+    Button buttonAddSubGoal;
+
+    @BindView(R.id.add_savings_account_list_view_sub_goals)
+    ListView listViewSubGoals;
+
+    @BindView(R.id.add_savings_account_text_view_sub_goal_total)
+    ListView textViewSubGoalTotal;
 
     @Nullable
     @Override
