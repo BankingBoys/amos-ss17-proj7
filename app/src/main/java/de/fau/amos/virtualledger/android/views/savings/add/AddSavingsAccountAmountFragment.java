@@ -10,12 +10,14 @@ import android.widget.Toast;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 
 public class AddSavingsAccountAmountFragment extends AddSavingsAccountPage {
     @SuppressWarnings("unused")
@@ -36,6 +38,7 @@ public class AddSavingsAccountAmountFragment extends AddSavingsAccountPage {
     @Override
     public void fillInData(final SavingsAccount savingsAccount) {
         savingsAccount.setGoalbalance(NumberUtils.toDouble(editText.getText().toString()));
+        savingsAccount.setSubGoals(new ArrayList<SavingsAccountSubGoal>());
     }
 
     @Override
