@@ -80,7 +80,7 @@ public class SavingsApiEndpoint {
         }
         LOGGER.info("addSavingAccountEndpoint of " + username + " was requested");
 
-        return this.addSavingAccount(username, savingsAccount, bankAccountIdentifierList);
+        return this.addSavingAccount(username, savingsAccount, bankAccountIdentifierList, usersEmails);
     }
 
     /**
@@ -89,9 +89,10 @@ public class SavingsApiEndpoint {
      *
      * @param username
      * @param savingsAccount
+     * @param usersEmails
      * @return status 201 if successful
      */
-    private ResponseEntity<?> addSavingAccount(String username, SavingsAccount savingsAccount, List<BankAccountIdentifier> bankAccountIdentifierList) {
+    private ResponseEntity<?> addSavingAccount(String username, SavingsAccount savingsAccount, List<BankAccountIdentifier> bankAccountIdentifierList, List<String> usersEmails) {
 
         savingsController.addSavingAccount(username, savingsAccount, bankAccountIdentifierList);
         return new ResponseEntity<>(HttpStatus.CREATED);
