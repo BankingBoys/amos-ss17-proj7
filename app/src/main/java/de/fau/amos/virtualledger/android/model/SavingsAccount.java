@@ -10,6 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import de.fau.amos.virtualledger.dtos.Contact;
+import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 
 public class SavingsAccount {
 
@@ -20,6 +21,7 @@ public class SavingsAccount {
     private Date finaldate;
     private Date finalGoalFinishedDate;
     private List<Contact> additionalAssignedContacts = new ArrayList<>();
+    private List<SavingsAccountSubGoal> subGoals;
 
     public SavingsAccount() {
     }
@@ -116,4 +118,11 @@ public class SavingsAccount {
     }
 
 
+    public List<SavingsAccountSubGoal> getSubGoals() {
+        return subGoals;
+    }
+
+    public void setSubGoals(final List<SavingsAccountSubGoal> subGoals) {
+        this.subGoals = subGoals;
+    }
 }
