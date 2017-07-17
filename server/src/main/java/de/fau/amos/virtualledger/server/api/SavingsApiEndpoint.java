@@ -94,7 +94,7 @@ public class SavingsApiEndpoint {
      */
     private ResponseEntity<?> addSavingAccount(String username, SavingsAccount savingsAccount, List<BankAccountIdentifier> bankAccountIdentifierList, List<String> usersEmails) {
 
-        savingsController.addSavingAccount(username, savingsAccount, bankAccountIdentifierList);
+        savingsController.addSavingAccount(username, savingsAccount, bankAccountIdentifierList, usersEmails);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

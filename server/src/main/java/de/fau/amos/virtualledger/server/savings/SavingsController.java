@@ -9,6 +9,7 @@ import de.fau.amos.virtualledger.server.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -32,11 +33,15 @@ public class SavingsController {
         return savingsAccountRepository.findByUserEmailAndLoadUserRelations(email);
     }
 
-    public void addSavingAccount(String email, SavingsAccount savingsAccount, List<BankAccountIdentifier> bankAccountIdentifierList) {
+    public void addSavingAccount(String email, SavingsAccount savingsAccount, List<BankAccountIdentifier> bankAccountIdentifierList, List<String> usersEmails) {
 
         User user = userRepository.findOne(email);
         SavingsAccountUserRelation savingsAccountUserRelation = new SavingsAccountUserRelation(user, bankAccountIdentifierList);
         savingsAccount.getUserRelations().add(savingsAccountUserRelation);
+        for (String e : usersEmails) {
+            SavingsAccountUserRelation savingsAccountParticipatingUserRelation = new SavingsAccountUserRelation(userRepository.findOne(e), new ArrayList<>());
+            savingsAccount.getUserRelations().add(savingsAccountParticipatingUserRelation);
+        }
         savingsAccountRepository.save(savingsAccount);
     }
 }
