@@ -5,6 +5,14 @@ public class SavingsAccountSubGoal {
     private String name;
     private String amount;
 
+    public SavingsAccountSubGoal() {
+    }
+
+    public SavingsAccountSubGoal(final String name, final String amount) {
+        this.name = name;
+        this.amount = amount;
+    }
+
     public String getName() {
         return name;
     }
