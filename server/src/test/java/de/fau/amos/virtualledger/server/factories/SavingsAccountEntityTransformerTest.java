@@ -2,13 +2,16 @@ package de.fau.amos.virtualledger.server.factories;
 
 import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
 import de.fau.amos.virtualledger.dtos.Contact;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 import de.fau.amos.virtualledger.server.model.BankAccountIdentifierEntity;
+import de.fau.amos.virtualledger.server.model.SavingsAccountEntity;
 import de.fau.amos.virtualledger.server.model.SavingsAccountSubGoalEntity;
 import de.fau.amos.virtualledger.server.model.User;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -25,12 +28,37 @@ public class SavingsAccountEntityTransformerTest {
     private final String userEmail = "userEmail";
     private final String userFirstName = "userFirstName";
     private final String userLastName = "userLastName";
+    private final String savingsAccountId = "savingsId";
+    private final String savingsAccountName = "saving";
+    private final double savingsAccountGoal = 1221;
+    private final double savingsAccountCurrent = 456;
+    private final Date savingsAccountFinalDate = new Date();
+    private final Date savingsAccountfinalGoalFinishedDate = new Date();
     private final double delta = 0.01;
 
     private SavingsAccountEntityTransformer transformer = new SavingsAccountEntityTransformer();
 
-    /*   public SavingsAccountEntity transformSavingAccountIntoEntity(SavingsAccount savingsAccount, User currentUser) {
-*/
+    @Test
+    public void transformSavingAccountIntoEntity() {
+
+        // SETUP
+        SavingsAccount savingsAccount = new SavingsAccount(savingsAccountId, savingsAccountName, savingsAccountGoal, savingsAccountCurrent, savingsAccountFinalDate, savingsAccountfinalGoalFinishedDate);
+        User currentUser = new User(userEmail, userFirstName, userLastName);
+
+        // ACT
+        SavingsAccountEntity result = transformer.transformSavingAccountIntoEntity(savingsAccount, currentUser);
+
+        // ASSERT
+        assertNotNull(result);
+        assertEquals(result.getName(), savingsAccount.getName());
+        assertEquals(result.getCurrentbalance(), savingsAccount.getCurrentbalance(), delta);
+        assertEquals(result.getGoalbalance(), savingsAccount.getGoalbalance(), delta);
+        assertEquals(result.getFinaldate().getTime(), savingsAccount.getFinaldate().getTime());
+        assertEquals(result.getFinalGoalFinishedDate().getTime(), savingsAccount.getFinalGoalFinishedDate().getTime());
+        assertEquals(result.getSubGoals().size(), 0);
+        assertEquals(result.getUserRelations().size(), 1);
+    }
+
     @Test
     public void transformContactIntoEntity() {
 
