@@ -1,6 +1,4 @@
-package de.fau.amos.virtualledger.android.model;
-
-import android.support.annotation.VisibleForTesting;
+package de.fau.amos.virtualledger.dtos;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -8,10 +6,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-
-import de.fau.amos.virtualledger.dtos.BankAccount;
-import de.fau.amos.virtualledger.dtos.Contact;
-import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 
 public class SavingsAccount {
 
@@ -23,7 +17,7 @@ public class SavingsAccount {
     private Date finalGoalFinishedDate;
     private List<Contact> additionalAssignedUsers = new ArrayList<>();
     private List<SavingsAccountSubGoal> subGoals;
-    private List<BankAccount> assignedBankAccounts = new ArrayList<>();
+    private List<BankAccountIdentifier> assignedBankAccounts = new ArrayList<>();
 
     public SavingsAccount() {
     }
@@ -68,11 +62,15 @@ public class SavingsAccount {
     }
 
     private int daysBetween(Date d1, Date d2) {
-        return (int) ((d1.getTime() - d2.getTime()) / (1000 * 60 * 60 * 24));
+        final int thousand = 1000;
+        final int min = 60;
+        final int hrs = 24;
+        final int sec = 60;
+        return (int) ((d1.getTime() - d2.getTime()) / (thousand * sec * min * hrs));
     }
 
-    @VisibleForTesting
-    Date today() {
+
+    protected Date today() {
         return new Date();
     }
 
@@ -106,8 +104,8 @@ public class SavingsAccount {
 
     @Override
     public String toString() {
-        return "SavingsAccount[" + super.hashCode() + "]:{name=" +
-                this.getName() + ", amount=" + this.getGoalbalance() + "}";
+        return "SavingsAccount[" + super.hashCode() + "]:{name="
+                + this.getName() + ", amount=" + this.getGoalbalance() + "}";
     }
 
     public void setAdditionalAssignedUsers(Collection<Contact> contacts) {
@@ -128,12 +126,12 @@ public class SavingsAccount {
         this.subGoals = subGoals;
     }
 
-    public void setAssignedBankAccounts(Collection<BankAccount> bankAccounts) {
+    public void setAssignedBankAccounts(Collection<BankAccountIdentifier> bankAccounts) {
         this.assignedBankAccounts.clear();
         this.assignedBankAccounts.addAll(bankAccounts);
     }
 
-    public List<BankAccount> getAssignedBankAccounts() {
+    public List<BankAccountIdentifier> getAssignedBankAccounts() {
         return this.assignedBankAccounts;
     }
 }

@@ -11,7 +11,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 import de.fau.amos.virtualledger.android.data.SyncStatus;
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.android.plugins.RxAndroidPlugins;

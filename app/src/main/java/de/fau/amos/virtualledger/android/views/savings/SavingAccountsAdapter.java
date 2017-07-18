@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 
 public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
 

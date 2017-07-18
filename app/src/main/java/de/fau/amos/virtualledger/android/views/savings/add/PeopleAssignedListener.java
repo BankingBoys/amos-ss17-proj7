@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.Contact;
 
 /**

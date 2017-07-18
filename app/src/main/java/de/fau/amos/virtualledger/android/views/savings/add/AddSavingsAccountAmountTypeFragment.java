@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 
 public class AddSavingsAccountAmountTypeFragment extends AddSavingsAccountPage {
     @SuppressWarnings("unused")

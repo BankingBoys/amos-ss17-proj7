@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.BankAccount;
 
 /**
@@ -39,9 +40,10 @@ public class BankAccountSelectedListener {
     }
 
     private void syncToSavingsAccount() {
-        List<BankAccount> bankAccounts = new ArrayList<>();
+        List<BankAccountIdentifier> bankAccounts = new ArrayList<>();
         for (BankAccount account: this.bankAccounts) {
-            bankAccounts.add(account);
+            BankAccountIdentifier identifier = new BankAccountIdentifier("", account.getBankid());
+            bankAccounts.add(identifier);
         }
         this.account.setAssignedBankAccounts(bankAccounts);
     }

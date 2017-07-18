@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.android.views.contacts.ContactsSupplier;
 import de.fau.amos.virtualledger.android.views.contacts.add.AddContactsActivity;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;

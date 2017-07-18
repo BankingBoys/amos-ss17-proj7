@@ -21,7 +21,7 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.sync.Toaster;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.SavingsAccountsDataManager;
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 
 public class AddSavingsAccountActivity extends AppCompatActivity {
     @SuppressWarnings("unused")

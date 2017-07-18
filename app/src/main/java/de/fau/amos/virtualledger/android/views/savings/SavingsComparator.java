@@ -2,7 +2,7 @@ package de.fau.amos.virtualledger.android.views.savings;
 
 import java.util.Comparator;
 
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 
 /**
  * Created by sebastian on 29.06.17.
