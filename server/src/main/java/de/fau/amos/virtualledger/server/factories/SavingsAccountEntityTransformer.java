@@ -1,9 +1,11 @@
 package de.fau.amos.virtualledger.server.factories;
 
 import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
+import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 import de.fau.amos.virtualledger.server.model.BankAccountIdentifierEntity;
 import de.fau.amos.virtualledger.server.model.SavingsAccountSubGoalEntity;
+import de.fau.amos.virtualledger.server.model.User;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,6 +16,10 @@ import java.util.Set;
 @Component
 public class SavingsAccountEntityTransformer {
 
+
+    public User transformContactIntoEntity(Contact contact) {
+        return new User(contact.getEmail(), contact.getFirstName(), contact.getLastName());
+    }
 
     public List<BankAccountIdentifierEntity> transformBankAccountIdentifierIntoEntity(List<BankAccountIdentifier> assignedBankAccounts) {
 
