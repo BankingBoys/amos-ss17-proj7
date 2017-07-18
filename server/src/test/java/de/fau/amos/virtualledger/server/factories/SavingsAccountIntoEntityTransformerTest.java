@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 
-public class SavingsAccountEntityTransformerTest {
+public class SavingsAccountIntoEntityTransformerTest {
 
     private final String savingsAccountSubGoalTestName = "subGoal";
     private final double savingsAccountSubGoalTestAmount = 123.22;
@@ -36,7 +36,7 @@ public class SavingsAccountEntityTransformerTest {
     private final Date savingsAccountfinalGoalFinishedDate = new Date();
     private final double delta = 0.01;
 
-    private SavingsAccountEntityTransformer transformer = new SavingsAccountEntityTransformer();
+    private SavingsAccountIntoEntityTransformer transformer = new SavingsAccountIntoEntityTransformer();
 
     @Test
     public void transformSavingAccountIntoEntity() {

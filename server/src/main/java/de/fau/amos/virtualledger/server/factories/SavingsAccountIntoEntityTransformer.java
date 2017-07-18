@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 @Component
-public class SavingsAccountEntityTransformer {
+public class SavingsAccountIntoEntityTransformer {
 
 
     public SavingsAccountEntity transformSavingAccountIntoEntity(SavingsAccount savingsAccount, User currentUser) {
