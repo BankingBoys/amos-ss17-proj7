@@ -1,6 +1,5 @@
-package de.fau.amos.virtualledger.android.authentication.oidc;
+package de.fau.amos.virtualledger.android.views.authentication;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,15 +16,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
-import de.fau.amos.virtualledger.android.api.auth.OidcAuthenticationProvider;
-import de.fau.amos.virtualledger.android.config.PropertyReader;
 import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.android.dagger.component.OidcAuthenticationScope;
 import de.fau.amos.virtualledger.android.views.menu.MainMenu;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
