@@ -1,6 +1,8 @@
 package de.fau.amos.virtualledger.server.api;
 
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
+import de.fau.amos.virtualledger.server.factories.SavingsAccountFromEntityTransformer;
+import de.fau.amos.virtualledger.server.factories.SavingsAccountIntoEntityTransformer;
 import de.fau.amos.virtualledger.server.model.BankAccountIdentifierEntity;
 import de.fau.amos.virtualledger.server.model.SavingsAccountAddWrapper;
 import de.fau.amos.virtualledger.server.model.SavingsAccountEntity;
@@ -28,11 +30,15 @@ public class SavingsApiEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private KeycloakUtilizer keycloakUtilizer;
     private SavingsController savingsController;
+    private final SavingsAccountIntoEntityTransformer savingsAccountIntoEntityTransformer;
+    private final SavingsAccountFromEntityTransformer savingsAccountFromEntityTransformer;
 
     @Autowired
-    public SavingsApiEndpoint(KeycloakUtilizer keycloakUtilizer, SavingsController savingsController) {
+    public SavingsApiEndpoint(KeycloakUtilizer keycloakUtilizer, SavingsController savingsController, SavingsAccountIntoEntityTransformer savingsAccountIntoEntityTransformer, SavingsAccountFromEntityTransformer savingsAccountFromEntityTransformer) {
         this.keycloakUtilizer = keycloakUtilizer;
         this.savingsController = savingsController;
+        this.savingsAccountIntoEntityTransformer = savingsAccountIntoEntityTransformer;
+        this.savingsAccountFromEntityTransformer = savingsAccountFromEntityTransformer;
     }
 
 

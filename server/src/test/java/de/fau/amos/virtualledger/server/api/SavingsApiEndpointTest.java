@@ -1,6 +1,8 @@
 package de.fau.amos.virtualledger.server.api;
 
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
+import de.fau.amos.virtualledger.server.factories.SavingsAccountFromEntityTransformer;
+import de.fau.amos.virtualledger.server.factories.SavingsAccountIntoEntityTransformer;
 import de.fau.amos.virtualledger.server.model.BankAccountIdentifierEntity;
 import de.fau.amos.virtualledger.server.model.SavingsAccountAddWrapper;
 import de.fau.amos.virtualledger.server.model.SavingsAccountEntity;
@@ -33,10 +35,13 @@ public class SavingsApiEndpointTest {
     @Mock
     private SavingsController savingsController;
 
+    private SavingsAccountFromEntityTransformer savingsAccountFromEntityTransformer = new SavingsAccountFromEntityTransformer();
+    private SavingsAccountIntoEntityTransformer savingsAccountIntoEntityTransformer = new SavingsAccountIntoEntityTransformer();
+
     @Test
     public void getSavingAccountsEndpointUserPrincipalNameNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(null), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(null), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
 
         // ACT
         ResponseEntity<?> reponse = savingsApiEndpoint.getSavingAccountsEndpoint();
@@ -51,7 +56,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void getSavingAccountsEndpointUserPrincipalNameEmpty() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(""), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(""), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
 
         // ACT
         ResponseEntity<?> reponse = savingsApiEndpoint.getSavingAccountsEndpoint();
@@ -66,7 +71,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void addSavingAccountsEndpointUserPrincipalNameNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(null), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(null), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
         final int Id = 123;
         final double goalBalance = 123.23;
         final double currentBalance = 453.23;
@@ -88,7 +93,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void addSavingAccountsEndpointUserPrincipalNameEmpty() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(""), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(""), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
         final int Id = 123;
         final double goalBalance = 123.23;
         final double currentBalance = 453.23;
@@ -111,7 +116,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void addSavingAccountsEndpointSavingsAccountNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
         SavingsAccountEntity savingsAccountEntity = null;
         List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
         bankAccountIdentifierEntityList.add(new BankAccountIdentifierEntity());
@@ -130,7 +135,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void addSavingAccountsEndpointSavingsAccountNameNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
@@ -153,7 +158,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void addSavingAccountsEndpointSavingsAccountNameEmpty() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
@@ -176,7 +181,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void addSavingAccountsEndpointSavingsAccountfinalDateNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
@@ -199,7 +204,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void addSavingAccountsEndpointSavingsAccountIdentifierListNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
@@ -221,7 +226,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void addSavingAccountsEndpointSavingsAccountIdentifierListEmpty() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
