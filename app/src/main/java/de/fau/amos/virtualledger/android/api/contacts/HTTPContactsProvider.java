@@ -63,7 +63,7 @@ public class HTTPContactsProvider implements ContactsProvider{
             @Override
             public void onReceiveToken(final String token) {
                 // got token
-                restApi.deleteContact(token, contact).enqueue(new RetrofitCallback<>(observable));
+                restApi.deleteContact(token, contact.getEmail()).enqueue(new RetrofitCallback<>(observable));
             }
         });
 

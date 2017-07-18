@@ -18,6 +18,8 @@ import java.util.List;
 public class ContactsController {
     @SuppressWarnings("unused")
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    @SuppressWarnings("unused")
+    private static final String TAG = "ContactsController";
 
     private final ContactsRepository contactsRepository;
     private final UserRepository userRepository;
@@ -59,20 +61,21 @@ public class ContactsController {
         contactsRepository.save(addedContact);
     }
 
-    public void deleteContact(final Contact contact, final String userEmail) throws UserNotFoundException, ContactNotFoundException {
+    public void deleteContact(final String contactEmail, final String userEmail) throws UserNotFoundException, ContactNotFoundException {
         User owner = userRepository.findOne(userEmail);
+        LOGGER.info(TAG + "User email:" + userEmail);
         assertUserNotNull(owner);
-        User userContact = userRepository.findOne(contact.getEmail());
+        User userContact = userRepository.findOne(contactEmail);
+        LOGGER.info(TAG + "User Contact " + contactEmail);
         assertUserNotNull(userContact);
         assertContactDoesExist(owner, userContact);
-        ContactsEntity contactToDelete = new ContactsEntity();
-        contactToDelete.setOwner(owner);
-        contactToDelete.setContact(userContact);
+        ContactsEntity contactToDelete = contactsRepository.findEntityByOwnerAndContact(owner, userContact);
         contactsRepository.delete(contactToDelete);
     }
 
     private void assertUserNotNull(User user) throws UserNotFoundException {
         if (user == null) {
+            LOGGER.info(TAG + "User could not be found");
             throw new UserNotFoundException("User/Contact could not be found");
         }
     }
@@ -80,12 +83,14 @@ public class ContactsController {
     private void assertContactDoesNotExist(User owner, User contact) throws ContactAlreadyExistsException {
         boolean exists = contactsRepository.existsContactwithEmail(owner, contact);
         if (exists) {
+            LOGGER.info(TAG + "Contact was already added before");
             throw new ContactAlreadyExistsException("Contact was already added before");
         }
     }
 
     private void assertContactDoesExist(User owner, User contact) throws  ContactNotFoundException {
         if (!contactsRepository.existsContactwithEmail(owner, contact)) {
+            LOGGER.info(TAG + "Contact not found");
             throw new ContactNotFoundException("Contact is not in the database!");
         }
     }
