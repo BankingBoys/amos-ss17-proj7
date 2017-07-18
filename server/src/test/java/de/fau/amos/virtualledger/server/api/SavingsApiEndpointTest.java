@@ -1,12 +1,10 @@
 package de.fau.amos.virtualledger.server.api;
 
+import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
+import de.fau.amos.virtualledger.dtos.Contact;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
-import de.fau.amos.virtualledger.server.factories.SavingsAccountFromEntityTransformer;
-import de.fau.amos.virtualledger.server.factories.SavingsAccountIntoEntityTransformer;
-import de.fau.amos.virtualledger.server.model.BankAccountIdentifierEntity;
-import de.fau.amos.virtualledger.server.model.SavingsAccountAddWrapper;
-import de.fau.amos.virtualledger.server.model.SavingsAccountEntity;
-import de.fau.amos.virtualledger.server.model.SavingsAccountSubGoalEntity;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,9 +17,7 @@ import org.springframework.util.Assert;
 import javax.servlet.ServletException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -35,13 +31,10 @@ public class SavingsApiEndpointTest {
     @Mock
     private SavingsController savingsController;
 
-    private SavingsAccountFromEntityTransformer savingsAccountFromEntityTransformer = new SavingsAccountFromEntityTransformer();
-    private SavingsAccountIntoEntityTransformer savingsAccountIntoEntityTransformer = new SavingsAccountIntoEntityTransformer();
-
     @Test
     public void getSavingAccountsEndpointUserPrincipalNameNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(null), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(null), savingsController);
 
         // ACT
         ResponseEntity<?> reponse = savingsApiEndpoint.getSavingAccountsEndpoint();
@@ -56,7 +49,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void getSavingAccountsEndpointUserPrincipalNameEmpty() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(""), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(""), savingsController);
 
         // ACT
         ResponseEntity<?> reponse = savingsApiEndpoint.getSavingAccountsEndpoint();
@@ -71,181 +64,165 @@ public class SavingsApiEndpointTest {
     @Test
     public void addSavingAccountsEndpointUserPrincipalNameNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(null), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(null), savingsController);
         final int Id = 123;
         final double goalBalance = 123.23;
         final double currentBalance = 453.23;
-        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
-        bankAccountIdentifierEntityList.add(new BankAccountIdentifierEntity());
-        Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntitySet = new HashSet<>();
-        SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(Id, "dummy", goalBalance, currentBalance, new Date(), new Date(), savingsAccountSubGoalEntitySet);
+        List<Contact> additionalContacts = new ArrayList<>();
+        additionalContacts.add(new Contact());
+        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
+        bankAccountIdentifierList.add(new BankAccountIdentifier());
+        List<SavingsAccountSubGoal> savingsAccountSubGoalList = new ArrayList<>();
+
+        SavingsAccount savingsAccount = new SavingsAccount("dummy", goalBalance, currentBalance, new Date(), new Date());
+        savingsAccount.setAdditionalAssignedUsers(additionalContacts);
+        savingsAccount.setAssignedBankAccounts(bankAccountIdentifierList);
+        savingsAccount.setSubGoals(savingsAccountSubGoalList);
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccountEntity.class), any(List.class), any(List.class));
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class));
     }
 
     @Test
     public void addSavingAccountsEndpointUserPrincipalNameEmpty() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(""), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(""), savingsController);
         final int Id = 123;
         final double goalBalance = 123.23;
         final double currentBalance = 453.23;
-        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
-        bankAccountIdentifierEntityList.add(new BankAccountIdentifierEntity());
-        Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntitySet = new HashSet<>();
-        SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(Id, "dummy", goalBalance, currentBalance, new Date(), new Date(), savingsAccountSubGoalEntitySet);
+        List<Contact> additionalContacts = new ArrayList<>();
+        additionalContacts.add(new Contact());
+        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
+        bankAccountIdentifierList.add(new BankAccountIdentifier());
+        List<SavingsAccountSubGoal> savingsAccountSubGoalList = new ArrayList<>();
+
+        SavingsAccount savingsAccount = new SavingsAccount("dummy", goalBalance, currentBalance, new Date(), new Date());
+        savingsAccount.setAdditionalAssignedUsers(additionalContacts);
+        savingsAccount.setAssignedBankAccounts(bankAccountIdentifierList);
+        savingsAccount.setSubGoals(savingsAccountSubGoalList);
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
-
+        ResponseEntity<?> response = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
-        Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
-                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccountEntity.class), any(List.class), any(List.class));
+        Assert.isTrue(response.getStatusCode().equals(expectedStatusCode),
+                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + response.getStatusCode());
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class));
     }
 
     @Test
     public void addSavingAccountsEndpointSavingsAccountNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
-        SavingsAccountEntity savingsAccountEntity = null;
-        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
-        bankAccountIdentifierEntityList.add(new BankAccountIdentifierEntity());
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
-
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(null);
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccountEntity.class), any(List.class), any(List.class));
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class));
     }
 
     @Test
     public void addSavingAccountsEndpointSavingsAccountNameNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
-        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
-        bankAccountIdentifierEntityList.add(new BankAccountIdentifierEntity());
-        Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntitySet = new HashSet<>();
-        SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(Id, null, goalBalance, currentBalance, new Date(), new Date(), savingsAccountSubGoalEntitySet);
+        List<Contact> additionalContacts = new ArrayList<>();
+        additionalContacts.add(new Contact());
+        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
+        bankAccountIdentifierList.add(new BankAccountIdentifier());
+        List<SavingsAccountSubGoal> savingsAccountSubGoalList = new ArrayList<>();
+
+        SavingsAccount savingsAccount = new SavingsAccount(null, goalBalance, currentBalance, new Date(), new Date());
+        savingsAccount.setAdditionalAssignedUsers(additionalContacts);
+        savingsAccount.setAssignedBankAccounts(bankAccountIdentifierList);
+        savingsAccount.setSubGoals(savingsAccountSubGoalList);
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
 
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccountEntity.class), any(List.class), any(List.class));
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class));
     }
 
     @Test
     public void addSavingAccountsEndpointSavingsAccountNameEmpty() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
-        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
-        bankAccountIdentifierEntityList.add(new BankAccountIdentifierEntity());
-        Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntitySet = new HashSet<>();
-        SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(Id, "", goalBalance, currentBalance, new Date(), new Date(), savingsAccountSubGoalEntitySet);
+        List<Contact> additionalContacts = new ArrayList<>();
+        additionalContacts.add(new Contact());
+        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
+        bankAccountIdentifierList.add(new BankAccountIdentifier());
+        List<SavingsAccountSubGoal> savingsAccountSubGoalList = new ArrayList<>();
+
+        SavingsAccount savingsAccount = new SavingsAccount("", goalBalance, currentBalance, new Date(), new Date());
+        savingsAccount.setAdditionalAssignedUsers(additionalContacts);
+        savingsAccount.setAssignedBankAccounts(bankAccountIdentifierList);
+        savingsAccount.setSubGoals(savingsAccountSubGoalList);
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
 
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccountEntity.class), any(List.class), any(List.class));
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class));
     }
 
     @Test
     public void addSavingAccountsEndpointSavingsAccountfinalDateNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
-        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
-        bankAccountIdentifierEntityList.add(new BankAccountIdentifierEntity());
-        Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntitySet = new HashSet<>();
-        SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(Id, "test", goalBalance, currentBalance, null, new Date(), savingsAccountSubGoalEntitySet);
+        List<Contact> additionalContacts = new ArrayList<>();
+        additionalContacts.add(new Contact());
+        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
+        bankAccountIdentifierList.add(new BankAccountIdentifier());
+        List<SavingsAccountSubGoal> savingsAccountSubGoalList = new ArrayList<>();
+
+        SavingsAccount savingsAccount = new SavingsAccount("", goalBalance, currentBalance, null, new Date());
+        savingsAccount.setAdditionalAssignedUsers(additionalContacts);
+        savingsAccount.setAssignedBankAccounts(bankAccountIdentifierList);
+        savingsAccount.setSubGoals(savingsAccountSubGoalList);
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(savingsAccount);
 
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
         Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
                 "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccountEntity.class), any(List.class), any(List.class));
+        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccount.class));
     }
 
-    @Test
-    public void addSavingAccountsEndpointSavingsAccountIdentifierListNull() throws ServletException {
-        // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
-        final int Id = 123;
-        final double goalBalance = 123.43;
-        final double currentBalance = 543.43;
-        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = null;
-        Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntitySet = new HashSet<>();
-        SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(Id, "test", goalBalance, currentBalance, new Date(), new Date(), savingsAccountSubGoalEntitySet);
 
-        // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
+    private KeycloakUtilizer
 
-
-        // ASSERT
-        HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
-        Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
-                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccountEntity.class), any(List.class), any(List.class));
-    }
-
-    @Test
-    public void addSavingAccountsEndpointSavingsAccountIdentifierListEmpty() throws ServletException {
-        // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, savingsAccountIntoEntityTransformer, savingsAccountFromEntityTransformer);
-        final int Id = 123;
-        final double goalBalance = 123.43;
-        final double currentBalance = 543.43;
-        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
-        Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntitySet = new HashSet<>();
-        SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(Id, "test", goalBalance, currentBalance, new Date(), new Date(), savingsAccountSubGoalEntitySet);
-
-        // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
-
-
-        // ASSERT
-        HttpStatus expectedStatusCode = HttpStatus.BAD_REQUEST;
-        Assert.isTrue(reponse.getStatusCode().equals(expectedStatusCode),
-                "Wrong status code applied! Expected " + expectedStatusCode + ", but got " + reponse.getStatusCode());
-        verify(savingsController, times(0)).addSavingAccount(any(String.class), any(SavingsAccountEntity.class), any(List.class), any(List.class));
-    }
-
-    private KeycloakUtilizer setupKeycloakUtilizer(String username) throws ServletException {
+    setupKeycloakUtilizer(String username) throws ServletException {
 
         KeycloakUtilizer keycloakUtilizerMock = mock(KeycloakUtilizer.class);
         when(keycloakUtilizerMock.getEmail()).thenReturn(username);
