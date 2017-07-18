@@ -76,6 +76,7 @@
     <string name="add_savings_account_choose_finish_goal_date">When will you have spent the money?</string>
     <string name="add_savings_account_choose_assignment">Assign the saving goal to ...</string>
     <string name="add_savings_account_choose_assignment_amount_per_person" formatted="false">You assigned %s to the savings goal.\nThe amount per person is %s€.</string>
+    <string name="test_bank_Account" >TestAccount</string>
 
     <string name="amount">Amount</string>
     <string name="total_amount">Total Amount</string>
