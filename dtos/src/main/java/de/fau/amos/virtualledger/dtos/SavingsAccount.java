@@ -22,6 +22,14 @@ public class SavingsAccount {
     public SavingsAccount() {
     }
 
+    public SavingsAccount(String name, double goalbalance, double currentbalance, Date finaldate, Date finalGoalFinishedDate) {
+        this.name = name;
+        this.goalbalance = goalbalance;
+        this.currentbalance = currentbalance;
+        this.finaldate = finaldate;
+        this.finalGoalFinishedDate = finalGoalFinishedDate;
+    }
+
     public SavingsAccount(String id, String name, double goalbalance, double currentbalance, Date finaldate, Date finalGoalFinishedDate) {
         this.id = id;
         this.name = name;
