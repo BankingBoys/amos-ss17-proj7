@@ -1,7 +1,7 @@
 package de.fau.amos.virtualledger.server.savings;
 
 import de.fau.amos.virtualledger.server.model.BankAccountIdentifier;
-import de.fau.amos.virtualledger.server.model.SavingsAccount;
+import de.fau.amos.virtualledger.server.model.SavingsAccountEntity;
 import de.fau.amos.virtualledger.server.model.SavingsAccountUserRelation;
 import de.fau.amos.virtualledger.server.model.User;
 import de.fau.amos.virtualledger.server.persistence.SavingsAccountRepository;
@@ -28,20 +28,20 @@ public class SavingsController {
     protected SavingsController() {
     }
 
-    public List<SavingsAccount> getSavingAccounts(String email) {
+    public List<SavingsAccountEntity> getSavingAccounts(String email) {
 
         return savingsAccountRepository.findByUserEmailAndLoadUserRelations(email);
     }
 
-    public void addSavingAccount(String email, SavingsAccount savingsAccount, List<BankAccountIdentifier> bankAccountIdentifierList, List<String> usersEmails) {
+    public void addSavingAccount(String email, SavingsAccountEntity savingsAccountEntity, List<BankAccountIdentifier> bankAccountIdentifierList, List<String> usersEmails) {
 
         User user = userRepository.findOne(email);
         SavingsAccountUserRelation savingsAccountUserRelation = new SavingsAccountUserRelation(user, bankAccountIdentifierList);
-        savingsAccount.getUserRelations().add(savingsAccountUserRelation);
+        savingsAccountEntity.getUserRelations().add(savingsAccountUserRelation);
         for (String e : usersEmails) {
             SavingsAccountUserRelation savingsAccountParticipatingUserRelation = new SavingsAccountUserRelation(userRepository.findOne(e), new ArrayList<>());
-            savingsAccount.getUserRelations().add(savingsAccountParticipatingUserRelation);
+            savingsAccountEntity.getUserRelations().add(savingsAccountParticipatingUserRelation);
         }
-        savingsAccountRepository.save(savingsAccount);
+        savingsAccountRepository.save(savingsAccountEntity);
     }
 }

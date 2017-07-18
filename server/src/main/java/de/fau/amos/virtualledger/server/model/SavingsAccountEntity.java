@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "savings_accounts")
-public class SavingsAccount {
+public class SavingsAccountEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,10 +36,10 @@ public class SavingsAccount {
     @Cascade(CascadeType.ALL)
     private Set<SavingsAccountUserRelation> userRelations = new HashSet<>();
 
-    public SavingsAccount() {
+    public SavingsAccountEntity() {
     }
 
-    public SavingsAccount(int id, String name, double goalbalance, double currentbalance, Date finaldate, Set<SingleGoal> singleGoals) {
+    public SavingsAccountEntity(int id, String name, double goalbalance, double currentbalance, Date finaldate, Set<SingleGoal> singleGoals) {
         this.setId(id);
         this.setName(name);
         this.setGoalbalance(goalbalance);
@@ -48,7 +48,7 @@ public class SavingsAccount {
         this.setSingleGoals(singleGoals);
     }
 
-    public SavingsAccount(String name, double goalbalance, double currentbalance, Date finaldate, Set<SavingsAccountUserRelation> userRelations) {
+    public SavingsAccountEntity(String name, double goalbalance, double currentbalance, Date finaldate, Set<SavingsAccountUserRelation> userRelations) {
         this.name = name;
         this.goalbalance = goalbalance;
         this.currentbalance = currentbalance;

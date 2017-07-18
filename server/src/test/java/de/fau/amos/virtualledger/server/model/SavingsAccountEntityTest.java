@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class SavingsAccountTest {
+public class SavingsAccountEntityTest {
 
     private static final double DELTA = 0.01;
 
@@ -27,14 +27,14 @@ public class SavingsAccountTest {
         singleGoalSet.add(testSingleGoal);
 
         // ACT
-        SavingsAccount savingsAccount = new SavingsAccount(testId, name, goalBalance, currentBalance, finalDate, singleGoalSet);
+        SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(testId, name, goalBalance, currentBalance, finalDate, singleGoalSet);
 
         // ASSERT
-        Assert.assertNotNull(savingsAccount);
-        Assert.assertEquals(testId, savingsAccount.getId());
-        Assert.assertEquals(name, savingsAccount.getName());
-        Assert.assertEquals(goalBalance, savingsAccount.getGoalbalance(), DELTA);
-        Assert.assertEquals(currentBalance, savingsAccount.getCurrentbalance(), DELTA);
-        Assert.assertEquals(finalDate, savingsAccount.getFinaldate());
+        Assert.assertNotNull(savingsAccountEntity);
+        Assert.assertEquals(testId, savingsAccountEntity.getId());
+        Assert.assertEquals(name, savingsAccountEntity.getName());
+        Assert.assertEquals(goalBalance, savingsAccountEntity.getGoalbalance(), DELTA);
+        Assert.assertEquals(currentBalance, savingsAccountEntity.getCurrentbalance(), DELTA);
+        Assert.assertEquals(finalDate, savingsAccountEntity.getFinaldate());
     }
 }

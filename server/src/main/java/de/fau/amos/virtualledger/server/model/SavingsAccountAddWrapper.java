@@ -5,24 +5,24 @@ import java.util.List;
 
 public class SavingsAccountAddWrapper {
 
-    private SavingsAccount savingsAccount;
+    private SavingsAccountEntity savingsAccountEntity;
     private List<BankAccountIdentifier> bankAccountIdentifierList;
     private List<String> usersEmails;
 
-    public SavingsAccountAddWrapper(SavingsAccount savingsAccount, List<BankAccountIdentifier> bankAccountIdentifierList) {
-        this.savingsAccount = savingsAccount;
+    public SavingsAccountAddWrapper(SavingsAccountEntity savingsAccountEntity, List<BankAccountIdentifier> bankAccountIdentifierList) {
+        this.savingsAccountEntity = savingsAccountEntity;
         this.bankAccountIdentifierList = bankAccountIdentifierList;
     }
 
     public SavingsAccountAddWrapper() {
     }
 
-    public SavingsAccount getSavingsAccount() {
-        return savingsAccount;
+    public SavingsAccountEntity getSavingsAccountEntity() {
+        return savingsAccountEntity;
     }
 
-    public void setSavingsAccount(SavingsAccount savingsAccount) {
-        this.savingsAccount = savingsAccount;
+    public void setSavingsAccountEntity(SavingsAccountEntity savingsAccountEntity) {
+        this.savingsAccountEntity = savingsAccountEntity;
     }
 
     public List<BankAccountIdentifier> getBankAccountIdentifierList() {

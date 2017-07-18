@@ -2,8 +2,8 @@ package de.fau.amos.virtualledger.server.api;
 
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
 import de.fau.amos.virtualledger.server.model.BankAccountIdentifier;
-import de.fau.amos.virtualledger.server.model.SavingsAccount;
 import de.fau.amos.virtualledger.server.model.SavingsAccountAddWrapper;
+import de.fau.amos.virtualledger.server.model.SavingsAccountEntity;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,11 +66,11 @@ public class SavingsApiEndpoint {
             return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);
         }
 
-        SavingsAccount savingsAccount = savingsAccountAddWrapper.getSavingsAccount();
+        SavingsAccountEntity savingsAccountEntity = savingsAccountAddWrapper.getSavingsAccountEntity();
         List<BankAccountIdentifier> bankAccountIdentifierList = savingsAccountAddWrapper.getBankAccountIdentifierList();
         final List<String> usersEmails = savingsAccountAddWrapper.getUsersEmails();
-        if (savingsAccount == null || savingsAccount.getName() == null || savingsAccount.getName().isEmpty()
-                || savingsAccount.getFinaldate() == null
+        if (savingsAccountEntity == null || savingsAccountEntity.getName() == null || savingsAccountEntity.getName().isEmpty()
+                || savingsAccountEntity.getFinaldate() == null
                         /*|| bankAccountIdentifierList == null
                 || bankAccountIdentifierList.size() == 0*/
                 ) {
@@ -80,7 +80,7 @@ public class SavingsApiEndpoint {
         }
         LOGGER.info("addSavingAccountEndpoint of " + username + " was requested");
 
-        return this.addSavingAccount(username, savingsAccount, bankAccountIdentifierList, usersEmails);
+        return this.addSavingAccount(username, savingsAccountEntity, bankAccountIdentifierList, usersEmails);
     }
 
     /**
@@ -88,13 +88,13 @@ public class SavingsApiEndpoint {
      * exceptions and returns corresponding response codes.
      *
      * @param username
-     * @param savingsAccount
+     * @param savingsAccountEntity
      * @param usersEmails
      * @return status 201 if successful
      */
-    private ResponseEntity<?> addSavingAccount(String username, SavingsAccount savingsAccount, List<BankAccountIdentifier> bankAccountIdentifierList, List<String> usersEmails) {
+    private ResponseEntity<?> addSavingAccount(String username, SavingsAccountEntity savingsAccountEntity, List<BankAccountIdentifier> bankAccountIdentifierList, List<String> usersEmails) {
 
-        savingsController.addSavingAccount(username, savingsAccount, bankAccountIdentifierList, usersEmails);
+        savingsController.addSavingAccount(username, savingsAccountEntity, bankAccountIdentifierList, usersEmails);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -107,8 +107,8 @@ public class SavingsApiEndpoint {
      */
     private ResponseEntity<?> getSavingAccounts(String username) {
 
-        List<SavingsAccount> savingsAccountList = savingsController.getSavingAccounts(username);
-        return new ResponseEntity<Object>(savingsAccountList, HttpStatus.OK);
+        List<SavingsAccountEntity> savingsAccountEntityList = savingsController.getSavingAccounts(username);
+        return new ResponseEntity<Object>(savingsAccountEntityList, HttpStatus.OK);
     }
 
 }
