@@ -29,6 +29,7 @@ import de.fau.amos.virtualledger.android.views.contacts.add.AddContactsActivity;
 import de.fau.amos.virtualledger.android.views.menu.MainMenu;
 import de.fau.amos.virtualledger.android.views.savings.SavingAccountsFragment;
 import de.fau.amos.virtualledger.android.views.savings.SavingsSupplier;
+import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountAccountsFragment;
 import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplierImplementation;
@@ -87,4 +88,6 @@ public interface NetComponent {
     void inject(NoContactsFragment noContactsFragment);
 
     void inject(AddContactsActivity addContactsActivity);
+
+    void inject(AddSavingsAccountAccountsFragment addSavingsAccountAccountsFragment);
 }
