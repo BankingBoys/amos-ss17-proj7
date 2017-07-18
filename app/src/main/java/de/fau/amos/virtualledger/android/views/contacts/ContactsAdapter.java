@@ -40,6 +40,14 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
 
         TextView contactName = (TextView) convertView.findViewById(R.id.id_contactName);
         contactName.setText(contact.getFirstName() + " " + contact.getLastName());
+
+        contactName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         return convertView;
     }
 

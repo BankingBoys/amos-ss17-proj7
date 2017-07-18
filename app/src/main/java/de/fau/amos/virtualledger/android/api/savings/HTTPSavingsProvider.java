@@ -57,4 +57,8 @@ public class HTTPSavingsProvider implements SavingsProvider {
         return observable;
     }
 
+    @Override
+    public Observable<Void> delete(SavingsAccount item) {
+        return null;
+    }
 }
