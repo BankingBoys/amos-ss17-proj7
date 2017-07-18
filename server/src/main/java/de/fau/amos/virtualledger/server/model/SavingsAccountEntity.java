@@ -30,7 +30,7 @@ public class SavingsAccountEntity {
 
     @OneToMany
     @Cascade(CascadeType.ALL)
-    private Set<SingleGoal> singleGoals = new HashSet<>();
+    private Set<SavingsAccountSubGoalEntity> subGoals = new HashSet<>();
 
     @ManyToMany
     @Cascade(CascadeType.ALL)
@@ -39,13 +39,13 @@ public class SavingsAccountEntity {
     public SavingsAccountEntity() {
     }
 
-    public SavingsAccountEntity(int id, String name, double goalbalance, double currentbalance, Date finaldate, Set<SingleGoal> singleGoals) {
+    public SavingsAccountEntity(int id, String name, double goalbalance, double currentbalance, Date finaldate, Set<SavingsAccountSubGoalEntity> subGoals) {
         this.setId(id);
         this.setName(name);
         this.setGoalbalance(goalbalance);
         this.setCurrentbalance(currentbalance);
         this.setFinaldate(finaldate);
-        this.setSingleGoals(singleGoals);
+        this.setSubGoals(subGoals);
     }
 
     public SavingsAccountEntity(String name, double goalbalance, double currentbalance, Date finaldate, Set<SavingsAccountUserRelation> userRelations) {
@@ -104,11 +104,11 @@ public class SavingsAccountEntity {
         this.userRelations = userRelations;
     }
 
-    public Set<SingleGoal> getSingleGoals() {
-        return singleGoals;
+    public Set<SavingsAccountSubGoalEntity> getSubGoals() {
+        return subGoals;
     }
 
-    public void setSingleGoals(Set<SingleGoal> singleGoals) {
-        this.singleGoals = singleGoals;
+    public void setSubGoals(Set<SavingsAccountSubGoalEntity> subGoals) {
+        this.subGoals = subGoals;
     }
 }

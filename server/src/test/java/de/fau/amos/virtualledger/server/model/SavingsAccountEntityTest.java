@@ -22,12 +22,12 @@ public class SavingsAccountEntityTest {
         Date finalDate = new Date();
         final String goalName = "testGoal";
         final double singleGoalBalance = 123123.1;
-        SingleGoal testSingleGoal = new SingleGoal(goalName, singleGoalBalance);
-        Set<SingleGoal> singleGoalSet = new HashSet<>();
-        singleGoalSet.add(testSingleGoal);
+        SavingsAccountSubGoalEntity testSavingsAccountSubGoalEntity = new SavingsAccountSubGoalEntity(goalName, singleGoalBalance);
+        Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntitySet = new HashSet<>();
+        savingsAccountSubGoalEntitySet.add(testSavingsAccountSubGoalEntity);
 
         // ACT
-        SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(testId, name, goalBalance, currentBalance, finalDate, singleGoalSet);
+        SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(testId, name, goalBalance, currentBalance, finalDate, savingsAccountSubGoalEntitySet);
 
         // ASSERT
         Assert.assertNotNull(savingsAccountEntity);

@@ -10,8 +10,8 @@ import javax.persistence.Table;
  * Created by Simon on 16.07.2017.
  */
 @Entity
-@Table(name = "single_goals")
-public class SingleGoal {
+@Table(name = "savings_account_sub_goals")
+public class SavingsAccountSubGoalEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,12 +20,12 @@ public class SingleGoal {
     private String name;
     private double amount;
 
-    public SingleGoal(String name, double amount) {
+    public SavingsAccountSubGoalEntity(String name, double amount) {
         this.name = name;
         this.amount = amount;
     }
 
-    public SingleGoal() {
+    public SavingsAccountSubGoalEntity() {
     }
 
     public String getName() {
