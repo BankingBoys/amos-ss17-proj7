@@ -27,6 +27,7 @@ public class SavingsAccountEntity {
     private double goalbalance;
     private double currentbalance;
     private Date finaldate;
+    private Date finalGoalFinishedDate;
 
     @OneToMany
     @Cascade(CascadeType.ALL)
@@ -39,7 +40,16 @@ public class SavingsAccountEntity {
     public SavingsAccountEntity() {
     }
 
-    public SavingsAccountEntity(int id, String name, double goalbalance, double currentbalance, Date finaldate, Set<SavingsAccountSubGoalEntity> subGoals) {
+    public SavingsAccountEntity(String name, double goalbalance, double currentbalance, Date finaldate, Date finalGoalFinishedDate) {
+        this.name = name;
+        this.goalbalance = goalbalance;
+        this.currentbalance = currentbalance;
+        this.finaldate = finaldate;
+        this.finalGoalFinishedDate = finalGoalFinishedDate;
+    }
+
+    public SavingsAccountEntity(int id, String name, double goalbalance, double currentbalance, Date finaldate, Date finalGoalFinishedDate, Set<SavingsAccountSubGoalEntity> subGoals) {
+        this.finalGoalFinishedDate = finalGoalFinishedDate;
         this.setId(id);
         this.setName(name);
         this.setGoalbalance(goalbalance);
@@ -48,11 +58,12 @@ public class SavingsAccountEntity {
         this.setSubGoals(subGoals);
     }
 
-    public SavingsAccountEntity(String name, double goalbalance, double currentbalance, Date finaldate, Set<SavingsAccountUserRelation> userRelations) {
+    public SavingsAccountEntity(String name, double goalbalance, double currentbalance, Date finaldate, Date finalGoalFinishedDate, Set<SavingsAccountUserRelation> userRelations) {
         this.name = name;
         this.goalbalance = goalbalance;
         this.currentbalance = currentbalance;
         this.finaldate = finaldate;
+        this.finalGoalFinishedDate = finalGoalFinishedDate;
         this.userRelations = userRelations;
     }
 

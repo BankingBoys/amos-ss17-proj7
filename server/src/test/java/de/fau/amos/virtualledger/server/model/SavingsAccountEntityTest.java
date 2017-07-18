@@ -27,7 +27,7 @@ public class SavingsAccountEntityTest {
         savingsAccountSubGoalEntitySet.add(testSavingsAccountSubGoalEntity);
 
         // ACT
-        SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(testId, name, goalBalance, currentBalance, finalDate, savingsAccountSubGoalEntitySet);
+        SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(testId, name, goalBalance, currentBalance, finalDate, savingsAccountSubGoalEntitySet, finalGoalFinishedDate);
 
         // ASSERT
         Assert.assertNotNull(savingsAccountEntity);
