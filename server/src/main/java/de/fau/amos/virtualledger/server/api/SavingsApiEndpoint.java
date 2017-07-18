@@ -71,8 +71,9 @@ public class SavingsApiEndpoint {
         final List<String> usersEmails = savingsAccountAddWrapper.getUsersEmails();
         if (savingsAccountEntity == null || savingsAccountEntity.getName() == null || savingsAccountEntity.getName().isEmpty()
                 || savingsAccountEntity.getFinaldate() == null
-                        /*|| bankAccountIdentifierEntityList == null
-                || bankAccountIdentifierEntityList.size() == 0*/
+                || savingsAccountEntity.getFinalGoalFinishedDate() == null
+                || bankAccountIdentifierEntityList == null
+                || bankAccountIdentifierEntityList.size() == 0
                 ) {
             return new ResponseEntity<>(
                     "Please check your inserted values. None of the parameters must be null or empty except id. Id must not been set!",

@@ -49,7 +49,6 @@ public class SavingsAccountEntity {
     }
 
     public SavingsAccountEntity(int id, String name, double goalbalance, double currentbalance, Date finaldate, Date finalGoalFinishedDate, Set<SavingsAccountSubGoalEntity> subGoals) {
-        this.finalGoalFinishedDate = finalGoalFinishedDate;
         this.setId(id);
         this.setName(name);
         this.setGoalbalance(goalbalance);
@@ -63,7 +62,6 @@ public class SavingsAccountEntity {
         this.goalbalance = goalbalance;
         this.currentbalance = currentbalance;
         this.finaldate = finaldate;
-        this.finalGoalFinishedDate = finalGoalFinishedDate;
         this.userRelations = userRelations;
     }
 
@@ -105,6 +103,14 @@ public class SavingsAccountEntity {
 
     public void setFinaldate(Date finaldate) {
         this.finaldate = finaldate;
+    }
+
+    public Date getFinalGoalFinishedDate() {
+        return finalGoalFinishedDate;
+    }
+
+    public void setFinalGoalFinishedDate(Date finalGoalFinishedDate) {
+        this.finalGoalFinishedDate = finalGoalFinishedDate;
     }
 
     public Set<SavingsAccountUserRelation> getUserRelations() {
