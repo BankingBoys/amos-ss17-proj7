@@ -1,6 +1,8 @@
 package de.fau.amos.virtualledger.server.factories;
 
+import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
 import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
+import de.fau.amos.virtualledger.server.model.BankAccountIdentifierEntity;
 import de.fau.amos.virtualledger.server.model.SavingsAccountSubGoalEntity;
 import org.junit.Test;
 
@@ -16,6 +18,8 @@ public class SavingsAccountEntityTransformerTest {
 
     private final String savingsAccountSubGoalTestName = "subGoal";
     private final double savingsAccountSubGoalTestAmount = 123.22;
+    private final String accessId = "access";
+    private final String accountId = "account";
     private final double delta = 0.01;
 
     private SavingsAccountEntityTransformer transformer = new SavingsAccountEntityTransformer();
@@ -25,9 +29,21 @@ public class SavingsAccountEntityTransformerTest {
        public User transformContactIntoEntity(Contact contact) {
 
        public List<BankAccountIdentifierEntity> transformBankAccountIdentifierIntoEntity(List<BankAccountIdentifier> assignedBankAccounts) {
-
-       public BankAccountIdentifierEntity transformBankAccountIdentifierIntoEntity(BankAccountIdentifier bankAccountIdentifier) {
 */
+    @Test
+    public void transformBankAccountIdentifierIntoEntity() {
+        // SETUP
+        BankAccountIdentifier accountIdentifier = new BankAccountIdentifier(accessId, accountId);
+
+        // ACT
+        BankAccountIdentifierEntity result = transformer.transformBankAccountIdentifierIntoEntity(accountIdentifier);
+
+        // ASSERT
+        assertNotNull(result);
+        assertEquals(result.getAccessid(), accessId);
+        assertEquals(result.getAccountid(), accountId);
+    }
+
     @Test
     public void transformSavingsAccountSubGoalListIdentifierIntoEntity() {
 
