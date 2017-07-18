@@ -69,7 +69,7 @@ public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage
 
     @Override
     public void fillInData(final SavingsAccount savingsAccount) {
-        logger().info("Contacts already synced into data model:" + dataModel.getAdditionalAssignedContacts());
+        logger().info("Contacts already synced into data model:" + dataModel.getAdditionalAssignedUsers());
     }
 
     private Logger logger() {

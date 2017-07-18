@@ -76,6 +76,6 @@ public class PeopleAssignedListener {
             }
             contacts.add(contact);
         }
-        this.account.setAdditionalAssignedContacts(contacts);
+        this.account.setAdditionalAssignedUsers(contacts);
     }
 }

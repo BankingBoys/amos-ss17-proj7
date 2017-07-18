@@ -21,7 +21,7 @@ public class SavingsAccount {
     private double currentbalance;
     private Date finaldate;
     private Date finalGoalFinishedDate;
-    private List<Contact> additionalAssignedContacts = new ArrayList<>();
+    private List<Contact> additionalAssignedUsers = new ArrayList<>();
     private List<SavingsAccountSubGoal> subGoals;
     private List<BankAccount> assignedBankAccounts = new ArrayList<>();
 
@@ -110,13 +110,13 @@ public class SavingsAccount {
                 this.getName() + ", amount=" + this.getGoalbalance() + "}";
     }
 
-    public void setAdditionalAssignedContacts(Collection<Contact> contacts) {
-        this.additionalAssignedContacts.clear();
-        this.additionalAssignedContacts.addAll(contacts);
+    public void setAdditionalAssignedUsers(Collection<Contact> contacts) {
+        this.additionalAssignedUsers.clear();
+        this.additionalAssignedUsers.addAll(contacts);
     }
 
-    public List<Contact> getAdditionalAssignedContacts() {
-        return this.additionalAssignedContacts;
+    public List<Contact> getAdditionalAssignedUsers() {
+        return this.additionalAssignedUsers;
     }
 
 
