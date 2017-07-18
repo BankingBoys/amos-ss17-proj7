@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.SyncStatus;
+import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
@@ -27,30 +29,35 @@ public class AddSavingsAccountAccountsFragment extends AddSavingsAccountPage {
     @SuppressWarnings("unused")
     private static final String TAG = AddSavingsAccountAccountsFragment.class.getSimpleName();
     private BankAccountSelectedListener bankAccountSelectedListener;
-    private BankAccount bankAccount;
+    private SavingsAccount savingsAccount;
     private BankAccountAdapter adapter;
 
     @Inject
     BankingDataManager bankingDataManager;
 
-    @OnClick(R.id.add_savings_account_button_accounts)
-    public void onClickChooseAccountsButton() {
-        //TODO
-    }
-
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
-        final View view = inflater.inflate(R.layout.saving_accounts_add_fragment_accounts, container, false);
+        final View view = inflater.inflate(R.layout.saving_accounts_add_bank_accounts, container, false);
         ButterKnife.bind(this, view);
 
+        ListView bankAccountList = (ListView) view.findViewById(R.id.bankAccountList);
+
+        this.bankAccountSelectedListener = new BankAccountSelectedListener(getContext(), this.savingsAccount);
+        adapter = new BankAccountAdapter(getActivity(), R.id.bankAccountList, getBankAccounts(), bankAccountSelectedListener);
+        bankAccountList.setAdapter(adapter);
         return view;
     }
 
     @Override
+    public void consumeDataModel(SavingsAccount account) {
+        this.savingsAccount = account;
+    }
+
+    @Override
     public void fillInData(final SavingsAccount addSavingsAccountResult) {
-        //TODO
+        logger().info("Already filled in data");
     }
 
     @NonNull
