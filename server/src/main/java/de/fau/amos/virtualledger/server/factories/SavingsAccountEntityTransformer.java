@@ -2,9 +2,12 @@ package de.fau.amos.virtualledger.server.factories;
 
 import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
 import de.fau.amos.virtualledger.dtos.Contact;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 import de.fau.amos.virtualledger.server.model.BankAccountIdentifierEntity;
+import de.fau.amos.virtualledger.server.model.SavingsAccountEntity;
 import de.fau.amos.virtualledger.server.model.SavingsAccountSubGoalEntity;
+import de.fau.amos.virtualledger.server.model.SavingsAccountUserRelation;
 import de.fau.amos.virtualledger.server.model.User;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +19,30 @@ import java.util.Set;
 @Component
 public class SavingsAccountEntityTransformer {
 
+
+    public SavingsAccountEntity transformSavingAccountIntoEntity(SavingsAccount savingsAccount, User currentUser) {
+
+        SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(
+                savingsAccount.getName(),
+                savingsAccount.getGoalbalance(),
+                savingsAccount.getCurrentbalance(),
+                savingsAccount.getFinalGoalFinishedDate(),
+                savingsAccount.getFinalGoalFinishedDate());
+
+        Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntities = transformSavingsAccountSubGoalIdentifierIntoEntity(savingsAccount.getSubGoals());
+        savingsAccountEntity.setSubGoals(savingsAccountSubGoalEntities);
+
+        List<BankAccountIdentifierEntity> bankAccountIdentifierEntities = transformBankAccountIdentifierIntoEntity(savingsAccount.getAssignedBankAccounts());
+        Set<SavingsAccountUserRelation> savingsAccountUserRelations = new HashSet<>();
+        savingsAccountUserRelations.add(new SavingsAccountUserRelation(currentUser, bankAccountIdentifierEntities));
+
+        for (Contact contact : savingsAccount.getAdditionalAssignedUsers()) {
+            savingsAccountUserRelations.add(new SavingsAccountUserRelation(transformContactIntoEntity(contact)));
+        }
+
+        savingsAccountEntity.setUserRelations(savingsAccountUserRelations);
+        return savingsAccountEntity;
+    }
 
     public User transformContactIntoEntity(Contact contact) {
         return new User(contact.getEmail(), contact.getFirstName(), contact.getLastName());
