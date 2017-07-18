@@ -1,10 +1,6 @@
 package de.fau.amos.virtualledger.android.dagger.component;
 
-import javax.inject.Singleton;
-
 import dagger.Component;
-import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity;
-import de.fau.amos.virtualledger.android.authentication.demo.registration.RegisterActivity;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
 import de.fau.amos.virtualledger.android.dagger.module.BankingDataModule;
 import de.fau.amos.virtualledger.android.dagger.module.BankingModule;
@@ -50,14 +46,7 @@ public interface NetComponent {
     SavingsAccountsDataManager savingsAccountsDataManager();
     ContactsDataManager contactsDataManager();
 
-    /**
-     * @param activity
-     */
-    void inject(RegisterActivity activity);
-
     void inject(MainMenu activity);
-
-    void inject(LoginActivity activity);
 
     void inject(ExpandableBankFragment expandableBankFragment);
 
