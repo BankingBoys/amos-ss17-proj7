@@ -20,11 +20,11 @@ public class SingleGoalTest {
         final double testBalance2 = 100000.4;
 
         //Act
-        singleGoal.setBalance(testBalance2);
+        singleGoal.setAmount(testBalance2);
         singleGoal.setName(testName2);
 
         //Assert
-        assertThat(singleGoal.getBalance()).isEqualTo(testBalance2);
+        assertThat(singleGoal.getAmount()).isEqualTo(testBalance2);
         assertThat(singleGoal.getName()).isEqualTo(testName2);
     }
 }

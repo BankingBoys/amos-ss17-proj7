@@ -18,11 +18,11 @@ public class SingleGoal {
     private int id;
 
     private String name;
-    private double balance;
+    private double amount;
 
-    public SingleGoal(String name, double balance) {
+    public SingleGoal(String name, double amount) {
         this.name = name;
-        this.balance = balance;
+        this.amount = amount;
     }
 
     public SingleGoal() {
@@ -36,11 +36,11 @@ public class SingleGoal {
         this.name = name;
     }
 
-    public double getBalance() {
-        return balance;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 }
