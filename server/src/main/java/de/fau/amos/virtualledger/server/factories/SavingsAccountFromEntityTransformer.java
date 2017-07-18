@@ -18,6 +18,15 @@ import java.util.Set;
 @Component
 public class SavingsAccountFromEntityTransformer {
 
+    public List<SavingsAccount> transformSavingAccountFromEntity(List<SavingsAccountEntity> savingsAccountEntityList, User currentUser) {
+
+        List<SavingsAccount> savingsAccountList = new ArrayList<>();
+        for (SavingsAccountEntity savingsAccountEntity : savingsAccountEntityList) {
+            savingsAccountList.add(transformSavingAccountFromEntity(savingsAccountEntity, currentUser));
+        }
+
+        return savingsAccountList;
+    }
 
     public SavingsAccount transformSavingAccountFromEntity(SavingsAccountEntity savingsAccountEntity, User currentUser) {
 

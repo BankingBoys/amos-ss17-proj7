@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.server.savings;
 
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
+import de.fau.amos.virtualledger.server.factories.SavingsAccountFromEntityTransformer;
 import de.fau.amos.virtualledger.server.factories.SavingsAccountIntoEntityTransformer;
 import de.fau.amos.virtualledger.server.model.SavingsAccountEntity;
 import de.fau.amos.virtualledger.server.model.User;
@@ -22,6 +23,9 @@ public class SavingsController {
     private SavingsAccountIntoEntityTransformer savingsAccountIntoEntityTransformer;
 
     @Autowired
+    private SavingsAccountFromEntityTransformer savingsAccountFromEntityTransformer;
+
+    @Autowired
     public SavingsController(UserRepository userRepository, SavingsAccountRepository savingsAccountRepository) {
         this.userRepository = userRepository;
         this.savingsAccountRepository = savingsAccountRepository;
@@ -30,9 +34,11 @@ public class SavingsController {
     protected SavingsController() {
     }
 
-    public List<SavingsAccountEntity> getSavingAccounts(String email) {
+    public List<SavingsAccount> getSavingAccounts(String email) {
+        List<SavingsAccountEntity> savingsAccountEntityList = savingsAccountRepository.findByUserEmailAndLoadUserRelations(email);
+        User user = userRepository.findOne(email);
 
-        return savingsAccountRepository.findByUserEmailAndLoadUserRelations(email);
+        return savingsAccountFromEntityTransformer.transformSavingAccountFromEntity(savingsAccountEntityList, user);
     }
 
     public void addSavingAccount(String email, SavingsAccount savingsAccount) {
