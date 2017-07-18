@@ -26,7 +26,7 @@ public class SavingsAccountUserRelation {
 
     @OneToMany
     @Cascade(CascadeType.ALL)
-    private List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
+    private List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
 
     public SavingsAccountUserRelation() {
     }
@@ -35,9 +35,9 @@ public class SavingsAccountUserRelation {
         this.user = user;
     }
 
-    public SavingsAccountUserRelation(User user, List<BankAccountIdentifier> bankAccountIdentifierList) {
+    public SavingsAccountUserRelation(User user, List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList) {
         this.user = user;
-        this.bankAccountIdentifierList = bankAccountIdentifierList;
+        this.bankAccountIdentifierEntityList = bankAccountIdentifierEntityList;
     }
 
     public User getUser() {
@@ -56,11 +56,11 @@ public class SavingsAccountUserRelation {
         this.id = id;
     }
 
-    public List<BankAccountIdentifier> getBankAccountIdentifierList() {
-        return bankAccountIdentifierList;
+    public List<BankAccountIdentifierEntity> getBankAccountIdentifierEntityList() {
+        return bankAccountIdentifierEntityList;
     }
 
-    public void setBankAccountIdentifierList(List<BankAccountIdentifier> bankAccountIdentifierList) {
-        this.bankAccountIdentifierList = bankAccountIdentifierList;
+    public void setBankAccountIdentifierEntityList(List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList) {
+        this.bankAccountIdentifierEntityList = bankAccountIdentifierEntityList;
     }
 }

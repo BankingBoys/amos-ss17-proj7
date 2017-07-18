@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "bank_account_identifiers")
-public class BankAccountIdentifier {
+public class BankAccountIdentifierEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,12 +17,12 @@ public class BankAccountIdentifier {
     private String accessid;
     private String accountid;
 
-    public BankAccountIdentifier(String accessid, String accountid) {
+    public BankAccountIdentifierEntity(String accessid, String accountid) {
         this.accessid = accessid;
         this.accountid = accountid;
     }
 
-    public BankAccountIdentifier() {
+    public BankAccountIdentifierEntity() {
     }
 
     public String getAccessid() {

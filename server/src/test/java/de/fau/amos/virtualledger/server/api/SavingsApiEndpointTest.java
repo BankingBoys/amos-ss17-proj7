@@ -1,7 +1,7 @@
 package de.fau.amos.virtualledger.server.api;
 
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
-import de.fau.amos.virtualledger.server.model.BankAccountIdentifier;
+import de.fau.amos.virtualledger.server.model.BankAccountIdentifierEntity;
 import de.fau.amos.virtualledger.server.model.SavingsAccountAddWrapper;
 import de.fau.amos.virtualledger.server.model.SavingsAccountEntity;
 import de.fau.amos.virtualledger.server.model.SavingsAccountSubGoalEntity;
@@ -70,13 +70,13 @@ public class SavingsApiEndpointTest {
         final int Id = 123;
         final double goalBalance = 123.23;
         final double currentBalance = 453.23;
-        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
-        bankAccountIdentifierList.add(new BankAccountIdentifier());
+        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
+        bankAccountIdentifierEntityList.add(new BankAccountIdentifierEntity());
         Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntitySet = new HashSet<>();
         SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(Id, "dummy", goalBalance, currentBalance, new Date(), savingsAccountSubGoalEntitySet);
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierList));
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
 
         // ASSERT
         HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
@@ -92,13 +92,13 @@ public class SavingsApiEndpointTest {
         final int Id = 123;
         final double goalBalance = 123.23;
         final double currentBalance = 453.23;
-        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
-        bankAccountIdentifierList.add(new BankAccountIdentifier());
+        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
+        bankAccountIdentifierEntityList.add(new BankAccountIdentifierEntity());
         Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntitySet = new HashSet<>();
         SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(Id, "dummy", goalBalance, currentBalance, new Date(), savingsAccountSubGoalEntitySet);
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierList));
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
 
 
         // ASSERT
@@ -113,11 +113,11 @@ public class SavingsApiEndpointTest {
         // SETUP
         SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
         SavingsAccountEntity savingsAccountEntity = null;
-        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
-        bankAccountIdentifierList.add(new BankAccountIdentifier());
+        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
+        bankAccountIdentifierEntityList.add(new BankAccountIdentifierEntity());
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierList));
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
 
 
         // ASSERT
@@ -134,13 +134,13 @@ public class SavingsApiEndpointTest {
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
-        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
-        bankAccountIdentifierList.add(new BankAccountIdentifier());
+        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
+        bankAccountIdentifierEntityList.add(new BankAccountIdentifierEntity());
         Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntitySet = new HashSet<>();
         SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(Id, null, goalBalance, currentBalance, new Date(), savingsAccountSubGoalEntitySet);
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierList));
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
 
 
         // ASSERT
@@ -157,13 +157,13 @@ public class SavingsApiEndpointTest {
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
-        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
-        bankAccountIdentifierList.add(new BankAccountIdentifier());
+        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
+        bankAccountIdentifierEntityList.add(new BankAccountIdentifierEntity());
         Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntitySet = new HashSet<>();
         SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(Id, "", goalBalance, currentBalance, new Date(), savingsAccountSubGoalEntitySet);
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierList));
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
 
 
         // ASSERT
@@ -180,13 +180,13 @@ public class SavingsApiEndpointTest {
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
-        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
-        bankAccountIdentifierList.add(new BankAccountIdentifier());
+        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
+        bankAccountIdentifierEntityList.add(new BankAccountIdentifierEntity());
         Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntitySet = new HashSet<>();
         SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(Id, "test", goalBalance, currentBalance, null, savingsAccountSubGoalEntitySet);
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierList));
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
 
 
         // ASSERT
@@ -203,12 +203,12 @@ public class SavingsApiEndpointTest {
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
-        List<BankAccountIdentifier> bankAccountIdentifierList = null;
+        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = null;
         Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntitySet = new HashSet<>();
         SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(Id, "test", goalBalance, currentBalance, new Date(), savingsAccountSubGoalEntitySet);
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierList));
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
 
 
         // ASSERT
@@ -225,12 +225,12 @@ public class SavingsApiEndpointTest {
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
-        List<BankAccountIdentifier> bankAccountIdentifierList = new ArrayList<>();
+        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = new ArrayList<>();
         Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntitySet = new HashSet<>();
         SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(Id, "test", goalBalance, currentBalance, new Date(), savingsAccountSubGoalEntitySet);
 
         // ACT
-        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierList));
+        ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(new SavingsAccountAddWrapper(savingsAccountEntity, bankAccountIdentifierEntityList));
 
 
         // ASSERT

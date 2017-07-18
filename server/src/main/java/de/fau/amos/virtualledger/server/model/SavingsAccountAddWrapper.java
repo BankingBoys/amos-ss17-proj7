@@ -6,12 +6,12 @@ import java.util.List;
 public class SavingsAccountAddWrapper {
 
     private SavingsAccountEntity savingsAccountEntity;
-    private List<BankAccountIdentifier> bankAccountIdentifierList;
+    private List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList;
     private List<String> usersEmails;
 
-    public SavingsAccountAddWrapper(SavingsAccountEntity savingsAccountEntity, List<BankAccountIdentifier> bankAccountIdentifierList) {
+    public SavingsAccountAddWrapper(SavingsAccountEntity savingsAccountEntity, List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList) {
         this.savingsAccountEntity = savingsAccountEntity;
-        this.bankAccountIdentifierList = bankAccountIdentifierList;
+        this.bankAccountIdentifierEntityList = bankAccountIdentifierEntityList;
     }
 
     public SavingsAccountAddWrapper() {
@@ -25,12 +25,12 @@ public class SavingsAccountAddWrapper {
         this.savingsAccountEntity = savingsAccountEntity;
     }
 
-    public List<BankAccountIdentifier> getBankAccountIdentifierList() {
-        return bankAccountIdentifierList;
+    public List<BankAccountIdentifierEntity> getBankAccountIdentifierEntityList() {
+        return bankAccountIdentifierEntityList;
     }
 
-    public void setBankAccountIdentifierList(List<BankAccountIdentifier> bankAccountIdentifierList) {
-        this.bankAccountIdentifierList = bankAccountIdentifierList;
+    public void setBankAccountIdentifierEntityList(List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList) {
+        this.bankAccountIdentifierEntityList = bankAccountIdentifierEntityList;
     }
 
     public List<String> getUsersEmails() {

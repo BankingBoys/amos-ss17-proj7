@@ -1,7 +1,7 @@
 package de.fau.amos.virtualledger.server.api;
 
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
-import de.fau.amos.virtualledger.server.model.BankAccountIdentifier;
+import de.fau.amos.virtualledger.server.model.BankAccountIdentifierEntity;
 import de.fau.amos.virtualledger.server.model.SavingsAccountAddWrapper;
 import de.fau.amos.virtualledger.server.model.SavingsAccountEntity;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
@@ -67,12 +67,12 @@ public class SavingsApiEndpoint {
         }
 
         SavingsAccountEntity savingsAccountEntity = savingsAccountAddWrapper.getSavingsAccountEntity();
-        List<BankAccountIdentifier> bankAccountIdentifierList = savingsAccountAddWrapper.getBankAccountIdentifierList();
+        List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList = savingsAccountAddWrapper.getBankAccountIdentifierEntityList();
         final List<String> usersEmails = savingsAccountAddWrapper.getUsersEmails();
         if (savingsAccountEntity == null || savingsAccountEntity.getName() == null || savingsAccountEntity.getName().isEmpty()
                 || savingsAccountEntity.getFinaldate() == null
-                        /*|| bankAccountIdentifierList == null
-                || bankAccountIdentifierList.size() == 0*/
+                        /*|| bankAccountIdentifierEntityList == null
+                || bankAccountIdentifierEntityList.size() == 0*/
                 ) {
             return new ResponseEntity<>(
                     "Please check your inserted values. None of the parameters must be null or empty except id. Id must not been set!",
@@ -80,7 +80,7 @@ public class SavingsApiEndpoint {
         }
         LOGGER.info("addSavingAccountEndpoint of " + username + " was requested");
 
-        return this.addSavingAccount(username, savingsAccountEntity, bankAccountIdentifierList, usersEmails);
+        return this.addSavingAccount(username, savingsAccountEntity, bankAccountIdentifierEntityList, usersEmails);
     }
 
     /**
@@ -92,9 +92,9 @@ public class SavingsApiEndpoint {
      * @param usersEmails
      * @return status 201 if successful
      */
-    private ResponseEntity<?> addSavingAccount(String username, SavingsAccountEntity savingsAccountEntity, List<BankAccountIdentifier> bankAccountIdentifierList, List<String> usersEmails) {
+    private ResponseEntity<?> addSavingAccount(String username, SavingsAccountEntity savingsAccountEntity, List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList, List<String> usersEmails) {
 
-        savingsController.addSavingAccount(username, savingsAccountEntity, bankAccountIdentifierList, usersEmails);
+        savingsController.addSavingAccount(username, savingsAccountEntity, bankAccountIdentifierEntityList, usersEmails);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
