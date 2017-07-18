@@ -67,7 +67,7 @@ public class ContactsController {
         assertUserNotNull(owner);
         User userContact = userRepository.findOne(contactEmail);
         LOGGER.info(TAG + "User Contact " + contactEmail);
-        assertUserNotNull(userContact); //TODO: find out why contact is not found
+        assertUserNotNull(userContact); //TODO find out why contact is not found
         assertContactDoesExist(owner, userContact);
         ContactsEntity contactToDelete = contactsRepository.findEntityByOwnerAndContact(owner, userContact);
         contactsRepository.delete(contactToDelete);
