@@ -8,12 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
 import java.util.List;
-
 import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.android.views.contacts.Delete.ContactsDeleteAction;
+import de.fau.amos.virtualledger.android.views.contacts.Delete.ContactsDeleteDialog;
 import de.fau.amos.virtualledger.dtos.Contact;
 
 /**
@@ -36,15 +34,17 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.contacts_list_item, parent, false);
         }
-        Contact contact = super.getItem(position);
+        final Contact contact = super.getItem(position);
 
         TextView contactName = (TextView) convertView.findViewById(R.id.id_contactName);
         contactName.setText(contact.getFirstName() + " " + contact.getLastName());
 
-        contactName.setOnClickListener(new View.OnClickListener() {
+        contactName.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public boolean onLongClick(View v) {
+                final ContactsDeleteDialog deleteDialog = new ContactsDeleteDialog(activity, getContext(), contact);
+                deleteDialog.show();
+                return true;
             }
         });
 
