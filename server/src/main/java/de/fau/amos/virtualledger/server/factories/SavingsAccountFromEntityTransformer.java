@@ -31,11 +31,13 @@ public class SavingsAccountFromEntityTransformer {
     public SavingsAccount transformSavingAccountFromEntity(SavingsAccountEntity savingsAccountEntity, User currentUser) {
 
         SavingsAccount savingsAccount = new SavingsAccount(
+                savingsAccountEntity.getId() + "",
                 savingsAccountEntity.getName(),
                 savingsAccountEntity.getGoalbalance(),
                 savingsAccountEntity.getCurrentbalance(),
                 savingsAccountEntity.getFinalGoalFinishedDate(),
-                savingsAccountEntity.getFinalGoalFinishedDate());
+                savingsAccountEntity.getFinalGoalFinishedDate()
+        );
 
         List<SavingsAccountSubGoal> savingsAccountSubGoals = transformSavingsAccountSubGoalIdentifierFromEntity(savingsAccountEntity.getSubGoals());
         savingsAccount.setSubGoals(savingsAccountSubGoals);
@@ -43,20 +45,22 @@ public class SavingsAccountFromEntityTransformer {
         List<BankAccountIdentifier> bankAccountIdentifiers = transformBankAccountIdentifierFromEntity(savingsAccountEntity.getUserRelations(), currentUser);
         savingsAccount.setAssignedBankAccounts(bankAccountIdentifiers);
 
-        List<Contact> contacts = transformContactFromEntity(savingsAccountEntity.getUserRelations());
+        List<Contact> contacts = transformContactFromEntity(savingsAccountEntity.getUserRelations(), currentUser);
         savingsAccount.setAdditionalAssignedUsers(contacts);
 
         return savingsAccount;
     }
 
-    public List<Contact> transformContactFromEntity(Set<SavingsAccountUserRelation> savingsAccountUserRelations) {
+    public List<Contact> transformContactFromEntity(Set<SavingsAccountUserRelation> savingsAccountUserRelations, User currentUser) {
         List<Contact> contacts = new ArrayList<>();
         if (savingsAccountUserRelations == null) {
             return contacts;
         }
 
         for (SavingsAccountUserRelation savingsAccountUserRelation : savingsAccountUserRelations) {
-            contacts.add(transformContactFromEntity(savingsAccountUserRelation.getUser()));
+            if (!savingsAccountUserRelation.getUser().getEmail().equals(currentUser.getEmail())) {
+                contacts.add(transformContactFromEntity(savingsAccountUserRelation.getUser()));
+            }
         }
         return contacts;
     }
