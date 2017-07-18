@@ -45,4 +45,7 @@ public interface RestApi {
 
     @POST("/api/contacts")
     Call<String> addContact(@Header("Authorization") String token, @Body Contact contact);
+
+    @DELETE("/api/contacts")
+    Call<Void> deleteContact(@Header("Authorization") String token, @Body Contact contact);
 }
