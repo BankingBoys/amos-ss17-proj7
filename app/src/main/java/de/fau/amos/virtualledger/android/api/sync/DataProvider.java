@@ -13,4 +13,6 @@ public interface DataProvider<T> {
     Observable<List<T>> get();
 
     Observable<String> add(T newItem);
+
+    Observable<Void> delete(T item);
 }

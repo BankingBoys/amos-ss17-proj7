@@ -1,53 +1,62 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint;
 
+import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
+import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
-import de.fau.amos.virtualledger.server.banking.model.BankingException;
-
+/**
+ * Class that manages dummy data, but only for the test user.
+ * So it isn't distinguished which user sends the request.
+ * Make sure only the test user accesses this class.
+ */
 @Component
-@Scope("singleton")
 @Qualifier("dummy")
 public class DummyBankAccessEndpoint implements BankAccessEndpoint {
 
-    private List<BankAccessBankingModel> bankingModels = new ArrayList<BankAccessBankingModel>();
+    @Inject
+    private DummyBankAccessEndpointRepository bankAccessEndpointRepository;
+
     private int number = 0;
 
-    @Override
-    public List<BankAccessBankingModel> getBankAccesses(String userId) throws BankingException {
-        return bankingModels;
+    public DummyBankAccessEndpoint(DummyBankAccessEndpointRepository bankAccessEndpointRepository) {
+        this.bankAccessEndpointRepository = bankAccessEndpointRepository;
+    }
+
+    public DummyBankAccessEndpoint() {
     }
 
     @Override
-    public void addBankAccess(String userId, BankAccessBankingModel bankAccess) throws BankingException {
+    public List<BankAccessBankingModel> getBankAccesses() throws BankingException {
+        List<DummyBankAccessBankingModelEntity> dummyBankAccessBankingModelEntities = bankAccessEndpointRepository.findAll();
+        List<BankAccessBankingModel> bankAccessBankingModelList = new ArrayList<>();
+        for (DummyBankAccessBankingModelEntity dummyBankAccessBankingModelEntity : dummyBankAccessBankingModelEntities) {
+            bankAccessBankingModelList.add(dummyBankAccessBankingModelEntity.transformToBankAccessBankingModel());
+        }
+        return bankAccessBankingModelList;
+    }
+
+    @Override
+    public BankAccessBankingModel addBankAccess(BankAccessBankingModel bankAccess) throws BankingException {
 
         BankAccessBankingModel bankAccessBankingModel = new BankAccessBankingModel();
         bankAccessBankingModel.setId("TestID" + number + "_" + System.nanoTime());
         bankAccessBankingModel.setBankLogin(bankAccess.getBankLogin());
         bankAccessBankingModel.setBankCode(bankAccess.getBankCode());
-        bankAccessBankingModel.setUserId(userId);
         bankAccessBankingModel.setBankName("TestBank" + number);
         bankAccessBankingModel.setPin(null);
         bankAccessBankingModel.setPassportState("testPassportState");
 
-        this.bankingModels.add(bankAccessBankingModel);
+        bankAccessEndpointRepository.save(new DummyBankAccessBankingModelEntity(bankAccessBankingModel));
         number++;
+        return bankAccessBankingModel;
     }
 
     public boolean existsBankAccess(String bankAccessId) {
-        boolean result = false;
-
-        for (BankAccessBankingModel bankAccessBankingModel : this.bankingModels) {
-            if (bankAccessBankingModel.getId().equals(bankAccessId)) {
-                result = true;
-                break;
-            }
-        }
-        return result;
+        return bankAccessEndpointRepository.exists(bankAccessId);
     }
 }

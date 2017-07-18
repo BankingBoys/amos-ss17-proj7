@@ -1,10 +1,6 @@
 package de.fau.amos.virtualledger.android.dagger.component;
 
-import javax.inject.Singleton;
-
 import dagger.Component;
-import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity;
-import de.fau.amos.virtualledger.android.authentication.demo.registration.RegisterActivity;
 import de.fau.amos.virtualledger.android.dagger.module.AppModule;
 import de.fau.amos.virtualledger.android.dagger.module.BankingDataModule;
 import de.fau.amos.virtualledger.android.dagger.module.BankingModule;
@@ -24,11 +20,13 @@ import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fr
 import de.fau.amos.virtualledger.android.views.calendar.CaldroidBankingFragment;
 import de.fau.amos.virtualledger.android.views.contacts.ContactsFragment;
 import de.fau.amos.virtualledger.android.views.contacts.ContactsSupplier;
+import de.fau.amos.virtualledger.android.views.contacts.Delete.ContactsDeleteAction;
 import de.fau.amos.virtualledger.android.views.contacts.NoContactsFragment;
 import de.fau.amos.virtualledger.android.views.contacts.add.AddContactsActivity;
 import de.fau.amos.virtualledger.android.views.menu.MainMenu;
 import de.fau.amos.virtualledger.android.views.savings.SavingAccountsFragment;
 import de.fau.amos.virtualledger.android.views.savings.SavingsSupplier;
+import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountAccountsFragment;
 import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
 import de.fau.amos.virtualledger.android.views.shared.totalAmount.TotalAmountFragment;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.BankTransactionSupplierImplementation;
@@ -49,14 +47,7 @@ public interface NetComponent {
     SavingsAccountsDataManager savingsAccountsDataManager();
     ContactsDataManager contactsDataManager();
 
-    /**
-     * @param activity
-     */
-    void inject(RegisterActivity activity);
-
     void inject(MainMenu activity);
-
-    void inject(LoginActivity activity);
 
     void inject(ExpandableBankFragment expandableBankFragment);
 
@@ -87,4 +78,8 @@ public interface NetComponent {
     void inject(NoContactsFragment noContactsFragment);
 
     void inject(AddContactsActivity addContactsActivity);
+
+    void inject(AddSavingsAccountAccountsFragment addSavingsAccountAccountsFragment);
+
+    void inject(ContactsDeleteAction deleteAction);
 }

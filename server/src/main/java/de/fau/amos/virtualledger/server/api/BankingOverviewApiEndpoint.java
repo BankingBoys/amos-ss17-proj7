@@ -13,10 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.ServletException;
 import java.lang.invoke.MethodHandles;
@@ -41,7 +41,7 @@ public class BankingOverviewApiEndpoint {
     /**
      * Endpoint for getting banking overview data (bankaccesses + bankaccunts).
      * User must be authenticated.
-     * 
+     *
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "api/banking", produces = "application/json")
@@ -52,14 +52,15 @@ public class BankingOverviewApiEndpoint {
             return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
         }
         LOGGER.info("getBankingOverviewEndpoint of " + username + " was requested");
-
-        return this.getBankingOverview(username);
+        ResponseEntity<?> responseEntity = this.getBankingOverview(username);
+        LOGGER.info("getBankingOverviewEndpoint of " + username + " was finished");
+        return responseEntity;
     }
 
     /**
      * Endpoint for adding a bank access. Sent parameters must not be null or
      * empty. User must be authenticated.
-     * 
+     *
      * @param bankAccessCredential
      * @return
      */
@@ -82,14 +83,15 @@ public class BankingOverviewApiEndpoint {
                     HttpStatus.BAD_REQUEST);
         }
         LOGGER.info("addBankAccessEndpoint was requested by " + username);
-
-        return this.addBankAccess(username, bankAccessCredential, token);
+        ResponseEntity<?> responseEntity = this.addBankAccess(username, bankAccessCredential, token);
+        LOGGER.info("addBankAccessEndpoint was finished for " + username);
+        return responseEntity;
     }
 
     /**
      * Endpoint for deleting a bank access. bankAccessId must not be null or
      * empty. User must be authenticated.
-     * 
+     *
      * @param bankAccessId
      * @return
      */
@@ -106,21 +108,22 @@ public class BankingOverviewApiEndpoint {
                     HttpStatus.BAD_REQUEST);
         }
         LOGGER.info("deleteBankAccessEndpoint was requested by " + username);
-
-        return this.deleteBankAccess(username, bankAccessId);
+        ResponseEntity<?> responseEntity = this.deleteBankAccess(username, bankAccessId);
+        LOGGER.info("deleteBankAccessEndpoint was finished for " + username);
+        return responseEntity;
     }
 
     /**
      * Endpoint for deleting a bank account. bankAccessId and bankAccountId must
      * not be null or empty. User must be authenticated.
-     * 
+     *
      * @param bankAccessId
      * @param bankAccountId
      * @return
      */
     @RequestMapping(method = RequestMethod.DELETE, value = "api/banking/{accessId}/{accountId}", produces = "application/json")
     public ResponseEntity<?> deleteBankAccountEndpoint(@PathVariable("accessId") String bankAccessId,
-            @PathVariable("accountId") String bankAccountId) throws ServletException {
+                                                       @PathVariable("accountId") String bankAccountId) throws ServletException {
         String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
@@ -132,15 +135,16 @@ public class BankingOverviewApiEndpoint {
                     HttpStatus.BAD_REQUEST);
         }
         LOGGER.info("deleteBankAccountEndpoint was requested by " + username);
-
-        return this.deleteBankAccount(username, bankAccessId, bankAccountId);
+        ResponseEntity<?> responseEntity = this.deleteBankAccount(username, bankAccessId, bankAccountId);
+        LOGGER.info("deleteBankAccountEndpoint was finished for " + username);
+        return responseEntity;
     }
 
     /**
      * Endpoint for synchronizing bank accounts. bankAccountSyncList must not be
      * null, all BankAccountSync must contain parameters that are not null or
      * empty. User must be authenticated.
-     * 
+     *
      * @param bankAccountSyncList
      * @return
      */
@@ -168,14 +172,15 @@ public class BankingOverviewApiEndpoint {
         }
 
         LOGGER.info("syncBankAccountsEndpoint was requested by " + username);
-
-        return this.syncBankAccounts(username, bankAccountSyncList);
+        ResponseEntity<?> responseEntity = this.syncBankAccounts(username, bankAccountSyncList);
+        LOGGER.info("syncBankAccountsEndpoint was finished for " + username);
+        return responseEntity;
     }
 
     /**
      * Does the logic for getting the banking overview data. Handles exceptions
      * and returns corresponding response codes.
-     * 
+     *
      * @param username
      * @return
      */
@@ -193,7 +198,7 @@ public class BankingOverviewApiEndpoint {
     /**
      * Does the logic for adding a bank access. Handles exceptions and returns
      * corresponding response codes.
-     * 
+     *
      * @param username
      * @param bankAccessCredential
      * @return
@@ -211,7 +216,7 @@ public class BankingOverviewApiEndpoint {
     /**
      * Does the logic for deleting a bank access. Handles exceptions and returns
      * corresponding response codes.
-     * 
+     *
      * @param username
      * @param bankAccessId
      * @return
@@ -230,7 +235,7 @@ public class BankingOverviewApiEndpoint {
     /**
      * Does the logic for deleting a bank account. Handles exceptions and
      * returns corresponding response codes.
-     * 
+     *
      * @param username
      * @param bankAccessId
      * @param bankAccountId
@@ -250,7 +255,7 @@ public class BankingOverviewApiEndpoint {
     /**
      * Does the logic for synchronizing a list of bank accounts. Handles
      * exceptions and returns corresponding response codes.
-     * 
+     *
      * @param username
      * @param bankAccountSyncList
      * @return

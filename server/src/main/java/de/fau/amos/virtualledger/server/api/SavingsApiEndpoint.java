@@ -1,7 +1,7 @@
 package de.fau.amos.virtualledger.server.api;
 
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
-import de.fau.amos.virtualledger.server.model.SavingsAccount;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public class SavingsApiEndpoint {
 
     /**
      * Gets all available saving accounts to the authenticated user
-     * 
+     *
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "api/savings", produces = "application/json")
@@ -54,7 +54,6 @@ public class SavingsApiEndpoint {
     /**
      * Adds a saving accounts to the authenticated user
      *
-     * @param savingsAccount
      * @return status 201 if successful
      */
     @RequestMapping(method = RequestMethod.POST, value = "api/savings", produces = "application/json", consumes = "application/json")
@@ -64,13 +63,16 @@ public class SavingsApiEndpoint {
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);
         }
+
         if (savingsAccount == null || savingsAccount.getName() == null || savingsAccount.getName().isEmpty()
-                || savingsAccount.getFinaldate() == null) {
+                || savingsAccount.getFinaldate() == null
+                || savingsAccount.getFinalGoalFinishedDate() == null
+                ) {
             return new ResponseEntity<>(
                     "Please check your inserted values. None of the parameters must be null or empty except id. Id must not been set!",
                     HttpStatus.BAD_REQUEST);
         }
-        LOGGER.info("getSavingAccountsEndpoint of " + username + " was requested");
+        LOGGER.info("addSavingAccountEndpoint of " + username + " was requested");
 
         return this.addSavingAccount(username, savingsAccount);
     }
@@ -78,7 +80,7 @@ public class SavingsApiEndpoint {
     /**
      * Does the logic for adding a saving account to a specific user. Handles
      * exceptions and returns corresponding response codes.
-     * 
+     *
      * @param username
      * @param savingsAccount
      * @return status 201 if successful
@@ -92,14 +94,14 @@ public class SavingsApiEndpoint {
     /**
      * Does the logic for getting all saving accounts to a specific user.
      * Handles exceptions and returns corresponding response codes.
-     * 
+     *
      * @param username
      * @return
      */
     private ResponseEntity<?> getSavingAccounts(String username) {
 
-        List<SavingsAccount> savingsAccountList = savingsController.getSavingAccounts(username);
-        return new ResponseEntity<Object>(savingsAccountList, HttpStatus.OK);
+        List<SavingsAccount> savingsAccountEntityList = savingsController.getSavingAccounts(username);
+        return new ResponseEntity<Object>(savingsAccountEntityList, HttpStatus.OK);
     }
 
 }

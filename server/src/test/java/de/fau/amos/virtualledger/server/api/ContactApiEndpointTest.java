@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.server.api;
 
+import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
 import de.fau.amos.virtualledger.server.contacts.ContactsController;
 import org.junit.Test;
@@ -57,6 +58,54 @@ public class ContactApiEndpointTest {
         assertThat(reponse.getStatusCode()).isEqualTo(expectedStatusCode);
         try {
             verify(contactsController, times(0)).getContactsByEmail(any(String.class));
+        } catch (Exception e) {
+            //Do nothing
+        }
+    }
+
+    @Test
+    public void addContactsEndpointUserPrincipalNameNull() throws ServletException {
+
+        ContactsApiEndpoint contactsApiEndpoint = new ContactsApiEndpoint(setupKeycloakUtilizer(null), contactsController);
+
+        Contact contact = new Contact();
+        final String email = "testEmail";
+        final String firstName = "testFirstName";
+        final String lastName = "testLastName";
+        contact.setEmail(email);
+        contact.setFirstName(firstName);
+        contact.setLastName(lastName);
+
+        ResponseEntity<?> response = contactsApiEndpoint.addContactEndpoint(contact);
+
+        HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
+        assertThat(response.getStatusCode()).isEqualTo(expectedStatusCode);
+        try {
+            verify(contactsController, times(0)).addContact(any(Contact.class), any(String.class));
+        } catch (Exception e) {
+            //Do nothing
+        }
+    }
+
+    @Test
+    public void addContactsEndpointEndpointUserPrincipalNameEmpty() throws ServletException {
+
+        ContactsApiEndpoint contactsApiEndpoint = new ContactsApiEndpoint(setupKeycloakUtilizer(""), contactsController);
+
+        Contact contact = new Contact();
+        final String email = "testEmail";
+        final String firstName = "testFirstName";
+        final String lastName = "testLastName";
+        contact.setEmail(email);
+        contact.setFirstName(firstName);
+        contact.setLastName(lastName);
+
+        ResponseEntity<?> response = contactsApiEndpoint.addContactEndpoint(contact);
+
+        HttpStatus expectedStatusCode = HttpStatus.FORBIDDEN;
+        assertThat(response.getStatusCode()).isEqualTo(expectedStatusCode);
+        try {
+            verify(contactsController, times(0)).addContact(any(Contact.class), any(String.class));
         } catch (Exception e) {
             //Do nothing
         }

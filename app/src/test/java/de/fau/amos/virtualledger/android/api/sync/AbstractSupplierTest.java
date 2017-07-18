@@ -244,13 +244,18 @@ class StubbedDataManager implements DataManager<Contact> {
     }
 
     @Override
-    public void add(Contact newItem) {
+    public void add(Contact newItem, ServerCallStatusHandler h) {
         this.contacts.add(newItem);
     }
 
     @Override
     public void addObserver(Observer o) {
         this.observers.add(o);
+    }
+
+    @Override
+    public void delete(Contact item, ServerCallStatusHandler h) {
+
     }
 
     @Override

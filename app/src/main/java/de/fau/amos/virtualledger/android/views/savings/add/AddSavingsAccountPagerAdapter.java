@@ -2,13 +2,13 @@ package de.fau.amos.virtualledger.android.views.savings.add;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
 import java.util.List;
 
 
-class AddSavingsAccountPagerAdapter extends FragmentPagerAdapter {
+class AddSavingsAccountPagerAdapter extends FragmentStatePagerAdapter {
     @SuppressWarnings("unused")
     private static final String TAG = AddSavingsAccountPagerAdapter.class.getSimpleName();
 
@@ -32,5 +32,10 @@ class AddSavingsAccountPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return pages.size();
+    }
+
+    @Override
+    public int getItemPosition(final Object object) {
+        return POSITION_NONE;
     }
 }

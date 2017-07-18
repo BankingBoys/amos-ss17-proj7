@@ -42,4 +42,9 @@ public class Contact {
     public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
+
+    @Override
+    public String toString() {
+        return "Contact[" + super.hashCode() + "]{email" + this.getEmail() + ", firstname=" + this.getFirstName() + ", lastname=" + this.getLastName() + "}";
+    }
 }

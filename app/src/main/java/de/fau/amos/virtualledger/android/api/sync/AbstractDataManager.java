@@ -12,7 +12,6 @@ import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.data.SyncStatus;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -63,7 +62,7 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
-                        Log.e(TAG, "Failed getting items", throwable);
+                        Log.e(TAG, "Failed loading items", throwable);
                         syncFailedException = new SyncFailedException(throwable);
                         onSyncComplete();
                     }
@@ -98,20 +97,55 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
     }
 
     @Override
-    public void add(final T savingsAccount) {
-        dataProvider.add(savingsAccount)
+    public void add(final T element, final ServerCallStatusHandler handler) {
+        logger().info("Adding element: " + element);
+        dataProvider.add(element)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
-                    public void accept(@NonNull String s) throws Exception {
+                    public void accept(@NonNull final String s) throws Exception {
+                        handler.onOk();
+                        logger().info("Trigger resync after succesful add");
                         AbstractDataManager.this.sync();
+                    }
+
+                    private Logger logger() {
+                        return Logger.getLogger(this.getClass().getCanonicalName());
                     }
                 }, new Consumer<Throwable>() {
                     @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
-                        Log.e(TAG, "Failed getting items", throwable);
-                        AbstractDataManager.this.sync(); //FIXME: figure out why Exception is thrown when adding
+                    public void accept(@NonNull final Throwable throwable) throws Exception {
+                        Log.e(TAG, "Failed adding items", throwable);
+                        handler.onTechnicalError();
+                        AbstractDataManager.this.sync();
+                    }
+                });
+    }
+
+    @Override
+    public void delete(final T element, final ServerCallStatusHandler handler) {
+        logger().info("Adding element: " + element);
+        dataProvider.delete(element)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Void>() {
+                    @Override
+                    public void accept(@NonNull final Void vVoid) throws Exception {
+                        handler.onOk();
+                        logger().info("Trigger resync after succesful delete");
+                        AbstractDataManager.this.sync();
+                    }
+
+                    private Logger logger() {
+                        return Logger.getLogger(this.getClass().getCanonicalName());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull final Throwable throwable) throws Exception {
+                        Log.e(TAG, "Failed adding items", throwable);
+                        handler.onTechnicalError();
+                        AbstractDataManager.this.sync();
                     }
                 });
     }

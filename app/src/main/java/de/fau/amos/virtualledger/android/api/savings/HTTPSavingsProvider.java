@@ -7,7 +7,7 @@ import de.fau.amos.virtualledger.android.api.RestApi;
 import de.fau.amos.virtualledger.android.api.shared.CallWithToken;
 import de.fau.amos.virtualledger.android.api.shared.RetrofitCallback;
 import de.fau.amos.virtualledger.android.api.shared.TokenCallback;
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -57,4 +57,8 @@ public class HTTPSavingsProvider implements SavingsProvider {
         return observable;
     }
 
+    @Override
+    public Observable<Void> delete(SavingsAccount item) {
+        return null;
+    }
 }

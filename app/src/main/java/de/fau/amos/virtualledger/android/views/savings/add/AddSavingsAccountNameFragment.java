@@ -6,11 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 
 public class AddSavingsAccountNameFragment extends AddSavingsAccountPage {
     @SuppressWarnings("unused")
@@ -31,5 +32,14 @@ public class AddSavingsAccountNameFragment extends AddSavingsAccountPage {
     @Override
     public void fillInData(final SavingsAccount savingsAccount) {
         savingsAccount.setName(editText.getText().toString());
+    }
+
+    @Override
+    public boolean navigatePossible() {
+        if (editText.getText().toString().isEmpty()) {
+            Toast.makeText(AddSavingsAccountNameFragment.super.getContext(), R.string.add_savings_account_enter_name_info_needed_message, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
     }
 }

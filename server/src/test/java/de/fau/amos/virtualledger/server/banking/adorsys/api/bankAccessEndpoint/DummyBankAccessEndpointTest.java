@@ -1,20 +1,22 @@
 package de.fau.amos.virtualledger.server.banking.adorsys.api.bankAccessEndpoint;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
+import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
 import org.junit.Test;
 
-import de.fau.amos.virtualledger.server.banking.model.BankAccessBankingModel;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
 
 public class DummyBankAccessEndpointTest {
 
     @Test
-    public void workflowWorking() throws Exception {
+    public void addRepositoryCalled() throws Exception {
 
         // SETUP
         String testUser = "user";
@@ -25,44 +27,51 @@ public class DummyBankAccessEndpointTest {
         bankAccessBankingModel.setBankLogin(testBankLogin);
         bankAccessBankingModel.setBankCode(testBankCode);
 
-        DummyBankAccessEndpoint dummyBankAccessEndpoint = new DummyBankAccessEndpoint();
+        DummyBankAccessEndpointRepository dummyBankAccessEndpointRepository = mock(DummyBankAccessEndpointRepository.class);
+
+        DummyBankAccessEndpoint dummyBankAccessEndpoint = new DummyBankAccessEndpoint(dummyBankAccessEndpointRepository);
 
         // ACT
-        dummyBankAccessEndpoint.addBankAccess(testUser, bankAccessBankingModel);
-        List<BankAccessBankingModel> bankAccessBankingModelList = dummyBankAccessEndpoint.getBankAccesses(testUser);
+        dummyBankAccessEndpoint.addBankAccess(bankAccessBankingModel);
 
         // ASSERT
-        assertNotNull(bankAccessBankingModelList);
-        assertEquals(bankAccessBankingModelList.size(), 1);
-        assertEquals(bankAccessBankingModelList.get(0).getBankCode(), testBankCode);
-        assertEquals(bankAccessBankingModelList.get(0).getBankLogin(), testBankLogin);
+        verify(dummyBankAccessEndpointRepository, times(1)).save(any(DummyBankAccessBankingModelEntity.class));
     }
 
     @Test
-    public void existsWorking() throws Exception {
+    public void existsRepositoryCalled() throws Exception {
 
         // SETUP
-        String testUser = "user";
         String testId = "test";
-        BankAccessBankingModel bankAccessBankingModel = new BankAccessBankingModel();
-        bankAccessBankingModel.setUserId(testUser);
 
-        DummyBankAccessEndpoint dummyBankAccessEndpoint = new DummyBankAccessEndpoint();
+        DummyBankAccessEndpointRepository dummyBankAccessEndpointRepository = mock(DummyBankAccessEndpointRepository.class);
+        when(dummyBankAccessEndpointRepository.exists(anyString())).thenReturn(true);
+
+        DummyBankAccessEndpoint dummyBankAccessEndpoint = new DummyBankAccessEndpoint(dummyBankAccessEndpointRepository);
 
         // ACT
-        dummyBankAccessEndpoint.addBankAccess(testUser, bankAccessBankingModel);
-        List<BankAccessBankingModel> bankAccessBankingModelList = dummyBankAccessEndpoint.getBankAccesses(null);
-
-        assertNotNull(bankAccessBankingModelList);
-        assertEquals(bankAccessBankingModelList.size(), 1);
-
         boolean existsPreChange = dummyBankAccessEndpoint.existsBankAccess(testId);
-        bankAccessBankingModelList.get(0).setId(testId);
-        boolean existsPostChange = dummyBankAccessEndpoint.existsBankAccess(testId);
 
         // ASSERT
-        assertFalse(existsPreChange);
-        assertTrue(existsPostChange);
+        verify(dummyBankAccessEndpointRepository, times(1)).exists(anyString());
+    }
+
+    @Test
+    public void getRepositoryCalled() throws Exception {
+
+        // SETUP
+        String testId = "test";
+
+        DummyBankAccessEndpointRepository dummyBankAccessEndpointRepository = mock(DummyBankAccessEndpointRepository.class);
+        when(dummyBankAccessEndpointRepository.findAll()).thenReturn(new ArrayList<DummyBankAccessBankingModelEntity>());
+
+        DummyBankAccessEndpoint dummyBankAccessEndpoint = new DummyBankAccessEndpoint(dummyBankAccessEndpointRepository);
+
+        // ACT
+        List<BankAccessBankingModel> bankAccessBankingModelList = dummyBankAccessEndpoint.getBankAccesses();
+
+        // ASSERT
+        verify(dummyBankAccessEndpointRepository, times(1)).findAll();
     }
 
 }

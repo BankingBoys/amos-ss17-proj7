@@ -2,7 +2,7 @@ package de.fau.amos.virtualledger.android.data;
 
 import de.fau.amos.virtualledger.android.api.sync.AbstractDataManager;
 import de.fau.amos.virtualledger.android.api.sync.DataProvider;
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 
 public class SavingsAccountsDataManager extends AbstractDataManager<SavingsAccount> {
 

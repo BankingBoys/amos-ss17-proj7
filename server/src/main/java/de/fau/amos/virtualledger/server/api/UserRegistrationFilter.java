@@ -44,8 +44,9 @@ public class UserRegistrationFilter extends GenericFilterBean {
 
         try {
             authenticationController.register(new User(email, firstName, lastName));
+            logger.info("User " + email + " was registered!");
         } catch (UserAlreadyExistsException e) {
-            logger.info("User " + email + " already exists in database");
+            logger.info("User " + email + " was already registered!");
         } catch (VirtualLedgerAuthenticationException e) {
             throw new ServletException(e);
         }

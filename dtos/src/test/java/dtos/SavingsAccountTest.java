@@ -1,21 +1,23 @@
-package de.fau.amos.virtualledger.android.model;
+package dtos;
 
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SavingsAccountTest {
 
     @Test
-    public void constructor_getters_match() {
+    public void constructorGettersMatch() {
         // SETUP
         String id = "123";
         String name = "name";
-        double goalBalance = 123.45;
-        double currentBalance = 234.567;
+        final double goalBalance = 123.45;
+        final double currentBalance = 234.567;
         Date finalDate = new Date();
 
         // ACT
@@ -39,8 +41,8 @@ public class SavingsAccountTest {
     public void setterAndGetterTest() {
         String id = "12345";
         String name = "name2";
-        double goalBalance = 123.4555;
-        double currentBalance = 234.56755;
+        final double goalBalance = 123.4555;
+        final double currentBalance = 234.56755;
         Date finalDate = new Date();
 
         SavingsAccount savingsAccount = new SavingsAccount();
@@ -63,19 +65,20 @@ public class SavingsAccountTest {
 
 
     @Test
-    public void teste_getDaysLeft() throws Exception {
+    public void testeGetDaysLeft() throws Exception {
         // SETUP
         String id = "123";
         String name = "name";
-        double goalBalance = 123.45;
-        double currentBalance = 234.567;
+        final double goalBalance = 123.45;
+        final double currentBalance = 234.567;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date d = sdf.parse("15/01/2017");
         SavingsAccount savingsAccount = new SavingsAccountMocked(id, name, goalBalance, currentBalance, d);
 
 
         //Act & Assert
-        assertThat(savingsAccount.daysLeft()).isEqualTo(5);
+        final int daysleft = 5;
+        assertThat(savingsAccount.daysLeft()).isEqualTo(daysleft);
     }
 
 
@@ -88,7 +91,7 @@ class SavingsAccountMocked extends SavingsAccount {
     }
 
     @Override
-    Date today() {
+    protected Date today() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         try {
             return sdf.parse("10/01/2017");

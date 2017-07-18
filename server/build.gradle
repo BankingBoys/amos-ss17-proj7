@@ -49,6 +49,9 @@ dependencies {
     compile group: 'org.keycloak', name: 'keycloak-spring-boot-starter', version: '3.2.0.CR1'
     compile group: 'org.keycloak.bom', name: 'keycloak-adapter-bom', version: '3.1.0.Final', ext: 'pom'
 
+    compile 'io.springfox:springfox-swagger2:2.7.0'
+    compile 'io.springfox:springfox-swagger-ui:2.7.0'
+
     compile project(':dtos')
 
     testCompile group: 'junit', name: 'junit', version: '4.12'

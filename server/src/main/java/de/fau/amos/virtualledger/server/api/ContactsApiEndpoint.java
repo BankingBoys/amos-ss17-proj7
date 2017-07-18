@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,9 +25,8 @@ import java.lang.invoke.MethodHandles;
 public class ContactsApiEndpoint {
     @SuppressWarnings("unused")
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
-    private KeycloakUtilizer keycloakUtilizer;
     private final ContactsController contactsController;
+    private KeycloakUtilizer keycloakUtilizer;
 
     @Autowired
     public ContactsApiEndpoint(KeycloakUtilizer keycloakUtilizer, final ContactsController contactsController) {
@@ -64,6 +64,16 @@ public class ContactsApiEndpoint {
         return this.addContact(contact, username);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "api/contacts/{contactEmail}", produces = "application/json")
+    public ResponseEntity<?> deleteContactEndpoint(@PathVariable("contactEmail") String contactEmail) throws ServletException {
+        final String username = keycloakUtilizer.getEmail();
+        if (username == null || username.isEmpty()) {
+            return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
+        }
+        LOGGER.info("deleteContactEndpoint of " + username + " was requested");
+        return this.deleteContact(contactEmail, username);
+    }
+
     private ResponseEntity<?> getContacts(final String username) throws UserNotFoundException {
         return new ResponseEntity<>(contactsController.getContactsByEmail(username), HttpStatus.OK);
     }
@@ -72,9 +82,19 @@ public class ContactsApiEndpoint {
         try {
             contactsController.addContact(contact, username);
         } catch (Exception e) {
-            return new ResponseEntity<>("Authentication failed!" + e.getMessage(), HttpStatus.FORBIDDEN);
+            LOGGER.info("Returning for add:" + e.getMessage() + HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity(HttpStatus.OK);
+        LOGGER.info("Returning for add:" + "Adding of Contacts Successful" + HttpStatus.CREATED);
+        return new ResponseEntity<>("Adding of Contacts Successful", HttpStatus.CREATED);
     }
 
+    private ResponseEntity<?> deleteContact(final String contactEmail, final String username) {
+        try {
+            contactsController.deleteContact(contactEmail, username);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<>("Deleting of Contact successful", HttpStatus.OK);
+    }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 public interface BankAccessEndpoint {
 
-    List<BankAccessBankingModel> getBankAccesses(String userId) throws BankingException;
+    List<BankAccessBankingModel> getBankAccesses() throws BankingException;
 
-    void addBankAccess(String userId, BankAccessBankingModel bankAccess) throws BankingException;
+    BankAccessBankingModel addBankAccess(BankAccessBankingModel bankAccess) throws BankingException;
 }

@@ -41,12 +41,12 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
     }
 
     @Override
-    public List<BankAccessBankingModel> getBankAccesses(final String userId) throws BankingException {
+    public List<BankAccessBankingModel> getBankAccesses() throws BankingException {
 
         // Create Jersey client
         final Client client = JerseyClientUtility.getLoggingClient(LOGGER);
 
-        final String url = urlProvider.getBankAccessEndpointUrl(userId);
+        final String url = urlProvider.getBankAccessEndpointUrl();
         final WebTarget webTarget = client.target(url);
         final Invocation.Builder invocationBuilder = webTarget
                 .request(MediaType.APPLICATION_JSON_TYPE)
@@ -65,12 +65,14 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
     }
 
     @Override
-    public void addBankAccess(final String userId, final BankAccessBankingModel bankAccess) throws BankingException {
+    public BankAccessBankingModel addBankAccess(final BankAccessBankingModel bankAccess) throws BankingException {
+
+        List<BankAccessBankingModel> accessBeforeAdd = getBankAccesses();
 
         // Create Jersey client
         final Client client = JerseyClientUtility.getLoggingClient(LOGGER);
 
-        final String url = urlProvider.getBankAccessEndpointUrl(userId);
+        final String url = urlProvider.getBankAccessEndpointUrl();
         final WebTarget webTarget = client.target(url);
         final Invocation.Builder invocationBuilder = webTarget
                 .request(MediaType.APPLICATION_JSON_TYPE)
@@ -80,5 +82,16 @@ public class HttpBankAccessEndpoint implements BankAccessEndpoint {
         if (response.getStatus() != HTTP_OK_RESPONSE) {
             throw new BankingException("Creating Banking Access failed!");
         }
+
+        // find the added BankAccessBankingModel
+        List<BankAccessBankingModel> accessAfterAdd = getBankAccesses();
+        for (BankAccessBankingModel bankAccessBeforeAdd : accessBeforeAdd) {
+            accessAfterAdd.removeIf(p -> p.getId().equals(bankAccessBeforeAdd.getId()));
+        }
+        if (accessAfterAdd.size() != 1) {
+            throw new BankingException("Inconsistency after add! Added access was not found!");
+        }
+        return accessAfterAdd.get(0);
+
     }
 }

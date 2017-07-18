@@ -1,10 +1,11 @@
-package de.fau.amos.virtualledger.android.model;
+package de.fau.amos.virtualledger.dtos;
 
-import android.support.annotation.VisibleForTesting;
-
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class SavingsAccount {
 
@@ -14,8 +15,19 @@ public class SavingsAccount {
     private double currentbalance;
     private Date finaldate;
     private Date finalGoalFinishedDate;
+    private List<Contact> additionalAssignedUsers = new ArrayList<>();
+    private List<SavingsAccountSubGoal> subGoals;
+    private List<BankAccountIdentifier> assignedBankAccounts = new ArrayList<>();
 
     public SavingsAccount() {
+    }
+
+    public SavingsAccount(String name, double goalbalance, double currentbalance, Date finaldate, Date finalGoalFinishedDate) {
+        this.name = name;
+        this.goalbalance = goalbalance;
+        this.currentbalance = currentbalance;
+        this.finaldate = finaldate;
+        this.finalGoalFinishedDate = finalGoalFinishedDate;
     }
 
     public SavingsAccount(String id, String name, double goalbalance, double currentbalance, Date finaldate, Date finalGoalFinishedDate) {
@@ -58,11 +70,15 @@ public class SavingsAccount {
     }
 
     private int daysBetween(Date d1, Date d2) {
-        return (int) ((d1.getTime() - d2.getTime()) / (1000 * 60 * 60 * 24));
+        final int thousand = 1000;
+        final int min = 60;
+        final int hrs = 24;
+        final int sec = 60;
+        return (int) ((d1.getTime() - d2.getTime()) / (thousand * sec * min * hrs));
     }
 
-    @VisibleForTesting
-    Date today() {
+
+    protected Date today() {
         return new Date();
     }
 
@@ -92,5 +108,38 @@ public class SavingsAccount {
 
     public void setFinaldate(Date finaldate) {
         this.finaldate = finaldate;
+    }
+
+    @Override
+    public String toString() {
+        return "SavingsAccount[" + super.hashCode() + "]:{name="
+                + this.getName() + ", amount=" + this.getGoalbalance() + "}";
+    }
+
+    public void setAdditionalAssignedUsers(Collection<Contact> contacts) {
+        this.additionalAssignedUsers.clear();
+        this.additionalAssignedUsers.addAll(contacts);
+    }
+
+    public List<Contact> getAdditionalAssignedUsers() {
+        return this.additionalAssignedUsers;
+    }
+
+
+    public List<SavingsAccountSubGoal> getSubGoals() {
+        return subGoals;
+    }
+
+    public void setSubGoals(final List<SavingsAccountSubGoal> subGoals) {
+        this.subGoals = subGoals;
+    }
+
+    public void setAssignedBankAccounts(Collection<BankAccountIdentifier> bankAccounts) {
+        this.assignedBankAccounts.clear();
+        this.assignedBankAccounts.addAll(bankAccounts);
+    }
+
+    public List<BankAccountIdentifier> getAssignedBankAccounts() {
+        return this.assignedBankAccounts;
     }
 }

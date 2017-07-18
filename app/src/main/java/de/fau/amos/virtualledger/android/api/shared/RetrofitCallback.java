@@ -27,7 +27,7 @@ public class RetrofitCallback<T> implements Callback<T> {
         final String requestString = "Request " + call.request().method() + " " + call.request().url() + " ";
         if (response.isSuccessful()) {
             final T result = response.body();
-            Logger.getLogger("TEST").log(Level.INFO, "#####'Body" + result);//TODO
+            logger().log(Level.INFO, "#####'Body" + result);
             Log.v(TAG, requestString + "was successful: " + response.code());
             if (result == null) {
                 observable.onComplete();
@@ -39,6 +39,11 @@ public class RetrofitCallback<T> implements Callback<T> {
             observable.onError(new IOException(requestString + " was not successful!"));
         }
     }
+
+    private Logger logger() {
+        return Logger.getLogger(this.getClass().getCanonicalName());
+    }
+
 
     @Override
     public void onFailure(final Call<T> call, final Throwable t) {

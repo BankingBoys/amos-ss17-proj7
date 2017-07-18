@@ -11,6 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.android.api.sync.Toaster;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.ContactsDataManager;
 import de.fau.amos.virtualledger.android.views.menu.MainMenu;
@@ -21,8 +22,9 @@ import de.fau.amos.virtualledger.dtos.Contact;
  */
 
 public class AddContactsActivity extends AppCompatActivity {
-   @SuppressWarnings("unused")
+    @SuppressWarnings("unused")
     private static final String tag = AddContactsActivity.class.getSimpleName();
+
 
     @Inject
     ContactsDataManager contactsDataManager;
@@ -42,7 +44,10 @@ public class AddContactsActivity extends AppCompatActivity {
     void submit() {
         final String email = emailAdr.getText().toString();
 
-        contactsDataManager.add(new Contact(email));
+        Toaster toaster = new Toaster(getApplicationContext())//
+                .pushConceptualErrorMessage("User not found");
+
+        contactsDataManager.add(new Contact(email), toaster);
 
         Intent intent = new Intent(this, MainMenu.class);
         intent.putExtra(MainMenu.EXTRA_STARTING_FRAGMENT, MainMenu.AppFragment.CONTACTS);

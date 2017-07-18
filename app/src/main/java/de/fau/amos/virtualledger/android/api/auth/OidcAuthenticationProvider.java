@@ -131,7 +131,6 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
             @Override
             public void onResponse(retrofit2.Call<OidcData> call, Response<OidcData> response) {
                 if (response.isSuccessful()) {
-
                     oidcData = response.body();
                     lastRefresh = new Date();
                     observable.onNext("Refresh was successful!");
