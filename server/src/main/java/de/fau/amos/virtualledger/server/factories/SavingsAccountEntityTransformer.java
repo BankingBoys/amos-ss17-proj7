@@ -51,6 +51,10 @@ public class SavingsAccountEntityTransformer {
     public List<BankAccountIdentifierEntity> transformBankAccountIdentifierIntoEntity(List<BankAccountIdentifier> assignedBankAccounts) {
 
         List<BankAccountIdentifierEntity> bankAccountIdentifierEntities = new ArrayList<>();
+        if (assignedBankAccounts == null) {
+            return bankAccountIdentifierEntities;
+        }
+
         for (BankAccountIdentifier bankAccountIdentifier : assignedBankAccounts) {
             bankAccountIdentifierEntities.add(transformBankAccountIdentifierIntoEntity(bankAccountIdentifier));
         }

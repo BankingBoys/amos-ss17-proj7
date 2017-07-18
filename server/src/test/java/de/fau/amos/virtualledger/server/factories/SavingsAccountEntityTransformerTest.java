@@ -27,9 +27,36 @@ public class SavingsAccountEntityTransformerTest {
     /*   public SavingsAccountEntity transformSavingAccountIntoEntity(SavingsAccount savingsAccount, User currentUser) {
 
        public User transformContactIntoEntity(Contact contact) {
-
-       public List<BankAccountIdentifierEntity> transformBankAccountIdentifierIntoEntity(List<BankAccountIdentifier> assignedBankAccounts) {
 */
+    @Test
+    public void transformBankAccountIdentifierListIntoEntity() {
+        // SETUP
+        List<BankAccountIdentifier> identifiers = new ArrayList<>();
+        BankAccountIdentifier accountIdentifier = new BankAccountIdentifier(accessId, accountId);
+        identifiers.add(accountIdentifier);
+
+        // ACT
+        List<BankAccountIdentifierEntity> result = transformer.transformBankAccountIdentifierIntoEntity(identifiers);
+
+        // ASSERT
+        assertNotNull(result);
+        assertEquals(result.size(), identifiers.size());
+    }
+
+    @Test
+    public void transformBankAccountIdentifierIntoEntityInputNull() {
+
+        // SETUP
+        List<BankAccountIdentifier> identifiers = null;
+
+        // ACT
+        List<BankAccountIdentifierEntity> result = transformer.transformBankAccountIdentifierIntoEntity(identifiers);
+
+        // ASSERT
+        assertNotNull(result);
+    }
+
+
     @Test
     public void transformBankAccountIdentifierIntoEntity() {
         // SETUP
