@@ -254,6 +254,11 @@ class StubbedDataManager implements DataManager<Contact> {
     }
 
     @Override
+    public void delete(Contact item, ServerCallStatusHandler h) {
+
+    }
+
+    @Override
     public void deleteObserver(Observer o) {
         this.observers.remove(o);
     }

@@ -42,6 +42,11 @@ public class AbstractMockedDataProvider<T> implements DataProvider<T> {
     }
 
     @Override
+    public Observable<Void> delete(T item) {
+        return null;
+    }
+
+    @Override
     public Observable<String> add(T newItem) {
         this.providedItems.add(newItem);
         final PublishSubject observable = PublishSubject.create();

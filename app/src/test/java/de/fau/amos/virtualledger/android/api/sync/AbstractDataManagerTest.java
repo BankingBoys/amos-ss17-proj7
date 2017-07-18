@@ -189,4 +189,9 @@ class StubbedSavingsProvider implements DataProvider<SavingsAccount>{
     public List<SavingsAccount> accounts(){
         return this.savings;
     }
+
+    @Override
+    public Observable<Void> delete(SavingsAccount item) {
+        return null;
+    }
 }

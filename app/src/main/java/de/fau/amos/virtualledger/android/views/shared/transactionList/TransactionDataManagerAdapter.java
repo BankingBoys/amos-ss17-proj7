@@ -78,4 +78,8 @@ class TransactionDataManagerAdapter implements DataManager<Transaction> {
     public void deleteObserver(Observer o) {
         this.bankingDataManager.deleteObserver(o);
     }
+
+    @Override
+    public void delete(Transaction item, ServerCallStatusHandler h) {
+    }
 }
