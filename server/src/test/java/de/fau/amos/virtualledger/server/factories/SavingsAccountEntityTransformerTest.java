@@ -1,9 +1,11 @@
 package de.fau.amos.virtualledger.server.factories;
 
 import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
+import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 import de.fau.amos.virtualledger.server.model.BankAccountIdentifierEntity;
 import de.fau.amos.virtualledger.server.model.SavingsAccountSubGoalEntity;
+import de.fau.amos.virtualledger.server.model.User;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -20,14 +22,31 @@ public class SavingsAccountEntityTransformerTest {
     private final double savingsAccountSubGoalTestAmount = 123.22;
     private final String accessId = "access";
     private final String accountId = "account";
+    private final String userEmail = "userEmail";
+    private final String userFirstName = "userFirstName";
+    private final String userLastName = "userLastName";
     private final double delta = 0.01;
 
     private SavingsAccountEntityTransformer transformer = new SavingsAccountEntityTransformer();
 
     /*   public SavingsAccountEntity transformSavingAccountIntoEntity(SavingsAccount savingsAccount, User currentUser) {
-
-       public User transformContactIntoEntity(Contact contact) {
 */
+    @Test
+    public void transformContactIntoEntity() {
+
+        // SETUP
+        Contact contact = new Contact(userEmail, userFirstName, userLastName);
+
+        // ACT
+        User result = transformer.transformContactIntoEntity(contact);
+
+        // ASSERT
+        assertNotNull(result);
+        assertEquals(userEmail, result.getEmail());
+        assertEquals(userFirstName, result.getFirstName());
+        assertEquals(userLastName, result.getLastName());
+    }
+
     @Test
     public void transformBankAccountIdentifierListIntoEntity() {
         // SETUP
