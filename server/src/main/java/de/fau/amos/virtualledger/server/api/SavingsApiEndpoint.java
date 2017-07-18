@@ -2,7 +2,6 @@ package de.fau.amos.virtualledger.server.api;
 
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
-import de.fau.amos.virtualledger.server.model.SavingsAccountEntity;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,7 +100,7 @@ public class SavingsApiEndpoint {
      */
     private ResponseEntity<?> getSavingAccounts(String username) {
 
-        List<SavingsAccountEntity> savingsAccountEntityList = savingsController.getSavingAccounts(username);
+        List<SavingsAccount> savingsAccountEntityList = savingsController.getSavingAccounts(username);
         return new ResponseEntity<Object>(savingsAccountEntityList, HttpStatus.OK);
     }
 
