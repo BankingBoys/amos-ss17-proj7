@@ -24,6 +24,7 @@ import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fr
 import de.fau.amos.virtualledger.android.views.calendar.CaldroidBankingFragment;
 import de.fau.amos.virtualledger.android.views.contacts.ContactsFragment;
 import de.fau.amos.virtualledger.android.views.contacts.ContactsSupplier;
+import de.fau.amos.virtualledger.android.views.contacts.Delete.ContactsDeleteAction;
 import de.fau.amos.virtualledger.android.views.contacts.NoContactsFragment;
 import de.fau.amos.virtualledger.android.views.contacts.add.AddContactsActivity;
 import de.fau.amos.virtualledger.android.views.menu.MainMenu;
@@ -90,4 +91,6 @@ public interface NetComponent {
     void inject(AddContactsActivity addContactsActivity);
 
     void inject(AddSavingsAccountAccountsFragment addSavingsAccountAccountsFragment);
+
+    void inject(ContactsDeleteAction deleteAction);
 }
