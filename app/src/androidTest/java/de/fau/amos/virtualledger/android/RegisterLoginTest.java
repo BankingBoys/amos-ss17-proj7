@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.authentication.demo.login.LoginActivity;
+import de.fau.amos.virtualledger.android.views.authentication.OidcAuthenticationActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -28,7 +28,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 public class RegisterLoginTest {
 
     @Rule
-    public ActivityTestRule<LoginActivity> mActivityRule = new ActivityTestRule<>(LoginActivity.class);
+    public ActivityTestRule<OidcAuthenticationActivity> mActivityRule = new ActivityTestRule<>(OidcAuthenticationActivity.class);
 
     @Test
     public void registerAndLogin() throws InterruptedException {
