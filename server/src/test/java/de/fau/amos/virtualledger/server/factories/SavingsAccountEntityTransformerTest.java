@@ -4,6 +4,10 @@ import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 import de.fau.amos.virtualledger.server.model.SavingsAccountSubGoalEntity;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -23,9 +27,36 @@ public class SavingsAccountEntityTransformerTest {
        public List<BankAccountIdentifierEntity> transformBankAccountIdentifierIntoEntity(List<BankAccountIdentifier> assignedBankAccounts) {
 
        public BankAccountIdentifierEntity transformBankAccountIdentifierIntoEntity(BankAccountIdentifier bankAccountIdentifier) {
+*/
+    @Test
+    public void transformSavingsAccountSubGoalListIdentifierIntoEntity() {
 
-       public Set<SavingsAccountSubGoalEntity> transformSavingsAccountSubGoalIdentifierIntoEntity(List<SavingsAccountSubGoal> subGoals) {
-   */
+        // SETUP
+        List<SavingsAccountSubGoal> subGoals = new ArrayList<SavingsAccountSubGoal>();
+        SavingsAccountSubGoal savingsAccountSubGoal = new SavingsAccountSubGoal(savingsAccountSubGoalTestName, savingsAccountSubGoalTestAmount);
+        subGoals.add(savingsAccountSubGoal);
+
+        // ACT
+        Set<SavingsAccountSubGoalEntity> result = transformer.transformSavingsAccountSubGoalIdentifierIntoEntity(subGoals);
+
+        // ASSERT
+        assertNotNull(result);
+        assertEquals(result.size(), subGoals.size());
+    }
+
+    @Test
+    public void transformSavingsAccountSubGoalListIdentifierIntoEntityInputNull() {
+
+        // SETUP
+        List<SavingsAccountSubGoal> subGoals = null;
+
+        // ACT
+        Set<SavingsAccountSubGoalEntity> result = transformer.transformSavingsAccountSubGoalIdentifierIntoEntity(subGoals);
+
+        // ASSERT
+        assertNotNull(result);
+    }
+
     @Test
     public void transformSavingsAccountSubGoalIdentifierIntoEntity() {
 

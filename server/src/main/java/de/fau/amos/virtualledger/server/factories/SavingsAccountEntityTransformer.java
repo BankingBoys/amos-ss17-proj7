@@ -68,6 +68,10 @@ public class SavingsAccountEntityTransformer {
     public Set<SavingsAccountSubGoalEntity> transformSavingsAccountSubGoalIdentifierIntoEntity(List<SavingsAccountSubGoal> subGoals) {
 
         Set<SavingsAccountSubGoalEntity> savingsAccountSubGoalEntities = new HashSet<>();
+        if (subGoals == null) {
+            return savingsAccountSubGoalEntities;
+        }
+
         for (SavingsAccountSubGoal savingsAccountSubGoal : subGoals) {
             savingsAccountSubGoalEntities.add(transformSavingsAccountSubGoalIdentifierIntoEntity(savingsAccountSubGoal));
         }
