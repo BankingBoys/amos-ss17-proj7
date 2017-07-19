@@ -3,11 +3,6 @@
 
     <string name="authentication_password_hint">Password</string>
     <string name="authentication_email_hint">E-Mail</string>
-    <string name="authentication_register_firstname_hint">First Name</string>
-    <string name="authentication_register_lastname_hint">Last Name</string>
-    <string name="authentication_register_title">Registration</string>
-    <string name="authentication_register_button_text">Register</string>
-    <string name="authentication_register_terms_and_conditions">By joining virtual ledger, you agree to the <u> terms and conditions </u></string>
     <string name="authentication_login_title">Login</string>
     <string name="authentication_login_button_text">Login</string>
     <string name="authentication_login_register_first_link"><u>Register first</u></string>
@@ -53,10 +48,6 @@
     <string name="saving_accounts_title">Saving Accounts</string>
     <string name="saving_accounts_app_bar_add">Add savings account</string>
 
-    <string name="pref_example_title">Example Preference</string>
-
-    <string name="authentication_activity_chooser_demo_account_button">Demo Account</string>
-    <string name="authentication_activity_chooser_oidc_button">Authenticate now!</string>
     <string name="add_savings_account_button_previous">Previous</string>
     <string name="add_savings_account_button_next">Next</string>
     <string name="add_savings_account_enter_name_text">Enter a name for your savings account</string>
@@ -69,10 +60,6 @@
     <string name="add_savings_account_button_submit">Submit</string>
     <string name="add_savings_account_enter_final_date_text">Enter the termination date for this account</string>
     <string name="add_savings_account_choose_time_type">Choose a type of goal</string>
-    <string name="add_savings_account_time_type_one_time">One time</string>
-    <string name="add_savings_account_time_type_periodic">Periodic</string>
-    <string name="add_savings_account_choose_accounts_button">Choose Accounts</string>
-    <string name="add_savings_account_choose_accounts_text">Choose accounts that are enabled for the transaction of money to this deposit</string>
     <string name="add_savings_account_choose_finish_goal_date">When will you have spent the money?</string>
     <string name="add_savings_account_choose_assignment">Assign the saving goal to ...</string>
     <string name="add_savings_account_choose_assignment_amount_per_person" formatted="false">You assigned %s to the savings goal.\nThe amount per person is %s€.</string>
