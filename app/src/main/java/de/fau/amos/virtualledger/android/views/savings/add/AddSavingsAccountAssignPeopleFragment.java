@@ -16,11 +16,11 @@ import java.util.logging.Logger;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.android.views.contacts.ContactsSupplier;
 import de.fau.amos.virtualledger.android.views.contacts.add.AddContactsActivity;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
 import de.fau.amos.virtualledger.dtos.Contact;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 
 public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage implements DataListening {
     @SuppressWarnings("unused")
@@ -52,7 +52,7 @@ public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage
 
         TextView conclusionTextView = (TextView) view.findViewById(R.id.conclusion_text);
 
-        this.peopleAssignetListener = new PeopleAssignedListener(getContext(), conclusionTextView, conclusionTextView.getText().toString(), this.dataModel);
+        this.peopleAssignetListener = new PeopleAssignedListener(conclusionTextView, conclusionTextView.getText().toString(), this.dataModel);
         adapter = new PeopleAdapter(getActivity(), R.id.list, getContacts(), peopleAssignetListener);
         peopleList.setAdapter(adapter);
         return view;
