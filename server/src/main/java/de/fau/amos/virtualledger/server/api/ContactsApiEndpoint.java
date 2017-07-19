@@ -64,7 +64,7 @@ public class ContactsApiEndpoint {
         return this.addContact(contact, username);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "api/contacts/{contactEmail}", produces = "application/json")
+    @RequestMapping(method = RequestMethod.DELETE, value = "api/contacts/{contactEmail:.+}", produces = "application/json")
     public ResponseEntity<?> deleteContactEndpoint(@PathVariable("contactEmail") String contactEmail) throws ServletException {
         final String username = keycloakUtilizer.getEmail();
         if (username == null || username.isEmpty()) {
