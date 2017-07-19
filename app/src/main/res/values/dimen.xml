@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="virtual_ledger_layout_space">10dp</dimen>
     <dimen name="authentication_login_title_margin_top">40dp</dimen>
     <dimen name="authentication_login_button_margin_side">16dp</dimen>
     <dimen name="authentication_login_text_field_register_margin_bottom">10dp</dimen>
