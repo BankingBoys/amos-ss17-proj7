@@ -24,7 +24,7 @@
                 android:id="@+id/id_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sparschwein"
+                android:text="@string/example_savings_goal_name"
                 android:textColor="@color/colorBankingOverview"
                 android:textSize="@dimen/fontSizeL" />
 
@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:text="3 days left"
+                    android:text="@string/example_savings_goal_time"
                     android:textColor="@color/colorBankingOverview"
                     android:textSize="@dimen/fontSizeM" />
             </LinearLayout>
@@ -62,7 +62,7 @@
                 android:id="@+id/id_current_balance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="300"
+                android:text="@string/example_savings_goal_amount_today"
                 android:textSize="@dimen/fontSizeXXL" />
 
             <TextView
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right|center_vertical"
-                android:text="/"
+                android:text="@string/slash"
                 android:textSize="@dimen/fontSizeXXL" />
 
             <TextView
@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right|center_vertical"
-                android:text="400"
+                android:text="@string/example_savings_goal_amount_today"
                 android:textSize="@dimen/fontSizeXXL" />
 
         </LinearLayout>

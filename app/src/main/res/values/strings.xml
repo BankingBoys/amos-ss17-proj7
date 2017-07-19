@@ -75,6 +75,13 @@
     <string name="choose_button_text">(choose)</string>
     <string name="to">To: </string>
 
+    <string name="example_savings_goal_name">Sparschwein</string>
+    <string name="example_savings_goal_time">3 days left</string>
+    <string name="example_savings_goal_amount_today">300</string>
+    <string name="example_savings_goal_amount_goal">400</string>
+
+    <string name="slash">/</string>
+
     <string name="add_savings_account_choose_bank_accounts_text" >Please assign bank accounts to your saving goal</string>
     <string name="test_bank_Account" >TestAccount</string>
     <string name="test_contact_name">Gundula Düsentieb</string>
