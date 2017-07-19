@@ -1,6 +1,5 @@
 package de.fau.amos.virtualledger.android.views.savings.add;
 
-import android.content.Context;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -11,8 +10,8 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.Contact;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 
 /**
  * Created by sebastian on 14.07.17.
@@ -23,13 +22,11 @@ public class PeopleAssignedListener {
     private TextView textView;
     private String baseText;
     private SavingsAccount account;
-    private Context context;
 
-    public PeopleAssignedListener(Context context, TextView textView, String baseText, SavingsAccount account) {
+    public PeopleAssignedListener(TextView textView, String baseText, SavingsAccount account) {
         this.textView = textView;
         this.baseText = baseText;
         this.account = account;
-        this.context = context;
     }
 
     private Logger logger() {
@@ -62,8 +59,10 @@ public class PeopleAssignedListener {
             personString = "one person";
         }
 
-        int amount = (int) goalAmount / peopleSelected.size();
-        String newConclusionText = new Formatter().format(this.baseText, personString, amount + "").toString();
+        int amount = goalAmount / peopleSelected.size();
+        Formatter formatter = new Formatter();
+        String newConclusionText = formatter.format(this.baseText, personString, amount + "").toString();
+        formatter.close();
         logger().info("People changed. Updating new conclusion text to: " + newConclusionText);
         this.textView.setText(newConclusionText);
     }
