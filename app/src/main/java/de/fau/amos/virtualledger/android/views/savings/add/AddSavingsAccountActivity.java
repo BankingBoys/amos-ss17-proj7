@@ -132,7 +132,7 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
 
     private void submit() {
         Toaster toaster = new Toaster(getApplicationContext())//
-                .pushSuccessMessage(String.format(Locale.getDefault(), "Savings acctount \"%s\" added.",
+                .pushSuccessMessage(String.format(Locale.getDefault(), "Savings account \"%s\" added.",
                         this.savingsAccountState.getName()));
 
         savingsAccountsDataManager.add(this.savingsAccountState, toaster);
