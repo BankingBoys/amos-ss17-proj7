@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import de.fau.amos.virtualledger.android.data.SyncStatus;
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.android.plugins.RxAndroidPlugins;
@@ -180,7 +181,7 @@ class StubbedSavingsProvider implements DataProvider<SavingsAccount>{
     }
 
     @Override
-    public Observable<String> add(SavingsAccount newItem) {
+    public Observable<StringApiModel> add(SavingsAccount newItem) {
         this.savings.add(newItem);
         observable = PublishSubject.create();
         return this.observable;

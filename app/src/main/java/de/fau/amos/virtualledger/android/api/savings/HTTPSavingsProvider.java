@@ -8,6 +8,7 @@ import de.fau.amos.virtualledger.android.api.shared.CallWithToken;
 import de.fau.amos.virtualledger.android.api.shared.RetrofitCallback;
 import de.fau.amos.virtualledger.android.api.shared.TokenCallback;
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -42,9 +43,9 @@ public class HTTPSavingsProvider implements SavingsProvider {
     }
 
     @Override
-    public Observable<String> add(final SavingsAccount savingsAccount) {
+    public Observable<StringApiModel> add(final SavingsAccount savingsAccount) {
 
-        final PublishSubject<String> observable = PublishSubject.create();
+        final PublishSubject<StringApiModel> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override

@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.data.SyncStatus;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -102,9 +103,9 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
         dataProvider.add(element)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
+                .subscribe(new Consumer<StringApiModel>() {
                     @Override
-                    public void accept(@NonNull final String s) throws Exception {
+                    public void accept(@NonNull final StringApiModel s) throws Exception {
                         handler.onOk();
                         logger().info("Trigger resync after succesful add");
                         AbstractDataManager.this.sync();

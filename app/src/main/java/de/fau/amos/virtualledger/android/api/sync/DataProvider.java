@@ -2,6 +2,7 @@ package de.fau.amos.virtualledger.android.api.sync;
 
 import java.util.List;
 
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import io.reactivex.Observable;
 
 /**
@@ -12,7 +13,7 @@ public interface DataProvider<T> {
 
     Observable<List<T>> get();
 
-    Observable<String> add(T newItem);
+    Observable<StringApiModel> add(T newItem);
 
     Observable<Void> delete(T item);
 }

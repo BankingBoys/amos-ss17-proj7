@@ -8,6 +8,7 @@ import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
 import de.fau.amos.virtualledger.dtos.Contact;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -38,13 +39,13 @@ public interface RestApi {
     Call<List<SavingsAccount>> getSavingAccounts(@Header("Authorization") String token);
 
     @POST("/api/savings")
-    Call<String> addSavingAccounts(@Header("Authorization") String token, @Body SavingsAccount savingsAccounts);
+    Call<StringApiModel> addSavingAccounts(@Header("Authorization") String token, @Body SavingsAccount savingsAccounts);
 
     @GET("/api/contacts")
     Call<List<Contact>> getContacts(@Header("Authorization") String token);
 
     @POST("/api/contacts")
-    Call<String> addContact(@Header("Authorization") String token, @Body Contact contact);
+    Call<StringApiModel> addContact(@Header("Authorization") String token, @Body Contact contact);
 
     @DELETE("/api/contacts/{contactEmail}")
     Call<Void> deleteContact(@Header("Authorization") String token, @Path("contactEmail") String contactEmail);
