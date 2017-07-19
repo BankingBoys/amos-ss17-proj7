@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "savings_accounts")
-public class SavingsAccount {
+public class SavingsAccountEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,28 +27,37 @@ public class SavingsAccount {
     private double goalbalance;
     private double currentbalance;
     private Date finaldate;
+    private Date finalGoalFinishedDate;
 
     @OneToMany
     @Cascade(CascadeType.ALL)
-    private Set<SingleGoal> singleGoals = new HashSet<>();
+    private Set<SavingsAccountSubGoalEntity> subGoals = new HashSet<>();
 
     @ManyToMany
     @Cascade(CascadeType.ALL)
     private Set<SavingsAccountUserRelation> userRelations = new HashSet<>();
 
-    public SavingsAccount() {
+    public SavingsAccountEntity() {
     }
 
-    public SavingsAccount(int id, String name, double goalbalance, double currentbalance, Date finaldate, Set<SingleGoal> singleGoals) {
+    public SavingsAccountEntity(String name, double goalbalance, double currentbalance, Date finaldate, Date finalGoalFinishedDate) {
+        this.name = name;
+        this.goalbalance = goalbalance;
+        this.currentbalance = currentbalance;
+        this.finaldate = finaldate;
+        this.finalGoalFinishedDate = finalGoalFinishedDate;
+    }
+
+    public SavingsAccountEntity(int id, String name, double goalbalance, double currentbalance, Date finaldate, Date finalGoalFinishedDate, Set<SavingsAccountSubGoalEntity> subGoals) {
         this.setId(id);
         this.setName(name);
         this.setGoalbalance(goalbalance);
         this.setCurrentbalance(currentbalance);
         this.setFinaldate(finaldate);
-        this.setSingleGoals(singleGoals);
+        this.setSubGoals(subGoals);
     }
 
-    public SavingsAccount(String name, double goalbalance, double currentbalance, Date finaldate, Set<SavingsAccountUserRelation> userRelations) {
+    public SavingsAccountEntity(String name, double goalbalance, double currentbalance, Date finaldate, Date finalGoalFinishedDate, Set<SavingsAccountUserRelation> userRelations) {
         this.name = name;
         this.goalbalance = goalbalance;
         this.currentbalance = currentbalance;
@@ -96,6 +105,14 @@ public class SavingsAccount {
         this.finaldate = finaldate;
     }
 
+    public Date getFinalGoalFinishedDate() {
+        return finalGoalFinishedDate;
+    }
+
+    public void setFinalGoalFinishedDate(Date finalGoalFinishedDate) {
+        this.finalGoalFinishedDate = finalGoalFinishedDate;
+    }
+
     public Set<SavingsAccountUserRelation> getUserRelations() {
         return userRelations;
     }
@@ -104,11 +121,11 @@ public class SavingsAccount {
         this.userRelations = userRelations;
     }
 
-    public Set<SingleGoal> getSingleGoals() {
-        return singleGoals;
+    public Set<SavingsAccountSubGoalEntity> getSubGoals() {
+        return subGoals;
     }
 
-    public void setSingleGoals(Set<SingleGoal> singleGoals) {
-        this.singleGoals = singleGoals;
+    public void setSubGoals(Set<SavingsAccountSubGoalEntity> subGoals) {
+        this.subGoals = subGoals;
     }
 }

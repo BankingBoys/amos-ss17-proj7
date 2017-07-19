@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 
 import java.util.logging.Logger;
 
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 
 public abstract class AddSavingsAccountPage extends Fragment {
     abstract void fillInData(SavingsAccount addSavingsAccountResult);

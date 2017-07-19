@@ -3,7 +3,7 @@ package de.fau.amos.virtualledger.android.api.savings;
 import java.util.Date;
 
 import de.fau.amos.virtualledger.android.api.sync.AbstractMockedDataProvider;
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 
 
 public class MockedSavingsProvider extends AbstractMockedDataProvider {

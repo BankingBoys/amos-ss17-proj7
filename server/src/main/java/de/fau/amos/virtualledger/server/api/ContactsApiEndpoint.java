@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -63,14 +64,14 @@ public class ContactsApiEndpoint {
         return this.addContact(contact, username);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "api/contacts", produces = "application/json")
-    public ResponseEntity<?> deleteContactEndpoint(@RequestBody final Contact contact) throws ServletException {
+    @RequestMapping(method = RequestMethod.DELETE, value = "api/contacts/{contactEmail}", produces = "application/json")
+    public ResponseEntity<?> deleteContactEndpoint(@PathVariable("contactEmail") String contactEmail) throws ServletException {
         final String username = keycloakUtilizer.getEmail();
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
         }
         LOGGER.info("deleteContactEndpoint of " + username + " was requested");
-        return this.deleteContact(contact, username);
+        return this.deleteContact(contactEmail, username);
     }
 
     private ResponseEntity<?> getContacts(final String username) throws UserNotFoundException {
@@ -88,9 +89,9 @@ public class ContactsApiEndpoint {
         return new ResponseEntity<>("Adding of Contacts Successful", HttpStatus.CREATED);
     }
 
-    private ResponseEntity<?> deleteContact(final Contact contact, final String username) {
+    private ResponseEntity<?> deleteContact(final String contactEmail, final String username) {
         try {
-            contactsController.deleteContact(contact, username);
+            contactsController.deleteContact(contactEmail, username);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }

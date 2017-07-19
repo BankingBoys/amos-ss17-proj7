@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.Date;
 
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import io.reactivex.Observable;
 
 import static org.assertj.core.api.Assertions.assertThat;

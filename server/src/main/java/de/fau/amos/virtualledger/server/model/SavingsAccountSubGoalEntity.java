@@ -10,22 +10,22 @@ import javax.persistence.Table;
  * Created by Simon on 16.07.2017.
  */
 @Entity
-@Table(name = "single_goals")
-public class SingleGoal {
+@Table(name = "savings_account_sub_goals")
+public class SavingsAccountSubGoalEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
-    private double balance;
+    private double amount;
 
-    public SingleGoal(String name, double balance) {
+    public SavingsAccountSubGoalEntity(String name, double amount) {
         this.name = name;
-        this.balance = balance;
+        this.amount = amount;
     }
 
-    public SingleGoal() {
+    public SavingsAccountSubGoalEntity() {
     }
 
     public String getName() {
@@ -36,11 +36,11 @@ public class SingleGoal {
         this.name = name;
     }
 
-    public double getBalance() {
-        return balance;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 }

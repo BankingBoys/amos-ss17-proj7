@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.android.views.contacts.ContactsSupplier;
 import de.fau.amos.virtualledger.android.views.contacts.add.AddContactsActivity;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
@@ -69,7 +69,7 @@ public class AddSavingsAccountAssignPeopleFragment extends AddSavingsAccountPage
 
     @Override
     public void fillInData(final SavingsAccount savingsAccount) {
-        logger().info("Contacts already synced into data model:" + dataModel.getAdditionalAssignedContacts());
+        logger().info("Contacts already synced into data model:" + dataModel.getAdditionalAssignedUsers());
     }
 
     private Logger logger() {

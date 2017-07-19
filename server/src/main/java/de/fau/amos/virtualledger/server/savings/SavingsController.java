@@ -1,15 +1,15 @@
 package de.fau.amos.virtualledger.server.savings;
 
-import de.fau.amos.virtualledger.server.model.BankAccountIdentifier;
-import de.fau.amos.virtualledger.server.model.SavingsAccount;
-import de.fau.amos.virtualledger.server.model.SavingsAccountUserRelation;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
+import de.fau.amos.virtualledger.server.factories.SavingsAccountFromEntityTransformer;
+import de.fau.amos.virtualledger.server.factories.SavingsAccountIntoEntityTransformer;
+import de.fau.amos.virtualledger.server.model.SavingsAccountEntity;
 import de.fau.amos.virtualledger.server.model.User;
 import de.fau.amos.virtualledger.server.persistence.SavingsAccountRepository;
 import de.fau.amos.virtualledger.server.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -18,6 +18,12 @@ public class SavingsController {
 
     private SavingsAccountRepository savingsAccountRepository;
     private UserRepository userRepository;
+
+    @Autowired
+    private SavingsAccountIntoEntityTransformer savingsAccountIntoEntityTransformer;
+
+    @Autowired
+    private SavingsAccountFromEntityTransformer savingsAccountFromEntityTransformer;
 
     @Autowired
     public SavingsController(UserRepository userRepository, SavingsAccountRepository savingsAccountRepository) {
@@ -29,19 +35,16 @@ public class SavingsController {
     }
 
     public List<SavingsAccount> getSavingAccounts(String email) {
+        List<SavingsAccountEntity> savingsAccountEntityList = savingsAccountRepository.findByUserEmailAndLoadUserRelations(email);
+        User user = userRepository.findOne(email);
 
-        return savingsAccountRepository.findByUserEmailAndLoadUserRelations(email);
+        return savingsAccountFromEntityTransformer.transformSavingAccountFromEntity(savingsAccountEntityList, user);
     }
 
-    public void addSavingAccount(String email, SavingsAccount savingsAccount, List<BankAccountIdentifier> bankAccountIdentifierList, List<String> usersEmails) {
+    public void addSavingAccount(String email, SavingsAccount savingsAccount) {
 
         User user = userRepository.findOne(email);
-        SavingsAccountUserRelation savingsAccountUserRelation = new SavingsAccountUserRelation(user, bankAccountIdentifierList);
-        savingsAccount.getUserRelations().add(savingsAccountUserRelation);
-        for (String e : usersEmails) {
-            SavingsAccountUserRelation savingsAccountParticipatingUserRelation = new SavingsAccountUserRelation(userRepository.findOne(e), new ArrayList<>());
-            savingsAccount.getUserRelations().add(savingsAccountParticipatingUserRelation);
-        }
-        savingsAccountRepository.save(savingsAccount);
+        SavingsAccountEntity savingsAccountEntity = savingsAccountIntoEntityTransformer.transformSavingAccountIntoEntity(savingsAccount, user);
+        savingsAccountRepository.save(savingsAccountEntity);
     }
 }

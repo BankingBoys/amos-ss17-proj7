@@ -32,6 +32,8 @@ public interface DataManager<T> {
 
     void add(T newItem, ServerCallStatusHandler h);
 
+    void delete(T item, ServerCallStatusHandler h);
+
     void addObserver(Observer o);
 
     void deleteObserver(Observer o);

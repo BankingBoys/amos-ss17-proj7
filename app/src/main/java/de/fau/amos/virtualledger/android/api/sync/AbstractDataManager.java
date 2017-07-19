@@ -118,6 +118,34 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
                     public void accept(@NonNull final Throwable throwable) throws Exception {
                         Log.e(TAG, "Failed adding items", throwable);
                         handler.onTechnicalError();
+                        AbstractDataManager.this.sync();
+                    }
+                });
+    }
+
+    @Override
+    public void delete(final T element, final ServerCallStatusHandler handler) {
+        logger().info("Adding element: " + element);
+        dataProvider.delete(element)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Void>() {
+                    @Override
+                    public void accept(@NonNull final Void vVoid) throws Exception {
+                        handler.onOk();
+                        logger().info("Trigger resync after succesful delete");
+                        AbstractDataManager.this.sync();
+                    }
+
+                    private Logger logger() {
+                        return Logger.getLogger(this.getClass().getCanonicalName());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull final Throwable throwable) throws Exception {
+                        Log.e(TAG, "Failed adding items", throwable);
+                        handler.onTechnicalError();
+                        AbstractDataManager.this.sync();
                     }
                 });
     }

@@ -2,7 +2,7 @@ package de.fau.amos.virtualledger.android.api;
 
 import java.util.List;
 
-import de.fau.amos.virtualledger.android.model.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
@@ -45,4 +45,7 @@ public interface RestApi {
 
     @POST("/api/contacts")
     Call<String> addContact(@Header("Authorization") String token, @Body Contact contact);
+
+    @DELETE("/api/contacts/{contactEmail}")
+    Call<Void> deleteContact(@Header("Authorization") String token, @Path("contactEmail") String contactEmail);
 }

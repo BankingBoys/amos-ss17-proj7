@@ -1,9 +1,7 @@
 package de.fau.amos.virtualledger.server.api;
 
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
-import de.fau.amos.virtualledger.server.model.BankAccountIdentifier;
-import de.fau.amos.virtualledger.server.model.SavingsAccount;
-import de.fau.amos.virtualledger.server.model.SavingsAccountAddWrapper;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,20 +57,16 @@ public class SavingsApiEndpoint {
      * @return status 201 if successful
      */
     @RequestMapping(method = RequestMethod.POST, value = "api/savings", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> addSavingAccountEndpoint(@RequestBody SavingsAccountAddWrapper savingsAccountAddWrapper) throws ServletException {
+    public ResponseEntity<?> addSavingAccountEndpoint(@RequestBody SavingsAccount savingsAccount) throws ServletException {
         String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);
         }
 
-        SavingsAccount savingsAccount = savingsAccountAddWrapper.getSavingsAccount();
-        List<BankAccountIdentifier> bankAccountIdentifierList = savingsAccountAddWrapper.getBankAccountIdentifierList();
-        final List<String> usersEmails = savingsAccountAddWrapper.getUsersEmails();
         if (savingsAccount == null || savingsAccount.getName() == null || savingsAccount.getName().isEmpty()
                 || savingsAccount.getFinaldate() == null
-                        /*|| bankAccountIdentifierList == null
-                || bankAccountIdentifierList.size() == 0*/
+                || savingsAccount.getFinalGoalFinishedDate() == null
                 ) {
             return new ResponseEntity<>(
                     "Please check your inserted values. None of the parameters must be null or empty except id. Id must not been set!",
@@ -80,7 +74,7 @@ public class SavingsApiEndpoint {
         }
         LOGGER.info("addSavingAccountEndpoint of " + username + " was requested");
 
-        return this.addSavingAccount(username, savingsAccount, bankAccountIdentifierList, usersEmails);
+        return this.addSavingAccount(username, savingsAccount);
     }
 
     /**
@@ -89,12 +83,11 @@ public class SavingsApiEndpoint {
      *
      * @param username
      * @param savingsAccount
-     * @param usersEmails
      * @return status 201 if successful
      */
-    private ResponseEntity<?> addSavingAccount(String username, SavingsAccount savingsAccount, List<BankAccountIdentifier> bankAccountIdentifierList, List<String> usersEmails) {
+    private ResponseEntity<?> addSavingAccount(String username, SavingsAccount savingsAccount) {
 
-        savingsController.addSavingAccount(username, savingsAccount, bankAccountIdentifierList, usersEmails);
+        savingsController.addSavingAccount(username, savingsAccount);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -107,8 +100,8 @@ public class SavingsApiEndpoint {
      */
     private ResponseEntity<?> getSavingAccounts(String username) {
 
-        List<SavingsAccount> savingsAccountList = savingsController.getSavingAccounts(username);
-        return new ResponseEntity<Object>(savingsAccountList, HttpStatus.OK);
+        List<SavingsAccount> savingsAccountEntityList = savingsController.getSavingAccounts(username);
+        return new ResponseEntity<Object>(savingsAccountEntityList, HttpStatus.OK);
     }
 
 }

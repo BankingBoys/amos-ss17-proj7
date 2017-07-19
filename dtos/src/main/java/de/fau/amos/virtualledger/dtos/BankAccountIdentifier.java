@@ -1,18 +1,6 @@
-package de.fau.amos.virtualledger.server.model;
+package de.fau.amos.virtualledger.dtos;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "bank_account_identifiers")
 public class BankAccountIdentifier {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
     private String accessid;
     private String accountid;
@@ -39,13 +27,5 @@ public class BankAccountIdentifier {
 
     public void setAccountid(String accountid) {
         this.accountid = accountid;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }

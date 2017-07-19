@@ -54,4 +54,19 @@ public class HTTPContactsProvider implements ContactsProvider{
 
         return observable;
     }
+
+    @Override
+    public Observable<Void> delete(final Contact contact) {
+        final PublishSubject<Void> observable = PublishSubject.create();
+
+        callWithToken.callWithToken(observable, new TokenCallback() {
+            @Override
+            public void onReceiveToken(final String token) {
+                // got token
+                restApi.deleteContact(token, contact.getEmail()).enqueue(new RetrofitCallback<>(observable));
+            }
+        });
+
+        return observable;
+    }
 }
