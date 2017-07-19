@@ -55,7 +55,6 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         pages.add(new AddSavingsAccountNameFragment());
-        pages.add(new AddSavingsAccountGoalTypeFragment());
         pages.add(new AddSavingsAccountFinalDateFragment());
         pages.add(new AddSavingsAccountFinalDateMoneyUsedFragment());
         pages.add(new AddSavingsAccountAmountTypeFragment());
