@@ -90,7 +90,7 @@ public class ContactsApiEndpoint {
             return new ResponseEntity<>(stringApiModelFactory.createStringApiModel(e.getMessage()), HttpStatus.FORBIDDEN);
         }
         LOGGER.info("Returning for add:" + "Adding of Contacts Successful" + HttpStatus.CREATED);
-        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel("Adding of Contacts Successful"), HttpStatus.CREATED);
+        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel(""), HttpStatus.CREATED);
     }
 
     private ResponseEntity<?> deleteContact(final String contactEmail, final String username) {
