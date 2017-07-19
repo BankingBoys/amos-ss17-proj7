@@ -2,6 +2,7 @@ package de.fau.amos.virtualledger.server.api;
 
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
+import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,11 +27,13 @@ public class SavingsApiEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private KeycloakUtilizer keycloakUtilizer;
     private SavingsController savingsController;
+    private StringApiModelFactory stringApiModelFactory;
 
     @Autowired
-    public SavingsApiEndpoint(KeycloakUtilizer keycloakUtilizer, SavingsController savingsController) {
+    public SavingsApiEndpoint(KeycloakUtilizer keycloakUtilizer, SavingsController savingsController, StringApiModelFactory stringApiModelFactory) {
         this.keycloakUtilizer = keycloakUtilizer;
         this.savingsController = savingsController;
+        this.stringApiModelFactory = stringApiModelFactory;
     }
 
 
@@ -61,7 +64,7 @@ public class SavingsApiEndpoint {
         String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
-            return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(stringApiModelFactory.createStringApiModel("Authentication failed! Your email wasn't found."), HttpStatus.FORBIDDEN);
         }
 
         if (savingsAccount == null || savingsAccount.getName() == null || savingsAccount.getName().isEmpty()
@@ -69,7 +72,7 @@ public class SavingsApiEndpoint {
                 || savingsAccount.getFinalGoalFinishedDate() == null
                 ) {
             return new ResponseEntity<>(
-                    "Please check your inserted values. None of the parameters must be null or empty except id. Id must not been set!",
+                    stringApiModelFactory.createStringApiModel("Please check your inserted values. None of the parameters must be null or empty except id. Id must not been set!"),
                     HttpStatus.BAD_REQUEST);
         }
         LOGGER.info("addSavingAccountEndpoint of " + username + " was requested");
@@ -88,7 +91,7 @@ public class SavingsApiEndpoint {
     private ResponseEntity<?> addSavingAccount(String username, SavingsAccount savingsAccount) {
 
         savingsController.addSavingAccount(username, savingsAccount);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel(""), HttpStatus.CREATED);
     }
 
     /**
