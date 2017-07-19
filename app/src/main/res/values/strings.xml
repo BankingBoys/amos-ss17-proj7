@@ -80,6 +80,14 @@
     <string name="example_savings_goal_amount_today">300</string>
     <string name="example_savings_goal_amount_goal">400</string>
 
+
+    <string name="example_transaction_name">Lachen im Keller</string>
+    <string name="example_transaction_value">+12</string>
+
+    <string name="example_bank_name">Sparkasse</string>
+
+    <string name="example_german_date">01.01.17</string>
+
     <string name="slash">/</string>
 
     <string name="add_savings_account_choose_bank_accounts_text" >Please assign bank accounts to your saving goal</string>
