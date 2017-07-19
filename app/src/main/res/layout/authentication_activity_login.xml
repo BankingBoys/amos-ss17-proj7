@@ -1,89 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:orientation="vertical"
+    android:weightSum="1">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/textViewLogin"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical"
-        android:weightSum="1">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/authentication_login_title_margin_top"
+        android:layout_weight="0.15"
+        android:gravity="center_horizontal|center"
+        android:text="@string/authentication_login_title"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="@dimen/fontSizeXL" />
 
-        <TextView
-            android:id="@+id/textViewLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/authentication_login_title_margin_top"
-            android:layout_weight="0.15"
-            android:gravity="center_horizontal|center"
-            android:text="@string/authentication_login_title"
-            android:textColor="@android:color/holo_blue_light"
-            android:textSize="@dimen/fontSizeXL" />
+    <EditText
+        android:id="@+id/userIDField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15"
+        android:ems="10"
+        android:gravity="bottom"
+        android:hint="@string/authentication_email_hint"
+        android:inputType="textEmailAddress" />
 
-        <EditText
-            android:id="@+id/userIDField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.15"
-            android:ems="10"
-            android:gravity="bottom"
-            android:hint="@string/authentication_email_hint"
-            android:inputType="textEmailAddress" />
+    <EditText
+        android:id="@+id/SecretField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2"
+        android:ems="10"
+        android:gravity="bottom"
+        android:hint="@string/authentication_password_hint"
+        android:inputType="textPassword" />
 
-        <EditText
-            android:id="@+id/SecretField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.2"
-            android:ems="10"
-            android:gravity="bottom"
-            android:hint="@string/authentication_password_hint"
-            android:inputType="textPassword" />
+    <TextView
+        android:id="@+id/textViewFailLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/fontSizeS" />
 
-        <TextView
-            android:id="@+id/textViewFailLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:gravity="center_vertical"
-            android:textSize="@dimen/fontSizeS" />
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginLeft="@dimen/authentication_login_button_margin_side"
+        android:layout_marginRight="@dimen/authentication_login_button_margin_side"
+        android:layout_weight="0.2"
+        android:background="@android:color/holo_blue_light"
+        android:text="@string/authentication_login_button_text"
+        android:textColor="@android:color/background_light" />
 
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginLeft="@dimen/authentication_login_button_margin_side"
-            android:layout_marginRight="@dimen/authentication_login_button_margin_side"
-            android:layout_weight="0.2"
-            android:background="@android:color/holo_blue_light"
-            android:text="@string/authentication_login_button_text"
-            android:textColor="@android:color/background_light" />
+    <CheckBox
+        android:id="@+id/loginCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/authentication_login_check_box_margin_left"
+        android:layout_weight="0.1"
+        android:text="@string/authentication_login_permanent_checkbox" />
 
-        <CheckBox
-            android:id="@+id/loginCheckBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/authentication_login_check_box_margin_left"
-            android:layout_weight="0.1"
-            android:text="@string/authentication_login_permanent_checkbox" />
+    <TextView
+        android:id="@+id/textViewLogin_RegisterFirst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/authentication_login_text_field_register_margin_bottom"
+        android:layout_marginTop="@dimen/authentication_login_text_field_register_margin_top"
+        android:layout_weight="0.1"
+        android:autoLink="all"
+        android:clickable="true"
+        android:gravity="center_horizontal"
+        android:text="@string/authentication_login_register_first_link"
+        android:textSize="@dimen/fontSizeLoginRegisterFirst" />
 
-        <TextView
-            android:id="@+id/textViewLogin_RegisterFirst"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/authentication_login_text_field_register_margin_bottom"
-            android:layout_marginTop="@dimen/authentication_login_text_field_register_margin_top"
-            android:layout_weight="0.1"
-            android:autoLink="all"
-            android:clickable="true"
-            android:gravity="center_horizontal"
-            android:text="@string/authentication_login_register_first_link"
-            android:textSize="@dimen/fontSizeLoginRegisterFirst" />
-
-    </LinearLayout>
-</RelativeLayout>
+</LinearLayout>
