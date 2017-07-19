@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/contact_padding_start_left"
+    android:paddingStart="@dimen/contact_padding_start_left">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/contact_padding_start_left"
-        android:paddingLeft="@dimen/contact_padding_start_left">
-
-        <TextView
+    <TextView
         android:id="@+id/id_contactName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +13,4 @@
         android:textColor="@color/colorBankingOverview"
         android:textSize="@dimen/fontSizeL" />
 
-    </RelativeLayout>
-
-
-</LinearLayout>
+</RelativeLayout>
