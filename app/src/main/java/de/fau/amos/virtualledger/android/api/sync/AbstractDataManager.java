@@ -107,13 +107,13 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
                     @Override
                     public void accept(@NonNull final StringApiModel s) throws Exception {
                         handler.onOk();
-                        logger().info("Trigger resync after succesful add");
+                        /*logger().info("Trigger resync after succesful add");*/
                         AbstractDataManager.this.sync();
                     }
 
-                    private Logger logger() {
+                    /*private Logger logger() {
                         return Logger.getLogger(this.getClass().getCanonicalName());
-                    }
+                    }*/
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
