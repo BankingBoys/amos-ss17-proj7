@@ -94,6 +94,7 @@
     <string name="euro">€</string>
     <string name="no_subgoals_defined">No subgoals defined.</string>
     <string name="no_contacts_assigned">No additional contacts assigned.</string>
+    <string name="no_access_assigned">No bank access assigned.</string>
     <string name="contacts">Contacts:</string>
 
     <string name="add_savings_account_choose_bank_accounts_text" >Please assign bank accounts to your saving goal</string>

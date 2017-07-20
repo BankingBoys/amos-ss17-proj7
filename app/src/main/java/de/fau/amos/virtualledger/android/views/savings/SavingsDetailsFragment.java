@@ -62,6 +62,16 @@ public class SavingsDetailsFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
 
+        ListView accesses = (ListView) view.findViewById(R.id.access_list);
+        if (account.getAssignedBankAccounts().isEmpty()) {
+            TextView title = (TextView) view.findViewById(R.id.access_title);
+            title.setText(R.string.no_access_assigned);
+        } else {
+            AccessAdapter adapter = new AccessAdapter(getActivity(), R.id.access_list, this.account.getAssignedBankAccounts());
+            accesses.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
+
         return view;
     }
 

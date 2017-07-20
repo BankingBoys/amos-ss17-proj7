@@ -135,7 +135,7 @@
     </FrameLayout>
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/access_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/fontSizeL"
@@ -144,7 +144,9 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/virtual_ledger_layout_space">
+        android:layout_marginBottom="@dimen/virtual_ledger_layout_space"
+        android:layout_marginEnd="@dimen/virtual_ledger_layout_space"
+        android:layout_marginStart="@dimen/virtual_ledger_layout_space">
 
         <ListView
             android:id="@+id/access_list"

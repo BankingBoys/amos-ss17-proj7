@@ -10,25 +10,25 @@ import android.widget.TextView;
 import java.util.List;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
+import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
 
-public class SubgoalAdapter extends ArrayAdapter<SavingsAccountSubGoal> {
+public class AccessAdapter extends ArrayAdapter<BankAccountIdentifier> {
 
     private Activity activity;
 
-    public SubgoalAdapter(Activity activity, int layout, List<SavingsAccountSubGoal> data) {
+    public AccessAdapter(Activity activity, int layout, List<BankAccountIdentifier> data) {
         super(activity, layout, data);
         this.activity = activity;
+
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.subgoals_list_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.bankaccess_list_item_small, parent, false);
         }
-        final SavingsAccountSubGoal subgoal = this.getItem(position);
-        updateText(convertView, R.id.subgoal_name, subgoal.getName());
-        updateText(convertView, R.id.subgoal_amount, String.valueOf(Math.round(subgoal.getAmount())));
+        final BankAccountIdentifier bankAccess = this.getItem(position);
+        updateText(convertView, R.id.name, bankAccess.getAccessid());
         return convertView;
     }
 
