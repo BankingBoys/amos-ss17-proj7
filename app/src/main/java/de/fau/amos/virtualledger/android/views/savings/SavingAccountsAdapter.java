@@ -37,7 +37,8 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SavingsDetailsFragment savingsDetailsFragment = new SavingsDetailsFragment(savingsAccount);
+                SavingsDetailsFragment savingsDetailsFragment = new SavingsDetailsFragment();
+                savingsDetailsFragment.setAccount(savingsAccount);
                 FragmentManager manager = activity.getFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.main_menu_content, savingsDetailsFragment);

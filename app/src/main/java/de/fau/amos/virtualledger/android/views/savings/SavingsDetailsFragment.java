@@ -6,12 +6,17 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 
 /**
  * Created by sebastian on 20.07.17.
@@ -25,7 +30,7 @@ public class SavingsDetailsFragment extends Fragment {
     public SavingsDetailsFragment() {
     }
 
-    public SavingsDetailsFragment(SavingsAccount account) {
+    public void setAccount(SavingsAccount account) {
         this.account = account;
     }
 
@@ -41,7 +46,11 @@ public class SavingsDetailsFragment extends Fragment {
         updateText(R.id.id_goal_balance, String.valueOf(Math.round(this.account.getGoalbalance())));
 
         ListView subGoals = (ListView) view.findViewById(R.id.subgoals_list);
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(),
+                android.R.layout.simple_list_item_1);
+        adapter.addAll(goalsList());
+        subGoals.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         return view;
     }
@@ -49,6 +58,18 @@ public class SavingsDetailsFragment extends Fragment {
     private void updateText(int id, String text) {
         TextView textView = (TextView) view.findViewById(id);
         textView.setText(text);
+    }
+
+    public List<String> goalsList() {
+        List<String> result = new ArrayList<>();
+        if( this.account.getSubGoals().isEmpty()){
+            result.add("nothing defined");
+            return result;
+        }
+        for (SavingsAccountSubGoal subgoal : this.account.getSubGoals()){
+            result.add(subgoal.getName());
+        }
+        return result;
     }
 
 }

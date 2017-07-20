@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
+import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 
 public class SavingAccountsFragment extends Fragment implements DataListening {
     @SuppressWarnings("unused")
@@ -76,7 +78,22 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
         this.adapter.clear();
         List<SavingsAccount> allSavingAccounts = this.savingsSupplier.getAll();
         logger().info("Refreshing savings overview with " + allSavingAccounts.size() + " accounts from"+this.savingsSupplier);
-        allSavingAccounts.add(new SavingsAccount("", "My Goal", 300, 400, new Date(), new Date()));
+
+
+        allSavingAccounts.add(new SavingsAccount("", "My Goal", 300, 400, new Date(), new Date()));//FIXME delete sample data
+        SavingsAccount account = new SavingsAccount("", "My Goal2", 300, 400, new Date(), new Date());
+        account.setSubGoals(new ArrayList<SavingsAccountSubGoal>());
+        SavingsAccountSubGoal subgoal1 = new SavingsAccountSubGoal();
+        subgoal1.setName("TestName");
+        subgoal1.setAmount(100.00);
+        account.getSubGoals().add(subgoal1);
+        SavingsAccountSubGoal subgoal2 = new SavingsAccountSubGoal();
+        subgoal2.setName("TestName2");
+        subgoal2.setAmount(200.00);
+        account.getSubGoals().add(subgoal2);
+
+        allSavingAccounts.add(account);//FIXME delete sample data
+
         this.adapter.addAll(allSavingAccounts);
         this.adapter.notifyDataSetChanged();
         this.adapter.sort(new SavingsComparator());
