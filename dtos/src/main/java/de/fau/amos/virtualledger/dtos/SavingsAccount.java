@@ -16,7 +16,7 @@ public class SavingsAccount {
     private Date finaldate;
     private Date finalGoalFinishedDate;
     private List<Contact> additionalAssignedUsers = new ArrayList<>();
-    private List<SavingsAccountSubGoal> subGoals;
+    private List<SavingsAccountSubGoal> subGoals = new ArrayList<>();
     private List<BankAccountIdentifier> assignedBankAccounts = new ArrayList<>();
 
     public SavingsAccount() {
@@ -131,7 +131,8 @@ public class SavingsAccount {
     }
 
     public void setSubGoals(final List<SavingsAccountSubGoal> subGoals) {
-        this.subGoals = subGoals;
+        this.subGoals.clear();
+        this.subGoals.addAll(subGoals);
     }
 
     public void setAssignedBankAccounts(Collection<BankAccountIdentifier> bankAccounts) {
