@@ -52,6 +52,16 @@ public class SavingsDetailsFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
 
+        ListView contacts = (ListView) view.findViewById(R.id.contacts_list);
+        if (account.getAdditionalAssignedUsers().isEmpty()) {
+            TextView title = (TextView) view.findViewById(R.id.contacts_title);
+            title.setText(R.string.no_contacts_assigned);
+        } else {
+            ContactsAdapter adapter = new ContactsAdapter(getActivity(), R.id.contacts_list, this.account.getAdditionalAssignedUsers());
+            contacts.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
+
         return view;
     }
 

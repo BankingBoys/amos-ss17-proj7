@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
+import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
@@ -91,6 +92,8 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
         subgoal2.setName("TestName2");
         subgoal2.setAmount(200.00);
         account.getSubGoals().add(subgoal2);
+        account.getAdditionalAssignedUsers().add(new Contact("", "Bernd", "Brot"));
+        account.getAdditionalAssignedUsers().add(new Contact("", "Karin", "Kresse"));
 
         allSavingAccounts.add(account);//FIXME delete sample data
 

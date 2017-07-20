@@ -90,9 +90,11 @@
     <string name="example_german_date">01.01.17</string>
 
     <string name="slash">/</string>
-    <string name="subgoals">Subgoals</string>
+    <string name="subgoals">Subgoals:</string>
     <string name="euro">€</string>
     <string name="no_subgoals_defined">No subgoals defined.</string>
+    <string name="no_contacts_assigned">No additional contacts assigned.</string>
+    <string name="contacts">Contacts:</string>
 
     <string name="add_savings_account_choose_bank_accounts_text" >Please assign bank accounts to your saving goal</string>
     <string name="test_bank_Account" >TestAccount</string>
