@@ -25,8 +25,6 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        SavingsAccount transaction = super.getItem(position);
-
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.saving_accounts_list_item, parent, false);
         }
@@ -53,7 +51,7 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SavingsDetailsFragment savingsDetailsFragment = new SavingsDetailsFragment();
+                SavingsDetailsFragment savingsDetailsFragment = new SavingsDetailsFragment(savingsAccount);
                 FragmentManager manager = activity.getFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.main_menu_content, savingsDetailsFragment);

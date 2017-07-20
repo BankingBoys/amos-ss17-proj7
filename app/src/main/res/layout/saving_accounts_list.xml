@@ -7,5 +7,6 @@
     <ListView
         android:id="@+id/savings_account_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/virtual_ledger_layout_space" />
 </LinearLayout>
