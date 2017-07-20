@@ -92,6 +92,26 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fontSizeL"
+        android:text="@string/subgoals" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/virtual_ledger_layout_space">
+
+        <ListView
+            android:id="@+id/subgoals_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/fontSizeL"
+            android:layout_marginRight="@dimen/fontSizeL" />
+    </FrameLayout>
+
+    <TextView
         android:id="@+id/contacts_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -104,7 +124,7 @@
         android:layout_margin="@dimen/virtual_ledger_layout_space">
 
         <ListView
-            android:id="@+id/contacts"
+            android:id="@+id/contacts_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginLeft="@dimen/fontSizeL"

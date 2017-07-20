@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -75,6 +76,7 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
         this.adapter.clear();
         List<SavingsAccount> allSavingAccounts = this.savingsSupplier.getAll();
         logger().info("Refreshing savings overview with " + allSavingAccounts.size() + " accounts from"+this.savingsSupplier);
+        allSavingAccounts.add(new SavingsAccount("", "My Goal", 300, 400, new Date(), new Date()));
         this.adapter.addAll(allSavingAccounts);
         this.adapter.notifyDataSetChanged();
         this.adapter.sort(new SavingsComparator());
