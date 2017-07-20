@@ -8,10 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
 import java.util.List;
+
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.android.views.contacts.Delete.ContactsDeleteAction;
-import de.fau.amos.virtualledger.android.views.contacts.Delete.ContactsDeleteDialog;
+import de.fau.amos.virtualledger.android.views.contacts.delete.ContactsDeleteDialog;
 import de.fau.amos.virtualledger.dtos.Contact;
 
 /**

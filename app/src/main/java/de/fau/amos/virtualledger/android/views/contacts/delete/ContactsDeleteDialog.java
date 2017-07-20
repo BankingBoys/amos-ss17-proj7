@@ -1,4 +1,4 @@
-package de.fau.amos.virtualledger.android.views.contacts.Delete;
+package de.fau.amos.virtualledger.android.views.contacts.delete;
 
 import android.app.Activity;
 import android.app.AlertDialog;
