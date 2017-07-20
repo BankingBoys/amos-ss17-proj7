@@ -31,7 +31,6 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.saving_accounts_list_item, parent, false);
         }
         final SavingsAccount savingsAccount = this.getItem(position);
-
         TextView name = (TextView) convertView.findViewById(R.id.id_name);
         name.setText(savingsAccount.getName());
 
