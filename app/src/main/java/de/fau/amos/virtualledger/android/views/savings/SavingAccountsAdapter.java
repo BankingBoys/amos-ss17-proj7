@@ -33,7 +33,7 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
         updateText(convertView, R.id.id_current_balance,  String.valueOf(Math.round(savingsAccount.getCurrentbalance())));
         updateText(convertView, R.id.id_goal_balance,  String.valueOf(Math.round(savingsAccount.getGoalbalance())));
         updateText(convertView, R.id.id_time_left, new DaysLeftFunction().apply(savingsAccount));
-        
+
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

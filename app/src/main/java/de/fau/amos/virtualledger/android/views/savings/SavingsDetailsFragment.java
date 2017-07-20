@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import butterknife.ButterKnife;
@@ -21,6 +22,9 @@ public class SavingsDetailsFragment extends Fragment {
     private View view;
     private SavingsAccount account;
 
+    public SavingsDetailsFragment() {
+    }
+
     public SavingsDetailsFragment(SavingsAccount account) {
         this.account = account;
     }
@@ -35,6 +39,8 @@ public class SavingsDetailsFragment extends Fragment {
         updateText(R.id.id_time_left, new DaysLeftFunction().apply(this.account));
         updateText(R.id.id_current_balance, String.valueOf(Math.round(this.account.getCurrentbalance())));
         updateText(R.id.id_goal_balance, String.valueOf(Math.round(this.account.getGoalbalance())));
+
+        ListView subGoals = (ListView) view.findViewById(R.id.subgoals_list);
 
 
         return view;
