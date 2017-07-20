@@ -231,7 +231,6 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     @OnClick(R.id.transaction_overview_calendar_button)
     public void onOpenCalendar() {
         this.logger().info("Opening calendar fragment");
-        double test = computeBalanceOfCheckedAccounts();
         CalendarViewFragment calendar = CalendarViewFragment.newInstance(
                 getBankTransactionSupplier(),
                 computeBalanceOfCheckedAccounts());

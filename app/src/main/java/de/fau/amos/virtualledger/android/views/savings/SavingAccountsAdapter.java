@@ -1,18 +1,17 @@
 package de.fau.amos.virtualledger.android.views.savings;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
-import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
 
 public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
@@ -55,8 +54,12 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SavingsAccountsDialogFragment dialog = SavingsAccountsDialogFragment.newInstance(savingsAccount.getName(), (ArrayList< BankAccountIdentifier>) savingsAccount.getAssignedBankAccounts(), (ArrayList<Contact>)  savingsAccount.getAdditionalAssignedUsers());
-                dialog.show(activity.getFragmentManager(), "DialogFragment");
+                SavingsDetailsFragment savingsDetailsFragment = new SavingsDetailsFragment();
+                FragmentManager manager = activity.getFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.main_menu_content, savingsDetailsFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
         return convertView;
