@@ -29,25 +29,11 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.saving_accounts_list_item, parent, false);
         }
         final SavingsAccount savingsAccount = this.getItem(position);
-        TextView name = (TextView) convertView.findViewById(R.id.id_name);
-        name.setText(savingsAccount.getName());
-
-        TextView currentBalance = (TextView) convertView.findViewById(R.id.id_current_balance);
-        currentBalance.setText(Math.round(savingsAccount.getCurrentbalance()) + "");
-
-        TextView goalBalance = (TextView) convertView.findViewById(R.id.id_goal_balance);
-        goalBalance.setText(Math.round(savingsAccount.getGoalbalance()) + "");
-
-        TextView daysLeftLabel = (TextView) convertView.findViewById(R.id.id_time_left);
-
-        int daysLeft = savingsAccount.daysLeft();
-        if (daysLeft > 1) {
-            daysLeftLabel.setText(daysLeft + " days left");
-        } else if (daysLeft == 1) {
-            daysLeftLabel.setText("one day left");
-        } else {
-            daysLeftLabel.setText("done");
-        }
+        updateText(convertView, R.id.id_name, savingsAccount.getName());
+        updateText(convertView, R.id.id_current_balance,  String.valueOf(Math.round(savingsAccount.getCurrentbalance())));
+        updateText(convertView, R.id.id_goal_balance,  String.valueOf(Math.round(savingsAccount.getGoalbalance())));
+        updateText(convertView, R.id.id_time_left, new DaysLeftFunction().apply(savingsAccount));
+        
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,5 +46,10 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
             }
         });
         return convertView;
+    }
+
+    private void updateText(View convertView, int id, String text) {
+        TextView goalBalance = (TextView) convertView.findViewById(id);
+        goalBalance.setText(text);
     }
 }

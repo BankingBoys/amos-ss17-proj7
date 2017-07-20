@@ -32,6 +32,10 @@ public class SavingsDetailsFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         updateText(R.id.id_name, account.getName());
+        updateText(R.id.id_time_left, new DaysLeftFunction().apply(this.account));
+        updateText(R.id.id_current_balance, String.valueOf(Math.round(this.account.getCurrentbalance())));
+        updateText(R.id.id_goal_balance, String.valueOf(Math.round(this.account.getGoalbalance())));
+
 
         return view;
     }
