@@ -4,6 +4,7 @@ import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.server.factories.SavingsAccountFromEntityTransformer;
 import de.fau.amos.virtualledger.server.factories.SavingsAccountIntoEntityTransformer;
 import de.fau.amos.virtualledger.server.model.SavingsAccountEntity;
+import de.fau.amos.virtualledger.server.model.SavingsAccountUserRelation;
 import de.fau.amos.virtualledger.server.model.User;
 import de.fau.amos.virtualledger.server.persistence.SavingsAccountRepository;
 import de.fau.amos.virtualledger.server.persistence.UserRepository;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 
@@ -35,7 +37,12 @@ public class SavingsController {
     }
 
     public List<SavingsAccount> getSavingAccounts(String email) {
-        List<SavingsAccountEntity> savingsAccountEntityList = savingsAccountRepository.findByUserEmailAndLoadUserRelations(email);
+        List<SavingsAccountEntity> savingsAccountEntityList = savingsAccountRepository.findByUserEmail(email);
+        for (SavingsAccountEntity savingsAccountEntity : savingsAccountEntityList) {
+            // workarount because somehow the eager fetching did not work as planned
+            Set<SavingsAccountUserRelation> relations = savingsAccountRepository.findUserRelationsBySaving(savingsAccountEntity);
+            savingsAccountEntity.setUserRelations(relations);
+        }
         User user = userRepository.findOne(email);
 
         return savingsAccountFromEntityTransformer.transformSavingAccountFromEntity(savingsAccountEntityList, user);
