@@ -50,6 +50,12 @@ public class ContactsController {
     }
 
     public void addContact(final Contact contact, final String userEmail) throws UserNotFoundException, ContactAlreadyExistsException {
+
+        if (contact.getEmail().equalsIgnoreCase(userEmail)) {
+            // not allowed to have contact to self, because some things are shown twice then
+            throw new UserNotFoundException("You are not allowed to have a Contact to yourself!");
+        }
+
         User owner = userRepository.findOne(userEmail);
         assertUserNotNull(owner);
         User userContact = userRepository.findOne(contact.getEmail());
@@ -88,7 +94,7 @@ public class ContactsController {
         }
     }
 
-    private void assertContactDoesExist(User owner, User contact) throws  ContactNotFoundException {
+    private void assertContactDoesExist(User owner, User contact) throws ContactNotFoundException {
         if (!contactsRepository.existsContactwithEmail(owner, contact)) {
             LOGGER.info(TAG + "Contact not found");
             throw new ContactNotFoundException("Contact is not in the database!");
