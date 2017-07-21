@@ -51,7 +51,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         registration.addUrlPatterns("/api/savings/*");
         registration.addUrlPatterns("/api/contacts/*");
         registration.setName("UserRegistrationFilter");
-        registration.setOrder(100);
+        registration.setOrder(Integer.MAX_VALUE);
         return registration;
     }
 
