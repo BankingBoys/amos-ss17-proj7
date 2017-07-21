@@ -28,7 +28,7 @@ public class AccessAdapter extends ArrayAdapter<BankAccountIdentifier> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.bankaccess_list_item_small, parent, false);
         }
         final BankAccountIdentifier bankAccess = this.getItem(position);
-        updateText(convertView, R.id.name, bankAccess.getAccessid());
+        updateText(convertView, R.id.name, bankAccess.getAccountid());
         return convertView;
     }
 
