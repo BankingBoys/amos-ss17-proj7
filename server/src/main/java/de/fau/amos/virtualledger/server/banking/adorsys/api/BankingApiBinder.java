@@ -49,7 +49,7 @@ public class BankingApiBinder {
     }
 
     private boolean isTestUser(final String userId) {
-        return bankingApiConfiguration.getTestUserName().equals(userId);
+        return bankingApiConfiguration.getTestUserNames().contains(userId);
     }
 
 }

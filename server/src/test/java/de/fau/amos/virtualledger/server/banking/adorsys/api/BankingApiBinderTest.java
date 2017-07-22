@@ -13,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Collections;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,7 +27,7 @@ public class BankingApiBinderTest {
 
     @Before
     public void setUp() {
-        when(bankingApiConfiguration.getTestUserName()).thenReturn("test@user.de");
+        when(bankingApiConfiguration.getTestUserNames()).thenReturn(Collections.singletonList("test@user.de"));
     }
 
 
@@ -42,7 +44,7 @@ public class BankingApiBinderTest {
         // ASSERT
         Assert.assertNotNull(endpoint);
         Assert.assertTrue(endpoint instanceof DummyBankAccountEndpoint);
-        verify(bankingApiConfiguration, times(1)).getTestUserName();
+        verify(bankingApiConfiguration, times(1)).getTestUserNames();
     }
 
     @Test
@@ -58,7 +60,7 @@ public class BankingApiBinderTest {
         // ASSERT
         Assert.assertNotNull(endpoint);
         Assert.assertTrue(endpoint instanceof HttpBankAccountEndpoint);
-        verify(bankingApiConfiguration, times(1)).getTestUserName();
+        verify(bankingApiConfiguration, times(1)).getTestUserNames();
     }
 
     @Test
@@ -73,7 +75,7 @@ public class BankingApiBinderTest {
         // ASSERT
         Assert.assertNotNull(endpoint);
         Assert.assertTrue(endpoint instanceof DummyBankAccessEndpoint);
-        verify(bankingApiConfiguration, times(1)).getTestUserName();
+        verify(bankingApiConfiguration, times(1)).getTestUserNames();
     }
 
     @Test
@@ -89,6 +91,6 @@ public class BankingApiBinderTest {
         // ASSERT
         Assert.assertNotNull(endpoint);
         Assert.assertTrue(endpoint instanceof HttpBankAccessEndpoint);
-        verify(bankingApiConfiguration, times(1)).getTestUserName();
+        verify(bankingApiConfiguration, times(1)).getTestUserNames();
     }
 }

@@ -2,6 +2,9 @@ package de.fau.amos.virtualledger.server.banking.adorsys.api;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Class that holds all configuration required for the banking api access
  * examples: URL of the banking api, dummy configuration, ...
@@ -19,7 +22,7 @@ public class BankingApiConfiguration {
     /**
      * username of the test user that does not use adorsys api but dummies
      */
-    private static final String TEST_USER_NAME = "test@user.de";
+    private static final List<String> TEST_USER_NAMES = Arrays.asList("test@user.de", "test@user2.de");
 
 
 
@@ -40,7 +43,7 @@ public class BankingApiConfiguration {
     }
 
 
-    String getTestUserName() {
-        return TEST_USER_NAME;
+    List<String> getTestUserNames() {
+        return TEST_USER_NAMES;
     }
 }
