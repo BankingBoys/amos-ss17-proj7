@@ -270,7 +270,8 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean isLoginDataPersisted() {
-        //TODO
-        return false;
+        final String storedUsername = SecurePreferences.getStringValue(SECURE_PREFERENCES_USERNAME_TAG, context, null);
+        final String storedPassword = SecurePreferences.getStringValue(SECURE_PREFERENCES_PW_TAG, context, null);
+        return storedUsername != null && storedPassword != null;
     }
 }
