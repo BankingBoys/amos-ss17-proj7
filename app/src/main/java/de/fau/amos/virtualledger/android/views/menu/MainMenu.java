@@ -199,6 +199,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                                public void accept(@io.reactivex.annotations.NonNull String s) throws Exception {
 
                                    authenticationProvider.deleteSavedLoginData();
+                                   ((App)getApplication()).resetNetComponent();
                                    final Intent intent = new Intent(getApplicationContext(), OidcAuthenticationActivity.class);
                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                    startActivity(intent);

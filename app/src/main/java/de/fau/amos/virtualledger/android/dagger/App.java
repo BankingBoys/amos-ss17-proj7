@@ -26,6 +26,8 @@ public class App extends Application {
     private Properties properties;
     private Context context;
     private OidcAuthenticationComponent oidcAuthenticationComponent;
+    private AppModule appModule;
+    private String ip;
 
     @Override
     public void onCreate() {
@@ -33,10 +35,10 @@ public class App extends Application {
         context = this;
         reader = new PropertyReader(context);
         properties = reader.getCustomProperties("config.properties");
-        String ip = properties.getProperty("IPAddress");
+        ip = properties.getProperty("IPAddress");
         String authorityIp = properties.getProperty("AuthorityIP");
 
-        AppModule appModule = new AppModule(this);
+        appModule = new AppModule(this);
 
 
 
@@ -54,6 +56,14 @@ public class App extends Application {
 
     public NetComponent getNetComponent() {
         return netComponent;
+    }
+
+    public void resetNetComponent() {
+        netComponent = DaggerNetComponent.builder()
+                .appModule(appModule)
+                .netModule(new NetModule(ip))
+                .oidcAuthenticationComponent(oidcAuthenticationComponent)
+                .build();
     }
 
     public OidcAuthenticationComponent getOidcAuthenticationComponent() {
