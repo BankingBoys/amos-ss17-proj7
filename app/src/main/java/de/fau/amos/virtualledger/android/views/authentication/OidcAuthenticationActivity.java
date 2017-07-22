@@ -52,25 +52,27 @@ public class OidcAuthenticationActivity extends AppCompatActivity {
         setContentView(R.layout.authentication_activity_login);
         ButterKnife.bind(this);
 
-        authenticationProvider.tryLoadLoginData()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(@NonNull String s) throws Exception {
-                        if (authenticationProvider.isLoggedIn()) {
-                            executeNextActivityMenu();
-                        } else {
-                            textviewLoginFail.setText(s);
+        if(authenticationProvider.isLoginDataPersisted()) {
+            authenticationProvider.tryLoadLoginData()
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<String>() {
+                        @Override
+                        public void accept(@NonNull String s) throws Exception {
+                            if (authenticationProvider.isLoggedIn()) {
+                                executeNextActivityMenu();
+                            } else {
+                                textviewLoginFail.setText(s);
+                            }
                         }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) {
-                        Log.e(TAG, "Error occured in Observable from login: " + throwable.getMessage());
-                        // nothing to do here -> just let user log in
-                    }
-                });
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(@NonNull Throwable throwable) {
+                            Log.e(TAG, "Error occured in Observable from login: " + throwable.getMessage());
+                            // nothing to do here -> just let user log in
+                        }
+                    });
+        }
     }
 
     @OnClick(R.id.loginButton)
