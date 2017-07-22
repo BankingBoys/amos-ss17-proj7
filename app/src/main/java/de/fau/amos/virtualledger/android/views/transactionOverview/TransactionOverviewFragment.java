@@ -41,6 +41,7 @@ import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.SyncFailedException;
+import de.fau.amos.virtualledger.android.data.SyncStatus;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.NoBankingAccessesFragment;
 import de.fau.amos.virtualledger.android.views.calendar.CalendarViewFragment;
@@ -162,7 +163,9 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         }
         logger().log(Level.INFO, "Direct filter found for " + by);
         this.filter = transactionFilter;
-        this.transactionListFragment.pushDataProvider(getDateFilteredBankTransactionSupplier());
+        if(bankingDataManager.getSyncStatus() == SyncStatus.SYNCED) {
+            this.transactionListFragment.pushDataProvider(getDateFilteredBankTransactionSupplier());
+        }
     }
 
     private Logger logger() {
