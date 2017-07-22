@@ -33,10 +33,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".android.views.settings.SettingsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
-        <activity
             android:name=".android.views.authentication.OidcAuthenticationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
