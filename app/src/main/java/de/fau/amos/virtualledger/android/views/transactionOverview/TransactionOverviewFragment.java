@@ -86,8 +86,6 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((App) getActivity().getApplication()).getNetComponent().inject(this);
-        this.bankingDataManager.addObserver(this);
-
     }
 
 
@@ -298,8 +296,18 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     public void onResume() {
         this.logger().info("On Resume of Transaction View");
         totalAmountFragment.setCheckedMap(itemCheckedMap);
-        this.transactionListFragment.pushDataProvider(new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings()));
-        checkForEmptyOrNullAccessList();
+        this.bankingDataManager.addObserver(this);
+        switch (bankingDataManager.getSyncStatus()) {
+            case NOT_SYNCED:
+                bankingDataManager.sync();
+                break;
+            case SYNC_IN_PROGRESS:
+                break;
+            case SYNCED:
+                this.transactionListFragment.pushDataProvider(new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings()));
+                checkForEmptyOrNullAccessList();
+                break;
+        }
         super.onResume();
     }
 
