@@ -1,7 +1,5 @@
 package de.fau.amos.virtualledger.android.api.auth;
 
-import android.content.Context;
-
 import io.reactivex.Observable;
 
 /**
@@ -25,6 +23,8 @@ public interface AuthenticationProvider {
     void persistLoginData();
 
     void deleteSavedLoginData();
+
+    boolean isLoginDataPersisted();
 
     /**
      * tries to load the login data from storage

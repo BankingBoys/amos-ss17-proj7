@@ -5,16 +5,10 @@ import android.util.Log;
 
 import org.apache.commons.lang3.NotImplementedException;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
 import de.adorsys.android.securestoragelibrary.SecurePreferences;
-import de.fau.amos.virtualledger.dtos.SessionData;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -274,4 +268,9 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
         }
     }
 
+    @Override
+    public boolean isLoginDataPersisted() {
+        //TODO
+        return false;
+    }
 }
