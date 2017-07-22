@@ -87,16 +87,17 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
 
     private Observable<String> refreshToken() {
 
-        if(oidcData == null) {
+        if (oidcData == null) {
             throw new IllegalStateException("refreshToken() was called but nobody was logged in!");
         }
         Calendar now = Calendar.getInstance();
         Calendar nextLoginRefresh = Calendar.getInstance();
         nextLoginRefresh.setTime(lastRefresh);
         nextLoginRefresh.add(Calendar.SECOND, oidcData.refresh_expires_in - REFRESHDELTA);
-        if(now.getTime().after(nextLoginRefresh.getTime())) {
+        if (now.getTime().after(nextLoginRefresh.getTime())) {
             // refresh token expired
-            if(currentUsername == null || currentPassword == null) throw new IllegalStateException("refreshToken() was called but no username + password was found in order to login after refresh token expiration");
+            if (currentUsername == null || currentPassword == null)
+                throw new IllegalStateException("refreshToken() was called but no username + password was found in order to login after refresh token expiration");
 
             final PublishSubject observable = PublishSubject.create();
             login(currentUsername, currentPassword)
@@ -145,7 +146,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Observable<String> logout() {
-        if(oidcData == null) {
+        if (oidcData == null) {
             throw new IllegalStateException("logout() was called but nobody was logged in!");
         }
 
@@ -186,14 +187,14 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Observable<String> getToken() {
 
-        if(oidcData == null) {
+        if (oidcData == null) {
             throw new IllegalStateException("Cannot get token if nobody is logged in!");
         }
         Calendar now = Calendar.getInstance();
         Calendar nextNeccessaryRefresh = Calendar.getInstance();
         nextNeccessaryRefresh.setTime(lastRefresh);
         nextNeccessaryRefresh.add(Calendar.SECOND, oidcData.expires_in - REFRESHDELTA);
-        if(now.getTime().after(nextNeccessaryRefresh.getTime())) {
+        if (now.getTime().after(nextNeccessaryRefresh.getTime())) {
             final PublishSubject observable = PublishSubject.create();
             refreshToken()
                     .subscribeOn(Schedulers.newThread())
@@ -220,7 +221,7 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
     @Override
     public String getUserId() {
 
-        if(oidcData == null || currentUsername == null) {
+        if (oidcData == null || currentUsername == null) {
             throw new IllegalStateException("Cannot get user id if nobody is logged in!");
         }
         return currentUsername;
@@ -244,28 +245,26 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
         String storedUsername = SecurePreferences.getStringValue(SECURE_PREFERENCES_USERNAME_TAG, context, null);
         String storedPassword = SecurePreferences.getStringValue(SECURE_PREFERENCES_PW_TAG, context, null);
 
-        if(storedUsername == null || storedPassword == null) {
-            deleteSavedLoginData();
-            return Observable.error(new Throwable("Could not restore saved login data!"));
-        } else {
-            final PublishSubject observable = PublishSubject.create();
-            login(storedUsername, storedPassword)
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<String>() {
-                        @Override
-                        public void accept(@NonNull String s) throws Exception {
-                            observable.onNext(s);
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(@NonNull final Throwable throwable) throws Exception {
-                            deleteSavedLoginData();
-                            observable.onError(new Throwable("The login didn't work!"));
-                        }
-                    });
-            return observable;
+        if (storedUsername == null || storedPassword == null) {
+            throw new IllegalStateException("No login data is persisted!");
         }
+        final PublishSubject observable = PublishSubject.create();
+        login(storedUsername, storedPassword)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        observable.onNext(s);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull final Throwable throwable) throws Exception {
+                        deleteSavedLoginData();
+                        observable.onError(new Throwable("The login didn't work!"));
+                    }
+                });
+        return observable;
     }
 
     @Override
