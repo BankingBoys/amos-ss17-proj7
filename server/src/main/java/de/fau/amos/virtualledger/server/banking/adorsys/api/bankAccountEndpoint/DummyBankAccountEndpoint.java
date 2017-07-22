@@ -123,7 +123,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
         bankAccountBankingModel.setCountryHbciAccount("DE");
         bankAccountBankingModel.setBlzHbciAccount("TestBLZ");
         bankAccountBankingModel.setNumberHbciAccount("TestHbciAccountNummer " + idPostfix);
-        bankAccountBankingModel.setTypeHbciAccount("TestKonto " + idPostfix);
+        bankAccountBankingModel.setType("TestKonto " + idPostfix);
         bankAccountBankingModel.setCurrencyHbciAccount("EUR");
         bankAccountBankingModel.setNameHbciAccount("TestUser");
         bankAccountBankingModel.setBicHbciAccount("TestBIC");

@@ -36,7 +36,7 @@ public class BankAccountFactoryTest {
         BankAccountBankingModel bankAccountBankingModel = new BankAccountBankingModel();
         bankAccountBankingModel.setBankAccessId(accessId);
         bankAccountBankingModel.setId(accountId);
-        bankAccountBankingModel.setTypeHbciAccount(type);
+        bankAccountBankingModel.setType(type);
         bankAccountBankingModel.setBankAccountBalance(bankAccountBalanceBankingModel);
 
         // ACT
@@ -63,7 +63,7 @@ public class BankAccountFactoryTest {
         BankAccountBankingModel bankAccountBankingModel = new BankAccountBankingModel();
         bankAccountBankingModel.setBankAccessId(accessId);
         bankAccountBankingModel.setId(accountId);
-        bankAccountBankingModel.setTypeHbciAccount(type);
+        bankAccountBankingModel.setType(type);
         bankAccountBankingModel.setBankAccountBalance(bankAccountBalanceBankingModel);
 
         List<BankAccountBankingModel> bankAccountBankingModelList = new ArrayList<>();

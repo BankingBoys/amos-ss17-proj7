@@ -55,7 +55,7 @@ public class DummyBankAccountBankingModelEntity {
         id = bankAccountBankingModel.getId();
         nameHbciAccount = bankAccountBankingModel.getNameHbciAccount();
         numberHbciAccount = bankAccountBankingModel.getNumberHbciAccount();
-        typeHbciAccount = bankAccountBankingModel.getTypeHbciAccount();
+        typeHbciAccount = bankAccountBankingModel.getType();
     }
 
 
@@ -171,7 +171,7 @@ public class DummyBankAccountBankingModelEntity {
         bankAccountBankingModel.setId(id);
         bankAccountBankingModel.setNameHbciAccount(nameHbciAccount);
         bankAccountBankingModel.setNumberHbciAccount(numberHbciAccount);
-        bankAccountBankingModel.setTypeHbciAccount(typeHbciAccount);
+        bankAccountBankingModel.setType(typeHbciAccount);
         bankAccountBankingModel.setBankAccessId(bankAccess.getId());
         return bankAccountBankingModel;
     }
