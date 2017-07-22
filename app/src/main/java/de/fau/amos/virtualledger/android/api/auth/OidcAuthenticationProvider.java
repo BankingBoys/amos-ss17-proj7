@@ -5,16 +5,10 @@ import android.util.Log;
 
 import org.apache.commons.lang3.NotImplementedException;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
 import de.adorsys.android.securestoragelibrary.SecurePreferences;
-import de.fau.amos.virtualledger.dtos.SessionData;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -32,8 +26,8 @@ import retrofit2.Retrofit;
 public class OidcAuthenticationProvider implements AuthenticationProvider {
 
 
-    private static final String SECURE_PREFERENCES_USERNAME = "VirtualLedger_Secure_Preferences_Username";
-    private static final String SECURE_PREFERENCES_PASSWORD = "VirtualLedger_Secure_Preferences_Password";
+    private static final String SECURE_PREFERENCES_USERNAME_TAG = "VirtualLedger_Secure_Preferences_Username";
+    private static final String SECURE_PREFERENCES_PW_TAG = "VirtualLedger_Secure_Preferences_Password";
     private static final String TAG = "OidcAuthenticationProvi";
     private static final int REFRESHDELTA = 15;
 
@@ -234,21 +228,21 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public void persistLoginData() {
-        SecurePreferences.setValue(SECURE_PREFERENCES_USERNAME, currentUsername, context);
-        SecurePreferences.setValue(SECURE_PREFERENCES_PASSWORD, currentPassword, context);
+        SecurePreferences.setValue(SECURE_PREFERENCES_USERNAME_TAG, currentUsername, context);
+        SecurePreferences.setValue(SECURE_PREFERENCES_PW_TAG, currentPassword, context);
     }
 
     @Override
     public void deleteSavedLoginData() {
-        SecurePreferences.removeValue(SECURE_PREFERENCES_USERNAME, context);
-        SecurePreferences.removeValue(SECURE_PREFERENCES_PASSWORD, context);
+        SecurePreferences.removeValue(SECURE_PREFERENCES_USERNAME_TAG, context);
+        SecurePreferences.removeValue(SECURE_PREFERENCES_PW_TAG, context);
     }
 
     @Override
     public Observable<String> tryLoadLoginData() {
 
-        String storedUsername = SecurePreferences.getStringValue(SECURE_PREFERENCES_USERNAME, context, null);
-        String storedPassword = SecurePreferences.getStringValue(SECURE_PREFERENCES_PASSWORD, context, null);
+        String storedUsername = SecurePreferences.getStringValue(SECURE_PREFERENCES_USERNAME_TAG, context, null);
+        String storedPassword = SecurePreferences.getStringValue(SECURE_PREFERENCES_PW_TAG, context, null);
 
         if(storedUsername == null || storedPassword == null) {
             deleteSavedLoginData();
