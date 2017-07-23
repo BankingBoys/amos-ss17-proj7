@@ -42,7 +42,7 @@
             android:layout_weight="0.15"
             android:ems="10"
             android:gravity="bottom"
-            android:hint="@string/authentication_email_hint"
+            android:hint="@string/authentication_username_hint"
             android:inputType="textEmailAddress"/>
 
         <EditText

@@ -2,7 +2,7 @@
     <string name="app_name">Virtual ledger</string>
 
     <string name="authentication_password_hint">Password</string>
-    <string name="authentication_email_hint">E-Mail</string>
+    <string name="authentication_username_hint">Username</string>
     <string name="authentication_login_title">Login</string>
     <string name="authentication_login_button_text">Login</string>
     <string name="authentication_login_register_first_link"><u>Register first</u></string>
