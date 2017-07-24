@@ -43,6 +43,8 @@ public abstract class AbstractSupplier<T> implements Observer, Supplier<T> {
             case SYNCED:
                 onSavingsUpdated();
                 break;
+            default:
+                //nothing to do here
         }
     }
 
