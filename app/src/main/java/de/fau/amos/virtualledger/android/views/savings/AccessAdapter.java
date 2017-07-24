@@ -14,12 +14,9 @@ import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
 
 public class AccessAdapter extends ArrayAdapter<BankAccountIdentifier> {
 
-    private Activity activity;
 
     public AccessAdapter(Activity activity, int layout, List<BankAccountIdentifier> data) {
         super(activity, layout, data);
-        this.activity = activity;
-
     }
 
     @Override
