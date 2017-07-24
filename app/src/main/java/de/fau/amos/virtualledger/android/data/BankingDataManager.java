@@ -196,7 +196,7 @@ public class BankingDataManager extends Observable {
                 Toaster toaster = new Toaster(context);
                 toaster.pushSuccessMessage("Bank Access was deleted.");
                 toaster.onOk();
-                for (final BankAccess bankAccess : banAccesses) {
+                for (final BankAccess bankAccess : bankAccesses) {
                     if (bankAccess.getId().equals(accessId)) {
                         for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
                             bankAccessCredentialDB.delete(authenticationProvider.getUserId(), bankAccess.getId(), bankAccount.getBankid());
