@@ -105,9 +105,9 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
     @Override
     public void delete(final T element, final ServerCallStatusHandler handler) {
         logger().info("Adding element: " + element);
-        Consumer<Void> onNext = new Consumer<Void>() {
+        Consumer<StringApiModel> onNext = new Consumer<StringApiModel>() {
             @Override
-            public void accept(@NonNull final Void vVoid) throws Exception {
+            public void accept(@NonNull final StringApiModel string) throws Exception {
                 handler.onOk();
                 logger().info("Trigger resync after succesful delete");
                 AbstractDataManager.this.sync();

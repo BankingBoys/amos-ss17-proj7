@@ -15,5 +15,5 @@ public interface DataProvider<T> {
 
     Observable<StringApiModel> add(T newItem);
 
-    Observable<Void> delete(T item);
+    Observable<StringApiModel> delete(T item);
 }

@@ -192,7 +192,7 @@ class StubbedSavingsProvider implements DataProvider<SavingsAccount>{
     }
 
     @Override
-    public Observable<Void> delete(SavingsAccount item) {
+    public Observable<StringApiModel> delete(SavingsAccount item) {
         return null;
     }
 }
