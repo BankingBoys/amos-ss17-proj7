@@ -70,7 +70,7 @@ public class BankAccessCredentialDB {
         };
         final Cursor cursor = database.query(true, BankAccessCredentialDBConstants.TABLE_NAME, columns, BankAccessCredentialDBConstants.COLUMN_NAME_USER + " = ?", new String[] {user}, null, null, null, null);
 
-        List<BankAccountSync> bankAccountSyncList = new ArrayList<BankAccountSync>();
+        List<BankAccountSync> bankAccountSyncList = new ArrayList<>();
 
         boolean success = cursor.moveToFirst();
         if(!success) {
