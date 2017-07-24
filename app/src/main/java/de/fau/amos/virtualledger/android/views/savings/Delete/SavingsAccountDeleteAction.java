@@ -24,7 +24,7 @@ public class SavingsAccountDeleteAction {
         ((App) context.getApplicationContext()).getNetComponent().inject(this);
         this.savingsAccount = savingsAccount;
         toaster = new Toaster(context.getApplicationContext())
-                .pushConceptualErrorMessage("User not found").pushSuccessMessage("User" + savingsAccount.getName() + " was successfully deleted");
+                .pushConceptualErrorMessage("User not found").pushSuccessMessage("Saving: " + savingsAccount.getName() + " was successfully deleted");
     }
 
     public void delete() {
