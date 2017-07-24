@@ -22,7 +22,6 @@
     <string name="banking_overview_app_bar_add_bank_access">Add bank access</string>
     <string name="banking_overview_app_bar_refresh">Refresh</string>
     <string name="banking_overview_no_bank_access_text">No bank accesses registered yet</string>
-    <string name="banking_overview_no_bank_access_button_text">Add Bank Accesses</string>
     <string name="banking_overview_add_access_name_hint">Login name</string>
     <string name="banking_overview_add_access_password_hint">Password</string>
     <string name="banking_overview_add_access_button_text">Add Bank Access</string>
