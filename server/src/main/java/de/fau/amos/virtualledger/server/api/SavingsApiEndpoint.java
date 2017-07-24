@@ -64,7 +64,7 @@ public class SavingsApiEndpoint {
         String username = keycloakUtilizer.getEmail();
 
         if (username == null || username.isEmpty()) {
-            return new ResponseEntity<>(stringApiModelFactory.createStringApiModel("Authentication failed! Your email wasn't found."), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Authentication failed! Your email wasn't found.", HttpStatus.FORBIDDEN);
         }
 
         if (savingsAccount == null || savingsAccount.getName() == null || savingsAccount.getName().isEmpty()
@@ -72,7 +72,7 @@ public class SavingsApiEndpoint {
                 || savingsAccount.getFinalGoalFinishedDate() == null
                 ) {
             return new ResponseEntity<>(
-                    stringApiModelFactory.createStringApiModel("Please check your inserted values. None of the parameters must be null or empty except id. Id must not been set!"),
+                    "Please check your inserted values. None of the parameters must be null or empty except id. Id must not been set!",
                     HttpStatus.BAD_REQUEST);
         }
         LOGGER.info("addSavingAccountEndpoint of " + username + " was requested");
