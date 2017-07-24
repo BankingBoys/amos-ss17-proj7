@@ -133,7 +133,11 @@ public class SavingsApiEndpoint {
      * @return status 201 if successful
      */
     private ResponseEntity<?> deleteSavingAccount(String username, Integer accountId) {
-        return null; //Todo: add real implementation
+        try {
+            savingsController.deleteSavingAccount(username, accountId);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel("Deleting of Contact successful"), HttpStatus.OK);
     }
-
 }
