@@ -8,6 +8,7 @@ import java.util.Observable;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
+import de.fau.amos.virtualledger.android.api.shared.RetrofitMessagedException;
 import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.data.SyncStatus;
 import de.fau.amos.virtualledger.dtos.StringApiModel;
@@ -126,6 +127,14 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
                         Log.e(TAG, "Failed adding items", throwable);
+                        if(throwable instanceof RetrofitMessagedException) {
+                            RetrofitMessagedException messagedException = (RetrofitMessagedException) throwable;
+                            Log.e(TAG, "Reason for failure; " + messagedException.getMessage());
+                            if(handler instanceof Toaster) {
+                                Toaster toaster = (Toaster) handler;
+                                toaster.pushTechnicalErrorMessage(messagedException.getMessage());
+                            }
+                        }
                         handler.onTechnicalError();
                         AbstractDataManager.this.sync();
                     }
