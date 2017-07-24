@@ -181,7 +181,7 @@ public class BankingDataManager extends Observable {
                 Log.e(TAG, "Failed adding a bank access", throwable);
             }
         };
-        subscribe(onNext, onError, bankingProvider.addBankAccess(bankAccessCredential););
+        subscribe(onNext, onError, bankingProvider.addBankAccess(bankAccessCredential));
     }
 
     /**
@@ -228,7 +228,7 @@ public class BankingDataManager extends Observable {
         };
     }
 
-    private void subscribe(Consumer<StringApiModel> onNext, Consumer<Throwable> onError, io.reactivex.Observable<StringApiModel> observable) {
+    private <T> void subscribe(Consumer<T> onNext, Consumer<Throwable> onError, io.reactivex.Observable<T> observable) {
         observable
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
