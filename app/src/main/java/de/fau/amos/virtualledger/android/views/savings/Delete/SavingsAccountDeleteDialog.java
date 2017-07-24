@@ -24,7 +24,7 @@ public class SavingsAccountDeleteDialog {
     public void show() {
         final AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("DELETE CONFIRMATION");
-        alert.setMessage("Are you sure to delete " + this.savingsAccount.getName()+" from your savings List?");
+        alert.setMessage("Are you sure to delete " + this.savingsAccount.getName()+" from your Savings Account List?");
         alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
 
             @Override
