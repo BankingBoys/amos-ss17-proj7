@@ -46,7 +46,7 @@
 
     <string name="saving_accounts_title">Saving Accounts</string>
     <string name="saving_accounts_app_bar_add">Add savings account</string>
-    <string name="saving_accounts_no_accounts_added">No savings sccounts added</string>
+    <string name="saving_accounts_no_accounts_added">No savings accounts added</string>
 
     <string name="add_savings_account_button_previous">Previous</string>
     <string name="add_savings_account_button_next">Next</string>
