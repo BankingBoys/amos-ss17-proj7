@@ -1,6 +1,7 @@
 package de.fau.amos.virtualledger.android.views.contacts.delete;
 
 import android.app.Activity;
+import android.content.Context;
 
 import javax.inject.Inject;
 
@@ -20,11 +21,11 @@ public class ContactsDeleteAction {
     private Contact contact;
     Toaster toaster;
 
-    public ContactsDeleteAction(Activity activity, Contact contact) {
-        ((App) activity.getApplication()).getNetComponent().inject(this);
+    public ContactsDeleteAction(Context context, Contact contact) {
+        ((App) context.getApplicationContext()).getNetComponent().inject(this);
         this.contact = contact;
-        toaster = new Toaster(activity)
-                .pushConceptualErrorMessage("User not found");
+        toaster = new Toaster(context.getApplicationContext())
+                .pushConceptualErrorMessage("User not found").pushSuccessMessage("User" + contact.getEmail() + " was successfully deleted");
     }
 
     public void delete() {

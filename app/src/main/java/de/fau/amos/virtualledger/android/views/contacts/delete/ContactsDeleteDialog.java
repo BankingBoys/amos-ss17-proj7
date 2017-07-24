@@ -13,12 +13,10 @@ import de.fau.amos.virtualledger.dtos.Contact;
 
 public class ContactsDeleteDialog {
 
-    private Activity activity;
     private Context context;
     private Contact contact;
 
     public ContactsDeleteDialog(Activity activity, Context context, Contact contact) {
-        this.activity = activity;
         this.context = context;
         this.contact = contact;
     }
@@ -32,7 +30,7 @@ public class ContactsDeleteDialog {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                ContactsDeleteAction deleteAction = new ContactsDeleteAction(activity, contact);
+                ContactsDeleteAction deleteAction = new ContactsDeleteAction(context, contact);
                 deleteAction.delete();
             }
         });
