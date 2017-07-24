@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Observable;
@@ -50,8 +51,11 @@ public class NoBankingAccessesFragment extends Fragment implements Observer{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.banking_overview_no_bank_accesses, container, false);
-        addButton = (Button) view.findViewById(R.id.banking_overview_no_bank_access_button_id);
+        View view = inflater.inflate(R.layout.generic_no_items_saved, container, false);
+        addButton = (Button) view.findViewById(R.id.generic_no_items_add_button);
+        addButton.setText(R.string.banking_overview_add_access_title);
+        TextView textView = (TextView) view.findViewById(R.id.generic_no_items_added_text_view);
+        textView.setText(R.string.banking_overview_no_bank_access_text);
         return view;
     }
 
