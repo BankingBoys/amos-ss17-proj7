@@ -3,8 +3,6 @@ package de.fau.amos.virtualledger.android.api.auth;
 import android.content.Context;
 import android.util.Log;
 
-import org.apache.commons.lang3.NotImplementedException;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -49,11 +47,6 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
         this.retrofit = retrofit;
     }
 
-
-    @Override
-    public Observable<String> register(String email, String password, String firstname, String lastname) {
-        throw new NotImplementedException("Registering with OIDC is not implemented! Please redirect the user to the register page of the authority server in a browser!");
-    }
 
     @Override
     public Observable<String> login(final String username, final String password) {

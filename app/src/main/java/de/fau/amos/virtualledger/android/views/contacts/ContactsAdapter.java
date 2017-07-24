@@ -21,11 +21,9 @@ import de.fau.amos.virtualledger.dtos.Contact;
 
 public class ContactsAdapter extends ArrayAdapter<Contact> {
 
-    private Activity activity;
 
     public ContactsAdapter(Activity activity, int layout, List<Contact> contacts) {
         super(activity, layout, contacts);
-        this.activity = activity;
     }
 
     @NonNull
@@ -43,7 +41,7 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
         contactName.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                final ContactsDeleteDialog deleteDialog = new ContactsDeleteDialog(activity, getContext(), contact);
+                final ContactsDeleteDialog deleteDialog = new ContactsDeleteDialog(getContext(), contact);
                 deleteDialog.show();
                 return true;
             }

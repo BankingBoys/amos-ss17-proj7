@@ -1,6 +1,5 @@
 package de.fau.amos.virtualledger.android.views.contacts.delete;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,7 +15,7 @@ public class ContactsDeleteDialog {
     private Context context;
     private Contact contact;
 
-    public ContactsDeleteDialog(Activity activity, Context context, Contact contact) {
+    public ContactsDeleteDialog(Context context, Contact contact) {
         this.context = context;
         this.contact = contact;
     }
@@ -24,7 +23,7 @@ public class ContactsDeleteDialog {
     public void show() {
         final AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("DELETE CONFIRMATION");
-        alert.setMessage("Are you sure to delete " + this.contact.getFirstName()+" from your contact List?");
+        alert.setMessage("Are you sure to delete " + this.contact.getFirstName() + " from your contact List?");
         alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
 
             @Override

@@ -35,7 +35,6 @@ public class ContactsFragment extends Fragment implements DataListening {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        /*((App) getActivity().getApplication()).getNetComponent().inject(this);*/
         super.onActivityCreated(savedInstanceState);
 
         this.contactSupplier = new ContactsSupplier(getActivity());
