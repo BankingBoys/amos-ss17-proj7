@@ -14,11 +14,8 @@ import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 
 public class SubgoalAdapter extends ArrayAdapter<SavingsAccountSubGoal> {
 
-    private Activity activity;
-
     public SubgoalAdapter(Activity activity, int layout, List<SavingsAccountSubGoal> data) {
         super(activity, layout, data);
-        this.activity = activity;
     }
 
     @Override
