@@ -3,9 +3,12 @@ package de.fau.amos.virtualledger.server.api;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
 import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -15,17 +18,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 
 import javax.servlet.ServletException;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BankingOverviewApiEndpointTest {
@@ -33,12 +35,23 @@ public class BankingOverviewApiEndpointTest {
     @Mock
     private BankingOverviewController bankingOverviewController;
 
+    @Mock
+    private StringApiModelFactory stringApiModelFactory;
+
+    @Before
+    public void setup() {
+        when(stringApiModelFactory.createStringApiModel(anyString())).then(invocation -> {
+            StringApiModel stringApiModel = new StringApiModel();
+            stringApiModel.setData("testString");
+            return stringApiModel;
+        });
+    }
 
     @Test
     public void getBankingOverviewEndpointSecurityContextPrincipalNameNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(setupKeycloakUtilizer(null),
-                bankingOverviewController);
+                bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.getBankingOverviewEndpoint();
@@ -54,7 +67,7 @@ public class BankingOverviewApiEndpointTest {
     public void getBankingOverviewEndpointSecurityContextPrincipalNameEmpty() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer(""), bankingOverviewController);
+                setupKeycloakUtilizer(""), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.getBankingOverviewEndpoint();
@@ -71,7 +84,7 @@ public class BankingOverviewApiEndpointTest {
         // SETUP
         when(bankingOverviewController.getBankingOverview(any(String.class))).thenReturn(new ArrayList<BankAccess>());
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.getBankingOverviewEndpoint();
@@ -88,7 +101,7 @@ public class BankingOverviewApiEndpointTest {
         // SETUP
         when(bankingOverviewController.getBankingOverview(any(String.class))).thenThrow(new BankingException("mock"));
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.getBankingOverviewEndpoint();
@@ -104,7 +117,7 @@ public class BankingOverviewApiEndpointTest {
     public void addBankAccessEndpointBankAccessCredentialBankCodeNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint
@@ -121,7 +134,7 @@ public class BankingOverviewApiEndpointTest {
     public void addBankAccessEndpointSecurityContextPrincipalNameNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer(null), bankingOverviewController);
+                setupKeycloakUtilizer(null), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint
@@ -138,7 +151,7 @@ public class BankingOverviewApiEndpointTest {
     public void addBankAccessEndpointSecurityContextPrincipalNameEmpty() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer(""), bankingOverviewController);
+                setupKeycloakUtilizer(""), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint
@@ -155,7 +168,7 @@ public class BankingOverviewApiEndpointTest {
     public void addBankAccessEndpointBankAccessCredentialBankCodeEmpty() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint
@@ -172,7 +185,7 @@ public class BankingOverviewApiEndpointTest {
     public void addBankAccessEndpointBankAccessCredentialLoginNameNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint
@@ -189,7 +202,7 @@ public class BankingOverviewApiEndpointTest {
     public void addBankAccessEndpointBankAccessCredentialLoginNameEmpty() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint
@@ -206,7 +219,7 @@ public class BankingOverviewApiEndpointTest {
     public void addBankAccessEndpointBankAccessCredentialPinNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint
@@ -223,7 +236,7 @@ public class BankingOverviewApiEndpointTest {
     public void addBankAccessEndpointBankAccessCredentialPinEmpty() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint
@@ -240,7 +253,7 @@ public class BankingOverviewApiEndpointTest {
     public void addBankAccessEndpointValidInput() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint
@@ -259,7 +272,7 @@ public class BankingOverviewApiEndpointTest {
         doThrow(new BankingException("mock")).when(bankingOverviewController).addBankAccess(anyString(),
                 any(BankAccessCredential.class), any(String.class));
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint
@@ -276,7 +289,7 @@ public class BankingOverviewApiEndpointTest {
     public void deleteBankAccessEndpointSecurityContextPrincipalNameNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer(null), bankingOverviewController);
+                setupKeycloakUtilizer(null), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.deleteBankAccessEndpoint("mock id");
@@ -292,7 +305,7 @@ public class BankingOverviewApiEndpointTest {
     public void deleteBankAccessEndpointSecurityContextPrincipalNameEmpty() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer(""), bankingOverviewController);
+                setupKeycloakUtilizer(""), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.deleteBankAccessEndpoint("mock id");
@@ -308,7 +321,7 @@ public class BankingOverviewApiEndpointTest {
     public void deleteBankAccessEndpointBankAccessIdEmpty() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.deleteBankAccessEndpoint(null);
@@ -324,7 +337,7 @@ public class BankingOverviewApiEndpointTest {
     public void deleteBankAccessEndpointBankAccessIdNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.deleteBankAccessEndpoint("");
@@ -340,7 +353,7 @@ public class BankingOverviewApiEndpointTest {
     public void deleteBankAccessEndpointValidInput() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.deleteBankAccessEndpoint("mock id");
@@ -358,7 +371,7 @@ public class BankingOverviewApiEndpointTest {
         doThrow(new BankingException("mock")).when(bankingOverviewController).deleteBankAccess(anyString(),
                 anyString());
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.deleteBankAccessEndpoint("mockId");
@@ -373,7 +386,7 @@ public class BankingOverviewApiEndpointTest {
     public void deleteBankAccountEndpointSecurityContextPrincipalNameNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer(null), bankingOverviewController);
+                setupKeycloakUtilizer(null), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint("mock access id",
@@ -391,7 +404,7 @@ public class BankingOverviewApiEndpointTest {
     public void deleteBankAccountEndpointSecurityContextPrincipalNameEmpty() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer(""), bankingOverviewController);
+                setupKeycloakUtilizer(""), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint("mock access id",
@@ -409,7 +422,7 @@ public class BankingOverviewApiEndpointTest {
     public void deleteBankAccountEndpointSankAccessIdEmpty() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint(null, "mock account id");
@@ -426,7 +439,7 @@ public class BankingOverviewApiEndpointTest {
     public void deleteBankAccountEndpointBankAccessIdNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint("", "mock account id");
@@ -443,7 +456,7 @@ public class BankingOverviewApiEndpointTest {
     public void deleteBankAccountEndpointBankAccountIdEmpty() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint("mock access id", null);
@@ -460,7 +473,7 @@ public class BankingOverviewApiEndpointTest {
     public void deleteBankAccountEndpointBankAccountIdNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint("mock access id", "");
@@ -477,7 +490,7 @@ public class BankingOverviewApiEndpointTest {
     public void deleteBankAccountEndpointValidInput() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint("mock access id",
@@ -497,7 +510,7 @@ public class BankingOverviewApiEndpointTest {
         doThrow(new BankingException("mock")).when(bankingOverviewController).deleteBankAccount(anyString(),
                 anyString(), anyString());
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.deleteBankAccountEndpoint("mock access id",
@@ -515,7 +528,7 @@ public class BankingOverviewApiEndpointTest {
     public void syncBankAccountEndpointSecurityContextPrincipalNameNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer(null), bankingOverviewController);
+                setupKeycloakUtilizer(null), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint
@@ -532,7 +545,7 @@ public class BankingOverviewApiEndpointTest {
     public void syncBankAccountEndpointSecurityContextPrincipalNameEmpty() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer(""), bankingOverviewController);
+                setupKeycloakUtilizer(""), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint
@@ -549,7 +562,7 @@ public class BankingOverviewApiEndpointTest {
     public void syncBankAccountEndpointBankAccountSyncListNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = bankingOverviewApiEndpoint.syncBankAccountsEndpoint(null);
@@ -565,7 +578,7 @@ public class BankingOverviewApiEndpointTest {
     public void syncBankAccountEndpointBankAccountSyncListEntryNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
         List<BankAccountSync> bankAccountSyncList = new ArrayList<BankAccountSync>();
         bankAccountSyncList.add(null);
 
@@ -583,7 +596,7 @@ public class BankingOverviewApiEndpointTest {
     public void syncBankAccountEndpointBankAccountSyncListEntryAccessIdNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
         List<BankAccountSync> bankAccountSyncList = new ArrayList<BankAccountSync>();
         BankAccountSync bankAccountSync = new BankAccountSync(null, "mock account id", "mock pin");
         bankAccountSyncList.add(bankAccountSync);
@@ -602,7 +615,7 @@ public class BankingOverviewApiEndpointTest {
     public void syncBankAccountEndpointBankAccountSyncListEntryAccessIdEmpty() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
         List<BankAccountSync> bankAccountSyncList = new ArrayList<BankAccountSync>();
         BankAccountSync bankAccountSync = new BankAccountSync("", "mock account id", "mock pin");
         bankAccountSyncList.add(bankAccountSync);
@@ -621,7 +634,7 @@ public class BankingOverviewApiEndpointTest {
     public void syncBankAccountEndpointBankAccountSyncListEntryAccoundIdNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
         List<BankAccountSync> bankAccountSyncList = new ArrayList<BankAccountSync>();
         BankAccountSync bankAccountSync = new BankAccountSync("mock access id", null, "mock pin");
         bankAccountSyncList.add(bankAccountSync);
@@ -640,7 +653,7 @@ public class BankingOverviewApiEndpointTest {
     public void syncBankAccountEndpointBankAccountSyncListEntryAccountIdEmpty() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
         List<BankAccountSync> bankAccountSyncList = new ArrayList<BankAccountSync>();
         BankAccountSync bankAccountSync = new BankAccountSync(null, "", "mock pin");
         bankAccountSyncList.add(bankAccountSync);
@@ -659,7 +672,7 @@ public class BankingOverviewApiEndpointTest {
     public void syncBankAccountEndpointBankAccountSyncListEntryPinNull() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
         List<BankAccountSync> bankAccountSyncList = new ArrayList<BankAccountSync>();
         BankAccountSync bankAccountSync = new BankAccountSync("mock access id", "mock account id", null);
         bankAccountSyncList.add(bankAccountSync);
@@ -678,7 +691,7 @@ public class BankingOverviewApiEndpointTest {
     public void syncBankAccountEndpointBankAccountSyncListEntryPinEmpty() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
         List<BankAccountSync> bankAccountSyncList = new ArrayList<BankAccountSync>();
         BankAccountSync bankAccountSync = new BankAccountSync("mock access id", "mock account id", "");
         bankAccountSyncList.add(bankAccountSync);
@@ -697,7 +710,7 @@ public class BankingOverviewApiEndpointTest {
     public void syncBankAccountEndpointValidInput() throws BankingException, ServletException {
         // SETUP
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
         List<BankAccountSync> bankAccountSyncList = new ArrayList<BankAccountSync>();
         BankAccountSync bankAccountSync = new BankAccountSync("mock access id", "mock account id", "mock pin");
         bankAccountSyncList.add(bankAccountSync);
@@ -718,7 +731,7 @@ public class BankingOverviewApiEndpointTest {
         doThrow(new BankingException("mock")).when(bankingOverviewController).syncBankAccounts(anyString(),
                 any(List.class));
         BankingOverviewApiEndpoint bankingOverviewApiEndpoint = new BankingOverviewApiEndpoint(
-                setupKeycloakUtilizer("test@test.de"), bankingOverviewController);
+                setupKeycloakUtilizer("test@test.de"), bankingOverviewController, stringApiModelFactory);
         List<BankAccountSync> bankAccountSyncList = new ArrayList<BankAccountSync>();
         BankAccountSync bankAccountSync = new BankAccountSync("mock access id", "mock account id", "mock pin");
         bankAccountSyncList.add(bankAccountSync);
