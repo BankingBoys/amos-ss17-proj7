@@ -206,23 +206,26 @@ public class BankingDataManager extends Observable {
                 BankingDataManager.this.sync();
             }
         };
-        Consumer<Throwable> onError = new Consumer<Throwable>() {
+        subscribe(onNext, onErrorConsumer("Deleting Bank Access failed."), bankingProvider.deleteBankAccess(accessId));
+    }
+
+    @android.support.annotation.NonNull
+    private Consumer<Throwable> onErrorConsumer(final String failedMessage) {
+        return new Consumer<Throwable>() {
             @Override
             public void accept(@NonNull final Throwable throwable) throws Exception {
-                Log.e(TAG, "Failed deleting a bank access", throwable);
+                Log.e(TAG, failedMessage, throwable);
 
                 Toaster toaster = new Toaster(context);
                 if (throwable instanceof RetrofitMessagedThrowable) {
                     RetrofitMessagedThrowable messagedException = (RetrofitMessagedThrowable) throwable;
                     toaster.pushSuccessMessage(messagedException.getMessage());
                 } else {
-                    toaster.pushSuccessMessage("Deleting Bank Access failed.");
+                    toaster.pushSuccessMessage(failedMessage);
                 }
                 toaster.onTechnicalError();
             }
         };
-        io.reactivex.Observable<StringApiModel> observable = ;
-        subscribe(onNext, onError, bankingProvider.deleteBankAccess(accessId));
     }
 
     private void subscribe(Consumer<StringApiModel> onNext, Consumer<Throwable> onError, io.reactivex.Observable<StringApiModel> observable) {
@@ -254,21 +257,6 @@ public class BankingDataManager extends Observable {
                 BankingDataManager.this.sync();
             }
         };
-        Consumer<Throwable> onError = new Consumer<Throwable>() {
-            @Override
-            public void accept(@NonNull final Throwable throwable) throws Exception {
-                Log.e(TAG, "Failed deleting a bank account", throwable);
-
-                Toaster toaster = new Toaster(context);
-                if (throwable instanceof RetrofitMessagedThrowable) {
-                    RetrofitMessagedThrowable messagedException = (RetrofitMessagedThrowable) throwable;
-                    toaster.pushSuccessMessage(messagedException.getMessage());
-                } else {
-                    toaster.pushSuccessMessage("Deleting Bank Account failed.");
-                }
-                toaster.onTechnicalError();
-            }
-        };
-        subscribe(onNext, onError, bankingProvider.deleteBankAccount(accessId, accountId));
+        subscribe(onNext, onErrorConsumer("Deleting Bank Account failed."), bankingProvider.deleteBankAccount(accessId, accountId));
     }
 }
