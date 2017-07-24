@@ -82,7 +82,6 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
             final Fragment fragment = new NoSavingsAccountsFragment();
             openFragment(fragment);
         }
-        logger().info("Refreshing savings overview with " + allSavingAccounts.size() + " accounts from"+this.savingsSupplier);
 
         this.adapter.addAll(allSavingAccounts);
         this.adapter.notifyDataSetChanged();
