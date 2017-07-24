@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -81,6 +82,23 @@ public class SavingsApiEndpoint {
     }
 
     /**
+     * Deletes Savings account from the database
+     *
+     * @param accountId
+     * @return
+     * @throws ServletException
+     */
+    @RequestMapping(method = RequestMethod.DELETE, value = "api/savings/{accountId:.+}", produces = "application/json")
+    public ResponseEntity<?> deleteContactEndpoint(@PathVariable("accountId") String accountId) throws ServletException {
+        final String username = keycloakUtilizer.getEmail();
+        if (username == null || username.isEmpty()) {
+            return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
+        }
+        LOGGER.info("deleteSavingsEndpoint of " + username + " was requested");
+        return this.deleteSavingAccount(username, accountId);
+    }
+
+    /**
      * Does the logic for adding a saving account to a specific user. Handles
      * exceptions and returns corresponding response codes.
      *
@@ -105,6 +123,17 @@ public class SavingsApiEndpoint {
 
         List<SavingsAccount> savingsAccountEntityList = savingsController.getSavingAccounts(username);
         return new ResponseEntity<Object>(savingsAccountEntityList, HttpStatus.OK);
+    }
+
+    /**
+     *
+     *
+     * @param username
+     * @param accountId
+     * @return status 201 if successful
+     */
+    private ResponseEntity<?> deleteSavingAccount(String username, String accountId) {
+        return null; //Todo: add real implementation
     }
 
 }
