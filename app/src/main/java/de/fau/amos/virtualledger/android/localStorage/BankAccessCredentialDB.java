@@ -100,7 +100,6 @@ public class BankAccessCredentialDB {
         final Cursor cursor = database.query(true, BankAccessCredentialDBConstants.TABLE_NAME, columns, BankAccessCredentialDBConstants.COLUMN_NAME_USER + " = ?" + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCESSID + " = ?" + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCOUNTID + " = ?" , new String[] {user, accessId, accountId}, null, null, null, null);
         final boolean success = cursor.moveToFirst();
         if(!success) {
-            // TODO maybe change to other solution;
             cursor.close();
             return "Bank account not found!";
         }
@@ -119,7 +118,6 @@ public class BankAccessCredentialDB {
         final Cursor cursor = database.query(true, BankAccessCredentialDBConstants.TABLE_NAME, columns, BankAccessCredentialDBConstants.COLUMN_NAME_USER + " = ?" + " AND " + BankAccessCredentialDBConstants.COLUMN_NAME_ACCESSID + " = ?" , new String[] {user, accessId}, null, null, null, null);
         final boolean success = cursor.moveToFirst();
         if(!success) {
-            // TODO maybe change to other solution;
             cursor.close();
             return "Bank access not found!";
         }

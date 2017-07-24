@@ -159,7 +159,6 @@ public class OidcAuthenticationProvider implements AuthenticationProvider {
                 if (response.isSuccessful()) {
                     oidcData = null;
                     lastRefresh = null;
-                    // TODO delete persisted data
                     observable.onNext("Logout was successful!");
                     currentUsername = null;
                     currentPassword = null;

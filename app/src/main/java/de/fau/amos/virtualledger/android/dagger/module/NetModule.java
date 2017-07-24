@@ -67,7 +67,6 @@ public class NetModule {
         gsonBuilder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
             @Override
             public Date deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-                //FIXME Quick fix to parse two different date formats. Should make sure the server only returns one format instead!
                 final String jsonString = json.getAsJsonPrimitive().getAsString();
                 if(NumberUtils.isParsable(jsonString)) {
                     return new Date(NumberUtils.createLong(jsonString));

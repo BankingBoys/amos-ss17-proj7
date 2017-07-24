@@ -155,7 +155,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     @Override
     public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
-        checkedBankAccounts.clear(); // TODO maybe find better solution?!
+        checkedBankAccounts.clear();
         switch (item.getItemId()) {
             case R.id.main_menu_nav_bank_accesses:
                 switchToFragment(AppFragment.BANK_ACCESSES);
