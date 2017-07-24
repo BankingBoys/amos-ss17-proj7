@@ -24,6 +24,7 @@ import de.fau.amos.virtualledger.android.views.contacts.NoContactsFragment;
 import de.fau.amos.virtualledger.android.views.contacts.add.AddContactsActivity;
 import de.fau.amos.virtualledger.android.views.contacts.delete.ContactsDeleteAction;
 import de.fau.amos.virtualledger.android.views.menu.MainMenu;
+import de.fau.amos.virtualledger.android.views.savings.Delete.SavingsAccountDeleteAction;
 import de.fau.amos.virtualledger.android.views.savings.SavingAccountsFragment;
 import de.fau.amos.virtualledger.android.views.savings.SavingsSupplier;
 import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountAccountsFragment;
@@ -82,4 +83,6 @@ public interface NetComponent {
     void inject(AddSavingsAccountAccountsFragment addSavingsAccountAccountsFragment);
 
     void inject(ContactsDeleteAction deleteAction);
+
+    void inject(SavingsAccountDeleteAction deleteAction);
 }
