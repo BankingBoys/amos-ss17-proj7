@@ -23,9 +23,13 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.SyncFailedException;
+import de.fau.amos.virtualledger.android.data.SyncStatus;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.ItemCheckedMap;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
+
+import static de.fau.amos.virtualledger.android.data.SyncStatus.NOT_SYNCED;
+import static de.fau.amos.virtualledger.android.data.SyncStatus.SYNCED;
 
 /**
  * Created by Georg on 09.06.2017.
@@ -61,13 +65,11 @@ public class TotalAmountFragment extends Fragment implements Observer {
         super.onResume();
         bankingDataManager.addObserver(this);
 
-        switch (bankingDataManager.getSyncStatus()) {
-            case NOT_SYNCED:
-                bankingDataManager.sync();
-                break;
-            case SYNCED:
-                onBankingDataChanged();
-                break;
+        SyncStatus syncStatus = bankingDataManager.getSyncStatus();
+        if (syncStatus == NOT_SYNCED) {
+            bankingDataManager.sync();
+        } else if (syncStatus == SYNCED) {
+            onBankingDataChanged();
         }
     }
 
