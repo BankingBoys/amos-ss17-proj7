@@ -89,7 +89,7 @@ public class SavingsApiEndpoint {
      * @throws ServletException
      */
     @RequestMapping(method = RequestMethod.DELETE, value = "api/savings/{accountId:.+}", produces = "application/json")
-    public ResponseEntity<?> deleteContactEndpoint(@PathVariable("accountId") String accountId) throws ServletException {
+    public ResponseEntity<?> deleteContactEndpoint(@PathVariable("accountId") Integer accountId) throws ServletException {
         final String username = keycloakUtilizer.getEmail();
         if (username == null || username.isEmpty()) {
             return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
@@ -132,7 +132,7 @@ public class SavingsApiEndpoint {
      * @param accountId
      * @return status 201 if successful
      */
-    private ResponseEntity<?> deleteSavingAccount(String username, String accountId) {
+    private ResponseEntity<?> deleteSavingAccount(String username, Integer accountId) {
         return null; //Todo: add real implementation
     }
 
