@@ -76,7 +76,7 @@ public class ContactsFragment extends Fragment implements DataListening {
     public void notifyDataChanged() {
         this.adapter.clear();
         List<Contact> allContacts= this.contactSupplier.getAll();
-        if(allContacts != null && allContacts.size() == 0) {
+        if(allContacts == null || allContacts.size() == 0) {
             final Fragment fragment = new NoContactsFragment();
             openFragment(fragment);
         }

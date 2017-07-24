@@ -78,7 +78,7 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
     public void notifyDataChanged() {
         this.adapter.clear();
         List<SavingsAccount> allSavingAccounts = this.savingsSupplier.getAll();
-        if(allSavingAccounts != null && allSavingAccounts.size() == 0) {
+        if(allSavingAccounts == null || allSavingAccounts.size() == 0) {
             final Fragment fragment = new NoSavingsAccountsFragment();
             openFragment(fragment);
         }
