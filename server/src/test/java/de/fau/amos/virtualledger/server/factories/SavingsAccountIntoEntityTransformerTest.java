@@ -28,7 +28,7 @@ public class SavingsAccountIntoEntityTransformerTest {
     private final String userEmail = "userEmail";
     private final String userFirstName = "userFirstName";
     private final String userLastName = "userLastName";
-    private final String savingsAccountId = "savingsId";
+    private final Integer savingsAccountId = 123;
     private final String savingsAccountName = "saving";
     private final double savingsAccountGoal = 1221;
     private final double savingsAccountCurrent = 456;

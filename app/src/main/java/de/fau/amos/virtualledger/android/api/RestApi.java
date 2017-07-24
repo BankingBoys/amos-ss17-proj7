@@ -42,7 +42,7 @@ public interface RestApi {
     Call<StringApiModel> addSavingAccounts(@Header("Authorization") String token, @Body SavingsAccount savingsAccounts);
 
     @DELETE("/api/savings/{accountId}")
-    Call<StringApiModel> deleteSavingsAccount(@Header("Authorization") String token, @Path("accountId") String accountId);
+    Call<StringApiModel> deleteSavingsAccount(@Header("Authorization") String token, @Path("accountId") Integer accountId);
 
     @GET("/api/contacts")
     Call<List<Contact>> getContacts(@Header("Authorization") String token);

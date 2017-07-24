@@ -14,7 +14,7 @@ public class SavingsAccountTest {
     @Test
     public void constructorGettersMatch() {
         // SETUP
-        String id = "123";
+        final Integer id = 123;
         String name = "name";
         final double goalBalance = 123.45;
         final double currentBalance = 234.567;
@@ -39,7 +39,7 @@ public class SavingsAccountTest {
 
     @Test
     public void setterAndGetterTest() {
-        String id = "12345";
+        final Integer id = 12345;
         String name = "name2";
         final double goalBalance = 123.4555;
         final double currentBalance = 234.56755;
@@ -67,7 +67,7 @@ public class SavingsAccountTest {
     @Test
     public void testeGetDaysLeft() throws Exception {
         // SETUP
-        String id = "123";
+        final Integer id = 123;
         String name = "name";
         final double goalBalance = 123.45;
         final double currentBalance = 234.567;
@@ -86,7 +86,7 @@ public class SavingsAccountTest {
 
 class SavingsAccountMocked extends SavingsAccount {
 
-    public SavingsAccountMocked(String id, String name, double goalbalance, double currentbalance, Date finaldate) {
+    public SavingsAccountMocked(Integer id, String name, double goalbalance, double currentbalance, Date finaldate) {
         super(id, name, goalbalance, currentbalance, finaldate, new Date());
     }
 

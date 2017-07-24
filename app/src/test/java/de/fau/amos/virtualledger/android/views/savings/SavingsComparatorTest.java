@@ -21,7 +21,7 @@ public class SavingsComparatorTest {
     @Test
     public void teste_compare_withEqualSavings_shouldReturnZero() {
         SavingsComparator component_under_test = new SavingsComparator();
-        SavingsAccount account = new SavingsAccount("some id", "some anme", 10, 0, any(), any());
+        SavingsAccount account = new SavingsAccount(123, "some anme", 10, 0, any(), any());
 
         assertThat(component_under_test.compare(account, account)).isEqualTo(0);
     }
@@ -34,8 +34,8 @@ public class SavingsComparatorTest {
     @Test
     public void teste_compare_firstDateLaterThenSecond_shouldReturnOne() throws Exception {
         SavingsComparator component_under_test = new SavingsComparator();
-        SavingsAccount earlyAccount = new SavingsAccount("some id", "some anme", 10, 0, toDate("10/10/16"), any());
-        SavingsAccount lateAccount = new SavingsAccount("some other id", "some anme", 10, 0, toDate("10/10/17"), any());
+        SavingsAccount earlyAccount = new SavingsAccount(123, "some anme", 10, 0, toDate("10/10/16"), any());
+        SavingsAccount lateAccount = new SavingsAccount(123, "some anme", 10, 0, toDate("10/10/17"), any());
 
         assertThat(component_under_test.compare(lateAccount, earlyAccount)).isEqualTo(1);
     }
@@ -43,8 +43,8 @@ public class SavingsComparatorTest {
     @Test
     public void teste_compare_firstDateBeforeThenSecond_shouldReturnMinusOne() throws Exception {
         SavingsComparator component_under_test = new SavingsComparator();
-        SavingsAccount earlyAccount = new SavingsAccount("some id", "some anme", 10, 0, toDate("10/10/16"), any());
-        SavingsAccount lateAccount = new SavingsAccount("some other id", "some anme", 10, 0, toDate("10/10/17"), any());
+        SavingsAccount earlyAccount = new SavingsAccount(123, "some anme", 10, 0, toDate("10/10/16"), any());
+        SavingsAccount lateAccount = new SavingsAccount(123, "some anme", 10, 0, toDate("10/10/17"), any());
 
         assertThat(component_under_test.compare(earlyAccount, lateAccount)).isEqualTo(-1);
     }

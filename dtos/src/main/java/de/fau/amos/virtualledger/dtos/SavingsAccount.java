@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SavingsAccount {
 
-    private String id;
+    private Integer id;
     private String name;
     private double goalbalance;
     private double currentbalance;
@@ -30,7 +30,7 @@ public class SavingsAccount {
         this.finalGoalFinishedDate = finalGoalFinishedDate;
     }
 
-    public SavingsAccount(String id, String name, double goalbalance, double currentbalance, Date finaldate, Date finalGoalFinishedDate) {
+    public SavingsAccount(Integer id, String name, double goalbalance, double currentbalance, Date finaldate, Date finalGoalFinishedDate) {
         this.id = id;
         this.name = name;
         this.goalbalance = goalbalance;
@@ -39,7 +39,7 @@ public class SavingsAccount {
         this.finalGoalFinishedDate = finalGoalFinishedDate;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -90,7 +90,7 @@ public class SavingsAccount {
         return finaldate;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

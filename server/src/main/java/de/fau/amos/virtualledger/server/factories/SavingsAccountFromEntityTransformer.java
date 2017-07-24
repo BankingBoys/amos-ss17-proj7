@@ -31,7 +31,7 @@ public class SavingsAccountFromEntityTransformer {
     public SavingsAccount transformSavingAccountFromEntity(SavingsAccountEntity savingsAccountEntity, User currentUser) {
 
         SavingsAccount savingsAccount = new SavingsAccount(
-                savingsAccountEntity.getId() + "",
+                savingsAccountEntity.getId(),
                 savingsAccountEntity.getName(),
                 savingsAccountEntity.getGoalbalance(),
                 savingsAccountEntity.getCurrentbalance(),
