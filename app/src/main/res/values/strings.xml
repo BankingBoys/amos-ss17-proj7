@@ -21,7 +21,7 @@
     <string name="banking_overview_title">Bank Accesses</string>
     <string name="banking_overview_app_bar_add_bank_access">Add bank access</string>
     <string name="banking_overview_app_bar_refresh">Refresh</string>
-    <string name="banking_overview_no_bank_access_text">No bank accesses registered yet</string>
+    <string name="banking_overview_no_bank_access_text">No bank accesses registered</string>
     <string name="banking_overview_add_access_name_hint">Login name</string>
     <string name="banking_overview_add_access_password_hint">Password</string>
     <string name="banking_overview_add_access_button_text">Add Bank Access</string>
@@ -32,7 +32,7 @@
     <string name="banking_overview_enable_all_accounts_checkbox">Enable all bank accounts</string>
 
     <string name="contacts_title">Contacts</string>
-    <string name="contacts_no_contacts_saved_text">No contacts added yet</string>
+    <string name="contacts_no_contacts_saved_text">No contacts added</string>
     <string name="contacts_no_contacts_button_text">Add Contacts</string>
     <string name="contacts_add_contacts_title">Add Contacts</string>
     <string name="contacts_add_contacts_button">Add Contact</string>
