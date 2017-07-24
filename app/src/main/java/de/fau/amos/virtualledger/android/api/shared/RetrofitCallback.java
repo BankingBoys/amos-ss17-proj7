@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.fau.amos.virtualledger.dtos.StringApiModel;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +38,7 @@ public class RetrofitCallback<T> implements Callback<T> {
             try {
                 final String message = response.errorBody().string();
                 // got reason of failure from server
-                observable.onError(new RetrofitMessagedException(message));
+                observable.onError(new RetrofitMessagedThrowable(message));
             } catch (IOException e) {
                 // got NO reason of failure from server
                 Log.e(TAG, requestString + "was not successful! ERROR " + response.code());

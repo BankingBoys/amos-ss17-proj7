@@ -4,9 +4,9 @@ package de.fau.amos.virtualledger.android.api.shared;
  * Created by Georg on 24.07.2017.
  */
 
-public class RetrofitMessagedException extends Throwable {
+public class RetrofitMessagedThrowable extends Throwable {
 
-    public RetrofitMessagedException(String message) {
+    public RetrofitMessagedThrowable(String message) {
         super(message);
     }
 

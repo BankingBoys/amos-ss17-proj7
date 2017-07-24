@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
-import de.fau.amos.virtualledger.android.api.shared.RetrofitMessagedException;
+import de.fau.amos.virtualledger.android.api.shared.RetrofitMessagedThrowable;
 import de.fau.amos.virtualledger.android.api.sync.Toaster;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.dtos.BankAccess;
@@ -213,8 +213,8 @@ public class BankingDataManager extends Observable {
                         Log.e(TAG, "Failed deleting a bank access", throwable);
 
                         Toaster toaster = new Toaster(context);
-                        if(throwable instanceof RetrofitMessagedException) {
-                            RetrofitMessagedException messagedException = (RetrofitMessagedException) throwable;
+                        if(throwable instanceof RetrofitMessagedThrowable) {
+                            RetrofitMessagedThrowable messagedException = (RetrofitMessagedThrowable) throwable;
                             toaster.pushSuccessMessage(messagedException.getMessage());
                         } else {
                             toaster.pushSuccessMessage("Deleting Bank Access failed.");
@@ -254,8 +254,8 @@ public class BankingDataManager extends Observable {
                         Log.e(TAG, "Failed deleting a bank account", throwable);
 
                         Toaster toaster = new Toaster(context);
-                        if(throwable instanceof RetrofitMessagedException) {
-                            RetrofitMessagedException messagedException = (RetrofitMessagedException) throwable;
+                        if(throwable instanceof RetrofitMessagedThrowable) {
+                            RetrofitMessagedThrowable messagedException = (RetrofitMessagedThrowable) throwable;
                             toaster.pushSuccessMessage(messagedException.getMessage());
                         } else {
                             toaster.pushSuccessMessage("Deleting Bank Account failed.");
