@@ -133,7 +133,9 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     private void submit() {
         Toaster toaster = new Toaster(getApplicationContext())//
                 .pushSuccessMessage(String.format(Locale.getDefault(), "Savings account \"%s\" added.",
-                        this.savingsAccountState.getName()));
+                        this.savingsAccountState.getName()))
+                .pushTechnicalErrorMessage(
+                        "No connection to server, please try again");
 
         savingsAccountsDataManager.add(this.savingsAccountState, toaster);
         finish();
