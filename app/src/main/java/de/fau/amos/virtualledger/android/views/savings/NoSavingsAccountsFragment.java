@@ -72,12 +72,6 @@ public class NoSavingsAccountsFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        try {
-            if(savingsAccountsDataManager.getAll().size() > 0) {
-                getActivity().getFragmentManager().popBackStack();
-            }
-        } catch (SyncFailedException e) {
-            Toast.makeText(getActivity(), "Error in getting Savings", Toast.LENGTH_SHORT).show();
-        }
+        getActivity().getFragmentManager().popBackStack();
     }
 }

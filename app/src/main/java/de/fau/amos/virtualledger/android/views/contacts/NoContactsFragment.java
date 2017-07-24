@@ -68,13 +68,7 @@ public class NoContactsFragment extends Fragment implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        try {
-            if(contactsDataManager.getAll().size() > 0) {
-                getActivity().getFragmentManager().popBackStack();
-            }
-        } catch (SyncFailedException e) {
-            Toast.makeText(getActivity(), "Error in getting Contacts", Toast.LENGTH_SHORT).show();
-        }
+        getActivity().getFragmentManager().popBackStack();
     }
 }
 
