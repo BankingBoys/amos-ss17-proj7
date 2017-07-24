@@ -138,6 +138,6 @@ public class SavingsApiEndpoint {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel("Deleting of Contact successful"), HttpStatus.OK);
+        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel("Deleting of Savings successful"), HttpStatus.OK);
     }
 }
