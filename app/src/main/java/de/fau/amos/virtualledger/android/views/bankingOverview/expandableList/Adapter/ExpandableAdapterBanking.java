@@ -10,9 +10,7 @@ import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 import de.fau.amos.virtualledger.R;
@@ -25,14 +23,12 @@ import de.fau.amos.virtualledger.dtos.BankAccount;
 
 public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
 
-    private Activity listActivity;
     private LayoutInflater inflater;
     private final SparseArray<Group> groups;
     private BankingDataManager bankingDataManager;
     private HashMap<String, Boolean> mappingCheckBoxes = new HashMap<>();
 
     public ExpandableAdapterBanking(Activity activity, SparseArray<Group> groups, final BankingDataManager bankingDataManager, HashMap<String, Boolean> mappingCheckBoxes) {
-        this.listActivity = activity;
         this.groups = groups;
         inflater = activity.getLayoutInflater();
         this.bankingDataManager = bankingDataManager;
@@ -75,7 +71,6 @@ public class ExpandableAdapterBanking extends BaseExpandableListAdapter {
         BankAccountNameExtractor getName = new BankAccountNameExtractor();
         convertView.setOnLongClickListener(
                 new LongClickDeleteListenerSingleItem(
-                        listActivity,
                         groups.get(groupPosition).bankAccess,
                         children,
                         getName,

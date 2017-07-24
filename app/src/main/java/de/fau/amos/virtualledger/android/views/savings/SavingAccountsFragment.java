@@ -64,8 +64,7 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.saving_accounts_app_bar_add:
+        if (item.getItemId() ==  R.id.saving_accounts_app_bar_add) {
                 final Intent addSavingsAccountIntent = new Intent(getActivity(), AddSavingsAccountActivity.class);
                 startActivity(addSavingsAccountIntent);
                 return true;
@@ -98,10 +97,6 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
     public void onResume() {
         super.onResume();
         this.savingsSupplier.onResume();
-    }
-
-    private Logger logger() {
-        return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.toString() + "}");
     }
 
     /**

@@ -21,7 +21,7 @@ import de.fau.amos.virtualledger.dtos.Contact;
 
 public class AddContactsActivity extends AppCompatActivity {
     @SuppressWarnings("unused")
-    private static final String tag = AddContactsActivity.class.getSimpleName();
+    private static final String TAG = AddContactsActivity.class.getSimpleName();
 
 
     @Inject
