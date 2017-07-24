@@ -1,5 +1,6 @@
 package de.fau.amos.virtualledger.android.data;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
 import de.fau.amos.virtualledger.android.api.banking.BankingProvider;
+import de.fau.amos.virtualledger.android.api.shared.RetrofitMessagedException;
+import de.fau.amos.virtualledger.android.api.sync.Toaster;
 import de.fau.amos.virtualledger.android.localStorage.BankAccessCredentialDB;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
@@ -30,6 +33,7 @@ import static de.fau.amos.virtualledger.android.data.SyncStatus.SYNC_IN_PROGRESS
 public class BankingDataManager extends Observable {
     private final static String TAG = BankingDataManager.class.getSimpleName();
 
+    private Context context;
     private final BankingProvider bankingProvider;
     private final BankAccessCredentialDB bankAccessCredentialDB;
     private final AuthenticationProvider authenticationProvider;
@@ -43,7 +47,8 @@ public class BankingDataManager extends Observable {
     private SyncStatus syncStatus = NOT_SYNCED;
     private AtomicInteger syncsActive = new AtomicInteger(0);
 
-    public BankingDataManager(final BankingProvider bankingProvider, final BankAccessCredentialDB bankAccessCredentialDB, final AuthenticationProvider authenticationProvider) {
+    public BankingDataManager(final Context context, final BankingProvider bankingProvider, final BankAccessCredentialDB bankAccessCredentialDB, final AuthenticationProvider authenticationProvider) {
+        this.context = context;
         this.bankingProvider = bankingProvider;
         this.bankAccessCredentialDB = bankAccessCredentialDB;
         this.authenticationProvider = authenticationProvider;
@@ -190,6 +195,9 @@ public class BankingDataManager extends Observable {
                 .subscribe(new Consumer<StringApiModel>() {
                     @Override
                     public void accept(@NonNull final StringApiModel stringApiModel) throws Exception {
+                        Toaster toaster = new Toaster(context);
+                        toaster.pushSuccessMessage("Bank Access was deleted.");
+                        toaster.onOk();
                         for (final BankAccess bankAccess : bankAccesses) {
                             if (bankAccess.getId().equals(accessId)) {
                                 for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
@@ -203,6 +211,15 @@ public class BankingDataManager extends Observable {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
                         Log.e(TAG, "Failed deleting a bank access", throwable);
+
+                        Toaster toaster = new Toaster(context);
+                        if(throwable instanceof RetrofitMessagedException) {
+                            RetrofitMessagedException messagedException = (RetrofitMessagedException) throwable;
+                            toaster.pushSuccessMessage(messagedException.getMessage());
+                        } else {
+                            toaster.pushSuccessMessage("Deleting Bank Access failed.");
+                        }
+                        toaster.onTechnicalError();
                     }
                 });
     }
@@ -219,6 +236,9 @@ public class BankingDataManager extends Observable {
                 .subscribe(new Consumer<StringApiModel>() {
                     @Override
                     public void accept(@NonNull final StringApiModel stringApiModel) throws Exception {
+                        Toaster toaster = new Toaster(context);
+                        toaster.pushSuccessMessage("Bank Account was deleted.");
+                        toaster.onOk();
                         for (final BankAccess bankAccess : bankAccesses) {
                             for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
                                 if(bankAccount.getBankid().equals(accountId)) {
@@ -232,6 +252,15 @@ public class BankingDataManager extends Observable {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
                         Log.e(TAG, "Failed deleting a bank account", throwable);
+
+                        Toaster toaster = new Toaster(context);
+                        if(throwable instanceof RetrofitMessagedException) {
+                            RetrofitMessagedException messagedException = (RetrofitMessagedException) throwable;
+                            toaster.pushSuccessMessage(messagedException.getMessage());
+                        } else {
+                            toaster.pushSuccessMessage("Deleting Bank Account failed.");
+                        }
+                        toaster.onTechnicalError();
                     }
                 });
     }
