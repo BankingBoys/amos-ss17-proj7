@@ -72,7 +72,7 @@ public class ContactsApiEndpoint {
     public ResponseEntity<?> deleteContactEndpoint(@PathVariable("contactEmail") String contactEmail) throws ServletException {
         final String username = keycloakUtilizer.getEmail();
         if (username == null || username.isEmpty()) {
-            return new ResponseEntity<>(stringApiModelFactory.createStringApiModel("Authentication failed! Your username wasn't found."), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
         }
         LOGGER.info("deleteContactEndpoint of " + username + " was requested");
         return this.deleteContact(contactEmail, username);
@@ -87,7 +87,7 @@ public class ContactsApiEndpoint {
             contactsController.addContact(contact, username);
         } catch (Exception e) {
             LOGGER.info("Returning for add:" + e.getMessage() + HttpStatus.FORBIDDEN);
-            return new ResponseEntity<>(stringApiModelFactory.createStringApiModel(e.getMessage()), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
         LOGGER.info("Returning for add:" + "Adding of Contacts Successful" + HttpStatus.CREATED);
         return new ResponseEntity<>(stringApiModelFactory.createStringApiModel(""), HttpStatus.CREATED);
@@ -97,7 +97,7 @@ public class ContactsApiEndpoint {
         try {
             contactsController.deleteContact(contactEmail, username);
         } catch (Exception e) {
-            return new ResponseEntity<>(stringApiModelFactory.createStringApiModel(e.getMessage()), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
         return new ResponseEntity<>(stringApiModelFactory.createStringApiModel("Deleting of Contact successful"), HttpStatus.OK);
     }
