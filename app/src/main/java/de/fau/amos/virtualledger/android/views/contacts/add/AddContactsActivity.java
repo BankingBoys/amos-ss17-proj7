@@ -44,7 +44,7 @@ public class AddContactsActivity extends AppCompatActivity {
 
         Toaster toaster = new Toaster(getApplicationContext())//
                 .pushSuccessMessage(email + " was successfully added").pushTechnicalErrorMessage(
-                        "User not found/No connection to server, please try again");
+                        "No connection to server, please try again");
 
         contactsDataManager.add(new Contact(email), toaster);
 
