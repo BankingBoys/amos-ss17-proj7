@@ -50,10 +50,10 @@ public class NoSavingsAccountsFragment extends Fragment implements Observer {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.contacts_no_contacts_saved, container, false);
-        addButton = (Button) view.findViewById(R.id.contacts_add_button);
+        View view = inflater.inflate(R.layout.generic_no_items_saved, container, false);
+        addButton = (Button) view.findViewById(R.id.generic_no_items_add_button);
         addButton.setText(R.string.saving_accounts_app_bar_add);
-        TextView textView = (TextView) view.findViewById(R.id.contacts_no_contacts_saved_text_view);
+        TextView textView = (TextView) view.findViewById(R.id.generic_no_items_added_text_view);
         textView.setText(R.string.saving_accounts_no_accounts_added);
         return view;
     }
