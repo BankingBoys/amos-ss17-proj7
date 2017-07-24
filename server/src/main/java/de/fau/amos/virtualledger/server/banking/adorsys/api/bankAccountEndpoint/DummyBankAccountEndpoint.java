@@ -68,12 +68,9 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
     public List<BankAccountBankingModel> getBankAccounts(String bankingAccessId)
             throws BankingException {
         if (!dummyBankAccessEndpoint.existsBankAccess(bankingAccessId)) {
-            // throw new BankingException("Dummy found no existing BankAccess
-            // for Operation getBankAccounts!");
             // inconsistency -> on app can be accesses persisted that are not in
             // local storage of server
-            return new ArrayList<BankAccountBankingModel>(); // TODO? better
-            // solution?
+            return new ArrayList<BankAccountBankingModel>();
         }
         if (!bankAccountBankingModelRepository.existBankAccountsForAccessId(bankingAccessId)) {
             this.generateDummyBankAccountModels(bankingAccessId);
