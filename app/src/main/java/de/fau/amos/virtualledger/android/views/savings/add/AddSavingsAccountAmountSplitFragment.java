@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +33,13 @@ public class AddSavingsAccountAmountSplitFragment extends AddSavingsAccountPage 
 
     @OnClick(R.id.add_savings_account_button_add_sub_goal)
     void onClickButtonAddSubGoal() {
-        subGoals.add(new SavingsAccountSubGoal(editTextSubGoalName.getText().toString(), Double.valueOf(editTextSubGoalAmount.getText().toString())));
-        updateUi();
+        if(editTextSubGoalAmount.getText().toString().isEmpty() || editTextSubGoalName.getText().toString().isEmpty()) {
+            Toast toast = Toast.makeText(getContext(), "Please fill out all fields", Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            subGoals.add(new SavingsAccountSubGoal(editTextSubGoalName.getText().toString(), Double.valueOf(editTextSubGoalAmount.getText().toString())));
+            updateUi();
+        }
     }
 
     @BindView(R.id.add_savings_account_list_view_sub_goals)
@@ -51,7 +57,6 @@ public class AddSavingsAccountAmountSplitFragment extends AddSavingsAccountPage 
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.saving_accounts_add_fragment_amount_split, container, false);
         ButterKnife.bind(this, view);
-
         adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, subGoals);
         listViewSubGoals.setAdapter(adapter);
 
