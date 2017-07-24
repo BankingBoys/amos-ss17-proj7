@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import de.fau.amos.virtualledger.R;
+import de.fau.amos.virtualledger.android.views.savings.Delete.SavingsAccountDeleteDialog;
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
 
 public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
@@ -46,6 +47,16 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
                 transaction.commit();
             }
         });
+
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                final SavingsAccountDeleteDialog deleteDialog = new SavingsAccountDeleteDialog(getContext(), savingsAccount);
+                deleteDialog.show();
+                return true;
+            }
+        });
+
         return convertView;
     }
 
