@@ -10,6 +10,7 @@ import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -74,8 +75,8 @@ public class HTTPBankingProvider implements BankingProvider {
     }
 
     @Override
-    public Observable<Void> deleteBankAccess(final String accessId) {
-        final PublishSubject<Void> observable = PublishSubject.create();
+    public Observable<StringApiModel> deleteBankAccess(final String accessId) {
+        final PublishSubject<StringApiModel> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override
@@ -90,8 +91,8 @@ public class HTTPBankingProvider implements BankingProvider {
     }
 
     @Override
-    public Observable<Void> deleteBankAccount(final String accessId, final String accountId) {
-        final PublishSubject<Void> observable = PublishSubject.create();
+    public Observable<StringApiModel> deleteBankAccount(final String accessId, final String accountId) {
+        final PublishSubject<StringApiModel> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override

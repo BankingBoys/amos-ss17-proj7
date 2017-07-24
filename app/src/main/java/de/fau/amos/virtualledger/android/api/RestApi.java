@@ -27,10 +27,10 @@ public interface RestApi {
     Call<BankAccess> addBankAccess(@Header("Authorization") String token, @Body BankAccessCredential bankAccessCredential);
 
     @DELETE("/api/banking/{accessId}")
-    Call<Void> deleteBankAccess(@Header("Authorization") String token, @Path("accessId") String accessId);
+    Call<StringApiModel> deleteBankAccess(@Header("Authorization") String token, @Path("accessId") String accessId);
 
     @DELETE("/api/banking/{accessId}/{accountId}")
-    Call<Void> deleteBankAccount(@Header("Authorization") String token, @Path("accessId") String accessId, @Path("accountId") String accountId);
+    Call<StringApiModel> deleteBankAccount(@Header("Authorization") String token, @Path("accessId") String accessId, @Path("accountId") String accountId);
 
     @PUT("/api/banking/sync")
     Call<BankAccountSyncResult> getBookings(@Header("Authorization") String token, @Body List<BankAccountSync> bankAccountSyncList);

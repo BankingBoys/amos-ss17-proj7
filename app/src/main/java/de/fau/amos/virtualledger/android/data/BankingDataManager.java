@@ -17,6 +17,7 @@ import de.fau.amos.virtualledger.dtos.BankAccount;
 import de.fau.amos.virtualledger.dtos.BankAccountBookings;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -186,9 +187,9 @@ public class BankingDataManager extends Observable {
         bankingProvider.deleteBankAccess(accessId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Void>() {
+                .subscribe(new Consumer<StringApiModel>() {
                     @Override
-                    public void accept(@NonNull final Void mVoid) throws Exception {
+                    public void accept(@NonNull final StringApiModel stringApiModel) throws Exception {
                         for (final BankAccess bankAccess : bankAccesses) {
                             if (bankAccess.getId().equals(accessId)) {
                                 for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
@@ -215,9 +216,9 @@ public class BankingDataManager extends Observable {
         bankingProvider.deleteBankAccount(accessId, accountId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Void>() {
+                .subscribe(new Consumer<StringApiModel>() {
                     @Override
-                    public void accept(@NonNull final Void mVoid) throws Exception {
+                    public void accept(@NonNull final StringApiModel stringApiModel) throws Exception {
                         for (final BankAccess bankAccess : bankAccesses) {
                             for (final BankAccount bankAccount : bankAccess.getBankaccounts()) {
                                 if(bankAccount.getBankid().equals(accountId)) {
