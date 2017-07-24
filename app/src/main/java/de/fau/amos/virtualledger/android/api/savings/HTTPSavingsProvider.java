@@ -59,8 +59,8 @@ public class HTTPSavingsProvider implements SavingsProvider {
     }
 
     @Override
-    public Observable<Void> delete(final SavingsAccount item) {
-        final PublishSubject<Void> observable = PublishSubject.create();
+    public Observable<StringApiModel> delete(final SavingsAccount item) {
+        final PublishSubject<StringApiModel> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override

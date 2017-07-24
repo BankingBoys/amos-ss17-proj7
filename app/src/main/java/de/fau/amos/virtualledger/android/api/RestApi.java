@@ -42,7 +42,7 @@ public interface RestApi {
     Call<StringApiModel> addSavingAccounts(@Header("Authorization") String token, @Body SavingsAccount savingsAccounts);
 
     @DELETE("/api/savings/{accountId}")
-    Call<Void> deleteSavingsAccount(@Header("Authorization") String token, @Path("accountId") String accountId);
+    Call<StringApiModel> deleteSavingsAccount(@Header("Authorization") String token, @Path("accountId") String accountId);
 
     @GET("/api/contacts")
     Call<List<Contact>> getContacts(@Header("Authorization") String token);
@@ -51,5 +51,5 @@ public interface RestApi {
     Call<StringApiModel> addContact(@Header("Authorization") String token, @Body Contact contact);
 
     @DELETE("/api/contacts/{contactEmail}")
-    Call<Void> deleteContact(@Header("Authorization") String token, @Path("contactEmail") String contactEmail);
+    Call<StringApiModel> deleteContact(@Header("Authorization") String token, @Path("contactEmail") String contactEmail);
 }
