@@ -59,7 +59,17 @@ public class HTTPSavingsProvider implements SavingsProvider {
     }
 
     @Override
-    public Observable<Void> delete(SavingsAccount item) {
-        return null;
+    public Observable<Void> delete(final SavingsAccount item) {
+        final PublishSubject<Void> observable = PublishSubject.create();
+
+        callWithToken.callWithToken(observable, new TokenCallback() {
+            @Override
+            public void onReceiveToken(final String token) {
+                // got token
+                restApi.deleteSavingsAccount(token, item.getId()).enqueue(new RetrofitCallback<>(observable));
+            }
+        });
+
+        return observable;
     }
 }
