@@ -35,11 +35,10 @@
                 android:layout_height="40dp"
                 android:layout_weight="0.45"
                 android:gravity="center_vertical|end"
-                android:text="Range:"
+                android:text="@string/range"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorBankingOverview"
-                android:textSize="@dimen/spinner_item_size"
-                tools:text="Range:" />
+                android:textSize="@dimen/spinner_item_size" />
 
             <Spinner
                 android:id="@+id/transactionSpinner"
