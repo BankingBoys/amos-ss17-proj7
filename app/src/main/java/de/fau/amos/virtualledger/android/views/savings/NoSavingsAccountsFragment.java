@@ -20,7 +20,6 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.SavingsAccountsDataManager;
 import de.fau.amos.virtualledger.android.data.SyncFailedException;
-import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountAccountsFragment;
 import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
 
 /**
