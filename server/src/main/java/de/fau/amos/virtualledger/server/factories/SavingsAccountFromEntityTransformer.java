@@ -65,7 +65,7 @@ public class SavingsAccountFromEntityTransformer {
         return contacts;
     }
 
-    private Contact transformContactFromEntity(User user) {
+    public Contact transformContactFromEntity(User user) {
         return new Contact(
                 user.getEmail(),
                 user.getFirstName(),
