@@ -198,6 +198,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
 
         List<Integer> date = Arrays.asList(Calendar.getInstance().get(Calendar.YEAR), month + 1, day);
         bookingModel.setBookingDate(date);
+        bookingModel.setUsage("Test Usage");
 
         return bookingModel;
     }
