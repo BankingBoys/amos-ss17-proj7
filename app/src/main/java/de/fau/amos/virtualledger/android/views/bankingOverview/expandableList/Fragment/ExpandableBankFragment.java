@@ -146,6 +146,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
                 startActivity(addBankAccessIntent);
                 return true;
             case R.id.banking_overview_app_bar_refresh:
+                setUiLoading(true);
                 bankingDataManager.sync();
                 return true;
         }
