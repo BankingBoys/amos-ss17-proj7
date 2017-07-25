@@ -28,7 +28,7 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     private static final String TAG = AddSavingsAccountActivity.class.getSimpleName();
     private SavingsAccount savingsAccountState = new SavingsAccount();
 
-    private static final Integer ADD_AMOUNT_PAGE = 4;
+    private static final Integer ADD_AMOUNT_PAGE = 3;
 
     @Inject
     SavingsAccountsDataManager savingsAccountsDataManager;
