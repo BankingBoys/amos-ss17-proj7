@@ -88,7 +88,7 @@ public class SavingsAccountFromEntityTransformer {
         return bankAccountIdentifiers;
     }
 
-    private List<BankAccountIdentifier> transformBankAccountIdentifierFromEntity(List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList) {
+    public List<BankAccountIdentifier> transformBankAccountIdentifierFromEntity(List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList) {
         List<BankAccountIdentifier> bankAccountIdentifiers = new ArrayList<>();
         if (bankAccountIdentifierEntityList == null) {
             return bankAccountIdentifiers;
