@@ -37,12 +37,6 @@ public class SavingsAccountTest {
     }
 
     @Test
-    public void constructorTest() {
-        SavingsAccount savingsAccount = new SavingsAccount();
-        assertThat(savingsAccount).isNotNull();
-    }
-
-    @Test
     public void setterAndGetterTest() {
         final Integer id = 12345;
         String name = "name2";
