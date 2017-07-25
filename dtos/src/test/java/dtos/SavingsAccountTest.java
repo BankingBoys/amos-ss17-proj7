@@ -3,9 +3,14 @@ package dtos;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
+import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -45,23 +50,41 @@ public class SavingsAccountTest {
         final double currentBalance = 234.56755;
         Date finalDate = new Date();
 
+        final Integer id2 = 123456;
+        String name2 = "name3";
+        final double goalBalance2 = 123.4554445;
+        final double currentBalance2 = 234.56754445;
+        Date finalDate2 = new Date(123123);
+        Date finalGoalFinishedDate = new Date();
+
+
         SavingsAccount savingsAccount = new SavingsAccount();
+        SavingsAccount savingsAccount2 = new SavingsAccount(name2, goalBalance2, currentBalance2, finalDate2, finalGoalFinishedDate);
 
         savingsAccount.setId(id);
         assertThat(savingsAccount.getId()).isEqualTo(id);
 
         savingsAccount.setName(name);
         assertThat(savingsAccount.getName()).isEqualTo(name);
+        assertThat(savingsAccount2.getName()).isEqualTo(name2);
 
         savingsAccount.setGoalbalance(goalBalance);
         assertThat(savingsAccount.getGoalbalance()).isEqualTo(goalBalance);
+        assertThat(savingsAccount2.getGoalbalance()).isEqualTo(goalBalance2);
 
         savingsAccount.setCurrentbalance(currentBalance);
         assertThat(savingsAccount.getCurrentbalance()).isEqualTo(currentBalance);
+        assertThat(savingsAccount2.getCurrentbalance()).isEqualTo(currentBalance2);
 
         savingsAccount.setFinaldate(finalDate);
         assertThat(savingsAccount.getFinaldate()).isEqualTo(finalDate);
+        assertThat(savingsAccount2.getFinaldate()).isEqualTo(finalDate2);
+
+        assertThat(savingsAccount2.getFinalGoalFinishedDate()).isEqualTo(finalGoalFinishedDate);
+
     }
+
+
 
 
     @Test
