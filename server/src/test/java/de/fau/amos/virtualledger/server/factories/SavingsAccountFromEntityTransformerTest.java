@@ -5,6 +5,10 @@ import de.fau.amos.virtualledger.server.model.SavingsAccountSubGoalEntity;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Created by Georg on 25.07.2017.
  */
@@ -35,6 +39,37 @@ public class SavingsAccountFromEntityTransformerTest {
 
     @Test
     public void transformSavingsAccountSubGoalIdentifiersFromEntity() throws Exception {
+        // SETUP
+        Set<SavingsAccountSubGoalEntity> subGoalEntityList = new HashSet<>();
+        final int numberSubGoals = 3;
+        for (int i = 0; i < numberSubGoals; i++) {
+            SavingsAccountSubGoalEntity subGoalEntity = generateSubGoalEntity(i);
+            subGoalEntityList.add(subGoalEntity);
+        }
+
+        SavingsAccountFromEntityTransformer transformer = new SavingsAccountFromEntityTransformer();
+
+        // ACT
+        List<SavingsAccountSubGoal> resultSubGoalList = transformer.transformSavingsAccountSubGoalIdentifierFromEntity(subGoalEntityList);
+
+        // ASSERT
+        Assert.assertNotNull(resultSubGoalList);
+        Assert.assertEquals(resultSubGoalList.size(), numberSubGoals);
+    }
+
+    @Test
+    public void transformSavingsAccountSubGoalIdentifiersFromEntityListNull() throws Exception {
+        // SETUP
+        Set<SavingsAccountSubGoalEntity> subGoalEntitySet = null;
+
+        SavingsAccountFromEntityTransformer transformer = new SavingsAccountFromEntityTransformer();
+
+        // ACT
+        List<SavingsAccountSubGoal> resultSubGoalList = transformer.transformSavingsAccountSubGoalIdentifierFromEntity(subGoalEntitySet);
+
+        // ASSERT
+        Assert.assertNotNull(resultSubGoalList);
+        Assert.assertEquals(resultSubGoalList.size(), 0);
     }
 
     @Test
