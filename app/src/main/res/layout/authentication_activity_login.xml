@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <ProgressBar
+        android:id="@+id/login_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
 
     <LinearLayout
+        android:id="@+id/login_linear_layout_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:orientation="vertical"
-        android:weightSum="1">
+        android:padding="@dimen/virtual_ledger_layout_space"
+        android:weightSum="1"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/textViewLogin"
@@ -22,7 +33,7 @@
             android:gravity="center_horizontal|center"
             android:text="@string/authentication_login_title"
             android:textColor="@android:color/holo_blue_light"
-            android:textSize="@dimen/fontSizeXL" />
+            android:textSize="@dimen/fontSizeXL"/>
 
         <EditText
             android:id="@+id/userIDField"
@@ -31,8 +42,8 @@
             android:layout_weight="0.15"
             android:ems="10"
             android:gravity="bottom"
-            android:hint="@string/authentication_email_hint"
-            android:inputType="textEmailAddress" />
+            android:hint="@string/authentication_username_hint"
+            android:inputType="textEmailAddress"/>
 
         <EditText
             android:id="@+id/SecretField"
@@ -42,7 +53,7 @@
             android:ems="10"
             android:gravity="bottom"
             android:hint="@string/authentication_password_hint"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"/>
 
         <TextView
             android:id="@+id/textViewFailLogin"
@@ -50,19 +61,18 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
             android:gravity="center_vertical"
-            android:textSize="@dimen/fontSizeS" />
+            android:textSize="@dimen/fontSizeS"/>
 
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginLeft="@dimen/authentication_login_button_margin_side"
-            android:layout_marginRight="@dimen/authentication_login_button_margin_side"
+            android:layout_margin="@dimen/virtual_ledger_layout_space"
             android:layout_weight="0.2"
             android:background="@android:color/holo_blue_light"
             android:text="@string/authentication_login_button_text"
-            android:textColor="@android:color/background_light" />
+            android:textColor="@android:color/background_light"/>
 
         <CheckBox
             android:id="@+id/loginCheckBox"
@@ -70,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/authentication_login_check_box_margin_left"
             android:layout_weight="0.1"
-            android:text="@string/authentication_login_permanent_checkbox" />
+            android:text="@string/authentication_login_permanent_checkbox"/>
 
         <TextView
             android:id="@+id/textViewLogin_RegisterFirst"
@@ -83,7 +93,8 @@
             android:clickable="true"
             android:gravity="center_horizontal"
             android:text="@string/authentication_login_register_first_link"
-            android:textSize="@dimen/fontSizeLoginRegisterFirst" />
+            android:textSize="@dimen/fontSizeLoginRegisterFirst"/>
 
     </LinearLayout>
+
 </RelativeLayout>

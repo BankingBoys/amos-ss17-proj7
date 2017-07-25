@@ -8,8 +8,10 @@ import java.util.Observable;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
+import de.fau.amos.virtualledger.android.api.shared.RetrofitMessagedThrowable;
 import de.fau.amos.virtualledger.android.data.SyncFailedException;
 import de.fau.amos.virtualledger.android.data.SyncStatus;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -50,23 +52,14 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
         syncFailedException = null;
         syncStatus = SYNC_IN_PROGRESS;
         syncsActive.addAndGet(1);
-        dataProvider.get()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<T>>() {
-                    @Override
-                    public void accept(@NonNull final List<T> itemList) throws Exception {
-                        AbstractDataManager.this.allCachedItems.addAll(itemList);
-                        onSyncComplete();
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull final Throwable throwable) throws Exception {
-                        Log.e(TAG, "Failed loading items", throwable);
-                        syncFailedException = new SyncFailedException(throwable);
-                        onSyncComplete();
-                    }
-                });
+        Consumer<List<T>> onNext = new Consumer<List<T>>() {
+            @Override
+            public void accept(@NonNull final List<T> itemList) throws Exception {
+                AbstractDataManager.this.allCachedItems.addAll(itemList);
+                onSyncComplete();
+            }
+        };
+        subscribe(new DoNothing(), onNext, dataProvider.get());
     }
 
     private void onSyncComplete() {
@@ -99,51 +92,45 @@ public abstract class AbstractDataManager<T> extends Observable implements DataM
     @Override
     public void add(final T element, final ServerCallStatusHandler handler) {
         logger().info("Adding element: " + element);
-        dataProvider.add(element)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(@NonNull final String s) throws Exception {
-                        handler.onOk();
-                        logger().info("Trigger resync after succesful add");
-                        AbstractDataManager.this.sync();
-                    }
-
-                    private Logger logger() {
-                        return Logger.getLogger(this.getClass().getCanonicalName());
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull final Throwable throwable) throws Exception {
-                        Log.e(TAG, "Failed adding items", throwable);
-                        handler.onTechnicalError();
-                        AbstractDataManager.this.sync();
-                    }
-                });
+        Consumer<StringApiModel> onNext = new Consumer<StringApiModel>() {
+            @Override
+            public void accept(@NonNull final StringApiModel s) throws Exception {
+                handler.onOk();
+                AbstractDataManager.this.sync();
+            }
+        };
+        subscribe(handler, onNext, dataProvider.add(element));
     }
 
     @Override
     public void delete(final T element, final ServerCallStatusHandler handler) {
         logger().info("Adding element: " + element);
-        dataProvider.delete(element)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Void>() {
-                    @Override
-                    public void accept(@NonNull final Void vVoid) throws Exception {
-                        handler.onOk();
-                        logger().info("Trigger resync after succesful delete");
-                        AbstractDataManager.this.sync();
-                    }
+        Consumer<StringApiModel> onNext = new Consumer<StringApiModel>() {
+            @Override
+            public void accept(@NonNull final StringApiModel string) throws Exception {
+                handler.onOk();
+                Log.v(TAG, "Trigger resync after succesful delete");
+                AbstractDataManager.this.sync();
+            }
+        };
+        subscribe(handler, onNext, dataProvider.delete(element));
+    }
 
-                    private Logger logger() {
-                        return Logger.getLogger(this.getClass().getCanonicalName());
-                    }
-                }, new Consumer<Throwable>() {
+    private <K> void subscribe(final ServerCallStatusHandler handler, Consumer<K> onNext, io.reactivex.Observable<K> add) {
+        add.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(onNext, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull final Throwable throwable) throws Exception {
                         Log.e(TAG, "Failed adding items", throwable);
+                        if(throwable instanceof RetrofitMessagedThrowable) {
+                            RetrofitMessagedThrowable messagedException = (RetrofitMessagedThrowable) throwable;
+                            Log.e(TAG, "Reason for failure; " + messagedException.getMessage());
+                            if(handler instanceof Toaster) {
+                                Toaster toaster = (Toaster) handler;
+                                toaster.pushTechnicalErrorMessage(messagedException.getMessage());
+                            }
+                        }
                         handler.onTechnicalError();
                         AbstractDataManager.this.sync();
                     }

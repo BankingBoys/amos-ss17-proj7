@@ -5,10 +5,12 @@ import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
+import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -31,10 +32,13 @@ public class SavingsApiEndpointTest {
     @Mock
     private SavingsController savingsController;
 
+    @Mock
+    private StringApiModelFactory stringApiModelFactory;
+
     @Test
     public void getSavingAccountsEndpointUserPrincipalNameNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(null), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(null), savingsController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = savingsApiEndpoint.getSavingAccountsEndpoint();
@@ -49,7 +53,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void getSavingAccountsEndpointUserPrincipalNameEmpty() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(""), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(""), savingsController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = savingsApiEndpoint.getSavingAccountsEndpoint();
@@ -64,7 +68,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void addSavingAccountsEndpointUserPrincipalNameNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(null), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(null), savingsController, stringApiModelFactory);
         final int Id = 123;
         final double goalBalance = 123.23;
         final double currentBalance = 453.23;
@@ -92,7 +96,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void addSavingAccountsEndpointUserPrincipalNameEmpty() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(""), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer(""), savingsController, stringApiModelFactory);
         final int Id = 123;
         final double goalBalance = 123.23;
         final double currentBalance = 453.23;
@@ -120,7 +124,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void addSavingAccountsEndpointSavingsAccountNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, stringApiModelFactory);
 
         // ACT
         ResponseEntity<?> reponse = savingsApiEndpoint.addSavingAccountEndpoint(null);
@@ -135,7 +139,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void addSavingAccountsEndpointSavingsAccountNameNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, stringApiModelFactory);
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
@@ -164,7 +168,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void addSavingAccountsEndpointSavingsAccountNameEmpty() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, stringApiModelFactory);
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
@@ -193,7 +197,7 @@ public class SavingsApiEndpointTest {
     @Test
     public void addSavingAccountsEndpointSavingsAccountfinalDateNull() throws ServletException {
         // SETUP
-        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController);
+        SavingsApiEndpoint savingsApiEndpoint = new SavingsApiEndpoint(setupKeycloakUtilizer("test@test.de"), savingsController, stringApiModelFactory);
         final int Id = 123;
         final double goalBalance = 123.43;
         final double currentBalance = 543.43;
@@ -224,7 +228,7 @@ public class SavingsApiEndpointTest {
 
     setupKeycloakUtilizer(String username) throws ServletException {
 
-        KeycloakUtilizer keycloakUtilizerMock = mock(KeycloakUtilizer.class);
+        KeycloakUtilizer keycloakUtilizerMock = Mockito.mock(KeycloakUtilizer.class);
         when(keycloakUtilizerMock.getEmail()).thenReturn(username);
         return keycloakUtilizerMock;
     }

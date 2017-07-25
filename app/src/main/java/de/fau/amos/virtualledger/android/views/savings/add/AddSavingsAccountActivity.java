@@ -28,6 +28,8 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     private static final String TAG = AddSavingsAccountActivity.class.getSimpleName();
     private SavingsAccount savingsAccountState = new SavingsAccount();
 
+    private static final Integer ADD_AMOUNT_PAGE = 3;
+
     @Inject
     SavingsAccountsDataManager savingsAccountsDataManager;
 
@@ -55,9 +57,7 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         pages.add(new AddSavingsAccountNameFragment());
-        pages.add(new AddSavingsAccountGoalTypeFragment());
         pages.add(new AddSavingsAccountFinalDateFragment());
-        pages.add(new AddSavingsAccountFinalDateMoneyUsedFragment());
         pages.add(new AddSavingsAccountAmountTypeFragment());
         pages.add(addSavingsAccountAmountFragment);
         pages.add(new AddSavingsAccountAssignPeopleFragment());
@@ -76,7 +76,7 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
     public void setSplitGoals(final boolean splitGoals) {
         pages.remove(addSavingsAccountAmountFragment);
         pages.remove(addSavingsAccountAmountSplitFragment);
-        pages.add(5, splitGoals ? addSavingsAccountAmountSplitFragment : addSavingsAccountAmountFragment);
+        pages.add(ADD_AMOUNT_PAGE, splitGoals ? addSavingsAccountAmountSplitFragment : addSavingsAccountAmountFragment);
         pagerAdapter.notifyDataSetChanged();
     }
 
@@ -133,8 +133,10 @@ public class AddSavingsAccountActivity extends AppCompatActivity {
 
     private void submit() {
         Toaster toaster = new Toaster(getApplicationContext())//
-                .pushSuccessMessage(String.format(Locale.getDefault(), "Savings acctount \"%s\" added.",
-                        this.savingsAccountState.getName()));
+                .pushSuccessMessage(String.format(Locale.getDefault(), "Savings account \"%s\" added.",
+                        this.savingsAccountState.getName()))
+                .pushTechnicalErrorMessage(
+                        "No connection to server, please try again");
 
         savingsAccountsDataManager.add(this.savingsAccountState, toaster);
         finish();

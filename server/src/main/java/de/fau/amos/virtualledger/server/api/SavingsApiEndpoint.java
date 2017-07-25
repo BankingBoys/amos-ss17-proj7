@@ -2,12 +2,14 @@ package de.fau.amos.virtualledger.server.api;
 
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
+import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import de.fau.amos.virtualledger.server.savings.SavingsController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,11 +28,13 @@ public class SavingsApiEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private KeycloakUtilizer keycloakUtilizer;
     private SavingsController savingsController;
+    private StringApiModelFactory stringApiModelFactory;
 
     @Autowired
-    public SavingsApiEndpoint(KeycloakUtilizer keycloakUtilizer, SavingsController savingsController) {
+    public SavingsApiEndpoint(KeycloakUtilizer keycloakUtilizer, SavingsController savingsController, StringApiModelFactory stringApiModelFactory) {
         this.keycloakUtilizer = keycloakUtilizer;
         this.savingsController = savingsController;
+        this.stringApiModelFactory = stringApiModelFactory;
     }
 
 
@@ -78,6 +82,23 @@ public class SavingsApiEndpoint {
     }
 
     /**
+     * Deletes Savings account from the database
+     *
+     * @param accountId
+     * @return
+     * @throws ServletException
+     */
+    @RequestMapping(method = RequestMethod.DELETE, value = "api/savings/{accountId:.+}", produces = "application/json")
+    public ResponseEntity<?> deleteContactEndpoint(@PathVariable("accountId") Integer accountId) throws ServletException {
+        final String username = keycloakUtilizer.getEmail();
+        if (username == null || username.isEmpty()) {
+            return new ResponseEntity<>("Authentication failed! Your username wasn't found.", HttpStatus.FORBIDDEN);
+        }
+        LOGGER.info("deleteSavingsEndpoint of " + username + " was requested");
+        return this.deleteSavingAccount(username, accountId);
+    }
+
+    /**
      * Does the logic for adding a saving account to a specific user. Handles
      * exceptions and returns corresponding response codes.
      *
@@ -88,7 +109,7 @@ public class SavingsApiEndpoint {
     private ResponseEntity<?> addSavingAccount(String username, SavingsAccount savingsAccount) {
 
         savingsController.addSavingAccount(username, savingsAccount);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel(""), HttpStatus.CREATED);
     }
 
     /**
@@ -104,4 +125,19 @@ public class SavingsApiEndpoint {
         return new ResponseEntity<Object>(savingsAccountEntityList, HttpStatus.OK);
     }
 
+    /**
+     *
+     *
+     * @param username
+     * @param accountId
+     * @return status 201 if successful
+     */
+    private ResponseEntity<?> deleteSavingAccount(String username, Integer accountId) {
+        try {
+            savingsController.deleteSavingAccount(username, accountId);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel("Deleting of Savings successful"), HttpStatus.OK);
+    }
 }

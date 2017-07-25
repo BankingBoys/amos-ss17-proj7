@@ -22,10 +22,6 @@
     </group>
     <group android:id="@+id/nav_group_misc">
         <item
-            android:id="@+id/main_menu_nav_settings"
-            android:icon="@drawable/ic_settings"
-            android:title="@string/main_menu_drawer_settings"/>
-        <item
             android:id="@+id/main_menu_nav_logout"
             android:icon="@drawable/ic_logout"
             android:title="@string/main_menu_drawer_logout"/>

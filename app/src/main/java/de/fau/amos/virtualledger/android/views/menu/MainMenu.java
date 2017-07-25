@@ -24,13 +24,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.api.auth.AuthenticationProvider;
-import de.fau.amos.virtualledger.android.views.authentication.OidcAuthenticationActivity;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
+import de.fau.amos.virtualledger.android.views.authentication.OidcAuthenticationActivity;
 import de.fau.amos.virtualledger.android.views.bankingOverview.expandableList.Fragment.ExpandableBankFragment;
 import de.fau.amos.virtualledger.android.views.contacts.ContactsFragment;
 import de.fau.amos.virtualledger.android.views.savings.SavingAccountsFragment;
-import de.fau.amos.virtualledger.android.views.settings.SettingsActivity;
 import de.fau.amos.virtualledger.android.views.transactionOverview.TransactionOverviewFragment;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -156,7 +155,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     @Override
     public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
-        checkedBankAccounts.clear(); // TODO maybe find better solution?!
+        checkedBankAccounts.clear();
         switch (item.getItemId()) {
             case R.id.main_menu_nav_bank_accesses:
                 switchToFragment(AppFragment.BANK_ACCESSES);
@@ -169,9 +168,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 break;
             case R.id.main_menu_nav_contacts:
                 switchToFragment(AppFragment.CONTACTS);
-                break;
-            case R.id.main_menu_nav_settings:
-                startActivity(new Intent(MainMenu.this, SettingsActivity.class));
                 break;
             case R.id.main_menu_nav_logout:
                 executeLogout();
@@ -203,6 +199,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                                public void accept(@io.reactivex.annotations.NonNull String s) throws Exception {
 
                                    authenticationProvider.deleteSavedLoginData();
+                                   ((App)getApplication()).resetNetComponent();
                                    final Intent intent = new Intent(getApplicationContext(), OidcAuthenticationActivity.class);
                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                    startActivity(intent);

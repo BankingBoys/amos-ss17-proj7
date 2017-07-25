@@ -31,7 +31,7 @@ public class SavingsAccountFromEntityTransformer {
     public SavingsAccount transformSavingAccountFromEntity(SavingsAccountEntity savingsAccountEntity, User currentUser) {
 
         SavingsAccount savingsAccount = new SavingsAccount(
-                savingsAccountEntity.getId() + "",
+                savingsAccountEntity.getId(),
                 savingsAccountEntity.getName(),
                 savingsAccountEntity.getGoalbalance(),
                 savingsAccountEntity.getCurrentbalance(),
@@ -65,7 +65,7 @@ public class SavingsAccountFromEntityTransformer {
         return contacts;
     }
 
-    private Contact transformContactFromEntity(User user) {
+    public Contact transformContactFromEntity(User user) {
         return new Contact(
                 user.getEmail(),
                 user.getFirstName(),
@@ -88,7 +88,7 @@ public class SavingsAccountFromEntityTransformer {
         return bankAccountIdentifiers;
     }
 
-    private List<BankAccountIdentifier> transformBankAccountIdentifierFromEntity(List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList) {
+    public List<BankAccountIdentifier> transformBankAccountIdentifierFromEntity(List<BankAccountIdentifierEntity> bankAccountIdentifierEntityList) {
         List<BankAccountIdentifier> bankAccountIdentifiers = new ArrayList<>();
         if (bankAccountIdentifierEntityList == null) {
             return bankAccountIdentifiers;

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:layout_margin="@dimen/virtual_ledger_layout_space"
+    android:orientation="vertical"
+    android:padding="@dimen/virtual_ledger_layout_space"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:id="@+id/some_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/id_layout_bla"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/id_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/example_savings_goal_name"
+                android:textColor="@color/colorBankingOverview"
+                android:textSize="@dimen/fontSizeL" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/id_time_left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/example_savings_goal_time"
+                    android:textColor="@color/colorBankingOverview"
+                    android:textSize="@dimen/fontSizeM" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:foregroundGravity="right"
+            android:gravity="right|center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/id_current_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/example_savings_goal_amount_today"
+                android:textSize="@dimen/fontSizeXXL" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right|center_vertical"
+                android:text="@string/slash"
+                android:textSize="@dimen/fontSizeXXL" />
+
+            <TextView
+                android:id="@+id/id_goal_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right|center_vertical"
+                android:text="@string/example_savings_goal_amount_goal"
+                android:textSize="@dimen/fontSizeXXL" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/subgoals_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fontSizeL"
+        android:text="@string/subgoals" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/virtual_ledger_layout_space"
+        android:layout_marginStart="@dimen/virtual_ledger_layout_space">
+
+        <ListView
+            android:id="@+id/subgoals_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/virtual_ledger_layout_space"
+            android:layout_marginLeft="@dimen/fontSizeL"
+            android:layout_marginRight="@dimen/fontSizeL" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/contacts_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fontSizeL"
+        android:text="@string/contacts" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/virtual_ledger_layout_space"
+        android:layout_marginEnd="@dimen/virtual_ledger_layout_space"
+        android:layout_marginStart="@dimen/virtual_ledger_layout_space">
+
+        <ListView
+            android:id="@+id/contacts_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/fontSizeL"
+            android:layout_marginRight="@dimen/fontSizeL" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/access_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fontSizeL"
+        android:text="@string/main_menu_drawer_bank_accesses" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/virtual_ledger_layout_space"
+        android:layout_marginEnd="@dimen/virtual_ledger_layout_space"
+        android:layout_marginStart="@dimen/virtual_ledger_layout_space">
+
+        <ListView
+            android:id="@+id/access_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/fontSizeL"
+            android:layout_marginRight="@dimen/fontSizeL" />
+    </FrameLayout>
+</LinearLayout>

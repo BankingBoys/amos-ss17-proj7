@@ -8,6 +8,7 @@ import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 
@@ -45,13 +46,13 @@ public class StubbedBankingProvider extends Observable<List<BankAccess>> impleme
     }
 
     @Override
-    public Observable<Void> deleteBankAccess(String accessId) {
-        return null;
+    public Observable<StringApiModel> deleteBankAccess(String accessId) {
+        return Observable.just(generateStringApiModel());
     }
 
     @Override
-    public Observable<Void> deleteBankAccount(String accessId, String accountId) {
-        return null;
+    public Observable<StringApiModel> deleteBankAccount(String accessId, String accountId) {
+        return Observable.just(generateStringApiModel());
     }
 
     @Override
@@ -66,5 +67,11 @@ public class StubbedBankingProvider extends Observable<List<BankAccess>> impleme
     public void notifyNext(){
         this.observer.onNext(this.bankAccess);
         this.bankingTransactionsObservable.notifyNext();
+    }
+
+    private StringApiModel generateStringApiModel() {
+        StringApiModel stringApiModel = new StringApiModel();
+        stringApiModel.setData("test123test");
+        return stringApiModel;
     }
 }

@@ -5,8 +5,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import javax.inject.Inject;
@@ -39,6 +42,11 @@ public class OidcAuthenticationActivity extends AppCompatActivity {
     @BindView(R.id.loginCheckBox)
     CheckBox checkBoxStayLoggedIn;
 
+    @BindView(R.id.login_progress_bar)
+    ProgressBar progressBar;
+
+    @BindView(R.id.login_linear_layout_content)
+    LinearLayout linearLayoutContent;
 
     @Inject
     AuthenticationProvider authenticationProvider;
@@ -52,25 +60,31 @@ public class OidcAuthenticationActivity extends AppCompatActivity {
         setContentView(R.layout.authentication_activity_login);
         ButterKnife.bind(this);
 
-        authenticationProvider.tryLoadLoginData()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(@NonNull String s) throws Exception {
-                        if (authenticationProvider.isLoggedIn()) {
-                            executeNextActivityMenu();
-                        } else {
-                            textviewLoginFail.setText(s);
+        if(authenticationProvider.isLoginDataPersisted()) {
+            setUiLoading(true);
+            authenticationProvider.tryLoadLoginData()
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<String>() {
+                        @Override
+                        public void accept(@NonNull String s) throws Exception {
+                            if (authenticationProvider.isLoggedIn()) {
+                                executeNextActivityMenu();
+                            } else {
+                                textviewLoginFail.setText(s);
+                                setUiLoading(false);
+                            }
                         }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) {
-                        Log.e(TAG, "Error occured in Observable from login: " + throwable.getMessage());
-                        // nothing to do here -> just let user log in
-                    }
-                });
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(@NonNull Throwable throwable) {
+                            Log.e(TAG, "Error occured in Observable from login: " + throwable.getMessage());
+                            setUiLoading(false);
+                        }
+                    });
+        } else {
+            setUiLoading(false);
+        }
     }
 
     @OnClick(R.id.loginButton)
@@ -78,6 +92,7 @@ public class OidcAuthenticationActivity extends AppCompatActivity {
         final String userID = userIdField.getText().toString();
         final String password = secretField.getText().toString();
 
+        setUiLoading(true);
         // use observable due to asynchronizm
         authenticationProvider.login(userID, password)
                 .subscribeOn(Schedulers.newThread())
@@ -92,6 +107,7 @@ public class OidcAuthenticationActivity extends AppCompatActivity {
                             }
                         } else {
                             textviewLoginFail.setText(s);
+                            setUiLoading(false);
                         }
                     }
                 }, new Consumer<Throwable>() {
@@ -99,9 +115,15 @@ public class OidcAuthenticationActivity extends AppCompatActivity {
                     public void accept(@NonNull Throwable throwable) {
                         Log.e(TAG, "Error occured in Observable from login.");
                         textviewLoginFail.setText(throwable.getMessage());
+                        setUiLoading(false);
                     }
                 }
             );
+    }
+
+    private void setUiLoading(final boolean loading) {
+        progressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
+        linearLayoutContent.setVisibility(loading ? View.GONE : View.VISIBLE);
     }
 
     private void executeNextActivityMenu() {

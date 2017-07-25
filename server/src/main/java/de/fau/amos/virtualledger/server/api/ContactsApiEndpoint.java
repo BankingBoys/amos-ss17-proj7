@@ -4,6 +4,7 @@ import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
 import de.fau.amos.virtualledger.server.contacts.ContactsController;
 import de.fau.amos.virtualledger.server.contacts.UserNotFoundException;
+import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class ContactsApiEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final ContactsController contactsController;
     private KeycloakUtilizer keycloakUtilizer;
+
+    @Autowired
+    private StringApiModelFactory stringApiModelFactory;
 
     @Autowired
     public ContactsApiEndpoint(KeycloakUtilizer keycloakUtilizer, final ContactsController contactsController) {
@@ -64,7 +68,7 @@ public class ContactsApiEndpoint {
         return this.addContact(contact, username);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "api/contacts/{contactEmail}", produces = "application/json")
+    @RequestMapping(method = RequestMethod.DELETE, value = "api/contacts/{contactEmail:.+}", produces = "application/json")
     public ResponseEntity<?> deleteContactEndpoint(@PathVariable("contactEmail") String contactEmail) throws ServletException {
         final String username = keycloakUtilizer.getEmail();
         if (username == null || username.isEmpty()) {
@@ -86,7 +90,7 @@ public class ContactsApiEndpoint {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
         LOGGER.info("Returning for add:" + "Adding of Contacts Successful" + HttpStatus.CREATED);
-        return new ResponseEntity<>("Adding of Contacts Successful", HttpStatus.CREATED);
+        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel(""), HttpStatus.CREATED);
     }
 
     private ResponseEntity<?> deleteContact(final String contactEmail, final String username) {
@@ -95,6 +99,6 @@ public class ContactsApiEndpoint {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>("Deleting of Contact successful", HttpStatus.OK);
+        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel("Deleting of Contact successful"), HttpStatus.OK);
     }
 }

@@ -45,6 +45,10 @@ public class KeycloakUtilizer {
         return getKeycloakSecurityContext().getTokenString();
     }
 
+    public String getPreferredUsername() {
+        return getKeycloakSecurityContext().getIdToken().getPreferredUsername();
+    }
+
     private KeycloakSecurityContext getKeycloakSecurityContext() {
         try {
             //noinspection unchecked

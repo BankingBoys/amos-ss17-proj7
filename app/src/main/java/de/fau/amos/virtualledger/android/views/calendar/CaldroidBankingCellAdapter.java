@@ -17,7 +17,6 @@ import com.roomorama.caldroid.CaldroidGridAdapter;
 
 import java.util.Locale;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
@@ -128,10 +127,6 @@ public class CaldroidBankingCellAdapter extends CaldroidGridAdapter {
         setCustomResources(dateTime, cellView, dateTextView);
 
         return cellView;
-    }
-
-    private Logger logger() {
-        return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.hashCode() + "}");
     }
 
 

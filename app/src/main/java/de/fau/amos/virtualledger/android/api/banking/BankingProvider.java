@@ -6,6 +6,7 @@ import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccessCredential;
 import de.fau.amos.virtualledger.dtos.BankAccountSync;
 import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import io.reactivex.Observable;
 
 public interface BankingProvider {
@@ -16,8 +17,8 @@ public interface BankingProvider {
 
     Observable<BankAccess> addBankAccess(BankAccessCredential bankAccessCredential);
 
-    Observable<Void> deleteBankAccess(String accessId);
+    Observable<StringApiModel> deleteBankAccess(String accessId);
 
-    Observable<Void> deleteBankAccount(String accessId, String accountId);
+    Observable<StringApiModel> deleteBankAccount(String accessId, String accountId);
 
 }

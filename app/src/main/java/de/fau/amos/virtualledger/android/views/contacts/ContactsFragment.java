@@ -35,7 +35,6 @@ public class ContactsFragment extends Fragment implements DataListening {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        /*((App) getActivity().getApplication()).getNetComponent().inject(this);*/
         super.onActivityCreated(savedInstanceState);
 
         this.contactSupplier = new ContactsSupplier(getActivity());
@@ -43,7 +42,6 @@ public class ContactsFragment extends Fragment implements DataListening {
         adapter = new ContactsAdapter(getActivity(), R.id.contacts_list, contactSupplier.getAll());
         contactListView.setAdapter(adapter);
         this.adapter.sort(new ContactsComparator());
-        this.contactSupplier.onResume();
     }
 
     @Override
@@ -76,11 +74,11 @@ public class ContactsFragment extends Fragment implements DataListening {
     public void notifyDataChanged() {
         this.adapter.clear();
         List<Contact> allContacts= this.contactSupplier.getAll();
-        if(allContacts != null && allContacts.size() == 0) {
+        if(allContacts == null || allContacts.size() == 0) {
             final Fragment fragment = new NoContactsFragment();
             openFragment(fragment);
         }
-        logger().info("Refreshing contacts overview with " + allContacts + " contacts from: "+this.contactSupplier);
+        logger().info("Refreshing contacts overview with " + allContacts + " contacts from: " + this.contactSupplier);
         this.adapter.addAll(allContacts);
         this.adapter.notifyDataSetChanged();
         this.adapter.sort(new ContactsComparator());

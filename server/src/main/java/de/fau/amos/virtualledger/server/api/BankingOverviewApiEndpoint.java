@@ -7,6 +7,7 @@ import de.fau.amos.virtualledger.dtos.BankAccountSyncResult;
 import de.fau.amos.virtualledger.server.auth.KeycloakUtilizer;
 import de.fau.amos.virtualledger.server.banking.BankingOverviewController;
 import de.fau.amos.virtualledger.server.banking.model.BankingException;
+import de.fau.amos.virtualledger.server.factories.StringApiModelFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,13 @@ public class BankingOverviewApiEndpoint {
 
     private KeycloakUtilizer keycloakUtilizer;
     private BankingOverviewController bankingOverviewController;
+    private StringApiModelFactory stringApiModelFactory;
 
     @Autowired
-    public BankingOverviewApiEndpoint(KeycloakUtilizer keycloakUtilizer, BankingOverviewController bankingOverviewController) {
+    public BankingOverviewApiEndpoint(KeycloakUtilizer keycloakUtilizer, BankingOverviewController bankingOverviewController, StringApiModelFactory stringApiModelFactory) {
         this.keycloakUtilizer = keycloakUtilizer;
         this.bankingOverviewController = bankingOverviewController;
+        this.stringApiModelFactory = stringApiModelFactory;
     }
 
     /**
@@ -229,7 +232,7 @@ public class BankingOverviewApiEndpoint {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel(""), HttpStatus.OK);
     }
 
     /**
@@ -249,7 +252,7 @@ public class BankingOverviewApiEndpoint {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(stringApiModelFactory.createStringApiModel(""), HttpStatus.OK);
     }
 
     /**

@@ -8,6 +8,7 @@ import de.fau.amos.virtualledger.android.api.shared.CallWithToken;
 import de.fau.amos.virtualledger.android.api.shared.RetrofitCallback;
 import de.fau.amos.virtualledger.android.api.shared.TokenCallback;
 import de.fau.amos.virtualledger.dtos.Contact;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -41,8 +42,8 @@ public class HTTPContactsProvider implements ContactsProvider{
     }
 
     @Override
-    public Observable<String> add(final Contact contact) {
-        final PublishSubject<String> observable = PublishSubject.create();
+    public Observable<StringApiModel> add(final Contact contact) {
+        final PublishSubject<StringApiModel> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override
@@ -56,14 +57,14 @@ public class HTTPContactsProvider implements ContactsProvider{
     }
 
     @Override
-    public Observable<Void> delete(final Contact contact) {
-        final PublishSubject<Void> observable = PublishSubject.create();
+    public Observable<StringApiModel> delete(final Contact contact) {
+        final PublishSubject<StringApiModel> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override
             public void onReceiveToken(final String token) {
                 // got token
-                restApi.deleteContact(token, contact.getEmail()).enqueue(new RetrofitCallback<>(observable));
+                restApi.deleteContact(token, contact.getEmail()).enqueue(new RetrofitCallback<StringApiModel>(observable));
             }
         });
 

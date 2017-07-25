@@ -1,62 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".android.views.menu.MainMenu"
-    android:weightSum="1"
-    >
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <ProgressBar
+        android:id="@+id/banking_overview_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
     <LinearLayout
+        android:id="@+id/banking_overview_linear_layout_content"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/banking_overview_expandablelist_main_view_layout_height"
-        android:layout_weight="0.95"
+        android:layout_height="match_parent"
         android:orientation="vertical"
+        android:weightSum="1"
+        tools:context=".android.views.menu.MainMenu"
         >
+
         <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/banking_overview_total_amount_fragment_wrapper"
             android:layout_width="match_parent"
+            android:layout_height="@dimen/banking_overview_expandablelist_main_view_layout_height"
+            android:layout_weight="0.95"
             android:orientation="vertical"
-            android:layout_height="wrap_content" />
-
-        <CheckBox
-            android:id="@+id/banking_overview_enable_all_accounts_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/banking_overview_expandablelist_main_view_checkbox_margin_top"
-            android:gravity="center"
-            android:theme="@style/bankingOverviewCheckBox"
-            android:textColor="@color/colorBankingOverview"
-            android:text="@string/banking_overview_enable_all_accounts_checkbox" />
-
-        <ExpandableListView
-            android:id="@+id/expandableView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             >
 
+            <LinearLayout
+                android:id="@+id/banking_overview_total_amount_fragment_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
 
-        </ExpandableListView>
+            <CheckBox
+                android:id="@+id/banking_overview_enable_all_accounts_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/banking_overview_expandablelist_main_view_checkbox_margin_top"
+                android:gravity="center"
+                android:text="@string/banking_overview_enable_all_accounts_checkbox"
+                android:textColor="@color/colorBankingOverview"
+                android:theme="@style/bankingOverviewCheckBox"/>
 
+            <ExpandableListView
+                android:id="@+id/expandableView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+            </ExpandableListView>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/banking_overview_finishButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/banking_overview_expandablelist_main_view_button_height"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/banking_overview_expandablelist_main_view_button_margin_top_bottom"
+            android:layout_marginLeft="@dimen/banking_overview_expandablelist_main_view_button_margin_left_right"
+            android:layout_marginRight="@dimen/banking_overview_expandablelist_main_view_button_margin_left_right"
+            android:layout_marginTop="@dimen/banking_overview_expandablelist_main_view_button_margin_top_bottom"
+            android:layout_weight="0.05"
+            android:background="@color/colorBankingOverviewButton"
+            android:padding="@dimen/banking_overview_expandablelist_main_view_button_padding"
+            android:text="@string/banking_overview_finish_selecting_accounts_button_text"
+            android:textColor="@android:color/background_light"
+            />
 
     </LinearLayout>
-
-
-    <Button
-        android:id="@+id/banking_overview_finishButton"
-        android:layout_width="match_parent"
-        android:layout_weight="0.05"
-        android:layout_marginTop="@dimen/banking_overview_expandablelist_main_view_button_margin_top_bottom"
-        android:layout_marginBottom="@dimen/banking_overview_expandablelist_main_view_button_margin_top_bottom"
-        android:layout_height="@dimen/banking_overview_expandablelist_main_view_button_height"
-        android:background="@color/colorBankingOverviewButton"
-        android:text="@string/banking_overview_finish_selecting_accounts_button_text"
-        android:textColor="@android:color/background_light"
-        android:layout_marginLeft="@dimen/banking_overview_expandablelist_main_view_button_margin_left_right"
-        android:layout_marginRight="@dimen/banking_overview_expandablelist_main_view_button_margin_left_right"
-        android:padding="@dimen/banking_overview_expandablelist_main_view_button_padding"
-        android:layout_gravity="bottom"
-        />
-
-</LinearLayout>
+</RelativeLayout>

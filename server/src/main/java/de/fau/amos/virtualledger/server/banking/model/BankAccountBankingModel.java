@@ -15,7 +15,7 @@ public class BankAccountBankingModel {
     private String id = null;
     private String nameHbciAccount = null;
     private String numberHbciAccount = null;
-    private String typeHbciAccount = null;
+    private String type = null;
 
     public BankAccountBankingModel() {
     }
@@ -100,11 +100,11 @@ public class BankAccountBankingModel {
         this.numberHbciAccount = numberHbciAccount;
     }
 
-    public String getTypeHbciAccount() {
-        return typeHbciAccount;
+    public String getType() {
+        return type;
     }
 
-    public void setTypeHbciAccount(String typeHbciAccount) {
-        this.typeHbciAccount = typeHbciAccount;
+    public void setType(String type) {
+        this.type = type;
     }
 }

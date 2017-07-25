@@ -68,12 +68,9 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
     public List<BankAccountBankingModel> getBankAccounts(String bankingAccessId)
             throws BankingException {
         if (!dummyBankAccessEndpoint.existsBankAccess(bankingAccessId)) {
-            // throw new BankingException("Dummy found no existing BankAccess
-            // for Operation getBankAccounts!");
             // inconsistency -> on app can be accesses persisted that are not in
             // local storage of server
-            return new ArrayList<BankAccountBankingModel>(); // TODO? better
-            // solution?
+            return new ArrayList<BankAccountBankingModel>();
         }
         if (!bankAccountBankingModelRepository.existBankAccountsForAccessId(bankingAccessId)) {
             this.generateDummyBankAccountModels(bankingAccessId);
@@ -123,7 +120,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
         bankAccountBankingModel.setCountryHbciAccount("DE");
         bankAccountBankingModel.setBlzHbciAccount("TestBLZ");
         bankAccountBankingModel.setNumberHbciAccount("TestHbciAccountNummer " + idPostfix);
-        bankAccountBankingModel.setTypeHbciAccount("TestKonto " + idPostfix);
+        bankAccountBankingModel.setType("TestKonto " + idPostfix);
         bankAccountBankingModel.setCurrencyHbciAccount("EUR");
         bankAccountBankingModel.setNameHbciAccount("TestUser");
         bankAccountBankingModel.setBicHbciAccount("TestBIC");
@@ -199,8 +196,9 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
         amount += randomGenerator.nextInt(MAX_AMOUNT_ABS) / new Double(MAX_AMOUNT_ABS).doubleValue();
         bookingModel.setAmount(amount);
 
-        List<Integer> date = Arrays.asList(Calendar.getInstance().get(Calendar.YEAR), month, day);
+        List<Integer> date = Arrays.asList(Calendar.getInstance().get(Calendar.YEAR), month + 1, day);
         bookingModel.setBookingDate(date);
+        bookingModel.setUsage("Test Usage");
 
         return bookingModel;
     }

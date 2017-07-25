@@ -13,15 +13,14 @@ import java.util.List;
 
 public class BankAccountBookingsFactory {
 
-    public BankAccountBookings createBankAccountBookings(final List<BookingModel> bookingModels, final String bankAccessId, final String bankAccountId)
-    {
+    public BankAccountBookings createBankAccountBookings(final List<BookingModel> bookingModels, final String bankAccessId, final String bankAccountId) {
         final List<Booking> resultBookings = new ArrayList<>();
         final BankAccountBookings result = new BankAccountBookings(bankAccessId, bankAccountId, resultBookings);
         for (final BookingModel bookingModel : bookingModels) {
             final List<Integer> dateList = bookingModel.getBookingDate();
             final Calendar calendar = Calendar.getInstance();
-            calendar.set(dateList.get(0), dateList.get(1), dateList.get(2));
-            resultBookings.add(new Booking(calendar.getTime(), bookingModel.getAmount()));
+            calendar.set(dateList.get(0), dateList.get(1) - 1, dateList.get(2));
+            resultBookings.add(new Booking(calendar.getTime(), bookingModel.getAmount(), bookingModel.getUsage()));
         }
 
         return result;

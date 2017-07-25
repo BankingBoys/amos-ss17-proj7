@@ -1,18 +1,18 @@
 package de.fau.amos.virtualledger.android.views.savings;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.fau.amos.virtualledger.R;
-import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
-import de.fau.amos.virtualledger.dtos.Contact;
+import de.fau.amos.virtualledger.android.views.savings.Delete.SavingsAccountDeleteDialog;
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
 
 public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
@@ -26,39 +26,42 @@ public class SavingAccountsAdapter extends ArrayAdapter<SavingsAccount> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        SavingsAccount transaction = super.getItem(position);
-
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.saving_accounts_list_item, parent, false);
         }
         final SavingsAccount savingsAccount = this.getItem(position);
+        updateText(convertView, R.id.id_name, savingsAccount.getName());
+        updateText(convertView, R.id.id_current_balance,  String.valueOf(Math.round(savingsAccount.getCurrentbalance())));
+        updateText(convertView, R.id.id_goal_balance,  String.valueOf(Math.round(savingsAccount.getGoalbalance())));
+        updateText(convertView, R.id.id_time_left, new DaysLeftFunction().apply(savingsAccount));
 
-        TextView name = (TextView) convertView.findViewById(R.id.id_name);
-        name.setText(savingsAccount.getName());
-
-        TextView currentBalance = (TextView) convertView.findViewById(R.id.id_current_balance);
-        currentBalance.setText(Math.round(savingsAccount.getCurrentbalance()) + "");
-
-        TextView goalBalance = (TextView) convertView.findViewById(R.id.id_goal_balance);
-        goalBalance.setText(Math.round(savingsAccount.getGoalbalance()) + "");
-
-        TextView daysLeftLabel = (TextView) convertView.findViewById(R.id.id_time_left);
-
-        int daysLeft = savingsAccount.daysLeft();
-        if (daysLeft > 1) {
-            daysLeftLabel.setText(daysLeft + " days left");
-        } else if (daysLeft == 1) {
-            daysLeftLabel.setText("one day left");
-        } else {
-            daysLeftLabel.setText("done");
-        }
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SavingsAccountsDialogFragment dialog = SavingsAccountsDialogFragment.newInstance(savingsAccount.getName(), (ArrayList< BankAccountIdentifier>) savingsAccount.getAssignedBankAccounts(), (ArrayList<Contact>)  savingsAccount.getAdditionalAssignedUsers());
-                dialog.show(activity.getFragmentManager(), "DialogFragment");
+                SavingsDetailsFragment savingsDetailsFragment = new SavingsDetailsFragment();
+                savingsDetailsFragment.setAccount(savingsAccount);
+                FragmentManager manager = activity.getFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.main_menu_content, savingsDetailsFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
+
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                final SavingsAccountDeleteDialog deleteDialog = new SavingsAccountDeleteDialog(getContext(), savingsAccount);
+                deleteDialog.show();
+                return true;
+            }
+        });
+
         return convertView;
+    }
+
+    private void updateText(View convertView, int id, String text) {
+        TextView goalBalance = (TextView) convertView.findViewById(id);
+        goalBalance.setText(text);
     }
 }

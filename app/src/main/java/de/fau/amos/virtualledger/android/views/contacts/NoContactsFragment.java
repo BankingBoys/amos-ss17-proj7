@@ -49,8 +49,8 @@ public class NoContactsFragment extends Fragment implements Observer{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.contacts_no_contacts_saved, container, false);
-        addButton = (Button) view.findViewById(R.id.contacts_add_button);
+        View view = inflater.inflate(R.layout.generic_no_items_saved, container, false);
+        addButton = (Button) view.findViewById(R.id.generic_no_items_add_button);
         return view;
     }
 
@@ -68,13 +68,7 @@ public class NoContactsFragment extends Fragment implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        try {
-            if(contactsDataManager.getAll().size() > 0) {
-                getActivity().getFragmentManager().popBackStack();
-            }
-        } catch (SyncFailedException e) {
-            Toast.makeText(getActivity(), "Error in getting Contacts", Toast.LENGTH_SHORT).show();
-        }
+        getActivity().getFragmentManager().popBackStack();
     }
 }
 

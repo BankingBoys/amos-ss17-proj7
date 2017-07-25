@@ -8,6 +8,7 @@ import de.fau.amos.virtualledger.android.api.shared.CallWithToken;
 import de.fau.amos.virtualledger.android.api.shared.RetrofitCallback;
 import de.fau.amos.virtualledger.android.api.shared.TokenCallback;
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.StringApiModel;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -42,9 +43,9 @@ public class HTTPSavingsProvider implements SavingsProvider {
     }
 
     @Override
-    public Observable<String> add(final SavingsAccount savingsAccount) {
+    public Observable<StringApiModel> add(final SavingsAccount savingsAccount) {
 
-        final PublishSubject<String> observable = PublishSubject.create();
+        final PublishSubject<StringApiModel> observable = PublishSubject.create();
 
         callWithToken.callWithToken(observable, new TokenCallback() {
             @Override
@@ -58,7 +59,17 @@ public class HTTPSavingsProvider implements SavingsProvider {
     }
 
     @Override
-    public Observable<Void> delete(SavingsAccount item) {
-        return null;
+    public Observable<StringApiModel> delete(final SavingsAccount item) {
+        final PublishSubject<StringApiModel> observable = PublishSubject.create();
+
+        callWithToken.callWithToken(observable, new TokenCallback() {
+            @Override
+            public void onReceiveToken(final String token) {
+                // got token
+                restApi.deleteSavingsAccount(token, item.getId()).enqueue(new RetrofitCallback<>(observable));
+            }
+        });
+
+        return observable;
     }
 }

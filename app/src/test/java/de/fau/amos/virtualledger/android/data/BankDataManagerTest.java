@@ -1,5 +1,7 @@
 package de.fau.amos.virtualledger.android.data;
 
+import android.app.Application;
+
 import org.assertj.core.api.Assertions;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -21,6 +23,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.internal.schedulers.ExecutorScheduler;
 import io.reactivex.plugins.RxJavaPlugins;
+
+import static org.mockito.Mockito.mock;
 
 
 public class BankDataManagerTest {
@@ -81,9 +85,12 @@ public class BankDataManagerTest {
     public void teste_synchonisationStart_syncStatusShouldChangeToSync() {
         // SETUP
         StubbedBankingProvider bankingProvider = new StubbedBankingProvider();
-        BankingDataManager component_under_test = new BankingDataManager(bankingProvider, //
-                Mockito.mock(BankAccessCredentialDB.class),//
-                Mockito.mock(AuthenticationProvider.class));
+        Application context = mock(Application.class);
+        BankingDataManager component_under_test = new BankingDataManager(
+                context,
+                bankingProvider, //
+                mock(BankAccessCredentialDB.class),//
+                mock(AuthenticationProvider.class));
         TestObserver o = new TestObserver();
         component_under_test.addObserver(o);
 
@@ -99,9 +106,12 @@ public class BankDataManagerTest {
     public void teste_synchonisationStart_shouldThrowExceptionOnGetBankAccesses() throws Exception{
         // SETUP
         StubbedBankingProvider bankingProvider = new StubbedBankingProvider();
-        BankingDataManager component_under_test = new BankingDataManager(bankingProvider, //
-                Mockito.mock(BankAccessCredentialDB.class),//
-                Mockito.mock(AuthenticationProvider.class));
+        Application context = mock(Application.class);
+        BankingDataManager component_under_test = new BankingDataManager(
+                context,
+                bankingProvider, //
+                mock(BankAccessCredentialDB.class),//
+                mock(AuthenticationProvider.class));
         TestObserver o = new TestObserver();
         component_under_test.addObserver(o);
 
@@ -113,9 +123,12 @@ public class BankDataManagerTest {
     public void teste_synchonisationStart_shouldThrowExceptionOnBankAccountBookings() throws Exception{
         // SETUP
         StubbedBankingProvider bankingProvider = new StubbedBankingProvider();
-        BankingDataManager component_under_test = new BankingDataManager(bankingProvider, //
-                Mockito.mock(BankAccessCredentialDB.class),//
-                Mockito.mock(AuthenticationProvider.class));
+        Application context = mock(Application.class);
+        BankingDataManager component_under_test = new BankingDataManager(
+                context,
+                bankingProvider, //
+                mock(BankAccessCredentialDB.class),//
+                mock(AuthenticationProvider.class));
         TestObserver o = new TestObserver();
         component_under_test.addObserver(o);
 
@@ -128,9 +141,12 @@ public class BankDataManagerTest {
     public void teste_synchonisation_withSyncFinishedOnManager_shouldReturnSyncStatusSynced() {
         // SETUP
         StubbedBankingProvider bankingProvider = new StubbedBankingProvider();
-        BankingDataManager component_under_test = new BankingDataManager(bankingProvider, //
-                Mockito.mock(BankAccessCredentialDB.class),//
-                Mockito.mock(AuthenticationProvider.class));
+        Application context = mock(Application.class);
+        BankingDataManager component_under_test = new BankingDataManager(
+                context,
+                bankingProvider, //
+                mock(BankAccessCredentialDB.class),//
+                mock(AuthenticationProvider.class));
         TestObserver o = new TestObserver();
         component_under_test.addObserver(o);
 
@@ -147,9 +163,12 @@ public class BankDataManagerTest {
     public void teste_synchonisation_withSyncFinishedOnManager_shouldNotifyObserversWhenFinished() {
         // SETUP
         StubbedBankingProvider bankingProvider = new StubbedBankingProvider();
-        BankingDataManager component_under_test = new BankingDataManager(bankingProvider, //
-                Mockito.mock(BankAccessCredentialDB.class),//
-                Mockito.mock(AuthenticationProvider.class));
+        Application context = mock(Application.class);
+        BankingDataManager component_under_test = new BankingDataManager(
+                context,
+                bankingProvider, //
+                mock(BankAccessCredentialDB.class),//
+                mock(AuthenticationProvider.class));
         TestObserver o = new TestObserver();
         component_under_test.addObserver(o);
 
@@ -168,9 +187,12 @@ public class BankDataManagerTest {
         // SETUP
         BankAccess access = new BankAccess();
         StubbedBankingProvider bankingProvider = new StubbedBankingProvider(access);
-        BankingDataManager component_under_test = new BankingDataManager(bankingProvider, //
-                Mockito.mock(BankAccessCredentialDB.class),//
-                Mockito.mock(AuthenticationProvider.class));
+        Application context = mock(Application.class);
+        BankingDataManager component_under_test = new BankingDataManager(
+                context,
+                bankingProvider, //
+                mock(BankAccessCredentialDB.class),//
+                mock(AuthenticationProvider.class));
         TestObserver o = new TestObserver();
         component_under_test.addObserver(o);
 

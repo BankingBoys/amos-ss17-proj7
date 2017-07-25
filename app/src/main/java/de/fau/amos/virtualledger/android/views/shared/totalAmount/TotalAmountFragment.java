@@ -8,9 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -25,15 +23,19 @@ import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
 import de.fau.amos.virtualledger.android.data.BankingDataManager;
 import de.fau.amos.virtualledger.android.data.SyncFailedException;
+import de.fau.amos.virtualledger.android.data.SyncStatus;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.ItemCheckedMap;
 import de.fau.amos.virtualledger.dtos.BankAccess;
 import de.fau.amos.virtualledger.dtos.BankAccount;
+
+import static de.fau.amos.virtualledger.android.data.SyncStatus.NOT_SYNCED;
+import static de.fau.amos.virtualledger.android.data.SyncStatus.SYNCED;
 
 /**
  * Created by Georg on 09.06.2017.
  */
 
-public class TotalAmountFragment extends Fragment implements Observer{
+public class TotalAmountFragment extends Fragment implements Observer {
 
     private static final String TAG = TotalAmountFragment.class.getSimpleName();
 
@@ -63,13 +65,11 @@ public class TotalAmountFragment extends Fragment implements Observer{
         super.onResume();
         bankingDataManager.addObserver(this);
 
-        switch (bankingDataManager.getSyncStatus()) {
-            case NOT_SYNCED:
-                bankingDataManager.sync();
-                break;
-            case SYNCED:
-                onBankingDataChanged();
-                break;
+        SyncStatus syncStatus = bankingDataManager.getSyncStatus();
+        if (syncStatus == NOT_SYNCED) {
+            bankingDataManager.sync();
+        } else if (syncStatus == SYNCED) {
+            onBankingDataChanged();
         }
     }
 
@@ -80,17 +80,12 @@ public class TotalAmountFragment extends Fragment implements Observer{
     }
 
     private void onBankingDataChanged() {
-        try {
-            List<BankAccess> bankAccessList = bankingDataManager.getBankAccesses();
-            double totalAmountSum = computeBalanceOfCheckedAccounts();
-            setTotalBalance(totalAmountSum);
-        } catch (SyncFailedException ex) {
-            Toast.makeText(getActivity(), "Failed connecting to the server, try again later", Toast.LENGTH_LONG).show();
-        }
+        double totalAmountSum = computeBalanceOfCheckedAccounts();
+        setTotalBalance(totalAmountSum);
     }
 
     private double computeBalanceOfCheckedAccounts() {
-        List<BankAccess> bankAccessList = new ArrayList<>();
+        List<BankAccess> bankAccessList;
         double filteredBalance = 0.0;
         try {
             bankAccessList = bankingDataManager.getBankAccesses();

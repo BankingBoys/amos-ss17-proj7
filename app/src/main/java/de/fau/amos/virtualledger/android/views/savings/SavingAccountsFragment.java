@@ -1,6 +1,8 @@
 package de.fau.amos.virtualledger.android.views.savings;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,14 +15,14 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import de.fau.amos.virtualledger.R;
 import de.fau.amos.virtualledger.android.dagger.App;
-import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.android.views.savings.add.AddSavingsAccountActivity;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.DataListening;
 import de.fau.amos.virtualledger.android.views.shared.transactionList.Supplier;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
+
 
 public class SavingAccountsFragment extends Fragment implements DataListening {
     @SuppressWarnings("unused")
@@ -41,7 +43,6 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
         adapter = new SavingAccountsAdapter(getActivity(), R.id.savings_account_list, savingsSupplier.getAll());
         savingsAccountList.setAdapter(adapter);
         this.adapter.sort(new SavingsComparator());
-        this.savingsSupplier.onResume();
     }
 
     @Override
@@ -60,8 +61,7 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.saving_accounts_app_bar_add:
+        if (item.getItemId() ==  R.id.saving_accounts_app_bar_add) {
                 final Intent addSavingsAccountIntent = new Intent(getActivity(), AddSavingsAccountActivity.class);
                 startActivity(addSavingsAccountIntent);
                 return true;
@@ -74,7 +74,11 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
     public void notifyDataChanged() {
         this.adapter.clear();
         List<SavingsAccount> allSavingAccounts = this.savingsSupplier.getAll();
-        logger().info("Refreshing savings overview with " + allSavingAccounts.size() + " accounts from"+this.savingsSupplier);
+        if(allSavingAccounts == null || allSavingAccounts.size() == 0) {
+            final Fragment fragment = new NoSavingsAccountsFragment();
+            openFragment(fragment);
+        }
+
         this.adapter.addAll(allSavingAccounts);
         this.adapter.notifyDataSetChanged();
         this.adapter.sort(new SavingsComparator());
@@ -92,7 +96,17 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
         this.savingsSupplier.onResume();
     }
 
-    private Logger logger() {
-        return Logger.getLogger(this.getClass().getCanonicalName() + "{" + this.toString() + "}");
+    /**
+     * opens a fragment through replacing another fragment
+     */
+    private void openFragment(final Fragment fragment) {
+        if (null != fragment) {
+            final FragmentManager manager = getFragmentManager();
+            final FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.main_menu_content, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
+
 }
