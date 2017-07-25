@@ -36,6 +36,24 @@ public class SavingsAccountFromEntityTransformerTest {
 
     @Test
     public void transformSavingAccountsFromEntity() throws Exception {
+        // SETUP
+
+        User currentUser = generateUserEntity(0);
+        List<SavingsAccountEntity> savingsAccountEntityList = new ArrayList<>();
+        final int numberSavingAccounts = 3;
+        for (int i = 0; i < numberSavingAccounts; i++) {
+            SavingsAccountEntity savingsAccountEntity = generateSavingAccountEntity(i);
+            savingsAccountEntityList.add(savingsAccountEntity);
+        }
+
+        SavingsAccountFromEntityTransformer transformer = new SavingsAccountFromEntityTransformer();
+
+        // ACT
+        List<SavingsAccount> resultSavingAccounts = transformer.transformSavingAccountFromEntity(savingsAccountEntityList, currentUser);
+
+        // ASSERT
+        Assert.assertNotNull(resultSavingAccounts);
+        Assert.assertEquals(resultSavingAccounts.size(), numberSavingAccounts);
     }
 
     @Test
