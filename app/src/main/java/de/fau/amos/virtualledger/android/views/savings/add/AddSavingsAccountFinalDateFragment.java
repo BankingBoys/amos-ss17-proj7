@@ -38,5 +38,6 @@ public class AddSavingsAccountFinalDateFragment extends AddSavingsAccountPage {
         final Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
         savingsAccount.setFinaldate(calendar.getTime());
+        savingsAccount.setFinalGoalFinishedDate(calendar.getTime());
     }
 }
