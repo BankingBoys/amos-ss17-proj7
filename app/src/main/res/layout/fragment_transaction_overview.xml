@@ -1,97 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".android.views.menu.MainMenu"
-    android:weightSum="1">
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <ProgressBar
+        android:id="@+id/transaction_overview_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
 
     <LinearLayout
+        android:id="@+id/transaction_overview_linear_layout_content"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_weight="0.95">
-
-        <LinearLayout
-            android:id="@+id/transaction_overview_total_amount_fragment_wrapper"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content" />
+        android:weightSum="1"
+        tools:context=".android.views.menu.MainMenu">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="0dp"
+            android:layout_weight="0.95"
+            android:orientation="vertical">
 
-            <Space
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/transaction_overview_total_amount_fragment_wrapper"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.45" />
+                android:orientation="vertical"/>
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="0.45"
-                android:gravity="center_vertical|end"
-                android:text="@string/range"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorBankingOverview"
-                android:textSize="@dimen/spinner_item_size" />
-
-            <Spinner
-                android:id="@+id/transactionSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="39dp"
-                android:layout_weight="1.85"
-                android:textColor="@color/colorBankingOverview"
-                android:textSize="@dimen/fontSizeTotalAmountHeader"
-                android:visibility="visible" />
-
-            <Space
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.07" />
+                android:orientation="horizontal">
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.45"/>
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.45"
+                    android:gravity="center_vertical|end"
+                    android:text="@string/range"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorBankingOverview"
+                    android:textSize="@dimen/spinner_item_size"/>
+
+                <Spinner
+                    android:id="@+id/transactionSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="39dp"
+                    android:layout_weight="1.85"
+                    android:textColor="@color/colorBankingOverview"
+                    android:textSize="@dimen/fontSizeTotalAmountHeader"
+                    android:visibility="visible"/>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.07"/>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/transactionSeparator2"
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorBankingOverview"
+                android:visibility="gone">
+            </View>
+
+            <FrameLayout
+                android:id="@+id/transaction_list_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"/>
 
         </LinearLayout>
 
-        <View
-            android:id="@+id/transactionSeparator2"
+        <Button
+            android:id="@+id/transaction_overview_calendar_button"
             android:layout_width="wrap_content"
-            android:layout_height="2dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/colorBankingOverview"
-            android:layout_marginBottom="20dp"
-            android:visibility="gone">
-        </View>
-
-        <FrameLayout
-            android:id="@+id/transaction_list_placeholder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1" />
+            android:layout_height="0dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="0.05"
+            android:background="#f08080"
+            android:drawableLeft="@drawable/ic_calendar"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:text="@string/transaction_overview_calendar_button_text"
+            android:textColor="@android:color/background_light"/>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/transaction_overview_calendar_button"
-        android:layout_width="wrap_content"
-        android:layout_weight="0.05"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp"
-        android:layout_height="0dp"
-        android:background="#f08080"
-        android:text="@string/transaction_overview_calendar_button_text"
-        android:drawableLeft="@drawable/ic_calendar"
-        android:textColor="@android:color/background_light"
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_gravity="bottom|center_horizontal"/>
-
-</LinearLayout>
+</RelativeLayout>
