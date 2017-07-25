@@ -42,7 +42,6 @@ public class ContactsFragment extends Fragment implements DataListening {
         adapter = new ContactsAdapter(getActivity(), R.id.contacts_list, contactSupplier.getAll());
         contactListView.setAdapter(adapter);
         this.adapter.sort(new ContactsComparator());
-        this.contactSupplier.onResume();
     }
 
     @Override
@@ -79,7 +78,7 @@ public class ContactsFragment extends Fragment implements DataListening {
             final Fragment fragment = new NoContactsFragment();
             openFragment(fragment);
         }
-        logger().info("Refreshing contacts overview with " + allContacts + " contacts from: "+this.contactSupplier);
+        logger().info("Refreshing contacts overview with " + allContacts + " contacts from: " + this.contactSupplier);
         this.adapter.addAll(allContacts);
         this.adapter.notifyDataSetChanged();
         this.adapter.sort(new ContactsComparator());

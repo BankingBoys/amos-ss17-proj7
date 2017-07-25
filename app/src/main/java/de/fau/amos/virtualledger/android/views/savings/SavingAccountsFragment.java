@@ -43,7 +43,6 @@ public class SavingAccountsFragment extends Fragment implements DataListening {
         adapter = new SavingAccountsAdapter(getActivity(), R.id.savings_account_list, savingsSupplier.getAll());
         savingsAccountList.setAdapter(adapter);
         this.adapter.sort(new SavingsComparator());
-        this.savingsSupplier.onResume();
     }
 
     @Override
