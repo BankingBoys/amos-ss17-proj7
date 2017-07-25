@@ -25,7 +25,7 @@ public class ContactsDeleteAction {
         ((App) context.getApplicationContext()).getNetComponent().inject(this);
         this.contact = contact;
         toaster = new Toaster(context.getApplicationContext())
-                .pushConceptualErrorMessage("User not found").pushSuccessMessage("User" + contact.getEmail() + " was successfully deleted");
+                .pushConceptualErrorMessage("User not found").pushSuccessMessage("User " + contact.getEmail() + " was successfully deleted");
     }
 
     public void delete() {
