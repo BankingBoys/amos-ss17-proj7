@@ -29,11 +29,11 @@ public class SavingsAccountFromEntityTransformerTest {
     private final String userLastNamePrefix = "lastName";
 
     @Test
-    public void transformSavingAccountFromEntity() throws Exception {
+    public void transformSavingAccountsFromEntity() throws Exception {
     }
 
     @Test
-    public void transformSavingAccountFromEntity1() throws Exception {
+    public void transformSavingAccountFromEntity() throws Exception {
     }
 
     @Test
@@ -88,6 +88,36 @@ public class SavingsAccountFromEntityTransformerTest {
         Assert.assertEquals(resultContact.getEmail(), user.getEmail());
         Assert.assertEquals(resultContact.getFirstName(), user.getFirstName());
         Assert.assertEquals(resultContact.getLastName(), user.getLastName());
+    }
+
+    @Test
+    public void transformBankAccountIdentifiersFromEntityEvaluateUser() throws Exception {
+        // SETUP
+        Set<SavingsAccountUserRelation> relationEntityList = new HashSet<>();
+
+        List<BankAccountIdentifierEntity> identifierEntityList = new ArrayList<>();
+        final int numberIdentifiers = 3;
+        User currentUser = generateUserEntity(0);
+        for (int i = 0; i < numberIdentifiers; i++) {
+            identifierEntityList.add(generateBankAccountIdentifier(i));
+        }
+        relationEntityList.add(new SavingsAccountUserRelation(currentUser, identifierEntityList));
+
+        identifierEntityList = new ArrayList<>();
+        User notCurrentUser = generateUserEntity(1);
+        for (int i = 0; i < numberIdentifiers; i++) {
+            identifierEntityList.add(generateBankAccountIdentifier(i));
+        }
+        relationEntityList.add(new SavingsAccountUserRelation(notCurrentUser, identifierEntityList));
+
+        SavingsAccountFromEntityTransformer transformer = new SavingsAccountFromEntityTransformer();
+
+        // ACT
+        List<BankAccountIdentifier> resultIdentifierList = transformer.transformBankAccountIdentifierFromEntity(relationEntityList, currentUser);
+
+        // ASSERT
+        Assert.assertNotNull(resultIdentifierList);
+        Assert.assertEquals(resultIdentifierList.size(), numberIdentifiers);
     }
 
     @Test
