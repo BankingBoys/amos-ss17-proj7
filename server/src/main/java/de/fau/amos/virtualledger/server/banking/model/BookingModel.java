@@ -6,6 +6,7 @@ public class BookingModel {
 
     private List<Integer> bookingDate;
     private Double amount;
+    private String usage;
 
     public BookingModel() {
     }
@@ -24,5 +25,13 @@ public class BookingModel {
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public String getUsage() {
+        return usage;
+    }
+
+    public void setUsage(String usage) {
+        this.usage = usage;
     }
 }

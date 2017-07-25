@@ -20,7 +20,7 @@ public class BankAccountBookingsFactory {
             final List<Integer> dateList = bookingModel.getBookingDate();
             final Calendar calendar = Calendar.getInstance();
             calendar.set(dateList.get(0), dateList.get(1) - 1, dateList.get(2));
-            resultBookings.add(new Booking(calendar.getTime(), bookingModel.getAmount()));
+            resultBookings.add(new Booking(calendar.getTime(), bookingModel.getAmount(), bookingModel.getUsage()));
         }
 
         return result;

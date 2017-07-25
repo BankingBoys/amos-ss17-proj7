@@ -15,6 +15,12 @@ public class Booking {
         this.amount = amount;
     }
 
+    public Booking(Date date, double amount, String usage) {
+        this.date = date;
+        this.amount = amount;
+        this.usage = usage;
+    }
+
     public Booking() {
 
     }
