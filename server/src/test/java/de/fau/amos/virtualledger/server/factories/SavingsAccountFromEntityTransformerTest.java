@@ -1,9 +1,12 @@
 package de.fau.amos.virtualledger.server.factories;
 
 import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
+import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 import de.fau.amos.virtualledger.server.model.BankAccountIdentifierEntity;
 import de.fau.amos.virtualledger.server.model.SavingsAccountSubGoalEntity;
+import de.fau.amos.virtualledger.server.model.SavingsAccountUserRelation;
+import de.fau.amos.virtualledger.server.model.User;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -21,6 +24,9 @@ public class SavingsAccountFromEntityTransformerTest {
     private final String bankAccessIdPrefix = "access";
     private final String subGoalNamePrefix = "subGoalName";
     private final double subGoalAmount = 100.00;
+    private final String userEmailPostfix = "e@mail.de";
+    private final String userFirstNamePrefix = "firstName";
+    private final String userLastNamePrefix = "lastName";
 
     @Test
     public void transformSavingAccountFromEntity() throws Exception {
@@ -31,7 +37,57 @@ public class SavingsAccountFromEntityTransformerTest {
     }
 
     @Test
+    public void transformContactsFromEntity() throws Exception {
+        // SETUP
+        Set<SavingsAccountUserRelation> relationEntitySet = new HashSet<>();
+        final int numberOfUsers = 3;
+        User mainUser = generateUserEntity(0);
+        relationEntitySet.add(new SavingsAccountUserRelation(mainUser));
+        for (int i = 1; i < numberOfUsers; i++) {
+            User user = generateUserEntity(i);
+            relationEntitySet.add(new SavingsAccountUserRelation(user));
+        }
+
+        SavingsAccountFromEntityTransformer transformer = new SavingsAccountFromEntityTransformer();
+
+        // ACT
+        List<Contact> resultContactList = transformer.transformContactFromEntity(relationEntitySet, mainUser);
+
+        // ASSERT
+        Assert.assertNotNull(resultContactList);
+        Assert.assertEquals(resultContactList.size(), numberOfUsers - 1);
+    }
+
+    @Test
+    public void transformContactFromEntityInputNull() throws Exception {
+        // SETUP
+        Set<SavingsAccountUserRelation> relationEntitySet = null;
+
+        SavingsAccountFromEntityTransformer transformer = new SavingsAccountFromEntityTransformer();
+
+        // ACT
+        List<Contact> resultContactList = transformer.transformContactFromEntity(relationEntitySet, null);
+
+        // ASSERT
+        Assert.assertNotNull(resultContactList);
+        Assert.assertEquals(resultContactList.size(), 0);
+    }
+
+    @Test
     public void transformContactFromEntity() throws Exception {
+        // SETUP
+        User user = generateUserEntity(1);
+
+        SavingsAccountFromEntityTransformer transformer = new SavingsAccountFromEntityTransformer();
+
+        // ACT
+        Contact resultContact = transformer.transformContactFromEntity(user);
+
+        // ASSERT
+        Assert.assertNotNull(resultContact);
+        Assert.assertEquals(resultContact.getEmail(), user.getEmail());
+        Assert.assertEquals(resultContact.getFirstName(), user.getFirstName());
+        Assert.assertEquals(resultContact.getLastName(), user.getLastName());
     }
 
     @Test
@@ -135,6 +191,9 @@ public class SavingsAccountFromEntityTransformerTest {
         Assert.assertEquals(resultSubGoal.getAmount(), subGoalEntity.getAmount(), delta);
     }
 
+    private User generateUserEntity(int dummyId) {
+        return new User(dummyId + userEmailPostfix, userFirstNamePrefix + dummyId, userLastNamePrefix + dummyId);
+    }
 
     private BankAccountIdentifierEntity generateBankAccountIdentifier(int dummyId) {
         return new BankAccountIdentifierEntity(bankAccessIdPrefix + dummyId, bankAccountIdPrefix + dummyId);
