@@ -1,6 +1,8 @@
 package de.fau.amos.virtualledger.server.factories;
 
+import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
 import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
+import de.fau.amos.virtualledger.server.model.BankAccountIdentifierEntity;
 import de.fau.amos.virtualledger.server.model.SavingsAccountSubGoalEntity;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,6 +16,8 @@ import java.util.Set;
  */
 public class SavingsAccountFromEntityTransformerTest {
     private final double delta = 0.01;
+    private final String bankAccountIdPrefix = "account";
+    private final String bankAccessIdPrefix = "access";
     private final String subGoalNamePrefix = "subGoalName";
     private final double subGoalAmount = 100.00;
 
@@ -30,11 +34,23 @@ public class SavingsAccountFromEntityTransformerTest {
     }
 
     @Test
-    public void transformBankAccountIdentifierFromEntity() throws Exception {
+    public void transformBankAccountIdentifiersFromEntity() throws Exception {
     }
 
     @Test
-    public void transformBankAccountIdentifierFromEntity1() throws Exception {
+    public void transformBankAccountIdentifierFromEntity() throws Exception {
+        // SETUP
+        BankAccountIdentifierEntity identifierEntity = generateBankAccountIdentifier(1);
+
+        SavingsAccountFromEntityTransformer transformer = new SavingsAccountFromEntityTransformer();
+
+        // ACT
+        BankAccountIdentifier resultIdentifier = transformer.transformBankAccountIdentifierFromEntity(identifierEntity);
+
+        // ASSERT
+        Assert.assertNotNull(resultIdentifier);
+        Assert.assertEquals(resultIdentifier.getAccessid(), identifierEntity.getAccessid());
+        Assert.assertEquals(resultIdentifier.getAccountid(), identifierEntity.getAccountid());
     }
 
     @Test
@@ -88,10 +104,16 @@ public class SavingsAccountFromEntityTransformerTest {
         Assert.assertEquals(resultSubGoal.getAmount(), subGoalEntity.getAmount(), delta);
     }
 
+
+    private BankAccountIdentifierEntity generateBankAccountIdentifier(int dummyId) {
+        return new BankAccountIdentifierEntity(bankAccessIdPrefix + dummyId, bankAccountIdPrefix + dummyId);
+    }
+
     private SavingsAccountSubGoalEntity generateSubGoalEntity(int dummyId) {
 
         String subGoalName = subGoalNamePrefix + dummyId;
         return new SavingsAccountSubGoalEntity(subGoalName, subGoalAmount);
     }
+
 
 }
