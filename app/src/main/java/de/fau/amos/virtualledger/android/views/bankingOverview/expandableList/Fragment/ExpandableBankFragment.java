@@ -127,6 +127,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
                 setUiLoading(true);
                 break;
             case SYNCED:
+                setUiLoading(false);
                 onBankingDataChanged();
                 break;
         }

@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -73,6 +75,12 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
 
     @BindView(R.id.transaction_overview_calendar_button)
     Button calendarButton;
+
+    @BindView(R.id.transaction_overview_progress_bar)
+    ProgressBar progressBar;
+
+    @BindView(R.id.transaction_overview_linear_layout_content)
+    LinearLayout linearLayoutContent;
 
     @Inject
     BankAccessCredentialDB bankAccessCredentialDB;
@@ -222,6 +230,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.transaction_overview_app_bar_refresh:
+                setUiLoading(true);
                 bankingDataManager.sync();
                 return true;
         }
@@ -267,6 +276,7 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
     @Override
     public void update(Observable observable, Object o) {
         this.logger().info("Updateing Transaction Overview Fragment");
+        setUiLoading(false);
         totalAmountFragment.setCheckedMap(itemCheckedMap);
         this.transactionListFragment.pushDataProvider(getDateFilteredBankTransactionSupplier());
 
@@ -302,16 +312,24 @@ public class TransactionOverviewFragment extends Fragment implements java.util.O
         this.bankingDataManager.addObserver(this);
         switch (bankingDataManager.getSyncStatus()) {
             case NOT_SYNCED:
+                setUiLoading(true);
                 bankingDataManager.sync();
                 break;
             case SYNC_IN_PROGRESS:
+                setUiLoading(true);
                 break;
             case SYNCED:
+                setUiLoading(false);
                 this.transactionListFragment.pushDataProvider(new BankTransactionSupplierImplementation(this.getActivity(), getBankAccountBookings()));
                 checkForEmptyOrNullAccessList();
                 break;
         }
         super.onResume();
+    }
+
+    private void setUiLoading(final boolean loading) {
+        progressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
+        linearLayoutContent.setVisibility(loading ? View.GONE : View.VISIBLE);
     }
 
     private void checkForEmptyOrNullAccessList() {
