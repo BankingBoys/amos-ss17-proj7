@@ -166,6 +166,7 @@ public class BankingDataManager extends Observable {
      * Afterwards syncs (-> Observers are notified after that)
      */
     public void addBankAccess(final BankAccessCredential bankAccessCredential) {
+        syncStatus = SYNC_IN_PROGRESS;
         Consumer<BankAccess> onNext = new Consumer<BankAccess>() {
             @Override
             public void accept(@NonNull final BankAccess bankAccess) throws Exception {
