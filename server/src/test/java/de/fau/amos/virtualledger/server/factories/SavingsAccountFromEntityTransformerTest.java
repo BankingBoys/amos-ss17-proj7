@@ -7,6 +7,7 @@ import de.fau.amos.virtualledger.server.model.SavingsAccountSubGoalEntity;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,6 +36,36 @@ public class SavingsAccountFromEntityTransformerTest {
 
     @Test
     public void transformBankAccountIdentifiersFromEntity() throws Exception {
+        // SETUP
+        List<BankAccountIdentifierEntity> identifierEntityList = new ArrayList<>();
+        final int numberIdentifiers = 3;
+        for (int i = 0; i < numberIdentifiers; i++) {
+            identifierEntityList.add(generateBankAccountIdentifier(i));
+        }
+
+        SavingsAccountFromEntityTransformer transformer = new SavingsAccountFromEntityTransformer();
+
+        // ACT
+        List<BankAccountIdentifier> resultIdentifierList = transformer.transformBankAccountIdentifierFromEntity(identifierEntityList);
+
+        // ASSERT
+        Assert.assertNotNull(resultIdentifierList);
+        Assert.assertEquals(resultIdentifierList.size(), numberIdentifiers);
+    }
+
+    @Test
+    public void transformBankAccountIdentifiersInputNull() throws Exception {
+        // SETUP
+        List<BankAccountIdentifierEntity> identifierEntityList = null;
+
+        SavingsAccountFromEntityTransformer transformer = new SavingsAccountFromEntityTransformer();
+
+        // ACT
+        List<BankAccountIdentifier> resultIdentifierList = transformer.transformBankAccountIdentifierFromEntity(identifierEntityList);
+
+        // ASSERT
+        Assert.assertNotNull(resultIdentifierList);
+        Assert.assertEquals(resultIdentifierList.size(), 0);
     }
 
     @Test
