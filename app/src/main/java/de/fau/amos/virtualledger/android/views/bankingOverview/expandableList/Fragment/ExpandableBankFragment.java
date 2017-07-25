@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -60,6 +62,14 @@ public class ExpandableBankFragment extends Fragment implements Observer {
     BankAccessCredentialDB bankAccessCredentialDB;
     @Inject
     BankingDataManager bankingDataManager;
+
+
+    @BindView(R.id.banking_overview_progress_bar)
+    ProgressBar progressBar;
+
+    @BindView(R.id.banking_overview_linear_layout_content)
+    LinearLayout linearLayoutContent;
+
 
     @BindView(R.id.expandableView)
     ExpandableListView listView;
@@ -110,7 +120,11 @@ public class ExpandableBankFragment extends Fragment implements Observer {
 
         switch (bankingDataManager.getSyncStatus()) {
             case NOT_SYNCED:
+                setUiLoading(true);
                 bankingDataManager.sync();
+                break;
+            case SYNC_IN_PROGRESS:
+                setUiLoading(true);
                 break;
             case SYNCED:
                 onBankingDataChanged();
@@ -191,6 +205,11 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         }
     }
 
+    private void setUiLoading(final boolean loading) {
+        progressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
+        linearLayoutContent.setVisibility(loading ? View.GONE : View.VISIBLE);
+    }
+
     /**
      * opens a fragment through replacing another fragment
      */
@@ -208,6 +227,7 @@ public class ExpandableBankFragment extends Fragment implements Observer {
         createData();
         adapter.setMappingCheckBoxes(mappingCheckBoxes);
         listView.setAdapter(adapter);
+        setUiLoading(false);
     }
 
     private void createData() {
