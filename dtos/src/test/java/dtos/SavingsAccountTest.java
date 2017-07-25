@@ -3,9 +3,14 @@ package dtos;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
+import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
+import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -76,6 +81,49 @@ public class SavingsAccountTest {
 
         assertThat(savingsAccount2.getFinalGoalFinishedDate()).isEqualTo(finalGoalFinishedDate);
     }
+
+    @Test
+    public void testListSetterAndGetter() {
+        //Setup
+        SavingsAccount savingsAccount = new SavingsAccount();
+        final String email = "1";
+        final String email2 = "2";
+        final String subgoalName = "name1";
+        final double subgoalAmount = 123;
+        final String subgoalName2 = "name2";
+        final double subgoalAmount2 = 1234;
+        final String accessID = "testAccess";
+        final String accountID = "testAccount";
+        final String accessID2 = "testAccess2";
+        final String accountID2 = "testAccount2";
+        Contact contact = new Contact(email);
+        Contact contact1 = new Contact(email2);
+        BankAccountIdentifier identifier = new BankAccountIdentifier(accessID, accountID);
+        BankAccountIdentifier identifier2 = new BankAccountIdentifier(accessID2, accountID2);
+        List<BankAccountIdentifier> bankAccountIdentifiers = new ArrayList<>();
+        bankAccountIdentifiers.add(identifier);
+        bankAccountIdentifiers.add(identifier2);
+        SavingsAccountSubGoal subGoal = new SavingsAccountSubGoal(subgoalName, subgoalAmount);
+        SavingsAccountSubGoal subGoal2 = new SavingsAccountSubGoal(subgoalName2, subgoalAmount2);
+        List<SavingsAccountSubGoal> savingsAccountSubGoals = new ArrayList<>();
+        savingsAccountSubGoals.add(subGoal);
+        savingsAccountSubGoals.add(subGoal2);
+        List<Contact> contactList = new ArrayList<>();
+        contactList.add(contact);
+        contactList.add(contact1);
+
+        //Act
+        savingsAccount.setAssignedBankAccounts(bankAccountIdentifiers);
+        savingsAccount.setSubGoals(savingsAccountSubGoals);
+        savingsAccount.setAdditionalAssignedUsers(contactList);
+
+        //Assert
+        assertThat(savingsAccount.getAssignedBankAccounts()).isEqualTo(bankAccountIdentifiers);
+        assertThat(savingsAccount.getSubGoals()).isEqualTo(savingsAccountSubGoals);
+        assertThat(savingsAccount.getAdditionalAssignedUsers()).isEqualTo(contactList);
+
+    }
+
     @Test
     public void testeGetDaysLeft() throws Exception {
         // SETUP
