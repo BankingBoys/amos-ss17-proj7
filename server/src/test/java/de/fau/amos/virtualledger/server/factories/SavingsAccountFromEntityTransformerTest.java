@@ -2,8 +2,10 @@ package de.fau.amos.virtualledger.server.factories;
 
 import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
 import de.fau.amos.virtualledger.dtos.Contact;
+import de.fau.amos.virtualledger.dtos.SavingsAccount;
 import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 import de.fau.amos.virtualledger.server.model.BankAccountIdentifierEntity;
+import de.fau.amos.virtualledger.server.model.SavingsAccountEntity;
 import de.fau.amos.virtualledger.server.model.SavingsAccountSubGoalEntity;
 import de.fau.amos.virtualledger.server.model.SavingsAccountUserRelation;
 import de.fau.amos.virtualledger.server.model.User;
@@ -11,6 +13,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,6 +30,9 @@ public class SavingsAccountFromEntityTransformerTest {
     private final String userEmailPostfix = "e@mail.de";
     private final String userFirstNamePrefix = "firstName";
     private final String userLastNamePrefix = "lastName";
+    private final String savingNamePrefix = "saving";
+    private final double savingGoalBalance = 321.321;
+    private final double savingGoalCurrentBalance = 123.123;
 
     @Test
     public void transformSavingAccountsFromEntity() throws Exception {
@@ -34,6 +40,22 @@ public class SavingsAccountFromEntityTransformerTest {
 
     @Test
     public void transformSavingAccountFromEntity() throws Exception {
+        // SETUP
+        SavingsAccountEntity savingsAccountEntity = generateSavingAccountEntity(0);
+        User currentUser = generateUserEntity(0);
+
+        SavingsAccountFromEntityTransformer transformer = new SavingsAccountFromEntityTransformer();
+
+        // ACT
+        SavingsAccount resultSavingAccount = transformer.transformSavingAccountFromEntity(savingsAccountEntity, currentUser);
+
+        // ASSERT
+        Assert.assertNotNull(resultSavingAccount);
+        Assert.assertEquals(resultSavingAccount.getName(), savingsAccountEntity.getName());
+        Assert.assertEquals(resultSavingAccount.getCurrentbalance(), savingsAccountEntity.getCurrentbalance(), delta);
+        Assert.assertEquals(resultSavingAccount.getGoalbalance(), savingsAccountEntity.getGoalbalance(), delta);
+        Assert.assertEquals(resultSavingAccount.getFinaldate(), savingsAccountEntity.getFinaldate());
+        Assert.assertEquals(resultSavingAccount.getFinalGoalFinishedDate(), savingsAccountEntity.getFinalGoalFinishedDate());
     }
 
     @Test
@@ -219,6 +241,17 @@ public class SavingsAccountFromEntityTransformerTest {
         Assert.assertNotNull(resultSubGoal);
         Assert.assertEquals(resultSubGoal.getName(), subGoalEntity.getName());
         Assert.assertEquals(resultSubGoal.getAmount(), subGoalEntity.getAmount(), delta);
+    }
+
+    private SavingsAccountEntity generateSavingAccountEntity(int dummyId) {
+        SavingsAccountEntity savingsAccountEntity = new SavingsAccountEntity(
+                savingNamePrefix + dummyId,
+                savingGoalBalance,
+                savingGoalCurrentBalance,
+                new Date(),
+                new Date()
+        );
+        return savingsAccountEntity;
     }
 
     private User generateUserEntity(int dummyId) {
