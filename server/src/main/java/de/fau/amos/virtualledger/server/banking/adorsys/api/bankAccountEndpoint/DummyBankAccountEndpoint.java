@@ -196,7 +196,7 @@ public class DummyBankAccountEndpoint implements BankAccountEndpoint {
         amount += randomGenerator.nextInt(MAX_AMOUNT_ABS) / new Double(MAX_AMOUNT_ABS).doubleValue();
         bookingModel.setAmount(amount);
 
-        List<Integer> date = Arrays.asList(Calendar.getInstance().get(Calendar.YEAR), month, day);
+        List<Integer> date = Arrays.asList(Calendar.getInstance().get(Calendar.YEAR), month + 1, day);
         bookingModel.setBookingDate(date);
 
         return bookingModel;
