@@ -3,14 +3,9 @@ package dtos;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import de.fau.amos.virtualledger.dtos.BankAccountIdentifier;
-import de.fau.amos.virtualledger.dtos.Contact;
 import de.fau.amos.virtualledger.dtos.SavingsAccount;
-import de.fau.amos.virtualledger.dtos.SavingsAccountSubGoal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -49,12 +44,11 @@ public class SavingsAccountTest {
         final double goalBalance = 123.4555;
         final double currentBalance = 234.56755;
         Date finalDate = new Date();
-
-        final Integer id2 = 123456;
         String name2 = "name3";
         final double goalBalance2 = 123.4554445;
         final double currentBalance2 = 234.56754445;
-        Date finalDate2 = new Date(123123);
+        final long dateTime = 123123;
+        Date finalDate2 = new Date(dateTime);
         Date finalGoalFinishedDate = new Date();
 
 
@@ -81,12 +75,7 @@ public class SavingsAccountTest {
         assertThat(savingsAccount2.getFinaldate()).isEqualTo(finalDate2);
 
         assertThat(savingsAccount2.getFinalGoalFinishedDate()).isEqualTo(finalGoalFinishedDate);
-
     }
-
-
-
-
     @Test
     public void testeGetDaysLeft() throws Exception {
         // SETUP
